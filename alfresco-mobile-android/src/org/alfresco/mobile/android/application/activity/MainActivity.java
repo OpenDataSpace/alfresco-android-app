@@ -341,7 +341,7 @@ public class MainActivity extends BaseActivity
                     && IntentIntegrator.ALFRESCO_SCHEME_SHORT.equals(intent.getData().getScheme())
                     && IntentIntegrator.CLOUD_SIGNUP_I.equals(intent.getData().getHost()))
             {
-                getFragmentManager().popBackStack(AccountTypesFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getFragmentManager().popBackStack(AccountEditFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 CloudSignupDialogFragment newFragment = new CloudSignupDialogFragment();
                 FragmentDisplayer.replaceFragment(this, newFragment, DisplayUtils.getFragmentPlace(this),
                         CloudSignupDialogFragment.TAG, true);
@@ -807,7 +807,7 @@ public class MainActivity extends BaseActivity
             return true;
         }
 
-        if (isVisible(AccountsFragment.TAG) && !isVisible(AccountTypesFragment.TAG)
+        if (isVisible(AccountsFragment.TAG) /*&& !isVisible(AccountTypesFragment.TAG)*/
                 && !isVisible(AccountEditFragment.TAG) && !isVisible(AccountOAuthFragment.TAG))
         {
             AccountsFragment.getMenu(menu);

@@ -257,7 +257,7 @@ public class AccountOAuthFragment extends OAuthFragment
         {
             if (IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED.equals(intent.getAction()) && getActivity() instanceof MainActivity)
             {
-                getActivity().getFragmentManager().popBackStack(AccountTypesFragment.TAG,
+                getActivity().getFragmentManager().popBackStack(AccountEditFragment.TAG,
                         FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                 if (intent.getExtras() != null && intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))

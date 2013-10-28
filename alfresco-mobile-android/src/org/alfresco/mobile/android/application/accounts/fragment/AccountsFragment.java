@@ -114,9 +114,9 @@ public class AccountsFragment extends BaseCursorListFragment
 
     public void add()
     {
-        AccountTypesFragment newFragment = new AccountTypesFragment();
+    	AccountEditFragment newFragment = new AccountEditFragment();
         FragmentDisplayer.replaceFragment(getActivity(), newFragment, DisplayUtils.getMainPaneId(getActivity()),
-                AccountTypesFragment.TAG, true);
+        		AccountEditFragment.TAG, true);
         DisplayUtils.switchSingleOrTwo(getActivity(), true);
     }
 

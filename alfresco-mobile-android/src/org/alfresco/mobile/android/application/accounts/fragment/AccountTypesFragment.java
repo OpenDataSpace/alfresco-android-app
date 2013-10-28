@@ -34,6 +34,7 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.TextView;
 
+@Deprecated
 public class AccountTypesFragment extends DialogFragment
 {
     public static final String TAG = "AccountTypesFragment";

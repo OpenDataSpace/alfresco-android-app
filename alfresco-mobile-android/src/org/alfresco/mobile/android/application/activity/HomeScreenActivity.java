@@ -18,6 +18,7 @@
 package org.alfresco.mobile.android.application.activity;
 
 import org.alfresco.mobile.android.application.R;
+import org.alfresco.mobile.android.application.accounts.fragment.AccountEditFragment;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountTypesFragment;
 import org.alfresco.mobile.android.application.accounts.signup.CloudSignupDialogFragment;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -80,12 +81,13 @@ public class HomeScreenActivity extends BaseActivity
     {
         super.onNewIntent(intent);
 
-        if (intent.getAction() == null || intent.getData() == null || !Intent.ACTION_VIEW.equals(intent.getAction())) { return; }
+        if (intent.getAction() == null || intent.getData() == null || !Intent.ACTION_VIEW.equals(intent.getAction()))
+        	return;
 
         if (IntentIntegrator.ALFRESCO_SCHEME_SHORT.equals(intent.getData().getScheme())
                 && IntentIntegrator.CLOUD_SIGNUP.equals(intent.getData().getHost()))
         {
-            getFragmentManager().popBackStack(AccountTypesFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+            getFragmentManager().popBackStack(AccountEditFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             cloud(null);
         }
         else if (IntentIntegrator.ALFRESCO_SCHEME_SHORT.equals(intent.getData().getScheme())
@@ -108,9 +110,9 @@ public class HomeScreenActivity extends BaseActivity
 
     public void launch(View v)
     {
-        AccountTypesFragment newFragment = new AccountTypesFragment();
+    	AccountEditFragment newFragment = new AccountEditFragment();
         FragmentDisplayer.replaceFragment(this, newFragment, DisplayUtils.getLeftFragmentId(this),
-                AccountTypesFragment.TAG, true);
+        		AccountEditFragment.TAG, true);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
