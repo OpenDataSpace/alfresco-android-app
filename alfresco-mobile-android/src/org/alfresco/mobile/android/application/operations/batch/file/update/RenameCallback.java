@@ -62,7 +62,7 @@ public class RenameCallback extends AbstractBatchOperationCallback<File>
     public void onPostExecute(Operation<File> task, File results)
     {
         super.onPostExecute(task, results);
-        scanFile(context, results.getPath(), MimeTypeMap.getSingleton().getFileExtensionFromUrl(results.getPath()));
+        scanFile(context, results.getPath(), MimeTypeMap.getFileExtensionFromUrl(results.getPath()));
     }
 
     public static void scanFile(Context context, String path, String mimeType)

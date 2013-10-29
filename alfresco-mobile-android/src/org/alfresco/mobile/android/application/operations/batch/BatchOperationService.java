@@ -28,7 +28,6 @@ import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.Operation;
 import org.alfresco.mobile.android.application.operations.Operation.OperationCallBack;
 import org.alfresco.mobile.android.application.operations.OperationsGroupInfo;
-import org.alfresco.mobile.android.application.operations.OperationsGroupRecord;
 import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountCallBack;
 import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountRequest;
 import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountThread;
@@ -316,7 +315,7 @@ public class BatchOperationService<T> extends Service
             {
                 for (Entry<String, Operation<T>> operation : operations.entrySet())
                 {
-                    ((AbstractBatchOperationThread) operation.getValue()).interrupt();
+                    ((AbstractBatchOperationThread<T>) operation.getValue()).interrupt();
                 }
                 operations.clear();
                 return;
@@ -332,7 +331,7 @@ public class BatchOperationService<T> extends Service
                 // Check OPeration in progress
                 if (operations.get(operationId) != null)
                 {
-                    ((AbstractBatchOperationThread) operations.get(operationId)).interrupt();
+                    ((AbstractBatchOperationThread<T>) operations.get(operationId)).interrupt();
                     operations.remove(operationId);
                 }
                 return;
@@ -343,8 +342,8 @@ public class BatchOperationService<T> extends Service
             {
                 if (batchManager.isLastOperation(operationId) && operations.get(operationId) != null)
                 {
-                    OperationsGroupRecord group = batchManager.getOperationGroup(operationId);
-                    ((AbstractBatchOperationThread) operations.get(operationId)).executeGroupCallback(batchManager
+                    //OperationsGroupRecord group = batchManager.getOperationGroup(operationId);
+                    ((AbstractBatchOperationThread<T>) operations.get(operationId)).executeGroupCallback(batchManager
                             .getResult(operationId));
                 }
                 operations.remove(operationId);

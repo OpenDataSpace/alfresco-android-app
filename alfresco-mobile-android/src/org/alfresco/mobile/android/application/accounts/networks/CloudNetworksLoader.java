@@ -47,7 +47,8 @@ public class CloudNetworksLoader extends AbstractBaseLoader<LoaderResult<List<Cl
         this.cloudSession = session;
     }
 
-    @Override
+    @SuppressWarnings("deprecation")
+	@Override
     public LoaderResult<List<CloudNetwork>> loadInBackground()
     {
         if (cloudSession == null) { throw new IllegalArgumentException(String.format(

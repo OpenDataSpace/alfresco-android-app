@@ -111,7 +111,8 @@ public final class NotificationHelper
         return NotificationHelper.createNotification(c, notificationId, b);
     }
 
-    public static int createNotification(Context c, int notificationId, Bundle params)
+    @SuppressWarnings("deprecation")
+	public static int createNotification(Context c, int notificationId, Bundle params)
     {
         Notification notification = null;
 
