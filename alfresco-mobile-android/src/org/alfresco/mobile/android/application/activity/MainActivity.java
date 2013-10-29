@@ -33,7 +33,6 @@ import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountDetailsFragment;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountEditFragment;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountOAuthFragment;
-import org.alfresco.mobile.android.application.accounts.fragment.AccountTypesFragment;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountsFragment;
 import org.alfresco.mobile.android.application.accounts.networks.CloudNetworksFragment;
 import org.alfresco.mobile.android.application.accounts.oauth.OAuthRefreshTokenCallback;
@@ -453,13 +452,16 @@ public class MainActivity extends BaseActivity
 
         switch (id)
         {
+        /*
             case R.id.menu_browse_my_sites:
                 if (!checkSession(R.id.menu_browse_my_sites)) { return; }
                 frag = BrowserSitesFragment.newInstance();
                 FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                         BrowserSitesFragment.TAG, true);
                 break;
-            case R.id.menu_browse_root:
+        */
+        	case R.id.menu_browse_shared: // TODO kolam start other activity
+        	case R.id.menu_browse_root:
                 if (!checkSession(R.id.menu_browse_root)) { return; }
                 frag = ChildrenBrowserFragment.newInstance(getCurrentSession().getRootFolder());
                 frag.setSession(SessionUtils.getSession(this));
@@ -478,11 +480,13 @@ public class MainActivity extends BaseActivity
                 FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this), KeywordSearch.TAG,
                         true);
                 break;
+            /*
             case R.id.menu_favorites:
                 Fragment syncFrag = FavoritesSyncFragment.newInstance(ListingModeFragment.MODE_LISTING);
                 FragmentDisplayer.replaceFragment(this, syncFrag, DisplayUtils.getLeftFragmentId(this),
                         FavoritesSyncFragment.TAG, true);
                 break;
+            */
             case R.id.menu_downloads:
                 if (currentAccount == null)
                 {
@@ -1100,7 +1104,7 @@ public class MainActivity extends BaseActivity
                 // Assign the account
                 currentAccount = AccountManager.retrieveAccount(context,
                         intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID));
-
+/*
                 if (getFragment(MainMenuFragment.TAG) != null){
                     ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).displayFavoriteStatut();
                 }
@@ -1108,7 +1112,7 @@ public class MainActivity extends BaseActivity
                 if (getFragment(MainMenuFragment.SLIDING_TAG) != null){
                     ((MainMenuFragment)getFragment(MainMenuFragment.SLIDING_TAG)).displayFavoriteStatut();
                 }
-                
+*/
                 // Return to root screen
                 activity.getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 

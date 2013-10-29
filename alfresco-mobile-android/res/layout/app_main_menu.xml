@@ -89,7 +89,20 @@
                 android:onClick="showMainMenuFragment"
                 android:text="@string/menu_browse_root"
                 android:textColor="@android:color/white" />
-
+            
+            <Button
+                android:id="@+id/menu_browse_shared"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="3dip"
+                android:background="@drawable/btn_default_holo_light_underline"
+                android:drawableLeft="@drawable/ic_repository_light"
+                android:drawablePadding="8dip"
+                android:gravity="left|center_vertical"
+                android:onClick="showMainMenuFragment"
+                android:text="@string/menu_browse_shared"
+                android:textColor="@android:color/white" />
+<!--
             <Button
                 android:id="@+id/menu_browse_my_sites"
                 android:layout_width="fill_parent"
@@ -115,7 +128,7 @@
                 android:onClick="showMainMenuFragment"
                 android:text="@string/menu_favorites"
                 android:textColor="@android:color/white" />
-
+-->
             <Button
                 android:id="@+id/menu_search"
                 android:layout_width="fill_parent"

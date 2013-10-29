@@ -26,9 +26,6 @@ import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.about.AboutFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
-import org.alfresco.mobile.android.application.operations.sync.SynchroProvider;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
 import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
 import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
@@ -46,7 +43,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -54,7 +50,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
-import android.widget.Button;
 import android.widget.Spinner;
 
 public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor>, OnItemSelectedListener
@@ -69,9 +64,9 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
     private MainMenuReceiver receiver;
 
-    private Button menuFavorites;
+    //private Button menuFavorites;
 
-    private Button menuSlidingFavorites;
+    //private Button menuSlidingFavorites;
 
     public static final String TAG = "MainMenuFragment";
 
@@ -87,14 +82,14 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
         spinnerAccount = (Spinner) rootView.findViewById(R.id.accounts_spinner);
         spinnerAccount.setOnItemSelectedListener(this);
-
+/*
         menuFavorites = (Button) rootView.findViewById(R.id.menu_favorites);
 
         if (SLIDING_TAG.equals(getTag()))
         {
             menuSlidingFavorites = (Button) rootView.findViewById(R.id.menu_favorites);
         }
-
+*/
         return rootView;
     }
 
@@ -145,7 +140,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
             LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, intentFilter);
         }
 
-        displayFavoriteStatut();
+        //displayFavoriteStatut();
     }
 
     @Override
@@ -169,7 +164,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
     public void refreshData()
     {
         refresh();
-        displayFavoriteStatut();
+        //displayFavoriteStatut();
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -282,7 +277,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
             }
         }
     }
-
+/*
     public void displayFavoriteStatut()
     {
         Cursor statutCursor = null;
@@ -326,7 +321,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
             }
         }
     }
-
+*/
     // ///////////////////////////////////////////////////////////////////////////
     // BROADCAST RECEIVER
     // ///////////////////////////////////////////////////////////////////////////
@@ -337,7 +332,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         {
             Log.d(TAG, intent.getAction());
             if (intent.getAction() == null) { return; }
-            displayFavoriteStatut();
+            //displayFavoriteStatut();
         }
     }
 }
