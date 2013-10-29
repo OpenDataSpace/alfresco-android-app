@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.file.encryption;
 
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.application.operations.Operation;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationCallback;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;

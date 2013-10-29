@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.node.update;
 
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.application.manager.NotificationHelper;
 import org.alfresco.mobile.android.application.operations.batch.node.create.CreateDocumentCallback;
 

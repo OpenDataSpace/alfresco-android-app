@@ -156,7 +156,7 @@
 			<id>android-beta-release</id>
 			<properties>
 				<!-- Common -->
-				<packageName.beta>org.alfresco.mobile.android.application.beta</packageName.beta>
+				<packageName.beta>com.dataspace.android.application.beta</packageName.beta>
 			</properties>
 			<build>
 				<resources>

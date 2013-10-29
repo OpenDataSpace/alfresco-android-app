@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.activity;
 
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 
 import android.app.DialogFragment;

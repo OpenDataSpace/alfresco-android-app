@@ -18,7 +18,7 @@
 package org.alfresco.mobile.android.application.fragments.operations;
 
 import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.Operation;
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationContentProvider;

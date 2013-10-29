@@ -21,7 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 
 /**
  * This class contains all informations about a specific file type. It's used by

@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerHelper;
 import org.alfresco.mobile.android.application.preferences.AccountsPreferences;

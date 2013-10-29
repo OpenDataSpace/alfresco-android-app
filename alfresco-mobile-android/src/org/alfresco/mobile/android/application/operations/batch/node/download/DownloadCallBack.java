@@ -18,7 +18,7 @@
 package org.alfresco.mobile.android.application.operations.batch.node.download;
 
 import org.alfresco.mobile.android.api.model.ContentFile;
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.application.manager.NotificationHelper;
 import org.alfresco.mobile.android.application.operations.Operation;
 import org.alfresco.mobile.android.application.operations.OperationsGroupCallBack;

@@ -20,7 +20,7 @@ package org.alfresco.mobile.android.application.accounts.fragment;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.AccountSchema;
 import org.alfresco.mobile.android.application.activity.MainActivity;

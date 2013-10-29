@@ -20,7 +20,7 @@ package org.alfresco.mobile.android.application.operations.batch.capture;
 import java.io.File;
 
 import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;

@@ -17,9 +17,9 @@
   limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="org.alfresco.mobile.android.application"
-    android:versionCode="16"
-    android:versionName="1.2.0" >
+    package="com.dataspace.android.application"
+    android:versionCode="1"
+    android:versionName="0.1" >
 
     <uses-sdk
         android:minSdkVersion="11"

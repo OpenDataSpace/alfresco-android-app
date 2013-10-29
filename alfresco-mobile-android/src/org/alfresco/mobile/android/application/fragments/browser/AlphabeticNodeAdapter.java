@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 
 import android.app.Activity;
 import android.content.Context;

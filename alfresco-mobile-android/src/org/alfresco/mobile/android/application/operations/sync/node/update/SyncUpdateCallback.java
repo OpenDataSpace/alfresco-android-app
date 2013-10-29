@@ -18,7 +18,7 @@
 package org.alfresco.mobile.android.application.operations.sync.node.update;
 
 import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.application.manager.NotificationHelper;
 import org.alfresco.mobile.android.application.operations.Operation;
 import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationCallback;

@@ -26,7 +26,7 @@ import java.io.OutputStream;
 
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.utils.IOUtils;
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;

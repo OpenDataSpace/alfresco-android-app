@@ -19,7 +19,7 @@ package org.alfresco.mobile.android.application.fragments;
 
 import java.util.Stack;
 
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 
 import android.app.Activity;
 import android.app.Fragment;

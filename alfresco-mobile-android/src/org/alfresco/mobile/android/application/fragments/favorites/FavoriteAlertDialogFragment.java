@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.favorites;
 
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;

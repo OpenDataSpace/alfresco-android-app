@@ -19,7 +19,7 @@ package org.alfresco.mobile.android.application.preferences;
 
 import java.util.Date;
 
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.security.PassCodeActivity;

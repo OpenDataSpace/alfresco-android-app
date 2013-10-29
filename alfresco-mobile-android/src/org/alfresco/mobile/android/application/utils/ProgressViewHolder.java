@@ -1,6 +1,6 @@
 package org.alfresco.mobile.android.application.utils;
 
-import org.alfresco.mobile.android.application.R;
+import com.dataspace.android.application.R;
 import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 
 import android.view.View;
