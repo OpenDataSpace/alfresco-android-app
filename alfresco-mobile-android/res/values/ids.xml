@@ -32,7 +32,7 @@
     <item name="operation_status" type="id"/>
 
     <!-- Account -->
-    <string name="account_service_document">/alfresco</string>
+    <string name="account_service_document"></string>
     
     
     <!-- Settings -->
