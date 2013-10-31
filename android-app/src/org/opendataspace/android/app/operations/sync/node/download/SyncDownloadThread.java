@@ -1,4 +1,4 @@
-package org.alfresco.mobile.android.application.operations.sync.node.download;
+package org.opendataspace.android.app.operations.sync.node.download;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -13,22 +13,22 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.ContentFile;
-import org.alfresco.mobile.android.api.model.ContentStream;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Property;
-import org.alfresco.mobile.android.api.model.impl.ContentFileImpl;
-import org.alfresco.mobile.android.api.utils.IOUtils;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.batch.utils.MapUtil;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationRequestImpl;
-import org.alfresco.mobile.android.application.operations.sync.node.SyncNodeOperationThread;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.batch.utils.MapUtil;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationRequestImpl;
+import org.opendataspace.android.app.operations.sync.node.SyncNodeOperationThread;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.opendataspace.android.cmisapi.model.ContentStream;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.model.Property;
+import org.opendataspace.android.cmisapi.model.impl.ContentFileImpl;
+import org.opendataspace.android.cmisapi.utils.IOUtils;
 
 import android.content.ContentValues;
 import android.content.Context;

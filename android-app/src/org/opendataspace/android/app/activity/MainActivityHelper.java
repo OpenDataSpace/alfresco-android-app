@@ -15,16 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.activity;
+package org.opendataspace.android.app.activity;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.Stack;
 
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Site;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.operations.batch.capture.DeviceCapture;
+
+
+
+
+
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.operations.batch.capture.DeviceCapture;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.model.Site;
 
 import android.os.Bundle;
 

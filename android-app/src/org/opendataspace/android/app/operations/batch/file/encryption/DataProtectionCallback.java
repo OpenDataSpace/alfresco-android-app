@@ -15,12 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.file.encryption;
+package org.opendataspace.android.app.operations.batch.file.encryption;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationCallback;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationCallback;
+import org.opendataspace.android.app.security.DataProtectionManager;
 
 import android.content.Context;
 

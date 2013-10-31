@@ -15,16 +15,16 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.operations;
+package org.opendataspace.android.app.fragments.operations;
 
-import org.alfresco.mobile.android.api.model.Node;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationContentProvider;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.batch.BatchOperationContentProvider;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.cmisapi.model.Node;
 
 import android.app.Dialog;
 import android.app.DialogFragment;

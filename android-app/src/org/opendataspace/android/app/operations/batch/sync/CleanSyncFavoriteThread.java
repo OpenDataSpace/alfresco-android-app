@@ -15,20 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.sync;
+package org.opendataspace.android.app.operations.batch.sync;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
-import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
-import org.alfresco.mobile.android.application.operations.sync.SynchroProvider;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-import org.alfresco.mobile.android.application.utils.IOUtils;
+
+
+
+
+
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationThread;
+import org.opendataspace.android.app.operations.sync.SyncOperation;
+import org.opendataspace.android.app.operations.sync.SynchroProvider;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.utils.IOUtils;
+import org.opendataspace.android.asynchronous.LoaderResult;
 
 import android.content.ContentValues;
 import android.content.Context;

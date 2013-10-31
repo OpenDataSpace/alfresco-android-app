@@ -15,24 +15,24 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.operations;
+package org.opendataspace.android.app.fragments.operations;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.BaseCursorLoader;
-import org.alfresco.mobile.android.application.manager.MimeTypeManager;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationContentProvider;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.batch.account.LoadSessionRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.create.CreateDocumentRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.create.CreateFolderRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.delete.DeleteNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.download.DownloadRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.favorite.FavoriteNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.like.LikeNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.update.UpdateContentRequest;
-import org.alfresco.mobile.android.application.utils.ProgressViewHolder;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.BaseCursorLoader;
+import org.opendataspace.android.app.manager.MimeTypeManager;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.batch.BatchOperationContentProvider;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.batch.account.LoadSessionRequest;
+import org.opendataspace.android.app.operations.batch.node.create.CreateDocumentRequest;
+import org.opendataspace.android.app.operations.batch.node.create.CreateFolderRequest;
+import org.opendataspace.android.app.operations.batch.node.delete.DeleteNodeRequest;
+import org.opendataspace.android.app.operations.batch.node.download.DownloadRequest;
+import org.opendataspace.android.app.operations.batch.node.favorite.FavoriteNodeRequest;
+import org.opendataspace.android.app.operations.batch.node.like.LikeNodeRequest;
+import org.opendataspace.android.app.operations.batch.node.update.UpdateContentRequest;
+import org.opendataspace.android.app.utils.ProgressViewHolder;
 
 import android.content.Context;
 import android.database.Cursor;

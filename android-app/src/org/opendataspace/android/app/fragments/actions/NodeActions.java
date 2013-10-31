@@ -15,35 +15,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.actions;
+package org.opendataspace.android.app.fragments.actions;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Node;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
-import org.alfresco.mobile.android.application.fragments.properties.DetailsFragment;
-import org.alfresco.mobile.android.application.fragments.properties.UpdateDialogFragment;
-import org.alfresco.mobile.android.application.intent.PublicIntent;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.node.delete.DeleteNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.download.DownloadRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.favorite.FavoriteNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.like.LikeNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.utils.NodePlaceHolder;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.fragments.operations.OperationWaitingDialogFragment;
+import org.opendataspace.android.app.fragments.properties.DetailsFragment;
+import org.opendataspace.android.app.fragments.properties.UpdateDialogFragment;
+import org.opendataspace.android.app.intent.PublicIntent;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.node.delete.DeleteNodeRequest;
+import org.opendataspace.android.app.operations.batch.node.download.DownloadRequest;
+import org.opendataspace.android.app.operations.batch.node.favorite.FavoriteNodeRequest;
+import org.opendataspace.android.app.operations.batch.node.like.LikeNodeRequest;
+import org.opendataspace.android.app.operations.batch.utils.NodePlaceHolder;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.model.Node;
 
 import android.app.Activity;
 import android.app.AlertDialog;

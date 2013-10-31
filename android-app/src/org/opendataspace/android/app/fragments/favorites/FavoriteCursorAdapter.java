@@ -15,29 +15,30 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.favorites;
+package org.opendataspace.android.app.fragments.favorites;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.fragments.BaseCursorLoader;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.manager.MimeTypeManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.node.favorite.FavoriteNodeRequest;
-import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.utils.AndroidVersion;
-import org.alfresco.mobile.android.application.utils.ProgressViewHolder;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.utils.Formatter;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.fragments.BaseCursorLoader;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.manager.MimeTypeManager;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.node.favorite.FavoriteNodeRequest;
+import org.opendataspace.android.app.operations.sync.SyncOperation;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.preferences.GeneralPreferences;
+import org.opendataspace.android.app.utils.AndroidVersion;
+import org.opendataspace.android.app.utils.ProgressViewHolder;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+
+import org.opendataspace.android.commonui.utils.Formatter;
 
 import android.app.Fragment;
 import android.content.Context;

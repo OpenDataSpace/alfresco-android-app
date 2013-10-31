@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.security;
+package org.opendataspace.android.app.security;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -41,12 +41,17 @@ import javax.crypto.spec.PBEKeySpec;
 import javax.crypto.spec.PBEParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
-import org.alfresco.mobile.android.api.utils.IOUtils;
-import org.alfresco.mobile.android.application.exception.AlfrescoAppException;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
-import org.alfresco.mobile.android.application.operations.sync.SynchroProvider;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
+
+
+
+
+
+import org.opendataspace.android.app.exception.AlfrescoAppException;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.sync.SyncOperation;
+import org.opendataspace.android.app.operations.sync.SynchroProvider;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.cmisapi.utils.IOUtils;
 
 import android.content.ContentValues;
 import android.content.Context;

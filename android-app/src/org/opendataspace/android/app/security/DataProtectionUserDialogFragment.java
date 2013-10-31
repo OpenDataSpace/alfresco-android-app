@@ -15,12 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.security;
+package org.opendataspace.android.app.security;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.WaitingDialogFragment;
+import org.opendataspace.android.app.preferences.GeneralPreferences;
+import org.opendataspace.android.app.utils.SessionUtils;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;

@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.security;
+package org.opendataspace.android.app.security;
 
 import java.security.KeyStore;
 import java.security.KeyStoreException;

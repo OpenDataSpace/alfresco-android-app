@@ -15,32 +15,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.intent;
+package org.opendataspace.android.app.intent;
 
 public interface PublicIntent
 {
 
-    String ACTION_VIEW = "org.alfresco.mobile.android.intent.ACTION_VIEW";
+    String ACTION_VIEW = "org.opendataspace.android.app.intent.ACTION_VIEW";
 
-    String EXTRA_NODE = "org.alfresco.mobile.android.intent.EXTRA_NODE";
+    String EXTRA_NODE = "org.opendataspace.android.app.intent.EXTRA_NODE";
 
-    String EXTRA_CONTENT = "org.alfresco.mobile.android.intent.EXTRA_CONTENT";
+    String EXTRA_CONTENT = "org.opendataspace.android.app.intent.EXTRA_CONTENT";
 
-    String EXTRA_FOLDER = "org.alfresco.mobile.android.intent.EXTRA_FOLDER";
+    String EXTRA_FOLDER = "org.opendataspace.android.app.intent.EXTRA_FOLDER";
     
-    String EXTRA_FOLDER_ID = "org.alfresco.mobile.android.intent.EXTRA_FOLDER_ID";
+    String EXTRA_FOLDER_ID = "org.opendataspace.android.app.intent.EXTRA_FOLDER_ID";
 
-    String NODE_TYPE = "org.alfresco.mobile.android/object.node";
+    String NODE_TYPE = "org.opendataspace.android.app/object.node";
     
-    String EXTRA_DOCUMENT = "org.alfresco.mobile.android.intent.EXTRA_DOCUMENT";
+    String EXTRA_DOCUMENT = "org.opendataspace.android.app.intent.EXTRA_DOCUMENT";
     
-    String EXTRA_DOCUMENT_ID = "org.alfresco.mobile.android.intent.EXTRA_DOCUMENT_ID";
+    String EXTRA_DOCUMENT_ID = "org.opendataspace.android.app.intent.EXTRA_DOCUMENT_ID";
     
-    String EXTRA_DATA = "org.alfresco.mobile.android.intent.EXTRA_DATA";
+    String EXTRA_DATA = "org.opendataspace.android.app.intent.EXTRA_DATA";
     
-    String EXTRA_FILE = "org.alfresco.mobile.android.intent.EXTRA_FILE";
+    String EXTRA_FILE = "org.opendataspace.android.app.intent.EXTRA_FILE";
     
-    String EXTRA_FILE_PATH = "org.alfresco.mobile.android.intent.EXTRA_FILE_PATH";
+    String EXTRA_FILE_PATH = "org.opendataspace.android.app.intent.EXTRA_FILE_PATH";
 
 
     // REQUEST CODE

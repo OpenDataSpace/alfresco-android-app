@@ -15,12 +15,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.node.delete;
+package org.opendataspace.android.app.operations.batch.node.delete;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
-import org.alfresco.mobile.android.application.operations.batch.node.NodeOperationThread;
+
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationRequestImpl;
+import org.opendataspace.android.app.operations.batch.node.NodeOperationThread;
+import org.opendataspace.android.asynchronous.LoaderResult;
 
 import android.content.Context;
 import android.content.Intent;

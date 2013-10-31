@@ -15,30 +15,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.properties;
+package org.opendataspace.android.app.fragments.properties;
 
 import java.io.File;
 import java.util.Date;
 
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.impl.NodeImpl;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.actions.OpenAsDialogFragment;
-import org.alfresco.mobile.android.application.fragments.browser.DownloadDialogFragment;
-import org.alfresco.mobile.android.application.intent.PublicIntent;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.MimeTypeManager;
-import org.alfresco.mobile.android.application.manager.RenditionManager;
-import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
-import org.alfresco.mobile.android.application.operations.sync.utils.NodeSyncPlaceHolder;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
+import org.opendataspace.android.app.ApplicationManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.actions.OpenAsDialogFragment;
+import org.opendataspace.android.app.fragments.browser.DownloadDialogFragment;
+import org.opendataspace.android.app.intent.PublicIntent;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.app.manager.MimeTypeManager;
+import org.opendataspace.android.app.manager.RenditionManager;
+import org.opendataspace.android.app.operations.sync.SynchroManager;
+import org.opendataspace.android.app.operations.sync.utils.NodeSyncPlaceHolder;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.model.impl.NodeImpl;
+import org.opendataspace.android.commonui.fragments.BaseFragment;
+import org.opendataspace.android.commonui.manager.ActionManager.ActionManagerListener;
 
 import android.app.DialogFragment;
 import android.content.ActivityNotFoundException;

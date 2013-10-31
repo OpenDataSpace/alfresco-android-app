@@ -15,21 +15,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.actions;
+package org.opendataspace.android.app.fragments.actions;
 
 import java.util.List;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
-import org.alfresco.mobile.android.application.fragments.favorites.FavoritesSyncFragment;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.node.favorite.FavoriteNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.like.LikeNodeRequest;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
+import org.opendataspace.android.app.fragments.favorites.FavoritesSyncFragment;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.fragments.operations.OperationWaitingDialogFragment;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.node.favorite.FavoriteNodeRequest;
+import org.opendataspace.android.app.operations.batch.node.like.LikeNodeRequest;
+import org.opendataspace.android.app.utils.SessionUtils;
 
 import android.app.Activity;
 import android.app.Fragment;

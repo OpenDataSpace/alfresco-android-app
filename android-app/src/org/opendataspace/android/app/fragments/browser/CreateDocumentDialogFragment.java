@@ -15,7 +15,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.browser;
+package org.opendataspace.android.app.fragments.browser;
 
 import java.io.File;
 import java.io.Serializable;
@@ -24,26 +24,26 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.alfresco.mobile.android.api.constants.ContentModel;
-import org.alfresco.mobile.android.api.model.ContentFile;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Tag;
-import org.alfresco.mobile.android.api.model.impl.TagImpl;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.node.create.CreateDocumentRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.create.RetrieveDocumentNameRequest;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.MimeTypeManager;
-import org.alfresco.mobile.android.ui.utils.Formatter;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.PublicDispatcherActivity;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.node.create.CreateDocumentRequest;
+import org.opendataspace.android.app.operations.batch.node.create.RetrieveDocumentNameRequest;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.cmisapi.constants.ContentModel;
+import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.model.Tag;
+import org.opendataspace.android.cmisapi.model.impl.TagImpl;
+import org.opendataspace.android.commonui.fragments.BaseFragment;
+import org.opendataspace.android.commonui.manager.MimeTypeManager;
+import org.opendataspace.android.commonui.utils.Formatter;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

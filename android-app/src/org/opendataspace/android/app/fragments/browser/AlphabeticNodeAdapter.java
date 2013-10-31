@@ -15,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.browser;
+package org.opendataspace.android.app.fragments.browser;
 
 import java.util.HashMap;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.model.Node;
-import com.dataspace.android.application.R;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.cmisapi.model.Node;
 
 import android.app.Activity;
 import android.content.Context;

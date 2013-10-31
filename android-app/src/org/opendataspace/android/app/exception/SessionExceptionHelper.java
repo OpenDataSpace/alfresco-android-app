@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.exception;
+package org.opendataspace.android.app.exception;
 
 import java.net.UnknownHostException;
 import java.security.cert.CertPathValidatorException;
@@ -25,8 +25,8 @@ import java.security.cert.CertificateNotYetValidException;
 
 import javax.net.ssl.SSLHandshakeException;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.utils.ConnectivityUtils;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;

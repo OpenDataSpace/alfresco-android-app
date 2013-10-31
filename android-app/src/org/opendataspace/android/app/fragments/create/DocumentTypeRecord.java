@@ -15,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.create;
+package org.opendataspace.android.app.fragments.create;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dataspace.android.application.R;
+import org.opendataspace.android.app.R;
 
 /**
  * This class contains all informations about a specific file type. It's used by

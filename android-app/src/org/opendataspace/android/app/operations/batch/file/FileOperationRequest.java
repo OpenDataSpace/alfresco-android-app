@@ -1,7 +1,7 @@
-package org.alfresco.mobile.android.application.operations.batch.file;
+package org.opendataspace.android.app.operations.batch.file;
 
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationRequestImpl;
 
 import android.content.ContentValues;
 import android.database.Cursor;

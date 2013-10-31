@@ -15,7 +15,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.node.download;
+package org.opendataspace.android.app.operations.batch.node.download;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
@@ -25,17 +25,24 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.ContentFile;
-import org.alfresco.mobile.android.api.model.ContentStream;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.impl.ContentFileImpl;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
-import org.alfresco.mobile.android.application.operations.batch.node.NodeOperationThread;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.IOUtils;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationRequestImpl;
+import org.opendataspace.android.app.operations.batch.node.NodeOperationThread;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.utils.IOUtils;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.opendataspace.android.cmisapi.model.ContentStream;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.model.impl.ContentFileImpl;
 
 import android.content.Context;
 import android.content.Intent;
@@ -170,8 +177,8 @@ public class DownloadThread extends NodeOperationThread<ContentFile>
         }
         finally
         {
-            org.alfresco.mobile.android.api.utils.IOUtils.closeStream(src);
-            org.alfresco.mobile.android.api.utils.IOUtils.closeStream(os);
+            org.opendataspace.android.cmisapi.utils.IOUtils.closeStream(src);
+            org.opendataspace.android.cmisapi.utils.IOUtils.closeStream(os);
         }
         return copied;
     }

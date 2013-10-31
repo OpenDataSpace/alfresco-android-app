@@ -15,69 +15,76 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.properties;
+package org.opendataspace.android.app.fragments.properties;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.constants.ContentModel;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.impl.DocumentImpl;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.api.session.CloudSession;
-import org.alfresco.mobile.android.api.session.RepositorySession;
-import org.alfresco.mobile.android.api.utils.NodeRefUtils;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.exception.AlfrescoAppException;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
-import org.alfresco.mobile.android.application.fragments.actions.NodeActions;
-import org.alfresco.mobile.android.application.fragments.actions.OpenAsDialogFragment;
-import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
-import org.alfresco.mobile.android.application.fragments.browser.DownloadDialogFragment;
-import org.alfresco.mobile.android.application.fragments.comments.CommentsFragment;
-import org.alfresco.mobile.android.application.fragments.favorites.ActivateSyncDialogFragment;
-import org.alfresco.mobile.android.application.fragments.favorites.ActivateSyncDialogFragment.OnSyncChangeListener;
-import org.alfresco.mobile.android.application.fragments.favorites.FavoritesSyncFragment;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.fragments.tags.TagsListNodeFragment;
-import org.alfresco.mobile.android.application.fragments.versions.VersionFragment;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.intent.PublicIntent;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.MimeTypeManager;
-import org.alfresco.mobile.android.application.manager.RenditionManager;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.node.favorite.FavoriteNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.like.LikeNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.update.UpdateContentRequest;
-import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
-import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-import org.alfresco.mobile.android.application.operations.sync.utils.NodeSyncPlaceHolder;
-import org.alfresco.mobile.android.application.operations.sync.utils.NodeSyncPlaceHolderFormatter;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
-import org.alfresco.mobile.android.ui.utils.Formatter;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.ApplicationManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.exception.AlfrescoAppException;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.WaitingDialogFragment;
+import org.opendataspace.android.app.fragments.actions.NodeActions;
+import org.opendataspace.android.app.fragments.actions.OpenAsDialogFragment;
+import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
+import org.opendataspace.android.app.fragments.browser.DownloadDialogFragment;
+import org.opendataspace.android.app.fragments.comments.CommentsFragment;
+import org.opendataspace.android.app.fragments.favorites.ActivateSyncDialogFragment;
+import org.opendataspace.android.app.fragments.favorites.FavoritesSyncFragment;
+import org.opendataspace.android.app.fragments.favorites.ActivateSyncDialogFragment.OnSyncChangeListener;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.fragments.tags.TagsListNodeFragment;
+import org.opendataspace.android.app.fragments.versions.VersionFragment;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.intent.PublicIntent;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.app.manager.MimeTypeManager;
+import org.opendataspace.android.app.manager.RenditionManager;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.node.favorite.FavoriteNodeRequest;
+import org.opendataspace.android.app.operations.batch.node.like.LikeNodeRequest;
+import org.opendataspace.android.app.operations.batch.node.update.UpdateContentRequest;
+import org.opendataspace.android.app.operations.sync.SyncOperation;
+import org.opendataspace.android.app.operations.sync.SynchroManager;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.operations.sync.utils.NodeSyncPlaceHolder;
+import org.opendataspace.android.app.operations.sync.utils.NodeSyncPlaceHolderFormatter;
+import org.opendataspace.android.app.preferences.GeneralPreferences;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.utils.ContentFileProgressImpl;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.constants.ContentModel;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.model.impl.DocumentImpl;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.opendataspace.android.cmisapi.session.CloudSession;
+import org.opendataspace.android.cmisapi.session.RepositorySession;
+import org.opendataspace.android.cmisapi.utils.NodeRefUtils;
+import org.opendataspace.android.commonui.fragments.BaseFragment;
+import org.opendataspace.android.commonui.manager.ActionManager.ActionManagerListener;
+import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.opendataspace.android.commonui.utils.Formatter;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.enums.Action;
 
@@ -118,7 +125,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         LoaderCallbacks<LoaderResult<Node>>
 {
 
-    private static final String ACTION_REFRESH = "org.alfresco.mobile.android.intent.ACTION_REFRESH";
+    private static final String ACTION_REFRESH = "org.opendataspace.android.app.intent.ACTION_REFRESH";
 
     public static final String TAG = DetailsFragment.class.getName();
 

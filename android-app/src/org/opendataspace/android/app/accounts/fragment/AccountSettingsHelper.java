@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.accounts.fragment;
+package org.opendataspace.android.app.accounts.fragment;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,19 +27,19 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.alfresco.mobile.android.api.constants.OAuthConstant;
-import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
-import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.api.session.CloudSession;
-import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import org.alfresco.mobile.android.api.session.authentication.impl.OAuth2DataImpl;
-import org.alfresco.mobile.android.api.utils.IOUtils;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.manager.NetworkHttpInvoker;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.manager.NetworkHttpInvoker;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.cmisapi.constants.OAuthConstant;
+import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
+import org.opendataspace.android.cmisapi.exceptions.ErrorCodeRegistry;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.opendataspace.android.cmisapi.session.CloudSession;
+import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
+import org.opendataspace.android.cmisapi.session.authentication.impl.OAuth2DataImpl;
+import org.opendataspace.android.cmisapi.utils.IOUtils;
+import org.opendataspace.android.commonui.manager.MessengerManager;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 
 import android.content.Context;
@@ -57,18 +57,18 @@ public class AccountSettingsHelper
 
     public static final String OAUTH_API_SECRET = "apisecret";
 
-    private static final String BASE_URL = "org.alfresco.mobile.binding.internal.baseurl";
+    private static final String BASE_URL = "org.opendataspace.binding.internal.baseurl";
 
-    private static final String USER = "org.alfresco.mobile.internal.credential.user";
+    private static final String USER = "org.opendataspace.internal.credential.user";
 
-    private static final String PASSWORD = "org.alfresco.mobile.internal.credential.password";
+    private static final String PASSWORD = "org.opendataspace.internal.credential.password";
 
-    private static final String CLOUD_BASIC_AUTH = "org.alfresco.mobile.binding.internal.cloud.basic";
+    private static final String CLOUD_BASIC_AUTH = "org.opendataspace.binding.internal.cloud.basic";
 
     private static final String APP_CONFIG_PATH = Environment.getExternalStorageDirectory().getPath()
             + "/alfresco-mobile/app-config.properties";
 
-    private static final String ONPREMISE_TRUSTMANAGER_CLASSNAME = "org.alfresco.mobile.binding.internal.https.trustmanager";
+    private static final String ONPREMISE_TRUSTMANAGER_CLASSNAME = "org.opendataspace.binding.internal.https.trustmanager";
 
     private static final String ALFRESCO_CLOUD_URL = "http://my.alfresco.com";
 
@@ -349,7 +349,7 @@ public class AccountSettingsHelper
             {
                 MessengerManager.showToast(context, R.string.security_ssl_disable);
                 settings.put(ONPREMISE_TRUSTMANAGER_CLASSNAME,
-                        "org.alfresco.mobile.android.application.security.AlfrescoTrustManager");
+                        "org.opendataspace.android.app.security.AlfrescoTrustManager");
             }
         }
         catch (Exception e)

@@ -15,15 +15,15 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.sync;
+package org.opendataspace.android.app.operations.sync;
 
 import java.util.Arrays;
 import java.util.HashSet;
 
-import org.alfresco.mobile.android.application.AlfrescoContentProvider;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.database.DatabaseManager;
+import org.opendataspace.android.app.AlfrescoContentProvider;
+import org.opendataspace.android.app.ApplicationManager;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.database.DatabaseManager;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;

@@ -15,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.help;
+package org.opendataspace.android.app.fragments.help;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.manager.ActionManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.manager.ActionManager;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;

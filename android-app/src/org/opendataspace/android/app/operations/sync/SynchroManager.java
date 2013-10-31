@@ -15,7 +15,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.sync;
+package org.opendataspace.android.app.operations.sync;
 
 import java.io.File;
 import java.util.Date;
@@ -23,32 +23,32 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.utils.NodeRefUtils;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.OperationManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsGroupRecord;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
-import org.alfresco.mobile.android.application.operations.batch.sync.CleanSyncFavoriteRequest;
-import org.alfresco.mobile.android.application.operations.batch.sync.SyncFavoriteRequest;
-import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationRequestImpl;
-import org.alfresco.mobile.android.application.operations.sync.node.delete.SyncDeleteRequest;
-import org.alfresco.mobile.android.application.operations.sync.node.download.SyncDownloadRequest;
-import org.alfresco.mobile.android.application.operations.sync.node.update.SyncUpdateRequest;
-import org.alfresco.mobile.android.application.operations.sync.utils.NodeSyncPlaceHolder;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.OperationManager;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsGroupRecord;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationRequestImpl;
+import org.opendataspace.android.app.operations.batch.sync.CleanSyncFavoriteRequest;
+import org.opendataspace.android.app.operations.batch.sync.SyncFavoriteRequest;
+import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationRequestImpl;
+import org.opendataspace.android.app.operations.sync.node.delete.SyncDeleteRequest;
+import org.opendataspace.android.app.operations.sync.node.download.SyncDownloadRequest;
+import org.opendataspace.android.app.operations.sync.node.update.SyncUpdateRequest;
+import org.opendataspace.android.app.operations.sync.utils.NodeSyncPlaceHolder;
+import org.opendataspace.android.app.preferences.GeneralPreferences;
+import org.opendataspace.android.app.utils.ConnectivityUtils;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.utils.NodeRefUtils;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;

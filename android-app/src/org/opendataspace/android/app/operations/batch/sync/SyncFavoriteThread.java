@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.sync;
+package org.opendataspace.android.app.operations.batch.sync;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -23,33 +23,33 @@ import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.TimeZone;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import org.alfresco.mobile.android.api.model.Permissions;
-import org.alfresco.mobile.android.api.model.SearchLanguage;
-import org.alfresco.mobile.android.api.model.impl.ContentFileImpl;
-import org.alfresco.mobile.android.api.model.impl.PagingResultImpl;
-import org.alfresco.mobile.android.api.session.CloudSession;
-import org.alfresco.mobile.android.api.utils.NodeRefUtils;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.batch.node.NodeOperationThread;
-import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
-import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
-import org.alfresco.mobile.android.application.operations.sync.SynchroProvider;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-import org.alfresco.mobile.android.application.operations.sync.node.delete.SyncDeleteRequest;
-import org.alfresco.mobile.android.application.operations.sync.node.download.SyncDownloadRequest;
-import org.alfresco.mobile.android.application.operations.sync.node.update.SyncUpdateRequest;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.batch.node.NodeOperationThread;
+import org.opendataspace.android.app.operations.sync.SyncOperation;
+import org.opendataspace.android.app.operations.sync.SynchroManager;
+import org.opendataspace.android.app.operations.sync.SynchroProvider;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.operations.sync.node.delete.SyncDeleteRequest;
+import org.opendataspace.android.app.operations.sync.node.download.SyncDownloadRequest;
+import org.opendataspace.android.app.operations.sync.node.update.SyncUpdateRequest;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.model.ListingContext;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.model.PagingResult;
+import org.opendataspace.android.cmisapi.model.Permissions;
+import org.opendataspace.android.cmisapi.model.SearchLanguage;
+import org.opendataspace.android.cmisapi.model.impl.ContentFileImpl;
+import org.opendataspace.android.cmisapi.model.impl.PagingResultImpl;
+import org.opendataspace.android.cmisapi.session.CloudSession;
+import org.opendataspace.android.cmisapi.utils.NodeRefUtils;
 
 import android.content.ContentValues;
 import android.content.Context;

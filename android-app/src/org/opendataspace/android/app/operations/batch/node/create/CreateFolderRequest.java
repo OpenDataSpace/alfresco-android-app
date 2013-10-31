@@ -15,19 +15,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.node.create;
+package org.opendataspace.android.app.operations.batch.node.create;
 
 import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.alfresco.mobile.android.api.constants.ContentModel;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.batch.node.NodeOperationRequest;
-import org.alfresco.mobile.android.application.operations.batch.utils.MapUtil;
 import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.batch.node.NodeOperationRequest;
+import org.opendataspace.android.app.operations.batch.utils.MapUtil;
+import org.opendataspace.android.cmisapi.constants.ContentModel;
+import org.opendataspace.android.cmisapi.model.Folder;
 
 import android.content.ContentValues;
 import android.database.Cursor;

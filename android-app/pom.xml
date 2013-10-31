@@ -12,15 +12,15 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.alfresco.mobile.android.apps</groupId>
-		<artifactId>alfresco-mobile-android-apps</artifactId>
-		<version>1.2.0</version>
+    	<groupId>org.opendataspace.android.apps</groupId>
+    	<artifactId>opendataspace-android-apps</artifactId>
+    	<version>0.1</version>
 	</parent>
 
-	<artifactId>alfresco-mobile-android</artifactId>
+	<artifactId>opendataspace-android-app</artifactId>
 
 	<packaging>apk</packaging>
-	<name>Alfresco Mobile Android - Official Application</name>
+	<name>ODS Android Application</name>
 
 	<build>
 		<finalName>${project.artifactId}</finalName>
@@ -35,9 +35,9 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>org.alfresco.mobile.android.sdk</groupId>
-			<artifactId>alfresco-mobile-android-ui-library</artifactId>
-			<version>${alfresco.sdk.version}</version>
+			<groupId>${project.groupId}</groupId>
+			<artifactId>opendataspace-android-commonui</artifactId>
+			<version>0.1</version>
 			<type>apklib</type>
 		</dependency>
 		<dependency>
@@ -58,7 +58,6 @@
 			<artifactId>okhttp</artifactId>
 		</dependency>
 	</dependencies>
-
 
 	<profiles>
 		<profile>
@@ -156,7 +155,7 @@
 			<id>android-beta-release</id>
 			<properties>
 				<!-- Common -->
-				<packageName.beta>com.dataspace.android.application.beta</packageName.beta>
+				<packageName.beta>com.opendataspace.android.app.beta</packageName.beta>
 			</properties>
 			<build>
 				<resources>
@@ -198,11 +197,11 @@
 								<configuration>
 									<tasks>
 										<replace
-											file="${project.basedir}/src/org/alfresco/mobile/android/application/AlfrescoContentProvider.java"
-											token="org.alfresco.mobile.android.provider" value="${packageName.beta}" />
+											file="${project.basedir}/src/org/opendataspace/android/app/AlfrescoContentProvider.java"
+											token="com.opendataspace.android.app.provider" value="${packageName.beta}.provider" />
 										<replace file="${project.basedir}/AndroidManifest.xml"
-											token="org.alfresco.mobile.android.provider." value="${packageName.beta}." />
-										<replace file="${project.basedir}/AndroidManifest.xml"
+											token="com.opendataspace.android.app.provider" value="${packageName.beta}.provider" />
+                                        <replace file="${project.basedir}/AndroidManifest.xml"
 											token="@drawable/ic_alfresco_logo" value="@drawable/ic_alfresco" />
 										<replace file="${project.basedir}/AndroidManifest.xml"
 											token="@string/app_name" value="@string/app_name_beta" />

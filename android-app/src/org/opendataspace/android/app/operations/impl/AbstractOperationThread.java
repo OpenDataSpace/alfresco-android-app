@@ -15,17 +15,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.impl;
+package org.opendataspace.android.app.operations.impl;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsGroupCallBack;
-import org.alfresco.mobile.android.application.operations.OperationsGroupResult;
-import org.alfresco.mobile.android.application.operations.batch.account.LoadSessionHelper;
+
+import org.opendataspace.android.app.ApplicationManager;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsGroupCallBack;
+import org.opendataspace.android.app.operations.OperationsGroupResult;
+import org.opendataspace.android.app.operations.batch.account.LoadSessionHelper;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
 
 import android.content.Context;
 import android.content.Intent;

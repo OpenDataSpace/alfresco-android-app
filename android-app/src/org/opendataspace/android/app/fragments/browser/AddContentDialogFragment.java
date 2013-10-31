@@ -15,13 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.browser;
+package org.opendataspace.android.app.fragments.browser;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
+
+
+
+
+
+import org.opendataspace.android.app.utils.ContentFileProgressImpl;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.cmisapi.model.Folder;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

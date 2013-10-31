@@ -15,9 +15,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.sync.node.delete;
+package org.opendataspace.android.app.operations.sync.node.delete;
 
-import org.alfresco.mobile.android.application.operations.sync.node.SyncNodeOperationRequest;
+import org.opendataspace.android.app.operations.sync.node.SyncNodeOperationRequest;
 
 import android.database.Cursor;
 import android.net.Uri;

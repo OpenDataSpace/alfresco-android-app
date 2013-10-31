@@ -15,18 +15,19 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.accounts;
+package org.opendataspace.android.app.accounts;
 
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.account.LoadSessionRequest;
-import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
+
+import org.opendataspace.android.app.ApplicationManager;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.account.LoadSessionRequest;
+import org.opendataspace.android.app.preferences.AccountsPreferences;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;

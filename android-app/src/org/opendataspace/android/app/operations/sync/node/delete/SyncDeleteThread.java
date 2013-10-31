@@ -15,24 +15,31 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.sync.node.delete;
+package org.opendataspace.android.app.operations.sync.node.delete;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.session.impl.AbstractAlfrescoSessionImpl;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
-import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationRequestImpl;
-import org.alfresco.mobile.android.application.operations.sync.node.SyncNodeOperationThread;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.IOUtils;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.sync.SyncOperation;
+import org.opendataspace.android.app.operations.sync.SynchroManager;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationRequestImpl;
+import org.opendataspace.android.app.operations.sync.node.SyncNodeOperationThread;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.utils.IOUtils;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.session.impl.AbstractAlfrescoSessionImpl;
 
 import android.content.ContentValues;
 import android.content.Context;

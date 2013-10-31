@@ -15,22 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.node.create;
+package org.opendataspace.android.app.operations.batch.node.create;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.api.model.ContentFile;
-import org.alfresco.mobile.android.api.model.Document;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.manager.NotificationHelper;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationCallback;
-import org.alfresco.mobile.android.application.operations.batch.node.AbstractUpRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.AbstractUpThread;
-import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.manager.NotificationHelper;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationCallback;
+import org.opendataspace.android.app.operations.batch.node.AbstractUpRequest;
+import org.opendataspace.android.app.operations.batch.node.AbstractUpThread;
+import org.opendataspace.android.app.utils.IOUtils;
+import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.opendataspace.android.cmisapi.model.Document;
 
 import android.content.ContentValues;
 import android.content.Context;

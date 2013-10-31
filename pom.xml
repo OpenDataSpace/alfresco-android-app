@@ -11,20 +11,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>org.alfresco.mobile.android.apps</groupId>
-	<artifactId>alfresco-mobile-android-apps</artifactId>
-	<version>1.2.0</version>
+	<groupId>org.opendataspace.android.apps</groupId>
+	<artifactId>opendataspace-android-apps</artifactId>
+	<version>0.1</version>
 	<packaging>pom</packaging>
 
-	<name>Alfresco Mobile Android APPS (Parent)</name>
-	<description>Android APPS based on Alfresco Android SDK</description>
-	<url>http://www.alfresco.com/products/mobile</url>
-	<inceptionYear>2012</inceptionYear>
-
-	<organization>
-		<name>Alfresco Software</name>
-		<url>http://www.alfresco.com/</url>
-	</organization>
+	<name>ODS Android APPS</name>
 
 	<licenses>
 		<license>
@@ -34,89 +26,12 @@
 		</license>
 	</licenses>
 
-	<scm>
-		<url>https://github.com/Alfresco/alfresco-android-app.git</url>
-		<connection>scm:git:git://github.com/Alfresco/alfresco-android-app.git</connection>
-		<developerConnection>scm:git:git@github.com:Alfresco/alfresco-android-app.git</developerConnection>
-	</scm>
-
 	<modules>
-		<module>alfresco-mobile-android</module>
+		<module>android-client-api</module>
+		<module>android-async</module>
+		<module>android-ui-library</module>
+		<module>android-app</module>
 	</modules>
-
-	<distributionManagement>
-		<repository>
-			<id>alfresco-internal</id>
-			<name>Alfresco Internal Releases Repository</name>
-			<url>https://artifacts.alfresco.com/nexus/content/repositories/internal-staging</url>
-		</repository>
-		<snapshotRepository>
-			<id>alfresco-internal-snapshots</id>
-			<name>Alfresco Internal Snapshots Repository</name>
-			<url>https://artifacts.alfresco.com/nexus/content/repositories/internal-snapshots</url>
-		</snapshotRepository>
-		<site>
-			<id>alfresco.mobile.website</id>
-			<name>Alfresco Mobile Website</name>
-			<url>https://bamboo.alfresco.com/bamboo/browse/MOBILE-ANDROIDAPPSHEAD/latest/artifact</url>
-		</site>
-	</distributionManagement>
-
-	<issueManagement>
-		<system>Jira</system>
-		<url>https://issues.alfresco.com/jira/browse/MOBILE</url>
-	</issueManagement>
-
-	<ciManagement>
-		<system>bamboo</system>
-		<url>https://bamboo.alfresco.com/bamboo/browse/MOBILE-ANDROIDAPPSHEAD</url>
-	</ciManagement>
-
-	<developers>
-		<developer>
-			<name>Jean Marie Pascal</name>
-			<id>jpascal</id>
-			<email>jeanmarie.pascal@alfresco.com</email>
-			<roles>
-				<role>Committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Luke Jagger</name>
-			<id>ljagger</id>
-			<roles>
-				<role>Committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Gavin Cornwell</name>
-			<id>gc</id>
-			<roles>
-				<role>Committer</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Tony Bedford</name>
-			<id>tbedford</id>
-			<roles>
-				<role>Documentation</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Andy Healey</name>
-			<id>ahealey</id>
-			<roles>
-				<role>Documentation</role>
-			</roles>
-		</developer>
-		<developer>
-			<name>Samuel Langlois</name>
-			<id>slanglois</id>
-			<roles>
-				<role>Build Manager</role>
-			</roles>
-		</developer>
-	</developers>
 
 	<prerequisites>
 		<maven>3.0.3</maven>
@@ -139,7 +54,8 @@
 		<okhttp.version>1.1.1</okhttp.version>
 
 		<!-- Alfresco Configuration -->
-		<alfresco.sdk.version>1.2.0</alfresco.sdk.version>
+		<chemistry.opencmis.version>0.9.0</chemistry.opencmis.version>
+		<alfresco.opencmis.version>0.5-ANDROID</alfresco.opencmis.version>
 
 		<!-- Plugins -->
 		<site.basedir>${project.parent.basedir}</site.basedir>
@@ -403,9 +319,9 @@
 					</reportSet>
 				</reportSets>
 				<configuration>
-					<doctitle>Alfresco Mobile Android ${project.version}</doctitle>
-					<windowtitle>Alfresco Mobile Android ${project.version}</windowtitle>
-					<excludePackageNames>org.apache.chemistry.opencmis.*,org.alfresco.mobile.android.test.*,org.alfresco.mobile.android.samples.*</excludePackageNames>
+					<doctitle>ODS Android ${project.version}</doctitle>
+					<windowtitle>ODS Android ${project.version}</windowtitle>
+					<excludePackageNames>org.apache.chemistry.opencmis.*</excludePackageNames>
 				</configuration>
 			</plugin>
 

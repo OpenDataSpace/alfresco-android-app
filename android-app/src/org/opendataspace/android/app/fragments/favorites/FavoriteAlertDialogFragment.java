@@ -15,9 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.favorites;
+package org.opendataspace.android.app.fragments.favorites;
 
-import com.dataspace.android.application.R;
+import org.opendataspace.android.app.R;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;

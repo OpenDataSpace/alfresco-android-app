@@ -15,36 +15,37 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.browser;
+package org.opendataspace.android.app.fragments.browser;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.Permissions;
-import org.alfresco.mobile.android.api.model.impl.cloud.PublicAPIPropertyIds;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.application.fragments.actions.NodeActions;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.manager.MimeTypeManager;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationContentProvider;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.batch.node.create.CreateDocumentRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.download.DownloadRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.update.UpdateContentRequest;
-import org.alfresco.mobile.android.application.operations.batch.utils.NodePlaceHolder;
-import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
-import org.alfresco.mobile.android.application.operations.sync.SynchroProvider;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-import org.alfresco.mobile.android.application.utils.AndroidVersion;
-import org.alfresco.mobile.android.application.utils.ProgressViewHolder;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.fragments.ListingModeFragment;
+import org.opendataspace.android.app.fragments.actions.NodeActions;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.manager.MimeTypeManager;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.batch.BatchOperationContentProvider;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.batch.node.create.CreateDocumentRequest;
+import org.opendataspace.android.app.operations.batch.node.download.DownloadRequest;
+import org.opendataspace.android.app.operations.batch.node.update.UpdateContentRequest;
+import org.opendataspace.android.app.operations.batch.utils.NodePlaceHolder;
+import org.opendataspace.android.app.operations.sync.SyncOperation;
+import org.opendataspace.android.app.operations.sync.SynchroProvider;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.utils.AndroidVersion;
+import org.opendataspace.android.app.utils.ProgressViewHolder;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.model.Permissions;
+import org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
@@ -232,7 +233,8 @@ public class ProgressNodeAdapter extends NodeAdapter implements LoaderManager.Lo
             vh.choose.setOnClickListener(new OnClickListener()
             {
 
-                @Override
+                @SuppressLint("NewApi")
+				@Override
                 public void onClick(View v)
                 {
                     Node item = (Node) v.getTag(R.id.node_action);
@@ -414,6 +416,7 @@ public class ProgressNodeAdapter extends NodeAdapter implements LoaderManager.Lo
             }
             else
             {
+            	favoriteCursor.close();
                 favoriteCursor = getContext().getContentResolver().query(
                         SynchroProvider.CONTENT_URI,
                         SynchroSchema.COLUMN_ALL,

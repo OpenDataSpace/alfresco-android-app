@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.manager;
+package org.opendataspace.android.app.manager;
 
 import java.io.IOException;
 import java.net.HttpURLConnection;
@@ -30,7 +30,7 @@ import javax.net.ssl.X509TrustManager;
 
 import com.squareup.okhttp.OkHttpClient;
 
-public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.NetworkHttpInvoker
+public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.network.NetworkHttpInvoker
 {
 
     private OkHttpClient httpClient;

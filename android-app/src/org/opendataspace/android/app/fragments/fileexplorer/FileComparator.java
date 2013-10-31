@@ -1,4 +1,4 @@
-package org.alfresco.mobile.android.application.fragments.fileexplorer;
+package org.opendataspace.android.app.fragments.fileexplorer;
 
 import java.io.File;
 import java.io.Serializable;

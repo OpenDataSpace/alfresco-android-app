@@ -15,22 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.menu;
+package org.opendataspace.android.app.fragments.menu;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.accounts.AccountSchema;
-import org.alfresco.mobile.android.application.accounts.fragment.AccountCursorAdapter;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.about.AboutFragment;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.accounts.AccountSchema;
+import org.opendataspace.android.app.accounts.fragment.AccountCursorAdapter;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.about.AboutFragment;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.preferences.AccountsPreferences;
+import org.opendataspace.android.app.preferences.GeneralPreferences;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
 
 import android.app.ActionBar;
 import android.app.Fragment;

@@ -15,17 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments;
+package org.opendataspace.android.app.fragments;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.alfresco.mobile.android.application.accounts.fragment.AccountsFragment;
-import org.alfresco.mobile.android.application.fragments.activities.ActivitiesFragment;
-import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
-import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerFragment;
-import org.alfresco.mobile.android.application.fragments.menu.MainMenuFragment;
-import org.alfresco.mobile.android.application.fragments.search.KeywordSearch;
+import org.opendataspace.android.app.accounts.fragment.AccountsFragment;
+import org.opendataspace.android.app.fragments.activities.ActivitiesFragment;
+import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
+import org.opendataspace.android.app.fragments.fileexplorer.FileExplorerFragment;
+import org.opendataspace.android.app.fragments.menu.MainMenuFragment;
+import org.opendataspace.android.app.fragments.search.KeywordSearch;
 
 import android.app.Fragment;
 import android.util.Log;

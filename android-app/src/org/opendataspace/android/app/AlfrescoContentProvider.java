@@ -15,9 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application;
+package org.opendataspace.android.app;
 
 public interface AlfrescoContentProvider
 {
-    String AUTHORITY_ALFRESCO_BASE = "org.alfresco.mobile.android.provider";
+    String AUTHORITY_ALFRESCO_BASE = "org.opendataspace.android.app.provider";
 }

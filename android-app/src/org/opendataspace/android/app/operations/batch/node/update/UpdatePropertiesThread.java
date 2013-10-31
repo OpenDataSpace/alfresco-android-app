@@ -15,17 +15,24 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.node.update;
+package org.opendataspace.android.app.operations.batch.node.update;
 
 import java.io.Serializable;
 import java.util.List;
 import java.util.Map;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.NodeOperationThread;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.batch.node.NodeOperationThread;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.Node;
 
 import android.content.Context;
 import android.content.Intent;

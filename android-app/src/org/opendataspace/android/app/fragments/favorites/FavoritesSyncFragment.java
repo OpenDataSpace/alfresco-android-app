@@ -15,41 +15,41 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.favorites;
+package org.opendataspace.android.app.fragments.favorites;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.utils.NodeRefUtils;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.fragments.BaseCursorListFragment;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.application.fragments.RefreshFragment;
-import org.alfresco.mobile.android.application.fragments.actions.AbstractActions.onFinishModeListerner;
-import org.alfresco.mobile.android.application.fragments.actions.NodeIdActions;
-import org.alfresco.mobile.android.application.fragments.favorites.ActivateSyncDialogFragment.OnSyncChangeListener;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.intent.PublicIntent;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
-import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
-import org.alfresco.mobile.android.application.operations.sync.SynchroProvider;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.fragments.BaseCursorListFragment;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.ListingModeFragment;
+import org.opendataspace.android.app.fragments.RefreshFragment;
+import org.opendataspace.android.app.fragments.actions.NodeIdActions;
+import org.opendataspace.android.app.fragments.actions.AbstractActions.onFinishModeListerner;
+import org.opendataspace.android.app.fragments.favorites.ActivateSyncDialogFragment.OnSyncChangeListener;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.intent.PublicIntent;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.sync.SyncOperation;
+import org.opendataspace.android.app.operations.sync.SynchroManager;
+import org.opendataspace.android.app.operations.sync.SynchroProvider;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.preferences.GeneralPreferences;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.utils.ConnectivityUtils;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.utils.NodeRefUtils;
 
 import android.app.Fragment;
 import android.content.BroadcastReceiver;

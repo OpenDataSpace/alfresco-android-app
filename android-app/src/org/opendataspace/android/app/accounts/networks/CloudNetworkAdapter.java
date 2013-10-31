@@ -15,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.accounts.networks;
+package org.opendataspace.android.app.accounts.networks;
 
 import java.util.List;
 
-import org.alfresco.mobile.android.api.session.CloudNetwork;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.cmisapi.session.CloudNetwork;
+import org.opendataspace.android.commonui.fragments.BaseListAdapter;
+import org.opendataspace.android.commonui.utils.GenericViewHolder;
 
 import android.app.Activity;
 import android.view.View;

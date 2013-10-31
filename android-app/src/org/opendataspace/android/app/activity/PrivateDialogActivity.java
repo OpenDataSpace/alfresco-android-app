@@ -15,19 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.activity;
+package org.opendataspace.android.app.activity;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
-import org.alfresco.mobile.android.application.fragments.operations.OperationsFragment;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
-import org.alfresco.mobile.android.application.security.PassCodeActivity;
-import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.WaitingDialogFragment;
+import org.opendataspace.android.app.fragments.operations.OperationsFragment;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.preferences.GeneralPreferences;
+import org.opendataspace.android.app.preferences.PasscodePreferences;
+import org.opendataspace.android.app.security.PassCodeActivity;
+import org.opendataspace.android.app.utils.UIUtils;
 
 import android.app.DialogFragment;
 import android.app.Fragment;

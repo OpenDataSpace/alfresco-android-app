@@ -15,28 +15,33 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.account;
+package org.opendataspace.android.app.operations.batch.account;
 
 import java.io.Serializable;
 import java.util.Map;
 
-import org.alfresco.mobile.android.api.model.Person;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.api.session.CloudSession;
-import org.alfresco.mobile.android.api.session.RepositorySession;
-import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import org.alfresco.mobile.android.api.session.authentication.impl.OAuthHelper;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.accounts.fragment.AccountSettingsHelper;
+
+
+
+
+
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.accounts.fragment.AccountSettingsHelper;
+import org.opendataspace.android.cmisapi.model.Person;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.opendataspace.android.cmisapi.session.CloudSession;
+import org.opendataspace.android.cmisapi.session.RepositorySession;
+import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
+import org.opendataspace.android.cmisapi.session.authentication.impl.OAuthHelper;
 
 import android.content.Context;
 
 public class LoadSessionHelper
 {
-    private static final String BASE_URL = "org.alfresco.mobile.binding.internal.baseurl";
+    private static final String BASE_URL = "org.opendataspace.binding.internal.baseurl";
 
-    private static final String USER = "org.alfresco.mobile.internal.credential.user";
+    private static final String USER = "org.opendataspace.internal.credential.user";
 
     private Context context;
 

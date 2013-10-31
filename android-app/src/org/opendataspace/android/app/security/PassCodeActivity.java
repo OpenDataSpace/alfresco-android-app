@@ -15,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.security;
+package org.opendataspace.android.app.security;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.upload.UploadFormFragment;
-import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.upload.UploadFormFragment;
+import org.opendataspace.android.app.preferences.PasscodePreferences;
 
 import android.app.Activity;
 import android.content.Intent;

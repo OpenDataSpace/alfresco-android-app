@@ -15,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.manager;
+package org.opendataspace.android.app.manager;
 
 import java.lang.reflect.Method;
 
-import com.dataspace.android.application.R;
+import org.opendataspace.android.app.R;
 
 import android.app.Activity;
 import android.content.Context;

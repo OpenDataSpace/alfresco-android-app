@@ -15,18 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.exception;
+package org.opendataspace.android.app.exception;
 
-import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
-import org.alfresco.mobile.android.api.exceptions.AlfrescoSessionException;
-import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.fragments.SimpleAlertDialogFragment;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.fragments.SimpleAlertDialogFragment;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
+import org.opendataspace.android.cmisapi.exceptions.AlfrescoSessionException;
+import org.opendataspace.android.cmisapi.exceptions.ErrorCodeRegistry;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
 import org.apache.http.HttpStatus;
 

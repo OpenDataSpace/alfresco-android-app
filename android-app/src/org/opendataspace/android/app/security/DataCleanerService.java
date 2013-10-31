@@ -1,9 +1,9 @@
-package org.alfresco.mobile.android.application.security;
+package org.opendataspace.android.app.security;
 
 import java.io.File;
 import java.util.Stack;
 
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.opendataspace.android.app.intent.IntentIntegrator;
 
 import android.app.Service;
 import android.content.Intent;

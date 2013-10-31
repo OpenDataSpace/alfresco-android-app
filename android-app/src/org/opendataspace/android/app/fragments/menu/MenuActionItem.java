@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.menu;
+package org.opendataspace.android.app.fragments.menu;
 
 /**
  * List of all Action Item menu available inside the application.

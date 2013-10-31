@@ -15,18 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.fileexplorer;
+package org.opendataspace.android.app.fragments.fileexplorer;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import org.alfresco.mobile.android.api.model.impl.PagingResultImpl;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.ListingModeFragment;
+import org.opendataspace.android.cmisapi.model.ListingContext;
+import org.opendataspace.android.cmisapi.model.PagingResult;
+import org.opendataspace.android.cmisapi.model.impl.PagingResultImpl;
+import org.opendataspace.android.commonui.fragments.BaseListFragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

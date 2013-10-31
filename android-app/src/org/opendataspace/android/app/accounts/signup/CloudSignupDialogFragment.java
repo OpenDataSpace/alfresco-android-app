@@ -15,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.accounts.signup;
+package org.opendataspace.android.app.accounts.signup;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.HomeScreenActivity;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.utils.UIUtils;
 
 import android.app.DialogFragment;
 import android.app.LoaderManager;

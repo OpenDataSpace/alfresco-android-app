@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.fileexplorer;
+package org.opendataspace.android.app.fragments.fileexplorer;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -25,21 +25,22 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.MimeTypeManager;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.AndroidVersion;
-import org.alfresco.mobile.android.application.utils.ProgressViewHolder;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.utils.Formatter;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.fragments.ListingModeFragment;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.app.manager.MimeTypeManager;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.utils.AndroidVersion;
+import org.opendataspace.android.app.utils.ProgressViewHolder;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+
+import org.opendataspace.android.commonui.fragments.BaseListAdapter;
+import org.opendataspace.android.commonui.utils.Formatter;
 
 import android.app.Activity;
 import android.app.Fragment;

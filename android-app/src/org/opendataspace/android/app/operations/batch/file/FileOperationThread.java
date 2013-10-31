@@ -15,13 +15,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.file;
+package org.opendataspace.android.app.operations.batch.file;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
+
+
+
+
+
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationThread;
+import org.opendataspace.android.asynchronous.LoaderResult;
 
 import android.content.Context;
 import android.util.Log;

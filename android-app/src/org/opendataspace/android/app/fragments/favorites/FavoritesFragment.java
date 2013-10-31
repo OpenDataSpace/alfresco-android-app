@@ -15,30 +15,37 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.favorites;
+package org.opendataspace.android.app.fragments.favorites;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.asynchronous.FavoritesLoader;
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import org.alfresco.mobile.android.api.model.impl.cloud.CloudFolderImpl;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.application.fragments.RefreshFragment;
-import org.alfresco.mobile.android.application.fragments.browser.NodeAdapter;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.ListingModeFragment;
+import org.opendataspace.android.app.fragments.RefreshFragment;
+import org.opendataspace.android.app.fragments.browser.NodeAdapter;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.asynchronous.FavoritesLoader;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.model.ListingContext;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.model.PagingResult;
+import org.opendataspace.android.cmisapi.model.impl.cloud.CloudFolderImpl;
+import org.opendataspace.android.commonui.fragments.BaseListFragment;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 
 import android.app.LoaderManager.LoaderCallbacks;

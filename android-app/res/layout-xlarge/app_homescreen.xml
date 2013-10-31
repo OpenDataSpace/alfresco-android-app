@@ -34,7 +34,7 @@
             android:layout_height="150dip"
             android:scaleType="fitCenter"
             android:src="@drawable/alfresco_logo_large" />
-
+<!--
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -60,7 +60,7 @@
             android:gravity="center"
             android:text="@string/home_sign_cloud_description"
             android:textSize="@dimen/home_description_size" />
-
+-->
         <Button
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
@@ -70,14 +70,14 @@
             android:onClick="launch"
             android:text="@string/home_account"
             android:textSize="@dimen/home_button_size" />
-
+<!--
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
             android:text="@string/home_account_description"
             android:textSize="@dimen/home_description_size" />
-
+-->
         <TextView
             android:id="@+id/help_guide"
             android:layout_width="match_parent"

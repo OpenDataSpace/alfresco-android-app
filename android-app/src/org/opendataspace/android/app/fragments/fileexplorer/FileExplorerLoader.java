@@ -15,15 +15,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.fileexplorer;
+package org.opendataspace.android.app.fragments.fileexplorer;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.alfresco.mobile.android.application.security.EncryptionUtils;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.security.EncryptionUtils;
+
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;

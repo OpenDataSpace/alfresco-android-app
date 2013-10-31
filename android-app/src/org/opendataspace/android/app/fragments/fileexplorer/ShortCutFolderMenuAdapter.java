@@ -15,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.fileexplorer;
+package org.opendataspace.android.app.fragments.fileexplorer;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.commonui.fragments.BaseListAdapter;
+import org.opendataspace.android.commonui.utils.GenericViewHolder;
 
 import android.app.Activity;
 import android.view.View;

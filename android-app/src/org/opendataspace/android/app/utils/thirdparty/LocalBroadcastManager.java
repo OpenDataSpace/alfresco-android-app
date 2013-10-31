@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.alfresco.mobile.android.application.utils.thirdparty;
+package org.opendataspace.android.app.utils.thirdparty;
 
 import java.util.ArrayList;
 import java.util.HashMap;

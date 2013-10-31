@@ -1,16 +1,23 @@
-package org.alfresco.mobile.android.application.operations.batch.node;
+package org.opendataspace.android.app.operations.batch.node;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.ContentFile;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
-import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
-import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl.ReaderListener;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationRequestImpl;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationThread;
+import org.opendataspace.android.app.utils.ContentFileProgressImpl;
+import org.opendataspace.android.app.utils.ContentFileProgressImpl.ReaderListener;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.model.Folder;
 
 import android.content.Context;
 import android.util.Log;

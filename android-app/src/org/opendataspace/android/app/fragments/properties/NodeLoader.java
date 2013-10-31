@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.properties;
+package org.opendataspace.android.app.fragments.properties;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
@@ -27,23 +27,31 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.alfresco.mobile.android.api.asynchronous.AbstractBaseLoader;
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.api.session.CloudSession;
-import org.alfresco.mobile.android.api.session.RepositorySession;
-import org.alfresco.mobile.android.api.utils.NodeRefUtils;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.fragment.AccountSettingsHelper;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.batch.utils.MapUtil;
-import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-import org.alfresco.mobile.android.application.operations.sync.utils.NodeSyncPlaceHolder;
-import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.accounts.fragment.AccountSettingsHelper;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.batch.utils.MapUtil;
+import org.opendataspace.android.app.operations.sync.SynchroManager;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.operations.sync.utils.NodeSyncPlaceHolder;
+import org.opendataspace.android.app.utils.ConnectivityUtils;
+import org.opendataspace.android.asynchronous.AbstractBaseLoader;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.opendataspace.android.cmisapi.session.CloudSession;
+import org.opendataspace.android.cmisapi.session.RepositorySession;
+import org.opendataspace.android.cmisapi.utils.NodeRefUtils;
+
 import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;

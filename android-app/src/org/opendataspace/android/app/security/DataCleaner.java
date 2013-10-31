@@ -15,18 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.security;
+package org.opendataspace.android.app.security;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.application.ApplicationManager;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerHelper;
-import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.ApplicationManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.fragments.fileexplorer.FileExplorerHelper;
+import org.opendataspace.android.app.preferences.AccountsPreferences;
+
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.content.SharedPreferences;

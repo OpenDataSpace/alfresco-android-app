@@ -15,18 +15,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.sites;
+package org.opendataspace.android.app.fragments.sites;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.asynchronous.JoinSiteRequestsLoader;
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.Site;
-import org.alfresco.mobile.android.api.model.impl.PagingResultImpl;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.asynchronous.JoinSiteRequestsLoader;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.Site;
+import org.opendataspace.android.cmisapi.model.impl.PagingResultImpl;
+import org.opendataspace.android.commonui.fragments.BaseListFragment;
 
 import android.app.Dialog;
 import android.app.LoaderManager.LoaderCallbacks;

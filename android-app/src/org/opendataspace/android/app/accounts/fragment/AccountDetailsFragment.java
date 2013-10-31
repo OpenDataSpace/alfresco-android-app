@@ -15,37 +15,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.accounts.fragment;
+package org.opendataspace.android.app.accounts.fragment;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.alfresco.mobile.android.application.ApplicationManager;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.accounts.AccountSchema;
-import org.alfresco.mobile.android.application.accounts.signup.CloudSignupLoader;
-import org.alfresco.mobile.android.application.accounts.signup.CloudSignupLoaderCallback;
-import org.alfresco.mobile.android.application.accounts.signup.CloudSignupStatusLoadeCallback;
-import org.alfresco.mobile.android.application.accounts.signup.CloudSignupStatusLoader;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.ApplicationManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.accounts.AccountSchema;
+import org.opendataspace.android.app.accounts.signup.CloudSignupLoader;
+import org.opendataspace.android.app.accounts.signup.CloudSignupLoaderCallback;
+import org.opendataspace.android.app.accounts.signup.CloudSignupStatusLoadeCallback;
+import org.opendataspace.android.app.accounts.signup.CloudSignupStatusLoader;
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.activity.HomeScreenActivity;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.preferences.AccountsPreferences;
+import org.opendataspace.android.app.preferences.GeneralPreferences;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+
+import org.opendataspace.android.commonui.fragments.BaseFragment;
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.app.AlertDialog;
 import android.app.FragmentManager;

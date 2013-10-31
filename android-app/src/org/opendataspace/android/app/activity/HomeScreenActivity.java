@@ -15,15 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.activity;
+package org.opendataspace.android.app.activity;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.fragment.AccountEditFragment;
-import org.alfresco.mobile.android.application.accounts.signup.CloudSignupDialogFragment;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.fragment.AccountEditFragment;
+import org.opendataspace.android.app.accounts.signup.CloudSignupDialogFragment;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.utils.UIUtils;
 
 import android.app.Activity;
 import android.app.FragmentManager;

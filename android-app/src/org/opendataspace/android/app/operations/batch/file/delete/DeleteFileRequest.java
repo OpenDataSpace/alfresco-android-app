@@ -15,11 +15,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.file.delete;
+package org.opendataspace.android.app.operations.batch.file.delete;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.application.operations.batch.file.FileOperationRequest;
+import org.opendataspace.android.app.operations.batch.file.FileOperationRequest;
 
 import android.database.Cursor;
 

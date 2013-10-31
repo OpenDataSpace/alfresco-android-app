@@ -16,22 +16,23 @@
  * limitations under the License.
  ******************************************************************************/
 
-package org.alfresco.mobile.android.application.preferences;
+package org.opendataspace.android.app.preferences;
 
 import java.io.File;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.favorites.FavoriteAlertDialogFragment;
-import org.alfresco.mobile.android.application.fragments.favorites.FavoriteAlertDialogFragment.OnFavoriteChangeListener;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
-import org.alfresco.mobile.android.application.security.DataProtectionUserDialogFragment;
-import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.favorites.FavoriteAlertDialogFragment;
+import org.opendataspace.android.app.fragments.favorites.FavoriteAlertDialogFragment.OnFavoriteChangeListener;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.sync.SynchroManager;
+import org.opendataspace.android.app.security.DataProtectionUserDialogFragment;
+import org.opendataspace.android.app.utils.ConnectivityUtils;
+import org.opendataspace.android.app.utils.SessionUtils;
+
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.app.Fragment;

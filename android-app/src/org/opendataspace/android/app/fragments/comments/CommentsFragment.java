@@ -15,22 +15,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.comments;
+package org.opendataspace.android.app.fragments.comments;
 
-import org.alfresco.mobile.android.api.asynchronous.CommentCreateLoader;
-import org.alfresco.mobile.android.api.model.Comment;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.services.CommentService;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.comment.CommentFragment;
-import org.alfresco.mobile.android.ui.comment.actions.CommentCreateLoaderCallback;
-import org.alfresco.mobile.android.ui.comment.listener.OnCommentCreateListener;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.exception.CloudExceptionUtils;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.asynchronous.CommentCreateLoader;
+import org.opendataspace.android.cmisapi.model.Comment;
+import org.opendataspace.android.cmisapi.model.ListingContext;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.services.CommentService;
+import org.opendataspace.android.commonui.comment.CommentFragment;
+import org.opendataspace.android.commonui.comment.actions.CommentCreateLoaderCallback;
+import org.opendataspace.android.commonui.comment.listener.OnCommentCreateListener;
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.os.Bundle;
 import android.text.Editable;

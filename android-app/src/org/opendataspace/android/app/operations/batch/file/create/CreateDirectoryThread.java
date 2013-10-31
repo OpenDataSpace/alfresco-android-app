@@ -15,16 +15,21 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.file.create;
+package org.opendataspace.android.app.operations.batch.file.create;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.Map;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.batch.file.FileOperationThread;
+
+
+
+
+
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.batch.file.FileOperationThread;
+import org.opendataspace.android.asynchronous.LoaderResult;
 
 import android.content.Context;
 import android.content.Intent;

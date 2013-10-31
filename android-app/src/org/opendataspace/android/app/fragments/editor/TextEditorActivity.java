@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.editor;
+package org.opendataspace.android.app.fragments.editor;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -26,12 +26,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.asynchronous.LoaderResult;
+
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.app.AlertDialog;
 import android.app.LoaderManager.LoaderCallbacks;

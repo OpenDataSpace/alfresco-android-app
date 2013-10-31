@@ -1,15 +1,22 @@
-package org.alfresco.mobile.android.application.operations.sync.node;
+package org.opendataspace.android.app.operations.sync.node;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.ContentFile;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationRequestImpl;
-import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationThread;
-import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
-import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl.ReaderListener;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationRequestImpl;
+import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationThread;
+import org.opendataspace.android.app.utils.ContentFileProgressImpl;
+import org.opendataspace.android.app.utils.ContentFileProgressImpl.ReaderListener;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.model.Folder;
 
 import android.content.Context;
 import android.util.Log;

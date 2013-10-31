@@ -15,9 +15,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.sync.utils;
+package org.opendataspace.android.app.operations.sync.utils;
 
-import org.alfresco.mobile.android.ui.utils.Formatter;
+import org.opendataspace.android.commonui.utils.Formatter;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 
 import android.content.Context;

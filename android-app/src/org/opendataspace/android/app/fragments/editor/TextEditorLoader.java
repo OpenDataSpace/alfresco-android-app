@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.editor;
+package org.opendataspace.android.app.fragments.editor;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,8 +24,8 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 
-import org.alfresco.mobile.android.api.asynchronous.AbstractBaseLoader;
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.opendataspace.android.asynchronous.AbstractBaseLoader;
+import org.opendataspace.android.asynchronous.LoaderResult;
 
 import android.app.Activity;
 import android.util.Log;

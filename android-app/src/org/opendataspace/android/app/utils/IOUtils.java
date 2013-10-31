@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.utils;
+package org.opendataspace.android.app.utils;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -48,7 +48,7 @@ public final class IOUtils
         InputStream sourceFile = new FileInputStream(source);
 
         // Fully qualified package due to IOUtils name conflict.
-        boolean result = org.alfresco.mobile.android.api.utils.IOUtils.copyFile(sourceFile, destFile);
+        boolean result = org.opendataspace.android.cmisapi.utils.IOUtils.copyFile(sourceFile, destFile);
 
         sourceFile.close();
 

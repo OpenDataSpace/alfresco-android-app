@@ -15,22 +15,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.account;
+package org.opendataspace.android.app.operations.batch.account;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.constants.OAuthConstant;
-import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
-import org.alfresco.mobile.android.api.model.Person;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.api.session.CloudSession;
-import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.accounts.fragment.AccountSettingsHelper;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.accounts.fragment.AccountSettingsHelper;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationThread;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.constants.OAuthConstant;
+import org.opendataspace.android.cmisapi.constants.OnPremiseConstant;
+import org.opendataspace.android.cmisapi.model.Person;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.opendataspace.android.cmisapi.session.CloudSession;
+import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
 
 import android.content.Context;
 import android.content.Intent;

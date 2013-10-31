@@ -15,22 +15,22 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.utils;
+package org.opendataspace.android.app.operations.batch.utils;
 
-import static org.alfresco.mobile.android.api.model.impl.cloud.PublicAPIPropertyIds.GUID;
-import static org.alfresco.mobile.android.api.model.impl.cloud.PublicAPIPropertyIds.NAME;
-import static org.alfresco.mobile.android.api.model.impl.cloud.PublicAPIPropertyIds.REQUEST_STATUS;
-import static org.alfresco.mobile.android.api.model.impl.cloud.PublicAPIPropertyIds.REQUEST_TYPE;
-import static org.alfresco.mobile.android.api.model.impl.cloud.PublicAPIPropertyIds.SIZEINBYTES;
+import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.GUID;
+import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.NAME;
+import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.REQUEST_STATUS;
+import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.REQUEST_TYPE;
+import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.SIZEINBYTES;
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.Property;
-import org.alfresco.mobile.android.api.model.impl.PropertyImpl;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.model.Property;
+import org.opendataspace.android.cmisapi.model.impl.PropertyImpl;
 
 import android.os.Parcel;
 import android.os.Parcelable;

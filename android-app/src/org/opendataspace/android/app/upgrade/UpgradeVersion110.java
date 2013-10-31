@@ -15,13 +15,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.upgrade;
+package org.opendataspace.android.app.upgrade;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
-import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
-import org.alfresco.mobile.android.application.utils.IOUtils;
+
+
+
+
+
+import org.opendataspace.android.app.utils.IOUtils;
+import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
+import org.opendataspace.android.cmisapi.exceptions.ErrorCodeRegistry;
 
 import android.content.Context;
 import android.os.Environment;

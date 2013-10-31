@@ -15,26 +15,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.activities;
+package org.opendataspace.android.app.fragments.activities;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.constants.CloudConstant;
-import org.alfresco.mobile.android.api.model.ActivityEntry;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.RefreshFragment;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.activitystream.ActivityStreamFragment;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.exception.CloudExceptionUtils;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.RefreshFragment;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.constants.CloudConstant;
+import org.opendataspace.android.cmisapi.model.ActivityEntry;
+import org.opendataspace.android.cmisapi.model.PagingResult;
+import org.opendataspace.android.commonui.activitystream.ActivityStreamFragment;
+import org.opendataspace.android.commonui.fragments.BaseListAdapter;
 
 import android.content.Loader;
 import android.os.Bundle;

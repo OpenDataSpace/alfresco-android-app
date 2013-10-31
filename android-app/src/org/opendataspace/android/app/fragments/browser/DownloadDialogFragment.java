@@ -15,22 +15,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.browser;
+package org.opendataspace.android.app.fragments.browser;
 
 import java.io.File;
 import java.util.Date;
 
-import org.alfresco.mobile.android.api.asynchronous.DownloadTask;
-import org.alfresco.mobile.android.api.asynchronous.DownloadTask.DownloadTaskListener;
-import org.alfresco.mobile.android.api.model.ContentFile;
-import org.alfresco.mobile.android.api.model.Document;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.actions.NodeActions;
-import org.alfresco.mobile.android.application.fragments.properties.DetailsFragment;
-import org.alfresco.mobile.android.application.intent.PublicIntent;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.actions.NodeActions;
+import org.opendataspace.android.app.fragments.properties.DetailsFragment;
+import org.opendataspace.android.app.intent.PublicIntent;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.asynchronous.DownloadTask;
+import org.opendataspace.android.asynchronous.DownloadTask.DownloadTaskListener;
+import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -145,7 +152,7 @@ public class DownloadDialogFragment extends DialogFragment implements DownloadTa
         File tmpFile = NodeActions.getTempFile(getActivity(), doc);
         if (tmpFile != null)
         {
-            org.alfresco.mobile.android.api.utils.IOUtils.ensureOrCreatePathAndFile(tmpFile);
+            org.opendataspace.android.cmisapi.utils.IOUtils.ensureOrCreatePathAndFile(tmpFile);
         }
 
         return tmpFile;

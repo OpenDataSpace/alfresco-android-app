@@ -15,18 +15,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.browser;
+package org.opendataspace.android.app.fragments.browser;
 
-import org.alfresco.mobile.android.api.model.Folder;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.node.create.CreateFolderRequest;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.operations.OperationWaitingDialogFragment;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.node.create.CreateFolderRequest;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.commonui.fragments.BaseFragment;
 
 import android.content.Context;
 import android.content.res.Configuration;

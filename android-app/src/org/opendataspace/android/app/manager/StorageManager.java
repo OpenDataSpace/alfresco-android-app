@@ -15,26 +15,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.manager;
+package org.opendataspace.android.app.manager;
 
 import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
-import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.utils.NodeRefUtils;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.IOUtils;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
+
+
+
+
+
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.utils.IOUtils;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
+import org.opendataspace.android.cmisapi.exceptions.ErrorCodeRegistry;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.utils.NodeRefUtils;
 
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
-public class StorageManager extends org.alfresco.mobile.android.ui.manager.StorageManager
+public class StorageManager extends org.opendataspace.android.commonui.manager.StorageManager
 {
     private static final String TAG = "StorageManager";
 

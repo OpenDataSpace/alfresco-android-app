@@ -15,23 +15,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.activities;
+package org.opendataspace.android.app.fragments.activities;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.alfresco.mobile.android.api.constants.CloudConstant;
-import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
-import org.alfresco.mobile.android.api.model.ActivityEntry;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.manager.MimeTypeManager;
-import org.alfresco.mobile.android.ui.manager.RenditionManager;
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.cmisapi.constants.CloudConstant;
+import org.opendataspace.android.cmisapi.constants.OnPremiseConstant;
+import org.opendataspace.android.cmisapi.model.ActivityEntry;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.opendataspace.android.commonui.fragments.BaseListAdapter;
+import org.opendataspace.android.commonui.manager.MimeTypeManager;
+import org.opendataspace.android.commonui.manager.RenditionManager;
+import org.opendataspace.android.commonui.utils.GenericViewHolder;
 
 import android.app.Activity;
 import android.graphics.Typeface;
@@ -168,29 +168,29 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
         return drawable;
     }
 
-    public static final String PREFIX_LINK = "org.alfresco.links.link";
+    public static final String PREFIX_LINK = "org.opendataspace.links.link";
 
-    public static final String PREFIX_EVENT = "org.alfresco.calendar.event";
+    public static final String PREFIX_EVENT = "org.opendataspace.calendar.event";
 
-    public static final String PREFIX_WIKI = "org.alfresco.wiki.page";
+    public static final String PREFIX_WIKI = "org.opendataspace.wiki.page";
 
-    public static final String PREFIX_FILE = "org.alfresco.documentlibrary.file";
+    public static final String PREFIX_FILE = "org.opendataspace.documentlibrary.file";
 
-    public static final String PREFIX_USER = "org.alfresco.site.user";
+    public static final String PREFIX_USER = "org.opendataspace.site.user";
 
-    public static final String PREFIX_DATALIST = "org.alfresco.datalists.list";
+    public static final String PREFIX_DATALIST = "org.opendataspace.datalists.list";
 
-    public static final String PREFIX_DISCUSSIONS = "org.alfresco.discussions";
+    public static final String PREFIX_DISCUSSIONS = "org.opendataspace.discussions";
 
-    public static final String PREFIX_FOLDER = "org.alfresco.documentlibrary.folder";
+    public static final String PREFIX_FOLDER = "org.opendataspace.documentlibrary.folder";
 
-    public static final String PREFIX_COMMENT = "org.alfresco.comments.comment";
+    public static final String PREFIX_COMMENT = "org.opendataspace.comments.comment";
 
-    public static final String PREFIX_BLOG = "org.alfresco.blog";
+    public static final String PREFIX_BLOG = "org.opendataspace.blog";
 
-    public static final String PREFIX_SUBSCRIPTION = "org.alfresco.subscriptions";
+    public static final String PREFIX_SUBSCRIPTION = "org.opendataspace.subscriptions";
 
-    public static final String PREFIX_GROUP = "org.alfresco.site.group";
+    public static final String PREFIX_GROUP = "org.opendataspace.site.group";
 
     // TODO Constant Manager ?
     @SuppressWarnings("serial")
@@ -285,57 +285,57 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
     private static final Map<String, Integer> MAP_ACTIVITY_TYPE = new HashMap<String, Integer>()
     {
         {
-            put("org.alfresco.blog.post-created", R.string.org_alfresco_blog_post_created);
-            put("org.alfresco.blog.post-updated", R.string.org_alfresco_blog_post_updated);
-            put("org.alfresco.blog.post-deleted", R.string.org_alfresco_blog_post_deleted);
-            put("org.alfresco.comments.comment-created", R.string.org_alfresco_comments_comment_created);
-            put("org.alfresco.comments.comment-updated", R.string.org_alfresco_comments_comment_updated);
-            put("org.alfresco.comments.comment-deleted", R.string.org_alfresco_comments_comment_deleted);
-            put("org.alfresco.discussions.post-created", R.string.org_alfresco_discussions_post_created);
-            put("org.alfresco.discussions.post-updated", R.string.org_alfresco_discussions_post_updated);
-            put("org.alfresco.discussions.post-deleted", R.string.org_alfresco_discussions_post_deleted);
-            put("org.alfresco.discussions.reply-created", R.string.org_alfresco_discussions_reply_created);
-            put("org.alfresco.discussions.reply-updated", R.string.org_alfresco_discussions_reply_updated);
-            put("org.alfresco.calendar.event-created", R.string.org_alfresco_calendar_event_created);
-            put("org.alfresco.calendar.event-updated", R.string.org_alfresco_calendar_event_updated);
-            put("org.alfresco.calendar.event-deleted", R.string.org_alfresco_calendar_event_deleted);
-            put("org.alfresco.documentlibrary.file-added", R.string.org_alfresco_documentlibrary_file_added);
-            put("org.alfresco.documentlibrary.files-added", R.string.org_alfresco_documentlibrary_files_added);
-            put("org.alfresco.documentlibrary.file-created", R.string.org_alfresco_documentlibrary_file_created);
-            put("org.alfresco.documentlibrary.file-deleted", R.string.org_alfresco_documentlibrary_file_deleted);
-            put("org.alfresco.documentlibrary.files-deleted", R.string.org_alfresco_documentlibrary_files_deleted);
-            put("org.alfresco.documentlibrary.file-updated", R.string.org_alfresco_documentlibrary_file_updated);
-            put("org.alfresco.documentlibrary.files-updated", R.string.org_alfresco_documentlibrary_files_updated);
-            put("org.alfresco.documentlibrary.folder-added", R.string.org_alfresco_documentlibrary_folder_added);
-            put("org.alfresco.documentlibrary.folder-deleted", R.string.org_alfresco_documentlibrary_folders_deleted);
-            put("org.alfresco.documentlibrary.folders-added", R.string.org_alfresco_documentlibrary_folder_added);
-            put("org.alfresco.documentlibrary.folders-deleted", R.string.org_alfresco_documentlibrary_folders_deleted);
-            put("org.alfresco.documentlibrary.google-docs-checkout",
+            put("org.opendataspace.blog.post-created", R.string.org_alfresco_blog_post_created);
+            put("org.opendataspace.blog.post-updated", R.string.org_alfresco_blog_post_updated);
+            put("org.opendataspace.blog.post-deleted", R.string.org_alfresco_blog_post_deleted);
+            put("org.opendataspace.comments.comment-created", R.string.org_alfresco_comments_comment_created);
+            put("org.opendataspace.comments.comment-updated", R.string.org_alfresco_comments_comment_updated);
+            put("org.opendataspace.comments.comment-deleted", R.string.org_alfresco_comments_comment_deleted);
+            put("org.opendataspace.discussions.post-created", R.string.org_alfresco_discussions_post_created);
+            put("org.opendataspace.discussions.post-updated", R.string.org_alfresco_discussions_post_updated);
+            put("org.opendataspace.discussions.post-deleted", R.string.org_alfresco_discussions_post_deleted);
+            put("org.opendataspace.discussions.reply-created", R.string.org_alfresco_discussions_reply_created);
+            put("org.opendataspace.discussions.reply-updated", R.string.org_alfresco_discussions_reply_updated);
+            put("org.opendataspace.calendar.event-created", R.string.org_alfresco_calendar_event_created);
+            put("org.opendataspace.calendar.event-updated", R.string.org_alfresco_calendar_event_updated);
+            put("org.opendataspace.calendar.event-deleted", R.string.org_alfresco_calendar_event_deleted);
+            put("org.opendataspace.documentlibrary.file-added", R.string.org_alfresco_documentlibrary_file_added);
+            put("org.opendataspace.documentlibrary.files-added", R.string.org_alfresco_documentlibrary_files_added);
+            put("org.opendataspace.documentlibrary.file-created", R.string.org_alfresco_documentlibrary_file_created);
+            put("org.opendataspace.documentlibrary.file-deleted", R.string.org_alfresco_documentlibrary_file_deleted);
+            put("org.opendataspace.documentlibrary.files-deleted", R.string.org_alfresco_documentlibrary_files_deleted);
+            put("org.opendataspace.documentlibrary.file-updated", R.string.org_alfresco_documentlibrary_file_updated);
+            put("org.opendataspace.documentlibrary.files-updated", R.string.org_alfresco_documentlibrary_files_updated);
+            put("org.opendataspace.documentlibrary.folder-added", R.string.org_alfresco_documentlibrary_folder_added);
+            put("org.opendataspace.documentlibrary.folder-deleted", R.string.org_alfresco_documentlibrary_folders_deleted);
+            put("org.opendataspace.documentlibrary.folders-added", R.string.org_alfresco_documentlibrary_folder_added);
+            put("org.opendataspace.documentlibrary.folders-deleted", R.string.org_alfresco_documentlibrary_folders_deleted);
+            put("org.opendataspace.documentlibrary.google-docs-checkout",
                     R.string.org_alfresco_documentlibrary_google_docs_checkout);
-            put("org.alfresco.documentlibrary.google-docs-checkin",
+            put("org.opendataspace.documentlibrary.google-docs-checkin",
                     R.string.org_alfresco_documentlibrary_google_docs_checkin);
-            put("org.alfresco.documentlibrary.inline-edit", R.string.org_alfresco_documentlibrary_inline_edit);
-            put("org.alfresco.documentlibrary.file-liked", R.string.org_alfresco_documentlibrary_file_liked);
-            put("org.alfresco.documentlibrary.folder-liked", R.string.org_alfresco_documentlibrary_folder_liked);
-            put("org.alfresco.wiki.page-created", R.string.org_alfresco_wiki_page_created);
-            put("org.alfresco.wiki.page-edited", R.string.org_alfresco_wiki_page_edited);
-            put("org.alfresco.wiki.page-renamed", R.string.org_alfresco_wiki_page_renamed);
-            put("org.alfresco.wiki.page-deleted", R.string.org_alfresco_wiki_page_deleted);
-            put("org.alfresco.site.group-added", R.string.org_alfresco_site_group_added);
-            put("org.alfresco.site.group-removed", R.string.org_alfresco_site_group_removed);
-            put("org.alfresco.site.group-role_changed", R.string.org_alfresco_site_group_role_changed);
-            put("org.alfresco.site.user-joined", R.string.org_alfresco_site_user_joined);
-            put("org.alfresco.site.user-left", R.string.org_alfresco_site_user_left);
-            put("org.alfresco.site.user-role-changed", R.string.org_alfresco_site_user_role_changed);
-            put("org.alfresco.links.link-created", R.string.org_alfresco_links_link_created);
-            put("org.alfresco.links.link-updated", R.string.org_alfresco_links_link_updated);
-            put("org.alfresco.links.link-deleted", R.string.org_alfresco_links_link_deleted);
-            put("org.alfresco.datalists.list-created", R.string.org_alfresco_datalists_list_created);
-            put("org.alfresco.datalists.list-updated", R.string.org_alfresco_datalists_list_updated);
-            put("org.alfresco.datalists.list-deleted", R.string.org_alfresco_datalists_list_deleted);
-            put("org.alfresco.subscriptions.followed", R.string.org_alfresco_subscriptions_followed);
-            put("org.alfresco.subscriptions.subscribed", R.string.org_alfresco_subscriptions_subscribed);
-            put("org.alfresco.profile.status-changed", R.string.org_alfresco_profile_status_changed);
+            put("org.opendataspace.documentlibrary.inline-edit", R.string.org_alfresco_documentlibrary_inline_edit);
+            put("org.opendataspace.documentlibrary.file-liked", R.string.org_alfresco_documentlibrary_file_liked);
+            put("org.opendataspace.documentlibrary.folder-liked", R.string.org_alfresco_documentlibrary_folder_liked);
+            put("org.opendataspace.wiki.page-created", R.string.org_alfresco_wiki_page_created);
+            put("org.opendataspace.wiki.page-edited", R.string.org_alfresco_wiki_page_edited);
+            put("org.opendataspace.wiki.page-renamed", R.string.org_alfresco_wiki_page_renamed);
+            put("org.opendataspace.wiki.page-deleted", R.string.org_alfresco_wiki_page_deleted);
+            put("org.opendataspace.site.group-added", R.string.org_alfresco_site_group_added);
+            put("org.opendataspace.site.group-removed", R.string.org_alfresco_site_group_removed);
+            put("org.opendataspace.site.group-role_changed", R.string.org_alfresco_site_group_role_changed);
+            put("org.opendataspace.site.user-joined", R.string.org_alfresco_site_user_joined);
+            put("org.opendataspace.site.user-left", R.string.org_alfresco_site_user_left);
+            put("org.opendataspace.site.user-role-changed", R.string.org_alfresco_site_user_role_changed);
+            put("org.opendataspace.links.link-created", R.string.org_alfresco_links_link_created);
+            put("org.opendataspace.links.link-updated", R.string.org_alfresco_links_link_updated);
+            put("org.opendataspace.links.link-deleted", R.string.org_alfresco_links_link_deleted);
+            put("org.opendataspace.datalists.list-created", R.string.org_alfresco_datalists_list_created);
+            put("org.opendataspace.datalists.list-updated", R.string.org_alfresco_datalists_list_updated);
+            put("org.opendataspace.datalists.list-deleted", R.string.org_alfresco_datalists_list_deleted);
+            put("org.opendataspace.subscriptions.followed", R.string.org_alfresco_subscriptions_followed);
+            put("org.opendataspace.subscriptions.subscribed", R.string.org_alfresco_subscriptions_subscribed);
+            put("org.opendataspace.profile.status-changed", R.string.org_alfresco_profile_status_changed);
         }
     };
 }

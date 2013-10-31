@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.browser;
+package org.opendataspace.android.app.fragments.browser;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -23,19 +23,19 @@ import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.services.DocumentFolderService;
-import org.alfresco.mobile.android.api.utils.NodeComparator;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.application.manager.MimeTypeManager;
-import org.alfresco.mobile.android.application.manager.RenditionManager;
-import org.alfresco.mobile.android.application.utils.ProgressViewHolder;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.utils.Formatter;
+import org.opendataspace.android.app.ApplicationManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.ListingModeFragment;
+import org.opendataspace.android.app.manager.MimeTypeManager;
+import org.opendataspace.android.app.manager.RenditionManager;
+import org.opendataspace.android.app.utils.ProgressViewHolder;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.services.DocumentFolderService;
+import org.opendataspace.android.cmisapi.utils.NodeComparator;
+import org.opendataspace.android.commonui.fragments.BaseListAdapter;
+import org.opendataspace.android.commonui.utils.Formatter;
 
 import android.app.Activity;
 import android.content.Context;

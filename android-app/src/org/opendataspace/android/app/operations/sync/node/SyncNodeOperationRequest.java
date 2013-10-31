@@ -15,15 +15,15 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.sync.node;
+package org.opendataspace.android.app.operations.sync.node;
 
 import java.io.Serializable;
 import java.util.Map;
 
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.batch.utils.MapUtil;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationRequestImpl;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.batch.utils.MapUtil;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationRequestImpl;
 
 import android.content.ContentValues;
 import android.database.Cursor;

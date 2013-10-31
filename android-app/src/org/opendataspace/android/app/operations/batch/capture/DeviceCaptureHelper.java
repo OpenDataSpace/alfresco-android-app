@@ -15,15 +15,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.capture;
+package org.opendataspace.android.app.operations.batch.capture;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
-import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerFragment;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
+
+
+
+
+
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
+import org.opendataspace.android.app.fragments.fileexplorer.FileExplorerFragment;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.cmisapi.model.Folder;
 
 public final class DeviceCaptureHelper
 {

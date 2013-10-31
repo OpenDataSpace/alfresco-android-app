@@ -1,15 +1,16 @@
-package org.alfresco.mobile.android.application.fragments.fileexplorer;
+package org.opendataspace.android.app.fragments.fileexplorer;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.intent.PublicIntent;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.activity.PublicDispatcherActivity;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.intent.PublicIntent;
+import org.opendataspace.android.app.manager.StorageManager;
+
+import org.opendataspace.android.commonui.fragments.BaseFragment;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
@@ -26,9 +27,9 @@ public final class FileExplorerHelper
     {
     }
 
-    public  static final String FILEEXPLORER_PREFS = "org.alfresco.mobile.android.fileexplorer.preferences";
+    public  static final String FILEEXPLORER_PREFS = "org.opendataspace.android.app.fileexplorer.preferences";
 
-    private static final String FILEEXPLORER_DEFAULT = "org.alfresco.mobile.android.fileexplorer.preferences.default";
+    private static final String FILEEXPLORER_DEFAULT = "org.opendataspace.android.app.fileexplorer.preferences.default";
 
     public static void displayNavigationMode(final Activity activity, final int mode, final boolean backStack, int menuId)
     {

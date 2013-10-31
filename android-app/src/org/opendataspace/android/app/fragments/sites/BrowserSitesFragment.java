@@ -15,24 +15,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.sites;
+package org.opendataspace.android.app.fragments.sites;
 
 import java.util.ArrayList;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import org.alfresco.mobile.android.api.model.Site;
-import org.alfresco.mobile.android.api.services.SiteService;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
-import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
-import org.alfresco.mobile.android.application.fragments.RefreshFragment;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.site.SitesFragment;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.activity.PublicDispatcherActivity;
+import org.opendataspace.android.app.exception.CloudExceptionUtils;
+import org.opendataspace.android.app.fragments.RefreshFragment;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.ListingContext;
+import org.opendataspace.android.cmisapi.model.PagingResult;
+import org.opendataspace.android.cmisapi.model.Site;
+import org.opendataspace.android.cmisapi.services.SiteService;
+import org.opendataspace.android.commonui.site.SitesFragment;
 
 import android.content.Loader;
 import android.os.Bundle;

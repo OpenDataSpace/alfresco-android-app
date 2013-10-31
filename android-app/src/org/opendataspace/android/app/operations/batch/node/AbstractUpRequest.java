@@ -15,17 +15,22 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.node;
+package org.opendataspace.android.app.operations.batch.node;
 
 import java.io.File;
 import java.io.Serializable;
 import java.util.Map;
 
-import org.alfresco.mobile.android.api.model.ContentFile;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.batch.utils.MapUtil;
-import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
+
+
+
+
+
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.batch.utils.MapUtil;
+import org.opendataspace.android.app.utils.ContentFileProgressImpl;
+import org.opendataspace.android.cmisapi.model.ContentFile;
 
 import android.content.ContentValues;
 import android.database.Cursor;

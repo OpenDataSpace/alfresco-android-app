@@ -15,31 +15,31 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.activity;
+package org.opendataspace.android.app.activity;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Site;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.exception.AlfrescoAppException;
-import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.SimpleAlertDialogFragment;
-import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
-import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.RenditionManager;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.ApplicationManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.exception.AlfrescoAppException;
+import org.opendataspace.android.app.exception.CloudExceptionUtils;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.SimpleAlertDialogFragment;
+import org.opendataspace.android.app.fragments.WaitingDialogFragment;
+import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.manager.RenditionManager;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.model.Site;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.opendataspace.android.commonui.fragments.BaseFragment;
+import org.opendataspace.android.commonui.manager.MessengerManager;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 
 import android.app.Activity;

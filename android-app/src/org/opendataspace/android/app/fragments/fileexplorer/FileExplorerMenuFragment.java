@@ -1,15 +1,16 @@
-package org.alfresco.mobile.android.application.fragments.fileexplorer;
+package org.opendataspace.android.app.fragments.fileexplorer;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.utils.UIUtils;
+
+import org.opendataspace.android.commonui.fragments.BaseFragment;
 
 import android.os.Bundle;
 import android.os.Environment;

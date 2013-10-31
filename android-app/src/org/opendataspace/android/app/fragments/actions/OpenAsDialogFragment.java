@@ -15,18 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.actions;
+package org.opendataspace.android.app.fragments.actions;
 
 import java.io.File;
 import java.util.List;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.SimpleAlertDialogFragment;
-import org.alfresco.mobile.android.application.fragments.create.DocumentTypeRecord;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.SimpleAlertDialogFragment;
+import org.opendataspace.android.app.fragments.create.DocumentTypeRecord;
+import org.opendataspace.android.app.manager.ActionManager;
+
+import org.opendataspace.android.commonui.fragments.BaseListAdapter;
+import org.opendataspace.android.commonui.manager.ActionManager.ActionManagerListener;
+import org.opendataspace.android.commonui.utils.GenericViewHolder;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -83,7 +84,7 @@ public class OpenAsDialogFragment extends DialogFragment
             {
                 DocumentTypeRecord record = (DocumentTypeRecord) l.getItemAtPosition(position);
                 // Show properties
-                org.alfresco.mobile.android.ui.manager.ActionManager.actionView(getActivity(), (File) getArguments()
+                org.opendataspace.android.commonui.manager.ActionManager.actionView(getActivity(), (File) getArguments()
                         .get(PARAM_FILE), record.mimetype, new ActionManagerListener()
                 {
                     @Override

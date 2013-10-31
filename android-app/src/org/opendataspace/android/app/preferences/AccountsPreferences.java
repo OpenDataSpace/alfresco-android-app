@@ -15,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.preferences;
+package org.opendataspace.android.app.preferences;
 
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.accounts.AccountManager;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -33,9 +33,9 @@ public final class AccountsPreferences
     private AccountsPreferences(){
     }
     
-    public static final String ACCOUNT_PREFS = "org.alfresco.mobile.android.account.preferences";
+    public static final String ACCOUNT_PREFS = "org.opendataspace.android.app.account.preferences";
 
-    public static final String ACCOUNT_DEFAULT = "org.alfresco.mobile.android.account.preferences.default";
+    public static final String ACCOUNT_DEFAULT = "org.opendataspace.android.app.account.preferences.default";
 
     public static Account getDefaultAccount(Context context)
     {

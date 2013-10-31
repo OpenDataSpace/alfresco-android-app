@@ -15,10 +15,10 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.impl;
+package org.opendataspace.android.app.operations.impl;
 
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
 
 import android.content.ContentValues;
 import android.database.Cursor;

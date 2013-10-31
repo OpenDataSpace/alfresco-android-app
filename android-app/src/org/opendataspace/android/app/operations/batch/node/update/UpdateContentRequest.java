@@ -15,12 +15,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.node.update;
+package org.opendataspace.android.app.operations.batch.node.update;
 
-import org.alfresco.mobile.android.api.model.ContentFile;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.application.operations.batch.node.AbstractUpRequest;
+
+import org.opendataspace.android.app.operations.batch.node.AbstractUpRequest;
+import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.opendataspace.android.cmisapi.model.Document;
+import org.opendataspace.android.cmisapi.model.Folder;
 
 import android.database.Cursor;
 

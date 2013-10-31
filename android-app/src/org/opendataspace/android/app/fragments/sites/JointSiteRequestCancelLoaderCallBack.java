@@ -15,14 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.sites;
+package org.opendataspace.android.app.fragments.sites;
 
-import org.alfresco.mobile.android.api.asynchronous.JoinSiteRequestCancelLoader;
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.Site;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.asynchronous.JoinSiteRequestCancelLoader;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.Site;
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.app.Fragment;
 import android.app.LoaderManager.LoaderCallbacks;

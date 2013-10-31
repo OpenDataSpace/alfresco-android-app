@@ -15,33 +15,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.activity;
+package org.opendataspace.android.app.activity;
 
 import java.io.File;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.session.CloudSession;
-import org.alfresco.mobile.android.api.session.RepositorySession;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.accounts.fragment.AccountOAuthFragment;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
-import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
-import org.alfresco.mobile.android.application.fragments.favorites.FavoritesFragment;
-import org.alfresco.mobile.android.application.fragments.favorites.FavoritesSyncFragment;
-import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerFragment;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.fragments.operations.OperationsFragment;
-import org.alfresco.mobile.android.application.fragments.sites.BrowserSitesFragment;
-import org.alfresco.mobile.android.application.fragments.upload.UploadFormFragment;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
-import org.alfresco.mobile.android.application.security.PassCodeActivity;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.accounts.fragment.AccountOAuthFragment;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.ListingModeFragment;
+import org.opendataspace.android.app.fragments.WaitingDialogFragment;
+import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
+import org.opendataspace.android.app.fragments.favorites.FavoritesFragment;
+import org.opendataspace.android.app.fragments.favorites.FavoritesSyncFragment;
+import org.opendataspace.android.app.fragments.fileexplorer.FileExplorerFragment;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.fragments.operations.OperationsFragment;
+import org.opendataspace.android.app.fragments.sites.BrowserSitesFragment;
+import org.opendataspace.android.app.fragments.upload.UploadFormFragment;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.preferences.PasscodePreferences;
+import org.opendataspace.android.app.security.PassCodeActivity;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.cmisapi.session.CloudSession;
+import org.opendataspace.android.cmisapi.session.RepositorySession;
+import org.opendataspace.android.commonui.fragments.BaseFragment;
 
 import android.app.Activity;
 import android.app.DialogFragment;

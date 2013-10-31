@@ -15,20 +15,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.sites;
+package org.opendataspace.android.app.fragments.sites;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.asynchronous.SiteFavoriteLoader;
-import org.alfresco.mobile.android.api.asynchronous.SiteMembershipLoader;
-import org.alfresco.mobile.android.api.model.Site;
-import org.alfresco.mobile.android.api.model.SiteVisibility;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.utils.AndroidVersion;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.utils.AndroidVersion;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.asynchronous.SiteFavoriteLoader;
+import org.opendataspace.android.asynchronous.SiteMembershipLoader;
+import org.opendataspace.android.cmisapi.model.Site;
+import org.opendataspace.android.cmisapi.model.SiteVisibility;
+import org.opendataspace.android.commonui.utils.GenericViewHolder;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -43,7 +50,7 @@ import android.widget.PopupMenu;
 import android.widget.PopupMenu.OnDismissListener;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 
-public class SiteAdapter extends org.alfresco.mobile.android.ui.site.SiteAdapter implements OnMenuItemClickListener
+public class SiteAdapter extends org.opendataspace.android.commonui.site.SiteAdapter implements OnMenuItemClickListener
 {
 
     private List<Site> selectedOptionItems = new ArrayList<Site>();

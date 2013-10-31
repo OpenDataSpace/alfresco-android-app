@@ -17,20 +17,20 @@
   limitations under the License.
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.dataspace.android.application"
+    package="org.opendataspace.android.app"
     android:versionCode="1"
     android:versionName="0.1" >
 
     <uses-sdk
         android:minSdkVersion="11"
-        android:targetSdkVersion="17" />
+        android:targetSdkVersion="18" />
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
-        android:name="org.alfresco.mobile.android.application.AlfrescoApplication"
+        android:name="org.opendataspace.android.app.AlfrescoApplication"
         android:allowBackup="false"
         android:configChanges="orientation|keyboardHidden"
         android:hardwareAccelerated="true"
@@ -43,7 +43,7 @@
         <!-- ALFRESCO APP -->
         <!-- *************************************************************** -->
         <activity
-            android:name="org.alfresco.mobile.android.application.activity.HomeScreenActivity"
+            android:name="org.opendataspace.android.app.activity.HomeScreenActivity"
             android:label="@string/app_name"
             android:launchMode="singleTop" >
 
@@ -74,7 +74,7 @@
             android:exported="false" />
         
         <activity
-            android:name="org.alfresco.mobile.android.application.activity.MainActivity"
+            android:name="org.opendataspace.android.app.activity.MainActivity"
             android:exported="true"
             android:launchMode="singleTop"
             android:logo="@drawable/ic_alfresco"
@@ -91,7 +91,7 @@
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
-                <action android:name="org.alfresco.mobile.android.intent.ACTION_SYNCHRO_DISPLAY" />
+                <action android:name="org.opendataspace.android.app.intent.ACTION_SYNCHRO_DISPLAY" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -122,13 +122,13 @@
 
         <!-- Private : Passcode Activity -->
         <activity
-            android:name=".security.PassCodeActivity"
+            android:name="org.opendataspace.android.app.security.PassCodeActivityityeActivity"
             android:exported="false"
             android:label="@string/app_name" />
 
         <!-- Private : Text Editor Activity -->
         <activity
-            android:name="org.alfresco.mobile.android.application.fragments.editor.TextEditorActivity"
+            android:name="org.opendataspace.android.app.fragments.editor.TextEditorActivity"
             android:exported="false"
             android:label="@string/file_editor_name"
             android:uiOptions="splitActionBarWhenNarrow"
@@ -151,7 +151,7 @@
 
         <!-- Public : Official entry point for 3rd party application -->
         <activity
-            android:name="org.alfresco.mobile.android.application.activity.PublicDispatcherActivity"
+            android:name="org.opendataspace.android.app.activity.PublicDispatcherActivity"
             android:exported="true"
             android:icon="@drawable/ic_alfresco_logo"
             android:label="@string/app_name"
@@ -169,19 +169,19 @@
         
         <!-- Internal : Activity As a Dialog -->
         <activity
-            android:name="org.alfresco.mobile.android.application.activity.PrivateDialogActivity"
+            android:name="org.opendataspace.android.app.activity.PrivateDialogActivity"
             android:exported="false"
             android:icon="@drawable/ic_alfresco_logo"
             android:label="@string/settings"
             android:logo="@drawable/ic_alfresco_logo"
             android:theme="@style/alfrescotheme_popup" >
             <intent-filter>
-                <action android:name="org.alfresco.mobile.android.intent.ACTION_DISPLAY_SETTINGS" />
+                <action android:name="org.opendataspace.android.app.intent.ACTION_DISPLAY_SETTINGS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
             <intent-filter>
-                <action android:name="org.alfresco.mobile.android.intent.ACTION_DISPLAY_OPERATIONS" />
+                <action android:name="org.opendataspace.android.app.intent.ACTION_DISPLAY_OPERATIONS" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
@@ -191,16 +191,16 @@
         <!-- Internal : CONTENT PROVIDER -->
         <!-- *************************************************************** -->
         <provider
-            android:name="org.alfresco.mobile.android.application.operations.sync.SynchroProvider"
-            android:authorities="org.alfresco.mobile.android.provider.sync"
+  			android:name="org.opendataspace.android.app.operations.sync.SynchroProvider"
+            android:authorities="org.opendataspace.android.app.provider.sync"
             android:exported="false" />
         <provider
-            android:name="org.alfresco.mobile.android.application.operations.batch.BatchOperationContentProvider"
-            android:authorities="org.alfresco.mobile.android.provider.operations"
+  			android:name="org.opendataspace.android.app.operations.batch.BatchOperationContentProvider"
+            android:authorities="org.opendataspace.android.app.provider.operations"
             android:exported="false" />
         <provider
-            android:name="org.alfresco.mobile.android.application.accounts.AccountProvider"
-            android:authorities="org.alfresco.mobile.android.provider.accounts"
+            android:name="org.opendataspace.android.app.accounts.AccountProvider"
+            android:authorities="org.opendataspace.android.app.provider.accounts"
             android:exported="false" />
 
         <!-- *************************************************************** -->
@@ -208,17 +208,17 @@
         <!-- *************************************************************** -->
         <!-- Private Service for background operations. -->
         <service
-            android:name="org.alfresco.mobile.android.application.operations.batch.BatchOperationService"
+            android:name="org.opendataspace.android.app.operations.batch.BatchOperationService"
             android:exported="false" />
         
         <!-- Private Service for sync. -->
         <service
-            android:name="org.alfresco.mobile.android.application.operations.sync.SynchroService"
+            android:name="org.opendataspace.android.app.operations.sync.SynchroServiceroService"
             android:exported="false" />
         
         <!-- Private Service for cleaning temporary data. -->
-        <service
-            android:name="org.alfresco.mobile.android.application.security.DataCleanerService"
+		<service
+            android:name="org.opendataspace.android.app.security.DataCleanerService"
             android:exported="false" />
     </application>
 

@@ -15,17 +15,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.accounts.networks;
+package org.opendataspace.android.app.accounts.networks;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.asynchronous.AbstractBaseLoader;
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.session.CloudNetwork;
-import org.alfresco.mobile.android.api.session.CloudSession;
-import org.alfresco.mobile.android.api.session.impl.CloudNetworkImpl;
-import org.alfresco.mobile.android.api.utils.messages.Messagesl18n;
+
+
+
+
+
+import org.opendataspace.android.asynchronous.AbstractBaseLoader;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.session.CloudNetwork;
+import org.opendataspace.android.cmisapi.session.CloudSession;
+import org.opendataspace.android.cmisapi.session.impl.CloudNetworkImpl;
+import org.opendataspace.android.cmisapi.utils.messages.Messagesl18n;
 
 import android.content.Context;
 

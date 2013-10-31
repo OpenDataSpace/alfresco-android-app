@@ -15,7 +15,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.capture;
+package org.opendataspace.android.app.operations.batch.capture;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -24,10 +24,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.utils.IOUtils;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.utils.IOUtils;
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.content.Intent;

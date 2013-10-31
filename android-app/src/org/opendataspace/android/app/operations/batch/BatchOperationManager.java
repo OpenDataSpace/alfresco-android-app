@@ -15,36 +15,36 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch;
+package org.opendataspace.android.app.operations.batch;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.OperationManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsGroupRecord;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountRequest;
-import org.alfresco.mobile.android.application.operations.batch.account.LoadSessionRequest;
-import org.alfresco.mobile.android.application.operations.batch.file.create.CreateDirectoryRequest;
-import org.alfresco.mobile.android.application.operations.batch.file.delete.DeleteFileRequest;
-import org.alfresco.mobile.android.application.operations.batch.file.update.RenameRequest;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
-import org.alfresco.mobile.android.application.operations.batch.node.create.CreateDocumentRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.create.CreateFolderRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.create.RetrieveDocumentNameRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.delete.DeleteNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.download.DownloadRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.favorite.FavoriteNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.like.LikeNodeRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.update.UpdateContentRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.update.UpdatePropertiesRequest;
-import org.alfresco.mobile.android.application.operations.batch.sync.CleanSyncFavoriteRequest;
-import org.alfresco.mobile.android.application.operations.batch.sync.SyncFavoriteRequest;
-import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.OperationManager;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsGroupRecord;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.account.CreateAccountRequest;
+import org.opendataspace.android.app.operations.batch.account.LoadSessionRequest;
+import org.opendataspace.android.app.operations.batch.file.create.CreateDirectoryRequest;
+import org.opendataspace.android.app.operations.batch.file.delete.DeleteFileRequest;
+import org.opendataspace.android.app.operations.batch.file.update.RenameRequest;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationRequestImpl;
+import org.opendataspace.android.app.operations.batch.node.create.CreateDocumentRequest;
+import org.opendataspace.android.app.operations.batch.node.create.CreateFolderRequest;
+import org.opendataspace.android.app.operations.batch.node.create.RetrieveDocumentNameRequest;
+import org.opendataspace.android.app.operations.batch.node.delete.DeleteNodeRequest;
+import org.opendataspace.android.app.operations.batch.node.download.DownloadRequest;
+import org.opendataspace.android.app.operations.batch.node.favorite.FavoriteNodeRequest;
+import org.opendataspace.android.app.operations.batch.node.like.LikeNodeRequest;
+import org.opendataspace.android.app.operations.batch.node.update.UpdateContentRequest;
+import org.opendataspace.android.app.operations.batch.node.update.UpdatePropertiesRequest;
+import org.opendataspace.android.app.operations.batch.sync.CleanSyncFavoriteRequest;
+import org.opendataspace.android.app.operations.batch.sync.SyncFavoriteRequest;
+import org.opendataspace.android.app.utils.ConnectivityUtils;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;

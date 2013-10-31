@@ -15,14 +15,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.sites;
+package org.opendataspace.android.app.fragments.sites;
 
 import java.util.List;
 
-import org.alfresco.mobile.android.api.model.Site;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.utils.ViewHolder;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.cmisapi.model.Site;
+import org.opendataspace.android.commonui.fragments.BaseListAdapter;
+import org.opendataspace.android.commonui.utils.ViewHolder;
 
 import android.app.Fragment;
 import android.os.Bundle;

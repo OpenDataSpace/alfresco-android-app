@@ -15,12 +15,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.manager;
+package org.opendataspace.android.app.manager;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.utils.AndroidVersion;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.utils.AndroidVersion;
+import org.opendataspace.android.app.utils.SessionUtils;
 
 import android.app.Notification;
 import android.app.Notification.Builder;

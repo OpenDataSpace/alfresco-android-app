@@ -15,20 +15,20 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.fileexplorer;
+package org.opendataspace.android.app.fragments.fileexplorer;
 
 import java.io.File;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.file.create.CreateDirectoryRequest;
-import org.alfresco.mobile.android.application.operations.batch.file.update.RenameRequest;
-import org.alfresco.mobile.android.application.utils.IOUtils;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.operations.OperationWaitingDialogFragment;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.file.create.CreateDirectoryRequest;
+import org.opendataspace.android.app.operations.batch.file.update.RenameRequest;
+import org.opendataspace.android.app.utils.IOUtils;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
 
 import android.app.DialogFragment;
 import android.content.Context;

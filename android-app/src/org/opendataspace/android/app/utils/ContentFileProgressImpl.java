@@ -15,12 +15,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.utils;
+package org.opendataspace.android.app.utils;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.alfresco.mobile.android.api.model.impl.ContentFileImpl;
+import org.opendataspace.android.cmisapi.model.impl.ContentFileImpl;
 
 /**
  * ContentFile represents an abstract way to share file between the client

@@ -1,20 +1,20 @@
-package org.alfresco.mobile.android.application.security;
+package org.opendataspace.android.app.security;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 
-import org.alfresco.mobile.android.application.VersionNumber;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.intent.PublicIntent;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.file.encryption.DataProtectionRequest;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.app.VersionNumber;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.intent.PublicIntent;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.file.encryption.DataProtectionRequest;
+import org.opendataspace.android.app.preferences.GeneralPreferences;
+import org.opendataspace.android.app.utils.IOUtils;
 
 import android.app.Activity;
 import android.app.Fragment;

@@ -15,10 +15,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.account;
+package org.opendataspace.android.app.operations.batch.account;
 
-import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
+
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationRequestImpl;
+import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
 
 import android.content.ContentValues;
 import android.database.Cursor;

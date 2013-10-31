@@ -1,21 +1,21 @@
-package org.alfresco.mobile.android.application.fragments.favorites;
+package org.opendataspace.android.app.fragments.favorites;
 
 import java.io.File;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
-import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-import org.alfresco.mobile.android.application.operations.sync.node.download.SyncDownloadRequest;
-import org.alfresco.mobile.android.application.operations.sync.node.update.SyncUpdateRequest;
-import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
-import org.alfresco.mobile.android.application.utils.IOUtils;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.sync.SyncOperation;
+import org.opendataspace.android.app.operations.sync.SynchroManager;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.operations.sync.node.download.SyncDownloadRequest;
+import org.opendataspace.android.app.operations.sync.node.update.SyncUpdateRequest;
+import org.opendataspace.android.app.utils.ContentFileProgressImpl;
+import org.opendataspace.android.app.utils.IOUtils;
+import org.opendataspace.android.app.utils.SessionUtils;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;

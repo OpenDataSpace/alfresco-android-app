@@ -15,17 +15,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.impl;
+package org.opendataspace.android.app.operations.batch.impl;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.NotificationHelper;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationUtils;
-import org.alfresco.mobile.android.application.operations.OperationsGroupResult;
-import org.alfresco.mobile.android.application.operations.impl.AbstractOperationCallback;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.manager.NotificationHelper;
+import org.opendataspace.android.app.operations.OperationRequest;
+import org.opendataspace.android.app.operations.OperationUtils;
+import org.opendataspace.android.app.operations.OperationsGroupResult;
+import org.opendataspace.android.app.operations.impl.AbstractOperationCallback;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.content.Context;
 import android.content.Intent;

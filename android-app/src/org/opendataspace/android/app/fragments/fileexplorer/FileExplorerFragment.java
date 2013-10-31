@@ -15,33 +15,40 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.fileexplorer;
+package org.opendataspace.android.app.fragments.fileexplorer;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.api.asynchronous.NodeChildrenLoader;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.services.DocumentFolderService;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
-import org.alfresco.mobile.android.application.fragments.actions.OpenAsDialogFragment;
-import org.alfresco.mobile.android.application.fragments.fileexplorer.FileActions.onFinishModeListerner;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.intent.PublicIntent;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.AndroidVersion;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.WaitingDialogFragment;
+import org.opendataspace.android.app.fragments.actions.OpenAsDialogFragment;
+import org.opendataspace.android.app.fragments.fileexplorer.FileActions.onFinishModeListerner;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.intent.PublicIntent;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.utils.AndroidVersion;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.asynchronous.NodeChildrenLoader;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.model.ListingContext;
+import org.opendataspace.android.cmisapi.services.DocumentFolderService;
+import org.opendataspace.android.commonui.fragments.BaseFragment;
+import org.opendataspace.android.commonui.manager.ActionManager.ActionManagerListener;
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -85,9 +92,9 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
 
     private long lastModifiedDate;
 
-    private static final String PARAM_SHORTCUT = "org.alfresco.mobile.android.application.param.shortcut";
+    private static final String PARAM_SHORTCUT = "org.opendataspace.android.app.param.shortcut";
 
-    private static final String PARAM_MENUID = "org.alfresco.mobile.android.application.param.menu.id";
+    private static final String PARAM_MENUID = "org.opendataspace.android.app.param.menu.id";
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS & HELPERS

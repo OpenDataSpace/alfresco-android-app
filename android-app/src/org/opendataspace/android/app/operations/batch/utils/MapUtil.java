@@ -15,7 +15,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.utils;
+package org.opendataspace.android.app.operations.batch.utils;
 
 import java.io.Serializable;
 import java.io.UnsupportedEncodingException;

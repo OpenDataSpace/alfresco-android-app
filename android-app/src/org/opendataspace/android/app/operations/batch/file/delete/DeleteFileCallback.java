@@ -15,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.file.delete;
+package org.opendataspace.android.app.operations.batch.file.delete;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationCallback;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationCallback;
 
 import android.content.Context;
 

@@ -15,13 +15,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations;
+package org.opendataspace.android.app.operations;
 
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.application.accounts.Account;
+import org.opendataspace.android.app.accounts.Account;
 
 import android.content.Context;
 

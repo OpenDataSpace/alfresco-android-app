@@ -15,10 +15,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.accounts.signup;
+package org.opendataspace.android.app.accounts.signup;
 
-import org.alfresco.mobile.android.api.asynchronous.AbstractBaseLoader;
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.opendataspace.android.asynchronous.AbstractBaseLoader;
+import org.opendataspace.android.asynchronous.LoaderResult;
 
 import android.content.Context;
 

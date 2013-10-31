@@ -15,9 +15,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.sync;
+package org.opendataspace.android.app.operations.sync;
 
-import org.alfresco.mobile.android.application.operations.Operation;
+import org.opendataspace.android.app.operations.Operation;
 
 public interface SyncOperation<T> extends Operation<T>
 {

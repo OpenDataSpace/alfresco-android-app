@@ -15,9 +15,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.exception;
+package org.opendataspace.android.app.exception;
 
-import org.alfresco.mobile.android.api.exceptions.AlfrescoException;
+import org.opendataspace.android.cmisapi.exceptions.AlfrescoException;
 
 /**
  * High Level Exception that occurs during Application context.

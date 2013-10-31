@@ -15,54 +15,61 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.browser;
+package org.opendataspace.android.app.fragments.browser;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.asynchronous.NodeChildrenLoader;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import org.alfresco.mobile.android.api.model.Permissions;
-import org.alfresco.mobile.android.api.model.Site;
-import org.alfresco.mobile.android.api.model.impl.RepositoryVersionHelper;
-import org.alfresco.mobile.android.api.model.impl.cloud.CloudFolderImpl;
-import org.alfresco.mobile.android.api.services.DocumentFolderService;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
-import org.alfresco.mobile.android.application.exception.AlfrescoAppException;
-import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.application.fragments.RefreshFragment;
-import org.alfresco.mobile.android.application.fragments.actions.AbstractActions.onFinishModeListerner;
-import org.alfresco.mobile.android.application.fragments.actions.NodeActions;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.fragments.search.KeywordSearch;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.intent.PublicIntent;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.node.create.CreateDocumentRequest;
-import org.alfresco.mobile.android.application.operations.batch.utils.NodePlaceHolder;
-import org.alfresco.mobile.android.application.utils.AndroidVersion;
-import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
-import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
-import org.alfresco.mobile.android.ui.documentfolder.NavigationFragment;
-import org.alfresco.mobile.android.ui.documentfolder.actions.CreateFolderDialogFragment;
+
+
+
+
+
+
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.activity.PublicDispatcherActivity;
+import org.opendataspace.android.app.exception.AlfrescoAppException;
+import org.opendataspace.android.app.exception.CloudExceptionUtils;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.FragmentDisplayer;
+import org.opendataspace.android.app.fragments.ListingModeFragment;
+import org.opendataspace.android.app.fragments.RefreshFragment;
+import org.opendataspace.android.app.fragments.actions.NodeActions;
+import org.opendataspace.android.app.fragments.actions.AbstractActions.onFinishModeListerner;
+import org.opendataspace.android.app.fragments.menu.MenuActionItem;
+import org.opendataspace.android.app.fragments.search.KeywordSearch;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.intent.PublicIntent;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.OperationsRequestGroup;
+import org.opendataspace.android.app.operations.batch.BatchOperationManager;
+import org.opendataspace.android.app.operations.batch.node.create.CreateDocumentRequest;
+import org.opendataspace.android.app.operations.batch.utils.NodePlaceHolder;
+import org.opendataspace.android.app.utils.AndroidVersion;
+import org.opendataspace.android.app.utils.ConnectivityUtils;
+import org.opendataspace.android.app.utils.ContentFileProgressImpl;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.asynchronous.NodeChildrenLoader;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.model.ListingContext;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.model.PagingResult;
+import org.opendataspace.android.cmisapi.model.Permissions;
+import org.opendataspace.android.cmisapi.model.Site;
+import org.opendataspace.android.cmisapi.model.impl.RepositoryVersionHelper;
+import org.opendataspace.android.cmisapi.model.impl.cloud.CloudFolderImpl;
+import org.opendataspace.android.cmisapi.services.DocumentFolderService;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.opendataspace.android.commonui.documentfolder.NavigationFragment;
+import org.opendataspace.android.commonui.documentfolder.actions.CreateFolderDialogFragment;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 
 import android.app.ActionBar;

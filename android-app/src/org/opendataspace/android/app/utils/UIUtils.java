@@ -15,17 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.utils;
+package org.opendataspace.android.app.utils;
 
 import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.fragments.help.HelpDialogFragment;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.StorageManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.fragments.help.HelpDialogFragment;
+import org.opendataspace.android.app.manager.ActionManager;
+import org.opendataspace.android.app.manager.StorageManager;
 
 import android.annotation.TargetApi;
 import android.app.ActionBar;
@@ -121,7 +121,7 @@ public class UIUtils
             if (!helpGuideFile.exists() || helpGuideFile.lastModified() < lastUpdate)
             {
                 String assetfilePath = activity.getString(R.string.help_path) + helpGuideName;
-                org.alfresco.mobile.android.api.utils.IOUtils.copyFile(activity.getAssets().open(assetfilePath),
+                org.opendataspace.android.cmisapi.utils.IOUtils.copyFile(activity.getAssets().open(assetfilePath),
                         helpGuideFile);
             }
 

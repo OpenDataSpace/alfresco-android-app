@@ -15,11 +15,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.node.delete;
+package org.opendataspace.android.app.operations.batch.node.delete;
 
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.application.operations.batch.node.NodeOperationRequest;
+
+import org.opendataspace.android.app.operations.batch.node.NodeOperationRequest;
+import org.opendataspace.android.cmisapi.model.Folder;
+import org.opendataspace.android.cmisapi.model.Node;
 
 import android.database.Cursor;
 

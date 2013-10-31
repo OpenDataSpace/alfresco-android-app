@@ -15,11 +15,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments;
+package org.opendataspace.android.app.fragments;
 
 import java.lang.reflect.Constructor;
 
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.opendataspace.android.commonui.utils.GenericViewHolder;
 
 import android.content.Context;
 import android.database.Cursor;

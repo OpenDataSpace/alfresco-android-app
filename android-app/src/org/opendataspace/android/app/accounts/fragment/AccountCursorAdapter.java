@@ -15,17 +15,18 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.accounts.fragment;
+package org.opendataspace.android.app.accounts.fragment;
 
 import java.util.List;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountSchema;
-import org.alfresco.mobile.android.application.fragments.BaseCursorLoader;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.accounts.AccountSchema;
+import org.opendataspace.android.app.fragments.BaseCursorLoader;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+
+import org.opendataspace.android.commonui.utils.GenericViewHolder;
 
 import android.content.Context;
 import android.database.Cursor;

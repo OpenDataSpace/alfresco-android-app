@@ -15,7 +15,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.sync.utils;
+package org.opendataspace.android.app.operations.sync.utils;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
@@ -26,15 +26,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.alfresco.mobile.android.api.constants.ContentModel;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.Property;
-import org.alfresco.mobile.android.api.model.PropertyType;
-import org.alfresco.mobile.android.api.model.impl.PropertyImpl;
-import org.alfresco.mobile.android.api.services.impl.AbstractDocumentFolderServiceImpl;
 import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.enums.Action;
+import org.opendataspace.android.cmisapi.constants.ContentModel;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.model.Property;
+import org.opendataspace.android.cmisapi.model.PropertyType;
+import org.opendataspace.android.cmisapi.model.impl.PropertyImpl;
+import org.opendataspace.android.cmisapi.services.impl.AbstractDocumentFolderServiceImpl;
 
 import android.os.Parcel;
 import android.os.Parcelable;

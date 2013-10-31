@@ -15,16 +15,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.properties;
+package org.opendataspace.android.app.fragments.properties;
 
-import org.alfresco.mobile.android.api.asynchronous.IsLikedLoader;
-import org.alfresco.mobile.android.api.asynchronous.LikeLoader;
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.ui.fragments.BaseLoaderCallback;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.asynchronous.IsLikedLoader;
+import org.opendataspace.android.asynchronous.LikeLoader;
+import org.opendataspace.android.asynchronous.LoaderResult;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.opendataspace.android.commonui.fragments.BaseLoaderCallback;
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;

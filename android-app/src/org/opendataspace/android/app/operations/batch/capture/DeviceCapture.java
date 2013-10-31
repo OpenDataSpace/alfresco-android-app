@@ -15,18 +15,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch.capture;
+package org.opendataspace.android.app.operations.batch.capture;
 
 import java.io.File;
 import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.application.fragments.browser.AddContentDialogFragment;
-import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerFragment;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
+
+
+
+
+
+import org.opendataspace.android.app.fragments.browser.AddContentDialogFragment;
+import org.opendataspace.android.app.fragments.fileexplorer.FileExplorerFragment;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.cmisapi.model.Folder;
 
 import android.app.Activity;
 import android.app.Fragment;

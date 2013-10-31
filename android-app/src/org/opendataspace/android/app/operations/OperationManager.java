@@ -15,13 +15,13 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations;
+package org.opendataspace.android.app.operations;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

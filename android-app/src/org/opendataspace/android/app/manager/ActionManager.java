@@ -15,24 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.manager;
+package org.opendataspace.android.app.manager;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
-import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountRequest;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
-import org.alfresco.mobile.android.ui.manager.MimeTypeManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.activity.PublicDispatcherActivity;
+import org.opendataspace.android.app.fragments.WaitingDialogFragment;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.operations.batch.account.CreateAccountRequest;
+import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
+import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.opendataspace.android.commonui.manager.MimeTypeManager;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -47,7 +47,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 
-public class ActionManager extends org.alfresco.mobile.android.ui.manager.ActionManager
+public class ActionManager extends org.opendataspace.android.commonui.manager.ActionManager
 {
     public static final String TAG = ActionManager.class.getName();
 
@@ -184,7 +184,7 @@ public class ActionManager extends org.alfresco.mobile.android.ui.manager.Action
     {
         // Retrieve list of application that understand market Intent
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("market://details?id=org.alfresco.mobile.android.application"));
+        intent.setData(Uri.parse("market://details?id=org.opendataspace.android.app"));
         final PackageManager mgr = c.getPackageManager();
         List<ResolveInfo> list = mgr.queryIntentActivities(intent, 0);
 

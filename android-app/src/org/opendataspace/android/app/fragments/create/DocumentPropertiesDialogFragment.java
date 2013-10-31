@@ -15,24 +15,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.create;
+package org.opendataspace.android.app.fragments.create;
 
-import static org.alfresco.mobile.android.application.fragments.create.DocumentTypesDialogFragment.PARAM_ACCOUNT;
-import static org.alfresco.mobile.android.application.fragments.create.DocumentTypesDialogFragment.PARAM_DOCUMENT_TYPE;
-import static org.alfresco.mobile.android.application.fragments.create.DocumentTypesDialogFragment.PARAM_FRAGMENT_TAG;
-import static org.alfresco.mobile.android.application.fragments.create.EditorsDialogFragment.PARAM_EDITOR;
+import static org.opendataspace.android.app.fragments.create.DocumentTypesDialogFragment.PARAM_ACCOUNT;
+import static org.opendataspace.android.app.fragments.create.DocumentTypesDialogFragment.PARAM_DOCUMENT_TYPE;
+import static org.opendataspace.android.app.fragments.create.DocumentTypesDialogFragment.PARAM_FRAGMENT_TAG;
+import static org.opendataspace.android.app.fragments.create.EditorsDialogFragment.PARAM_EDITOR;
 
 import java.io.File;
 import java.io.IOException;
 
-import org.alfresco.mobile.android.api.utils.IOUtils;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
-import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerFragment;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
+import org.opendataspace.android.app.fragments.fileexplorer.FileExplorerFragment;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.cmisapi.utils.IOUtils;
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

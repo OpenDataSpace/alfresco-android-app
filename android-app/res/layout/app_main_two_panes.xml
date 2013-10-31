@@ -104,7 +104,7 @@
 
         <fragment
             android:id="@+id/sliding_menu"
-            android:name="org.alfresco.mobile.android.application.fragments.menu.MainMenuFragment"
+            android:name="org.opendataspace.android.app.fragments.menu.MainMenuFragment"
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:tag="SlidingMenuFragment" />

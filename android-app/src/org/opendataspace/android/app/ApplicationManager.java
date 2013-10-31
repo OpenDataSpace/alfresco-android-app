@@ -15,18 +15,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application;
+package org.opendataspace.android.app;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.database.DatabaseManager;
-import org.alfresco.mobile.android.application.manager.RenditionManager;
-import org.alfresco.mobile.android.application.manager.UpgradeManager;
+
+
+
+
+
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.accounts.AccountManager;
+import org.opendataspace.android.app.activity.BaseActivity;
+import org.opendataspace.android.app.database.DatabaseManager;
+import org.opendataspace.android.app.manager.RenditionManager;
+import org.opendataspace.android.app.manager.UpgradeManager;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
 
 import android.app.Activity;
 import android.content.Context;

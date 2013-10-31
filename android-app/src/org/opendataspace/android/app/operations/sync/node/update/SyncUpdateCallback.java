@@ -15,15 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.sync.node.update;
+package org.opendataspace.android.app.operations.sync.node.update;
 
-import org.alfresco.mobile.android.api.model.Document;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.manager.NotificationHelper;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationCallback;
-import org.alfresco.mobile.android.application.operations.sync.node.AbstractSyncUpRequest;
-import org.alfresco.mobile.android.application.operations.sync.node.AbstractSyncUpThread;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.manager.NotificationHelper;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationCallback;
+import org.opendataspace.android.app.operations.sync.node.AbstractSyncUpRequest;
+import org.opendataspace.android.app.operations.sync.node.AbstractSyncUpThread;
+import org.opendataspace.android.cmisapi.model.Document;
 
 import android.content.Context;
 

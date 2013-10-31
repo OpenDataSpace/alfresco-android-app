@@ -15,7 +15,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.sync;
+package org.opendataspace.android.app.operations.sync;
 
 import java.util.HashMap;
 import java.util.HashSet;
@@ -23,23 +23,23 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.Operation;
-import org.alfresco.mobile.android.application.operations.Operation.OperationCallBack;
-import org.alfresco.mobile.android.application.operations.OperationsGroupInfo;
-import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationRequestImpl;
-import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationThread;
-import org.alfresco.mobile.android.application.operations.sync.node.delete.SyncDeleteCallback;
-import org.alfresco.mobile.android.application.operations.sync.node.delete.SyncDeleteRequest;
-import org.alfresco.mobile.android.application.operations.sync.node.delete.SyncDeleteThread;
-import org.alfresco.mobile.android.application.operations.sync.node.download.SyncDownloadCallBack;
-import org.alfresco.mobile.android.application.operations.sync.node.download.SyncDownloadRequest;
-import org.alfresco.mobile.android.application.operations.sync.node.download.SyncDownloadThread;
-import org.alfresco.mobile.android.application.operations.sync.node.update.SyncUpdateCallback;
-import org.alfresco.mobile.android.application.operations.sync.node.update.SyncUpdateRequest;
-import org.alfresco.mobile.android.application.operations.sync.node.update.SyncUpdateThread;
-import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.operations.Operation;
+import org.opendataspace.android.app.operations.OperationsGroupInfo;
+import org.opendataspace.android.app.operations.Operation.OperationCallBack;
+import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationRequestImpl;
+import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationThread;
+import org.opendataspace.android.app.operations.sync.node.delete.SyncDeleteCallback;
+import org.opendataspace.android.app.operations.sync.node.delete.SyncDeleteRequest;
+import org.opendataspace.android.app.operations.sync.node.delete.SyncDeleteThread;
+import org.opendataspace.android.app.operations.sync.node.download.SyncDownloadCallBack;
+import org.opendataspace.android.app.operations.sync.node.download.SyncDownloadRequest;
+import org.opendataspace.android.app.operations.sync.node.download.SyncDownloadThread;
+import org.opendataspace.android.app.operations.sync.node.update.SyncUpdateCallback;
+import org.opendataspace.android.app.operations.sync.node.update.SyncUpdateRequest;
+import org.opendataspace.android.app.operations.sync.node.update.SyncUpdateThread;
+import org.opendataspace.android.app.utils.ConnectivityUtils;
+import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;

@@ -15,12 +15,12 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.manager;
+package org.opendataspace.android.app.manager;
 
 import java.util.HashMap;
 import java.util.Map;
 
-import com.dataspace.android.application.R;
+import org.opendataspace.android.app.R;
 import org.apache.chemistry.opencmis.commons.impl.MimeTypes;
 
 /**
@@ -29,7 +29,7 @@ import org.apache.chemistry.opencmis.commons.impl.MimeTypes;
  * 
  * @author jpascal
  */
-public class MimeTypeManager extends org.alfresco.mobile.android.ui.manager.MimeTypeManager
+public class MimeTypeManager extends org.opendataspace.android.commonui.manager.MimeTypeManager
 {
 
     private static final Map<String, Integer> EXT2ICON = new HashMap<String, Integer>();

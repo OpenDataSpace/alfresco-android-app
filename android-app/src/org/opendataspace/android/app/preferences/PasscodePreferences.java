@@ -15,15 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.preferences;
+package org.opendataspace.android.app.preferences;
 
 import java.util.Date;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.security.PassCodeActivity;
-import org.alfresco.mobile.android.application.security.PassCodeDialogFragment;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.HomeScreenActivity;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.security.PassCodeActivity;
+import org.opendataspace.android.app.security.PassCodeDialogFragment;
 
 import android.content.Context;
 import android.content.SharedPreferences;

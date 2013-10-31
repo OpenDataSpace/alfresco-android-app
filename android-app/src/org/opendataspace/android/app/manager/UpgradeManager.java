@@ -15,13 +15,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.manager;
+package org.opendataspace.android.app.manager;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.application.VersionNumber;
-import org.alfresco.mobile.android.application.upgrade.UpgradeVersion110;
-import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.app.VersionNumber;
+import org.opendataspace.android.app.upgrade.UpgradeVersion110;
+import org.opendataspace.android.app.utils.IOUtils;
 
 import android.content.Context;
 import android.content.SharedPreferences;

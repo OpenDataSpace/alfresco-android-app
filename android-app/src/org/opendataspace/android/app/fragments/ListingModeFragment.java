@@ -15,11 +15,11 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments;
+package org.opendataspace.android.app.fragments;
 
 public interface ListingModeFragment
 {
-    String PARAM_MODE = "org.alfresco.mobile.android.application.param.mode";
+    String PARAM_MODE = "org.opendataspace.android.app.param.mode";
     
     /** Normal case where user can interact with everything. */
     int MODE_LISTING = 1;

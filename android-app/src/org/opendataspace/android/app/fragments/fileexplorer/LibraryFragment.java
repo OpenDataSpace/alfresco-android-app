@@ -1,17 +1,18 @@
-package org.alfresco.mobile.android.application.fragments.fileexplorer;
+package org.opendataspace.android.app.fragments.fileexplorer;
 
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.fragments.BaseCursorListFragment;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.application.fragments.SimpleAlertDialogFragment;
-import org.alfresco.mobile.android.application.fragments.fileexplorer.FileActions.onFinishModeListerner;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.BaseCursorListFragment;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.fragments.ListingModeFragment;
+import org.opendataspace.android.app.fragments.SimpleAlertDialogFragment;
+import org.opendataspace.android.app.fragments.fileexplorer.FileActions.onFinishModeListerner;
+import org.opendataspace.android.app.manager.ActionManager;
+
+import org.opendataspace.android.commonui.manager.ActionManager.ActionManagerListener;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -36,11 +37,11 @@ public class LibraryFragment extends BaseCursorListFragment implements ListingMo
 
     private int mediaTypeId;
 
-    private static final String PARAM_MEDIATYPE_ID = "org.alfresco.mobile.android.application.param.mediatypeid";
+    private static final String PARAM_MEDIATYPE_ID = "org.opendataspace.android.app.param.mediatypeid";
 
-    private static final String PARAM_SHORTCUT = "org.alfresco.mobile.android.application.param.shortcut";
+    private static final String PARAM_SHORTCUT = "org.opendataspace.android.app.param.shortcut";
 
-    private static final String PARAM_MENUID = "org.alfresco.mobile.android.application.param.menu.id";
+    private static final String PARAM_MENUID = "org.opendataspace.android.app.param.menu.id";
 
     public LibraryFragment()
     {

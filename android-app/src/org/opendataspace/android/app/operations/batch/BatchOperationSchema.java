@@ -15,9 +15,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.operations.batch;
+package org.opendataspace.android.app.operations.batch;
 
-import org.alfresco.mobile.android.application.operations.OperationSchema;
+import org.opendataspace.android.app.operations.OperationSchema;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;

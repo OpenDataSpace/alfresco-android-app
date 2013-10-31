@@ -15,15 +15,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.tags;
+package org.opendataspace.android.app.fragments.tags;
 
-import org.alfresco.mobile.android.api.model.Node;
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.tag.TagsNodeFragment;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.exception.CloudExceptionUtils;
+import org.opendataspace.android.app.fragments.DisplayUtils;
+import org.opendataspace.android.app.utils.SessionUtils;
+import org.opendataspace.android.app.utils.UIUtils;
+import org.opendataspace.android.cmisapi.model.Node;
+import org.opendataspace.android.commonui.tag.TagsNodeFragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

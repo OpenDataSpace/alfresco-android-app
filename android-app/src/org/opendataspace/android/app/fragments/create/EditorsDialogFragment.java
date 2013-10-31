@@ -15,19 +15,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.fragments.create;
+package org.opendataspace.android.app.fragments.create;
 
-import static org.alfresco.mobile.android.application.fragments.create.DocumentTypesDialogFragment.PARAM_DOCUMENT_TYPE;
+import static org.opendataspace.android.app.fragments.create.DocumentTypesDialogFragment.PARAM_DOCUMENT_TYPE;
 
 import java.io.Serializable;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.manager.ActionManager;
+
+import org.opendataspace.android.commonui.fragments.BaseListAdapter;
+import org.opendataspace.android.commonui.utils.GenericViewHolder;
 
 import android.app.Activity;
 import android.app.AlertDialog;

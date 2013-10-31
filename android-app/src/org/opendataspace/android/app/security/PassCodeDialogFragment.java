@@ -15,19 +15,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.security;
+package org.opendataspace.android.app.security;
 
-import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ACTIVATED_AT;
-import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ATTEMPT;
-import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ENABLE;
-import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_MAX_ATTEMPT;
-import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_VALUE;
+import static org.opendataspace.android.app.preferences.PasscodePreferences.KEY_PASSCODE_ACTIVATED_AT;
+import static org.opendataspace.android.app.preferences.PasscodePreferences.KEY_PASSCODE_ATTEMPT;
+import static org.opendataspace.android.app.preferences.PasscodePreferences.KEY_PASSCODE_ENABLE;
+import static org.opendataspace.android.app.preferences.PasscodePreferences.KEY_PASSCODE_MAX_ATTEMPT;
+import static org.opendataspace.android.app.preferences.PasscodePreferences.KEY_PASSCODE_VALUE;
 
-import com.dataspace.android.application.R;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
-import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
-import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.activity.MainActivity;
+import org.opendataspace.android.app.fragments.WaitingDialogFragment;
+import org.opendataspace.android.app.preferences.PasscodePreferences;
+import org.opendataspace.android.app.utils.UIUtils;
 
 import android.app.Activity;
 import android.app.DialogFragment;

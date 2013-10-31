@@ -15,11 +15,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  ******************************************************************************/
-package org.alfresco.mobile.android.application.database;
+package org.opendataspace.android.app.database;
 
-import org.alfresco.mobile.android.application.accounts.AccountSchema;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
+import org.opendataspace.android.app.accounts.AccountSchema;
+import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.operations.sync.SynchroSchema;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
