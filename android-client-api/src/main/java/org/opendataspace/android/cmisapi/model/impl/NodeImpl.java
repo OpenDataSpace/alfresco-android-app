@@ -18,7 +18,6 @@
 package org.opendataspace.android.cmisapi.model.impl;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -26,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.alfresco.cmis.client.AlfrescoAspects;
 import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
@@ -53,9 +51,6 @@ public class NodeImpl implements Node
 
     /** Map of properties available for this Node. */
     private Map<String, Property> properties;
-
-    /** List of Aspects available for this Node. */
-    private List<String> aspects;
 
     /** List of allowable actions. */
     private List<String> allowableActions;
@@ -126,19 +121,7 @@ public class NodeImpl implements Node
     {
         if (getPropertyValue(PropertyIds.OBJECT_TYPE_ID) != null)
         {
-            if (((String) getPropertyValue(PropertyIds.OBJECT_TYPE_ID))
-                    .startsWith(AbstractDocumentFolderServiceImpl.CMISPREFIX_DOCUMENT))
-            {
-                return ((String) getPropertyValue(PropertyIds.OBJECT_TYPE_ID)).replaceFirst(
-                        AbstractDocumentFolderServiceImpl.CMISPREFIX_DOCUMENT, "");
-            }
-            else if (((String) getPropertyValue(PropertyIds.OBJECT_TYPE_ID))
-                    .startsWith(AbstractDocumentFolderServiceImpl.CMISPREFIX_FOLDER))
-            {
-                return ((String) getPropertyValue(PropertyIds.OBJECT_TYPE_ID)).replaceFirst(
-                        AbstractDocumentFolderServiceImpl.CMISPREFIX_FOLDER, "");
-            }
-            else if (ObjectType.DOCUMENT_BASETYPE_ID.equals(getPropertyValue(PropertyIds.OBJECT_TYPE_ID)))
+            if (ObjectType.DOCUMENT_BASETYPE_ID.equals(getPropertyValue(PropertyIds.OBJECT_TYPE_ID)))
             {
                 return ContentModel.TYPE_CONTENT;
             }
@@ -236,45 +219,6 @@ public class NodeImpl implements Node
         {
             return null;
         }
-    }
-
-    /** {@inheritDoc} */
-    public boolean hasAspect(String aspectName)
-    {
-        String tmpAspectName = aspectName;
-        if (!aspectName.startsWith(AbstractDocumentFolderServiceImpl.CMISPREFIX_ASPECTS))
-        {
-            tmpAspectName = AbstractDocumentFolderServiceImpl.CMISPREFIX_ASPECTS + aspectName;
-        }
-        if (object != null)
-        {
-            AlfrescoAspects alf = (AlfrescoAspects) object;
-            return alf.hasAspect(tmpAspectName);
-        }
-        else if (aspects != null)
-        {
-            return aspects.contains(tmpAspectName);
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    /** {@inheritDoc} */
-    public List<String> getAspects()
-    {
-        AlfrescoAspects alf = (AlfrescoAspects) object;
-        Collection<ObjectType> c = alf.getAspects();
-        ArrayList<String> list = new ArrayList<String>(c.size());
-        for (ObjectType objectType : c)
-        {
-            if (objectType.getId() != null && !objectType.getId().isEmpty())
-            {
-                list.add(objectType.getId().replaceFirst(AbstractDocumentFolderServiceImpl.CMISPREFIX_ASPECTS, ""));
-            }
-        }
-        return list;
     }
 
     @Override
@@ -413,13 +357,11 @@ public class NodeImpl implements Node
         {
             identifier = getIdentifier();
             properties = getProperties();
-            aspects = getAspects();
             allowableActions = new ArrayList<String>(getAllowableActions());
         }
 
         dest.writeString(identifier);
         dest.writeMap(properties);
-        dest.writeList(aspects);
         dest.writeList(allowableActions);
         dest.writeString(Boolean.toString(hasAllProperties));
     }
@@ -461,8 +403,6 @@ public class NodeImpl implements Node
         this.identifier = o.readString();
         this.properties = new HashMap<String, Property>();
         o.readMap(this.properties, getClass().getClassLoader());
-        this.aspects = new ArrayList<String>();
-        o.readList(this.aspects, getClass().getClassLoader());
         this.allowableActions = new ArrayList<String>();
         o.readList(this.allowableActions, getClass().getClassLoader());
         this.hasAllProperties = Boolean.parseBoolean(o.readString());

@@ -393,5 +393,4 @@ public class CloudDocumentFolderServiceImpl extends AbstractDocumentFolderServic
         }
         return new PagingResultImpl<Node>(result, response.getHasMoreItems(), response.getSize());
     }
-
 }

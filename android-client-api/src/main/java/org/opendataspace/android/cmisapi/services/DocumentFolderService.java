@@ -222,56 +222,6 @@ public interface DocumentFolderService extends Service
     Folder createFolder(Folder parentFolder, String folderName, Map<String, Serializable> properties);
 
     /**
-     * Creates a folder object in the specified location with an optional set of
-     * properties and aspects. <br/>
-     * </p> <b>Properties</b> keys must respect the format :
-     * namespace_prefix:property_name like cm:name / cm:description<br/>
-     * <b>Aspects</b> must be a list of String that respect the format :
-     * namespace_name:aspect_name like cm:titled / cm:geographic. <br/>
-     * </p> A collection of default Alfresco aspects and properties are
-     * available inside the
-     * {@link org.opendataspace.android.cmisapi.constants.ContentModel
-     * ContentModel}</p>
-     * 
-     * @param folder : Parent Folder
-     * @param folderName : Name of the future folder
-     * @param properties : Map of properties to apply to the new folder
-     * @param aspects : List of aspects to apply to the new folder
-     * @return the newly created folder
-     * @throws AlfrescoServiceException : if network or internal problems occur
-     *             during the process.
-     */
-    Folder createFolder(Folder parentFolder, String folderName, Map<String, Serializable> properties,
-            List<String> aspects);
-
-    /**
-     * Creates a folder object in the specified location with an optional set of
-     * properties and aspects. <br/>
-     * </p> <b>Properties</b> keys must respect the format :
-     * namespace_prefix:property_name like cm:name / cm:description<br/>
-     * <b>Aspects</b> must be a list of String that respect the format :
-     * namespace_name:aspect_name like cm:titled / cm:geographic. <br/>
-     * <b>Type</b> value must respect the format :
-     * namespace_prefix:property_name like my:customfolder / cm:folder<br/>
-     * </p> A collection of default Alfresco aspects and properties are
-     * available inside the
-     * {@link org.opendataspace.android.cmisapi.constants.ContentModel
-     * ContentModel}</p>
-     * 
-     * @param folder : Parent Folder
-     * @param folderName : Name of the future folder
-     * @param properties : Map of properties to apply to the new folder
-     * @param aspects : List of aspects to apply to the new folder
-     * @param type : custom type of the folder. If null it creates a default
-     *            cm:folder.
-     * @return the newly created folder
-     * @throws AlfrescoServiceException : if network or internal problems occur
-     *             during the process.
-     */
-    Folder createFolder(Folder parentFolder, String folderName, Map<String, Serializable> properties,
-            List<String> aspects, String type);
-
-    /**
      * Creates a document object in the specified location with an optional set
      * of properties. The content for the node is taken from the provided file.<br/>
      * If the file parameter is not provided the document is created without
@@ -296,68 +246,6 @@ public interface DocumentFolderService extends Service
      */
     Document createDocument(Folder parentFolder, String documentName, Map<String, Serializable> properties,
             ContentFile file);
-
-    /**
-     * Creates a document object in the specified location with an optional set
-     * of properties. The content for the node is taken from the provided file.<br/>
-     * If the file parameter is not provided the document is created without
-     * content. <br/>
-     * If the session is bind to an onPremise server and depending on
-     * sessionSettings, this method can launch metadata extraction and thumbnail
-     * generation after creation. </p> <b>Properties</b> keys must respect the
-     * format : namespace_prefix:property_name like cm:name / cm:description<br/>
-     * <b>Aspects</b> must be a list of String that respect the format :
-     * namespace_name:aspect_name like cm:titled / cm:geographic. <br/>
-     * </p> A collection of default Alfresco aspects and properties are
-     * available inside the
-     * {@link org.opendataspace.android.cmisapi.constants.ContentModel
-     * ContentModel}</p>
-     * 
-     * @param folder: Future parent folder of a new document
-     * @param documentName
-     * @param properties : (Optional) list of property values that must be
-     *            applied
-     * @param aspects : List of aspects to apply to the new folder
-     * @param file : (Optional) ContentFile that contains data stream or file
-     * @return the newly created document object.
-     * @throws AlfrescoServiceException : if network or internal problems occur
-     *             during the process.
-     */
-    Document createDocument(Folder parentFolder, String documentName, Map<String, Serializable> properties,
-            ContentFile file, List<String> aspects);
-
-    /**
-     * Creates a document object in the specified location with an optional set
-     * of properties. The content for the node is taken from the provided file.<br/>
-     * If the file parameter is not provided the document is created without
-     * content. <br/>
-     * If the session is bind to an onPremise server and depending on
-     * sessionSettings, this method can launch metadata extraction and thumbnail
-     * generation after creation. </p><b>Properties</b> keys must respect the
-     * format : namespace_prefix:property_name like cm:name / cm:description<br/>
-     * <b>Aspects</b> must be a list of String that respect the format :
-     * namespace_name:aspect_name like cm:titled / cm:geographic. <br/>
-     * <b>Type</b> value must respect the format :
-     * namespace_prefix:property_name like my:customfolder / cm:folder<br/>
-     * </p> A collection of default Alfresco aspects and properties are
-     * available inside the
-     * {@link org.opendataspace.android.cmisapi.constants.ContentModel
-     * ContentModel}</p>
-     * 
-     * @param folder: Future parent folder of a new document
-     * @param documentName
-     * @param properties : (Optional) list of property values that must be
-     *            applied
-     * @param aspects : List of aspects to apply to the new folder
-     * @param type : custom type of the folder. If null it creates a default
-     *            cm:folder.
-     * @param file : (Optional) ContentFile that contains data stream or file
-     * @return the newly created document object.
-     * @throws AlfrescoServiceException : if network or internal problems occur
-     *             during the process.
-     */
-    Document createDocument(Folder parentFolder, String documentName, Map<String, Serializable> properties,
-            ContentFile file, List<String> aspects, String type);
 
     /**
      * Deletes the specified node.

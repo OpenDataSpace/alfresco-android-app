@@ -438,7 +438,6 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         displayIcon(node, R.drawable.mime_256_folder, (ImageView) vRoot.findViewById(R.id.preview), true);
 
         // Description
-        Integer generalPropertyTitle = null;
         tv = (TextView) vRoot.findViewById(R.id.description);
         List<String> filter = new ArrayList<String>();
         if (node.getDescription() != null && node.getDescription().length() > 0
@@ -446,29 +445,16 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         {
             vRoot.findViewById(R.id.description_group).setVisibility(View.VISIBLE);
             tv.setText(node.getDescription());
-            generalPropertyTitle = -1;
             ((TextView) vRoot.findViewById(R.id.prop_name_value)).setText(node.getName());
             filter.add(ContentModel.PROP_NAME);
         }
         else if (vRoot.findViewById(R.id.description_group) != null)
         {
             vRoot.findViewById(R.id.description_group).setVisibility(View.GONE);
-            generalPropertyTitle = R.string.metadata;
         }
 
         mTabHost = (TabHost) vRoot.findViewById(android.R.id.tabhost);
         setupTabs();
-
-        if (mTabHost == null)
-        {
-            ViewGroup parent = (ViewGroup) vRoot.findViewById(R.id.metadata);
-            ViewGroup generalGroup = createAspectPanel(inflater, parent, node, ContentModel.ASPECT_GENERAL, false,
-                    generalPropertyTitle, filter);
-            addPathProperty(generalGroup, inflater);
-            createAspectPanel(inflater, parent, node, ContentModel.ASPECT_GEOGRAPHIC);
-            createAspectPanel(inflater, parent, node, ContentModel.ASPECT_EXIF);
-            createAspectPanel(inflater, parent, node, ContentModel.ASPECT_AUDIO);
-        }
 
         // BUTTONS
         ImageView b = (ImageView) vRoot.findViewById(R.id.action_openin);
@@ -481,26 +467,6 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                 public void onClick(View v)
                 {
                     openin();
-                }
-            });
-        }
-        else
-        {
-            b.setVisibility(View.GONE);
-        }
-
-        b = (ImageView) vRoot.findViewById(R.id.action_geolocation);
-        if (node.isDocument() && node.hasAspect(ContentModel.ASPECT_GEOGRAPHIC))
-        {
-            b.setVisibility(View.VISIBLE);
-            b.setOnClickListener(new OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
-                {
-                    ActionManager.actionShowMap(DetailsFragment.this, node.getName(),
-                            node.getProperty(ContentModel.PROP_LATITUDE).getValue().toString(),
-                            node.getProperty(ContentModel.PROP_LONGITUDE).getValue().toString());
                 }
             });
         }
@@ -643,7 +609,6 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         }
 
         // Description
-        Integer generalPropertyTitle = null;
         tv = (TextView) vRoot.findViewById(R.id.description);
         List<String> filter = new ArrayList<String>();
         if (node.getDescription() != null && node.getDescription().length() > 0
@@ -653,12 +618,10 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             tv.setText(node.getDescription());
             ((TextView) vRoot.findViewById(R.id.prop_name_value)).setText(node.getName());
             filter.add(ContentModel.PROP_NAME);
-            generalPropertyTitle = -1;
         }
         else if (vRoot.findViewById(R.id.description_group) != null)
         {
             vRoot.findViewById(R.id.description_group).setVisibility(View.GONE);
-            generalPropertyTitle = R.string.metadata;
         }
 
         // Tabs
@@ -679,14 +642,6 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                 int index = (node.isDocument()) ? tabSelection : tabSelection - 1;
                 mTabHost.setCurrentTab(index);
             }
-        }
-        else
-        {
-            LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            ViewGroup parent = (ViewGroup) vRoot.findViewById(R.id.metadata);
-            ViewGroup generalGroup = createAspectPanel(inflater, parent, node, ContentModel.ASPECT_GENERAL, false,
-                    generalPropertyTitle, filter);
-            addPathProperty(generalGroup, inflater);
         }
 
         // Hide Buttons

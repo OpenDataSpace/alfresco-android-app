@@ -25,7 +25,6 @@ import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIProper
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.opendataspace.android.cmisapi.model.Node;
@@ -154,18 +153,6 @@ public class NodePlaceHolder implements Node
     private Property getProp(String name)
     {
         return (properties != null) ? properties.get(name) : null;
-    }
-
-    @Override
-    public boolean hasAspect(String aspectName)
-    {
-        return false;
-    }
-
-    @Override
-    public List<String> getAspects()
-    {
-        return null;
     }
 
     @Override

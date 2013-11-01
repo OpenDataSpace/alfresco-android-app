@@ -82,16 +82,5 @@
 			<artifactId>slf4j-android</artifactId>
 			<version>1.6.1-RC1</version>
 		</dependency>
-		<dependency>
-			<groupId>org.alfresco.cmis.client</groupId>
-			<artifactId>alfresco-opencmis-extension</artifactId>
-			<version>${alfresco.opencmis.version}</version>
-			<exclusions>
-				<exclusion>
-					<groupId>org.apache.chemistry.opencmis</groupId>
-					<artifactId>chemistry-opencmis-client-impl</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
 	</dependencies>
 </project>

@@ -118,19 +118,7 @@ public class NodeSyncPlaceHolder implements Node
     {
         if (getPropertyValue(PropertyIds.OBJECT_TYPE_ID) != null)
         {
-            if (((String) getPropertyValue(PropertyIds.OBJECT_TYPE_ID))
-                    .startsWith(AbstractDocumentFolderServiceImpl.CMISPREFIX_DOCUMENT))
-            {
-                return ((String) getPropertyValue(PropertyIds.OBJECT_TYPE_ID)).replaceFirst(
-                        AbstractDocumentFolderServiceImpl.CMISPREFIX_DOCUMENT, "");
-            }
-            else if (((String) getPropertyValue(PropertyIds.OBJECT_TYPE_ID))
-                    .startsWith(AbstractDocumentFolderServiceImpl.CMISPREFIX_FOLDER))
-            {
-                return ((String) getPropertyValue(PropertyIds.OBJECT_TYPE_ID)).replaceFirst(
-                        AbstractDocumentFolderServiceImpl.CMISPREFIX_FOLDER, "");
-            }
-            else if (ObjectType.DOCUMENT_BASETYPE_ID.equals(getPropertyValue(PropertyIds.OBJECT_TYPE_ID)))
+            if (ObjectType.DOCUMENT_BASETYPE_ID.equals(getPropertyValue(PropertyIds.OBJECT_TYPE_ID)))
             {
                 return ContentModel.TYPE_CONTENT;
             }
@@ -214,30 +202,6 @@ public class NodeSyncPlaceHolder implements Node
         {
             return null;
         }
-    }
-
-    /** {@inheritDoc} */
-    public boolean hasAspect(String aspectName)
-    {
-        String tmpAspectName = aspectName;
-        if (!aspectName.startsWith(AbstractDocumentFolderServiceImpl.CMISPREFIX_ASPECTS))
-        {
-            tmpAspectName = AbstractDocumentFolderServiceImpl.CMISPREFIX_ASPECTS + aspectName;
-        }
-        if (aspects != null)
-        {
-            return aspects.contains(tmpAspectName);
-        }
-        else
-        {
-            return false;
-        }
-    }
-
-    /** {@inheritDoc} */
-    public List<String> getAspects()
-    {
-        return null;
     }
 
     @Override

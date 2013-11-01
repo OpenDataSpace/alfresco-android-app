@@ -31,11 +31,9 @@ import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIProper
 import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.TYPE;
 import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.VERSIONLABEL;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.chemistry.opencmis.commons.impl.JSONConverter;
@@ -203,18 +201,6 @@ public class CloudNodeImpl implements Node
         {
             return null;
         }
-    }
-
-    @Override
-    public boolean hasAspect(String aspectName)
-    {
-        return false;
-    }
-
-    @Override
-    public List<String> getAspects()
-    {
-        return new ArrayList<String>(0);
     }
 
     @Override

@@ -17,7 +17,6 @@
  ******************************************************************************/
 package org.opendataspace.android.app.operations.batch.node.update;
 
-import org.alfresco.cmis.client.AlfrescoDocument;
 import org.apache.chemistry.opencmis.client.api.ObjectId;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
@@ -84,7 +83,8 @@ public class UpdateContentThread extends AbstractUpThread
                 }
 
                 Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
-                AlfrescoDocument cmisDoc = (AlfrescoDocument) cmisSession.getObject(originalDocument.getIdentifier());
+                org.apache.chemistry.opencmis.client.api.Document cmisDoc =
+                      (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(originalDocument.getIdentifier());
 
                 String idpwc = cmisDoc.getVersionSeriesCheckedOutId();
 
@@ -128,8 +128,8 @@ public class UpdateContentThread extends AbstractUpThread
                         IOUtils.getContentFileInputStream(contentFile));
 
                 ObjectId iddoc = cmisDocpwc.checkIn(false, null, c, "");
-                cmisDoc = (AlfrescoDocument) cmisSession.getObject(iddoc);
-                cmisDoc = (AlfrescoDocument) cmisDoc.getObjectOfLatestVersion(false);
+                cmisDoc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(iddoc);
+                cmisDoc = (org.apache.chemistry.opencmis.client.api.Document) cmisDoc.getObjectOfLatestVersion(false);
 
                 updatedDocument = (Document) session.getServiceRegistry().getDocumentFolderService()
                         .getNodeByIdentifier(cmisDoc.getId());

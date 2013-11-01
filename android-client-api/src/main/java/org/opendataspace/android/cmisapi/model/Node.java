@@ -19,7 +19,6 @@ package org.opendataspace.android.cmisapi.model;
 
 import java.io.Serializable;
 import java.util.GregorianCalendar;
-import java.util.List;
 import java.util.Map;
 
 import android.os.Parcelable;
@@ -133,21 +132,6 @@ public interface Node extends Serializable, Parcelable
      * @return the property value
      */
     <T> T getPropertyValue(String name);
-
-    /**
-     * Determines if the node has the specified aspect.
-     * 
-     * @param aspectName : unique identifier of aspect Name.
-     * @return true if the specified aspect is present, false otherwise
-     */
-    boolean hasAspect(String aspectName);
-
-    /**
-     * Returns all the aspects applied to the node.
-     * 
-     * @return the aspects
-     */
-    List<String> getAspects();
 
     /**
      * Indicates whether the node has all it’s metadata populated.

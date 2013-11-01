@@ -351,7 +351,7 @@ public abstract class AbstractAlfrescoSessionImpl implements AlfrescoSession, Pa
 
         // Object Factory
         sessionParameters.put(SessionParameter.OBJECT_FACTORY_CLASS,
-                "org.alfresco.cmis.client.impl.AlfrescoObjectFactoryImpl");
+                "org.apache.chemistry.opencmis.client.runtime.repository.ObjectFactoryImpl");
         addParameterIfExist(AlfrescoSession.ONPREMISE_SERVICES_CLASSNAME, AlfrescoSession.ONPREMISE_SERVICES_CLASSNAME);
     }
 
@@ -369,7 +369,7 @@ public abstract class AbstractAlfrescoSessionImpl implements AlfrescoSession, Pa
 
         // Object Factory
         sessionParameters.put(SessionParameter.OBJECT_FACTORY_CLASS,
-                "org.alfresco.cmis.client.impl.AlfrescoObjectFactoryImpl");
+                "org.apache.chemistry.opencmis.client.runtime.repository.ObjectFactoryImpl");
 
         addParameterIfExist(AlfrescoSession.CLOUD_SERVICES_CLASSNAME, AlfrescoSession.CLOUD_SERVICES_CLASSNAME);
     }

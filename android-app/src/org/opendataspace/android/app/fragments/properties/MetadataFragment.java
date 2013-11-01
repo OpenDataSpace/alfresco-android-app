@@ -18,9 +18,7 @@
 package org.opendataspace.android.app.fragments.properties;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map.Entry;
 
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.activity.BaseActivity;
@@ -28,14 +26,11 @@ import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.cmisapi.constants.ContentModel;
 import org.opendataspace.android.cmisapi.model.Folder;
 import org.opendataspace.android.cmisapi.model.Node;
-import org.opendataspace.android.cmisapi.model.PropertyType;
 import org.opendataspace.android.commonui.fragments.BaseFragment;
-import org.opendataspace.android.commonui.manager.PropertyManager;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 
 import android.graphics.Paint;
 import android.os.Bundle;
-import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -123,7 +118,6 @@ public class MetadataFragment extends BaseFragment
         grouprootview = (ViewGroup) grouprootview.findViewById(R.id.metadata);
 
         // Description
-        Integer generalPropertyTitle = null;
         TextView tv = (TextView) v.findViewById(R.id.description);
         List<String> filter = new ArrayList<String>();
         if (node.getDescription() != null && node.getDescription().length() > 0)
@@ -131,23 +125,13 @@ public class MetadataFragment extends BaseFragment
             v.findViewById(R.id.description_group).setVisibility(View.VISIBLE);
             ((TextView) v.findViewById(R.id.description_title)).setText(R.string.metadata_general);
             tv.setText(node.getDescription());
-            generalPropertyTitle = -1;
             ((TextView) v.findViewById(R.id.prop_name_value)).setText(node.getName());
             filter.add(ContentModel.PROP_NAME);
         }
         else
         {
             v.findViewById(R.id.description_group).setVisibility(View.GONE);
-            generalPropertyTitle = R.string.metadata_general;
         }
-
-        // ASPECTS
-        ViewGroup generalGroup = createAspectPanel(inflater, grouprootview, node, ContentModel.ASPECT_GENERAL, false,
-                generalPropertyTitle, filter);
-        addPathProperty(generalGroup, inflater);
-        createAspectPanel(inflater, grouprootview, node, ContentModel.ASPECT_GEOGRAPHIC);
-        createAspectPanel(inflater, grouprootview, node, ContentModel.ASPECT_EXIF);
-        createAspectPanel(inflater, grouprootview, node, ContentModel.ASPECT_AUDIO);
 
         sv.addView(v);
 
@@ -183,65 +167,6 @@ public class MetadataFragment extends BaseFragment
             });
             generalGroup.addView(vr);
         }
-    }
-
-    protected ViewGroup createAspectPanel(LayoutInflater inflater, ViewGroup parentview, Node node, String aspect,
-            boolean check, Integer overrideAspectTitle, List<String> filters)
-    {
-        ViewGroup groupview = null;
-        if (!check || node.hasAspect(aspect))
-        {
-            View v = null;
-            TextView tv = null;
-
-            ViewGroup grouprootview = (ViewGroup) inflater.inflate(R.layout.sdk_property_title, null);
-            tv = (TextView) grouprootview.findViewById(R.id.title);
-            if (overrideAspectTitle == null)
-            {
-                tv.setText(PropertyManager.getAspectLabel(aspect));
-            }
-            else if (overrideAspectTitle == -1)
-            {
-                tv.setVisibility(View.GONE);
-            }
-            else
-            {
-                tv.setText(overrideAspectTitle);
-            }
-
-            groupview = (ViewGroup) grouprootview.findViewById(R.id.group_panel);
-            for (Entry<String, Integer> map : PropertyManager.getPropertyLabel(aspect).entrySet())
-            {
-                if (node.getProperty(map.getKey()) != null && node.getProperty(map.getKey()).getValue() != null
-                        && !filters.contains(map.getKey()))
-                {
-                    v = inflater.inflate(R.layout.sdk_property_row, null);
-                    tv = (TextView) v.findViewById(R.id.propertyName);
-                    tv.setText(map.getValue());
-                    tv = (TextView) v.findViewById(R.id.propertyValue);
-                    if (PropertyType.DATETIME.equals(node.getProperty(map.getKey()).getType()))
-                    {
-                        tv.setText(DateFormat.getMediumDateFormat(getActivity()).format(
-                                ((GregorianCalendar) node.getProperty(map.getKey()).getValue()).getTime())
-                                + " "
-                                + DateFormat.getTimeFormat(getActivity()).format(
-                                        ((GregorianCalendar) node.getProperty(map.getKey()).getValue()).getTime()));
-                    }
-                    else
-                    {
-                        tv.setText(node.getProperty(map.getKey()).getValue().toString());
-                    }
-                    groupview.addView(v);
-                }
-            }
-            parentview.addView(grouprootview);
-        }
-        return groupview;
-    }
-
-    protected void createAspectPanel(LayoutInflater inflater, ViewGroup parentview, Node node, String aspect)
-    {
-        createAspectPanel(inflater, parentview, node, aspect, true, null, new ArrayList<String>(0));
     }
 
     public Folder getParentNode()
