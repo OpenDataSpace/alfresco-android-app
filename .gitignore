@@ -21,3 +21,6 @@ gen-external-apklibs
 target
 release.properties
 pom.xml.*
+
+#Mac
+.DS_Store

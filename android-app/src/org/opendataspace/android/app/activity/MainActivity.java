@@ -55,7 +55,6 @@ import org.opendataspace.android.app.fragments.versions.VersionFragment;
 import org.opendataspace.android.app.intent.IntentIntegrator;
 import org.opendataspace.android.app.intent.PublicIntent;
 import org.opendataspace.android.app.manager.ActionManager;
-import org.opendataspace.android.app.manager.ReportManager;
 import org.opendataspace.android.app.manager.StorageManager;
 import org.opendataspace.android.app.operations.batch.capture.DeviceCapture;
 import org.opendataspace.android.app.operations.batch.capture.DeviceCaptureHelper;
@@ -194,8 +193,6 @@ public class MainActivity extends BaseActivity
             }
         }
 
-        checkForUpdates();
-
         // REDIRECT To Accounts Fragment if signup process
         if (IntentIntegrator.ACTION_CHECK_SIGNUP.equals(getIntent().getAction()))
         {
@@ -239,7 +236,6 @@ public class MainActivity extends BaseActivity
     public void onResume()
     {
         super.onResume();
-        checkForCrashes();
         checkSession();
     }
 
@@ -359,19 +355,6 @@ public class MainActivity extends BaseActivity
 
         outState.putBundle(MainActivityHelper.TAG, MainActivityHelper.createBundle(outState, stackCentral,
                 currentAccount, capture, fragmentQueue, importParent));
-    }
-
-    // ///////////////////////////////////////////////////////////////////////////
-    // HockeyApp Integration
-    // ///////////////////////////////////////////////////////////////////////////
-    private void checkForCrashes()
-    {
-        ReportManager.checkForCrashes(this);
-    }
-
-    private void checkForUpdates()
-    {
-        ReportManager.checkForUpdates(this);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
