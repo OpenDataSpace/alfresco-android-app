@@ -497,9 +497,11 @@ public class MainActivity extends BaseActivity
             case R.id.menu_about:
                 displayAbout();
                 break;
+/*
             case R.id.menu_help:
                 UIUtils.displayHelp(this);
                 break;
+*/
             default:
                 break;
         }

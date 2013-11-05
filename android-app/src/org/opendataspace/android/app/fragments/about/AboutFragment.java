@@ -18,14 +18,12 @@
 package org.opendataspace.android.app.fragments.about;
 
 import org.opendataspace.android.app.R;
-import org.opendataspace.android.cmisapi.Version;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.os.Bundle;
-import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -55,8 +53,8 @@ public class AboutFragment extends DialogFragment
     {
         View v = inflater.inflate(R.layout.app_about, container, false);
 
-        TextView foo = (TextView) v.findViewById(R.id.about_description);
-        foo.setText(Html.fromHtml(getString(R.string.about_description)));
+        //TextView foo = (TextView) v.findViewById(R.id.about_description);
+        //foo.setText(Html.fromHtml(getString(R.string.about_description)));
 
         // Version Number
         TextView tv = (TextView) v.findViewById(R.id.about_buildnumber);
@@ -66,8 +64,8 @@ public class AboutFragment extends DialogFragment
             StringBuilder sb = new StringBuilder(getText(R.string.buildnumber_version));
             sb.append(" ");
             sb.append(getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName);
-            sb.append(".");
-            sb.append(getText(R.string.bamboo_buildnumber));
+            //sb.append(".");
+            //sb.append(getText(R.string.bamboo_buildnumber));
             versionNumber = sb.toString();
         }
         catch (NameNotFoundException e)
@@ -77,11 +75,13 @@ public class AboutFragment extends DialogFragment
         tv.setText(versionNumber);
 
         // SDK Version Number
+/*
         tv = (TextView) v.findViewById(R.id.about_sdknumber);
         StringBuilder sb = new StringBuilder(getText(R.string.sdknumber_version));
         sb.append(" ");
         sb.append(Version.SDK);
         tv.setText(sb.toString());
+*/
 
         return v;
     }

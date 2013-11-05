@@ -76,6 +76,9 @@ public class DocumentImpl extends NodeImpl implements Document
     /** {@inheritDoc} */
     public Boolean isLatestVersion()
     {
+        if(getPropertyValue(PropertyIds.IS_LATEST_VERSION) == null)
+            return false;
+
         return getPropertyValue(PropertyIds.IS_LATEST_VERSION);
     }
 

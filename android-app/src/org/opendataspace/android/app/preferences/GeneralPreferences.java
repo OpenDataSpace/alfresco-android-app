@@ -18,24 +18,15 @@
 
 package org.opendataspace.android.app.preferences;
 
-import java.io.File;
-
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.accounts.Account;
-import org.opendataspace.android.app.fragments.DisplayUtils;
-import org.opendataspace.android.app.fragments.FragmentDisplayer;
 import org.opendataspace.android.app.fragments.favorites.FavoriteAlertDialogFragment;
 import org.opendataspace.android.app.fragments.favorites.FavoriteAlertDialogFragment.OnFavoriteChangeListener;
-import org.opendataspace.android.app.manager.StorageManager;
 import org.opendataspace.android.app.operations.sync.SynchroManager;
-import org.opendataspace.android.app.security.DataProtectionUserDialogFragment;
 import org.opendataspace.android.app.utils.ConnectivityUtils;
 import org.opendataspace.android.app.utils.SessionUtils;
 
-import org.opendataspace.android.commonui.manager.MessengerManager;
-
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -64,7 +55,7 @@ public class GeneralPreferences extends PreferenceFragment
 
     public static final String PRIVATE_FOLDERS = "privatefolders";
 
-    private static final String PRIVATE_FOLDERS_BUTTON = "privatefoldersbutton";
+    //private static final String PRIVATE_FOLDERS_BUTTON = "privatefoldersbutton";
 
     private static final String SYNCHRO_PREFIX = "SynchroEnable-";
 
@@ -89,7 +80,7 @@ public class GeneralPreferences extends PreferenceFragment
         super.onResume();
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-
+/*
         Preference privateFoldersPref = findPreference(PRIVATE_FOLDERS_BUTTON);
 
         // DATA PROTECTION
@@ -127,8 +118,9 @@ public class GeneralPreferences extends PreferenceFragment
                 return false;
             }
         });
-
+*/
         // PASSCODE
+/*
         Boolean passcodeEnable = sharedPref.getBoolean(PasscodePreferences.KEY_PASSCODE_ENABLE, false);
         Preference pref = findPreference(getString(R.string.passcode_title));
 
@@ -154,7 +146,7 @@ public class GeneralPreferences extends PreferenceFragment
                 return false;
             }
         });
-
+*/
         // FAVORITE SYNC
         final CheckBoxPreference cpref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync));
         final CheckBoxPreference wifiPref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync_wifi));

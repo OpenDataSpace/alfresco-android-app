@@ -194,7 +194,7 @@
                 android:onClick="showMainMenuFragment"
                 android:text="@string/menu_prefs"
                 android:textColor="@android:color/white" />
-
+<!--
             <Button
                 android:id="@+id/menu_help"
                 android:layout_width="fill_parent"
@@ -207,7 +207,7 @@
                 android:onClick="showMainMenuFragment"
                 android:text="@string/menu_help"
                 android:textColor="@android:color/white" />
-
+-->
             <Button
                 android:id="@+id/menu_about"
                 android:layout_width="fill_parent"
