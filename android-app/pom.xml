@@ -72,14 +72,6 @@
 							<include>**/*.*</include>
 						</includes>
 					</resource>
-					<resource>
-						<directory>${bamboo_android_keys.directory}</directory>
-						<targetPath>${project.build.directory}/filtered-res/values</targetPath>
-						<filtering>true</filtering>
-						<includes>
-							<include>bamboo_android_keys.xml</include>
-						</includes>
-					</resource>
 				</resources>
 				<finalName>${project.artifactId}-${project.version}</finalName>
 				<plugins>
@@ -113,10 +105,10 @@
 									<includes>
 										<include>${project.build.directory}/${project.artifactId}-${project.version}.apk</include>
 									</includes>
-									<keystore>${android_keystore}</keystore>
-									<alias>${android_keystore_alias}</alias>
-									<storepass>${android_keystore_storepass}</storepass>
-									<keypass>${android_keystore_keypass}</keypass>
+									<keystore>${project.basedir}/../keystore</keystore>
+									<alias>beta</alias>
+									<storepass>d@taspace!</storepass>
+									<keypass>d@taspace!</keypass>
 									<verbose>true</verbose>
 								</configuration>
 							</execution>
@@ -165,14 +157,6 @@
 						<targetPath>${project.build.directory}/filtered-res</targetPath>
 						<includes>
 							<include>**/*.*</include>
-						</includes>
-					</resource>
-					<resource>
-						<directory>${bamboo_android_keys.directory}</directory>
-						<targetPath>${project.build.directory}/filtered-res/values</targetPath>
-						<filtering>true</filtering>
-						<includes>
-							<include>bamboo_android_keys.xml</include>
 						</includes>
 					</resource>
 				</resources>
