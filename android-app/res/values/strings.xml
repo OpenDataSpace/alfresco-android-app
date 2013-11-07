@@ -28,7 +28,6 @@
     <string name="home_sign_cloud_description">New to DataSpace ? Create a free online account to store your documents and access them from anywhere.</string>
     <string name="home_account">I already have an account</string>
     <string name="home_account_description">Choose this option if you already have an DataSpace Cloud account or you want to connect to an DataSpace Server</string>
-    <string name="home_helper">If you want to learn more about DataSpace Mobile take a look at <a href="alfresco://view_help_guide/">our guide</a> in the Help area</string>
 
     <!-- ACCOUNT WIZARD SCRE STEP 1 -->
     <string name="account_wizard_alfresco_server">DataSpace Server</string>

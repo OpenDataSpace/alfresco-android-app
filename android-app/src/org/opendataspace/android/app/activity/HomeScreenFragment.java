@@ -22,12 +22,10 @@ import org.opendataspace.android.app.utils.UIUtils;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.widget.TextView;
 
 /**
  * It's the first screen seens by the user when the application starts. Display the first step of account creation
@@ -69,9 +67,6 @@ public class HomeScreenFragment extends DialogFragment
         }
 
         View v = inflater.inflate(R.layout.app_homescreen, container, false);
-        
-        TextView tv = (TextView) v.findViewById(R.id.help_guide);
-        tv.setMovementMethod(LinkMovementMethod.getInstance());
 
         return v;
     }

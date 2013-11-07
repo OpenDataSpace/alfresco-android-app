@@ -23,7 +23,6 @@ import org.opendataspace.android.app.accounts.signup.CloudSignupDialogFragment;
 import org.opendataspace.android.app.fragments.DisplayUtils;
 import org.opendataspace.android.app.fragments.FragmentDisplayer;
 import org.opendataspace.android.app.intent.IntentIntegrator;
-import org.opendataspace.android.app.utils.UIUtils;
 
 import android.app.Activity;
 import android.app.FragmentManager;
@@ -88,11 +87,6 @@ public class HomeScreenActivity extends BaseActivity
         {
             getFragmentManager().popBackStack(AccountEditFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
             cloud(null);
-        }
-        else if (IntentIntegrator.ALFRESCO_SCHEME_SHORT.equals(intent.getData().getScheme())
-                && IntentIntegrator.HELP_GUIDE.equals(intent.getData().getHost()))
-        {
-            UIUtils.displayHelp(this);
         }
     }
 

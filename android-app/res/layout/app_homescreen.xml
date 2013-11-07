@@ -73,7 +73,7 @@
             android:gravity="center"
             android:text="@string/home_account_description"
             android:textSize="@dimen/home_description_size" />
--->
+
         <TextView
             android:id="@+id/help_guide"
             android:layout_width="match_parent"
@@ -82,6 +82,7 @@
             android:gravity="center"
             android:text="@string/home_helper"
             android:textSize="@dimen/home_description_size" />
+-->
     </LinearLayout>
 
 </ScrollView>
