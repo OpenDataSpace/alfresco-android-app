@@ -79,6 +79,7 @@ public class IsFavoriteLoaderCallBack extends BaseLoaderCallback implements Load
         {
             progressView.setVisibility(View.GONE);
         }
+        /*
         if (isFavorited.getData() == null)
         {
             Log.e(TAG, Log.getStackTraceString(isFavorited.getException()));
@@ -92,6 +93,7 @@ public class IsFavoriteLoaderCallBack extends BaseLoaderCallback implements Load
         {
             favoriteButton.setImageDrawable(context.getResources().getDrawable(R.drawable.ic_unfavorite_dark));
         }
+        */
     }
 
     @Override
