@@ -116,11 +116,12 @@ public class SyncFavoriteThread extends NodeOperationThread<Void>
             {
                 case SyncFavoriteRequest.MODE_DOCUMENTS:
                     // Retrieve list of Favorites
-                    remoteFavorites = session.getServiceRegistry().getDocumentFolderService()
-                            .getFavoriteDocuments(listingContext);
 
                     if (session instanceof CloudSession)
                     {
+                        remoteFavorites = session.getServiceRegistry().getDocumentFolderService()
+                                .getFavoriteDocuments(listingContext);
+
                         // Objects don't contain enough information
                         // We request all node object with a search query 
                         // to retrieve ContentStreamId and permissions.
@@ -204,10 +205,12 @@ public class SyncFavoriteThread extends NodeOperationThread<Void>
         {
             // USE CASE : FIRST
             // If 0 ==> Bulk Insert
-            for (Document doc : remoteFavorites.getList())
-            {
-                addSyncDownloadRequest(doc, syncScanningTimeStamp);
-            }
+            if (remoteFavorites != null)
+                for (Document doc : remoteFavorites.getList())
+                {
+                    addSyncDownloadRequest(doc, syncScanningTimeStamp);
+                }
+            
             return true;
         }
         return false;
@@ -215,6 +218,9 @@ public class SyncFavoriteThread extends NodeOperationThread<Void>
 
     private void scanUpdateItem()
     {
+        if (remoteFavorites == null)
+            return;
+
         // Favorites are present.
         // Check if new, update or delete action
         remoteFavoritesId = new ArrayList<String>(remoteFavorites.getTotalItems());
