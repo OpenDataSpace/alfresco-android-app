@@ -505,10 +505,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
 
         // BUTTONS
         b = (ImageView) vRoot.findViewById(R.id.action_favorite);
-        IsFavoriteLoaderCallBack lcb = new IsFavoriteLoaderCallBack(alfSession, this, node);
-        lcb.setImageButton(b);
-        lcb.setProgressView(vRoot.findViewById(R.id.favorite_progress));
-        lcb.execute(false);
+
         b.setOnClickListener(new OnClickListener()
         {
             @Override
