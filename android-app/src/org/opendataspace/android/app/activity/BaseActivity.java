@@ -56,6 +56,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
+import android.webkit.CookieSyncManager;
 
 /**
  * Base class for all activities.
@@ -100,7 +101,9 @@ public abstract class BaseActivity extends Activity
         filters.addAction(IntentIntegrator.ACTION_DISPLAY_DIALOG);
         filters.addAction(IntentIntegrator.ACTION_DISPLAY_ERROR);
         filters.addAction(IntentIntegrator.ACTION_DISPLAY_CERTIFICATE);
-
+        
+        CookieSyncManager.createInstance(this);
+        
         utilsReceiver = new UtilsReceiver();
         broadcastManager.registerReceiver(utilsReceiver, filters);
     }
