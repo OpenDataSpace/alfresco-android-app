@@ -109,7 +109,11 @@
 									<alias>beta</alias>
 									<storepass>d@taspace!</storepass>
 									<keypass>d@taspace!</keypass>
-									<verbose>true</verbose>
+									<verbose>false</verbose>
+									<arguments>
+                    <argument>-sigalg</argument><argument>MD5withRSA</argument>
+                    <argument>-digestalg</argument><argument>SHA1</argument>
+                  </arguments>
 								</configuration>
 							</execution>
 						</executions>
