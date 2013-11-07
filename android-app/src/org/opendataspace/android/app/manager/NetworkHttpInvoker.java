@@ -39,7 +39,6 @@ import org.apache.chemistry.opencmis.commons.impl.UrlBuilder;
 import org.opendataspace.android.app.activity.BaseActivity;
 import org.opendataspace.android.app.preferences.GeneralPreferences;
 
-import android.util.Log;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
@@ -94,9 +93,6 @@ public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.networ
         final String cookie =  getCookie(url.toString());
         if(cookie != null)
             con.addRequestProperty("Cookie", cookie);
-        //Log.e("", ">>>>>>>>>>>>>  GET COOKIE "+url.toString()+"  "+cookie);
-
-        Log.e("", "URL  "+url.toString());
 
         if (con instanceof HttpsURLConnection) {
             SSLContext sc;
