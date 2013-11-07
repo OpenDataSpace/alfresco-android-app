@@ -25,14 +25,16 @@ import java.security.cert.CertificateNotYetValidException;
 
 import javax.net.ssl.SSLHandshakeException;
 
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.utils.ConnectivityUtils;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisRuntimeException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisUnauthorizedException;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.preferences.GeneralPreferences;
+import org.opendataspace.android.app.utils.ConnectivityUtils;
 
 import android.content.Context;
+import android.util.Log;
 
 /**
  * Helper class to find the right user message to display when an exception has
@@ -46,7 +48,7 @@ public final class SessionExceptionHelper
     private SessionExceptionHelper()
     {
     }
-    
+
     /**
      * Return user friendly message Id for a specific exception.
      * 
@@ -54,94 +56,65 @@ public final class SessionExceptionHelper
      * @param e : exception occured
      * @return message Id
      */
-    public static int getMessageId(Context context, Exception e)
+    public static int getMessageId(final Context context, final Exception e)
     {
         int messageId = R.string.error_session_creation;
 
         // Case where the user has no right (server configuration or wrong
         // username/password)
         if (e.getCause() instanceof CmisUnauthorizedException)
-        {
             messageId = R.string.error_session_unauthorized;
-        }
-        // Case where the ALL url seems to be wrong.
         else if (e.getCause() instanceof CmisObjectNotFoundException)
-        {
             messageId = R.string.error_session_service_url;
-        }
-        // Case where the port seems to be wrong.
         else if (e.getCause() instanceof CmisRuntimeException && e.getCause().getMessage().contains("Service Temporarily Unavailable"))
-        {
             messageId = R.string.error_session_service_unavailable;
-        }
-        // Case where the port seems to be wrong.
         else if (e.getCause() instanceof CmisRuntimeException && e.getCause().getMessage().contains("Found"))
-        {
             messageId = R.string.error_session_port;
-        }
-        // Case where the hostname is wrong or no data connection.
         else if (e.getCause() instanceof CmisConnectionException
                 && e.getCause().getCause() instanceof UnknownHostException)
         {
             if (ConnectivityUtils.hasInternetAvailable(context))
-            {
                 messageId = R.string.error_session_hostname;
-            }
             else
-            {
                 messageId = R.string.error_session_nodata;
-            }
         }
         // Case where missing certificate / untrusted certificate
         else if (e.getCause() instanceof CmisConnectionException
                 && e.getCause().getCause() instanceof SSLHandshakeException
                 && (e.getCause().getCause().getCause() instanceof CertPathValidatorException || e.getCause().getCause()
                         .getCause() instanceof CertificateException)
-                && e.getCause().getCause().getCause().getMessage()
+                        && e.getCause().getCause().getCause().getMessage()
                         .contains("Trust anchor for certification path not found."))
-        {
             messageId = R.string.error_session_certificate;
-        }
-        // Case where the certificate has expired or is not yet valid.
         else if (e.getCause() instanceof CmisConnectionException
                 && e.getCause().getCause() instanceof SSLHandshakeException
                 && e.getCause().getCause().getCause() instanceof CertificateException
                 && e.getCause().getCause().getCause().getMessage()
-                        .contains("Could not validate certificate: current time:"))
-        {
+                .contains("Could not validate certificate: current time:"))
             messageId = R.string.error_session_certificate_expired;
-        }
-        // Case where the certificate has expired or is not yet valid.
         else if (e.getCause() instanceof CmisConnectionException
                 && e.getCause().getCause() instanceof SSLHandshakeException
                 && (e.getCause().getCause().getCause() instanceof CertificateExpiredException || e.getCause()
                         .getCause().getCause() instanceof CertificateNotYetValidException))
-        {
             messageId = R.string.error_session_certificate_expired;
-        }
-        // Generic Certificate error
         else if (e.getCause() instanceof CmisConnectionException
                 && e.getCause().getCause() instanceof SSLHandshakeException
                 && e.getCause().getCause().getCause() instanceof CertificateException)
-        {
             messageId = R.string.error_session_certificate;
-        }
-        // Generic SSL error
         else if (e.getCause() instanceof CmisConnectionException
                 && e.getCause().getCause() instanceof SSLHandshakeException)
-        {
             messageId = R.string.error_session_ssl;
-        }
-        // Case where the service url seems to be wrong.
         else if (e.getCause() instanceof CmisConnectionException && e.getCause().getMessage().contains("Cannot access"))
         {
-            messageId = R.string.error_session_notfound;
-        }
-        else
-        // Default case. We don't know what's wrong...
-        {
+            Log.e("", "Message  "+ e.getCause().getMessage());
+            if(GeneralPreferences.getSertificatePref(context) != 1){
+                //Log.e("", "Set ERROR");
+                messageId = R.string.error_sertif_valid;
+                GeneralPreferences.setSertificatePref(-1,context);
+            } else
+                messageId = R.string.error_session_notfound;
+        } else
             messageId = R.string.error_session_creation;
-        }
 
         return messageId;
     }

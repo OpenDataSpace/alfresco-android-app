@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,6 +20,7 @@ package org.opendataspace.android.app.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.opendataspace.android.app.ApplicationManager;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.accounts.Account;
@@ -32,7 +33,9 @@ import org.opendataspace.android.app.fragments.SimpleAlertDialogFragment;
 import org.opendataspace.android.app.fragments.WaitingDialogFragment;
 import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
 import org.opendataspace.android.app.intent.IntentIntegrator;
+import org.opendataspace.android.app.manager.NetworkHttpInvoker;
 import org.opendataspace.android.app.manager.RenditionManager;
+import org.opendataspace.android.app.preferences.GeneralPreferences;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
 import org.opendataspace.android.cmisapi.model.Folder;
@@ -40,16 +43,18 @@ import org.opendataspace.android.cmisapi.model.Site;
 import org.opendataspace.android.cmisapi.session.AlfrescoSession;
 import org.opendataspace.android.commonui.fragments.BaseFragment;
 import org.opendataspace.android.commonui.manager.MessengerManager;
-import org.apache.chemistry.opencmis.commons.PropertyIds;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.DialogFragment;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 
 /**
@@ -75,19 +80,27 @@ public abstract class BaseActivity extends Activity
 
     protected RenditionManager renditionManager;
 
+    private static Context mContext = null;
+
     // ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE
     // ///////////////////////////////////////////////////////////////////////////
-    public void onCreate(Bundle savedInstanceState)
+    @Override
+    public void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+
+        mContext = getApplicationContext();
+
         broadcastManager = LocalBroadcastManager.getInstance(this);
         applicationManager = ApplicationManager.getInstance(this);
         accountManager = applicationManager.getAccountManager();
 
-        IntentFilter filters = new IntentFilter();
+        final IntentFilter filters = new IntentFilter();
         filters.addAction(IntentIntegrator.ACTION_DISPLAY_DIALOG);
         filters.addAction(IntentIntegrator.ACTION_DISPLAY_ERROR);
+        filters.addAction(IntentIntegrator.ACTION_DISPLAY_CERTIFICATE);
+
         utilsReceiver = new UtilsReceiver();
         broadcastManager.registerReceiver(utilsReceiver, filters);
     }
@@ -96,9 +109,7 @@ public abstract class BaseActivity extends Activity
     protected void onStart()
     {
         if (accountManager == null)
-        {
             accountManager = applicationManager.getAccountManager();
-        }
         if (applicationManager == null)
         {
             applicationManager = ApplicationManager.getInstance(this);
@@ -111,17 +122,15 @@ public abstract class BaseActivity extends Activity
     protected void onStop()
     {
         super.onStop();
-        for (BroadcastReceiver bReceiver : receivers)
-        {
+        for (final BroadcastReceiver bReceiver : receivers)
             broadcastManager.unregisterReceiver(bReceiver);
-        }
         receivers.clear();
     }
 
     // ///////////////////////////////////////////////////////////////////////////
     // UTILS
     // ///////////////////////////////////////////////////////////////////////////
-    public Fragment getFragment(String tag)
+    public Fragment getFragment(final String tag)
     {
         return getFragmentManager().findFragmentByTag(tag);
     }
@@ -130,23 +139,19 @@ public abstract class BaseActivity extends Activity
     {
         int id = R.id.left_pane_body;
         if (DisplayUtils.hasCentralPane(this))
-        {
             id = R.id.central_pane_body;
-        }
         return id;
     }
 
-    protected int getFragmentPlace(boolean forceRight)
+    protected int getFragmentPlace(final boolean forceRight)
     {
         int id = R.id.left_pane_body;
         if (forceRight && DisplayUtils.hasCentralPane(this))
-        {
             id = R.id.central_pane_body;
-        }
         return id;
     }
 
-    protected boolean isVisible(String tag)
+    protected boolean isVisible(final String tag)
     {
         return getFragmentManager().findFragmentByTag(tag) != null
                 && getFragmentManager().findFragmentByTag(tag).isAdded();
@@ -155,28 +160,24 @@ public abstract class BaseActivity extends Activity
     public void displayWaitingDialog()
     {
         if (getFragmentManager().findFragmentByTag(WaitingDialogFragment.TAG) == null)
-        {
             new WaitingDialogFragment().show(getFragmentManager(), WaitingDialogFragment.TAG);
-        }
     }
 
     public void removeWaitingDialog()
     {
         if (getFragmentManager().findFragmentByTag(WaitingDialogFragment.TAG) != null)
-        {
             ((WaitingDialogFragment) getFragmentManager().findFragmentByTag(WaitingDialogFragment.TAG)).dismiss();
-        }
     }
 
     // ///////////////////////////////////////////////////////////////////////////
     // ACCOUNTS / SESSION MANAGEMENT
     // ///////////////////////////////////////////////////////////////////////////
-    public void setCurrentAccount(Account account)
+    public void setCurrentAccount(final Account account)
     {
         this.currentAccount = account;
     }
 
-    public void setCurrentAccount(long accountId)
+    public void setCurrentAccount(final long accountId)
     {
         this.currentAccount = AccountManager.retrieveAccount(this, accountId);
     }
@@ -189,9 +190,7 @@ public abstract class BaseActivity extends Activity
     public AlfrescoSession getCurrentSession()
     {
         if (currentAccount == null)
-        {
             currentAccount = applicationManager.getCurrentAccount();
-        }
 
         return currentAccount != null ? applicationManager.getSession(currentAccount.getId()) : null;
     }
@@ -204,7 +203,7 @@ public abstract class BaseActivity extends Activity
         return renditionManager;
     }
 
-    public void setRenditionManager(RenditionManager renditionManager)
+    public void setRenditionManager(final RenditionManager renditionManager)
     {
         this.renditionManager = renditionManager;
     }
@@ -217,53 +216,59 @@ public abstract class BaseActivity extends Activity
     // ///////////////////////////////////////////////////////////////////////////
     // FRAGMENT UTILITY
     // ///////////////////////////////////////////////////////////////////////////
-    public void addBrowserFragment(String path)
+    public void addBrowserFragment(final String path)
     {
-        if (path == null) { return; }
+        if (path == null)
+            return;
 
-        ChildrenBrowserFragment mFragment = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
-        if (mFragment != null && path.equals(mFragment.getParent().getPropertyValue(PropertyIds.PATH))) { return; }
+        final ChildrenBrowserFragment mFragment = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
+        if (mFragment != null && path.equals(mFragment.getParent().getPropertyValue(PropertyIds.PATH)))
+            return;
 
-        BaseFragment frag = ChildrenBrowserFragment.newInstance(path);
+        final BaseFragment frag = ChildrenBrowserFragment.newInstance(path);
         frag.setSession(SessionUtils.getSession(this));
         FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                 ChildrenBrowserFragment.TAG, true);
     }
 
-    public void addNavigationFragment(Folder f)
+    public void addNavigationFragment(final Folder f)
     {
-        if (f == null) { return; }
+        if (f == null)
+            return;
 
-        ChildrenBrowserFragment mFragment = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
-        if (mFragment != null && f.getIdentifier().equals(mFragment.getParent().getIdentifier())) { return; }
+        final ChildrenBrowserFragment mFragment = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
+        if (mFragment != null && f.getIdentifier().equals(mFragment.getParent().getIdentifier()))
+            return;
 
-        BaseFragment frag = ChildrenBrowserFragment.newInstance(f);
+        final BaseFragment frag = ChildrenBrowserFragment.newInstance(f);
         frag.setSession(SessionUtils.getSession(this));
         FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                 ChildrenBrowserFragment.TAG, true);
     }
 
-    public void addNavigationFragment(Site site, Folder f)
+    public void addNavigationFragment(final Site site, final Folder f)
     {
-        if (f == null) { return; }
+        if (f == null)
+            return;
         if (site == null)
         {
             addNavigationFragment(f);
             return;
         }
 
-        ChildrenBrowserFragment mFragment = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
-        if (mFragment != null && f.getIdentifier().equals(mFragment.getParent().getIdentifier())) { return; }
+        final ChildrenBrowserFragment mFragment = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
+        if (mFragment != null && f.getIdentifier().equals(mFragment.getParent().getIdentifier()))
+            return;
 
-        BaseFragment frag = ChildrenBrowserFragment.newInstance(site, f);
+        final BaseFragment frag = ChildrenBrowserFragment.newInstance(site, f);
         frag.setSession(SessionUtils.getSession(this));
         FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                 ChildrenBrowserFragment.TAG, true);
     }
 
-    public void addNavigationFragment(Site s)
+    public void addNavigationFragment(final Site s)
     {
-        BaseFragment frag = ChildrenBrowserFragment.newInstance(s);
+        final BaseFragment frag = ChildrenBrowserFragment.newInstance(s);
         frag.setSession(SessionUtils.getSession(this));
         FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                 ChildrenBrowserFragment.TAG, true);
@@ -279,7 +284,7 @@ public abstract class BaseActivity extends Activity
      * @param receiver
      * @param filter
      */
-    public void registerPrivateReceiver(BroadcastReceiver receiver, IntentFilter filter)
+    public void registerPrivateReceiver(final BroadcastReceiver receiver, final IntentFilter filter)
     {
         if (receiver != null && filter != null)
         {
@@ -298,11 +303,12 @@ public abstract class BaseActivity extends Activity
     private class UtilsReceiver extends BroadcastReceiver
     {
         @Override
-        public void onReceive(Context context, Intent intent)
+        public void onReceive(final Context context, final Intent intent)
         {
-            Activity activity = BaseActivity.this;
+            final Activity activity = BaseActivity.this;
 
-            if (activity.isFinishing() || activity.isChangingConfigurations()) { return; }
+            if (activity.isFinishing() || activity.isChangingConfigurations())
+                return;
 
             Log.d("UtilsReceiver", intent.getAction());
 
@@ -320,16 +326,12 @@ public abstract class BaseActivity extends Activity
             if (IntentIntegrator.ACTION_DISPLAY_ERROR.equals(intent.getAction()))
             {
                 if (getFragment(WaitingDialogFragment.TAG) != null)
-                {
                     ((DialogFragment) getFragment(WaitingDialogFragment.TAG)).dismiss();
-                }
-                Exception e = (Exception) intent.getExtras().getSerializable(IntentIntegrator.EXTRA_ERROR_DATA);
+                final Exception e = (Exception) intent.getExtras().getSerializable(IntentIntegrator.EXTRA_ERROR_DATA);
 
                 String errorMessage = getString(R.string.error_general);
                 if (e instanceof AlfrescoAppException && ((AlfrescoAppException) e).isDisplayMessage())
-                {
                     errorMessage = e.getMessage();
-                }
 
                 MessengerManager.showLongToast(activity, errorMessage);
 
@@ -337,6 +339,43 @@ public abstract class BaseActivity extends Activity
 
                 return;
             }
+
+            if(IntentIntegrator.ACTION_DISPLAY_CERTIFICATE.equals(intent.getAction())){
+
+                final String info = intent.getStringExtra(IntentIntegrator.EXTRA_CERTIFICATE_INFO);
+                String msg  = getResources().getString(R.string.msg_dlg_sertificate);
+                if(info != null)
+                    msg = msg.concat("\n" + info);
+
+                final AlertDialog dlg = new AlertDialog.Builder(BaseActivity.this)
+                .setIcon(R.drawable.ic_alfresco_logo)
+                .setTitle(R.string.title_dlg_sertificate)
+                .setMessage(Html.fromHtml(msg))
+                .setCancelable(false)
+                .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int whichButton) {
+                        GeneralPreferences.setSertificatePref(1,BaseActivity.this);
+                        NetworkHttpInvoker.onSetSertf();
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(final DialogInterface dialog, final int whichButton) {
+                        GeneralPreferences.setSertificatePref(0,BaseActivity.this);
+                        NetworkHttpInvoker.onSetSertf();
+                        dialog.dismiss();
+                    }
+                })
+                .create();
+                dlg.show();
+                return;
+            }
         }
+    }
+
+    public static Context getCurrentContext(){
+        return mContext;
     }
 }

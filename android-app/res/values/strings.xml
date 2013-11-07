@@ -594,4 +594,8 @@
     <string name="yes">Yes</string>
     <string name="no">No</string>
     
+    <string name="title_dlg_sertificate">Certificate verify</string>
+    <string name="msg_dlg_sertificate">Do you want to check the certificate?</string>
+        
+    <string name="error_sertif_valid">The security certificate is not verified.</string>
 </resources>

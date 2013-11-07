@@ -63,7 +63,7 @@ public interface IntentIntegrator extends PublicIntent
     String ACTION_OPERATION_COMPLETED = "org.opendataspace.android.app.intent.ACTION_OPERATION_COMPLETE";
 
     String ACTION_OPERATIONS_COMPLETED = "org.opendataspace.android.app.intent.ACTION_OPERATIONS_COMPLETE";
-    
+
     // BROADCAST
     String EXTRA_OPERATIONS_TYPE = "org.opendataspace.android.app.intent.EXTRA_OPERATIONS_TYPE";
 
@@ -110,6 +110,7 @@ public interface IntentIntegrator extends PublicIntent
     // ///////////////////////////////////////////////////////////////////////////
     // DISPLAY DIALOG
     // ///////////////////////////////////////////////////////////////////////////
+
     // ACTION
     /** Display dialog with extra bundle */
     String ACTION_DISPLAY_DIALOG = "org.opendataspace.android.app.intent.ACTION_DISPLAY_DIALOG";
@@ -117,6 +118,11 @@ public interface IntentIntegrator extends PublicIntent
     String ACTION_DISPLAY_ERROR = "org.opendataspace.android.app.intent.DISPLAY_ERROR";
 
     String EXTRA_ERROR_DATA = "org.opendataspace.android.app.intent.EXTRA_ERROR_DATA";
+
+    String ACTION_DISPLAY_CERTIFICATE = "org.opendataspace.android.intent.DISPLAY_CERTIFICATE_NOTIF";
+
+    //EXTRA
+    String EXTRA_CERTIFICATE_INFO = "org.opendataspace.android.intent.EXTRA_CERTIFICATE_INFO";
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONTENT MANAGEMENT
@@ -208,18 +214,17 @@ public interface IntentIntegrator extends PublicIntent
     String ACTION_ENCRYPT_COMPLETED = "org.opendataspace.android.app.intent.ACTION_ENCRYPT_COMPLETED";
 
     String ACTION_DECRYPT_COMPLETED = "org.opendataspace.android.app.intent.ACTION_DECRYPT_COMPLETED";
-    
+
     String ACTION_ENCRYPT_ALL_COMPLETED = "org.opendataspace.android.app.intent.ACTION_ENCRYPT_ALL_COMPLETED";
 
     String ACTION_DECRYPT_ALL_COMPLETED = "org.opendataspace.android.app.intent.ACTION_DECRYPT_ALL_COMPLETED";
 
     // EXTRA
     String EXTRA_INTENT_ACTION = "org.opendataspace.android.app.intent.EXTRA_INTENT_ACTION";
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // DATA CLEANER
     // ///////////////////////////////////////////////////////////////////////////
     // ACTION
     String ACTION_CLEAN_SHARE_FILE = "org.opendataspace.android.app.intent.ACTION_CLEAN_SHARE_FILE";
-
 }
