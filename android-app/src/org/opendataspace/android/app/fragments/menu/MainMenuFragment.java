@@ -22,17 +22,21 @@ import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.accounts.AccountManager;
 import org.opendataspace.android.app.accounts.AccountSchema;
 import org.opendataspace.android.app.accounts.fragment.AccountCursorAdapter;
+import org.opendataspace.android.app.activity.BaseActivity;
 import org.opendataspace.android.app.activity.MainActivity;
 import org.opendataspace.android.app.fragments.DisplayUtils;
 import org.opendataspace.android.app.fragments.about.AboutFragment;
 import org.opendataspace.android.app.intent.IntentIntegrator;
 import org.opendataspace.android.app.preferences.AccountsPreferences;
 import org.opendataspace.android.app.preferences.GeneralPreferences;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -50,6 +54,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
 import android.widget.Spinner;
 
 public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor>, OnItemSelectedListener
@@ -68,6 +73,10 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
     //private Button menuSlidingFavorites;
 
+    private Button menuShared;
+
+    private Button menuGlobal;
+
     public static final String TAG = "MainMenuFragment";
 
     public static final String SLIDING_TAG = "SlidingMenuFragment";
@@ -82,14 +91,17 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
         spinnerAccount = (Spinner) rootView.findViewById(R.id.accounts_spinner);
         spinnerAccount.setOnItemSelectedListener(this);
-/*
+        /*
         menuFavorites = (Button) rootView.findViewById(R.id.menu_favorites);
 
         if (SLIDING_TAG.equals(getTag()))
         {
             menuSlidingFavorites = (Button) rootView.findViewById(R.id.menu_favorites);
         }
-*/
+         */
+
+        menuShared = (Button) rootView.findViewById(R.id.menu_browse_shared);
+        menuGlobal = (Button) rootView.findViewById(R.id.menu_browse_global);
         return rootView;
     }
 
@@ -141,6 +153,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         }
 
         //displayFavoriteStatut();
+        updateFolderAccess();
     }
 
     @Override
@@ -165,6 +178,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
     {
         refresh();
         //displayFavoriteStatut();
+        updateFolderAccess();
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -178,31 +192,31 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
         switch (accountId)
         {
-            case AccountCursorAdapter.NETWORK_ITEM:
-                ((MainActivity) getActivity()).displayNetworks();
-                hideSlidingMenu(false);
-                break;
-            case AccountCursorAdapter.MANAGE_ITEM:
-                ((MainActivity) getActivity()).displayAccounts();
-                hideSlidingMenu(false);
-                break;
+        case AccountCursorAdapter.NETWORK_ITEM:
+            ((MainActivity) getActivity()).displayNetworks();
+            hideSlidingMenu(false);
+            break;
+        case AccountCursorAdapter.MANAGE_ITEM:
+            ((MainActivity) getActivity()).displayAccounts();
+            hideSlidingMenu(false);
+            break;
 
-            default:
-                Account currentAccount = SessionUtils.getAccount(getActivity());
-                if (currentAccount != null && cursor.getCount() > 1
-                        && currentAccount.getId() != cursor.getLong(AccountSchema.COLUMN_ID_ID))
-                {
-                    hideSlidingMenu(true);
+        default:
+            Account currentAccount = SessionUtils.getAccount(getActivity());
+            if (currentAccount != null && cursor.getCount() > 1
+                    && currentAccount.getId() != cursor.getLong(AccountSchema.COLUMN_ID_ID))
+            {
+                hideSlidingMenu(true);
 
-                    // Request session loading for the selected account.
-                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
-                            new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT).putExtra(
-                                    IntentIntegrator.EXTRA_ACCOUNT_ID, cursor.getLong(AccountSchema.COLUMN_ID_ID)));
+                // Request session loading for the selected account.
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
+                        new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT).putExtra(
+                                IntentIntegrator.EXTRA_ACCOUNT_ID, cursor.getLong(AccountSchema.COLUMN_ID_ID)));
 
-                    // Update dropdown menu (eventual new items to display)
-                    cursorAdapter.swapCursor(AccountCursorAdapter.createMergeCursor(getActivity(), accountCursor));
-                }
-                break;
+                // Update dropdown menu (eventual new items to display)
+                cursorAdapter.swapCursor(AccountCursorAdapter.createMergeCursor(getActivity(), accountCursor));
+            }
+            break;
         }
     }
 
@@ -277,7 +291,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
             }
         }
     }
-/*
+    /*
     public void displayFavoriteStatut()
     {
         Cursor statutCursor = null;
@@ -321,7 +335,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
             }
         }
     }
-*/
+     */
     // ///////////////////////////////////////////////////////////////////////////
     // BROADCAST RECEIVER
     // ///////////////////////////////////////////////////////////////////////////
@@ -333,6 +347,19 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
             Log.d(TAG, intent.getAction());
             if (intent.getAction() == null) { return; }
             //displayFavoriteStatut();
+            updateFolderAccess();
         }
+    }
+
+    public void updateFolderAccess()
+    {
+        Activity acc = getActivity();
+        AlfrescoSession ses = acc instanceof BaseActivity ? ((BaseActivity) acc).getCurrentSession() : null;
+        OdsRepositorySession ods = ses instanceof OdsRepositorySession ? (OdsRepositorySession) ses : null;
+        boolean hasShared = ods != null && ods.getShared() != null;
+        boolean hasGlobal = ods != null && ods.getGlobal() != null;
+
+        menuShared.setVisibility(hasShared ? View.VISIBLE : View.GONE);
+        menuGlobal.setVisibility(hasGlobal ? View.VISIBLE : View.GONE);
     }
 }

@@ -459,6 +459,20 @@ public class MainActivity extends BaseActivity
             }
         }
         break;
+        case R.id.menu_browse_global:
+        {
+            if (!checkSession(R.id.menu_browse_global)) { return; }
+            AlfrescoSession ses = getCurrentSession();
+
+            if (ses instanceof OdsRepositorySession)
+            {
+                frag = ChildrenBrowserFragment.newInstance(((OdsRepositorySession) ses).getGlobal().getRootFolder());
+                frag.setSession(SessionUtils.getSession(this));
+                FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
+                        ChildrenBrowserFragment.TAG, true);
+            }
+        }
+        break;
         case R.id.menu_browse_root:
             if (!checkSession(R.id.menu_browse_root)) { return; }
             frag = ChildrenBrowserFragment.newInstance(getCurrentSession().getRootFolder());
@@ -1104,15 +1118,17 @@ public class MainActivity extends BaseActivity
                 // Assign the account
                 currentAccount = AccountManager.retrieveAccount(context,
                         intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID));
-                /*
+
                 if (getFragment(MainMenuFragment.TAG) != null){
-                    ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).displayFavoriteStatut();
+                    //((MainMenuFragment)getFragment(MainMenuFragment.TAG)).displayFavoriteStatut();
+                    ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).updateFolderAccess();
                 }
 
                 if (getFragment(MainMenuFragment.SLIDING_TAG) != null){
-                    ((MainMenuFragment)getFragment(MainMenuFragment.SLIDING_TAG)).displayFavoriteStatut();
+                    //((MainMenuFragment)getFragment(MainMenuFragment.SLIDING_TAG)).displayFavoriteStatut();
+                    ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).updateFolderAccess();
                 }
-                 */
+
                 // Return to root screen
                 activity.getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
@@ -1225,6 +1241,17 @@ public class MainActivity extends BaseActivity
                 {
                     SynchroManager.getInstance(activity).sync(currentAccount);
                 }
+
+                if (getFragment(MainMenuFragment.TAG) != null){
+                    //((MainMenuFragment)getFragment(MainMenuFragment.TAG)).displayFavoriteStatut();
+                    ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).updateFolderAccess();
+                }
+
+                if (getFragment(MainMenuFragment.SLIDING_TAG) != null){
+                    //((MainMenuFragment)getFragment(MainMenuFragment.SLIDING_TAG)).displayFavoriteStatut();
+                    ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).updateFolderAccess();
+                }
+
                 return;
             }
 
