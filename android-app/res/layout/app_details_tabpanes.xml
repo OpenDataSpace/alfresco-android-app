@@ -108,6 +108,7 @@
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_open_dark" />
 
+                <!--
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -127,6 +128,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </FrameLayout>
+                -->
 
                 <ImageView
                     android:id="@+id/action_share"

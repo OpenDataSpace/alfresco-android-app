@@ -504,7 +504,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         }
 
         // BUTTONS
-        b = (ImageView) vRoot.findViewById(R.id.action_favorite);
+     /*   b = (ImageView) vRoot.findViewById(R.id.action_favorite);
 
         b.setOnClickListener(new OnClickListener()
         {
@@ -513,7 +513,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             {
                 favorite(v);
             }
-        });
+        });*/
 
         b = (ImageView) vRoot.findViewById(R.id.action_share);
         if (node.isDocument())
@@ -666,9 +666,9 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         vRoot.findViewById(R.id.like_progress).setVisibility(View.GONE);
         b.setVisibility(View.GONE);
 
-        b = (ImageView) vRoot.findViewById(R.id.action_favorite);
+       /* b = (ImageView) vRoot.findViewById(R.id.action_favorite);
         b.setImageResource(R.drawable.ic_favorite_dark);
-        vRoot.findViewById(R.id.favorite_progress).setVisibility(View.GONE);
+        vRoot.findViewById(R.id.favorite_progress).setVisibility(View.GONE);*/
 
         if (DisplayUtils.hasCentralPane(getActivity()))
         {
@@ -883,7 +883,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             GeneralPreferences.setDisplayActivateSync(getActivity(), true);
         }
 
-        vRoot.findViewById(R.id.favorite_progress).setVisibility(View.VISIBLE);
+       // vRoot.findViewById(R.id.favorite_progress).setVisibility(View.VISIBLE);
         if (parentNode != null && node != null)
         {
             OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
@@ -958,10 +958,10 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
 
         if (!DisplayUtils.hasCentralPane(activity))
         {
-            mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMMENT, Menu.FIRST + MenuActionItem.MENU_COMMENT,
+           /* mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMMENT, Menu.FIRST + MenuActionItem.MENU_COMMENT,
                     R.string.comments);
             mi.setIcon(R.drawable.ic_comment);
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);*/
 
             if (node.isDocument())
             {
@@ -971,9 +971,9 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
 
-            mi = menu.add(Menu.NONE, MenuActionItem.MENU_TAGS, Menu.FIRST + MenuActionItem.MENU_TAGS, R.string.tags);
+           /* mi = menu.add(Menu.NONE, MenuActionItem.MENU_TAGS, Menu.FIRST + MenuActionItem.MENU_TAGS, R.string.tags);
             mi.setIcon(R.drawable.mime_tags);
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);*/
         }
     }
 
@@ -1296,7 +1296,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                             return;
                         }
 
-                        if (intent.getAction().equals(IntentIntegrator.ACTION_FAVORITE_COMPLETED))
+                       /* if (intent.getAction().equals(IntentIntegrator.ACTION_FAVORITE_COMPLETED))
                         {
                             View progressView = vRoot.findViewById(R.id.favorite_progress);
                             ImageView imageView = (ImageView) vRoot.findViewById(R.id.action_favorite);
@@ -1312,7 +1312,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                                 imageView.setImageDrawable(context.getResources().getDrawable(drawable));
                             }
                             return;
-                        }
+                        }*/
 
                         if (intent.getAction().equals(IntentIntegrator.ACTION_UPDATE_COMPLETED))
                         {
