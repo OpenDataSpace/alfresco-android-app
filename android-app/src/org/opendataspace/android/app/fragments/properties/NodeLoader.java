@@ -27,13 +27,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-
-
-
-
-
-
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.accounts.fragment.AccountSettingsHelper;
 import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
@@ -41,6 +34,7 @@ import org.opendataspace.android.app.operations.batch.utils.MapUtil;
 import org.opendataspace.android.app.operations.sync.SynchroManager;
 import org.opendataspace.android.app.operations.sync.SynchroSchema;
 import org.opendataspace.android.app.operations.sync.utils.NodeSyncPlaceHolder;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.utils.ConnectivityUtils;
 import org.opendataspace.android.asynchronous.AbstractBaseLoader;
 import org.opendataspace.android.asynchronous.LoaderResult;
@@ -49,7 +43,6 @@ import org.opendataspace.android.cmisapi.model.Folder;
 import org.opendataspace.android.cmisapi.model.Node;
 import org.opendataspace.android.cmisapi.session.AlfrescoSession;
 import org.opendataspace.android.cmisapi.session.CloudSession;
-import org.opendataspace.android.cmisapi.session.RepositorySession;
 import org.opendataspace.android.cmisapi.utils.NodeRefUtils;
 
 import android.app.Activity;
@@ -89,9 +82,9 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
     private String uri;
 
     private Account selectAccount;
-    
+
     private Account acc;
-    
+
     public NodeLoader(Activity context, Account acc, AlfrescoSession session, String nodeIdentifier)
     {
         super(context);
@@ -196,7 +189,7 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
         }
         else
         {
-            session = RepositorySession.connect(settingsHelper.getBaseUrl(), settingsHelper.getUsername(),
+            session = OdsRepositorySession.connect(settingsHelper.getBaseUrl(), settingsHelper.getUsername(),
                     settingsHelper.getPassword(), settings);
         }
 

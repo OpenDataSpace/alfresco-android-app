@@ -6,7 +6,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
  * 
  *  Unless required by applicable law or agreed to in writing, software
@@ -117,7 +117,7 @@ public class RepositorySessionImpl extends RepositorySession
         repositoryInfo = new OnPremiseRepositoryInfoImpl(cmisSession.getRepositoryInfo());
 
         // On cmisatom binding sometimes the edition is not well formated. In
-        // this case we use service/cmis binding. MOBSDK-508    
+        // this case we use service/cmis binding. MOBSDK-508
         if (repositoryInfo.getEdition() == OnPremiseConstant.ALFRESCO_EDITION_UNKNOWN
                 && tmpRepositoryInfo.getEdition() != OnPremiseConstant.ALFRESCO_EDITION_UNKNOWN)
         {
@@ -128,12 +128,12 @@ public class RepositorySessionImpl extends RepositorySession
         create();
     }
 
-    private void create()
+    protected void create()
     {
         passThruAuthenticator = cmisSession.getBinding().getAuthenticationProvider();
         authenticator = ((PassthruAuthenticationProviderImpl) passThruAuthenticator)
                 .getAlfrescoAuthenticationProvider();
-        
+
         // Extension Point to implement and manage services
         if (hasParameter(ONPREMISE_SERVICES_CLASSNAME))
         {
@@ -155,7 +155,7 @@ public class RepositorySessionImpl extends RepositorySession
     }
 
     public static final Parcelable.Creator<RepositorySessionImpl> CREATOR = new Parcelable.Creator<RepositorySessionImpl>()
-    {
+            {
         public RepositorySessionImpl createFromParcel(Parcel in)
         {
             return new RepositorySessionImpl(in);
@@ -165,33 +165,33 @@ public class RepositorySessionImpl extends RepositorySession
         {
             return new RepositorySessionImpl[size];
         }
-    };
+            };
 
-    @Override
-    public void writeToParcel(Parcel dest, int arg1)
-    {
-        dest.writeString(baseUrl);
-        dest.writeString(userIdentifier);
-        dest.writeString(password);
-        dest.writeParcelable(rootNode, PARCELABLE_WRITE_RETURN_VALUE);
-        dest.writeSerializable(repositoryInfo);
-        dest.writeSerializable(cmisSession);
-        Bundle b = new Bundle();
-        b.putSerializable("userParameters", (Serializable) userParameters);
-        dest.writeBundle(b);
-    }
+            @Override
+            public void writeToParcel(Parcel dest, int arg1)
+            {
+                dest.writeString(baseUrl);
+                dest.writeString(userIdentifier);
+                dest.writeString(password);
+                dest.writeParcelable(rootNode, PARCELABLE_WRITE_RETURN_VALUE);
+                dest.writeSerializable(repositoryInfo);
+                dest.writeSerializable(cmisSession);
+                Bundle b = new Bundle();
+                b.putSerializable("userParameters", (Serializable) userParameters);
+                dest.writeBundle(b);
+            }
 
-    @SuppressWarnings("unchecked")
-    public RepositorySessionImpl(Parcel o)
-    {
-        this.baseUrl = o.readString();
-        this.userIdentifier = o.readString();
-        this.password = o.readString();
-        this.rootNode = o.readParcelable(FolderImpl.class.getClassLoader());
-        this.repositoryInfo = (RepositoryInfo) o.readSerializable();
-        this.cmisSession = (Session) o.readSerializable();
-        Bundle b = o.readBundle();
-        this.userParameters = (Map<String, Serializable>) b.getSerializable("userParameters");
-        create();
-    }
+            @SuppressWarnings("unchecked")
+            public RepositorySessionImpl(Parcel o)
+            {
+                this.baseUrl = o.readString();
+                this.userIdentifier = o.readString();
+                this.password = o.readString();
+                this.rootNode = o.readParcelable(FolderImpl.class.getClassLoader());
+                this.repositoryInfo = (RepositoryInfo) o.readSerializable();
+                this.cmisSession = (Session) o.readSerializable();
+                Bundle b = o.readBundle();
+                this.userParameters = (Map<String, Serializable>) b.getSerializable("userParameters");
+                create();
+            }
 }

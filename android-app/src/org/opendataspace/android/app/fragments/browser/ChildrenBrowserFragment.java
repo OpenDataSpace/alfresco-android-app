@@ -22,13 +22,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
-
-
-
-
-
-
+import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.activity.BaseActivity;
 import org.opendataspace.android.app.activity.MainActivity;
@@ -39,8 +33,8 @@ import org.opendataspace.android.app.fragments.DisplayUtils;
 import org.opendataspace.android.app.fragments.FragmentDisplayer;
 import org.opendataspace.android.app.fragments.ListingModeFragment;
 import org.opendataspace.android.app.fragments.RefreshFragment;
-import org.opendataspace.android.app.fragments.actions.NodeActions;
 import org.opendataspace.android.app.fragments.actions.AbstractActions.onFinishModeListerner;
+import org.opendataspace.android.app.fragments.actions.NodeActions;
 import org.opendataspace.android.app.fragments.menu.MenuActionItem;
 import org.opendataspace.android.app.fragments.search.KeywordSearch;
 import org.opendataspace.android.app.intent.IntentIntegrator;
@@ -70,7 +64,6 @@ import org.opendataspace.android.cmisapi.services.DocumentFolderService;
 import org.opendataspace.android.cmisapi.session.AlfrescoSession;
 import org.opendataspace.android.commonui.documentfolder.NavigationFragment;
 import org.opendataspace.android.commonui.documentfolder.actions.CreateFolderDialogFragment;
-import org.apache.chemistry.opencmis.commons.PropertyIds;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
@@ -596,41 +589,41 @@ public class ChildrenBrowserFragment extends NavigationFragment implements Refre
     {
         switch (requestCode)
         {
-            case PublicIntent.REQUESTCODE_FILEPICKER:
-                if (data != null && IntentIntegrator.ACTION_PICK_FILE.equals(data.getAction()))
+        case PublicIntent.REQUESTCODE_FILEPICKER:
+            if (data != null && IntentIntegrator.ACTION_PICK_FILE.equals(data.getAction()))
+            {
+                ActionManager.actionPickFile(getFragmentManager().findFragmentByTag(TAG),
+                        IntentIntegrator.REQUESTCODE_FILEPICKER);
+            }
+            else if (data != null && data.getData() != null)
+            {
+                String tmpPath = ActionManager.getPath(getActivity(), data.getData());
+                if (tmpPath != null)
                 {
-                    ActionManager.actionPickFile(getFragmentManager().findFragmentByTag(TAG),
-                            IntentIntegrator.REQUESTCODE_FILEPICKER);
+                    tmpFile = new File(tmpPath);
                 }
-                else if (data != null && data.getData() != null)
+                else
                 {
-                    String tmpPath = ActionManager.getPath(getActivity(), data.getData());
-                    if (tmpPath != null)
-                    {
-                        tmpFile = new File(tmpPath);
-                    }
-                    else
-                    {
-                        // Error case : Unable to find the file path associated
-                        // to user pick.
-                        // Sample : Picasa image case
-                        ActionManager.actionDisplayError(this, new AlfrescoAppException(
-                                getString(R.string.error_unknown_filepath), true));
-                    }
+                    // Error case : Unable to find the file path associated
+                    // to user pick.
+                    // Sample : Picasa image case
+                    ActionManager.actionDisplayError(this, new AlfrescoAppException(
+                            getString(R.string.error_unknown_filepath), true));
                 }
-                else if (data != null && data.getExtras() != null && data.getExtras().containsKey(Intent.EXTRA_STREAM))
+            }
+            else if (data != null && data.getExtras() != null && data.getExtras().containsKey(Intent.EXTRA_STREAM))
+            {
+                List<File> files = new ArrayList<File>();
+                List<Uri> uris = data.getExtras().getParcelableArrayList(Intent.EXTRA_STREAM);
+                for (Uri uri : uris)
                 {
-                    List<File> files = new ArrayList<File>();
-                    List<Uri> uris = data.getExtras().getParcelableArrayList(Intent.EXTRA_STREAM);
-                    for (Uri uri : uris)
-                    {
-                        files.add(new File(ActionManager.getPath(getActivity(), uri)));
-                    }
-                    createFiles(files);
+                    files.add(new File(ActionManager.getPath(getActivity(), uri)));
                 }
-                break;
-            default:
-                break;
+                createFiles(files);
+            }
+            break;
+        default:
+            break;
         }
     }
 
@@ -863,7 +856,10 @@ public class ChildrenBrowserFragment extends NavigationFragment implements Refre
         {
             Log.d(TAG, intent.getAction());
 
-            if (adapter == null) return;
+            if (adapter == null)
+            {
+                return;
+            }
 
             if (intent.getExtras() != null)
             {

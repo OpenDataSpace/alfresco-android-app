@@ -24,7 +24,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
@@ -424,19 +423,7 @@ public abstract class AbstractAlfrescoSessionImpl implements AlfrescoSession, Pa
             }
             else
             {
-                List<Repository> ls = sessionFactory.getRepositories(param);
-
-                for (Repository cur : ls)
-                {
-                    String nm = cur.getName();
-
-                    if (nm.equals("my"))
-                    {
-                        return cur.createSession();
-                    }
-                }
-
-                return ls.get(0).createSession();
+                return sessionFactory.getRepositories(param).get(0).createSession();
             }
         }
         catch (CmisPermissionDeniedException e)

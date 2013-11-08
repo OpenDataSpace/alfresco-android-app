@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,18 +20,13 @@ package org.opendataspace.android.app.operations.batch.account;
 import java.io.Serializable;
 import java.util.Map;
 
-
-
-
-
-
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.accounts.AccountManager;
 import org.opendataspace.android.app.accounts.fragment.AccountSettingsHelper;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.cmisapi.model.Person;
 import org.opendataspace.android.cmisapi.session.AlfrescoSession;
 import org.opendataspace.android.cmisapi.session.CloudSession;
-import org.opendataspace.android.cmisapi.session.RepositorySession;
 import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
 import org.opendataspace.android.cmisapi.session.authentication.impl.OAuthHelper;
 
@@ -59,7 +54,7 @@ public class LoadSessionHelper
     {
         this(context, AccountManager.retrieveAccount(context, accountId), null);
     }
-    
+
     public LoadSessionHelper(Context context, Account account, OAuthData data)
     {
         this(context, new AccountSettingsHelper(context, account, data));
@@ -111,7 +106,7 @@ public class LoadSessionHelper
         {
             // ON PREMISE
             settings.putAll(settingsHelper.prepareSSLSettings());
-            return RepositorySession.connect(settingsHelper.getBaseUrl(), settingsHelper.getUsername(),
+            return OdsRepositorySession.connect(settingsHelper.getBaseUrl(), settingsHelper.getUsername(),
                     settingsHelper.getPassword(), settings);
         }
     }

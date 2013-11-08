@@ -65,6 +65,7 @@ import org.opendataspace.android.app.preferences.PasscodePreferences;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.security.DataProtectionUserDialogFragment;
 import org.opendataspace.android.app.security.PassCodeActivity;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.utils.ConnectivityUtils;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
@@ -73,6 +74,7 @@ import org.opendataspace.android.cmisapi.model.Document;
 import org.opendataspace.android.cmisapi.model.Folder;
 import org.opendataspace.android.cmisapi.model.Node;
 import org.opendataspace.android.cmisapi.model.Site;
+import org.opendataspace.android.cmisapi.session.AlfrescoSession;
 import org.opendataspace.android.cmisapi.session.CloudSession;
 import org.opendataspace.android.cmisapi.session.RepositorySession;
 import org.opendataspace.android.commonui.fragments.BaseFragment;
@@ -442,68 +444,81 @@ public class MainActivity extends BaseActivity
                 FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                         BrowserSitesFragment.TAG, true);
                 break;
-        */
-        	case R.id.menu_browse_shared: // TODO kolam start other activity
-        	case R.id.menu_browse_root:
-                if (!checkSession(R.id.menu_browse_root)) { return; }
-                frag = ChildrenBrowserFragment.newInstance(getCurrentSession().getRootFolder());
+         */
+        case R.id.menu_browse_shared:
+        {
+            if (!checkSession(R.id.menu_browse_shared)) { return; }
+            AlfrescoSession ses = getCurrentSession();
+
+            if (ses instanceof OdsRepositorySession)
+            {
+                frag = ChildrenBrowserFragment.newInstance(((OdsRepositorySession) ses).getShared().getRootFolder());
                 frag.setSession(SessionUtils.getSession(this));
                 FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                         ChildrenBrowserFragment.TAG, true);
-                break;
-            case R.id.menu_browse_activities:
-                if (!checkSession(R.id.menu_browse_activities)) { return; }
-                frag = ActivitiesFragment.newInstance();
-                FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
-                        ActivitiesFragment.TAG, true);
-                break;
-            case R.id.menu_search:
-                if (!checkSession(R.id.menu_search)) { return; }
-                frag = KeywordSearch.newInstance();
-                FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this), KeywordSearch.TAG,
-                        true);
-                break;
+            }
+        }
+        break;
+        case R.id.menu_browse_root:
+            if (!checkSession(R.id.menu_browse_root)) { return; }
+            frag = ChildrenBrowserFragment.newInstance(getCurrentSession().getRootFolder());
+            frag.setSession(SessionUtils.getSession(this));
+            FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
+                    ChildrenBrowserFragment.TAG, true);
+            break;
+        case R.id.menu_browse_activities:
+            if (!checkSession(R.id.menu_browse_activities)) { return; }
+            frag = ActivitiesFragment.newInstance();
+            FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
+                    ActivitiesFragment.TAG, true);
+            break;
+        case R.id.menu_search:
+            if (!checkSession(R.id.menu_search)) { return; }
+            frag = KeywordSearch.newInstance();
+            FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this), KeywordSearch.TAG,
+                    true);
+            break;
             /*
             case R.id.menu_favorites:
                 Fragment syncFrag = FavoritesSyncFragment.newInstance(ListingModeFragment.MODE_LISTING);
                 FragmentDisplayer.replaceFragment(this, syncFrag, DisplayUtils.getLeftFragmentId(this),
                         FavoritesSyncFragment.TAG, true);
                 break;
-            */
-            case R.id.menu_downloads:
-                if (currentAccount == null)
-                {
-                    MessengerManager.showLongToast(this, getString(R.string.loginfirst));
-                }
-                else
-                {
-                    addLocalFileNavigationFragment();
-                }
-                break;
-            case R.id.menu_notifications:
-                if (currentAccount == null)
-                {
-                    MessengerManager.showLongToast(this, getString(R.string.loginfirst));
-                }
-                else
-                {
-                    startActivity(new Intent(IntentIntegrator.ACTION_DISPLAY_OPERATIONS).putExtra(
-                            IntentIntegrator.EXTRA_ACCOUNT_ID, currentAccount.getId()));
-                }
-                break;
-            case R.id.menu_prefs:
-                displayPreferences();
-                break;
-            case R.id.menu_about:
-                displayAbout();
-                break;
-/*
+             */
+        case R.id.menu_downloads:
+            if (currentAccount == null)
+            {
+                MessengerManager.showLongToast(this, getString(R.string.loginfirst));
+            }
+            else
+            {
+                addLocalFileNavigationFragment();
+            }
+            break;
+        case R.id.menu_notifications:
+            if (currentAccount == null)
+            {
+                MessengerManager.showLongToast(this, getString(R.string.loginfirst));
+            }
+            else
+            {
+                startActivity(new Intent(IntentIntegrator.ACTION_DISPLAY_OPERATIONS).putExtra(
+                        IntentIntegrator.EXTRA_ACCOUNT_ID, currentAccount.getId()));
+            }
+            break;
+        case R.id.menu_prefs:
+            displayPreferences();
+            break;
+        case R.id.menu_about:
+            displayAbout();
+            break;
+            /*
             case R.id.menu_help:
                 UIUtils.displayHelp(this);
                 break;
-*/
-            default:
-                break;
+             */
+        default:
+            break;
         }
     }
 
@@ -546,29 +561,29 @@ public class MainActivity extends BaseActivity
     {
         switch (sessionState)
         {
-            case SESSION_ERROR:
-                Bundle b = new Bundle();
-                b.putInt(SimpleAlertDialogFragment.PARAM_ICON, R.drawable.ic_alfresco_logo);
-                b.putInt(SimpleAlertDialogFragment.PARAM_TITLE, R.string.error_session_creation_message);
-                b.putInt(SimpleAlertDialogFragment.PARAM_MESSAGE, sessionStateErrorMessageId);
-                b.putInt(SimpleAlertDialogFragment.PARAM_POSITIVE_BUTTON, android.R.string.ok);
-                ActionManager.actionDisplayDialog(this, b);
+        case SESSION_ERROR:
+            Bundle b = new Bundle();
+            b.putInt(SimpleAlertDialogFragment.PARAM_ICON, R.drawable.ic_alfresco_logo);
+            b.putInt(SimpleAlertDialogFragment.PARAM_TITLE, R.string.error_session_creation_message);
+            b.putInt(SimpleAlertDialogFragment.PARAM_MESSAGE, sessionStateErrorMessageId);
+            b.putInt(SimpleAlertDialogFragment.PARAM_POSITIVE_BUTTON, android.R.string.ok);
+            ActionManager.actionDisplayDialog(this, b);
+            return false;
+        case SESSION_LOADING:
+            displayWaitingDialog();
+            fragmentQueue = actionMainMenuId;
+            return false;
+        default:
+            if (!ConnectivityUtils.hasNetwork(this))
+            {
                 return false;
-            case SESSION_LOADING:
-                displayWaitingDialog();
-                fragmentQueue = actionMainMenuId;
+            }
+            else if (getCurrentAccount() != null && getCurrentAccount().getActivation() != null)
+            {
+                MessengerManager.showToast(this, R.string.account_not_activated);
                 return false;
-            default:
-                if (!ConnectivityUtils.hasNetwork(this))
-                {
-                    return false;
-                }
-                else if (getCurrentAccount() != null && getCurrentAccount().getActivation() != null)
-                {
-                    MessengerManager.showToast(this, R.string.account_not_activated);
-                    return false;
-                }
-                break;
+            }
+            break;
         }
         return true;
     }
@@ -835,117 +850,117 @@ public class MainActivity extends BaseActivity
     {
         switch (item.getItemId())
         {
-            case MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_PHOTO:
-            case MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_VIDEO:
-            case MenuActionItem.MENU_DEVICE_CAPTURE_MIC_AUDIO:
-                capture = DeviceCaptureHelper.createDeviceCapture(this, item.getItemId());
-                return true;
-            case MenuActionItem.MENU_ACCOUNT_ADD:
-                ((AccountsFragment) getFragment(AccountsFragment.TAG)).add();
-                return true;
+        case MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_PHOTO:
+        case MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_VIDEO:
+        case MenuActionItem.MENU_DEVICE_CAPTURE_MIC_AUDIO:
+            capture = DeviceCaptureHelper.createDeviceCapture(this, item.getItemId());
+            return true;
+        case MenuActionItem.MENU_ACCOUNT_ADD:
+            ((AccountsFragment) getFragment(AccountsFragment.TAG)).add();
+            return true;
 
-            case MenuActionItem.MENU_ACCOUNT_EDIT:
-                ((AccountDetailsFragment) getFragment(AccountDetailsFragment.TAG)).edit();
-                return true;
+        case MenuActionItem.MENU_ACCOUNT_EDIT:
+            ((AccountDetailsFragment) getFragment(AccountDetailsFragment.TAG)).edit();
+            return true;
 
-            case MenuActionItem.MENU_ACCOUNT_DELETE:
-                ((AccountDetailsFragment) getFragment(AccountDetailsFragment.TAG)).delete();
-                return true;
+        case MenuActionItem.MENU_ACCOUNT_DELETE:
+            ((AccountDetailsFragment) getFragment(AccountDetailsFragment.TAG)).delete();
+            return true;
 
-            case MenuActionItem.MENU_SEARCH_FOLDER:
-                ((ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG)).search(getFragmentPlace(false));
-                return true;
+        case MenuActionItem.MENU_SEARCH_FOLDER:
+            ((ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG)).search(getFragmentPlace(false));
+            return true;
 
-            case MenuActionItem.MENU_SEARCH:
-                FragmentDisplayer.replaceFragment(this, new KeywordSearch(), getFragmentPlace(), KeywordSearch.TAG,
-                        true);
-                return true;
+        case MenuActionItem.MENU_SEARCH:
+            FragmentDisplayer.replaceFragment(this, new KeywordSearch(), getFragmentPlace(), KeywordSearch.TAG,
+                    true);
+            return true;
 
-            case MenuActionItem.MENU_CREATE_FOLDER:
-                if (getFragment(ChildrenBrowserFragment.TAG) != null)
-                {
-                    ((ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG)).createFolder();
-                }
-                else if (getFragment(FileExplorerFragment.TAG) != null)
-                {
-                    ((FileExplorerFragment) getFragment(FileExplorerFragment.TAG)).createFolder();
-                }
-                return true;
+        case MenuActionItem.MENU_CREATE_FOLDER:
+            if (getFragment(ChildrenBrowserFragment.TAG) != null)
+            {
+                ((ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG)).createFolder();
+            }
+            else if (getFragment(FileExplorerFragment.TAG) != null)
+            {
+                ((FileExplorerFragment) getFragment(FileExplorerFragment.TAG)).createFolder();
+            }
+            return true;
 
-            case MenuActionItem.MENU_CREATE_DOCUMENT:
-                String fragmentTag = FileExplorerFragment.TAG;
-                if (getFragment(ChildrenBrowserFragment.TAG) != null)
-                {
-                    fragmentTag = ChildrenBrowserFragment.TAG;
-                }
-                DocumentTypesDialogFragment dialogft = DocumentTypesDialogFragment.newInstance(currentAccount,
-                        fragmentTag);
-                dialogft.show(getFragmentManager(), DocumentTypesDialogFragment.TAG);
-                return true;
+        case MenuActionItem.MENU_CREATE_DOCUMENT:
+            String fragmentTag = FileExplorerFragment.TAG;
+            if (getFragment(ChildrenBrowserFragment.TAG) != null)
+            {
+                fragmentTag = ChildrenBrowserFragment.TAG;
+            }
+            DocumentTypesDialogFragment dialogft = DocumentTypesDialogFragment.newInstance(currentAccount,
+                    fragmentTag);
+            dialogft.show(getFragmentManager(), DocumentTypesDialogFragment.TAG);
+            return true;
 
-            case MenuActionItem.MENU_UPLOAD:
-                if (getFragment(ChildrenBrowserFragment.TAG) != null)
-                {
-                    Intent i = new Intent(IntentIntegrator.ACTION_PICK_FILE, null, this, PublicDispatcherActivity.class);
-                    i.putExtra(IntentIntegrator.EXTRA_FOLDER,
-                            StorageManager.getDownloadFolder(this, getCurrentAccount()));
-                    i.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, getCurrentAccount().getId());
-                    getFragment(ChildrenBrowserFragment.TAG).startActivityForResult(i,
-                            PublicIntent.REQUESTCODE_FILEPICKER);
-                }
-                return true;
-            case MenuActionItem.MENU_REFRESH:
-                ((RefreshFragment) getFragmentManager().findFragmentById(DisplayUtils.getLeftFragmentId(this)))
-                        .refresh();
-                return true;
+        case MenuActionItem.MENU_UPLOAD:
+            if (getFragment(ChildrenBrowserFragment.TAG) != null)
+            {
+                Intent i = new Intent(IntentIntegrator.ACTION_PICK_FILE, null, this, PublicDispatcherActivity.class);
+                i.putExtra(IntentIntegrator.EXTRA_FOLDER,
+                        StorageManager.getDownloadFolder(this, getCurrentAccount()));
+                i.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, getCurrentAccount().getId());
+                getFragment(ChildrenBrowserFragment.TAG).startActivityForResult(i,
+                        PublicIntent.REQUESTCODE_FILEPICKER);
+            }
+            return true;
+        case MenuActionItem.MENU_REFRESH:
+            ((RefreshFragment) getFragmentManager().findFragmentById(DisplayUtils.getLeftFragmentId(this)))
+            .refresh();
+            return true;
 
-            case MenuActionItem.MENU_SHARE:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).share();
-                return true;
-            case MenuActionItem.MENU_OPEN_IN:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).openin();
-                return true;
-            case MenuActionItem.MENU_DOWNLOAD:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).download();
-                return true;
-            case MenuActionItem.MENU_UPDATE:
-                if (getFragment(DetailsFragment.TAG) != null)
-                {
-                    Intent i = new Intent(IntentIntegrator.ACTION_PICK_FILE, null, this, PublicDispatcherActivity.class);
-                    i.putExtra(IntentIntegrator.EXTRA_FOLDER,
-                            StorageManager.getDownloadFolder(this, getCurrentAccount()));
-                    i.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, getCurrentAccount().getId());
-                    getFragment(DetailsFragment.TAG).startActivityForResult(i, PublicIntent.REQUESTCODE_FILEPICKER);
-                }
-                return true;
-            case MenuActionItem.MENU_EDIT:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).edit();
-                return true;
-            case MenuActionItem.MENU_COMMENT:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).comment();
-                return true;
-            case MenuActionItem.MENU_VERSION_HISTORY:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).versions();
-                return true;
-            case MenuActionItem.MENU_TAGS:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).tags();
-                return true;
-            case MenuActionItem.MENU_DELETE:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).delete();
-                return true;
-            case MenuActionItem.MENU_SITE_LIST_REQUEST:
-                ((BrowserSitesFragment) getFragment(BrowserSitesFragment.TAG)).displayJoinSiteRequests();
-                return true;
-            case MenuActionItem.ABOUT_ID:
-                displayAbout();
-                DisplayUtils.switchSingleOrTwo(this, true);
-                return true;
-            case android.R.id.home:
-                // app icon in action bar clicked; go home
-                toggleSlideMenu();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        case MenuActionItem.MENU_SHARE:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).share();
+            return true;
+        case MenuActionItem.MENU_OPEN_IN:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).openin();
+            return true;
+        case MenuActionItem.MENU_DOWNLOAD:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).download();
+            return true;
+        case MenuActionItem.MENU_UPDATE:
+            if (getFragment(DetailsFragment.TAG) != null)
+            {
+                Intent i = new Intent(IntentIntegrator.ACTION_PICK_FILE, null, this, PublicDispatcherActivity.class);
+                i.putExtra(IntentIntegrator.EXTRA_FOLDER,
+                        StorageManager.getDownloadFolder(this, getCurrentAccount()));
+                i.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, getCurrentAccount().getId());
+                getFragment(DetailsFragment.TAG).startActivityForResult(i, PublicIntent.REQUESTCODE_FILEPICKER);
+            }
+            return true;
+        case MenuActionItem.MENU_EDIT:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).edit();
+            return true;
+        case MenuActionItem.MENU_COMMENT:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).comment();
+            return true;
+        case MenuActionItem.MENU_VERSION_HISTORY:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).versions();
+            return true;
+        case MenuActionItem.MENU_TAGS:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).tags();
+            return true;
+        case MenuActionItem.MENU_DELETE:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).delete();
+            return true;
+        case MenuActionItem.MENU_SITE_LIST_REQUEST:
+            ((BrowserSitesFragment) getFragment(BrowserSitesFragment.TAG)).displayJoinSiteRequests();
+            return true;
+        case MenuActionItem.ABOUT_ID:
+            displayAbout();
+            DisplayUtils.switchSingleOrTwo(this, true);
+            return true;
+        case android.R.id.home:
+            // app icon in action bar clicked; go home
+            toggleSlideMenu();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -1089,15 +1104,15 @@ public class MainActivity extends BaseActivity
                 // Assign the account
                 currentAccount = AccountManager.retrieveAccount(context,
                         intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID));
-/*
+                /*
                 if (getFragment(MainMenuFragment.TAG) != null){
                     ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).displayFavoriteStatut();
                 }
-                
+
                 if (getFragment(MainMenuFragment.SLIDING_TAG) != null){
                     ((MainMenuFragment)getFragment(MainMenuFragment.SLIDING_TAG)).displayFavoriteStatut();
                 }
-*/
+                 */
                 // Return to root screen
                 activity.getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
@@ -1230,7 +1245,7 @@ public class MainActivity extends BaseActivity
                 }
                 return;
             }
-            
+
             if (IntentIntegrator.ACTION_LOAD_ACCOUNT_ERROR.equals(intent.getAction()))
             {
                 if (!isCurrentAccountToLoad(intent)) { return; }
@@ -1263,7 +1278,7 @@ public class MainActivity extends BaseActivity
                 MessengerManager.showLongToast(activity, getString(R.string.account_not_activated));
                 return;
             }
-            
+
             if (IntentIntegrator.ACTION_USER_AUTHENTICATION.equals(intent.getAction()))
             {
                 if (!isCurrentAccountToLoad(intent)) { return; }
@@ -1275,7 +1290,7 @@ public class MainActivity extends BaseActivity
                 if (intent.getCategories().contains(IntentIntegrator.CATEGORY_OAUTH)
                         && getFragment(AccountOAuthFragment.TAG) == null
                         || (getFragment(AccountOAuthFragment.TAG) != null && getFragment(AccountOAuthFragment.TAG)
-                                .isAdded()))
+                        .isAdded()))
                 {
                     AccountOAuthFragment newFragment = AccountOAuthFragment.newInstance(acc);
                     FragmentDisplayer.replaceFragment(activity, newFragment, DisplayUtils.getMainPaneId(activity),
