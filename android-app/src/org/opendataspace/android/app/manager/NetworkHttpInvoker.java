@@ -68,7 +68,7 @@ public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.networ
 
         @Override
         public void checkServerTrusted(final java.security.cert.X509Certificate[] certs, final String authType) {
-            showDialogSertif(certs);
+            showDialogCertif(certs);
         }
     } };
 
@@ -85,7 +85,7 @@ public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.networ
     protected HttpURLConnection getHttpURLConnection(final URL url) throws IOException
     {
 
-        if(GeneralPreferences.getSertificatePref(BaseActivity.getCurrentContext()) == 0)
+        if(GeneralPreferences.getCertificatePref(BaseActivity.getCurrentContext()) == 0)
             return null;
 
         // TODO: kolam replace with real certificate and host name verifier
@@ -137,16 +137,16 @@ public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.networ
         mCheck = true;
     }
 
-    private static void showDialogSertif(final java.security.cert.X509Certificate[] certs){
+    private static void showDialogCertif(final java.security.cert.X509Certificate[] certs){
 
-        if(GeneralPreferences.getSertificatePref(BaseActivity.getCurrentContext()) == 1)
+        if(GeneralPreferences.getCertificatePref(BaseActivity.getCurrentContext()) == 1)
             return;
 
         String info = "";
         for (final java.security.cert.X509Certificate sert:certs)
-            info = info.concat(getSertificateInfo(sert));
+            info = info.concat(getCertificateInfo(sert));
 
-        ActionManager.actionDisplaySertifDialog(info);
+        ActionManager.actionDisplayCertifDialog(info);
 
         while(!mCheck){
             //waiting
@@ -154,7 +154,7 @@ public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.networ
         mCheck = false;
     }
 
-    private static String getSertificateInfo(final java.security.cert.X509Certificate sert){
+    private static String getCertificateInfo(final java.security.cert.X509Certificate sert){
 
         String out = "<br><small>Certificate information</small>";
         final String serial = String.valueOf(sert.getSerialNumber());

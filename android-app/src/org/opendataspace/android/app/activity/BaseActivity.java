@@ -346,19 +346,19 @@ public abstract class BaseActivity extends Activity
             if(IntentIntegrator.ACTION_DISPLAY_CERTIFICATE.equals(intent.getAction())){
 
                 final String info = intent.getStringExtra(IntentIntegrator.EXTRA_CERTIFICATE_INFO);
-                String msg  = getResources().getString(R.string.msg_dlg_sertificate);
+                String msg  = getResources().getString(R.string.msg_dlg_certificate);
                 if(info != null)
                     msg = msg.concat("\n" + info);
 
                 final AlertDialog dlg = new AlertDialog.Builder(BaseActivity.this)
                 .setIcon(R.drawable.ic_alfresco_logo)
-                .setTitle(R.string.title_dlg_sertificate)
+                .setTitle(R.string.title_dlg_certificate)
                 .setMessage(Html.fromHtml(msg))
                 .setCancelable(false)
                 .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, final int whichButton) {
-                        GeneralPreferences.setSertificatePref(1,BaseActivity.this);
+                        GeneralPreferences.setCertificatePref(1,BaseActivity.this);
                         NetworkHttpInvoker.onSetSertf();
                         dialog.dismiss();
                     }
@@ -366,7 +366,7 @@ public abstract class BaseActivity extends Activity
                 .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(final DialogInterface dialog, final int whichButton) {
-                        GeneralPreferences.setSertificatePref(0,BaseActivity.this);
+                        GeneralPreferences.setCertificatePref(0,BaseActivity.this);
                         NetworkHttpInvoker.onSetSertf();
                         dialog.dismiss();
                     }

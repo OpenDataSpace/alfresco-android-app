@@ -107,10 +107,10 @@ public final class SessionExceptionHelper
         else if (e.getCause() instanceof CmisConnectionException && e.getCause().getMessage().contains("Cannot access"))
         {
             Log.e("", "Message  "+ e.getCause().getMessage());
-            if(GeneralPreferences.getSertificatePref(context) != 1){
+            if(GeneralPreferences.getCertificatePref(context) != 1){
                 //Log.e("", "Set ERROR");
-                messageId = R.string.error_sertif_valid;
-                GeneralPreferences.setSertificatePref(-1,context);
+                messageId = R.string.error_certif_valid;
+                GeneralPreferences.setCertificatePref(-1,context);
             } else
                 messageId = R.string.error_session_notfound;
         } else

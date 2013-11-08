@@ -20,10 +20,6 @@ package org.opendataspace.android.app.preferences;
 
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.accounts.Account;
-import org.opendataspace.android.app.fragments.favorites.FavoriteAlertDialogFragment;
-import org.opendataspace.android.app.fragments.favorites.FavoriteAlertDialogFragment.OnFavoriteChangeListener;
-import org.opendataspace.android.app.operations.sync.SynchroManager;
-import org.opendataspace.android.app.utils.ConnectivityUtils;
 import org.opendataspace.android.app.utils.SessionUtils;
 
 import android.app.Activity;
@@ -31,10 +27,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
-import android.preference.Preference;
-import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -65,9 +57,9 @@ public class GeneralPreferences extends PreferenceFragment
 
     private static final String SYNCHRO_DISPLAY_PREFIX = "SynchroDisplayEnable-";
 
-    private static final String SERTIFICATE_PREF = "sertificate";
+    private static final String CERTIFICATE_PREF = "certificate";
 
-    private Account account;
+    //private Account account;
 
     @Override
     public void onCreate(final Bundle savedInstanceState)
@@ -83,9 +75,8 @@ public class GeneralPreferences extends PreferenceFragment
     public void onResume()
     {
         super.onResume();
-
-        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         /*
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Preference privateFoldersPref = findPreference(PRIVATE_FOLDERS_BUTTON);
 
         // DATA PROTECTION
@@ -123,9 +114,8 @@ public class GeneralPreferences extends PreferenceFragment
                 return false;
             }
         });
-         */
+
         // PASSCODE
-        /*
         Boolean passcodeEnable = sharedPref.getBoolean(PasscodePreferences.KEY_PASSCODE_ENABLE, false);
         Preference pref = findPreference(getString(R.string.passcode_title));
 
@@ -151,7 +141,7 @@ public class GeneralPreferences extends PreferenceFragment
                 return false;
             }
         });
-         */
+
         // FAVORITE SYNC
         final CheckBoxPreference cpref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync));
         final CheckBoxPreference wifiPref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync_wifi));
@@ -174,9 +164,12 @@ public class GeneralPreferences extends PreferenceFragment
         {
             wifiPref.setChecked(syncWifiEnable);
             if (syncWifiEnable)
+            {
                 wifiPref.setSummary(R.string.settings_favorite_sync_data_wifi);
-            else
+            } else
+            {
                 wifiPref.setSummary(R.string.settings_favorite_sync_data_all);
+            }
         }
 
         cpref.setOnPreferenceClickListener(new OnPreferenceClickListener()
@@ -186,13 +179,17 @@ public class GeneralPreferences extends PreferenceFragment
             {
                 boolean isSync = false;
                 if (preference instanceof CheckBoxPreference)
+                {
                     isSync = ((CheckBoxPreference) preference).isChecked();
+                }
 
                 if (isSync)
                 {
                     sharedPref.edit().putBoolean(SYNCHRO_PREFIX + account.getId(), isSync).commit();
                     if (SynchroManager.getInstance(getActivity()).canSync(account))
+                    {
                         SynchroManager.getInstance(getActivity()).sync(account);
+                    }
                 }
                 else
                 {
@@ -230,6 +227,7 @@ public class GeneralPreferences extends PreferenceFragment
         }
 
         if (wifiPref != null)
+        {
             wifiPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
             {
                 @Override
@@ -237,18 +235,24 @@ public class GeneralPreferences extends PreferenceFragment
                 {
                     boolean isWifiOnly = false;
                     if (preference instanceof CheckBoxPreference)
+                    {
                         isWifiOnly = ((CheckBoxPreference) preference).isChecked();
+                    }
                     sharedPref.edit().putBoolean(SYNCHRO_WIFI_PREFIX + account.getId(), isWifiOnly).commit();
 
                     if (isWifiOnly)
+                    {
                         wifiPref.setSummary(R.string.settings_favorite_sync_data_wifi);
-                    else
+                    } else
+                    {
                         wifiPref.setSummary(R.string.settings_favorite_sync_data_all);
+                    }
 
                     return false;
                 }
             });
-
+        }
+         */
         getActivity().invalidateOptionsMenu();
 
     }
@@ -304,15 +308,17 @@ public class GeneralPreferences extends PreferenceFragment
         return false;
     }
 
-    public static void setSertificatePref(final int checkSertfc, final Context c){
-
+    public static void setCertificatePref(final int checkSertfc, final Context c)
+    {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(c);
         if(sharedPref == null)
+        {
             return;
+        }
 
         try{
             final Editor editor = sharedPref.edit();
-            editor.putInt(SERTIFICATE_PREF, checkSertfc);
+            editor.putInt(CERTIFICATE_PREF, checkSertfc);
             editor.commit();
 
         }catch(final Exception e){
@@ -320,12 +326,14 @@ public class GeneralPreferences extends PreferenceFragment
         }
     }
 
-    public static int getSertificatePref(final Context c){
-
+    public static int getCertificatePref(final Context c)
+    {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(c);
         if(sharedPref == null)
+        {
             return -1;
+        }
 
-        return sharedPref.getInt(SERTIFICATE_PREF, -1);
+        return sharedPref.getInt(CERTIFICATE_PREF, -1);
     }
 }

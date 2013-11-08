@@ -19,7 +19,8 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android"
     android:title="@string/settings" >
 
-    <!--PreferenceCategory android:title="@string/settings_enterprise" >
+    <!--
+    <PreferenceCategory android:title="@string/settings_enterprise" >
         <Preference
             android:key="privatefoldersbutton"
             android:summary="@string/settings_privatefolder_summary"
@@ -27,7 +28,7 @@
         <Preference
             android:key="@string/passcode_title"
             android:title="@string/passcode_preference" />
-    </PreferenceCategory-->
+    </PreferenceCategory>
     <PreferenceCategory android:key="@string/favorite_sync_group" android:title="@string/settings_favorite" >
         <CheckBoxPreference
             android:key="@string/favorite_sync"
@@ -38,6 +39,7 @@
             android:summary="@string/settings_favorite_sync_data_wifi"
             android:title="@string/settings_favorite_sync_data" />
     </PreferenceCategory>
+    -->
     <PreferenceCategory android:title="@string/settings_links" >
         <Preference
             android:key="web"
@@ -47,7 +49,8 @@
                 android:action="android.intent.action.VIEW"
                 android:data="@string/settings_links_website_url" />
         </Preference>
-        <!-- Preference
+        <!--
+        <Preference
             android:key="rate"
             android:summary="@string/settings_rating_summary"
             android:title="@string/settings_rating" >
@@ -62,7 +65,8 @@
             <intent
                 android:action="android.intent.action.VIEW"
                 android:data="@string/settings_links_facebook_url" />
-        </Preference-->
+        </Preference>
+        -->
     </PreferenceCategory>
 
 </PreferenceScreen>

@@ -125,7 +125,7 @@ public class ActionManager extends org.opendataspace.android.commonui.manager.Ac
         LocalBroadcastManager.getInstance(context).sendBroadcast(i);
     }
 
-    public static void actionDisplaySertifDialog(final String info)
+    public static void actionDisplayCertifDialog(final String info)
     {
         final Context c = BaseActivity.getCurrentContext();
         if(c == null)

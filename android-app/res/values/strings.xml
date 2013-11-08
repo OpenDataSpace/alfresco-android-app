@@ -403,7 +403,7 @@
     <string name="settings_links_website_summary">Visit the official DataSpace website</string>
     <string name="settings_links_website">DataSpace</string>
     <string name="settings_links_website_summary">Visit official DataSpace website</string>
-    <string name="settings_links_website_url">http://www.alfresco.com/products/mobile</string>
+    <string name="settings_links_website_url">http://www.opendataspace.org</string>
     <string name="settings_rating">Write a review</string>
     <string name="settings_rating_summary">Rate DataSpace Mobile on Google Play</string>
     <string name="settings_rating_url">market://details?id=com.dataspace.android.application</string>
@@ -593,9 +593,8 @@
     <!-- Simple -->
     <string name="yes">Yes</string>
     <string name="no">No</string>
-    
-    <string name="title_dlg_sertificate">Certificate verify</string>
-    <string name="msg_dlg_sertificate">Do you want to check the certificate?</string>
-        
-    <string name="error_sertif_valid">The security certificate is not verified.</string>
+
+    <string name="title_dlg_certificate">Certificate verify</string>
+    <string name="msg_dlg_certificate">Do you want to check the certificate?</string>
+    <string name="error_certif_valid">The security certificate is not verified.</string>
 </resources>
