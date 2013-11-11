@@ -36,9 +36,11 @@ import org.apache.chemistry.opencmis.client.bindings.spi.BindingSession;
 import org.apache.chemistry.opencmis.client.bindings.spi.http.Output;
 import org.apache.chemistry.opencmis.client.bindings.spi.http.Response;
 import org.apache.chemistry.opencmis.commons.impl.UrlBuilder;
+import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.activity.BaseActivity;
 import org.opendataspace.android.app.preferences.GeneralPreferences;
 
+import android.content.Context;
 import android.webkit.CookieManager;
 import android.webkit.CookieSyncManager;
 
@@ -84,15 +86,16 @@ public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.networ
     @Override
     protected HttpURLConnection getHttpURLConnection(final URL url) throws IOException
     {
-
         if(GeneralPreferences.getCertificatePref(BaseActivity.getCurrentContext()) == 0)
+        {
             return null;
+        }
 
-        // TODO: kolam replace with real certificate and host name verifier
         final HttpURLConnection con = httpClient.open(url);
         final String cookie =  getCookie(url.toString());
-        if(cookie != null)
+        if(cookie != null){
             con.addRequestProperty("Cookie", cookie);
+        }
 
         if (con instanceof HttpsURLConnection) {
             SSLContext sc;
@@ -112,21 +115,27 @@ public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.networ
     }
 
     @Override
-    protected Response invoke(final UrlBuilder url, final String method, final String contentType, final Map<String, String> headers,
-            final Output writer, final BindingSession session, final BigInteger offset, final BigInteger length)
+    protected Response invoke(UrlBuilder url, String method, String contentType, Map<String, String> headers,
+            Output writer, BindingSession session, BigInteger offset, BigInteger length)
     {
         final Response res = super.invoke(url, method, contentType, headers, writer, session, offset, length);
 
         final Map<String, List<String>> map = res.getHeaders();
         if(map == null)
+        {
             return res;
+        }
 
         if(!map.containsKey("set-cookie"))
+        {
             return res;
+        }
 
-        final List<String> list = map.get("set-cookie");
+        List<String> list = map.get("set-cookie");
         if(list == null || list.size() == 0)
+        {
             return res;
+        }
 
         setCookie(url.toString(),list);
 
@@ -140,11 +149,14 @@ public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.networ
     private static void showDialogCertif(final java.security.cert.X509Certificate[] certs){
 
         if(GeneralPreferences.getCertificatePref(BaseActivity.getCurrentContext()) == 1)
+        {
             return;
+        }
 
         String info = "";
-        for (final java.security.cert.X509Certificate sert:certs)
+        for (java.security.cert.X509Certificate sert:certs){
             info = info.concat(getCertificateInfo(sert));
+        }
 
         ActionManager.actionDisplayCertifDialog(info);
 
@@ -154,44 +166,60 @@ public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.networ
         mCheck = false;
     }
 
-    private static String getCertificateInfo(final java.security.cert.X509Certificate sert){
+    private static String getCertificateInfo(java.security.cert.X509Certificate sert){
 
-        String out = "<br><small>Certificate information</small>";
-        final String serial = String.valueOf(sert.getSerialNumber());
+        Context c = BaseActivity.getCurrentContext();
+        String title_certificate  = c == null ? "Certificate information" : c.getResources().getString(R.string.title_certificate);
+        String serial_num_certificate  = c == null ? "Serial number:" : c.getResources().getString(R.string.serial_num_certificate);
+        String issuer_certificate  = c == null ? "Issuer distinguished name:" : c.getResources().getString(R.string.issuer_certificate);
 
-        final Principal principal = sert.getIssuerDN();
+        String out = "<br><small>" + title_certificate + "</small>";
+
+        String serial = String.valueOf(sert.getSerialNumber());
+
+        Principal principal = sert.getIssuerDN();
         String issuerDn = principal.getName();
         if(issuerDn.contains("CN=") && issuerDn.length() > 2)
+        {
             issuerDn = issuerDn.substring(3);
+        }
 
-        if(serial != null)
-            out = out.concat("<br><small>Serial number: "+serial+"</small>");
-        if(issuerDn != null)
-            out = out.concat("<br><small>Issuer distinguished name: "+issuerDn+"</small>");
+        if(serial != null){
+            out = out.concat("<br><small>" +serial_num_certificate+serial+"</small>");
+        }
+        if(issuerDn != null){
+            out = out.concat(("<br><small>"+issuer_certificate+issuerDn+"</small>"));
+        }
 
         return out;
     }
 
-    private void setCookie(final String url, final List<String> values){
+    private void setCookie(final String url, List<String> values){
 
         if(url == null || values == null)
+        {
             return;
+        }
 
         final CookieManager manager = CookieManager.getInstance();
         if(manager == null)
+        {
             return;
+        }
 
         String result = "";
 
-        for(final String val: values)
+        for(String val: values){
             if(val != null){
                 if(result.length() > 0)
+                {
                     result = result.concat(";");
+                }
                 result = result.concat(val);
             }
+        }
 
         manager.setCookie(url, result);
-        //Log.e("", ">>>>>>>>>>>>>  SET COOKIE "+url+"  "+result);
         CookieSyncManager.getInstance().sync();
     }
 
@@ -199,7 +227,9 @@ public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.networ
 
         final CookieManager manager = CookieManager.getInstance();
         if(manager == null)
+        {
             return null;
+        }
 
         final String cookie = manager.getCookie(url);
 
