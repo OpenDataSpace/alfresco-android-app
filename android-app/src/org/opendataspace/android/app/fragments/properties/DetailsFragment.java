@@ -949,12 +949,13 @@ LoaderCallbacks<LoaderResult<Node>>
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
 
+        /*
         if (!DisplayUtils.hasCentralPane(activity))
         {
-            /* mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMMENT, Menu.FIRST + MenuActionItem.MENU_COMMENT,
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMMENT, Menu.FIRST + MenuActionItem.MENU_COMMENT,
                     R.string.comments);
             mi.setIcon(R.drawable.ic_comment);
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);*/
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
             if (node.isDocument())
             {
@@ -964,10 +965,11 @@ LoaderCallbacks<LoaderResult<Node>>
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
 
-            /* mi = menu.add(Menu.NONE, MenuActionItem.MENU_TAGS, Menu.FIRST + MenuActionItem.MENU_TAGS, R.string.tags);
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_TAGS, Menu.FIRST + MenuActionItem.MENU_TAGS, R.string.tags);
             mi.setIcon(R.drawable.mime_tags);
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);*/
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
+         */
     }
 
     public void getMenu(Menu menu)
