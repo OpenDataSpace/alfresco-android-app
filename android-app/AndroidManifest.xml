@@ -19,7 +19,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.opendataspace.android.app"
     android:versionCode="1"
-    android:versionName="0.2" >
+    android:versionName="${project.version}" >
 
     <uses-sdk
         android:minSdkVersion="11"
