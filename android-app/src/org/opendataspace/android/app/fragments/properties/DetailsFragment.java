@@ -22,13 +22,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-
-
-
-
-
-
-
+import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.apache.chemistry.opencmis.commons.enums.Action;
 import org.opendataspace.android.app.ApplicationManager;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.accounts.Account;
@@ -43,8 +38,8 @@ import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
 import org.opendataspace.android.app.fragments.browser.DownloadDialogFragment;
 import org.opendataspace.android.app.fragments.comments.CommentsFragment;
 import org.opendataspace.android.app.fragments.favorites.ActivateSyncDialogFragment;
-import org.opendataspace.android.app.fragments.favorites.FavoritesSyncFragment;
 import org.opendataspace.android.app.fragments.favorites.ActivateSyncDialogFragment.OnSyncChangeListener;
+import org.opendataspace.android.app.fragments.favorites.FavoritesSyncFragment;
 import org.opendataspace.android.app.fragments.menu.MenuActionItem;
 import org.opendataspace.android.app.fragments.tags.TagsListNodeFragment;
 import org.opendataspace.android.app.fragments.versions.VersionFragment;
@@ -85,8 +80,6 @@ import org.opendataspace.android.commonui.fragments.BaseFragment;
 import org.opendataspace.android.commonui.manager.ActionManager.ActionManagerListener;
 import org.opendataspace.android.commonui.manager.MessengerManager;
 import org.opendataspace.android.commonui.utils.Formatter;
-import org.apache.chemistry.opencmis.commons.PropertyIds;
-import org.apache.chemistry.opencmis.commons.enums.Action;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -122,7 +115,7 @@ import android.widget.TextView;
  * @author Jean Marie Pascal
  */
 public class DetailsFragment extends MetadataFragment implements OnTabChangeListener,
-        LoaderCallbacks<LoaderResult<Node>>
+LoaderCallbacks<LoaderResult<Node>>
 {
 
     private static final String ACTION_REFRESH = "org.opendataspace.android.app.intent.ACTION_REFRESH";
@@ -196,7 +189,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         alfSession = SessionUtils.getSession(getActivity());
         SessionUtils.checkSession(getActivity(), alfSession);
         vRoot = inflater.inflate(R.layout.app_details, container, false);
-        
+
         if (alfSession == null) { return vRoot; }
 
         node = (Node) getArguments().get(ARGUMENT_NODE);
@@ -274,126 +267,126 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         switch (requestCode)
         {
         // Save Back : When a file has been opened by 3rd party app.
-            case PublicIntent.REQUESTCODE_SAVE_BACK:
-            case PublicIntent.REQUESTCODE_DECRYPTED:
-                // File opened when user tap the preview
-                // Retrieve the File
-                if (replacementPreviewFragment != null)
-                {
-                    tempFile = replacementPreviewFragment.getTempFile();
-                }
+        case PublicIntent.REQUESTCODE_SAVE_BACK:
+        case PublicIntent.REQUESTCODE_DECRYPTED:
+            // File opened when user tap the preview
+            // Retrieve the File
+            if (replacementPreviewFragment != null)
+            {
+                tempFile = replacementPreviewFragment.getTempFile();
+            }
 
-                // Check if SYNC is ON
+            // Check if SYNC is ON
+            if (isSynced)
+            {
+                // We use the sync file stored locally
+                tmpFile = SynchroManager.getInstance(getActivity()).getSyncFile(
+                        SessionUtils.getAccount(getActivity()), node);
+            }
+            else
+            {
+                // We retrieve the temporary file
+                tmpFile = (tempFile != null ? tempFile : NodeActions.getTempFile(getActivity(), node));
+            }
+
+            // Keep the file reference final
+            final File dlFile = tmpFile;
+
+            // Check if the file has been modified (lastmodificationDate)
+            long datetime = dlFile.lastModified();
+            d = new Date(datetime);
+            modified = (d != null && downloadDateTime != null) ? d.after(downloadDateTime) : false;
+
+            if (modified
+                    && alfSession.getServiceRegistry().getDocumentFolderService().getPermissions(node).canEdit())
+            {
+                // File modified + Sync File
                 if (isSynced)
                 {
-                    // We use the sync file stored locally
-                    tmpFile = SynchroManager.getInstance(getActivity()).getSyncFile(
-                            SessionUtils.getAccount(getActivity()), node);
-                }
-                else
-                {
-                    // We retrieve the temporary file
-                    tmpFile = (tempFile != null ? tempFile : NodeActions.getTempFile(getActivity(), node));
-                }
+                    // Update statut of the sync reference
+                    ContentValues cValues = new ContentValues();
 
-                // Keep the file reference final
-                final File dlFile = tmpFile;
-
-                // Check if the file has been modified (lastmodificationDate)
-                long datetime = dlFile.lastModified();
-                d = new Date(datetime);
-                modified = (d != null && downloadDateTime != null) ? d.after(downloadDateTime) : false;
-
-                if (modified
-                        && alfSession.getServiceRegistry().getDocumentFolderService().getPermissions(node).canEdit())
-                {
-                    // File modified + Sync File
-                    if (isSynced)
+                    int operationStatut = SyncOperation.STATUS_PENDING;
+                    if (requestCode == PublicIntent.REQUESTCODE_DECRYPTED)
                     {
-                        // Update statut of the sync reference
-                        ContentValues cValues = new ContentValues();
-
-                        int operationStatut = SyncOperation.STATUS_PENDING;
-                        if (requestCode == PublicIntent.REQUESTCODE_DECRYPTED)
-                        {
-                            operationStatut = SyncOperation.STATUS_MODIFIED;
-                        }
-
-                        cValues.put(SynchroSchema.COLUMN_STATUS, operationStatut);
-                        getActivity().getContentResolver().update(
-                                SynchroManager.getInstance(getActivity()).getUri(
-                                        SessionUtils.getAccount(getActivity()), node.getIdentifier()), cValues, null,
-                                null);
-
-                        // Sync if it's possible.
-                        if (SynchroManager.getInstance(getActivity()).canSync(SessionUtils.getAccount(getActivity())))
-                        {
-                            SynchroManager.getInstance(getActivity()).sync(SessionUtils.getAccount(getActivity()));
-                        }
+                        operationStatut = SyncOperation.STATUS_MODIFIED;
                     }
-                    else
+
+                    cValues.put(SynchroSchema.COLUMN_STATUS, operationStatut);
+                    getActivity().getContentResolver().update(
+                            SynchroManager.getInstance(getActivity()).getUri(
+                                    SessionUtils.getAccount(getActivity()), node.getIdentifier()), cValues, null,
+                                    null);
+
+                    // Sync if it's possible.
+                    if (SynchroManager.getInstance(getActivity()).canSync(SessionUtils.getAccount(getActivity())))
                     {
-                        // File is temporary (after dl from server)
-                        // We request the user if he wants to save back
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                        builder.setTitle(R.string.save_back);
-                        builder.setMessage(String.format(getResources().getString(R.string.save_back_description),
-                                node.getName()));
-                        builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int item)
-                            {
-                                update(dlFile);
-                                dialog.dismiss();
-                            }
-                        });
-                        builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
-                        {
-                            public void onClick(DialogInterface dialog, int item)
-                            {
-                                DataProtectionManager.getInstance(getActivity()).checkEncrypt(
-                                        SessionUtils.getAccount(getActivity()), dlFile);
-                                dialog.dismiss();
-                            }
-                        });
-                        AlertDialog alert = builder.create();
-                        alert.show();
+                        SynchroManager.getInstance(getActivity()).sync(SessionUtils.getAccount(getActivity()));
                     }
                 }
                 else
                 {
-                    // File with no modification
-                    // Encrypt sync file if necessary
-                    // Delete otherwise
-                    StorageManager.manageFile(getActivity(), dlFile);
-                }
-                break;
-            case PublicIntent.REQUESTCODE_FILEPICKER:
-                if (data != null && IntentIntegrator.ACTION_PICK_FILE.equals(data.getAction()))
-                {
-                    ActionManager.actionPickFile(getFragmentManager().findFragmentByTag(TAG),
-                            IntentIntegrator.REQUESTCODE_FILEPICKER);
-                }
-                else if (data != null && data.getData() != null)
-                {
-                    String tmpPath = ActionManager.getPath(getActivity(), data.getData());
-                    if (tmpPath != null)
+                    // File is temporary (after dl from server)
+                    // We request the user if he wants to save back
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle(R.string.save_back);
+                    builder.setMessage(String.format(getResources().getString(R.string.save_back_description),
+                            node.getName()));
+                    builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
                     {
-                        File f = new File(tmpPath);
-                        update(f);
-                    }
-                    else
+                        public void onClick(DialogInterface dialog, int item)
+                        {
+                            update(dlFile);
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
                     {
-                        // Error case : Unable to find the file path associated
-                        // to user pick.
-                        // Sample : Picasa image case
-                        ActionManager.actionDisplayError(DetailsFragment.this, new AlfrescoAppException(
-                                getString(R.string.error_unknown_filepath), true));
-                    }
+                        public void onClick(DialogInterface dialog, int item)
+                        {
+                            DataProtectionManager.getInstance(getActivity()).checkEncrypt(
+                                    SessionUtils.getAccount(getActivity()), dlFile);
+                            dialog.dismiss();
+                        }
+                    });
+                    AlertDialog alert = builder.create();
+                    alert.show();
                 }
-                break;
-            default:
-                break;
+            }
+            else
+            {
+                // File with no modification
+                // Encrypt sync file if necessary
+                // Delete otherwise
+                StorageManager.manageFile(getActivity(), dlFile);
+            }
+            break;
+        case PublicIntent.REQUESTCODE_FILEPICKER:
+            if (data != null && IntentIntegrator.ACTION_PICK_FILE.equals(data.getAction()))
+            {
+                ActionManager.actionPickFile(getFragmentManager().findFragmentByTag(TAG),
+                        IntentIntegrator.REQUESTCODE_FILEPICKER);
+            }
+            else if (data != null && data.getData() != null)
+            {
+                String tmpPath = ActionManager.getPath(getActivity(), data.getData());
+                if (tmpPath != null)
+                {
+                    File f = new File(tmpPath);
+                    update(f);
+                }
+                else
+                {
+                    // Error case : Unable to find the file path associated
+                    // to user pick.
+                    // Sample : Picasa image case
+                    ActionManager.actionDisplayError(DetailsFragment.this, new AlfrescoAppException(
+                            getString(R.string.error_unknown_filepath), true));
+                }
+            }
+            break;
+        default:
+            break;
         }
     }
 
@@ -504,7 +497,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         }
 
         // BUTTONS
-     /*   b = (ImageView) vRoot.findViewById(R.id.action_favorite);
+        /*   b = (ImageView) vRoot.findViewById(R.id.action_favorite);
 
         b.setOnClickListener(new OnClickListener()
         {
@@ -597,7 +590,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         if (vRoot.findViewById(R.id.icon) != null)
         {
             ((ImageView) vRoot.findViewById(R.id.icon))
-                    .setImageResource(MimeTypeManager.getIcon(node.getName(), false));
+            .setImageResource(MimeTypeManager.getIcon(node.getName(), false));
         }
         if (vRoot.findViewById(R.id.preview) != null)
         {
@@ -666,7 +659,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         vRoot.findViewById(R.id.like_progress).setVisibility(View.GONE);
         b.setVisibility(View.GONE);
 
-       /* b = (ImageView) vRoot.findViewById(R.id.action_favorite);
+        /* b = (ImageView) vRoot.findViewById(R.id.action_favorite);
         b.setImageResource(R.drawable.ic_favorite_dark);
         vRoot.findViewById(R.id.favorite_progress).setVisibility(View.GONE);*/
 
@@ -857,7 +850,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         vRoot.findViewById(R.id.like_progress).setVisibility(View.VISIBLE);
         OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new LikeNodeRequest(parentNode, node)
-                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+        .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
     }
 
@@ -883,13 +876,13 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             GeneralPreferences.setDisplayActivateSync(getActivity(), true);
         }
 
-       // vRoot.findViewById(R.id.favorite_progress).setVisibility(View.VISIBLE);
+        // vRoot.findViewById(R.id.favorite_progress).setVisibility(View.VISIBLE);
         if (parentNode != null && node != null)
         {
             OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
                     SessionUtils.getAccount(getActivity()));
             group.enqueue(new FavoriteNodeRequest(parentNode, node)
-                    .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+            .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
         }
 
@@ -940,14 +933,14 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
         }
-
+        /*
         if (session.getServiceRegistry().getDocumentFolderService().getPermissions(node).canEdit())
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_EDIT, Menu.FIRST + MenuActionItem.MENU_EDIT, R.string.edit);
             mi.setIcon(R.drawable.ic_edit);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
-
+         */
         if (session.getServiceRegistry().getDocumentFolderService().getPermissions(node).canDelete())
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_DELETE, Menu.FIRST + MenuActionItem.MENU_DELETE,
@@ -958,7 +951,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
 
         if (!DisplayUtils.hasCentralPane(activity))
         {
-           /* mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMMENT, Menu.FIRST + MenuActionItem.MENU_COMMENT,
+            /* mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMMENT, Menu.FIRST + MenuActionItem.MENU_COMMENT,
                     R.string.comments);
             mi.setIcon(R.drawable.ic_comment);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);*/
@@ -971,7 +964,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
 
-           /* mi = menu.add(Menu.NONE, MenuActionItem.MENU_TAGS, Menu.FIRST + MenuActionItem.MENU_TAGS, R.string.tags);
+            /* mi = menu.add(Menu.NONE, MenuActionItem.MENU_TAGS, Menu.FIRST + MenuActionItem.MENU_TAGS, R.string.tags);
             mi.setIcon(R.drawable.mime_tags);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);*/
         }
@@ -1288,15 +1281,15 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                             }
                             Boolean isLiked = (b.getString(IntentIntegrator.EXTRA_LIKE) != null) ? Boolean
                                     .parseBoolean(b.getString(IntentIntegrator.EXTRA_LIKE)) : null;
-                            if (isLiked != null)
-                            {
-                                int drawable = isLiked ? R.drawable.ic_like : R.drawable.ic_unlike;
-                                imageView.setImageDrawable(context.getResources().getDrawable(drawable));
-                            }
-                            return;
+                                    if (isLiked != null)
+                                    {
+                                        int drawable = isLiked ? R.drawable.ic_like : R.drawable.ic_unlike;
+                                        imageView.setImageDrawable(context.getResources().getDrawable(drawable));
+                                    }
+                                    return;
                         }
 
-                       /* if (intent.getAction().equals(IntentIntegrator.ACTION_FAVORITE_COMPLETED))
+                        /* if (intent.getAction().equals(IntentIntegrator.ACTION_FAVORITE_COMPLETED))
                         {
                             View progressView = vRoot.findViewById(R.id.favorite_progress);
                             ImageView imageView = (ImageView) vRoot.findViewById(R.id.action_favorite);
@@ -1321,7 +1314,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                             Node updatedNode = (Node) b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
 
                             ApplicationManager.getInstance(getActivity()).getRenditionManager(getActivity())
-                                    .removeFromCache(_node.getIdentifier());
+                            .removeFromCache(_node.getIdentifier());
                             Boolean backstack = false;
                             if (!DisplayUtils.hasCentralPane(getActivity()))
                             {

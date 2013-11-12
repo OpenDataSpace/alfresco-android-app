@@ -486,14 +486,14 @@ public class MainActivity extends BaseActivity
             FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                     ActivitiesFragment.TAG, true);
             break;
+            /*
         case R.id.menu_search:
             if (!checkSession(R.id.menu_search)) { return; }
             frag = KeywordSearch.newInstance();
             FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this), KeywordSearch.TAG,
                     true);
             break;
-            /*
-            case R.id.menu_favorites:
+        case R.id.menu_favorites:
                 Fragment syncFrag = FavoritesSyncFragment.newInstance(ListingModeFragment.MODE_LISTING);
                 FragmentDisplayer.replaceFragment(this, syncFrag, DisplayUtils.getLeftFragmentId(this),
                         FavoritesSyncFragment.TAG, true);
@@ -928,53 +928,53 @@ public class MainActivity extends BaseActivity
             .refresh();
             return true;
 
-            case MenuActionItem.MENU_SHARE:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).share();
-                return true;
-            case MenuActionItem.MENU_OPEN_IN:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).openin();
-                return true;
-            case MenuActionItem.MENU_DOWNLOAD:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).download();
-                return true;
-            case MenuActionItem.MENU_UPDATE:
-                if (getFragment(DetailsFragment.TAG) != null)
-                {
-                    Intent i = new Intent(IntentIntegrator.ACTION_PICK_FILE, null, this, PublicDispatcherActivity.class);
-                    i.putExtra(IntentIntegrator.EXTRA_FOLDER,
-                            StorageManager.getDownloadFolder(this, getCurrentAccount()));
-                    i.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, getCurrentAccount().getId());
-                    getFragment(DetailsFragment.TAG).startActivityForResult(i, PublicIntent.REQUESTCODE_FILEPICKER);
-                }
-                return true;
-            case MenuActionItem.MENU_EDIT:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).edit();
-                return true;
-           /* case MenuActionItem.MENU_COMMENT:
+        case MenuActionItem.MENU_SHARE:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).share();
+            return true;
+        case MenuActionItem.MENU_OPEN_IN:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).openin();
+            return true;
+        case MenuActionItem.MENU_DOWNLOAD:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).download();
+            return true;
+        case MenuActionItem.MENU_UPDATE:
+            if (getFragment(DetailsFragment.TAG) != null)
+            {
+                Intent i = new Intent(IntentIntegrator.ACTION_PICK_FILE, null, this, PublicDispatcherActivity.class);
+                i.putExtra(IntentIntegrator.EXTRA_FOLDER,
+                        StorageManager.getDownloadFolder(this, getCurrentAccount()));
+                i.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, getCurrentAccount().getId());
+                getFragment(DetailsFragment.TAG).startActivityForResult(i, PublicIntent.REQUESTCODE_FILEPICKER);
+            }
+            return true;
+        case MenuActionItem.MENU_EDIT:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).edit();
+            return true;
+            /* case MenuActionItem.MENU_COMMENT:
                 ((DetailsFragment) getFragment(DetailsFragment.TAG)).comment();
                 return true;*/
-            case MenuActionItem.MENU_VERSION_HISTORY:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).versions();
-                return true;
-           /* case MenuActionItem.MENU_TAGS:
+        case MenuActionItem.MENU_VERSION_HISTORY:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).versions();
+            return true;
+            /* case MenuActionItem.MENU_TAGS:
                 ((DetailsFragment) getFragment(DetailsFragment.TAG)).tags();
                 return true;*/
-            case MenuActionItem.MENU_DELETE:
-                ((DetailsFragment) getFragment(DetailsFragment.TAG)).delete();
-                return true;
-            case MenuActionItem.MENU_SITE_LIST_REQUEST:
-                ((BrowserSitesFragment) getFragment(BrowserSitesFragment.TAG)).displayJoinSiteRequests();
-                return true;
-            case MenuActionItem.ABOUT_ID:
-                displayAbout();
-                DisplayUtils.switchSingleOrTwo(this, true);
-                return true;
-            case android.R.id.home:
-                // app icon in action bar clicked; go home
-                toggleSlideMenu();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        case MenuActionItem.MENU_DELETE:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).delete();
+            return true;
+        case MenuActionItem.MENU_SITE_LIST_REQUEST:
+            ((BrowserSitesFragment) getFragment(BrowserSitesFragment.TAG)).displayJoinSiteRequests();
+            return true;
+        case MenuActionItem.ABOUT_ID:
+            displayAbout();
+            DisplayUtils.switchSingleOrTwo(this, true);
+            return true;
+        case android.R.id.home:
+            // app icon in action bar clicked; go home
+            toggleSlideMenu();
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
         }
     }
 

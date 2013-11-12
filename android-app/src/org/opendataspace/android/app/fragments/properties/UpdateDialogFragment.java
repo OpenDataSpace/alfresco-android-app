@@ -32,7 +32,6 @@ import org.opendataspace.android.cmisapi.constants.ContentModel;
 import org.opendataspace.android.cmisapi.model.Document;
 import org.opendataspace.android.cmisapi.model.Folder;
 import org.opendataspace.android.cmisapi.model.Node;
-import org.opendataspace.android.cmisapi.model.impl.RepositoryVersionHelper;
 import org.opendataspace.android.commonui.documentfolder.actions.UpdateNodeDialogFragment;
 import org.opendataspace.android.commonui.utils.Formatter;
 
@@ -148,15 +147,13 @@ public class UpdateDialogFragment extends UpdateNodeDialogFragment
                 tsize.setVisibility(View.VISIBLE);
             }
 
-            if (RepositoryVersionHelper.isAlfrescoProduct(alfSession)
-                    && node.getProperty(ContentModel.PROP_DESCRIPTION) != null
+            if (node.getProperty(ContentModel.PROP_DESCRIPTION) != null
                     && node.getProperty(ContentModel.PROP_DESCRIPTION).getValue() != null)
             {
                 desc.setText(node.getProperty(ContentModel.PROP_DESCRIPTION).getValue().toString());
             }
 
             bcreate.setEnabled(true);
-
         }
         else
         {
