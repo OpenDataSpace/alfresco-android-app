@@ -48,14 +48,14 @@ public class HomeScreenActivity extends BaseActivity
     // ///////////////////////////////////////////////////////////////////////////
     /** Called when the activity is first created. */
     @Override
-    public void onCreate(Bundle savedInstanceState)
+    public void onCreate(final Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_main_single);
 
         if (getFragmentManager().findFragmentByTag(HomeScreenFragment.TAG) == null)
         {
-            HomeScreenFragment newFragment = new HomeScreenFragment();
+            final HomeScreenFragment newFragment = new HomeScreenFragment();
             FragmentDisplayer.replaceFragment(this, newFragment, DisplayUtils.getLeftFragmentId(this),
                     HomeScreenFragment.TAG, false);
         }
@@ -65,22 +65,25 @@ public class HomeScreenActivity extends BaseActivity
     protected void onStart()
     {
         // Register the broadcast receiver.
-        IntentFilter filters = new IntentFilter();
+        final IntentFilter filters = new IntentFilter();
         filters.addAction(IntentIntegrator.ACTION_CREATE_ACCOUNT_STARTED);
         filters.addAction(IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED);
         registerPrivateReceiver(new HomeScreenReceiver(), filters);
 
         super.onStart();
+        launch(null);
     }
 
     // TODO Change signup process ==> use onCreate intent than on newIntent.
     @Override
-    protected void onNewIntent(Intent intent)
+    protected void onNewIntent(final Intent intent)
     {
         super.onNewIntent(intent);
 
         if (intent.getAction() == null || intent.getData() == null || !Intent.ACTION_VIEW.equals(intent.getAction()))
-        	return;
+        {
+            return;
+        }
 
         if (IntentIntegrator.ALFRESCO_SCHEME_SHORT.equals(intent.getData().getScheme())
                 && IntentIntegrator.CLOUD_SIGNUP.equals(intent.getData().getHost()))
@@ -94,18 +97,18 @@ public class HomeScreenActivity extends BaseActivity
     // ACTIONS
     // ///////////////////////////////////////////////////////////////////////////
 
-    public void cloud(View v)
+    public void cloud(final View v)
     {
-        CloudSignupDialogFragment newFragment = new CloudSignupDialogFragment();
+        final CloudSignupDialogFragment newFragment = new CloudSignupDialogFragment();
         FragmentDisplayer.replaceFragment(this, newFragment, DisplayUtils.getLeftFragmentId(this),
                 CloudSignupDialogFragment.TAG, true);
     }
 
-    public void launch(View v)
+    public void launch(final View v)
     {
-    	AccountEditFragment newFragment = new AccountEditFragment();
+        final AccountEditFragment newFragment = new AccountEditFragment();
         FragmentDisplayer.replaceFragment(this, newFragment, DisplayUtils.getLeftFragmentId(this),
-        		AccountEditFragment.TAG, true);
+                AccountEditFragment.TAG, true);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -114,9 +117,9 @@ public class HomeScreenActivity extends BaseActivity
     private class HomeScreenReceiver extends BroadcastReceiver
     {
         @Override
-        public void onReceive(Context context, Intent intent)
+        public void onReceive(final Context context, final Intent intent)
         {
-            Activity activity = HomeScreenActivity.this;
+            final Activity activity = HomeScreenActivity.this;
 
             Log.d(TAG, intent.getAction());
 
@@ -132,7 +135,7 @@ public class HomeScreenActivity extends BaseActivity
             if (IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED.equals(intent.getAction()))
             {
                 removeWaitingDialog();
-                Intent i = new Intent(activity, MainActivity.class);
+                final Intent i = new Intent(activity, MainActivity.class);
                 i.putExtras(intent.getExtras());
                 activity.startActivity(i);
                 activity.finish();
