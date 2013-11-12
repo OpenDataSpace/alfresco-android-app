@@ -729,7 +729,7 @@ public class ChildrenBrowserFragment extends NavigationFragment implements Refre
         {
             return;
         }
-
+        /*
         if (!actionMode)
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_SEARCH_FOLDER, Menu.FIRST + MenuActionItem.MENU_SEARCH_FOLDER,
@@ -737,7 +737,7 @@ public class ChildrenBrowserFragment extends NavigationFragment implements Refre
             mi.setIcon(R.drawable.ic_search);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
-
+         */
         if (!actionMode && permission.canAddChildren())
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_CREATE_FOLDER, Menu.FIRST + MenuActionItem.MENU_CREATE_FOLDER,

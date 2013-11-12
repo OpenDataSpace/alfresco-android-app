@@ -480,13 +480,13 @@ public class MainActivity extends BaseActivity
             FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                     ChildrenBrowserFragment.TAG, true);
             break;
+            /*
         case R.id.menu_browse_activities:
             if (!checkSession(R.id.menu_browse_activities)) { return; }
             frag = ActivitiesFragment.newInstance();
             FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                     ActivitiesFragment.TAG, true);
             break;
-            /*
         case R.id.menu_search:
             if (!checkSession(R.id.menu_search)) { return; }
             frag = KeywordSearch.newInstance();
@@ -520,9 +520,11 @@ public class MainActivity extends BaseActivity
                         IntentIntegrator.EXTRA_ACCOUNT_ID, currentAccount.getId()));
             }
             break;
+            /*
         case R.id.menu_prefs:
             displayPreferences();
             break;
+             */
         case R.id.menu_about:
             displayAbout();
             break;
