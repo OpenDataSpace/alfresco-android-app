@@ -127,8 +127,12 @@ public final class Formatter
 
                 if (extended)
                 {
+                	String version =  doc.getVersionLabel();
+                	if(version == null || version.equals("null"))
+                		return s.toString();
+                	
                     s.append(" - V:");
-                    if ("0.0".equals(doc.getVersionLabel()))
+                    if ("0.0".equals(version))
                     {
                         s.append("1.0");
                     }

@@ -53,7 +53,6 @@ import android.content.DialogInterface;
 import android.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.SubMenu;
 
 public class NodeActions extends AbstractActions<Node>
 {
@@ -164,7 +163,7 @@ public class NodeActions extends AbstractActions<Node>
     protected void getMenu(Activity activity, Menu menu)
     {
         MenuItem mi;
-        SubMenu createMenu;
+        //SubMenu createMenu;
 
         if (selectedFolder.isEmpty())
         {

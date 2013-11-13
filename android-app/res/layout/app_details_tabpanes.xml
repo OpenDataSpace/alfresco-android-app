@@ -89,6 +89,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="0dip"
                         android:paddingLeft="0dip"
+                        android:maxLines="5"
                         android:text="G419 days ago - 142Kb, version 1.0" />
                 </LinearLayout>
             </LinearLayout>

@@ -18,8 +18,10 @@
 package org.opendataspace.android.app.fragments.properties;
 
 import java.io.File;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.apache.chemistry.opencmis.commons.PropertyIds;
@@ -59,7 +61,6 @@ import org.opendataspace.android.app.operations.sync.SyncOperation;
 import org.opendataspace.android.app.operations.sync.SynchroManager;
 import org.opendataspace.android.app.operations.sync.SynchroSchema;
 import org.opendataspace.android.app.operations.sync.utils.NodeSyncPlaceHolder;
-import org.opendataspace.android.app.operations.sync.utils.NodeSyncPlaceHolderFormatter;
 import org.opendataspace.android.app.preferences.GeneralPreferences;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.utils.ContentFileProgressImpl;
@@ -96,6 +97,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
 import android.os.Bundle;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -114,8 +116,7 @@ import android.widget.TextView;
  * 
  * @author Jean Marie Pascal
  */
-public class DetailsFragment extends MetadataFragment implements OnTabChangeListener,
-LoaderCallbacks<LoaderResult<Node>>
+public class DetailsFragment extends MetadataFragment implements OnTabChangeListener, LoaderCallbacks<LoaderResult<Node>>
 {
 
     private static final String ACTION_REFRESH = "org.opendataspace.android.app.intent.ACTION_REFRESH";
@@ -413,6 +414,61 @@ LoaderCallbacks<LoaderResult<Node>>
         LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         display(refreshedNode, inflater);
     }
+    /*
+    private String getInfo(NodeSyncPlaceHolder node){
+
+        String info = NodeSyncPlaceHolderFormatter.createContentBottomText(getActivity(), node, true);
+
+        final String creator = node.getCreatedBy();
+        final String modifier = node.getModifiedBy();
+        final GregorianCalendar date =  node.getModifiedAt();
+
+        int y = date.get(GregorianCalendar.YEAR);
+        int m = date.get(GregorianCalendar.MONTH) + 1;
+        int d = date.get(GregorianCalendar.DAY_OF_MONTH);
+        int h = date.get(GregorianCalendar.HOUR_OF_DAY);
+        int min = date.get(GregorianCalendar.MINUTE);
+        int s = date.get(GregorianCalendar.SECOND);
+
+        if(creator != null && creator.length() > 0)
+        {
+            info = info.concat("<br>" + getResources().getString(R.string.details_create) +" "+ creator);
+        }
+        if(modifier != null && modifier.length() > 0)
+        {
+            info = info.concat("<br>" + getResources().getString(R.string.details_modifier) +" "+ modifier);
+        }
+        if(date != null){
+            String date_mod = m+"/"+d+"/"+y+" "+h+":"+min+":"+s;
+            info = info.concat("  " + getResources().getString(R.string.details_modif_date) +" "+ date_mod);
+        }
+
+        return info;
+    }
+     */
+    private String getInfo(Node node)
+    {
+        String info = Formatter.createContentBottomText(getActivity(), node, true);
+
+        final String creator = node.getCreatedBy();
+        final String modifier = node.getModifiedBy();
+        final GregorianCalendar date = node.getModifiedAt();
+
+        if(creator != null && creator.length() > 0)
+        {
+            info = info.concat("<br/>" + getResources().getString(R.string.details_create) +" "+ creator);
+        }
+        if(modifier != null && modifier.length() > 0)
+        {
+            info = info.concat("<br/>" + getResources().getString(R.string.details_modifier) +" "+ modifier);
+        }
+        if(date != null){
+            String date_mod = DateFormat.getDateTimeInstance().format(date.getTime());
+            info = info.concat("<br/>" + date_mod);
+        }
+
+        return info;
+    }
 
     private void display(Node refreshedNode, LayoutInflater inflater)
     {
@@ -424,7 +480,11 @@ LoaderCallbacks<LoaderResult<Node>>
         TextView tv = (TextView) vRoot.findViewById(R.id.title);
         tv.setText(node.getName());
         tv = (TextView) vRoot.findViewById(R.id.details);
-        tv.setText(Formatter.createContentBottomText(getActivity(), node, true));
+        final String info = getInfo(node);
+        if(info != null)
+        {
+            tv.setText(Html.fromHtml(info));
+        }
 
         // Preview + Thumbnail
         displayIcon(node, R.drawable.mime_folder, (ImageView) vRoot.findViewById(R.id.icon), false);
@@ -584,7 +644,11 @@ LoaderCallbacks<LoaderResult<Node>>
         TextView tv = (TextView) vRoot.findViewById(R.id.title);
         tv.setText(node.getName());
         tv = (TextView) vRoot.findViewById(R.id.details);
-        tv.setText(NodeSyncPlaceHolderFormatter.createContentBottomText(getActivity(), refreshedNode, true));
+        final String info = getInfo(node);
+        if(info != null)
+        {
+            tv.setText(info);
+        }
 
         // Preview + Thumbnail
         if (vRoot.findViewById(R.id.icon) != null)

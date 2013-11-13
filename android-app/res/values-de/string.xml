@@ -802,4 +802,11 @@
     <string name="title_certificate">Zertifikat Informationen</string>
     <string name="serial_num_certificate">Seriennummer:</string>
     <string name="issuer_certificate">Verleger Distinguished Name:</string>
+    
+    <string name="details_create">erstellt von </string>
+    <string name="details_modifier">geändert durch </string>
+    <string name="details_modif_date">Änderungsdatum </string>
+    
+    <string name="copyright_apache">Diese Software ist unter der \n Apache-Lizenz, Version 2.0</string>
+
 </resources>

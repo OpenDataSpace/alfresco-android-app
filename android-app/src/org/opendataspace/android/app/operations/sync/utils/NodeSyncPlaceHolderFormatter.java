@@ -43,8 +43,12 @@ public final class NodeSyncPlaceHolderFormatter
 
                 if (extended)
                 {
+                	String version = (String)node.getPropertyValue(PropertyIds.VERSION_LABEL);
+                	if(version == null || version.equals("null"))
+                		return s.toString();
+                	
                     s.append(" - V:");
-                    if ("0.0".equals((String)node.getPropertyValue(PropertyIds.VERSION_LABEL)))
+                    if ("0.0".equals(version))
                     {
                         s.append("1.0");
                     }

@@ -82,7 +82,18 @@ public class AboutFragment extends DialogFragment
         sb.append(Version.SDK);
         tv.setText(sb.toString());
 */
-
+        TextView alfresco = (TextView) v.findViewById(R.id.about_alfresco_version);
+        if(alfresco != null)
+        	alfresco.setText(R.string.copyright_alfresco);
+        
+        TextView dataspase = (TextView) v.findViewById(R.id.about_dataspace_version);
+        if(dataspase != null)
+        	dataspase.setText(R.string.copyright_dataspase);
+        
+        TextView apache = (TextView) v.findViewById(R.id.about_apache_version);
+        if(apache != null)
+        	apache.setText(R.string.copyright_apache);
+        
         return v;
     }
 

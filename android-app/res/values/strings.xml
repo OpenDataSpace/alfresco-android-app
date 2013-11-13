@@ -601,4 +601,12 @@
     <string name="title_certificate">Certificate information</string>
     <string name="serial_num_certificate">Serial number:</string>
     <string name="issuer_certificate">Issuer distinguished name:</string>
+    
+    <string name="details_create">created by </string>
+    <string name="details_modifier">modified by </string>
+    <string name="details_modif_date">modification date </string>
+    
+    <string name="copyright_alfresco">(c) 2005-2013 Alfresco Software Limited</string>
+    <string name="copyright_dataspase">(c) 2013 The Open DataSpace project</string>
+    <string name="copyright_apache">This software is licensed under the \n Apache License, Version 2.0</string>
 </resources>
