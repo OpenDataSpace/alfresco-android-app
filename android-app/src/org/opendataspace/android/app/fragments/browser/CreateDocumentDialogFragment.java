@@ -53,17 +53,14 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
 /**
  * Specific override for Uploading content. This fragment is responsible to
@@ -83,7 +80,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
 
     private static final String ARGUMENT_IS_CREATION = "isCreation";
 
-    private EditText editTags;
+    //private EditText editTags;
 
     private List<Tag> selectedTags = new ArrayList<Tag>();
 
@@ -220,7 +217,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
 
             }
         });
-
+        /*
         editTags.setOnEditorActionListener(new OnEditorActionListener()
         {
             @Override
@@ -235,7 +232,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
                 return handled;
             }
         });
-
+         */
         Folder parentFolder = getParent();
         OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new RetrieveDocumentNameRequest(parentFolder.getIdentifier(), contentFile.getFileName())
@@ -321,7 +318,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
 
     private void onValidateTags()
     {
-        String s = editTags.getText().toString();
+        String s = /*editTags.getText().toString()*/ "";
         String[] listValues = s.split(",");
         for (int i = 0; i < listValues.length; i++)
         {
