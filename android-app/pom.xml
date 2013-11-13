@@ -14,7 +14,7 @@
 	<parent>
     	<groupId>org.opendataspace.android.apps</groupId>
     	<artifactId>opendataspace-android-apps</artifactId>
-    	<version>0.2</version>
+    	<version>1.2.0.3</version>
 	</parent>
 
 	<artifactId>opendataspace-android-app</artifactId>
@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>opendataspace-android-commonui</artifactId>
-			<version>0.2</version>
+			<version>1.2.0.3</version>
 			<type>apklib</type>
 		</dependency>
 		<dependency>
@@ -70,6 +70,14 @@
 						<targetPath>${project.build.directory}/filtered-res</targetPath>
 						<includes>
 							<include>**/*.*</include>
+						</includes>
+					</resource>
+					<resource>
+						<directory>${project.basedir}</directory>
+						<filtering>true</filtering>
+						<targetPath>${project.build.directory}</targetPath>
+						<includes>
+							<include>AndroidManifest.xml</include>
 						</includes>
 					</resource>
 				</resources>
@@ -123,6 +131,7 @@
 						<artifactId>android-maven-plugin</artifactId>
 						<inherited>true</inherited>
 						<configuration>
+							<androidManifestFile>${project.build.directory}/AndroidManifest.xml</androidManifestFile>
 							<resourceDirectory>${project.build.directory}/filtered-res</resourceDirectory>
 							<sign>
 								<debug>false</debug>
