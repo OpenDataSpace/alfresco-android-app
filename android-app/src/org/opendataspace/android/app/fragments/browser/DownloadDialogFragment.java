@@ -46,6 +46,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 
 public class DownloadDialogFragment extends DialogFragment implements DownloadTaskListener
 {
@@ -77,6 +78,8 @@ public class DownloadDialogFragment extends DialogFragment implements DownloadTa
 
     private int action = ACTION_UNDEFINED;
 
+    private long startActionTime = 0; 
+    
     public static DownloadDialogFragment newInstance()
     {
         return new DownloadDialogFragment();
@@ -161,19 +164,25 @@ public class DownloadDialogFragment extends DialogFragment implements DownloadTa
     @Override
     public void onPreExecute()
     {
+    	startActionTime = System.currentTimeMillis();
     }
 
     @Override
     public void onProgressUpdate(Integer... values)
     {
         int percent = Math.round(((float) values[0] / totalSize) * 100);
+        if(percent >= 100){
+        	long totalTime = System.currentTimeMillis() - startActionTime;
+        	if(totalTime < 2000)
+        		waiting((2000 - totalTime));
+        }
         ((ProgressDialog) dialog).setProgress(percent);
     }
 
     @Override
     public void onPostExecute(ContentFile results)
     {
-        contentFile = results;
+    	contentFile = results;
         if (getActivity() != null)
         {
             executeAction();
@@ -236,5 +245,13 @@ public class DownloadDialogFragment extends DialogFragment implements DownloadTa
         {
             dlt.cancel(false);
         }
+    }
+    
+    private void waiting(long tact){
+    	long i = 0;
+    	while(i < tact*1000){
+    		i++;
+    	}
+    	
     }
 }
