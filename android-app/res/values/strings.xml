@@ -608,5 +608,5 @@
     
     <string name="copyright_alfresco">(c) 2005-2013 Alfresco Software Limited</string>
     <string name="copyright_dataspase">(c) 2013 The Open DataSpace project</string>
-    <string name="copyright_apache">This software is licensed under the \n Apache License, Version 2.0</string>
+    <string name="copyright_apache">This software is licensed under the\nApache license Version 2.0</string>
 </resources>

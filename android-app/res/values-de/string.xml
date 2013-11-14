@@ -807,6 +807,6 @@
     <string name="details_modifier">geändert durch </string>
     <string name="details_modif_date">Änderungsdatum </string>
     
-    <string name="copyright_apache">Diese Software ist unter der \n Apache-Lizenz, Version 2.0</string>
+    <string name="copyright_apache">Diese Software ist unter der\nApache-Lizenz Version 2.0 lizensiert</string>
 
 </resources>
