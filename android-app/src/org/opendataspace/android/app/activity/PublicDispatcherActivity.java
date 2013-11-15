@@ -38,6 +38,7 @@ import org.opendataspace.android.app.fragments.upload.UploadFormFragment;
 import org.opendataspace.android.app.intent.IntentIntegrator;
 import org.opendataspace.android.app.preferences.PasscodePreferences;
 import org.opendataspace.android.app.security.PassCodeActivity;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.cmisapi.session.CloudSession;
 import org.opendataspace.android.cmisapi.session.RepositorySession;
@@ -342,6 +343,14 @@ public class PublicDispatcherActivity extends BaseActivity
                     frag = FavoritesFragment.newInstance(FavoritesFragment.MODE_FOLDERS);
                     FragmentDisplayer.replaceFragment(activity, frag, DisplayUtils.getLeftFragmentId(activity),
                             FavoritesFragment.TAG, true);
+                }
+                else if (getCurrentSession() != null && uploadFolder == R.string.menu_browse_shared)
+                {
+                	addNavigationFragment(((OdsRepositorySession) getCurrentSession()).getShared().getRootFolder());
+                }
+                else if (getCurrentSession() != null && uploadFolder == R.string.menu_browse_global)
+                {
+                	addNavigationFragment(((OdsRepositorySession) getCurrentSession()).getGlobal().getRootFolder());
                 }
                 return;
             }

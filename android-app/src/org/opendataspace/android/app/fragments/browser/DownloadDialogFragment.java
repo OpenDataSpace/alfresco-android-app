@@ -20,13 +20,6 @@ package org.opendataspace.android.app.fragments.browser;
 import java.io.File;
 import java.util.Date;
 
-
-
-
-
-
-
-
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.fragments.actions.NodeActions;
 import org.opendataspace.android.app.fragments.properties.DetailsFragment;
@@ -46,7 +39,6 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 public class DownloadDialogFragment extends DialogFragment implements DownloadTaskListener
 {
@@ -78,8 +70,8 @@ public class DownloadDialogFragment extends DialogFragment implements DownloadTa
 
     private int action = ACTION_UNDEFINED;
 
-    private long startActionTime = 0; 
-    
+    private long startActionTime = 0;
+
     public static DownloadDialogFragment newInstance()
     {
         return new DownloadDialogFragment();
@@ -164,7 +156,7 @@ public class DownloadDialogFragment extends DialogFragment implements DownloadTa
     @Override
     public void onPreExecute()
     {
-    	startActionTime = System.currentTimeMillis();
+        startActionTime = System.currentTimeMillis();
     }
 
     @Override
@@ -172,9 +164,11 @@ public class DownloadDialogFragment extends DialogFragment implements DownloadTa
     {
         int percent = Math.round(((float) values[0] / totalSize) * 100);
         if(percent >= 100){
-        	long totalTime = System.currentTimeMillis() - startActionTime;
-        	if(totalTime < 2000)
-        		waiting((2000 - totalTime));
+            long totalTime = System.currentTimeMillis() - startActionTime;
+            if(totalTime < 2000)
+            {
+                waiting((2000 - totalTime));
+            }
         }
         ((ProgressDialog) dialog).setProgress(percent);
     }
@@ -182,7 +176,7 @@ public class DownloadDialogFragment extends DialogFragment implements DownloadTa
     @Override
     public void onPostExecute(ContentFile results)
     {
-    	contentFile = results;
+        contentFile = results;
         if (getActivity() != null)
         {
             executeAction();
@@ -195,29 +189,29 @@ public class DownloadDialogFragment extends DialogFragment implements DownloadTa
         {
             switch (action)
             {
-                case ACTION_OPEN:
-                    MessengerManager.showToast(getActivity(), getActivity().getText(R.string.download_complete) + " "
-                            + contentFile.getFileName());
+            case ACTION_OPEN:
+                MessengerManager.showToast(getActivity(), getActivity().getText(R.string.download_complete) + " "
+                        + contentFile.getFileName());
 
-                    DetailsFragment detailsFragment = (DetailsFragment) getFragmentManager().findFragmentByTag(
-                            DetailsFragment.TAG);
-                    if (detailsFragment != null)
-                    {
-                        long datetime = contentFile.getFile().lastModified();
-                        detailsFragment.setDownloadDateTime(new Date(datetime));
-                        ActionManager.openIn(detailsFragment, contentFile.getFile(), doc.getContentStreamMimeType(),
-                                PublicIntent.REQUESTCODE_SAVE_BACK);
-                    }
-                    break;
+                DetailsFragment detailsFragment = (DetailsFragment) getFragmentManager().findFragmentByTag(
+                        DetailsFragment.TAG);
+                if (detailsFragment != null)
+                {
+                    long datetime = contentFile.getFile().lastModified();
+                    detailsFragment.setDownloadDateTime(new Date(datetime));
+                    ActionManager.openIn(detailsFragment, contentFile.getFile(), doc.getContentStreamMimeType(),
+                            PublicIntent.REQUESTCODE_SAVE_BACK);
+                }
+                break;
 
-                case ACTION_EMAIL:
-                    ActionManager.actionSendMailWithAttachment(this, contentFile.getFileName(), getFragmentManager()
-                            .findFragmentByTag(DetailsFragment.TAG).getActivity().getString(R.string.email_content),
-                            Uri.fromFile(contentFile.getFile()), PublicIntent.REQUESTCODE_DECRYPTED);
-                    break;
+            case ACTION_EMAIL:
+                ActionManager.actionSendMailWithAttachment(this, contentFile.getFileName(), getFragmentManager()
+                        .findFragmentByTag(DetailsFragment.TAG).getActivity().getString(R.string.email_content),
+                        Uri.fromFile(contentFile.getFile()), PublicIntent.REQUESTCODE_DECRYPTED);
+                break;
 
-                case ACTION_UNDEFINED:
-                    break;
+            case ACTION_UNDEFINED:
+                break;
             }
         }
         else
@@ -246,12 +240,12 @@ public class DownloadDialogFragment extends DialogFragment implements DownloadTa
             dlt.cancel(false);
         }
     }
-    
+
     private void waiting(long tact){
-    	long i = 0;
-    	while(i < tact*1000){
-    		i++;
-    	}
-    	
+        long i = 0;
+        while(i < tact*1000){
+            i++;
+        }
+
     }
 }
