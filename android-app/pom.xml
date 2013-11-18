@@ -14,7 +14,7 @@
 	<parent>
     	<groupId>org.opendataspace.android.apps</groupId>
     	<artifactId>opendataspace-android-apps</artifactId>
-    	<version>1.2.0.4</version>
+    	<version>1.2.0.6</version>
 	</parent>
 
 	<artifactId>opendataspace-android-app</artifactId>
@@ -37,7 +37,7 @@
 		<dependency>
 			<groupId>${project.groupId}</groupId>
 			<artifactId>opendataspace-android-commonui</artifactId>
-			<version>1.2.0.4</version>
+			<version>1.2.0.6</version>
 			<type>apklib</type>
 		</dependency>
 		<dependency>
