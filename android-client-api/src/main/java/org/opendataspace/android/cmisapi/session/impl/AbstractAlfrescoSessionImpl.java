@@ -44,7 +44,6 @@ import org.opendataspace.android.cmisapi.session.authentication.AuthenticationPr
 import org.opendataspace.android.cmisapi.session.authentication.impl.BasicAuthenticationProviderImpl;
 import org.opendataspace.android.cmisapi.session.authentication.impl.PassthruAuthenticationProviderImpl;
 import org.opendataspace.android.cmisapi.utils.CloudUrlRegistry;
-import org.opendataspace.android.cmisapi.utils.OnPremiseUrlRegistry;
 import org.opendataspace.android.cmisapi.utils.messages.Messagesl18n;
 
 import android.os.Parcelable;
@@ -336,6 +335,7 @@ public abstract class AbstractAlfrescoSessionImpl implements AlfrescoSession, Pa
 
         String tmpBindingUrl = (String) getParameter(BASE_URL);
         // Binding with Alfresco Webscript CMIS implementation
+        /*
         if (tmpBindingUrl != null && !tmpBindingUrl.endsWith(OnPremiseUrlRegistry.BINDING_CMIS)
                 && !sessionParameters.containsKey(SessionParameter.ATOMPUB_URL))
         {
@@ -347,6 +347,7 @@ public abstract class AbstractAlfrescoSessionImpl implements AlfrescoSession, Pa
             this.baseUrl = tmpBindingUrl.replace(OnPremiseUrlRegistry.BINDING_CMIS, "");
             sessionParameters.put(BASE_URL, tmpBindingUrl.replace(OnPremiseUrlRegistry.BINDING_CMIS, ""));
         }
+         */
         sessionParameters.put(SessionParameter.ATOMPUB_URL, tmpBindingUrl);
 
         // Object Factory

@@ -33,6 +33,7 @@ import org.opendataspace.android.app.operations.batch.account.CreateAccountReque
 import org.opendataspace.android.app.operations.batch.node.favorite.FavoriteNodeRequest;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.cmisapi.utils.OnPremiseUrlRegistry;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
@@ -65,7 +66,7 @@ public class AccountEditFragment extends DialogFragment
     private String url = null, host = null, username = null, password = null, servicedocument = null,
             description = null;
 
-    private Account.ProtocolType proto = Account.ProtocolType.JSON;
+    private Account.ProtocolType proto = Account.ProtocolType.ATOM;
 
     private int port;
 
@@ -203,6 +204,9 @@ public class AccountEditFragment extends DialogFragment
             formValue = (EditText) findViewByIdInternal(ids[i]);
             formValue.addTextChangedListener(watcher);
         }
+
+        Spinner spin = (Spinner) findViewByIdInternal(R.id.repository_proto);
+        spin.setSelection(proto == Account.ProtocolType.JSON ? 0 : 1);
     }
 
     private TextWatcher watcher = new TextWatcher()
@@ -224,14 +228,11 @@ public class AccountEditFragment extends DialogFragment
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after)
         {
-            // TODO Auto-generated method stub
-
         }
 
         @Override
         public void afterTextChanged(Editable s)
         {
-
         }
     };
 
@@ -294,6 +295,11 @@ public class AccountEditFragment extends DialogFragment
         URL u = null;
         try
         {
+            if ("".equals(servicedocument))
+            {
+                servicedocument = OnPremiseUrlRegistry.BINDING_CMIS;
+            }
+
             u = new URL(protocol, host, port, servicedocument);
         }
         catch (MalformedURLException e)

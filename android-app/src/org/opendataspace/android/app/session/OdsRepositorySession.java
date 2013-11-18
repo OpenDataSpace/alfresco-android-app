@@ -1,6 +1,7 @@
 package org.opendataspace.android.app.session;
 
 import java.io.Serializable;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -22,6 +23,7 @@ import org.opendataspace.android.cmisapi.session.RepositorySession;
 import org.opendataspace.android.cmisapi.session.authentication.AuthenticationProvider;
 import org.opendataspace.android.cmisapi.session.authentication.impl.PassthruAuthenticationProviderImpl;
 import org.opendataspace.android.cmisapi.session.impl.RepositorySessionImpl;
+import org.opendataspace.android.cmisapi.utils.OnPremiseUrlRegistry;
 import org.opendataspace.android.cmisapi.utils.messages.Messagesl18n;
 
 public class OdsRepositorySession extends RepositorySessionImpl
@@ -49,6 +51,17 @@ public class OdsRepositorySession extends RepositorySessionImpl
 
         if (username == null || username.isEmpty()) { throw new IllegalArgumentException(String.format(
                 Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "username")); }
+
+        try {
+            URL u = new URL(url);
+
+            if ("".equals(u.getPath()))
+            {
+                url += OnPremiseUrlRegistry.BINDING_CMIS;
+            }
+        } catch (Exception ex) {
+            // nothing
+        }
 
         return new OdsRepositorySession(url, username, password, parameters);
     }

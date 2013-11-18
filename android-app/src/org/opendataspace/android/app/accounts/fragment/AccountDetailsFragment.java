@@ -44,6 +44,7 @@ import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
+import org.opendataspace.android.cmisapi.utils.OnPremiseUrlRegistry;
 import org.opendataspace.android.commonui.fragments.BaseFragment;
 import org.opendataspace.android.commonui.manager.MessengerManager;
 
@@ -89,7 +90,7 @@ public class AccountDetailsFragment extends BaseFragment
     private String url = null, host = null, username = null, password = null, servicedocument = null,
             description = null;
 
-    private static Account.ProtocolType proto;
+    private static Account.ProtocolType proto = Account.ProtocolType.ATOM;
 
     private boolean https = false;
 
@@ -339,6 +340,11 @@ public class AccountDetailsFragment extends BaseFragment
         URL u = null;
         try
         {
+            if ("".equals(servicedocument))
+            {
+                servicedocument = OnPremiseUrlRegistry.BINDING_CMIS;
+            }
+
             u = new URL(protocol, host, port, servicedocument);
         }
         catch (MalformedURLException e)
