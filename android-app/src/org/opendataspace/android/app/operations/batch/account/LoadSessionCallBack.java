@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -60,29 +60,29 @@ public class LoadSessionCallBack extends AbstractBatchOperationCallback<Alfresco
 
         switch (loadingTask.getAccount().getTypeId())
         {
-            case Account.TYPE_ALFRESCO_TEST_OAUTH:
-            case Account.TYPE_ALFRESCO_CLOUD:
-                saveData(task, null);
-                CloudExceptionUtils.handleCloudException(context, loadingTask.getAccount().getId(), e, true);
-                break;
-            case Account.TYPE_ALFRESCO_TEST_BASIC:
-            case Account.TYPE_ALFRESCO_CMIS:
-                Intent broadcastIntent = new Intent();
-                broadcastIntent.setAction(IntentIntegrator.ACTION_LOAD_ACCOUNT_ERROR);
-                broadcastIntent.putExtra(SimpleAlertDialogFragment.PARAM_ICON, R.drawable.ic_alfresco_logo);
-                broadcastIntent
-                        .putExtra(SimpleAlertDialogFragment.PARAM_TITLE, R.string.error_session_creation_message);
-                broadcastIntent.putExtra(SimpleAlertDialogFragment.PARAM_POSITIVE_BUTTON, android.R.string.ok);
-                broadcastIntent.putExtra(SimpleAlertDialogFragment.PARAM_MESSAGE,
-                        SessionExceptionHelper.getMessageId(context, e));
-                if (loadingTask.getAccount() != null)
-                {
-                    broadcastIntent.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, loadingTask.getAccount().getId());
-                }
-                LocalBroadcastManager.getInstance(context).sendBroadcast(broadcastIntent);
-                break;
-            default:
-                break;
+        case Account.TYPE_ALFRESCO_TEST_OAUTH:
+        case Account.TYPE_ALFRESCO_CLOUD:
+            saveData(task, null);
+            CloudExceptionUtils.handleCloudException(context, loadingTask.getAccount().getId(), e, true);
+            break;
+        case Account.TYPE_ALFRESCO_TEST_BASIC:
+        case Account.TYPE_ALFRESCO_CMIS:
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.setAction(IntentIntegrator.ACTION_LOAD_ACCOUNT_ERROR);
+            broadcastIntent.putExtra(SimpleAlertDialogFragment.PARAM_ICON, R.drawable.ic_alfresco_logo);
+            broadcastIntent
+            .putExtra(SimpleAlertDialogFragment.PARAM_TITLE, R.string.error_session_creation_message);
+            broadcastIntent.putExtra(SimpleAlertDialogFragment.PARAM_POSITIVE_BUTTON, android.R.string.ok);
+            broadcastIntent.putExtra(SimpleAlertDialogFragment.PARAM_MESSAGE,
+                    SessionExceptionHelper.getMessageId(context, e));
+            if (loadingTask.getAccount() != null)
+            {
+                broadcastIntent.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, loadingTask.getAccount().getId());
+            }
+            LocalBroadcastManager.getInstance(context).sendBroadcast(broadcastIntent);
+            break;
+        default:
+            break;
         }
         super.onError(task, e);
     }
@@ -99,25 +99,28 @@ public class LoadSessionCallBack extends AbstractBatchOperationCallback<Alfresco
         }
 
         // For cloud session, try to save the latest version of oauthdata
-        if (loadingTask.getOAuthData() == null) return;
+        if (loadingTask.getOAuthData() == null)
+        {
+            return;
+        }
 
         switch (loadingTask.getAccount().getTypeId())
         {
-            case Account.TYPE_ALFRESCO_TEST_OAUTH:
-            case Account.TYPE_ALFRESCO_CLOUD:
-                acc = AccountManager.update(context, acc.getId(), acc.getDescription(), acc.getUrl(),
-                        acc.getUsername(), acc.getPassword(), acc.getRepositoryId(),
-                        Integer.valueOf((int) acc.getTypeId()), null, loadingTask.getOAuthData().getAccessToken(),
-                        loadingTask.getOAuthData().getRefreshToken(), acc.getIsPaidAccount() ? 1 : 0);
+        case Account.TYPE_ALFRESCO_TEST_OAUTH:
+        case Account.TYPE_ALFRESCO_CLOUD:
+            acc = AccountManager.update(context, acc.getId(), acc.getDescription(), acc.getUrl(),
+                    acc.getUsername(), acc.getPassword(), acc.getRepositoryId(),
+                    Integer.valueOf((int) acc.getTypeId()), null, loadingTask.getOAuthData().getAccessToken(),
+                    loadingTask.getOAuthData().getRefreshToken(), acc.getIsPaidAccount() ? 1 : 0, acc.getProtocolType());
 
-                if (acc == null)
-                {
-                    Log.e(TAG, "Error during saving oauth data");
-                }
-                break;
-            default:
-                // Do nothing
-                break;
+            if (acc == null)
+            {
+                Log.e(TAG, "Error during saving oauth data");
+            }
+            break;
+        default:
+            // Do nothing
+            break;
         }
     }
 }

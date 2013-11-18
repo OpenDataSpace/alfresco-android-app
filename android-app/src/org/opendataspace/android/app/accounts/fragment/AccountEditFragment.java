@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.activity.BaseActivity;
 import org.opendataspace.android.app.activity.MainActivity;
 import org.opendataspace.android.app.fragments.operations.OperationWaitingDialogFragment;
@@ -53,6 +54,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 public class AccountEditFragment extends DialogFragment
 {
@@ -62,6 +64,8 @@ public class AccountEditFragment extends DialogFragment
 
     private String url = null, host = null, username = null, password = null, servicedocument = null,
             description = null;
+
+    private Account.ProtocolType proto = Account.ProtocolType.JSON;
 
     private int port;
 
@@ -176,7 +180,7 @@ public class AccountEditFragment extends DialogFragment
 
             // Create Account + Session
             OperationsRequestGroup group = new OperationsRequestGroup(getActivity());
-            group.enqueue(new CreateAccountRequest(url, username, password, description)
+            group.enqueue(new CreateAccountRequest(url, username, password, description, proto)
             .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
@@ -298,6 +302,9 @@ public class AccountEditFragment extends DialogFragment
         }
 
         url = u.toString();
+
+        Spinner spin = (Spinner) findViewByIdInternal(R.id.repository_proto);
+        proto = spin.getSelectedItemId() == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON;
 
         return true;
     }

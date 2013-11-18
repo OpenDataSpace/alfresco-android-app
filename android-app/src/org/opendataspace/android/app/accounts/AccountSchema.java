@@ -30,12 +30,12 @@ import android.database.sqlite.SQLiteDatabase;
  */
 public final class AccountSchema
 {
-    
+
     private AccountSchema(){
     }
 
     public static final String TABLENAME = "accounts";
-    
+
     public static final String COLUMN_ID = "_id";
 
     public static final int COLUMN_ID_ID = 0;
@@ -79,71 +79,81 @@ public final class AccountSchema
     public static final String COLUMN_IS_PAID_ACCOUNT = "isPaidAccount";
 
     public static final int COLUMN_IS_PAID_ACCOUNT_ID =  COLUMN_REFRESH_TOKEN_ID + 1;
-    
-    public static final String[] COLUMN_ALL = { 
-        COLUMN_ID, 
+
+    public static final String COLUMN_PROTO = "proto";
+
+    public static final int COLUMN_PROTO_ID = COLUMN_IS_PAID_ACCOUNT_ID + 1;
+
+    public static final String[] COLUMN_ALL = {
+        COLUMN_ID,
         COLUMN_NAME,
         COLUMN_URL,
         COLUMN_USERNAME,
         COLUMN_PASSWORD,
         COLUMN_REPOSITORY_ID,
-        COLUMN_REPOSITORY_TYPE, 
+        COLUMN_REPOSITORY_TYPE,
         COLUMN_ACTIVATION,
         COLUMN_ACCESS_TOKEN,
         COLUMN_REFRESH_TOKEN,
-        COLUMN_IS_PAID_ACCOUNT, 
-        };
+        COLUMN_IS_PAID_ACCOUNT,
+        COLUMN_PROTO
+    };
 
-    private static final String QUERY_TABLE_CREATE = "create table " + TABLENAME + " (" 
-            + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT," 
-            + COLUMN_NAME + " TEXT NOT NULL," 
+    private static final String QUERY_TABLE_CREATE = "create table " + TABLENAME + " ("
+            + COLUMN_ID + " INTEGER PRIMARY KEY AUTOINCREMENT,"
+            + COLUMN_NAME + " TEXT NOT NULL,"
             + COLUMN_URL + " TEXT NOT NULL,"
-            + COLUMN_USERNAME + " TEXT NOT NULL," 
-            + COLUMN_PASSWORD + " TEXT," 
-            + COLUMN_REPOSITORY_ID + " TEXT NOT NULL," 
-            + COLUMN_REPOSITORY_TYPE + " INTEGER," 
+            + COLUMN_USERNAME + " TEXT NOT NULL,"
+            + COLUMN_PASSWORD + " TEXT,"
+            + COLUMN_REPOSITORY_ID + " TEXT NOT NULL,"
+            + COLUMN_REPOSITORY_TYPE + " INTEGER,"
             + COLUMN_ACTIVATION + " TEXT,"
-            + COLUMN_ACCESS_TOKEN + " TEXT," 
-            + COLUMN_REFRESH_TOKEN + " TEXT," 
-            + COLUMN_IS_PAID_ACCOUNT + " INTEGER);";
-    
-    
+            + COLUMN_ACCESS_TOKEN + " TEXT,"
+            + COLUMN_REFRESH_TOKEN + " TEXT,"
+            + COLUMN_IS_PAID_ACCOUNT + " INTEGER,"
+            + COLUMN_PROTO + " INTEGER);";
+
+
     private static final String TABLENAME_OLD = "Account";
-    
+
     // Update database to add the Paid Account flag. This was introduced in
     // DB version 3.
     private static final String QUERY_ADD_PAID_ACCOUNT_COLUM = "ALTER TABLE " + TABLENAME_OLD + " ADD COLUMN " + COLUMN_IS_PAID_ACCOUNT
             + " integer default 0;";
-    
+
+    private static final String QUERY_ADD_PROTO_COLUM = "ALTER TABLE " + TABLENAME + " ADD COLUMN " + COLUMN_PROTO
+            + " integer default 0;";
+
     // Update database to create account content provider
     // Only purpose rename id column to _id
     // DB version 4.
     private static final String TMP_TABLENAME = "TMP_" + TABLENAME_OLD;
     private static final String QUERY_RENAME_TABLE_OLD = "ALTER TABLE " + TABLENAME_OLD + " RENAME TO " + TMP_TABLENAME +" ;";
-    private static final String REPLICATE_ACCOUNT = 
-            "INSERT INTO " + TABLENAME  + " (" 
-            + COLUMN_NAME               + ", "
-            + COLUMN_URL                + ", "
-            + COLUMN_USERNAME           + ", "
-            + COLUMN_PASSWORD           + ", "
-            + COLUMN_REPOSITORY_ID      + ", "
-            + COLUMN_REPOSITORY_TYPE    + ", "
-            + COLUMN_ACTIVATION         + ", "
-            + COLUMN_ACCESS_TOKEN       + ", "
-            + COLUMN_REFRESH_TOKEN      + ", "
-            + COLUMN_IS_PAID_ACCOUNT    + ") " 
-            + " SELECT "
-            + COLUMN_NAME               + ", "
-            + COLUMN_URL                + ", "
-            + COLUMN_USERNAME           + ", "
-            + COLUMN_PASSWORD           + ", "
-            + COLUMN_REPOSITORY_ID      + ", "
-            + COLUMN_REPOSITORY_TYPE    + ", "
-            + COLUMN_ACTIVATION         + ", "
-            + COLUMN_ACCESS_TOKEN       + ", "
-            + COLUMN_REFRESH_TOKEN      + ", "
-            + COLUMN_IS_PAID_ACCOUNT
-            + " FROM " + TMP_TABLENAME +" ;";
+    private static final String REPLICATE_ACCOUNT =
+            "INSERT INTO " + TABLENAME  + " ("
+                    + COLUMN_NAME               + ", "
+                    + COLUMN_URL                + ", "
+                    + COLUMN_USERNAME           + ", "
+                    + COLUMN_PASSWORD           + ", "
+                    + COLUMN_REPOSITORY_ID      + ", "
+                    + COLUMN_REPOSITORY_TYPE    + ", "
+                    + COLUMN_ACTIVATION         + ", "
+                    + COLUMN_ACCESS_TOKEN       + ", "
+                    + COLUMN_REFRESH_TOKEN      + ", "
+                    + COLUMN_IS_PAID_ACCOUNT    + ") "
+                    + " SELECT "
+                    + COLUMN_NAME               + ", "
+                    + COLUMN_URL                + ", "
+                    + COLUMN_USERNAME           + ", "
+                    + COLUMN_PASSWORD           + ", "
+                    + COLUMN_REPOSITORY_ID      + ", "
+                    + COLUMN_REPOSITORY_TYPE    + ", "
+                    + COLUMN_ACTIVATION         + ", "
+                    + COLUMN_ACCESS_TOKEN       + ", "
+                    + COLUMN_REFRESH_TOKEN      + ", "
+                    + COLUMN_IS_PAID_ACCOUNT
+                    + " FROM " + TMP_TABLENAME +" ;";
+
     private static final String QUERY_DROP_TABLE_OLD = "DROP TABLE IF EXISTS " + TMP_TABLENAME;
 
     public static void onCreate(Context context, SQLiteDatabase db)
@@ -159,7 +169,7 @@ public final class AccountSchema
         {
             db.execSQL(QUERY_ADD_PAID_ACCOUNT_COLUM);
         }
-        
+
         // Update database to create account content provider
         if (oldVersion <= DatabaseVersionNumber.VERSION_1_1_0)
         {
@@ -168,6 +178,11 @@ public final class AccountSchema
             db.execSQL(QUERY_TABLE_CREATE);
             db.execSQL(REPLICATE_ACCOUNT);
             db.execSQL(QUERY_DROP_TABLE_OLD);
+        }
+
+        if (oldVersion <= DatabaseVersionNumber.VERSION_1_2_0)
+        {
+            db.execSQL(QUERY_ADD_PROTO_COLUM);
         }
     }
 }

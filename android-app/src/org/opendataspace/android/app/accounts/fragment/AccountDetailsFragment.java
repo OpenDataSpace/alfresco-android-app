@@ -44,7 +44,6 @@ import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-
 import org.opendataspace.android.commonui.fragments.BaseFragment;
 import org.opendataspace.android.commonui.manager.MessengerManager;
 
@@ -72,6 +71,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 /**
@@ -88,6 +88,8 @@ public class AccountDetailsFragment extends BaseFragment
 
     private String url = null, host = null, username = null, password = null, servicedocument = null,
             description = null;
+
+    private static Account.ProtocolType proto;
 
     private boolean https = false;
 
@@ -262,7 +264,7 @@ public class AccountDetailsFragment extends BaseFragment
             }
         });
 
-        formValue = (EditText) v.findViewById(R.id.repository_port);
+        formValue = portForm;
         if (tmprUrl.getPort() != -1)
         {
             formValue.setText(tmprUrl.getPort() + "");
@@ -276,6 +278,10 @@ public class AccountDetailsFragment extends BaseFragment
         formValue = (EditText) v.findViewById(R.id.repository_servicedocument);
         formValue.setText(tmprUrl.getPath());
         formValue.setEnabled(isEditable);
+
+        Spinner sp = (Spinner) v.findViewById(R.id.repository_proto);
+        sp.setSelection(acc.getProtocolType() == Account.ProtocolType.JSON ? 0 : 1);
+        sp.setEnabled(isEditable);
     }
 
     private boolean retrieveFormValues()
@@ -341,6 +347,9 @@ public class AccountDetailsFragment extends BaseFragment
         }
 
         url = u.toString();
+
+        Spinner spin = (Spinner) vRoot.findViewById(R.id.repository_proto);
+        proto = spin.getSelectedItemId() == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON;
 
         return true;
 
@@ -431,8 +440,8 @@ public class AccountDetailsFragment extends BaseFragment
 
                 acc = AccountManager.update(getActivity(), getArguments().getLong(ARGUMENT_ACCOUNT_ID), description,
                         (url != null) ? url : acc.getUrl(), username, password, acc.getRepositoryId(),
-                        Integer.valueOf((int) acc.getTypeId()), null, acc.getAccessToken(), acc.getRefreshToken(),
-                        acc.getIsPaidAccount() ? 1 : 0);
+                                Integer.valueOf((int) acc.getTypeId()), null, acc.getAccessToken(), acc.getRefreshToken(),
+                                acc.getIsPaidAccount() ? 1 : 0, proto);
 
                 initValues(vRoot);
                 vRoot.findViewById(R.id.browse_document).setVisibility(View.VISIBLE);
@@ -471,7 +480,7 @@ public class AccountDetailsFragment extends BaseFragment
                     AccountManager.CONTENT_URI,
                     AccountManager.COLUMN_ALL,
                     AccountSchema.COLUMN_ID + "!=" + acc.getId() + " AND " + AccountSchema.COLUMN_IS_PAID_ACCOUNT
-                            + " = 1", null, null);
+                    + " = 1", null, null);
             if (cursor.getCount() == 0)
             {
                 dataProtectionDeletion = true;

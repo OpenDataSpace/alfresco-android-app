@@ -19,13 +19,6 @@ package org.opendataspace.android.app.accounts.oauth;
 
 import java.util.Date;
 
-
-
-
-
-
-
-
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.accounts.AccountManager;
@@ -114,12 +107,12 @@ public class OAuthRefreshTokenCallback implements LoaderCallbacks<LoaderResult<O
         {
             switch ((int) acc.getTypeId())
             {
-                case Account.TYPE_ALFRESCO_TEST_OAUTH:
-                case Account.TYPE_ALFRESCO_CLOUD:
-                    CloudExceptionUtils.handleCloudException(activity, results.getException(), true);
-                    break;
-                default:
-                    break;
+            case Account.TYPE_ALFRESCO_TEST_OAUTH:
+            case Account.TYPE_ALFRESCO_CLOUD:
+                CloudExceptionUtils.handleCloudException(activity, results.getException(), true);
+                break;
+            default:
+                break;
             }
             Log.e(TAG, Log.getStackTraceString(results.getException()));
         }
@@ -135,15 +128,15 @@ public class OAuthRefreshTokenCallback implements LoaderCallbacks<LoaderResult<O
     {
         switch ((int) acc.getTypeId())
         {
-            case Account.TYPE_ALFRESCO_TEST_OAUTH:
-            case Account.TYPE_ALFRESCO_CLOUD:
-                acc = AccountManager.update(appContext, acc.getId(), acc.getDescription(), acc.getUrl(), acc
-                        .getUsername(), acc.getPassword(), acc.getRepositoryId(),
-                        Integer.valueOf((int) acc.getTypeId()), null, loader.getData().getAccessToken(), loader
-                                .getData().getRefreshToken(), acc.getIsPaidAccount() ? 1 : 0);
-                break;
-            default:
-                break;
+        case Account.TYPE_ALFRESCO_TEST_OAUTH:
+        case Account.TYPE_ALFRESCO_CLOUD:
+            acc = AccountManager.update(appContext, acc.getId(), acc.getDescription(), acc.getUrl(), acc
+                    .getUsername(), acc.getPassword(), acc.getRepositoryId(),
+                    Integer.valueOf((int) acc.getTypeId()), null, loader.getData().getAccessToken(), loader
+                    .getData().getRefreshToken(), acc.getIsPaidAccount() ? 1 : 0, acc.getProtocolType());
+            break;
+        default:
+            break;
         }
 
         Intent broadcastIntent = new Intent();

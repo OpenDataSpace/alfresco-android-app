@@ -186,6 +186,24 @@
                 android:text="@string/account_service_document" >
             </EditText>
         </TableRow>
+        <TableRow
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="@string/account_proto" />
+
+            <Spinner
+                android:id="@+id/repository_proto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:spinnerMode="dropdown"
+                android:entries="@array/account_proto_array" />
+        </TableRow>
     </TableLayout>
 
 </LinearLayout>

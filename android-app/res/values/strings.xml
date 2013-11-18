@@ -49,12 +49,18 @@
     <string name="account_advanced">Advanced</string>
     <string name="account_authentication">Account Authentication</string>
     <string name="account_https">HTTPS</string>
+    <string name="account_proto">Protocol</string>
     <string name="account_port">Port</string>
     <string name="account_servicedocument">Service URL</string>
     <string name="account_wizard_step2_title">Account Authentication Information</string>
     <string name="account_verify">Verifying Account Information&#8230;</string>
     <string name="email_hint">example@acme.com</string>
     <string name="account_validate">Save</string>
+    
+    <string-array name="account_proto_array">
+        <item id="0">Json</item>
+        <item id="1">Atom</item>
+    </string-array>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 3 -->
     <string name="account_wizard_alldone_description">Your account is ready for you to use.</string>
@@ -606,7 +612,7 @@
     <string name="details_modifier">modified by </string>
     <string name="details_modif_date">modification date </string>
     
-    <string name="copyright_alfresco">(c) 2005-2013 Alfresco Software Limited</string>
-    <string name="copyright_dataspase">(c) 2013 The Open DataSpace project</string>
+    <string name="copyright_alfresco">&#169; 2005&#8211;013 Alfresco Software Limited</string>
+    <string name="copyright_dataspase">&#169; 2013 The Open DataSpace project</string>
     <string name="copyright_apache">This software is licensed under the\nApache license Version 2.0</string>
 </resources>

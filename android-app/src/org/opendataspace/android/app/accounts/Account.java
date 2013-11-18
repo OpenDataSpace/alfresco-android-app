@@ -32,6 +32,8 @@ public class Account implements Serializable
 
     private static final long serialVersionUID = 1L;
 
+    public enum ProtocolType { JSON, ATOM };
+
     private long id;
 
     private String description;
@@ -53,9 +55,11 @@ public class Account implements Serializable
     private String refreshToken;
 
     private int isPaidAccount;
-    
+
+    private ProtocolType proto;
+
     public Account(long id, String description, String url, String username, String password, String repositoryId,
-            int typeId, String activation, String accessToken, String refreshToken, int isPaidAccount)
+            int typeId, String activation, String accessToken, String refreshToken, int isPaidAccount, ProtocolType proto)
     {
         super();
         this.id = id;
@@ -69,8 +73,9 @@ public class Account implements Serializable
         this.accessToken = accessToken;
         this.refreshToken = refreshToken;
         this.isPaidAccount = isPaidAccount;
+        this.proto = proto;
     }
-    
+
     public String getAccessToken()
     {
         return accessToken;
@@ -125,9 +130,19 @@ public class Account implements Serializable
     {
         this.repositoryId = repositoryId;
     }
-    
+
     public boolean getIsPaidAccount()
     {
         return (isPaidAccount != 0);
+    }
+
+    public ProtocolType getProtocolType()
+    {
+        return proto;
+    }
+
+    public void setProtocolType(ProtocolType val)
+    {
+        this.proto = val;
     }
 }

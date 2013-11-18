@@ -1254,7 +1254,7 @@ public class MainActivity extends BaseActivity
                                 currentAccount.getUrl(), currentAccount.getUsername(), currentAccount.getPassword(),
                                 currentAccount.getRepositoryId(), currentAccount.getTypeId(),
                                 currentAccount.getActivation(), currentAccount.getAccessToken(),
-                                currentAccount.getRefreshToken(), 1);
+                                currentAccount.getRefreshToken(), 1, currentAccount.getProtocolType());
                     }
                 }
 

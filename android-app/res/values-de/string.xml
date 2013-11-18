@@ -51,12 +51,18 @@
     <string name="account_advanced">Erweitert</string>
     <string name="account_authentication">Account-Authentifizierung</string>
     <string name="account_https">HTTPS</string>
+    <string name="account_proto">Protokoll</string>
     <string name="account_port">Port</string>
     <string name="account_servicedocument">Dienst-URL</string>
     <string name="account_wizard_step2_title">Informationen zur Account-Authentifizierung</string>
     <string name="account_verify">Account-Informationen werden verifiziert&#8230;</string>
     <string name="email_hint">beispiel@amail.com</string>
     <string name="account_validate">Speichern</string>
+
+    <string-array name="account_proto_array">
+        <item id="0">Json</item>
+        <item id="1">Atom</item>
+    </string-array>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 3 -->
     <string name="account_wizard_alldone_description">Sie können Ihren Account jetzt verwenden.</string>
@@ -807,6 +813,6 @@
     <string name="details_modifier">geändert durch </string>
     <string name="details_modif_date">Änderungsdatum </string>
     
-    <string name="copyright_apache">Diese Software ist unter der\nApache-Lizenz Version 2.0 lizensiert</string>
+    <string name="copyright_apache">Diese Software ist unter der\nApache-Lizenz Version 2.0 lizenziert</string>
 
 </resources>
