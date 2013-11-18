@@ -122,7 +122,7 @@ public final class AccountSchema
             + " integer default 0;";
 
     private static final String QUERY_ADD_PROTO_COLUM = "ALTER TABLE " + TABLENAME + " ADD COLUMN " + COLUMN_PROTO
-            + " integer default 0;";
+            + " integer default 1;";
 
     // Update database to create account content provider
     // Only purpose rename id column to _id
