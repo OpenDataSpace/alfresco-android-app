@@ -90,7 +90,7 @@ public class AccountDetailsFragment extends BaseFragment
     private String url = null, host = null, username = null, password = null, servicedocument = null,
             description = null;
 
-    private static Account.ProtocolType proto = Account.ProtocolType.ATOM;
+    private static Account.ProtocolType proto = Account.ProtocolType.JSON;
 
     private boolean https = false;
 
@@ -335,6 +335,9 @@ public class AccountDetailsFragment extends BaseFragment
             port = (protocol.equals("https")) ? 443 : 80;
         }
 
+        Spinner spin = (Spinner) vRoot.findViewById(R.id.repository_proto);
+        proto = spin.getSelectedItemId() == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON;
+
         formValue = (EditText) vRoot.findViewById(R.id.repository_servicedocument);
         servicedocument = formValue.getText().toString();
         URL u = null;
@@ -342,7 +345,8 @@ public class AccountDetailsFragment extends BaseFragment
         {
             if ("".equals(servicedocument))
             {
-                servicedocument = OnPremiseUrlRegistry.BINDING_CMIS;
+                servicedocument = proto == Account.ProtocolType.JSON ? OnPremiseUrlRegistry.BINDING_JSON :
+                    OnPremiseUrlRegistry.BINDING_CMIS;
             }
 
             u = new URL(protocol, host, port, servicedocument);
@@ -353,12 +357,7 @@ public class AccountDetailsFragment extends BaseFragment
         }
 
         url = u.toString();
-
-        Spinner spin = (Spinner) vRoot.findViewById(R.id.repository_proto);
-        proto = spin.getSelectedItemId() == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON;
-
         return true;
-
     }
 
     @Override

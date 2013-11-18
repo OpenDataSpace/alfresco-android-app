@@ -85,6 +85,8 @@ public class AccountSettingsHelper
 
     private Account acc;
 
+    private Account.ProtocolType proto;
+
     private boolean isCloud = false;
 
     private boolean doesRequestNewToken = true;
@@ -102,6 +104,7 @@ public class AccountSettingsHelper
     {
         this.context = context;
         this.acc = acc;
+        this.proto = acc.getProtocolType();
         prepareData();
         if (data != null)
         {
@@ -109,7 +112,7 @@ public class AccountSettingsHelper
         }
     }
 
-    public AccountSettingsHelper(Context context, String baseUrl, String username, String password, OAuthData data)
+    public AccountSettingsHelper(Context context, String baseUrl, String username, String password, OAuthData data, Account.ProtocolType proto)
     {
         super();
         this.context = context;
@@ -117,6 +120,7 @@ public class AccountSettingsHelper
         this.username = username;
         this.password = password;
         this.data = data;
+        this.proto = proto;
     }
 
     public static String getSignUpHostname()
@@ -241,9 +245,9 @@ public class AccountSettingsHelper
         settings.put(AlfrescoSession.HTTP_INVOKER_CLASSNAME, NetworkHttpInvoker.class.getName());
         settings.put(AlfrescoSession.CACHE_FOLDER, StorageManager.getCacheDir(context, "AlfrescoMobile"));
 
-        if (acc != null)
+        if (proto != null)
         {
-            settings.put(OdsRepositorySession.PROTO_TYPE, acc.getProtocolType());
+            settings.put(OdsRepositorySession.PROTO_TYPE, proto);
         }
 
         return settings;

@@ -83,7 +83,7 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
             }
 
             AccountSettingsHelper settingsHelper = new AccountSettingsHelper(context, baseUrl, username, password,
-                    oauthData);
+                    oauthData, proto);
 
             LoadSessionHelper sHelper = new LoadSessionHelper(context, settingsHelper);
             session = sHelper.requestSession();

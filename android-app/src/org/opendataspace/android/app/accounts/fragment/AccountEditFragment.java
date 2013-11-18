@@ -66,7 +66,7 @@ public class AccountEditFragment extends DialogFragment
     private String url = null, host = null, username = null, password = null, servicedocument = null,
             description = null;
 
-    private Account.ProtocolType proto = Account.ProtocolType.ATOM;
+    private Account.ProtocolType proto = Account.ProtocolType.JSON;
 
     private int port;
 
@@ -290,6 +290,9 @@ public class AccountEditFragment extends DialogFragment
             port = (protocol.equals("https")) ? 443 : 80;
         }
 
+        Spinner spin = (Spinner) findViewByIdInternal(R.id.repository_proto);
+        proto = spin.getSelectedItemId() == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON;
+
         formValue = (EditText) findViewByIdInternal(R.id.repository_servicedocument);
         servicedocument = formValue.getText().toString();
         URL u = null;
@@ -297,7 +300,8 @@ public class AccountEditFragment extends DialogFragment
         {
             if ("".equals(servicedocument))
             {
-                servicedocument = OnPremiseUrlRegistry.BINDING_CMIS;
+                servicedocument = proto == Account.ProtocolType.JSON ? OnPremiseUrlRegistry.BINDING_JSON :
+                    OnPremiseUrlRegistry.BINDING_CMIS;
             }
 
             u = new URL(protocol, host, port, servicedocument);
@@ -308,9 +312,6 @@ public class AccountEditFragment extends DialogFragment
         }
 
         url = u.toString();
-
-        Spinner spin = (Spinner) findViewByIdInternal(R.id.repository_proto);
-        proto = spin.getSelectedItemId() == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON;
 
         return true;
     }

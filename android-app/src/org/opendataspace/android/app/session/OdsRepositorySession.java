@@ -52,17 +52,6 @@ public class OdsRepositorySession extends RepositorySessionImpl
         if (username == null || username.isEmpty()) { throw new IllegalArgumentException(String.format(
                 Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "username")); }
 
-        try {
-            URL u = new URL(url);
-
-            if ("".equals(u.getPath()))
-            {
-                url += OnPremiseUrlRegistry.BINDING_CMIS;
-            }
-        } catch (Exception ex) {
-            // nothing
-        }
-
         return new OdsRepositorySession(url, username, password, parameters);
     }
 
@@ -169,12 +158,32 @@ public class OdsRepositorySession extends RepositorySessionImpl
     protected void createCmisSettings()
     {
         super.createCmisSettings();
-        Account.ProtocolType proto = (ProtocolType) userParameters.get(PROTO_TYPE);
 
-        if (Account.ProtocolType.JSON.equals(proto))
+        if (isJsonProto(userParameters))
         {
             sessionParameters.put(SessionParameter.BINDING_TYPE, BindingType.BROWSER.value());
             sessionParameters.put(SessionParameter.BROWSER_URL, getBaseUrl());
         }
+    }
+
+    private boolean isJsonProto(Map<String, Serializable> params) {
+        return Account.ProtocolType.JSON.equals((ProtocolType) params.get(PROTO_TYPE));
+    }
+
+    @Override
+    protected void initSettings(String url, String username, String password, Map<String, Serializable> settings)
+    {
+        try {
+            URL u = new URL(url);
+
+            if ("".equals(u.getPath()))
+            {
+                url += isJsonProto(settings) ? OnPremiseUrlRegistry.BINDING_JSON : OnPremiseUrlRegistry.BINDING_CMIS;
+            }
+        } catch (Exception ex) {
+            // nothing
+        }
+
+        super.initSettings(url, username, password, settings);
     }
 }

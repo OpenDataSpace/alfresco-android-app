@@ -6,7 +6,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
  * 
  *  Unless required by applicable law or agreed to in writing, software
@@ -34,6 +34,8 @@ public final class OnPremiseUrlRegistry
     public static final String BINDING_CMISATOM = "/cmisatom";
 
     public static final String BINDING_CMIS = "/service/cmis";
+
+    public static final String BINDING_JSON = "/cmis/browser";
 
     public static final String PREFIX_SERVICE = "/service/";
 
@@ -84,29 +86,29 @@ public final class OnPremiseUrlRegistry
     // //////////////////////////////////////////////////////////////////////////////
     /** @since 1.2.0 */
     public static final String PREFERENCE_FAVOURITES_DOCUMENTS = "org.opendataspace.share.documents.favourites";
-    
+
     /** @since 1.2.0 */
     public static final String PREFERENCE_FAVOURITES_FOLDERS = "org.opendataspace.share.folders.favourites";
 
-    
+
     /** @since 1.1.0 */
     public static String getUserPreferenceUrl(AlfrescoSession session, String username)
     {
         return session.getBaseUrl().concat(PREFIX_SERVICE).concat(URL_USER_PREFERENCE.replace(VARIABLE_USER,  getEncodingPersonIdentifier(username)));
     }
-    
+
     /** @since 1.2.0 */
     public static String getUserFavouriteDocumentsUrl(AlfrescoSession session, String username)
     {
         return getPreferencesUrl(session, username, PREFERENCE_FAVOURITES_DOCUMENTS);
     }
-    
+
     /** @since 1.2.0 */
     public static String getUserFavouriteFoldersUrl(AlfrescoSession session, String username)
     {
         return getPreferencesUrl(session, username, PREFERENCE_FAVOURITES_FOLDERS);
     }
-    
+
     /** @since 1.2.0 */
     public static String getPreferencesUrl(AlfrescoSession session, String username, String preferenceFilter)
     {
