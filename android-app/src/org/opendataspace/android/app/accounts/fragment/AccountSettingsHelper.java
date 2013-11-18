@@ -27,10 +27,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
+import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.manager.NetworkHttpInvoker;
 import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.cmisapi.constants.OAuthConstant;
 import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
 import org.opendataspace.android.cmisapi.exceptions.ErrorCodeRegistry;
@@ -40,7 +42,6 @@ import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
 import org.opendataspace.android.cmisapi.session.authentication.impl.OAuth2DataImpl;
 import org.opendataspace.android.cmisapi.utils.IOUtils;
 import org.opendataspace.android.commonui.manager.MessengerManager;
-import org.apache.chemistry.opencmis.commons.SessionParameter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -179,53 +180,53 @@ public class AccountSettingsHelper
     {
         switch ((int) acc.getTypeId())
         {
-            case Account.TYPE_ALFRESCO_TEST_OAUTH:
-                isCloud = true;
-                String apikey = null,
-                apisecret = null;
-                File f = new File(APP_CONFIG_PATH);
-                if (f.exists() && ENABLE_CONFIG_FILE)
+        case Account.TYPE_ALFRESCO_TEST_OAUTH:
+            isCloud = true;
+            String apikey = null,
+                    apisecret = null;
+            File f = new File(APP_CONFIG_PATH);
+            if (f.exists() && ENABLE_CONFIG_FILE)
+            {
+                Properties prop = new Properties();
+                InputStream is = null;
+                try
                 {
-                    Properties prop = new Properties();
-                    InputStream is = null;
-                    try
-                    {
-                        is = new FileInputStream(f);
-                        // load a properties file
-                        prop.load(is);
-                        apikey = prop.getProperty("apikey");
-                        apisecret = prop.getProperty("apisecret");
-                    }
-                    catch (IOException ex)
-                    {
-                        throw new AlfrescoServiceException(ErrorCodeRegistry.PARSING_GENERIC, ex);
-                    }
-                    finally
-                    {
-                        IOUtils.closeStream(is);
-                    }
+                    is = new FileInputStream(f);
+                    // load a properties file
+                    prop.load(is);
+                    apikey = prop.getProperty("apikey");
+                    apisecret = prop.getProperty("apisecret");
                 }
+                catch (IOException ex)
+                {
+                    throw new AlfrescoServiceException(ErrorCodeRegistry.PARSING_GENERIC, ex);
+                }
+                finally
+                {
+                    IOUtils.closeStream(is);
+                }
+            }
 
-                baseUrl = acc.getUrl();
-                data = new OAuth2DataImpl(apikey, apisecret, acc.getAccessToken(), acc.getRefreshToken());
-                break;
-            case Account.TYPE_ALFRESCO_CLOUD:
-                isCloud = true;
-                baseUrl = acc.getUrl();
-                data = new OAuth2DataImpl(getText(R.string.oauth_api_key), getText(R.string.oauth_api_secret),
-                        acc.getAccessToken(), acc.getRefreshToken());
-                repositoryId = acc.getRepositoryId();
-                break;
+            baseUrl = acc.getUrl();
+            data = new OAuth2DataImpl(apikey, apisecret, acc.getAccessToken(), acc.getRefreshToken());
+            break;
+        case Account.TYPE_ALFRESCO_CLOUD:
+            isCloud = true;
+            baseUrl = acc.getUrl();
+            data = new OAuth2DataImpl(getText(R.string.oauth_api_key), getText(R.string.oauth_api_secret),
+                    acc.getAccessToken(), acc.getRefreshToken());
+            repositoryId = acc.getRepositoryId();
+            break;
 
-            case Account.TYPE_ALFRESCO_TEST_BASIC:
-            case Account.TYPE_ALFRESCO_CMIS:
-                isCloud = false;
-                baseUrl = acc.getUrl();
-                username = acc.getUsername();
-                password = acc.getPassword();
-                break;
-            default:
-                break;
+        case Account.TYPE_ALFRESCO_TEST_BASIC:
+        case Account.TYPE_ALFRESCO_CMIS:
+            isCloud = false;
+            baseUrl = acc.getUrl();
+            username = acc.getUsername();
+            password = acc.getPassword();
+            break;
+        default:
+            break;
         }
     }
 
@@ -239,6 +240,12 @@ public class AccountSettingsHelper
         settings.put(AlfrescoSession.CREATE_THUMBNAIL, true);
         settings.put(AlfrescoSession.HTTP_INVOKER_CLASSNAME, NetworkHttpInvoker.class.getName());
         settings.put(AlfrescoSession.CACHE_FOLDER, StorageManager.getCacheDir(context, "AlfrescoMobile"));
+
+        if (acc != null)
+        {
+            settings.put(OdsRepositorySession.PROTO_TYPE, acc.getProtocolType());
+        }
+
         return settings;
     }
 

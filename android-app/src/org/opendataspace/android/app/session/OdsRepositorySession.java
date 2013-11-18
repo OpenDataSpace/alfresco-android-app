@@ -10,7 +10,10 @@ import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
 import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
+import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisPermissionDeniedException;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.accounts.Account.ProtocolType;
 import org.opendataspace.android.cmisapi.exceptions.AlfrescoSessionException;
 import org.opendataspace.android.cmisapi.exceptions.ErrorCodeRegistry;
 import org.opendataspace.android.cmisapi.model.impl.FolderImpl;
@@ -23,6 +26,8 @@ import org.opendataspace.android.cmisapi.utils.messages.Messagesl18n;
 
 public class OdsRepositorySession extends RepositorySessionImpl
 {
+    public static final String PROTO_TYPE = "org.opendataspace.android.app.session.proto";
+
     private OdsRepositorySession shared;
     private OdsRepositorySession global;
 
@@ -145,5 +150,18 @@ public class OdsRepositorySession extends RepositorySessionImpl
         rep.repositoryInfo = new OnPremiseRepositoryInfoImpl(rep.cmisSession.getRepositoryInfo());
         rep.create();
         return rep;
+    }
+
+    @Override
+    protected void createCmisSettings()
+    {
+        super.createCmisSettings();
+        Account.ProtocolType proto = (ProtocolType) userParameters.get(PROTO_TYPE);
+
+        if (Account.ProtocolType.JSON.equals(proto))
+        {
+            sessionParameters.put(SessionParameter.BINDING_TYPE, BindingType.BROWSER.value());
+            sessionParameters.put(SessionParameter.BROWSER_URL, getBaseUrl());
+        }
     }
 }

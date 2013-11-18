@@ -169,7 +169,7 @@ public abstract class AbstractAlfrescoSessionImpl implements AlfrescoSession, Pa
     // ///////////////////////
     protected Map<String, Serializable> userParameters;
 
-    private Map<String, String> sessionParameters = new HashMap<String, String>();
+    protected Map<String, String> sessionParameters = new HashMap<String, String>();
 
     private ListingContext lc;
 
@@ -297,7 +297,7 @@ public abstract class AbstractAlfrescoSessionImpl implements AlfrescoSession, Pa
         lc = createListingContext();
     }
 
-    private void createCmisSettings()
+    protected void createCmisSettings()
     {
         // Credentials
         sessionParameters.put(SessionParameter.USER, userIdentifier);
