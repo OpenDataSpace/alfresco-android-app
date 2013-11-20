@@ -72,6 +72,17 @@ public class AccountEditFragment extends DialogFragment
 
     private AccountsReceiver receiver;
 
+    private static Bundle data;
+    //private String URL_KEY = "url";
+    private String HOST_KEY = "host";
+    private String USER_KEY = "username";
+    private String PASS_KEY = "password";
+    private String DOC_KEY = "servicedocument";
+    private String DESCR_KEY = "description";
+    private String HTTPS_KEY = "https";
+    private String PORT_KEY = "port";
+    private String TYPE_KEY = "type";
+
     public AccountEditFragment()
     {
         setStyle(android.R.style.Theme_Holo_Light_Dialog, android.R.style.Theme_Holo_Light_Dialog);
@@ -161,11 +172,19 @@ public class AccountEditFragment extends DialogFragment
         super.onStart();
     }
 
+
     @Override
     public void onPause()
     {
         LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(receiver);
+        savePrevData();
         super.onPause();
+    }
+
+    @Override
+    public void onResume(){
+        setPrevData();
+        super.onResume();
     }
 
     // /////////////////////////////////////////////////////////////
@@ -355,5 +374,82 @@ public class AccountEditFragment extends DialogFragment
                 }
             }
         }
+    }
+
+    private void setPrevData(){
+
+        if(data == null)
+            return;
+
+        EditText formValue = (EditText) findViewByIdInternal(R.id.repository_username);
+        if (formValue != null && data != null && data.containsKey(USER_KEY))
+            formValue.setText(data.getString(USER_KEY));
+
+        formValue = (EditText) findViewByIdInternal(R.id.repository_description);
+        if (formValue != null && data != null && data.containsKey(DESCR_KEY))
+            formValue.setText(data.getString(DESCR_KEY));
+
+        formValue = (EditText) findViewByIdInternal(R.id.repository_password);
+        if (formValue != null && data != null && data.containsKey(PASS_KEY))
+            formValue.setText(data.getString(PASS_KEY));
+
+        formValue = (EditText) findViewByIdInternal(R.id.repository_hostname);
+        if (formValue != null && data != null && data.containsKey(HOST_KEY))
+            formValue.setText(data.getString(HOST_KEY));
+
+        formValue = (EditText) findViewByIdInternal(R.id.repository_port);
+        if (formValue != null && data != null && data.containsKey(PORT_KEY))
+            formValue.setText(data.getString(PORT_KEY));
+
+        formValue = (EditText) findViewByIdInternal(R.id.repository_servicedocument);
+        if (formValue != null && data != null && data.containsKey(PORT_KEY))
+            formValue.setText(data.getString(DOC_KEY));
+
+        Spinner spin = (Spinner) findViewByIdInternal(R.id.repository_proto);
+        if (spin != null && data != null && data.containsKey(TYPE_KEY))
+            spin.setSelection((int) data.getLong(TYPE_KEY));
+
+        CheckBox sw = (CheckBox) findViewByIdInternal(R.id.repository_https);
+        if (sw != null && data != null && data.containsKey(HTTPS_KEY))
+            sw.setChecked(data.getBoolean(HTTPS_KEY));
+
+    }
+
+    private void savePrevData()
+    {
+        data = new Bundle();
+
+        EditText formValue = (EditText) findViewByIdInternal(R.id.repository_username);
+        if (formValue != null && formValue.getText() != null && formValue.getText().length() > 0)
+            data.putString(USER_KEY, formValue.getText().toString());
+
+        formValue = (EditText) findViewByIdInternal(R.id.repository_description);
+        if (formValue != null && formValue.getText() != null && formValue.getText().length() > 0)
+            data.putString(DESCR_KEY, formValue.getText().toString());
+
+        formValue = (EditText) findViewByIdInternal(R.id.repository_password);
+        if (formValue != null && formValue.getText() != null && formValue.getText().length() > 0)
+            data.putString(PASS_KEY, formValue.getText().toString());
+
+        formValue = (EditText) findViewByIdInternal(R.id.repository_hostname);
+        if (formValue != null && formValue.getText() != null && formValue.getText().length() > 0)
+            data.putString(HOST_KEY, formValue.getText().toString());
+
+        CheckBox sw = (CheckBox) findViewByIdInternal(R.id.repository_https);
+        if (sw != null)
+            data.putBoolean(HTTPS_KEY, sw.isChecked());
+
+        formValue = (EditText) findViewByIdInternal(R.id.repository_port);
+        if (formValue != null && formValue.getText().length() > 0)
+            data.putString(PORT_KEY, formValue.getText().toString());
+
+        formValue = (EditText) findViewByIdInternal(R.id.repository_servicedocument);
+        if (formValue != null && formValue.getText().length() > 0)
+            data.putString(DOC_KEY, formValue.getText().toString());
+
+        Spinner spin = (Spinner) findViewByIdInternal(R.id.repository_proto);
+        if (spin != null)
+            data.putLong(TYPE_KEY, spin.getSelectedItemId());
+
     }
 }

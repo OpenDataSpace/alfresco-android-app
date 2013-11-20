@@ -154,7 +154,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                 // Do nothing
             }
         });
-               
+
         return rootView;
     }
 
@@ -166,14 +166,14 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
         cursorAdapter = new AccountCursorAdapter(getActivity(), null, R.layout.sdk_list_row, null);
 
         spinnerAccount.setAdapter(cursorAdapter);
-                
+
         getLoaderManager().initLoader(0, null, this);
-        
+
     }
 
 
-	@SuppressLint("NewApi")
-	@Override
+    @SuppressLint("NewApi")
+    @Override
     public void onStart()
     {
         super.onStart();
@@ -205,7 +205,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                         else
                         {
                             String timeStamp = new SimpleDateFormat("yyyyddMM_HHmmss").format(new Date());
-                            File localParentFolder = StorageManager.getCacheDir(getActivity(), "AlfrescoMobile/import");
+                            File localParentFolder = org.opendataspace.android.commonui.manager.StorageManager.getCacheDir(getActivity(), "AlfrescoMobile/import");
                             File f = createFile(localParentFolder, timeStamp + ".txt", item.getText().toString());
                             if (f.exists())
                             {
@@ -237,7 +237,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                         else
                         {
                             String timeStamp = new SimpleDateFormat("yyyyddMM_HHmmss").format(new Date());
-                            File localParentFolder = StorageManager.getCacheDir(getActivity(), "AlfrescoMobile/import");
+                            File localParentFolder = org.opendataspace.android.commonui.manager.StorageManager.getCacheDir(getActivity(), "AlfrescoMobile/import");
                             File f = createFile(localParentFolder, timeStamp + ".txt", item.getText().toString());
                             if (f.exists())
                             {
@@ -310,7 +310,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
 
         updateImportListFolders();
         //refreshImportFolder();
-        
+
     }
 
     // ///////////////////////////////////////////
@@ -319,15 +319,13 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
     @Override
     public Loader<Cursor> onCreateLoader(int id, Bundle args)
     {
-    	long _id = ApplicationManager.getInstance(BaseActivity.getCurrentContext()).getCurrentAccount().getId();
-    	
-    	final CursorLoader c =  new CursorLoader(getActivity(), AccountManager.CONTENT_URI, AccountManager.COLUMN_ALL,
-    			AccountSchema.COLUMN_ACTIVATION + " IS NULL OR " + AccountSchema.COLUMN_ACTIVATION + "= ''", null,
-    			"case when "+ AccountSchema.COLUMN_ID_ID + "='"+_id +"' then 1 else 0 end desc");
-    	
-    	return c;
+        final CursorLoader c =  new CursorLoader(getActivity(), AccountManager.CONTENT_URI, AccountManager.COLUMN_ALL,
+                AccountSchema.COLUMN_ACTIVATION + " IS NULL OR " + AccountSchema.COLUMN_ACTIVATION + "= ''", null, null);
+
+        return c;
     }
 
+    @Override
     public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor)
     {
         if (cursor.getCount() == 0)
@@ -336,14 +334,14 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
             return;
         }
         cursorAdapter.changeCursor(cursor);
-        
+
         final Cursor c = cursorAdapter.getCursor();
         if(c == null)
-        	return ;
-        
+            return ;
+
         if(c.getCount() <= 1)
-        	return ;
-        
+            return ;
+
         long _id = ApplicationManager.getInstance(BaseActivity.getCurrentContext()).getCurrentAccount().getId();
         for (int i = 0; i < c.getCount(); i++)
         {
@@ -355,7 +353,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                 break;
             }
         }
-        
+
     }
 
     @Override
@@ -391,7 +389,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
     {
         if (uri == null) { throw new AlfrescoAppException(getString(R.string.import_unsupported_intent), true); }
 
-        String tmpPath = ActionManager.getPath(getActivity(), uri);
+        String tmpPath = org.opendataspace.android.commonui.manager.ActionManager.getPath(getActivity(), uri);
         if (tmpPath != null)
         {
             file = new File(tmpPath);
@@ -419,7 +417,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
     {
         Spinner spinner = (Spinner) rootView.findViewById(R.id.import_folder_spinner);
         UploadFolderAdapter upLoadadapter = new UploadFolderAdapter(getActivity(), R.layout.sdk_list_row,list);
-                //IMPORT_FOLDER_LIST);
+        //IMPORT_FOLDER_LIST);
         spinner.setAdapter(upLoadadapter);
         spinner.setOnItemSelectedListener(new OnItemSelectedListener()
         {
@@ -449,9 +447,9 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
     {
         {
             add(R.string.menu_browse_root);
-           // add(R.string.menu_downloads);
-           //add(R.string.menu_browse_sites);
-           //add(R.string.menu_favorites_folder);
+            // add(R.string.menu_downloads);
+            //add(R.string.menu_browse_sites);
+            //add(R.string.menu_favorites_folder);
         }
     };
 
@@ -464,7 +462,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
             add(R.string.menu_browse_global);
         }
     };
-    
+
     private void next()
     {
         long accountId = selectedAccountCursor.getLong(AccountSchema.COLUMN_ID_ID);
@@ -513,7 +511,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                 getActivity().finish();
             }
             break;
-         default:
+        default:
             break;
         }
     }
@@ -540,29 +538,29 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
         }
         return outputFile;
     }
-    
-    private void updateImportListFolders(){
-    	    	
-    	Context c = BaseActivity.getCurrentContext();
-    	AlfrescoSession session = null;
-    	
-    	if(c == null){
-    		refreshImportFolder(IMPORT_FOLDER_LIST);
-    		return;
-    	}
-    	if(selectedAccountCursor != null){
-    		long accountId = selectedAccountCursor.getLong(AccountSchema.COLUMN_ID_ID);
-    	 	session = ApplicationManager.getInstance(c).getSession(accountId);
-    	}else{
-    		session = ApplicationManager.getInstance(c).getCurrentSession();
-    	}
 
-    	if (session instanceof OdsRepositorySession)
-        {
-    		refreshImportFolder(IMPORT_ODS_FOLDER_LIST);
-    		return;
+    private void updateImportListFolders(){
+
+        Context c = BaseActivity.getCurrentContext();
+        AlfrescoSession session = null;
+
+        if(c == null){
+            refreshImportFolder(IMPORT_FOLDER_LIST);
+            return;
         }
-    	
-    	refreshImportFolder(IMPORT_FOLDER_LIST);
+        if(selectedAccountCursor != null){
+            long accountId = selectedAccountCursor.getLong(AccountSchema.COLUMN_ID_ID);
+            session = ApplicationManager.getInstance(c).getSession(accountId);
+        }else{
+            session = ApplicationManager.getInstance(c).getCurrentSession();
+        }
+
+        if (session instanceof OdsRepositorySession)
+        {
+            refreshImportFolder(IMPORT_ODS_FOLDER_LIST);
+            return;
+        }
+
+        refreshImportFolder(IMPORT_FOLDER_LIST);
     }
 }

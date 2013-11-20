@@ -359,7 +359,17 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         boolean hasShared = ods != null && ods.getShared() != null;
         boolean hasGlobal = ods != null && ods.getGlobal() != null;
 
-        menuShared.setVisibility(hasShared ? View.VISIBLE : View.GONE);
-        menuGlobal.setVisibility(hasGlobal ? View.VISIBLE : View.GONE);
+        final View v = this.getView();
+        if(v == null)
+            return;
+
+        menuShared = (Button) v.findViewById(R.id.menu_browse_shared);
+        menuGlobal = (Button) v.findViewById(R.id.menu_browse_global);
+
+        if(menuShared != null)
+            menuShared.setVisibility(hasShared ? View.VISIBLE : View.GONE);
+
+        if(menuGlobal != null)
+            menuGlobal.setVisibility(hasGlobal ? View.VISIBLE : View.GONE);
     }
 }
