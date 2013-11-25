@@ -9,8 +9,8 @@ import org.opendataspace.android.app.activity.BaseActivity;
 import org.opendataspace.android.app.activity.MainActivity;
 import org.opendataspace.android.app.manager.StorageManager;
 import org.opendataspace.android.app.utils.UIUtils;
-
 import org.opendataspace.android.commonui.fragments.BaseFragment;
+import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.os.Bundle;
 import android.os.Environment;
@@ -53,7 +53,7 @@ public class FileExplorerMenuFragment extends BaseFragment
         UIUtils.displayTitle(getActivity(), getString(R.string.menu_local_files));
         super.onResume();
     }
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // UTILS
     // ///////////////////////////////////////////////////////////////////////////
@@ -66,7 +66,7 @@ public class FileExplorerMenuFragment extends BaseFragment
     }
 
     private static final List<Integer> FILEEXPLORER_SHORTCUTS = new ArrayList<Integer>(7)
-    {
+            {
         private static final long serialVersionUID = 1L;
 
         {
@@ -80,64 +80,72 @@ public class FileExplorerMenuFragment extends BaseFragment
             add(R.id.shortcut_library_videos);
             add(R.id.shortcut_library_images);
         }
-    };
+            };
 
-    private OnClickListener menuClickListener = new OnClickListener()
-    {
-        @Override
-        public void onClick(View v)
-        {
-            File currentLocation = null;
-            int mediatype = -1;
-            switch (v.getId())
+            private OnClickListener menuClickListener = new OnClickListener()
             {
-                case R.id.shortcut_alfresco_downloads:
-                    currentLocation = StorageManager.getDownloadFolder(getActivity(),
-                            ((BaseActivity) getActivity()).getCurrentAccount());
-                    break;
-                case R.id.shortcut_local_sdcard:
-                    currentLocation = Environment.getExternalStorageDirectory();
-                    break;
-                case R.id.shortcut_local_downloads:
-                    currentLocation = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
-                    break;
-                case R.id.shortcut_library_office:
-                    mediatype = MediaStore.Files.FileColumns.MEDIA_TYPE_NONE;
-                    break;
-                case R.id.shortcut_library_audios:
-                    mediatype = MediaStore.Files.FileColumns.MEDIA_TYPE_AUDIO;
-                    break;
-                case R.id.shortcut_library_videos:
-                    mediatype = MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
-                    break;
-                case R.id.shortcut_library_images:
-                    mediatype = MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
-                    break;
-                default:
-                    break;
-            }
+                @Override
+                public void onClick(View v)
+                {
+                    File currentLocation = null;
+                    int mediatype = -1;
+                    switch (v.getId())
+                    {
+                    case R.id.shortcut_alfresco_downloads:
+                        currentLocation = StorageManager.getDownloadFolder(getActivity(),
+                                ((BaseActivity) getActivity()).getCurrentAccount());
+                        break;
+                    case R.id.shortcut_local_sdcard:
+                        currentLocation = Environment.getExternalStorageDirectory();
+                        break;
+                    case R.id.shortcut_local_downloads:
+                        currentLocation = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                        if(!currentLocation.exists())
+                        {
+                            if(!currentLocation.mkdirs()){
+                                String msg = currentLocation == null ? "External storage is not available." : currentLocation.getAbsolutePath() + ": is not exist";
+                                MessengerManager.showLongToast(v.getContext(),msg);
+                                return;
+                            }
+                        }
+                        break;
+                    case R.id.shortcut_library_office:
+                        mediatype = MediaStore.Files.FileColumns.MEDIA_TYPE_NONE;
+                        break;
+                    case R.id.shortcut_library_audios:
+                        mediatype = MediaStore.Files.FileColumns.MEDIA_TYPE_AUDIO;
+                        break;
+                    case R.id.shortcut_library_videos:
+                        mediatype = MediaStore.Files.FileColumns.MEDIA_TYPE_VIDEO;
+                        break;
+                    case R.id.shortcut_library_images:
+                        mediatype = MediaStore.Files.FileColumns.MEDIA_TYPE_IMAGE;
+                        break;
+                    default:
+                        break;
+                    }
 
-            if (currentSelectedButton != null)
-            {
-                UIUtils.setBackground(
-                        currentSelectedButton,
-                        FileExplorerMenuFragment.this.getResources().getDrawable(
-                                R.drawable.btn_default_holo_light_underline));
-            }
+                    if (currentSelectedButton != null)
+                    {
+                        UIUtils.setBackground(
+                                currentSelectedButton,
+                                FileExplorerMenuFragment.this.getResources().getDrawable(
+                                        R.drawable.btn_default_holo_light_underline));
+                    }
 
-            if (currentLocation != null)
-            {
-                ((MainActivity) getActivity()).addLocalFileNavigationFragment(currentLocation);
-            }
-            else if (mediatype >= 0)
-            {
-                ((MainActivity) getActivity()).addLocalFileNavigationFragment(mediatype);
-            }
+                    if (currentLocation != null)
+                    {
+                        ((MainActivity) getActivity()).addLocalFileNavigationFragment(currentLocation);
+                    }
+                    else if (mediatype >= 0)
+                    {
+                        ((MainActivity) getActivity()).addLocalFileNavigationFragment(mediatype);
+                    }
 
-            UIUtils.setBackground(v,
-                    FileExplorerMenuFragment.this.getResources().getDrawable(R.drawable.btn_default_focused_holo_light));
-            currentSelectedButton = v;
-        }
-    };
+                    UIUtils.setBackground(v,
+                            FileExplorerMenuFragment.this.getResources().getDrawable(R.drawable.btn_default_focused_holo_light));
+                    currentSelectedButton = v;
+                }
+            };
 
 }

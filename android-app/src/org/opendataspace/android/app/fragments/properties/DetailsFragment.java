@@ -96,6 +96,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
@@ -335,6 +336,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                             node.getName()));
                     builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
                     {
+                        @Override
                         public void onClick(DialogInterface dialog, int item)
                         {
                             update(dlFile);
@@ -343,6 +345,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                     });
                     builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
                     {
+                        @Override
                         public void onClick(DialogInterface dialog, int item)
                         {
                             DataProtectionManager.getInstance(getActivity()).checkEncrypt(
@@ -749,6 +752,38 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         }
     }
 
+    private File getDownloadFile(Context context,AlfrescoSession session,Account acc)
+    {
+        File file = null;
+        try{
+            if(context == null || node == null || session == null)
+            {
+                return null;
+            }
+
+            File folder = StorageManager.getDownloadFolder(context, acc);
+            if(folder == null)
+            {
+                return null;
+            }
+
+            file = new File(folder, node.getName());
+            if(!file.exists())
+            {
+                return null;
+            }
+
+            if(((Document)node).getContentStreamLength() != file.length())
+            {
+                return null;
+            }
+        }catch(Exception e){
+            Log.e(TAG, "ERROR "+ e.getMessage());
+        }
+
+        return file;
+    }
+
     // ///////////////////////////////////////////////////////////////////////////
     // ACTIONS
     // ///////////////////////////////////////////////////////////////////////////
@@ -760,6 +795,16 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         {
             // Only sharing as attachment is allowed when we're not on a cloud
             // account
+            Account acc = SessionUtils.getAccount(getActivity());
+            File f = getDownloadFile(this.getActivity().getApplicationContext(),alfSession, acc);
+            if(f != null){
+                ActionManager.actionSendMailWithAttachment(this, f.getName(), getFragmentManager()
+                        .findFragmentByTag(DetailsFragment.TAG).getActivity().getString(R.string.email_content),
+                        Uri.fromFile(f), PublicIntent.REQUESTCODE_DECRYPTED);
+
+                return;
+            }
+
             Bundle b = new Bundle();
             b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, (Document) node);
             b.putInt(DownloadDialogFragment.ARGUMENT_ACTION, DownloadDialogFragment.ACTION_EMAIL);
@@ -775,8 +820,19 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
 
             builder.setPositiveButton(R.string.full_attachment, new DialogInterface.OnClickListener()
             {
+                @Override
                 public void onClick(DialogInterface dialog, int item)
                 {
+                    Account acc = SessionUtils.getAccount(getActivity());
+                    File f = getDownloadFile(getActivity().getApplicationContext(),alfSession, acc);
+                    if(f != null){
+                        ActionManager.actionSendMailWithAttachment(DetailsFragment.this, f.getName(), getFragmentManager()
+                                .findFragmentByTag(DetailsFragment.TAG).getActivity().getString(R.string.email_content),
+                                Uri.fromFile(f), PublicIntent.REQUESTCODE_DECRYPTED);
+
+                        return;
+                    }
+
                     Bundle b = new Bundle();
                     b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, (Document) node);
                     b.putInt(DownloadDialogFragment.ARGUMENT_ACTION, DownloadDialogFragment.ACTION_EMAIL);
@@ -787,6 +843,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             });
             builder.setNegativeButton(R.string.link_to_repo, new DialogInterface.OnClickListener()
             {
+                @Override
                 public void onClick(DialogInterface dialog, int item)
                 {
                     if (parentNode != null)
@@ -840,6 +897,12 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         // 3 cases
         SynchroManager syncManager = SynchroManager.getInstance(getActivity());
         Account acc = SessionUtils.getAccount(getActivity());
+
+        File f = getDownloadFile(this.getActivity().getApplicationContext(),alfSession, acc);
+        if(f != null){
+            ActionManager.openIn(this, f, MimeTypeManager.getMIMEType(f.getName()),PublicIntent.REQUESTCODE_SAVE_BACK);
+            return;
+        }
 
         if (syncManager.isSynced(SessionUtils.getAccount(getActivity()), node))
         {
