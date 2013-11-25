@@ -25,12 +25,12 @@ import java.util.List;
 
 
 
-import org.opendataspace.android.asynchronous.AbstractBaseLoader;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.session.CloudNetwork;
-import org.opendataspace.android.cmisapi.session.CloudSession;
-import org.opendataspace.android.cmisapi.session.impl.CloudNetworkImpl;
-import org.opendataspace.android.cmisapi.utils.messages.Messagesl18n;
+import org.alfresco.mobile.android.api.asynchronous.AbstractBaseLoader;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.session.CloudNetwork;
+import org.alfresco.mobile.android.api.session.CloudSession;
+import org.alfresco.mobile.android.api.session.impl.CloudNetworkImpl;
+import org.alfresco.mobile.android.api.utils.messages.Messagesl18n;
 
 import android.content.Context;
 

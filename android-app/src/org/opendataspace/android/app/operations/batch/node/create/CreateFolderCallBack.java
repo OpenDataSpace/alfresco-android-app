@@ -19,7 +19,7 @@ package org.opendataspace.android.app.operations.batch.node.create;
 
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationCallback;
-import org.opendataspace.android.cmisapi.model.Folder;
+import org.alfresco.mobile.android.api.model.Folder;
 
 import android.content.Context;
 

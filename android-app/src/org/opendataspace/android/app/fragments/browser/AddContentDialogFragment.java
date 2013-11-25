@@ -26,7 +26,7 @@ import java.io.File;
 
 import org.opendataspace.android.app.utils.ContentFileProgressImpl;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.cmisapi.model.Folder;
+import org.alfresco.mobile.android.api.model.Folder;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

@@ -17,8 +17,8 @@
  ******************************************************************************/
 package org.opendataspace.android.app.accounts.signup;
 
-import org.opendataspace.android.asynchronous.AbstractBaseLoader;
-import org.opendataspace.android.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.asynchronous.AbstractBaseLoader;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 
 import android.content.Context;
 

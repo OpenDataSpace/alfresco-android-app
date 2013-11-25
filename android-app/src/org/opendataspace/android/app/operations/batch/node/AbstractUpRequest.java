@@ -30,7 +30,7 @@ import org.opendataspace.android.app.operations.Operation;
 import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
 import org.opendataspace.android.app.operations.batch.utils.MapUtil;
 import org.opendataspace.android.app.utils.ContentFileProgressImpl;
-import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.alfresco.mobile.android.api.model.ContentFile;
 
 import android.content.ContentValues;
 import android.database.Cursor;

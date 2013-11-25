@@ -28,7 +28,7 @@ import org.opendataspace.android.app.intent.IntentIntegrator;
 import org.opendataspace.android.app.operations.Operation;
 import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationCallback;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
 
 import android.content.Context;
 import android.content.Intent;

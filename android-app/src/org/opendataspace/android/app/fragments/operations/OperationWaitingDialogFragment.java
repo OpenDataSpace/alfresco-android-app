@@ -24,7 +24,7 @@ import org.opendataspace.android.app.operations.batch.BatchOperationContentProvi
 import org.opendataspace.android.app.operations.batch.BatchOperationManager;
 import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.model.Node;
+import org.alfresco.mobile.android.api.model.Node;
 
 import android.app.Dialog;
 import android.app.DialogFragment;

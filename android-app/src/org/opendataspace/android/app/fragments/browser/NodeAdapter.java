@@ -30,12 +30,12 @@ import org.opendataspace.android.app.manager.MimeTypeManager;
 import org.opendataspace.android.app.manager.RenditionManager;
 import org.opendataspace.android.app.utils.ProgressViewHolder;
 import org.opendataspace.android.app.utils.UIUtils;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.model.Node;
-import org.opendataspace.android.cmisapi.services.DocumentFolderService;
-import org.opendataspace.android.cmisapi.utils.NodeComparator;
-import org.opendataspace.android.commonui.fragments.BaseListAdapter;
-import org.opendataspace.android.commonui.utils.Formatter;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.services.DocumentFolderService;
+import org.alfresco.mobile.android.api.utils.NodeComparator;
+import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
+import org.alfresco.mobile.android.ui.utils.Formatter;
 
 import android.app.Activity;
 import android.content.Context;

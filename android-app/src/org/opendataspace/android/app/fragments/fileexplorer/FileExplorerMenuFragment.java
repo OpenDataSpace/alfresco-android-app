@@ -4,13 +4,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.activity.BaseActivity;
 import org.opendataspace.android.app.activity.MainActivity;
 import org.opendataspace.android.app.manager.StorageManager;
 import org.opendataspace.android.app.utils.UIUtils;
-import org.opendataspace.android.commonui.fragments.BaseFragment;
-import org.opendataspace.android.commonui.manager.MessengerManager;
 
 import android.os.Bundle;
 import android.os.Environment;

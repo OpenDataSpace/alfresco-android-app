@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.opendataspace.android.app.exception;
 
-import org.opendataspace.android.cmisapi.exceptions.AlfrescoException;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoException;
 
 /**
  * High Level Exception that occurs during Application context.

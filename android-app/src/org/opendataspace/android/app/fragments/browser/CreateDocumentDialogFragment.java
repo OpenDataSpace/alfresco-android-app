@@ -36,14 +36,14 @@ import org.opendataspace.android.app.operations.batch.node.create.RetrieveDocume
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.constants.ContentModel;
-import org.opendataspace.android.cmisapi.model.ContentFile;
-import org.opendataspace.android.cmisapi.model.Folder;
-import org.opendataspace.android.cmisapi.model.Tag;
-import org.opendataspace.android.cmisapi.model.impl.TagImpl;
-import org.opendataspace.android.commonui.fragments.BaseFragment;
-import org.opendataspace.android.commonui.manager.MimeTypeManager;
-import org.opendataspace.android.commonui.utils.Formatter;
+import org.alfresco.mobile.android.api.constants.ContentModel;
+import org.alfresco.mobile.android.api.model.ContentFile;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Tag;
+import org.alfresco.mobile.android.api.model.impl.TagImpl;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.MimeTypeManager;
+import org.alfresco.mobile.android.ui.utils.Formatter;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;

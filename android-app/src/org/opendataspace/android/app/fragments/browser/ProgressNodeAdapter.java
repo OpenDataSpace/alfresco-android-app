@@ -40,10 +40,10 @@ import org.opendataspace.android.app.utils.AndroidVersion;
 import org.opendataspace.android.app.utils.ProgressViewHolder;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
-import org.opendataspace.android.cmisapi.model.Folder;
-import org.opendataspace.android.cmisapi.model.Node;
-import org.opendataspace.android.cmisapi.model.Permissions;
-import org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.Permissions;
+import org.alfresco.mobile.android.api.model.impl.publicapi.PublicAPIPropertyIds;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;

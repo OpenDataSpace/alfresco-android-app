@@ -46,8 +46,8 @@ import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.utils.AndroidVersion;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.session.AlfrescoSession;
-import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.annotation.SuppressLint;
 import android.app.Fragment;
@@ -205,7 +205,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                         else
                         {
                             String timeStamp = new SimpleDateFormat("yyyyddMM_HHmmss").format(new Date());
-                            File localParentFolder = org.opendataspace.android.commonui.manager.StorageManager.getCacheDir(getActivity(), "AlfrescoMobile/import");
+                            File localParentFolder = org.alfresco.mobile.android.ui.manager.StorageManager.getCacheDir(getActivity(), "AlfrescoMobile/import");
                             File f = createFile(localParentFolder, timeStamp + ".txt", item.getText().toString());
                             if (f.exists())
                             {
@@ -237,7 +237,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                         else
                         {
                             String timeStamp = new SimpleDateFormat("yyyyddMM_HHmmss").format(new Date());
-                            File localParentFolder = org.opendataspace.android.commonui.manager.StorageManager.getCacheDir(getActivity(), "AlfrescoMobile/import");
+                            File localParentFolder = org.alfresco.mobile.android.ui.manager.StorageManager.getCacheDir(getActivity(), "AlfrescoMobile/import");
                             File f = createFile(localParentFolder, timeStamp + ".txt", item.getText().toString());
                             if (f.exists())
                             {
@@ -389,7 +389,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
     {
         if (uri == null) { throw new AlfrescoAppException(getString(R.string.import_unsupported_intent), true); }
 
-        String tmpPath = org.opendataspace.android.commonui.manager.ActionManager.getPath(getActivity(), uri);
+        String tmpPath = org.alfresco.mobile.android.ui.manager.ActionManager.getPath(getActivity(), uri);
         if (tmpPath != null)
         {
             file = new File(tmpPath);

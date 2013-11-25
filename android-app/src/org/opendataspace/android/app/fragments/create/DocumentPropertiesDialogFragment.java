@@ -31,8 +31,8 @@ import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
 import org.opendataspace.android.app.fragments.fileexplorer.FileExplorerFragment;
 import org.opendataspace.android.app.manager.StorageManager;
 import org.opendataspace.android.app.utils.UIUtils;
-import org.opendataspace.android.cmisapi.utils.IOUtils;
-import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.alfresco.mobile.android.api.utils.IOUtils;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

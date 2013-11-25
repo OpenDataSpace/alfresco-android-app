@@ -20,11 +20,11 @@ package org.opendataspace.android.app.fragments.sites;
 
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.asynchronous.SiteMembershipLoader;
-import org.opendataspace.android.cmisapi.model.Site;
-import org.opendataspace.android.cmisapi.model.SiteVisibility;
-import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.asynchronous.SiteMembershipLoader;
+import org.alfresco.mobile.android.api.model.Site;
+import org.alfresco.mobile.android.api.model.SiteVisibility;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Fragment;
 import android.app.LoaderManager.LoaderCallbacks;

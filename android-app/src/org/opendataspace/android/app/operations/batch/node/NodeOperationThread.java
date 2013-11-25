@@ -20,10 +20,10 @@ package org.opendataspace.android.app.operations.batch.node;
 
 import org.opendataspace.android.app.operations.OperationRequest;
 import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationThread;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
-import org.opendataspace.android.cmisapi.model.Folder;
-import org.opendataspace.android.cmisapi.model.Node;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Node;
 
 import android.content.Context;
 import android.util.Log;

@@ -18,11 +18,11 @@
 package org.opendataspace.android.app.accounts.oauth;
 
 
-import org.opendataspace.android.asynchronous.AbstractBaseLoader;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.session.CloudSession;
-import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
-import org.opendataspace.android.cmisapi.session.authentication.impl.OAuthHelper;
+import org.alfresco.mobile.android.api.asynchronous.AbstractBaseLoader;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.session.CloudSession;
+import org.alfresco.mobile.android.api.session.authentication.OAuthData;
+import org.alfresco.mobile.android.api.session.authentication.impl.OAuthHelper;
 
 import android.content.Context;
 

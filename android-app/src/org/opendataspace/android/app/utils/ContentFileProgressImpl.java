@@ -20,7 +20,7 @@ package org.opendataspace.android.app.utils;
 import java.io.File;
 import java.io.IOException;
 
-import org.opendataspace.android.cmisapi.model.impl.ContentFileImpl;
+import org.alfresco.mobile.android.api.model.impl.ContentFileImpl;
 
 /**
  * ContentFile represents an abstract way to share file between the client

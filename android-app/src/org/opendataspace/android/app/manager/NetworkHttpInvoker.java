@@ -46,7 +46,7 @@ import android.webkit.CookieSyncManager;
 
 import com.squareup.okhttp.OkHttpClient;
 
-public class NetworkHttpInvoker extends org.opendataspace.android.cmisapi.network.NetworkHttpInvoker
+public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.NetworkHttpInvoker
 {
 
     private static Boolean mCheck = false;

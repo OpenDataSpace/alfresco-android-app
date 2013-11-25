@@ -12,7 +12,7 @@ import org.opendataspace.android.app.fragments.SimpleAlertDialogFragment;
 import org.opendataspace.android.app.fragments.fileexplorer.FileActions.onFinishModeListerner;
 import org.opendataspace.android.app.manager.ActionManager;
 
-import org.opendataspace.android.commonui.manager.ActionManager.ActionManagerListener;
+import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
 
 import android.app.Activity;
 import android.content.ActivityNotFoundException;

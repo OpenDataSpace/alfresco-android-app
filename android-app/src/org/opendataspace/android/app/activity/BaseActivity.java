@@ -38,11 +38,11 @@ import org.opendataspace.android.app.manager.RenditionManager;
 import org.opendataspace.android.app.preferences.GeneralPreferences;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.model.Folder;
-import org.opendataspace.android.cmisapi.model.Site;
-import org.opendataspace.android.cmisapi.session.AlfrescoSession;
-import org.opendataspace.android.commonui.fragments.BaseFragment;
-import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Site;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;

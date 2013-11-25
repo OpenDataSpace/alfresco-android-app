@@ -28,12 +28,12 @@ import org.opendataspace.android.app.operations.batch.BatchOperationManager;
 import org.opendataspace.android.app.operations.batch.node.update.UpdatePropertiesRequest;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
-import org.opendataspace.android.cmisapi.constants.ContentModel;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.model.Folder;
-import org.opendataspace.android.cmisapi.model.Node;
-import org.opendataspace.android.commonui.documentfolder.actions.UpdateNodeDialogFragment;
-import org.opendataspace.android.commonui.utils.Formatter;
+import org.alfresco.mobile.android.api.constants.ContentModel;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.ui.documentfolder.actions.UpdateNodeDialogFragment;
+import org.alfresco.mobile.android.ui.utils.Formatter;
 
 import android.os.Bundle;
 import android.text.Editable;

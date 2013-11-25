@@ -24,7 +24,7 @@ import org.opendataspace.android.app.fragments.SimpleAlertDialogFragment;
 import org.opendataspace.android.app.manager.ActionManager;
 import org.opendataspace.android.app.operations.Operation;
 import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationCallback;
-import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 
 import android.content.Context;
 import android.media.MediaScannerConnection;

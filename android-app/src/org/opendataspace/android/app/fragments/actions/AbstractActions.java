@@ -28,7 +28,7 @@ import java.util.List;
 
 import org.opendataspace.android.app.manager.StorageManager;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.cmisapi.model.Node;
+import org.alfresco.mobile.android.api.model.Node;
 
 import android.app.Activity;
 import android.app.Fragment;

@@ -51,7 +51,7 @@ import org.opendataspace.android.app.manager.StorageManager;
 import org.opendataspace.android.app.operations.sync.SyncOperation;
 import org.opendataspace.android.app.operations.sync.SynchroProvider;
 import org.opendataspace.android.app.operations.sync.SynchroSchema;
-import org.opendataspace.android.cmisapi.utils.IOUtils;
+import org.alfresco.mobile.android.api.utils.IOUtils;
 
 import android.content.ContentValues;
 import android.content.Context;

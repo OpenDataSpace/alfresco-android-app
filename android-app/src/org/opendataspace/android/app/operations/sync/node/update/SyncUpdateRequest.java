@@ -19,9 +19,9 @@ package org.opendataspace.android.app.operations.sync.node.update;
 
 
 import org.opendataspace.android.app.operations.sync.node.AbstractSyncUpRequest;
-import org.opendataspace.android.cmisapi.model.ContentFile;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.model.Folder;
+import org.alfresco.mobile.android.api.model.ContentFile;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Folder;
 
 import android.database.Cursor;
 

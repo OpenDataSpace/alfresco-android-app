@@ -25,9 +25,9 @@ import org.opendataspace.android.app.fragments.SimpleAlertDialogFragment;
 import org.opendataspace.android.app.fragments.create.DocumentTypeRecord;
 import org.opendataspace.android.app.manager.ActionManager;
 
-import org.opendataspace.android.commonui.fragments.BaseListAdapter;
-import org.opendataspace.android.commonui.manager.ActionManager.ActionManagerListener;
-import org.opendataspace.android.commonui.utils.GenericViewHolder;
+import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
+import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
+import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -84,7 +84,7 @@ public class OpenAsDialogFragment extends DialogFragment
             {
                 DocumentTypeRecord record = (DocumentTypeRecord) l.getItemAtPosition(position);
                 // Show properties
-                org.opendataspace.android.commonui.manager.ActionManager.actionView(getActivity(), (File) getArguments()
+                org.alfresco.mobile.android.ui.manager.ActionManager.actionView(getActivity(), (File) getArguments()
                         .get(PARAM_FILE), record.mimetype, new ActionManagerListener()
                 {
                     @Override

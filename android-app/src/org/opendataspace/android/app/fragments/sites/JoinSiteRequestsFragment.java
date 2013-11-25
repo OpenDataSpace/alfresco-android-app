@@ -29,11 +29,11 @@ import java.util.List;
 
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.asynchronous.JoinSiteRequestsLoader;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.model.Site;
-import org.opendataspace.android.cmisapi.model.impl.PagingResultImpl;
-import org.opendataspace.android.commonui.fragments.BaseListFragment;
+import org.alfresco.mobile.android.api.asynchronous.JoinSiteRequestsLoader;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.Site;
+import org.alfresco.mobile.android.api.model.impl.PagingResultImpl;
+import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
 
 import android.app.Dialog;
 import android.app.LoaderManager.LoaderCallbacks;

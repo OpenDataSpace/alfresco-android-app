@@ -24,9 +24,9 @@ import org.opendataspace.android.app.intent.IntentIntegrator;
 import org.opendataspace.android.app.manager.ActionManager;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
-import org.opendataspace.android.cmisapi.exceptions.AlfrescoSessionException;
-import org.opendataspace.android.cmisapi.exceptions.ErrorCodeRegistry;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoSessionException;
+import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
 import org.apache.http.HttpStatus;
 

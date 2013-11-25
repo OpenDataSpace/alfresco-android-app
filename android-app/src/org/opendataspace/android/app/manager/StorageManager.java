@@ -30,16 +30,16 @@ import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.utils.IOUtils;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
-import org.opendataspace.android.cmisapi.exceptions.ErrorCodeRegistry;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.utils.NodeRefUtils;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
+import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.utils.NodeRefUtils;
 
 import android.content.Context;
 import android.os.Environment;
 import android.util.Log;
 
-public class StorageManager extends org.opendataspace.android.commonui.manager.StorageManager
+public class StorageManager extends org.alfresco.mobile.android.ui.manager.StorageManager
 {
     private static final String TAG = "StorageManager";
 

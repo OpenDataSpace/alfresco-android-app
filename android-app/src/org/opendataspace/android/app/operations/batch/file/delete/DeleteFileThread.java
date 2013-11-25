@@ -28,7 +28,7 @@ import java.io.IOException;
 import org.opendataspace.android.app.intent.IntentIntegrator;
 import org.opendataspace.android.app.operations.batch.file.FileOperationThread;
 import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationRequestImpl;
-import org.opendataspace.android.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 
 import android.content.Context;
 import android.content.Intent;

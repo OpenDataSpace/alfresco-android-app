@@ -31,9 +31,10 @@ import org.opendataspace.android.app.operations.OperationsRequestGroup;
 import org.opendataspace.android.app.operations.batch.BatchOperationManager;
 import org.opendataspace.android.app.operations.batch.account.CreateAccountRequest;
 import org.opendataspace.android.app.operations.batch.node.favorite.FavoriteNodeRequest;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.utils.OnPremiseUrlRegistry;
+import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
 
 import android.app.DialogFragment;
 import android.app.FragmentManager;
@@ -319,7 +320,7 @@ public class AccountEditFragment extends DialogFragment
         {
             if ("".equals(servicedocument))
             {
-                servicedocument = proto == Account.ProtocolType.JSON ? OnPremiseUrlRegistry.BINDING_JSON :
+                servicedocument = proto == Account.ProtocolType.JSON ? OdsRepositorySession.BINDING_JSON :
                     OnPremiseUrlRegistry.BINDING_CMIS;
             }
 

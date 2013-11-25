@@ -34,11 +34,11 @@ import org.opendataspace.android.app.operations.sync.SynchroManager;
 import org.opendataspace.android.app.operations.sync.utils.NodeSyncPlaceHolder;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.model.Node;
-import org.opendataspace.android.cmisapi.model.impl.NodeImpl;
-import org.opendataspace.android.commonui.fragments.BaseFragment;
-import org.opendataspace.android.commonui.manager.ActionManager.ActionManagerListener;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.impl.NodeImpl;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
 
 import android.app.DialogFragment;
 import android.content.ActivityNotFoundException;

@@ -23,8 +23,8 @@ import org.opendataspace.android.app.operations.OperationsRequestGroup;
 import org.opendataspace.android.app.operations.batch.BatchOperationManager;
 import org.opendataspace.android.app.operations.batch.node.download.DownloadRequest;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.model.Folder;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Folder;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;

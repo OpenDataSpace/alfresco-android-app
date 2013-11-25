@@ -23,7 +23,7 @@ import org.opendataspace.android.app.operations.Operation;
 import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationCallback;
 import org.opendataspace.android.app.operations.sync.node.AbstractSyncUpRequest;
 import org.opendataspace.android.app.operations.sync.node.AbstractSyncUpThread;
-import org.opendataspace.android.cmisapi.model.Document;
+import org.alfresco.mobile.android.api.model.Document;
 
 import android.content.Context;
 

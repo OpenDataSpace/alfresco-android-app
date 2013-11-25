@@ -21,7 +21,7 @@ package org.opendataspace.android.app.utils;
 import org.opendataspace.android.app.ApplicationManager;
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.activity.BaseActivity;
-import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
 
 import android.app.Activity;
 import android.app.FragmentManager;

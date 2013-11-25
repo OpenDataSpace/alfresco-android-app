@@ -27,10 +27,10 @@ import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationR
 import org.opendataspace.android.app.operations.sync.node.AbstractSyncUpThread;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.security.EncryptionUtils;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.session.impl.AbstractAlfrescoSessionImpl;
-import org.opendataspace.android.cmisapi.utils.IOUtils;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.session.impl.AbstractAlfrescoSessionImpl;
+import org.alfresco.mobile.android.api.utils.IOUtils;
 
 import android.content.ContentValues;
 import android.content.Context;

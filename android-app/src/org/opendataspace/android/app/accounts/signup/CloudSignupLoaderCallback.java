@@ -25,8 +25,8 @@ import org.opendataspace.android.app.accounts.fragment.AccountDetailsFragment;
 import org.opendataspace.android.app.accounts.fragment.AccountSettingsHelper;
 import org.opendataspace.android.app.fragments.SimpleAlertDialogFragment;
 import org.opendataspace.android.app.manager.ActionManager;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 
 import android.app.Activity;
 import android.app.Fragment;

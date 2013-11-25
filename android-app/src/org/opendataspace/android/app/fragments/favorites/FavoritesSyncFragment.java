@@ -48,8 +48,8 @@ import org.opendataspace.android.app.utils.ConnectivityUtils;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.model.Node;
-import org.opendataspace.android.cmisapi.utils.NodeRefUtils;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.utils.NodeRefUtils;
 
 import android.app.Fragment;
 import android.content.BroadcastReceiver;

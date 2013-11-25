@@ -19,7 +19,7 @@ package org.opendataspace.android.app.fragments;
 
 import java.lang.reflect.Constructor;
 
-import org.opendataspace.android.commonui.utils.GenericViewHolder;
+import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 
 import android.content.Context;
 import android.database.Cursor;

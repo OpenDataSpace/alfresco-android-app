@@ -24,8 +24,8 @@ import java.nio.MappedByteBuffer;
 import java.nio.channels.FileChannel;
 import java.nio.charset.Charset;
 
-import org.opendataspace.android.asynchronous.AbstractBaseLoader;
-import org.opendataspace.android.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.asynchronous.AbstractBaseLoader;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 
 import android.app.Activity;
 import android.util.Log;

@@ -19,7 +19,7 @@ package org.opendataspace.android.app.fragments.browser;
 
 
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.cmisapi.model.Folder;
+import org.alfresco.mobile.android.api.model.Folder;
 
 import android.os.Bundle;
 

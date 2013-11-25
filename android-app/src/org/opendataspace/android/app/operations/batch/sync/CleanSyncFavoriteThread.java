@@ -33,7 +33,7 @@ import org.opendataspace.android.app.operations.sync.SyncOperation;
 import org.opendataspace.android.app.operations.sync.SynchroProvider;
 import org.opendataspace.android.app.operations.sync.SynchroSchema;
 import org.opendataspace.android.app.utils.IOUtils;
-import org.opendataspace.android.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 
 import android.content.ContentValues;
 import android.content.Context;

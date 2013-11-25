@@ -39,8 +39,8 @@ import org.opendataspace.android.app.utils.ProgressViewHolder;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
 
-import org.opendataspace.android.commonui.fragments.BaseListAdapter;
-import org.opendataspace.android.commonui.utils.Formatter;
+import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
+import org.alfresco.mobile.android.ui.utils.Formatter;
 
 import android.app.Activity;
 import android.app.Fragment;

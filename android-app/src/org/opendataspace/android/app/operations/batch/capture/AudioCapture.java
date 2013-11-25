@@ -25,9 +25,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 
 import org.opendataspace.android.app.R;
-import org.opendataspace.android.cmisapi.model.Folder;
-import org.opendataspace.android.cmisapi.utils.IOUtils;
-import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.utils.IOUtils;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.content.Intent;

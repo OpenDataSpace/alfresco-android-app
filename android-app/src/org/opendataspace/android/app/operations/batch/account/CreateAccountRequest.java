@@ -21,7 +21,7 @@ package org.opendataspace.android.app.operations.batch.account;
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.accounts.Account.ProtocolType;
 import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationRequestImpl;
-import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
+import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 
 public class CreateAccountRequest extends AbstractBatchOperationRequestImpl
 {

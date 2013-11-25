@@ -23,9 +23,9 @@ import org.opendataspace.android.app.exception.CloudExceptionUtils;
 import org.opendataspace.android.app.fragments.DisplayUtils;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.model.Node;
-import org.opendataspace.android.commonui.version.VersionsFragment;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.ui.version.VersionsFragment;
 
 import android.os.Bundle;
 import android.view.LayoutInflater;

@@ -21,7 +21,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import org.opendataspace.android.app.R;
-import org.opendataspace.android.cmisapi.model.Node;
+import org.alfresco.mobile.android.api.model.Node;
 
 import android.app.Activity;
 import android.content.Context;

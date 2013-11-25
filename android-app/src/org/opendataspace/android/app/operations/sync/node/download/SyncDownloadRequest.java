@@ -22,8 +22,8 @@ import org.opendataspace.android.app.operations.Operation;
 import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
 import org.opendataspace.android.app.operations.sync.SynchroSchema;
 import org.opendataspace.android.app.operations.sync.node.SyncNodeOperationRequest;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.model.Folder;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Folder;
 
 import android.content.ContentValues;
 import android.database.Cursor;

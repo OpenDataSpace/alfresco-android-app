@@ -24,7 +24,7 @@ import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperatio
 import org.opendataspace.android.app.preferences.GeneralPreferences;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.security.EncryptionUtils;
-import org.opendataspace.android.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 
 import android.content.Context;
 import android.content.Intent;

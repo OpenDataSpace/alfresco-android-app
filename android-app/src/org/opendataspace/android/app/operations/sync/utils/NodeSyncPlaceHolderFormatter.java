@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.opendataspace.android.app.operations.sync.utils;
 
-import org.opendataspace.android.commonui.utils.Formatter;
+import org.alfresco.mobile.android.ui.utils.Formatter;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 
 import android.content.Context;

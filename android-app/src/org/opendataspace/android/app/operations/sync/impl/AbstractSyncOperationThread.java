@@ -25,7 +25,7 @@ import org.opendataspace.android.app.operations.batch.BatchOperationSchema;
 import org.opendataspace.android.app.operations.impl.AbstractOperationThread;
 import org.opendataspace.android.app.operations.sync.SyncOperation;
 import org.opendataspace.android.app.operations.sync.SynchroManager;
-import org.opendataspace.android.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 
 import android.content.ContentValues;
 import android.content.Context;

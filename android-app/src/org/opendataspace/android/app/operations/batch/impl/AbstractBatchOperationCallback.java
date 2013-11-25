@@ -26,7 +26,7 @@ import org.opendataspace.android.app.operations.OperationsGroupResult;
 import org.opendataspace.android.app.operations.impl.AbstractOperationCallback;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
 
-import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.content.Context;
 import android.content.Intent;

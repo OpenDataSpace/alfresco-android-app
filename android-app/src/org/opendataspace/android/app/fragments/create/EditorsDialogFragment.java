@@ -27,8 +27,8 @@ import java.util.List;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.manager.ActionManager;
 
-import org.opendataspace.android.commonui.fragments.BaseListAdapter;
-import org.opendataspace.android.commonui.utils.GenericViewHolder;
+import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
+import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 
 import android.app.Activity;
 import android.app.AlertDialog;

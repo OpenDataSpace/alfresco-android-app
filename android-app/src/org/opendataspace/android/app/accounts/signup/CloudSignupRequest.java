@@ -32,12 +32,12 @@ import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.apache.http.HttpStatus;
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.accounts.fragment.AccountSettingsHelper;
-import org.opendataspace.android.cmisapi.constants.CloudConstant;
-import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
-import org.opendataspace.android.cmisapi.network.NetworkHttpInvoker;
-import org.opendataspace.android.cmisapi.utils.DateUtils;
-import org.opendataspace.android.cmisapi.utils.JsonDataWriter;
-import org.opendataspace.android.cmisapi.utils.JsonUtils;
+import org.alfresco.mobile.android.api.constants.CloudConstant;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
+import org.alfresco.mobile.android.api.network.NetworkHttpInvoker;
+import org.alfresco.mobile.android.api.utils.DateUtils;
+import org.alfresco.mobile.android.api.utils.JsonDataWriter;
+import org.alfresco.mobile.android.api.utils.JsonUtils;
 
 import android.util.Log;
 

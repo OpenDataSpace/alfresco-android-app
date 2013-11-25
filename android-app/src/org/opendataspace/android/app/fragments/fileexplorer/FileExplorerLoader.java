@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.opendataspace.android.app.security.EncryptionUtils;
 
-import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.content.AsyncTaskLoader;
 import android.content.Context;

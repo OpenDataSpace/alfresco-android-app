@@ -26,10 +26,10 @@ import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperatio
 import org.opendataspace.android.app.operations.batch.node.AbstractUpThread;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.security.EncryptionUtils;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.session.impl.AbstractAlfrescoSessionImpl;
-import org.opendataspace.android.cmisapi.utils.IOUtils;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.session.impl.AbstractAlfrescoSessionImpl;
+import org.alfresco.mobile.android.api.utils.IOUtils;
 
 import android.content.Context;
 import android.content.Intent;

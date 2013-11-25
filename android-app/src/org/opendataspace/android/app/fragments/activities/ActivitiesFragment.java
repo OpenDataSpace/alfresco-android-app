@@ -36,12 +36,12 @@ import org.opendataspace.android.app.fragments.RefreshFragment;
 import org.opendataspace.android.app.fragments.menu.MenuActionItem;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.constants.CloudConstant;
-import org.opendataspace.android.cmisapi.model.ActivityEntry;
-import org.opendataspace.android.cmisapi.model.PagingResult;
-import org.opendataspace.android.commonui.activitystream.ActivityStreamFragment;
-import org.opendataspace.android.commonui.fragments.BaseListAdapter;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.constants.CloudConstant;
+import org.alfresco.mobile.android.api.model.ActivityEntry;
+import org.alfresco.mobile.android.api.model.PagingResult;
+import org.alfresco.mobile.android.ui.activitystream.ActivityStreamFragment;
+import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
 
 import android.content.Loader;
 import android.os.Bundle;

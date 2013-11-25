@@ -48,7 +48,7 @@ public final class IOUtils
         InputStream sourceFile = new FileInputStream(source);
 
         // Fully qualified package due to IOUtils name conflict.
-        boolean result = org.opendataspace.android.cmisapi.utils.IOUtils.copyFile(sourceFile, destFile);
+        boolean result = org.alfresco.mobile.android.api.utils.IOUtils.copyFile(sourceFile, destFile);
 
         sourceFile.close();
 

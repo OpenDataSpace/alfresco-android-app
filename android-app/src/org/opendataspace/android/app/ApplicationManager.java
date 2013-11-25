@@ -20,18 +20,13 @@ package org.opendataspace.android.app;
 import java.util.HashMap;
 import java.util.Map;
 
-
-
-
-
-
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.accounts.AccountManager;
 import org.opendataspace.android.app.activity.BaseActivity;
 import org.opendataspace.android.app.database.DatabaseManager;
 import org.opendataspace.android.app.manager.RenditionManager;
 import org.opendataspace.android.app.manager.UpgradeManager;
-import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
 
 import android.app.Activity;
 import android.content.Context;

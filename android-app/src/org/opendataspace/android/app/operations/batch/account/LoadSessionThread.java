@@ -23,9 +23,9 @@ import org.opendataspace.android.app.accounts.AccountManager;
 import org.opendataspace.android.app.intent.IntentIntegrator;
 import org.opendataspace.android.app.operations.OperationRequest;
 import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationThread;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.session.AlfrescoSession;
-import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 
 import android.content.Context;
 import android.content.Intent;

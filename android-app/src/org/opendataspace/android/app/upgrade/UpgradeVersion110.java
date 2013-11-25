@@ -25,8 +25,8 @@ import java.io.File;
 
 
 import org.opendataspace.android.app.utils.IOUtils;
-import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
-import org.opendataspace.android.cmisapi.exceptions.ErrorCodeRegistry;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
+import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 
 import android.content.Context;
 import android.os.Environment;

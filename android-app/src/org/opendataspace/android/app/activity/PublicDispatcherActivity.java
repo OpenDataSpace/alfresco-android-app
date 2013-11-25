@@ -40,9 +40,9 @@ import org.opendataspace.android.app.preferences.PasscodePreferences;
 import org.opendataspace.android.app.security.PassCodeActivity;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.utils.UIUtils;
-import org.opendataspace.android.cmisapi.session.CloudSession;
-import org.opendataspace.android.cmisapi.session.RepositorySession;
-import org.opendataspace.android.commonui.fragments.BaseFragment;
+import org.alfresco.mobile.android.api.session.CloudSession;
+import org.alfresco.mobile.android.api.session.RepositorySession;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 
 import android.app.Activity;
 import android.app.DialogFragment;

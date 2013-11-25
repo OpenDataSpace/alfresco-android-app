@@ -25,8 +25,8 @@ import org.opendataspace.android.app.operations.batch.BatchOperationManager;
 import org.opendataspace.android.app.operations.batch.node.create.CreateFolderRequest;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
-import org.opendataspace.android.cmisapi.model.Folder;
-import org.opendataspace.android.commonui.fragments.BaseFragment;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 
 import android.content.Context;
 import android.content.res.Configuration;

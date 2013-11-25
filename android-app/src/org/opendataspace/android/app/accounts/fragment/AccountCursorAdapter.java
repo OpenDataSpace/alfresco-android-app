@@ -26,7 +26,7 @@ import org.opendataspace.android.app.fragments.BaseCursorLoader;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
 
-import org.opendataspace.android.commonui.utils.GenericViewHolder;
+import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 
 import android.content.Context;
 import android.database.Cursor;

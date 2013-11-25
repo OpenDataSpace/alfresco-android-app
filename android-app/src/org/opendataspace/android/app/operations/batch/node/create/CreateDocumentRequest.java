@@ -32,8 +32,8 @@ import java.util.Map.Entry;
 
 import org.opendataspace.android.app.operations.batch.node.AbstractUpRequest;
 import org.opendataspace.android.app.utils.ContentFileProgressImpl;
-import org.opendataspace.android.cmisapi.constants.ContentModel;
-import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.alfresco.mobile.android.api.constants.ContentModel;
+import org.alfresco.mobile.android.api.model.ContentFile;
 
 import android.database.Cursor;
 

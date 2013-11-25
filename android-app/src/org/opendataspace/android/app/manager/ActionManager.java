@@ -31,9 +31,9 @@ import org.opendataspace.android.app.operations.batch.account.CreateAccountReque
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
-import org.opendataspace.android.commonui.manager.MessengerManager;
-import org.opendataspace.android.commonui.manager.MimeTypeManager;
+import org.alfresco.mobile.android.api.session.authentication.OAuthData;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.alfresco.mobile.android.ui.manager.MimeTypeManager;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -48,7 +48,7 @@ import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
 
-public class ActionManager extends org.opendataspace.android.commonui.manager.ActionManager
+public class ActionManager extends org.alfresco.mobile.android.ui.manager.ActionManager
 {
     public static final String TAG = ActionManager.class.getName();
 

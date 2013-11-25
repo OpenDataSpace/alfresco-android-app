@@ -10,7 +10,7 @@ import org.opendataspace.android.app.intent.IntentIntegrator;
 import org.opendataspace.android.app.intent.PublicIntent;
 import org.opendataspace.android.app.manager.StorageManager;
 
-import org.opendataspace.android.commonui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;

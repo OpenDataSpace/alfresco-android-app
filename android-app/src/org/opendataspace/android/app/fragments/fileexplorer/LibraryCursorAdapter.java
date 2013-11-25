@@ -16,7 +16,7 @@ import org.opendataspace.android.app.manager.StorageManager;
 import org.opendataspace.android.app.utils.AndroidVersion;
 import org.opendataspace.android.app.utils.UIUtils;
 
-import org.opendataspace.android.commonui.utils.GenericViewHolder;
+import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 
 import android.app.Activity;
 import android.app.Fragment;

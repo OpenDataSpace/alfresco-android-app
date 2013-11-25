@@ -22,9 +22,9 @@ import org.opendataspace.android.app.fragments.SimpleAlertDialogFragment;
 import org.opendataspace.android.app.manager.ActionManager;
 import org.opendataspace.android.app.operations.Operation;
 import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationCallback;
-import org.opendataspace.android.cmisapi.constants.ContentModel;
-import org.opendataspace.android.cmisapi.exceptions.AlfrescoServiceException;
-import org.opendataspace.android.cmisapi.model.Node;
+import org.alfresco.mobile.android.api.constants.ContentModel;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
+import org.alfresco.mobile.android.api.model.Node;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisContentAlreadyExistsException;
 
 import android.content.Context;

@@ -24,7 +24,7 @@ import org.opendataspace.android.app.operations.OperationsGroupCallBack;
 import org.opendataspace.android.app.operations.batch.BatchOperationManager;
 import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationCallback;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.alfresco.mobile.android.api.model.ContentFile;
 
 import android.content.Context;
 

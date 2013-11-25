@@ -24,7 +24,7 @@ import org.opendataspace.android.app.operations.Operation;
 import org.opendataspace.android.app.operations.OperationRequest;
 import org.opendataspace.android.app.operations.batch.BatchOperationManager;
 import org.opendataspace.android.app.operations.impl.AbstractOperationThread;
-import org.opendataspace.android.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 
 import android.content.Context;
 import android.util.Log;

@@ -24,14 +24,14 @@ import java.util.Map.Entry;
 
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.utils.UIUtils;
-import org.opendataspace.android.cmisapi.constants.CloudConstant;
-import org.opendataspace.android.cmisapi.constants.OnPremiseConstant;
-import org.opendataspace.android.cmisapi.model.ActivityEntry;
-import org.opendataspace.android.cmisapi.session.AlfrescoSession;
-import org.opendataspace.android.commonui.fragments.BaseListAdapter;
-import org.opendataspace.android.commonui.manager.MimeTypeManager;
-import org.opendataspace.android.commonui.manager.RenditionManager;
-import org.opendataspace.android.commonui.utils.GenericViewHolder;
+import org.alfresco.mobile.android.api.constants.CloudConstant;
+import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
+import org.alfresco.mobile.android.api.model.ActivityEntry;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
+import org.alfresco.mobile.android.ui.manager.MimeTypeManager;
+import org.alfresco.mobile.android.ui.manager.RenditionManager;
+import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 
 import android.app.Activity;
 import android.graphics.Typeface;
@@ -147,7 +147,7 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
 
     private int getFileDrawableId(ActivityEntry item)
     {
-        int drawable = R.drawable.ic_menu_notifications;
+        int drawable = R.drawable.ic_menu_notif;
         String s = item.getType();
 
         if (s.startsWith(PREFIX_FILE))
@@ -199,15 +199,15 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
         {
             put(PREFIX_LINK, R.drawable.ic_menu_share);
             put(PREFIX_EVENT, R.drawable.ic_menu_today);
-            put(PREFIX_WIKI, R.drawable.ic_menu_notifications);
+            put(PREFIX_WIKI, R.drawable.ic_menu_notif);
             put(PREFIX_USER, R.drawable.ic_avatar);
-            put(PREFIX_DATALIST, R.drawable.ic_menu_notifications);
+            put(PREFIX_DATALIST, R.drawable.ic_menu_notif);
             put(PREFIX_DISCUSSIONS, R.drawable.ic_menu_start_conversation);
             put(PREFIX_FOLDER, R.drawable.ic_menu_archive);
             put(PREFIX_COMMENT, R.drawable.ic_menu_start_conversation);
-            put(PREFIX_BLOG, R.drawable.ic_menu_notifications);
-            put(PREFIX_SUBSCRIPTION, R.drawable.ic_menu_notifications);
-            put(PREFIX_GROUP, R.drawable.ic_menu_notifications);
+            put(PREFIX_BLOG, R.drawable.ic_menu_notif);
+            put(PREFIX_SUBSCRIPTION, R.drawable.ic_menu_notif);
+            put(PREFIX_GROUP, R.drawable.ic_menu_notif);
         }
     };
 

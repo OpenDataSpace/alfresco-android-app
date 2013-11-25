@@ -7,7 +7,9 @@
 	under the License is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES 
 	OR CONDITIONS OF ANY KIND, either express or implied. See the License for 
 	the specific language governing permissions and limitations under the License. -->
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -27,9 +29,6 @@
 	</licenses>
 
 	<modules>
-		<module>android-client-api</module>
-		<module>android-async</module>
-		<module>android-ui-library</module>
 		<module>android-app</module>
 	</modules>
 
@@ -134,7 +133,6 @@
 			</plugins>
 		</pluginManagement>
 
-
 		<plugins>
 			<plugin>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -206,7 +204,6 @@
 				<artifactId>maven-surefire-plugin</artifactId>
 				<version>2.12.1</version>
 			</plugin>
-
 			<plugin>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
@@ -237,7 +234,6 @@
 		</plugins>
 	</build>
 
-
 	<repositories>
 		<repository>
 			<id>apache-repository</id>
@@ -245,14 +241,9 @@
 			<url>https://repository.apache.org/content/groups/public/</url>
 		</repository>
 		<repository>
-			<id>public-snapshots.artifacts.alfresco.com</id>
-			<name>Alfresco Maven Repository</name>
-			<url>https://artifacts.alfresco.com/nexus/content/groups/public-snapshots</url>
-		</repository>
-		<repository>
-			<id>artifacts.alfresco.com</id>
-			<name>Alfresco Maven Repository</name>
-			<url>https://artifacts.alfresco.com/nexus/content/groups/public</url>
+			<id>central</id>
+			<name>libs-release</name>
+			<url>https://artifactory.dataspace.cc/artifactory/libs-release</url>
 		</repository>
 	</repositories>
 
@@ -324,7 +315,6 @@
 					<excludePackageNames>org.apache.chemistry.opencmis.*</excludePackageNames>
 				</configuration>
 			</plugin>
-
 			<plugin>
 				<artifactId>maven-project-info-reports-plugin</artifactId>
 				<version>2.5</version>
@@ -344,7 +334,6 @@
 					</reportSet>
 				</reportSets>
 			</plugin>
-
 		</plugins>
 	</reporting>
 

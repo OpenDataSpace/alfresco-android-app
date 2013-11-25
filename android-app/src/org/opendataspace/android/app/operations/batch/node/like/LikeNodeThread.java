@@ -21,7 +21,7 @@ package org.opendataspace.android.app.operations.batch.node.like;
 import org.opendataspace.android.app.intent.IntentIntegrator;
 import org.opendataspace.android.app.operations.OperationRequest;
 import org.opendataspace.android.app.operations.batch.node.NodeOperationThread;
-import org.opendataspace.android.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 
 import android.content.Context;
 import android.content.Intent;

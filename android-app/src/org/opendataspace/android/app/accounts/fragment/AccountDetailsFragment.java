@@ -41,12 +41,13 @@ import org.opendataspace.android.app.manager.StorageManager;
 import org.opendataspace.android.app.preferences.AccountsPreferences;
 import org.opendataspace.android.app.preferences.GeneralPreferences;
 import org.opendataspace.android.app.security.DataProtectionManager;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.utils.OnPremiseUrlRegistry;
-import org.opendataspace.android.commonui.fragments.BaseFragment;
-import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.AlertDialog;
 import android.app.FragmentManager;
@@ -345,7 +346,7 @@ public class AccountDetailsFragment extends BaseFragment
         {
             if ("".equals(servicedocument))
             {
-                servicedocument = proto == Account.ProtocolType.JSON ? OnPremiseUrlRegistry.BINDING_JSON :
+                servicedocument = proto == Account.ProtocolType.JSON ? OdsRepositorySession.BINDING_JSON :
                     OnPremiseUrlRegistry.BINDING_CMIS;
             }
 

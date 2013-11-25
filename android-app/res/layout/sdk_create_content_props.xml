@@ -78,10 +78,11 @@
                     android:gravity="right"
                     android:text="@string/content_name" />
             </LinearLayout>
-<!--
+
             <TableRow
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:visibility="gone" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -101,7 +102,8 @@
             <TableRow
                 android:id="@+id/tags_line"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" >
+                android:layout_height="wrap_content"
+                android:visibility="gone" >
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -116,7 +118,7 @@
                     android:imeOptions="actionDone"
                     android:inputType="text" />
             </TableRow>
--->
+
         </TableLayout>
     </LinearLayout>
 

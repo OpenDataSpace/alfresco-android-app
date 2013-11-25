@@ -23,10 +23,10 @@ import java.util.List;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.activity.BaseActivity;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.cmisapi.constants.ContentModel;
-import org.opendataspace.android.cmisapi.model.Folder;
-import org.opendataspace.android.cmisapi.model.Node;
-import org.opendataspace.android.commonui.fragments.BaseFragment;
+import org.alfresco.mobile.android.api.constants.ContentModel;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 
 import android.graphics.Paint;

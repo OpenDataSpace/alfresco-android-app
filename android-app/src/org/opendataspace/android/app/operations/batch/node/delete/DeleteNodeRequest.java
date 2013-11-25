@@ -19,8 +19,8 @@ package org.opendataspace.android.app.operations.batch.node.delete;
 
 
 import org.opendataspace.android.app.operations.batch.node.NodeOperationRequest;
-import org.opendataspace.android.cmisapi.model.Folder;
-import org.opendataspace.android.cmisapi.model.Node;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Node;
 
 import android.database.Cursor;
 

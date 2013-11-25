@@ -33,7 +33,7 @@ import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
 
 import android.app.ActionBar;
 import android.app.Activity;

@@ -41,9 +41,9 @@ import org.opendataspace.android.app.operations.batch.node.favorite.FavoriteNode
 import org.opendataspace.android.app.operations.batch.node.like.LikeNodeRequest;
 import org.opendataspace.android.app.operations.batch.utils.NodePlaceHolder;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.model.Folder;
-import org.opendataspace.android.cmisapi.model.Node;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Node;
 
 import android.app.Activity;
 import android.app.AlertDialog;

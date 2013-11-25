@@ -26,8 +26,8 @@ import org.opendataspace.android.app.operations.batch.BatchOperationManager;
 import org.opendataspace.android.app.operations.batch.account.LoadSessionRequest;
 import org.opendataspace.android.app.preferences.AccountsPreferences;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.session.AlfrescoSession;
-import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;

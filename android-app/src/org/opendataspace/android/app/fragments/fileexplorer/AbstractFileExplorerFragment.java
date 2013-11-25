@@ -23,10 +23,10 @@ import java.util.List;
 
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.fragments.ListingModeFragment;
-import org.opendataspace.android.cmisapi.model.ListingContext;
-import org.opendataspace.android.cmisapi.model.PagingResult;
-import org.opendataspace.android.cmisapi.model.impl.PagingResultImpl;
-import org.opendataspace.android.commonui.fragments.BaseListFragment;
+import org.alfresco.mobile.android.api.model.ListingContext;
+import org.alfresco.mobile.android.api.model.PagingResult;
+import org.alfresco.mobile.android.api.model.impl.PagingResultImpl;
+import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
 
 import android.app.AlertDialog;
 import android.app.Dialog;

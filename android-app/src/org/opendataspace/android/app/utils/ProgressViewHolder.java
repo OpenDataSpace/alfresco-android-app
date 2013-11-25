@@ -1,7 +1,7 @@
 package org.opendataspace.android.app.utils;
 
 import org.opendataspace.android.app.R;
-import org.opendataspace.android.commonui.utils.GenericViewHolder;
+import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 
 import android.view.View;
 import android.widget.ImageView;

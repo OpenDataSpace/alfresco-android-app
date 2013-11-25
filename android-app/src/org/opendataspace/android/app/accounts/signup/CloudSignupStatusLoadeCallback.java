@@ -20,9 +20,9 @@ package org.opendataspace.android.app.accounts.signup;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.intent.IntentIntegrator;
-import org.opendataspace.android.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 
-import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.app.Fragment;

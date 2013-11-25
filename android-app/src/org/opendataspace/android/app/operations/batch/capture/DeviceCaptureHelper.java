@@ -28,7 +28,7 @@ import org.opendataspace.android.app.activity.BaseActivity;
 import org.opendataspace.android.app.fragments.browser.ChildrenBrowserFragment;
 import org.opendataspace.android.app.fragments.fileexplorer.FileExplorerFragment;
 import org.opendataspace.android.app.fragments.menu.MenuActionItem;
-import org.opendataspace.android.cmisapi.model.Folder;
+import org.alfresco.mobile.android.api.model.Folder;
 
 public final class DeviceCaptureHelper
 {

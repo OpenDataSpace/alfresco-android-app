@@ -28,8 +28,8 @@ import java.util.Stack;
 
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.operations.batch.capture.DeviceCapture;
-import org.opendataspace.android.cmisapi.model.Folder;
-import org.opendataspace.android.cmisapi.model.Site;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Site;
 
 import android.os.Bundle;
 

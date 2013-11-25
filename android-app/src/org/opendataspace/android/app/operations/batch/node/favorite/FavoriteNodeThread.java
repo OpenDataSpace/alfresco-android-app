@@ -35,9 +35,9 @@ import org.opendataspace.android.app.operations.sync.SynchroManager;
 import org.opendataspace.android.app.operations.sync.SynchroProvider;
 import org.opendataspace.android.app.operations.sync.SynchroSchema;
 import org.opendataspace.android.app.operations.sync.node.download.SyncDownloadRequest;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.utils.NodeRefUtils;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.utils.NodeRefUtils;
 
 import android.content.ContentValues;
 import android.content.Context;

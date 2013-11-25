@@ -27,7 +27,7 @@ import java.util.Map;
 
 
 import org.opendataspace.android.app.operations.batch.node.NodeOperationRequest;
-import org.opendataspace.android.cmisapi.constants.ContentModel;
+import org.alfresco.mobile.android.api.constants.ContentModel;
 
 import android.content.ContentValues;
 import android.database.Cursor;

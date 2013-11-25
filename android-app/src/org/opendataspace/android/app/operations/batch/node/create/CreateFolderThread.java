@@ -31,8 +31,8 @@ import org.opendataspace.android.app.intent.IntentIntegrator;
 import org.opendataspace.android.app.operations.OperationRequest;
 import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperationThread;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.model.Folder;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.Folder;
 
 import android.content.Context;
 import android.content.Intent;

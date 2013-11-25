@@ -29,7 +29,7 @@ import org.apache.chemistry.opencmis.commons.impl.MimeTypes;
  * 
  * @author jpascal
  */
-public class MimeTypeManager extends org.opendataspace.android.commonui.manager.MimeTypeManager
+public class MimeTypeManager extends org.alfresco.mobile.android.ui.manager.MimeTypeManager
 {
 
     private static final Map<String, Integer> EXT2ICON = new HashMap<String, Integer>();

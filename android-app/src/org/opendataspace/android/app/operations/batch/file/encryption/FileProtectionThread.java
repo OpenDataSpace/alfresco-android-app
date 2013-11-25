@@ -34,7 +34,7 @@ import org.opendataspace.android.app.security.DataCleanerService;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.security.EncryptionUtils;
 import org.opendataspace.android.app.utils.IOUtils;
-import org.opendataspace.android.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;

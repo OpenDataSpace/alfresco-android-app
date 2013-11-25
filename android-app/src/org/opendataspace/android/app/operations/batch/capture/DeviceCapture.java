@@ -31,7 +31,7 @@ import org.opendataspace.android.app.fragments.browser.AddContentDialogFragment;
 import org.opendataspace.android.app.fragments.fileexplorer.FileExplorerFragment;
 import org.opendataspace.android.app.manager.StorageManager;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.cmisapi.model.Folder;
+import org.alfresco.mobile.android.api.model.Folder;
 
 import android.app.Activity;
 import android.app.Fragment;

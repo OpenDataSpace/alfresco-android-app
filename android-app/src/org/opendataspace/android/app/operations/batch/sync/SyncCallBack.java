@@ -21,7 +21,7 @@ import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.operations.OperationUtils;
 import org.opendataspace.android.app.operations.OperationsGroupResult;
 import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationCallback;
-import org.opendataspace.android.cmisapi.model.Folder;
+import org.alfresco.mobile.android.api.model.Folder;
 
 import android.content.Context;
 

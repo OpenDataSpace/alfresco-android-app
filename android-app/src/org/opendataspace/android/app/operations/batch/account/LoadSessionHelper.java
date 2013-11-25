@@ -24,11 +24,11 @@ import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.accounts.AccountManager;
 import org.opendataspace.android.app.accounts.fragment.AccountSettingsHelper;
 import org.opendataspace.android.app.session.OdsRepositorySession;
-import org.opendataspace.android.cmisapi.model.Person;
-import org.opendataspace.android.cmisapi.session.AlfrescoSession;
-import org.opendataspace.android.cmisapi.session.CloudSession;
-import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
-import org.opendataspace.android.cmisapi.session.authentication.impl.OAuthHelper;
+import org.alfresco.mobile.android.api.model.Person;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.CloudSession;
+import org.alfresco.mobile.android.api.session.authentication.OAuthData;
+import org.alfresco.mobile.android.api.session.authentication.impl.OAuthHelper;
 
 import android.content.Context;
 

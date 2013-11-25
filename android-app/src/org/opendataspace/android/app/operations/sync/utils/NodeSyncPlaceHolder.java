@@ -29,12 +29,12 @@ import java.util.Set;
 import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.enums.Action;
-import org.opendataspace.android.cmisapi.constants.ContentModel;
-import org.opendataspace.android.cmisapi.model.Node;
-import org.opendataspace.android.cmisapi.model.Property;
-import org.opendataspace.android.cmisapi.model.PropertyType;
-import org.opendataspace.android.cmisapi.model.impl.PropertyImpl;
-import org.opendataspace.android.cmisapi.services.impl.AbstractDocumentFolderServiceImpl;
+import org.alfresco.mobile.android.api.constants.ContentModel;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.Property;
+import org.alfresco.mobile.android.api.model.PropertyType;
+import org.alfresco.mobile.android.api.model.impl.PropertyImpl;
+import org.alfresco.mobile.android.api.services.impl.AbstractDocumentFolderServiceImpl;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -202,6 +202,30 @@ public class NodeSyncPlaceHolder implements Node
         {
             return null;
         }
+    }
+
+    /** {@inheritDoc} */
+    public boolean hasAspect(String aspectName)
+    {
+        String tmpAspectName = aspectName;
+        if (!aspectName.startsWith(AbstractDocumentFolderServiceImpl.CMISPREFIX_ASPECTS))
+        {
+            tmpAspectName = AbstractDocumentFolderServiceImpl.CMISPREFIX_ASPECTS + aspectName;
+        }
+        if (aspects != null)
+        {
+            return aspects.contains(tmpAspectName);
+        }
+        else
+        {
+            return false;
+        }
+    }
+
+    /** {@inheritDoc} */
+    public List<String> getAspects()
+    {
+        return null;
     }
 
     @Override

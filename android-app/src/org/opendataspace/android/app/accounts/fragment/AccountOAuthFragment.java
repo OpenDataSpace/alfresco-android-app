@@ -29,10 +29,10 @@ import org.opendataspace.android.app.operations.OperationRequest;
 import org.opendataspace.android.app.operations.batch.account.CreateAccountRequest;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.opendataspace.android.cmisapi.session.authentication.OAuthData;
-import org.opendataspace.android.commonui.manager.MessengerManager;
-import org.opendataspace.android.commonui.oauth.OAuthFragment;
-import org.opendataspace.android.commonui.oauth.listener.OnOAuthAccessTokenListener;
+import org.alfresco.mobile.android.api.session.authentication.OAuthData;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.alfresco.mobile.android.ui.oauth.OAuthFragment;
+import org.alfresco.mobile.android.ui.oauth.listener.OnOAuthAccessTokenListener;
 
 import android.app.FragmentManager;
 import android.content.BroadcastReceiver;

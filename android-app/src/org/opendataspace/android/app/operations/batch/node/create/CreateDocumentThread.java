@@ -37,8 +37,8 @@ import org.opendataspace.android.app.operations.batch.node.AbstractUpThread;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.security.EncryptionUtils;
 import org.opendataspace.android.app.utils.IOUtils;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.model.Document;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.Document;
 
 import android.content.ContentValues;
 import android.content.Context;

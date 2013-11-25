@@ -22,7 +22,7 @@ import org.opendataspace.android.app.manager.NotificationHelper;
 import org.opendataspace.android.app.operations.Operation;
 import org.opendataspace.android.app.operations.OperationsGroupCallBack;
 import org.opendataspace.android.app.operations.sync.impl.AbstractSyncOperationCallback;
-import org.opendataspace.android.cmisapi.model.ContentFile;
+import org.alfresco.mobile.android.api.model.ContentFile;
 
 import android.content.Context;
 

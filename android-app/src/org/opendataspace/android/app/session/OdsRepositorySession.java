@@ -15,20 +15,22 @@ import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisPermissionDeniedException;
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.accounts.Account.ProtocolType;
-import org.opendataspace.android.cmisapi.exceptions.AlfrescoSessionException;
-import org.opendataspace.android.cmisapi.exceptions.ErrorCodeRegistry;
-import org.opendataspace.android.cmisapi.model.impl.FolderImpl;
-import org.opendataspace.android.cmisapi.model.impl.onpremise.OnPremiseRepositoryInfoImpl;
-import org.opendataspace.android.cmisapi.session.RepositorySession;
-import org.opendataspace.android.cmisapi.session.authentication.AuthenticationProvider;
-import org.opendataspace.android.cmisapi.session.authentication.impl.PassthruAuthenticationProviderImpl;
-import org.opendataspace.android.cmisapi.session.impl.RepositorySessionImpl;
-import org.opendataspace.android.cmisapi.utils.OnPremiseUrlRegistry;
-import org.opendataspace.android.cmisapi.utils.messages.Messagesl18n;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoSessionException;
+import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
+import org.alfresco.mobile.android.api.model.impl.FolderImpl;
+import org.alfresco.mobile.android.api.model.impl.onpremise.OnPremiseRepositoryInfoImpl;
+import org.alfresco.mobile.android.api.session.RepositorySession;
+import org.alfresco.mobile.android.api.session.authentication.AuthenticationProvider;
+import org.alfresco.mobile.android.api.session.authentication.impl.PassthruAuthenticationProviderImpl;
+import org.alfresco.mobile.android.api.session.impl.RepositorySessionImpl;
+import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
+import org.alfresco.mobile.android.api.utils.messages.Messagesl18n;
 
 public class OdsRepositorySession extends RepositorySessionImpl
 {
     public static final String PROTO_TYPE = "org.opendataspace.android.app.session.proto";
+    
+    public static final String BINDING_JSON = "/cmis/browser";
 
     private OdsRepositorySession shared;
     private OdsRepositorySession global;
@@ -178,7 +180,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
 
             if ("".equals(u.getPath()))
             {
-                url += isJsonProto(settings) ? OnPremiseUrlRegistry.BINDING_JSON : OnPremiseUrlRegistry.BINDING_CMIS;
+                url += isJsonProto(settings) ? OdsRepositorySession.BINDING_JSON : OnPremiseUrlRegistry.BINDING_CMIS;
             }
         } catch (Exception ex) {
             // nothing

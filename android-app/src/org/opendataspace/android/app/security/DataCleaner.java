@@ -27,7 +27,7 @@ import org.opendataspace.android.app.accounts.AccountManager;
 import org.opendataspace.android.app.fragments.fileexplorer.FileExplorerHelper;
 import org.opendataspace.android.app.preferences.AccountsPreferences;
 
-import org.opendataspace.android.commonui.manager.MessengerManager;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.content.SharedPreferences;

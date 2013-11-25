@@ -38,11 +38,11 @@ import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperatio
 import org.opendataspace.android.app.operations.batch.node.NodeOperationThread;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.utils.IOUtils;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.model.ContentFile;
-import org.opendataspace.android.cmisapi.model.ContentStream;
-import org.opendataspace.android.cmisapi.model.Document;
-import org.opendataspace.android.cmisapi.model.impl.ContentFileImpl;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.ContentFile;
+import org.alfresco.mobile.android.api.model.ContentStream;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.impl.ContentFileImpl;
 
 import android.content.Context;
 import android.content.Intent;
@@ -177,8 +177,8 @@ public class DownloadThread extends NodeOperationThread<ContentFile>
         }
         finally
         {
-            org.opendataspace.android.cmisapi.utils.IOUtils.closeStream(src);
-            org.opendataspace.android.cmisapi.utils.IOUtils.closeStream(os);
+            org.alfresco.mobile.android.api.utils.IOUtils.closeStream(src);
+            org.alfresco.mobile.android.api.utils.IOUtils.closeStream(os);
         }
         return copied;
     }

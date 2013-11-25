@@ -17,19 +17,20 @@
  ******************************************************************************/
 package org.opendataspace.android.app.operations.batch.utils;
 
-import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.GUID;
-import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.NAME;
-import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.REQUEST_STATUS;
-import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.REQUEST_TYPE;
-import static org.opendataspace.android.cmisapi.model.impl.cloud.PublicAPIPropertyIds.SIZEINBYTES;
+import static org.alfresco.mobile.android.api.model.impl.publicapi.PublicAPIPropertyIds.GUID;
+import static org.alfresco.mobile.android.api.model.impl.publicapi.PublicAPIPropertyIds.NAME;
+import static org.alfresco.mobile.android.api.model.impl.publicapi.PublicAPIPropertyIds.REQUEST_STATUS;
+import static org.alfresco.mobile.android.api.model.impl.publicapi.PublicAPIPropertyIds.REQUEST_TYPE;
+import static org.alfresco.mobile.android.api.model.impl.publicapi.PublicAPIPropertyIds.SIZEINBYTES;
 
 import java.util.GregorianCalendar;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-import org.opendataspace.android.cmisapi.model.Node;
-import org.opendataspace.android.cmisapi.model.Property;
-import org.opendataspace.android.cmisapi.model.impl.PropertyImpl;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.Property;
+import org.alfresco.mobile.android.api.model.impl.PropertyImpl;
 
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -153,6 +154,18 @@ public class NodePlaceHolder implements Node
     private Property getProp(String name)
     {
         return (properties != null) ? properties.get(name) : null;
+    }
+
+    @Override
+    public boolean hasAspect(String aspectName)
+    {
+        return false;
+    }
+
+    @Override
+    public List<String> getAspects()
+    {
+        return null;
     }
 
     @Override

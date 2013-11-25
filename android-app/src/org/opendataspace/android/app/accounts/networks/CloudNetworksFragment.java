@@ -31,12 +31,12 @@ import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.manager.ActionManager;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.opendataspace.android.asynchronous.LoaderResult;
-import org.opendataspace.android.cmisapi.model.PagingResult;
-import org.opendataspace.android.cmisapi.model.impl.PagingResultImpl;
-import org.opendataspace.android.cmisapi.session.CloudNetwork;
-import org.opendataspace.android.cmisapi.session.CloudSession;
-import org.opendataspace.android.commonui.fragments.BaseListFragment;
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.PagingResult;
+import org.alfresco.mobile.android.api.model.impl.PagingResultImpl;
+import org.alfresco.mobile.android.api.session.CloudNetwork;
+import org.alfresco.mobile.android.api.session.CloudSession;
+import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
 
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;

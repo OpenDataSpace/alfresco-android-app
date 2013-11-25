@@ -29,8 +29,8 @@ import org.opendataspace.android.app.operations.batch.impl.AbstractBatchOperatio
 import org.opendataspace.android.app.operations.batch.node.AbstractUpRequest;
 import org.opendataspace.android.app.operations.batch.node.AbstractUpThread;
 import org.opendataspace.android.app.utils.IOUtils;
-import org.opendataspace.android.cmisapi.model.ContentFile;
-import org.opendataspace.android.cmisapi.model.Document;
+import org.alfresco.mobile.android.api.model.ContentFile;
+import org.alfresco.mobile.android.api.model.Document;
 
 import android.content.ContentValues;
 import android.content.Context;
