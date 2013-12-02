@@ -24,6 +24,20 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.constants.ContentModel;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.impl.DocumentImpl;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.CloudSession;
+import org.alfresco.mobile.android.api.session.RepositorySession;
+import org.alfresco.mobile.android.api.utils.NodeRefUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.alfresco.mobile.android.ui.utils.Formatter;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.enums.Action;
 import org.opendataspace.android.app.ApplicationManager;
@@ -67,20 +81,6 @@ import org.opendataspace.android.app.utils.ContentFileProgressImpl;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.constants.ContentModel;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.impl.DocumentImpl;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.api.session.CloudSession;
-import org.alfresco.mobile.android.api.session.RepositorySession;
-import org.alfresco.mobile.android.api.utils.NodeRefUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
-import org.alfresco.mobile.android.ui.utils.Formatter;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -602,38 +602,43 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         if (iv == null) { return; }
 
         int iconId = defaultIconId;
-        if (node.isDocument())
-        {
-            iconId = MimeTypeManager.getIcon(node.getName(), isLarge);
-            if (((Document) node).isLatestVersion())
+
+        try {
+            if (node.isDocument())
             {
-                if (isLarge)
+                iconId = MimeTypeManager.getIcon(node.getName(), isLarge);
+                if (((Document) node).isLatestVersion())
                 {
-                    renditionManager.preview(iv, node, iconId, DisplayUtils.getWidth(getActivity()));
+                    if (isLarge)
+                    {
+                        renditionManager.preview(iv, node, iconId, DisplayUtils.getWidth(getActivity()));
+                    }
+                    else
+                    {
+                        renditionManager.display(iv, node, iconId);
+                    }
                 }
                 else
                 {
-                    renditionManager.display(iv, node, iconId);
+                    iv.setImageResource(iconId);
                 }
-            }
-            else
-            {
-                iv.setImageResource(iconId);
-            }
 
-            iv.setOnClickListener(new OnClickListener()
-            {
-                @Override
-                public void onClick(View v)
+                iv.setOnClickListener(new OnClickListener()
                 {
-                    openin();
-                }
-            });
+                    @Override
+                    public void onClick(View v)
+                    {
+                        openin();
+                    }
+                });
+
+                return;
+            }
+        } catch (Exception ex) {
+            // nothing
         }
-        else
-        {
-            iv.setImageResource(defaultIconId);
-        }
+
+        iv.setImageResource(defaultIconId);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
