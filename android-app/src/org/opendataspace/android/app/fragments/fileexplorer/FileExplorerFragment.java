@@ -19,13 +19,13 @@ package org.opendataspace.android.app.fragments.fileexplorer;
 
 import java.io.File;
 
-
-
-
-
-
-
-
+import org.alfresco.mobile.android.api.asynchronous.NodeChildrenLoader;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.ListingContext;
+import org.alfresco.mobile.android.api.services.DocumentFolderService;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.activity.BaseActivity;
@@ -42,13 +42,6 @@ import org.opendataspace.android.app.manager.StorageManager;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.utils.AndroidVersion;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.alfresco.mobile.android.api.asynchronous.NodeChildrenLoader;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.services.DocumentFolderService;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -61,6 +54,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -69,6 +63,7 @@ import android.view.SubMenu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.Toast;
 
 /**
  * LocalFileBrowserFragment is responsible to display the content of Download
@@ -169,8 +164,14 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
                 getLoaderManager().getLoader(FileExplorerLoader.ID).forceLoad();
             }
         }
+        try{
+            privateFolder = StorageManager.getRootPrivateFolder(getActivity()).getParentFile();
+        }catch(Exception e){
+            Log.e(TAG, "ERROR "+e.getMessage());
+            if((Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED) != 0))
+                Toast.makeText(getActivity(), "SD card is not available", Toast.LENGTH_SHORT).show();
 
-        privateFolder = StorageManager.getRootPrivateFolder(getActivity()).getParentFile();
+        }
     }
 
     @Override
@@ -242,21 +243,21 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
     {
         switch (requestCode)
         {
-            case PublicIntent.REQUESTCODE_CREATE:
-                if (createFile != null)
+        case PublicIntent.REQUESTCODE_CREATE:
+            if (createFile != null)
+            {
+                if (createFile.length() > 0 && lastModifiedDate < createFile.lastModified())
                 {
-                    if (createFile.length() > 0 && lastModifiedDate < createFile.lastModified())
-                    {
-                        refresh();
-                    }
-                    else
-                    {
-                        createFile.delete();
-                    }
+                    refresh();
                 }
-                break;
-            default:
-                break;
+                else
+                {
+                    createFile.delete();
+                }
+            }
+            break;
+        default:
+            break;
         }
     }
 
@@ -365,6 +366,7 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
         adapter.notifyDataSetChanged();
     }
 
+    @Override
     public boolean onItemLongClick(ListView l, View v, int position, long id)
     {
         if (nActions != null) { return false; }
@@ -495,7 +497,7 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
         public void onReceive(Context context, Intent intent)
         {
             if (adapter == null) { return; }
-            
+
             Log.d(TAG, intent.getAction());
 
             if (intent.getExtras() != null)

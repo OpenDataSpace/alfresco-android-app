@@ -87,6 +87,11 @@ public class FileExplorerMenuFragment extends BaseFragment
                 @Override
                 public void onClick(View v)
                 {
+                    if((Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED) != 0)){
+                        MessengerManager.showLongToast(v.getContext(),"SD card is not available");
+                        return;
+                    }
+
                     File currentLocation = null;
                     int mediatype = -1;
                     switch (v.getId())

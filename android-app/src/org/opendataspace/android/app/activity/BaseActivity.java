@@ -20,6 +20,11 @@ package org.opendataspace.android.app.activity;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Site;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.opendataspace.android.app.ApplicationManager;
 import org.opendataspace.android.app.R;
@@ -38,11 +43,6 @@ import org.opendataspace.android.app.manager.RenditionManager;
 import org.opendataspace.android.app.preferences.GeneralPreferences;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.thirdparty.LocalBroadcastManager;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Site;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -56,7 +56,6 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.text.Html;
 import android.util.Log;
-import android.webkit.CookieSyncManager;
 
 /**
  * Base class for all activities.
@@ -101,9 +100,7 @@ public abstract class BaseActivity extends Activity
         filters.addAction(IntentIntegrator.ACTION_DISPLAY_DIALOG);
         filters.addAction(IntentIntegrator.ACTION_DISPLAY_ERROR);
         filters.addAction(IntentIntegrator.ACTION_DISPLAY_CERTIFICATE);
-        
-        CookieSyncManager.createInstance(this);
-        
+
         utilsReceiver = new UtilsReceiver();
         broadcastManager.registerReceiver(utilsReceiver, filters);
     }

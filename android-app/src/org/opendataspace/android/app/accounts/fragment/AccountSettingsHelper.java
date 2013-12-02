@@ -22,17 +22,14 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.Serializable;
+import java.net.CookieHandler;
+import java.net.CookieManager;
+import java.net.CookiePolicy;
 import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.apache.chemistry.opencmis.commons.SessionParameter;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.accounts.Account;
-import org.opendataspace.android.app.manager.NetworkHttpInvoker;
-import org.opendataspace.android.app.manager.StorageManager;
-import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.api.constants.OAuthConstant;
 import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
@@ -42,10 +39,18 @@ import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 import org.alfresco.mobile.android.api.session.authentication.impl.OAuth2DataImpl;
 import org.alfresco.mobile.android.api.utils.IOUtils;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.apache.chemistry.opencmis.commons.SessionParameter;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.accounts.Account;
+import org.opendataspace.android.app.manager.CookieStoreImpl;
+import org.opendataspace.android.app.manager.NetworkHttpInvoker;
+import org.opendataspace.android.app.manager.StorageManager;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 
 public class AccountSettingsHelper
 {
@@ -236,10 +241,18 @@ public class AccountSettingsHelper
 
     public Map<String, Serializable> prepareCommonSettings()
     {
+        try{
+            CookieManager cm = new CookieManager(new CookieStoreImpl(), CookiePolicy.ACCEPT_ALL);
+            CookieHandler.setDefault(cm);
+        }catch(Exception e){
+            Log.e("", "Cookie failed: "+e.getMessage());
+        }
+
         // Default settings for Alfresco Application
         HashMap<String, Serializable> settings = new HashMap<String, Serializable>();
         settings.put(SessionParameter.CONNECT_TIMEOUT, "10000");
         settings.put(SessionParameter.READ_TIMEOUT, "60000");
+        settings.put(SessionParameter.COOKIES, "true");
         settings.put(AlfrescoSession.EXTRACT_METADATA, true);
         settings.put(AlfrescoSession.CREATE_THUMBNAIL, true);
         settings.put(AlfrescoSession.HTTP_INVOKER_CLASSNAME, NetworkHttpInvoker.class.getName());

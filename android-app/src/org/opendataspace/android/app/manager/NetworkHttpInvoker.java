@@ -22,7 +22,6 @@ import java.math.BigInteger;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.security.Principal;
-import java.util.List;
 import java.util.Map;
 
 import javax.net.ssl.HostnameVerifier;
@@ -41,8 +40,6 @@ import org.opendataspace.android.app.activity.BaseActivity;
 import org.opendataspace.android.app.preferences.GeneralPreferences;
 
 import android.content.Context;
-import android.webkit.CookieManager;
-import android.webkit.CookieSyncManager;
 
 import com.squareup.okhttp.OkHttpClient;
 
@@ -92,10 +89,10 @@ public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.
         }
 
         final HttpURLConnection con = httpClient.open(url);
-        final String cookie =  getCookie(url.toString());
+        /* final String cookie =  getCookie(url.toString());
         if(cookie != null){
             con.addRequestProperty("Cookie", cookie);
-        }
+        }*/
 
         if (con instanceof HttpsURLConnection) {
             SSLContext sc;
@@ -120,13 +117,16 @@ public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.
     {
         final Response res = super.invoke(url, method, contentType, headers, writer, session, offset, length);
 
-        final Map<String, List<String>> map = res.getHeaders();
+        /*final Map<String, List<String>> map = res.getHeaders();
         if(map == null)
         {
             return res;
         }
+        Log.e("", "------------------ RESPONCE --------------------");
+        logHeader(map,url.toString());
+        Log.e("", "------------------------------------------------");
 
-        if(!map.containsKey("set-cookie"))
+       if(!map.containsKey("set-cookie"))
         {
             return res;
         }
@@ -137,7 +137,7 @@ public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.
             return res;
         }
 
-        setCookie(url.toString(),list);
+        setCookie(url.toString(),list);*/
 
         return res;
     }
@@ -192,47 +192,5 @@ public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.
         }
 
         return out;
-    }
-
-    private void setCookie(final String url, List<String> values){
-
-        if(url == null || values == null)
-        {
-            return;
-        }
-
-        final CookieManager manager = CookieManager.getInstance();
-        if(manager == null)
-        {
-            return;
-        }
-
-        String result = "";
-
-        for(String val: values){
-            if(val != null){
-                if(result.length() > 0)
-                {
-                    result = result.concat(";");
-                }
-                result = result.concat(val);
-            }
-        }
-
-        manager.setCookie(url, result);
-        CookieSyncManager.getInstance().sync();
-    }
-
-    private String getCookie(final String url){
-
-        final CookieManager manager = CookieManager.getInstance();
-        if(manager == null)
-        {
-            return null;
-        }
-
-        final String cookie = manager.getCookie(url);
-
-        return cookie;
     }
 }
