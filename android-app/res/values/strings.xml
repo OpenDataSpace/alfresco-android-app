@@ -612,7 +612,8 @@
     <string name="details_modifier">modified by </string>
     <string name="details_modif_date">modification date </string>
     
-    <string name="copyright_alfresco">&#169; 2005&#8211;013 Alfresco Software Limited</string>
+    <string name="copyright_alfresco">&#169; 2005&#8211;2013 Alfresco Software Limited</string>
     <string name="copyright_dataspase">&#169; 2013 The Open DataSpace project</string>
+    <string name="copyright_mailto">info@opendataspace.org</string>
     <string name="copyright_apache">This software is licensed under the\nApache license Version 2.0</string>
 </resources>
