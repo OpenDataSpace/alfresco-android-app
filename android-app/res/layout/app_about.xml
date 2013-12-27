@@ -77,6 +77,14 @@
                 android:textSize="@dimen/about_text_size" />
 
             <TextView
+                android:id="@+id/about_dataspace_feedback"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="info@opendataspace.org"
+                android:textSize="@dimen/about_text_size" />
+
+            <TextView
                 android:id="@+id/about_apache_version"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
