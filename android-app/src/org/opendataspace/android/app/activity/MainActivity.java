@@ -20,6 +20,16 @@ package org.opendataspace.android.app.activity;
 import java.io.File;
 import java.util.Stack;
 
+import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.Site;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.CloudSession;
+import org.alfresco.mobile.android.api.session.RepositorySession;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.accounts.Account;
 import org.opendataspace.android.app.accounts.AccountManager;
@@ -71,16 +81,6 @@ import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.utils.ConnectivityUtils;
 import org.opendataspace.android.app.utils.SessionUtils;
 import org.opendataspace.android.app.utils.UIUtils;
-import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.Site;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.api.session.CloudSession;
-import org.alfresco.mobile.android.api.session.RepositorySession;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.app.DialogFragment;
@@ -598,7 +598,7 @@ public class MainActivity extends BaseActivity
             fragmentQueue = actionMainMenuId;
             return false;
         default:
-            if (!ConnectivityUtils.hasNetwork(this))
+            if (!ConnectivityUtils.hasNetwork(this) || getCurrentSession() == null)
             {
                 return false;
             } else if (getCurrentAccount() != null && getCurrentAccount().getActivation() != null)

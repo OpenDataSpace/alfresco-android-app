@@ -20,6 +20,11 @@ package org.opendataspace.android.app.fragments.properties;
 import java.io.File;
 import java.util.Date;
 
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.impl.NodeImpl;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
 import org.opendataspace.android.app.ApplicationManager;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.accounts.Account;
@@ -34,11 +39,6 @@ import org.opendataspace.android.app.operations.sync.SynchroManager;
 import org.opendataspace.android.app.operations.sync.utils.NodeSyncPlaceHolder;
 import org.opendataspace.android.app.security.DataProtectionManager;
 import org.opendataspace.android.app.utils.SessionUtils;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.impl.NodeImpl;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
 
 import android.app.DialogFragment;
 import android.content.ActivityNotFoundException;
@@ -110,7 +110,7 @@ public class PreviewFragment extends BaseFragment
         if (node.isDocument() && node instanceof NodeImpl)
         {
             iconId = MimeTypeManager.getIcon(node.getName(), true);
-            if (((Document) node).isLatestVersion())
+            //if (((Document) node).isLatestVersion())
             {
                 renditionManager.preview((ImageView) preview, node, iconId, DisplayUtils.getWidth(getActivity()));
             }

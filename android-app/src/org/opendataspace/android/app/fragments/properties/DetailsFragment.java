@@ -603,39 +603,37 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
 
         int iconId = defaultIconId;
 
-        try {
-            if (node.isDocument())
+        if (node.isDocument())
+        {
+            iconId = MimeTypeManager.getIcon(node.getName(), isLarge);
+            //if (((Document) node).isLatestVersion())
             {
-                iconId = MimeTypeManager.getIcon(node.getName(), isLarge);
-                if (((Document) node).isLatestVersion())
+                if (isLarge)
                 {
-                    if (isLarge)
-                    {
-                        renditionManager.preview(iv, node, iconId, DisplayUtils.getWidth(getActivity()));
-                    }
-                    else
-                    {
-                        renditionManager.display(iv, node, iconId);
-                    }
+                    renditionManager.preview(iv, node, iconId, DisplayUtils.getWidth(getActivity()));
                 }
                 else
                 {
-                    iv.setImageResource(iconId);
+                    renditionManager.display(iv, node, iconId);
                 }
-
-                iv.setOnClickListener(new OnClickListener()
-                {
-                    @Override
-                    public void onClick(View v)
-                    {
-                        openin();
-                    }
-                });
-
-                return;
             }
-        } catch (Exception ex) {
-            // nothing
+            /*
+            else
+            {
+                iv.setImageResource(iconId);
+            }
+             */
+
+            iv.setOnClickListener(new OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    openin();
+                }
+            });
+
+            return;
         }
 
         iv.setImageResource(defaultIconId);
@@ -1056,8 +1054,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
 
-            if (((Document) node).isLatestVersion()
-                    && ((DocumentImpl) node).hasAllowableAction(Action.CAN_SET_CONTENT_STREAM.value()))
+            if (/*((Document) node).isLatestVersion() &&*/
+                    ((DocumentImpl) node).hasAllowableAction(Action.CAN_SET_CONTENT_STREAM.value()))
             {
                 mi = menu.add(Menu.NONE, MenuActionItem.MENU_UPDATE, Menu.FIRST + MenuActionItem.MENU_UPDATE,
                         R.string.update);
@@ -1179,7 +1177,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         mTabHost.setup();
         mTabHost.setOnTabChangedListener(this);
 
-        if (node.isDocument() && ((Document) node).isLatestVersion())
+        if (node.isDocument() /*&& ((Document) node).isLatestVersion()*/)
         {
             mTabHost.addTab(newTab(TAB_PREVIEW, R.string.preview, android.R.id.tabcontent));
         }
