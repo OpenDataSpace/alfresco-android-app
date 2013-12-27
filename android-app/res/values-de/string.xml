@@ -803,8 +803,8 @@
     <string name="metadata_prop_offline_expires_after">Offline läuft nach (Stunden) ab</string>
     
     <string name="title_dlg_certificate">Zertifikat überprüfen</string>
-    <string name="msg_dlg_certificate">Möchten Sie das Zertifikat überprüfen?</string>
-    <string name="error_certif_valid">Das Sicherheitszertifikat wird nicht überprüft.</string>
+    <string name="msg_dlg_certificate">Vertrauen Sie diesem Zertifikat?</string>
+    <string name="error_certif_valid">Dem Sicherheitszertifikat wird nicht vertraut.</string>
     <string name="title_certificate">Zertifikat Informationen</string>
     <string name="serial_num_certificate">Seriennummer:</string>
     <string name="issuer_certificate">Verleger Distinguished Name:</string>

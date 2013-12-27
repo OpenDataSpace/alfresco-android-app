@@ -602,7 +602,7 @@
     <string name="no">No</string>
 
     <string name="title_dlg_certificate">Certificate verify</string>
-    <string name="msg_dlg_certificate">Do you want to check the certificate?</string>
+    <string name="msg_dlg_certificate">Do you want to trust this server certificate?</string>
     <string name="error_certif_valid">The security certificate is not verified.</string>
     <string name="title_certificate">Certificate information</string>
     <string name="serial_num_certificate">Serial number:</string>
