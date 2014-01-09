@@ -18,6 +18,7 @@
 package org.opendataspace.android.app.fragments.about;
 
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.utils.UIUtils;
 
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -54,6 +55,15 @@ public class AboutFragment extends DialogFragment
 
     private View createView(LayoutInflater inflater, ViewGroup container)
     {
+        if (getDialog() != null)
+        {
+            getDialog().setTitle(R.string.menu_about);
+        }
+        else
+        {
+            UIUtils.displayTitle(getActivity(), R.string.menu_about);
+        }
+
         View v = inflater.inflate(R.layout.app_about, container, false);
 
         //TextView foo = (TextView) v.findViewById(R.id.about_description);
@@ -84,14 +94,14 @@ public class AboutFragment extends DialogFragment
         sb.append(" ");
         sb.append(Version.SDK);
         tv.setText(sb.toString());
-*/
+ */
         TextView alfresco = (TextView) v.findViewById(R.id.about_alfresco_version);
         if(alfresco != null)
-        	alfresco.setText(R.string.copyright_alfresco);
+            alfresco.setText(R.string.copyright_alfresco);
 
         TextView dataspase = (TextView) v.findViewById(R.id.about_dataspace_version);
         if(dataspase != null)
-        	dataspase.setText(R.string.copyright_dataspase);
+            dataspase.setText(R.string.copyright_dataspase);
 
         final TextView feedback = (TextView) v.findViewById(R.id.about_dataspace_feedback);
 
@@ -112,7 +122,7 @@ public class AboutFragment extends DialogFragment
 
         TextView apache = (TextView) v.findViewById(R.id.about_apache_version);
         if(apache != null)
-        	apache.setText(R.string.copyright_apache);
+            apache.setText(R.string.copyright_apache);
 
         return v;
     }
