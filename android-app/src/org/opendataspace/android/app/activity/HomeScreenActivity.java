@@ -52,7 +52,6 @@ public class HomeScreenActivity extends BaseActivity
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.app_main_single);
-
         if (getFragmentManager().findFragmentByTag(HomeScreenFragment.TAG) == null)
         {
             final HomeScreenFragment newFragment = new HomeScreenFragment();
@@ -108,7 +107,7 @@ public class HomeScreenActivity extends BaseActivity
     {
         final AccountEditFragment newFragment = new AccountEditFragment();
         FragmentDisplayer.replaceFragment(this, newFragment, DisplayUtils.getLeftFragmentId(this),
-                AccountEditFragment.TAG, true);
+                AccountEditFragment.TAG, false);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
