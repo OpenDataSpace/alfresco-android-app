@@ -18,7 +18,7 @@
 package org.alfresco.mobile.android.application.operations.batch.configuration;
 
 import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationCallback;
 
 import android.content.Context;

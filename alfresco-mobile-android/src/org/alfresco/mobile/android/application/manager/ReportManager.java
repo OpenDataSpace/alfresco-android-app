@@ -19,7 +19,7 @@ package org.alfresco.mobile.android.application.manager;
 
 import java.lang.reflect.Method;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 
 import android.app.Activity;
 import android.content.Context;

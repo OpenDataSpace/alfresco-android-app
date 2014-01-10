@@ -38,7 +38,7 @@ import org.alfresco.mobile.android.api.model.impl.RepositoryVersionHelper;
 import org.alfresco.mobile.android.api.model.impl.cloud.CloudFolderImpl;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;

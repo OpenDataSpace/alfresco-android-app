@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.sync.impl;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.manager.NotificationHelper;
 import org.alfresco.mobile.android.application.operations.OperationsGroupResult;
 import org.alfresco.mobile.android.application.operations.impl.AbstractOperationCallback;

@@ -21,7 +21,7 @@ import java.util.Map;
 
 import org.alfresco.mobile.android.api.model.ListingFilter;
 import org.alfresco.mobile.android.api.services.WorkflowService;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
 import org.alfresco.mobile.android.application.utils.SessionUtils;

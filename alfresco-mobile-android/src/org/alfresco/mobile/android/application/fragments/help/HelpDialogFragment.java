@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.help;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.manager.ActionManager;
 
 import android.app.AlertDialog;

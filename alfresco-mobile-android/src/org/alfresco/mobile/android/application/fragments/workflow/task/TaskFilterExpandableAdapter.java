@@ -23,7 +23,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 import org.alfresco.mobile.android.ui.utils.ViewHolder;
 

@@ -20,7 +20,7 @@ package org.alfresco.mobile.android.application.accounts;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;

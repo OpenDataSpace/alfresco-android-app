@@ -25,7 +25,7 @@ import org.alfresco.mobile.android.api.constants.WorkflowModel;
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.ProcessDefinition;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;

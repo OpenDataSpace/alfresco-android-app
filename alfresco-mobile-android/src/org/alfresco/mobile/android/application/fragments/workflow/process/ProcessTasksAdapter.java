@@ -22,7 +22,7 @@ import java.util.List;
 import org.alfresco.mobile.android.api.constants.WorkflowModel;
 import org.alfresco.mobile.android.api.model.Task;
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.person.PersonProfileFragment;
 import org.alfresco.mobile.android.application.manager.RenditionManager;

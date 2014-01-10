@@ -21,7 +21,7 @@ import java.io.File;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;

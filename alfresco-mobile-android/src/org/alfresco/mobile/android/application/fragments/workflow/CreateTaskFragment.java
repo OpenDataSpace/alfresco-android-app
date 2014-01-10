@@ -32,7 +32,7 @@ import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.Person;
 import org.alfresco.mobile.android.api.model.ProcessDefinition;
 import org.alfresco.mobile.android.api.utils.DateUtils;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
 import org.alfresco.mobile.android.application.fragments.ListingModeFragment;

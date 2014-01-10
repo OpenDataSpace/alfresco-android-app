@@ -29,7 +29,7 @@ import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.utils.NodeComparator;
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.BaseGridFragment;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;

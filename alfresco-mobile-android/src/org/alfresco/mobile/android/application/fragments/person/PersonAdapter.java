@@ -22,7 +22,7 @@ import java.util.Map;
 
 import org.alfresco.mobile.android.api.model.Person;
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.workflow.CreateTaskPickerFragment;
 import org.alfresco.mobile.android.application.manager.RenditionManager;
 import org.alfresco.mobile.android.application.utils.UIUtils;

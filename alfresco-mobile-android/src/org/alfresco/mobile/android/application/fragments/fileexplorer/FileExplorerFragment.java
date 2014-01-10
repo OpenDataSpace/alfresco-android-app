@@ -23,7 +23,7 @@ import org.alfresco.mobile.android.api.asynchronous.NodeChildrenLoader;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;

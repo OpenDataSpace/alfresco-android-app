@@ -22,7 +22,7 @@ import org.alfresco.mobile.android.api.model.Company;
 import org.alfresco.mobile.android.api.model.Person;
 import org.alfresco.mobile.android.api.model.impl.CompanyImpl;
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
 import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
 import org.alfresco.mobile.android.application.manager.RenditionManager;

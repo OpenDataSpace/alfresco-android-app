@@ -22,7 +22,7 @@ import java.util.List;
 import org.alfresco.mobile.android.api.model.Comment;
 import org.alfresco.mobile.android.api.model.impl.CommentImpl;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.person.PersonProfileFragment;
 import org.alfresco.mobile.android.application.utils.TagHandlerList;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;

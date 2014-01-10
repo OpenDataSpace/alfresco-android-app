@@ -19,7 +19,7 @@ package org.alfresco.mobile.android.application.fragments.search;
 
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.RepositorySession;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
 import org.alfresco.mobile.android.application.fragments.person.PersonSearchFragment;
 import org.alfresco.mobile.android.application.utils.SessionUtils;

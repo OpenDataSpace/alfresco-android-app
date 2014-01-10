@@ -21,7 +21,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
 import org.alfresco.mobile.android.application.fragments.BaseCursorLoader;

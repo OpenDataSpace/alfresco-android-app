@@ -27,7 +27,7 @@ import org.alfresco.mobile.android.api.constants.CloudConstant;
 import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
 import org.alfresco.mobile.android.api.model.ActivityEntry;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
 import org.alfresco.mobile.android.application.fragments.person.PersonProfileFragment;

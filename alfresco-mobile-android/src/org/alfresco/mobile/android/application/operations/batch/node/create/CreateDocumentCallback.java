@@ -21,7 +21,7 @@ import java.io.File;
 
 import org.alfresco.mobile.android.api.model.ContentFile;
 import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.manager.NotificationHelper;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.Operation;

@@ -23,7 +23,7 @@ import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;

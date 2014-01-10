@@ -24,7 +24,7 @@ import java.util.List;
 
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.utils.NodeRefUtils;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;

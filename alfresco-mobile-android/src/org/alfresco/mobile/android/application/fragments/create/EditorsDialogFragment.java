@@ -25,7 +25,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.commons.data.DocumentTypeRecord;
 import org.alfresco.mobile.android.application.manager.ActionManager;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;

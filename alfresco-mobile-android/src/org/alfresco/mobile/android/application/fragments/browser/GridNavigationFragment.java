@@ -27,7 +27,7 @@ import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.Site;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.BaseGridFragment;
 
 import android.app.LoaderManager.LoaderCallbacks;

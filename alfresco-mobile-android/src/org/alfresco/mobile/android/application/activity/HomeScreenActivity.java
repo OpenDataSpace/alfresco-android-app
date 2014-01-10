@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.activity;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountTypesFragment;
 import org.alfresco.mobile.android.application.accounts.signup.CloudSignupDialogFragment;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;

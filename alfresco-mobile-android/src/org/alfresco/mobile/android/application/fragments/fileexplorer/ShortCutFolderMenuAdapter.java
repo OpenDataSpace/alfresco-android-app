@@ -20,7 +20,7 @@ package org.alfresco.mobile.android.application.fragments.fileexplorer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
 import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 

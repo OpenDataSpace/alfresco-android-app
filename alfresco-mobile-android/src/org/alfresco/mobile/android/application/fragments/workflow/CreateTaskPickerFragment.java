@@ -22,7 +22,7 @@ import java.util.List;
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.Person;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.browser.NodeAdapter;
 import org.alfresco.mobile.android.application.fragments.person.PersonAdapter;
 import org.alfresco.mobile.android.application.utils.SessionUtils;

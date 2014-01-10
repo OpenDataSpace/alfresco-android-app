@@ -27,7 +27,7 @@ import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.services.CommentService;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;

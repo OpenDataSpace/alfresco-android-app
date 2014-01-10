@@ -23,7 +23,7 @@ import static org.alfresco.mobile.android.application.preferences.PasscodePrefer
 import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_MAX_ATTEMPT;
 import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_VALUE;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
 import org.alfresco.mobile.android.application.preferences.PasscodePreferences;

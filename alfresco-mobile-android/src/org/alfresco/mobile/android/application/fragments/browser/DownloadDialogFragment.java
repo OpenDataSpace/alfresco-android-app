@@ -24,7 +24,7 @@ import org.alfresco.mobile.android.api.asynchronous.DownloadTask;
 import org.alfresco.mobile.android.api.asynchronous.DownloadTask.DownloadTaskListener;
 import org.alfresco.mobile.android.api.model.ContentFile;
 import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.actions.NodeActions;
 import org.alfresco.mobile.android.application.fragments.properties.DetailsFragment;
 import org.alfresco.mobile.android.application.intent.PublicIntent;

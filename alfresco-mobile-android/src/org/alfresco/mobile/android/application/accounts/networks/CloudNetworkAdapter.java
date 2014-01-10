@@ -20,7 +20,7 @@ package org.alfresco.mobile.android.application.accounts.networks;
 import java.util.List;
 
 import org.alfresco.mobile.android.api.session.CloudNetwork;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
 import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 

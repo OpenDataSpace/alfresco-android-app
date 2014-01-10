@@ -19,7 +19,7 @@ package org.alfresco.mobile.android.application.fragments.actions;
 
 import java.util.List;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
 import org.alfresco.mobile.android.application.fragments.favorites.FavoritesSyncFragment;
 import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;

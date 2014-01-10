@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.node.favorite;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationCallback;
 
 import android.content.Context;

@@ -23,7 +23,7 @@ import java.util.List;
 
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
 import org.alfresco.mobile.android.application.commons.extensions.SamsungManager;

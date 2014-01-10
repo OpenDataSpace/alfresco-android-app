@@ -2,7 +2,7 @@ package org.alfresco.mobile.android.application.fragments.favorites;
 
 import java.io.File;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.Operation;
 import org.alfresco.mobile.android.application.operations.OperationRequest;

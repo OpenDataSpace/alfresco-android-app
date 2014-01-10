@@ -27,7 +27,7 @@ import org.alfresco.mobile.android.api.constants.ContentModel;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.PropertyType;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.operations.sync.utils.NodeSyncPlaceHolder;
 import org.alfresco.mobile.android.application.utils.SessionUtils;

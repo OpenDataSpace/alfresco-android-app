@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.SortedMap;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
 import org.alfresco.mobile.android.ui.utils.GenericViewHolder;

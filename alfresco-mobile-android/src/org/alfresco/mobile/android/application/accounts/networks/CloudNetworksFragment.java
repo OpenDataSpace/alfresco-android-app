@@ -25,7 +25,7 @@ import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.impl.PagingResultImpl;
 import org.alfresco.mobile.android.api.session.CloudNetwork;
 import org.alfresco.mobile.android.api.session.CloudSession;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
 import org.alfresco.mobile.android.application.manager.ActionManager;

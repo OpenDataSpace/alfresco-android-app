@@ -22,7 +22,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.AccountSchema;

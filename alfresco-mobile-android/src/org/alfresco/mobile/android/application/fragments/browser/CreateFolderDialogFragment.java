@@ -18,7 +18,7 @@
 package org.alfresco.mobile.android.application.fragments.browser;
 
 import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;

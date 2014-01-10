@@ -18,7 +18,7 @@
 package org.alfresco.mobile.android.application.fragments.workflow;
 
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.manager.RenditionManager;
 import org.alfresco.mobile.android.application.utils.SessionUtils;

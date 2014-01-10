@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;

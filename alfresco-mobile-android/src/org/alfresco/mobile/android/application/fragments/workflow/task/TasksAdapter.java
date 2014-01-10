@@ -22,7 +22,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.alfresco.mobile.android.api.model.Task;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
 import org.alfresco.mobile.android.ui.utils.GenericViewHolder;

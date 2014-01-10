@@ -24,7 +24,7 @@ import java.util.List;
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.activity.PrivateDialogActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;

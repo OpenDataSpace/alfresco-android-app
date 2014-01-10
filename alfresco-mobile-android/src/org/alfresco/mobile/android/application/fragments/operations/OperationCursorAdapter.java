@@ -17,7 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.operations;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.BaseCursorLoader;
 import org.alfresco.mobile.android.application.manager.MimeTypeManager;
 import org.alfresco.mobile.android.application.operations.Operation;

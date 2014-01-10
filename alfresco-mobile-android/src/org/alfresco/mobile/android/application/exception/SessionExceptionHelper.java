@@ -25,7 +25,7 @@ import java.security.cert.CertificateNotYetValidException;
 
 import javax.net.ssl.SSLHandshakeException;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;

@@ -18,7 +18,7 @@
 package org.alfresco.mobile.android.application.accounts.fragment;
 
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;

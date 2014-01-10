@@ -20,7 +20,7 @@ package org.alfresco.mobile.android.application.manager;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.apache.chemistry.opencmis.commons.impl.MimeTypes;
 
 /**

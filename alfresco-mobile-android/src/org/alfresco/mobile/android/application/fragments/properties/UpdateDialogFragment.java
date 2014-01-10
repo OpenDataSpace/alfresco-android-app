@@ -26,7 +26,7 @@ import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.impl.RepositoryVersionHelper;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;

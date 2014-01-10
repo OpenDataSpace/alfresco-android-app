@@ -20,7 +20,7 @@ package org.alfresco.mobile.android.application.exception;
 import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.exceptions.AlfrescoSessionException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;

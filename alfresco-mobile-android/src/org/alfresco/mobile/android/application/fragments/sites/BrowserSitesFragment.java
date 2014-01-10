@@ -24,7 +24,7 @@ import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.Site;
 import org.alfresco.mobile.android.api.services.SiteService;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.PrivateDialogActivity;
 import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;

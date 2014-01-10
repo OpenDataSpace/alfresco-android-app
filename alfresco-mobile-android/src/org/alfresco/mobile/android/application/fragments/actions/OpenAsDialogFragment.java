@@ -20,7 +20,7 @@ package org.alfresco.mobile.android.application.fragments.actions;
 import java.io.File;
 import java.util.List;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.commons.data.DocumentTypeRecord;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
 import org.alfresco.mobile.android.application.fragments.create.DocumentTypeRecordHelper;

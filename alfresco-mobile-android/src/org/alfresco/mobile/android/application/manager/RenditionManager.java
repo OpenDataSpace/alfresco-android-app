@@ -32,7 +32,7 @@ import org.alfresco.mobile.android.api.services.impl.AbstractDocumentFolderServi
 import org.alfresco.mobile.android.api.services.impl.AbstractPersonService;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.utils.IOUtils;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.utils.thirdparty.imagezoom.ImageViewTouch;
 import org.alfresco.mobile.android.ui.utils.thirdparty.DiskLruCache;

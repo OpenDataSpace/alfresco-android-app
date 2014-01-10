@@ -25,7 +25,7 @@ import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.impl.NodeImpl;
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.actions.OpenAsDialogFragment;

@@ -19,7 +19,7 @@ package org.alfresco.mobile.android.application.fragments;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.model.PagingResult;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.browser.ProgressNodeAdapter;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;

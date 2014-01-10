@@ -19,7 +19,7 @@ package org.alfresco.mobile.android.application.fragments.actions;
 
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;

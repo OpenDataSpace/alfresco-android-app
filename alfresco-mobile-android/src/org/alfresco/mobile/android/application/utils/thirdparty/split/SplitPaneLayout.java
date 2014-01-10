@@ -18,7 +18,7 @@ package org.alfresco.mobile.android.application.utils.thirdparty.split;
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 
 import android.content.Context;
 import android.content.res.TypedArray;

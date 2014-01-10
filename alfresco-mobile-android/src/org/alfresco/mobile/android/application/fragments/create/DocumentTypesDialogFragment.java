@@ -19,7 +19,7 @@ package org.alfresco.mobile.android.application.fragments.create;
 
 import java.util.List;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.commons.data.DocumentTypeRecord;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;

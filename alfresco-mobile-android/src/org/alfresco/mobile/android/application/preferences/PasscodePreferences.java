@@ -20,7 +20,7 @@ package org.alfresco.mobile.android.application.preferences;
 import java.text.MessageFormat;
 import java.util.Date;
 
-import org.alfresco.mobile.android.application.R;
+import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.security.PassCodeActivity;
