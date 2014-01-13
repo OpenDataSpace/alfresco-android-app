@@ -76,13 +76,13 @@ public class CloudSignupLoaderCallback implements LoaderCallbacks<LoaderResult<C
 
         mProgressDialog = ProgressDialog.show(activity, "Please wait", "Contacting your server...", true, true,
                 new OnCancelListener()
-                {
-                    @Override
-                    public void onCancel(DialogInterface dialog)
-                    {
-                        activity.getLoaderManager().destroyLoader(id);
-                    }
-                });
+        {
+            @Override
+            public void onCancel(DialogInterface dialog)
+            {
+                activity.getLoaderManager().destroyLoader(id);
+            }
+        });
         return new CloudSignupLoader(activity, firstName, lastName, emailAddress, password, activity.getText(
                 R.string.signup_key).toString());
     }
@@ -94,9 +94,9 @@ public class CloudSignupLoaderCallback implements LoaderCallbacks<LoaderResult<C
         if (request != null && fr instanceof CloudSignupDialogFragment)
         {
             Account acc = AccountManager.createAccount(activity, description, AccountSettingsHelper.getSignUpHostname(), emailAddress, password, "",
-                            Integer.valueOf(Account.TYPE_ALFRESCO_CLOUD),
-                            request.getIdentifier() + "?key=" + request.getRegistrationKey(), null, null, 0);
-            
+                    Integer.valueOf(Account.TYPE_ALFRESCO_CLOUD),
+                    request.getIdentifier() + "?key=" + request.getRegistrationKey(), null, null, 0, Account.ProtocolType.ATOM);
+
             if (acc != null)
             {
                 mProgressDialog.dismiss();

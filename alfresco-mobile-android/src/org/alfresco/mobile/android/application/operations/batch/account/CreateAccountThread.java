@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,6 +49,8 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
 
     private Person userPerson;
 
+    private Account.ProtocolType proto;
+
     public CreateAccountThread(Context context, OperationRequest request)
     {
         super(context, request);
@@ -59,6 +61,7 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
             this.password = ((CreateAccountRequest) request).getPassword();
             this.description = ((CreateAccountRequest) request).getDescription();
             this.oauthData = ((CreateAccountRequest) request).getData();
+            this.proto = ((CreateAccountRequest) request).getProto();
         }
     }
 
@@ -79,7 +82,7 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
             }
 
             AccountSettingsHelper settingsHelper = new AccountSettingsHelper(context, baseUrl, username, password,
-                    oauthData);
+                    oauthData, proto);
 
             LoadSessionHelper sHelper = new LoadSessionHelper(context, settingsHelper);
             session = sHelper.requestSession();
@@ -128,7 +131,7 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
 
             // Save Account
             acc = AccountManager.createAccount(context, tmpDescription, baseUrl, username, password, session
-                    .getRepositoryInfo().getIdentifier(), type, null, null, null, isPaidAccount ? 1 : 0);
+                    .getRepositoryInfo().getIdentifier(), type, null, null, null, isPaidAccount ? 1 : 0, proto);
         }
         else
         {
@@ -145,7 +148,7 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
             acc = AccountManager.createAccount(context, context.getString(R.string.account_default_cloud), session
                     .getBaseUrl(), userPerson.getIdentifier(), null, session.getRepositoryInfo().getIdentifier(), type,
                     null, ((CloudSession) session).getOAuthData().getAccessToken(), oauthData.getRefreshToken(),
-                    isPaidAccount ? 1 : 0);
+                    isPaidAccount ? 1 : 0, proto);
         }
 
         return acc;

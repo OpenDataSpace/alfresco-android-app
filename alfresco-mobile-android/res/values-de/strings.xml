@@ -14,8 +14,7 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.
-
+  limitations under the License.
 -->
 <resources>
 
@@ -57,6 +56,12 @@
     <string name="account_verify">Account-Informationen werden verifiziert...</string>
     <string name="email_hint">beispiel@amail.com</string>
     <string name="account_validate">Speichern</string>
+    <string name="account_proto">Protokoll</string>
+
+    <string-array name="account_proto_array">
+        <item id="0">Json</item>
+        <item id="1">Atom</item>
+    </string-array>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 3 -->
     <string name="account_wizard_alldone_description">Sie können Ihren Account jetzt verwenden.</string>
@@ -142,6 +147,7 @@
     <string name="menu_browse_sites">Sites</string>
     <string name="menu_browse_userhome">Meine Dateien</string>
     <string name="menu_browse_shared">Freigegebene Dateien</string>
+    <string name="menu_browse_global">Global Dateien</string>
     <string name="menu_browse_all_sites">Alle Sites</string>
     <string name="menu_browse_my_sites">Meine Sites</string>
     <string name="menu_browse_favorite_sites">Favoriten-Sites</string>
@@ -710,7 +716,7 @@
     <string name="task_dueat">Fälligkeitsdatum</string>
     <string name="task_no_dueat">Fälligkeitsdatum</string>
     <string name="tasks_history">Aufgabenverlauf</string>
-    
+
     
     <!-- Tasks Filters -->
     <string name="task_filter_active">Aktive Aufgaben</string>
@@ -768,13 +774,13 @@
     
     <string name="task_delegate_in_progress">Erneute Zuweisung in Bearbeitung...</string>
     <string name="task_delegate_complete">Erneute Zuweisung abgeschlossen</string>
-    
-    <!-- PROCESS NAME -->    
+
+    <!-- PROCESS NAME -->
     <string name="process_adhoc">Ad-hoc-Workflow</string>
     <string name="process_parallel_review">Gleichzeitige Überprüfung und Genehmigung</string>
     <string name="process_review">Überprüfen und genehmigen</string>
     <string name="process_pooled_review">Zusammengefasste Überprüfung und Genehmigung</string>
-    
+
     
     <!-- AGGREGATOR SEARCH -->
     <string name="search">Suche</string>
@@ -782,18 +788,18 @@
     <string name="search_documents">Dokumente</string>
     <string name="search_folders">Ordner</string>
     <string name="search_advanced">Erweiterte Suche</string>
-    
+
     <!-- DOCUMENT PICKER -->
     <string name="picker_document_title">Anhänge auswählen</string>
     <string name="picker_assign_person">{0,choice,0#zuweisen|1#1 Person zuweisen|1&lt; {0} Person/Personen zuweisen}</string>
     <string name="picker_attach_document">{0,choice,0#anhängen|1#1 Dokument anhängen|1&lt; {0} Dokumente anhängen}</string>
-    
+
     <!-- DISLAY VIEWS ITEMS -->
     <string name="display_views">Ansichten</string>
     <string name="display_gallery">Galerie anzeigen</string>
-    
+
     <!-- Metadata RESTRICTABLE -->
     <string name="metadata_aspect_restrictable">Beschränkbar</string>
     <string name="metadata_prop_offline_expires_after">Offline läuft nach (Stunden) ab</string>
-    
+
 </resources>

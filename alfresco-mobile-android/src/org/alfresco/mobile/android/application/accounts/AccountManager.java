@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -156,19 +156,20 @@ public final class AccountManager
                 c.getString(AccountSchema.COLUMN_PASSWORD_ID), c.getString(AccountSchema.COLUMN_REPOSITORY_ID_ID),
                 c.getInt(AccountSchema.COLUMN_REPOSITORY_TYPE_ID), c.getString(AccountSchema.COLUMN_ACTIVATION_ID),
                 c.getString(AccountSchema.COLUMN_ACCESS_TOKEN_ID), c.getString(AccountSchema.COLUMN_REFRESH_TOKEN_ID),
-                c.getInt(AccountSchema.COLUMN_IS_PAID_ACCOUNT_ID));
+                c.getInt(AccountSchema.COLUMN_IS_PAID_ACCOUNT_ID), c.getInt(AccountSchema.COLUMN_PROTO_ID) == 1 ?
+                        Account.ProtocolType.ATOM : Account.ProtocolType.JSON);
         c.close();
         return account;
     }
 
     public static Account createAccount(Context context, String name, String url, String username, String pass,
             String workspace, Integer type, String activation, String accessToken, String refreshToken,
-            int isPaidAccount)
+            int isPaidAccount, Account.ProtocolType proto)
     {
         Uri accountUri = context.getContentResolver().insert(
                 AccountProvider.CONTENT_URI,
                 createContentValues(name, url, username, pass, workspace, type, activation, accessToken, refreshToken,
-                        isPaidAccount));
+                        isPaidAccount, proto));
 
         if (accountUri == null) { return null; }
 
@@ -189,20 +190,20 @@ public final class AccountManager
     }
 
     public Account update(long accountId, String name, String url, String username, String pass, String workspace,
-            Integer type, String activation, String accessToken, String refreshToken, int isPaidAccount)
+            Integer type, String activation, String accessToken, String refreshToken, int isPaidAccount, Account.ProtocolType proto)
     {
         return update(appContext, accountId, name, url, username, pass, workspace, type, activation, accessToken,
-                refreshToken, isPaidAccount);
+                refreshToken, isPaidAccount, proto);
     }
 
     public static Account update(Context context, long accountId, String name, String url, String username,
             String pass, String workspace, Integer type, String activation, String accessToken, String refreshToken,
-            int isPaidAccount)
+            int isPaidAccount, Account.ProtocolType proto)
     {
         context.getContentResolver().update(
                 getUri(accountId),
                 createContentValues(name, url, username, pass, workspace, type, activation, accessToken, refreshToken,
-                        isPaidAccount), null, null);
+                        isPaidAccount, proto), null, null);
 
         return AccountManager.retrieveAccount(context, accountId);
     }
@@ -246,12 +247,13 @@ public final class AccountManager
         updateValues.put(AccountSchema.COLUMN_ACCESS_TOKEN, acc.getAccessToken());
         updateValues.put(AccountSchema.COLUMN_REFRESH_TOKEN, acc.getRefreshToken());
         updateValues.put(AccountSchema.COLUMN_IS_PAID_ACCOUNT, acc.getIsPaidAccount());
+        updateValues.put(AccountSchema.COLUMN_PROTO, acc.getProtocolType() == Account.ProtocolType.ATOM ? 1 : 0);
         return updateValues;
     }
 
     private static ContentValues createContentValues(String name, String url, String username, String pass,
             String workspace, Integer type, String activation, String accessToken, String refreshToken,
-            int isPaidAccount)
+            int isPaidAccount, Account.ProtocolType proto)
     {
         ContentValues updateValues = new ContentValues();
 
@@ -265,6 +267,7 @@ public final class AccountManager
         updateValues.put(AccountSchema.COLUMN_ACCESS_TOKEN, accessToken);
         updateValues.put(AccountSchema.COLUMN_REFRESH_TOKEN, refreshToken);
         updateValues.put(AccountSchema.COLUMN_IS_PAID_ACCOUNT, isPaidAccount);
+        updateValues.put(AccountSchema.COLUMN_PROTO, proto == Account.ProtocolType.ATOM ? 1 : 0);
         return updateValues;
     }
 

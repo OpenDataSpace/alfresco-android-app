@@ -21,6 +21,8 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.opendataspace.android.app.R;
+import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
+import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
@@ -53,6 +55,7 @@ import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.Spinner;
 
 public class AccountEditFragment extends DialogFragment
 {
@@ -62,6 +65,8 @@ public class AccountEditFragment extends DialogFragment
 
     private String url = null, host = null, username = null, password = null, servicedocument = null,
             description = null;
+
+    private Account.ProtocolType proto = Account.ProtocolType.JSON;
 
     private int port;
 
@@ -176,7 +181,7 @@ public class AccountEditFragment extends DialogFragment
 
             // Create Account + Session
             OperationsRequestGroup group = new OperationsRequestGroup(getActivity());
-            group.enqueue(new CreateAccountRequest(url, username, password, description)
+            group.enqueue(new CreateAccountRequest(url, username, password, description, proto)
             .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
@@ -199,6 +204,9 @@ public class AccountEditFragment extends DialogFragment
             formValue = (EditText) findViewByIdInternal(ids[i]);
             formValue.addTextChangedListener(watcher);
         }
+
+        Spinner spin = (Spinner) findViewByIdInternal(R.id.repository_proto);
+        spin.setSelection(proto == Account.ProtocolType.JSON ? 0 : 1);
     }
 
     private TextWatcher watcher = new TextWatcher()
@@ -285,11 +293,20 @@ public class AccountEditFragment extends DialogFragment
             port = (protocol.equals("https")) ? 443 : 80;
         }
 
+        Spinner spin = (Spinner) findViewByIdInternal(R.id.repository_proto);
+        proto = spin.getSelectedItemId() == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON;
+
         formValue = (EditText) findViewByIdInternal(R.id.repository_servicedocument);
         servicedocument = formValue.getText().toString();
         URL u = null;
         try
         {
+            if ("".equals(servicedocument))
+            {
+                servicedocument = proto == Account.ProtocolType.JSON ? OnPremiseUrlRegistry.BINDING_JSON :
+                    OnPremiseUrlRegistry.BINDING_CMIS;
+            }
+
             u = new URL(protocol, host, port, servicedocument);
         }
         catch (MalformedURLException e)
@@ -298,7 +315,6 @@ public class AccountEditFragment extends DialogFragment
         }
 
         url = u.toString();
-
         return true;
     }
 

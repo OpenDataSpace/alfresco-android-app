@@ -14,8 +14,7 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.
--->
+  limitations under the License.-->
 <resources>
 
     <string name="app_name">Alfresco</string>
@@ -56,6 +55,12 @@
     <string name="account_verify">Verifying Account Information&#8230;</string>
     <string name="email_hint">example@acme.com</string>
     <string name="account_validate">Save</string>
+    <string name="account_proto">Protocol</string>
+
+    <string-array name="account_proto_array">
+        <item id="0">Json</item>
+        <item id="1">Atom</item>
+    </string-array>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 3 -->
     <string name="account_wizard_alldone_description">Your account is ready for you to use.</string>
@@ -109,7 +114,7 @@
     <string name="error_session_expired">Your session has expired. Please sign in again.</string>
     <string name="error_session_refresh">Refreshing session.</string>
     <string name="error_chunk_transfert"><![CDATA[The server doesnt support chunk transfert.<br/> Please reload your account</b>.]]></string>
-    
+
     <!-- MESSAGE ERROR -->
     <string name="error_general_title">An error has occurred.</string>
     <string name="error_general">An error has occurred. Please try again.</string>
@@ -141,7 +146,8 @@
     <string name="menu_browse_root">Repository</string>
     <string name="menu_browse_sites">Sites</string>
     <string name="menu_browse_userhome">My Files</string>
-    <string name="menu_browse_shared">Shared Files</string>
+    <string name="menu_browse_shared">Shared</string>
+    <string name="menu_browse_global">Global</string>
     <string name="menu_browse_all_sites">All Sites</string>
     <string name="menu_browse_my_sites">My Sites</string>
     <string name="menu_browse_favorite_sites">Favorite Sites</string>
@@ -710,7 +716,7 @@
     <string name="task_dueat">Due Date</string>
     <string name="task_no_dueat">Due Date</string>
     <string name="tasks_history">Tasks History</string>
-    
+
     
     <!-- Tasks Filters -->
     <string name="task_filter_active">Active Tasks</string>
@@ -768,13 +774,13 @@
     
     <string name="task_delegate_in_progress">Reassign in progress&#8230;</string>
     <string name="task_delegate_complete">Reassign completed</string>
-    
-    <!-- PROCESS NAME -->    
+
+    <!-- PROCESS NAME -->
     <string name="process_adhoc">Adhoc Workflow</string>
     <string name="process_parallel_review">Parallel Review and Approve</string>
     <string name="process_review">Review and Approve</string>
     <string name="process_pooled_review">Pooled Review and Approve</string>
-    
+
     
     <!-- AGGREGATOR SEARCH -->
     <string name="search">Search</string>
@@ -782,18 +788,18 @@
     <string name="search_documents">Documents</string>
     <string name="search_folders">Folders</string>
     <string name="search_advanced">Advanced Search</string>
-    
+
     <!-- DOCUMENT PICKER -->
     <string name="picker_document_title">Select attachments</string>
     <string name="picker_assign_person">{0,choice,0#Assign|1#Assign 1 person|1&lt;Assign {0} people}</string>
     <string name="picker_attach_document">{0,choice,0#Attach|1#Attach 1 document|1&lt;Attach {0} documents}</string>
-    
+
     <!-- DISLAY VIEWS ITEMS -->
     <string name="display_views">Views</string>
     <string name="display_gallery">Display Gallery</string>
-    
+
     <!-- Metadata RESTRICTABLE -->
     <string name="metadata_aspect_restrictable">Restrictable</string>
     <string name="metadata_prop_offline_expires_after">Offline Expires After (hours)</string>
-    
+
 </resources>

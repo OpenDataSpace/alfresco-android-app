@@ -18,14 +18,14 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
-    android:fillViewport="true" >
+    android:fillViewport="true">
 
     <RelativeLayout
         android:id="@+id/RelativeLayout1"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:background="@drawable/bg_gradient"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <TextView
             android:id="@+id/accounts_label"
@@ -35,10 +35,10 @@
             android:layout_marginLeft="@dimen/properties_padding"
             android:layout_marginRight="@dimen/properties_padding"
             android:text="@string/menu_accounts"
-             android:ellipsize="end"
-                android:singleLine="true"
-                android:maxLines="1"
-                android:scrollHorizontally="true" />
+            android:ellipsize="end"
+            android:singleLine="true"
+            android:maxLines="1"
+            android:scrollHorizontally="true" />
 
         <Spinner
             android:id="@+id/accounts_spinner"
@@ -49,7 +49,7 @@
             android:layout_marginLeft="@dimen/properties_padding"
             android:layout_marginRight="@dimen/properties_padding"
             android:popupBackground="@color/sliding_account_background"
-            android:textColor="@android:color/white" />
+            android:textColor="@android:color/white"/>
 
         <LinearLayout
             android:id="@+id/main_menu_group"
@@ -58,7 +58,7 @@
             android:layout_below="@+id/accounts_spinner"
             android:layout_marginLeft="@dimen/properties_padding"
             android:layout_marginRight="@dimen/properties_padding"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/TextView1"
@@ -66,7 +66,7 @@
                 android:layout_width="fill_parent"
                 android:layout_height="wrap_content"
                 android:text="@string/menu_view"
-                 android:ellipsize="end"
+                android:ellipsize="end"
                 android:singleLine="true"
                 android:maxLines="1"
                 android:scrollHorizontally="true" />
@@ -75,63 +75,68 @@
                 android:id="@+id/menu_browse_activities"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_activities_light"
-                android:text="@string/menu_browse_activities" />
+                android:text="@string/menu_browse_activities"/>
 
             <Button
                 android:id="@+id/menu_browse_root"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_repository_light"
-                android:text="@string/menu_browse_root" />
-            
-             <Button
+                android:text="@string/menu_browse_root"/>
+
+            <Button
                 android:id="@+id/menu_browse_shared"
                 style="@style/main_menu_action_button"
-                android:drawableLeft="@drawable/ic_shared_light"
-                android:text="@string/menu_browse_shared"
-                android:visibility="gone" />
+                android:drawableLeft="@drawable/ic_repository_light"
+                android:text="@string/menu_browse_shared"/>
+
+            <Button
+                android:id="@+id/menu_browse_global"
+                style="@style/main_menu_action_button"
+                android:drawableLeft="@drawable/ic_repository_light"
+                android:text="@string/menu_browse_global"/>
 
             <Button
                 android:id="@+id/menu_browse_my_sites"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_all_sites_light"
-                android:text="@string/menu_browse_sites" />
-            
-             <Button
+                android:text="@string/menu_browse_sites"/>
+
+            <Button
                 android:id="@+id/menu_browse_userhome"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_myfiles_light"
                 android:text="@string/menu_browse_userhome"
-                android:visibility="gone" />
+                android:visibility="gone"/>
 
             <Button
                 android:id="@+id/menu_workflow"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_action_inbox_light"
-                android:text="@string/my_tasks" />
+                android:text="@string/my_tasks"/>
 
             <Button
                 android:id="@+id/menu_favorites"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_favorite"
-                android:text="@string/menu_favorites" />
+                android:text="@string/menu_favorites"/>
 
             <Button
                 android:id="@+id/menu_search"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_search_off"
-                android:text="@string/menu_search" />
+                android:text="@string/menu_search"/>
 
             <Button
                 android:id="@+id/menu_downloads"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_download_light"
-                android:text="@string/menu_local_files" />
+                android:text="@string/menu_local_files"/>
 
             <Button
                 android:id="@+id/menu_notifications"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_events"
-                android:text="@string/notifications" />
+                android:text="@string/notifications"/>
 
             <TextView
                 android:id="@+id/TextView01"
@@ -155,19 +160,19 @@
                 android:id="@+id/menu_prefs"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_settings_light"
-                android:text="@string/menu_prefs" />
+                android:text="@string/menu_prefs"/>
 
             <Button
                 android:id="@+id/menu_help"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_help"
-                android:text="@string/menu_help" />
+                android:text="@string/menu_help"/>
 
             <Button
                 android:id="@+id/menu_about"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_about_light"
-                android:text="@string/menu_about" />
+                android:text="@string/menu_about"/>
         </LinearLayout>
     </RelativeLayout>
 

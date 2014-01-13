@@ -39,6 +39,7 @@ import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.manager.NetworkHttpInvoker;
 import org.alfresco.mobile.android.application.manager.StorageManager;
+import org.alfresco.mobile.android.application.session.OdsRepositorySession;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 
@@ -90,6 +91,8 @@ public class AccountSettingsHelper
 
     private String repositoryId;
 
+    private Account.ProtocolType proto;
+
     public AccountSettingsHelper(Context context, Account acc)
     {
         this.context = context;
@@ -101,6 +104,7 @@ public class AccountSettingsHelper
     {
         this.context = context;
         this.acc = acc;
+        this.proto = acc.getProtocolType();
         prepareData();
         if (data != null)
         {
@@ -108,7 +112,7 @@ public class AccountSettingsHelper
         }
     }
 
-    public AccountSettingsHelper(Context context, String baseUrl, String username, String password, OAuthData data)
+    public AccountSettingsHelper(Context context, String baseUrl, String username, String password, OAuthData data, Account.ProtocolType proto)
     {
         super();
         this.context = context;
@@ -116,6 +120,7 @@ public class AccountSettingsHelper
         this.username = username;
         this.password = password;
         this.data = data;
+        this.proto = proto;
     }
 
     public static String getSignUpHostname()
@@ -179,53 +184,53 @@ public class AccountSettingsHelper
     {
         switch ((int) acc.getTypeId())
         {
-            case Account.TYPE_ALFRESCO_TEST_OAUTH:
-                isCloud = true;
-                String apikey = null,
-                apisecret = null;
-                File f = new File(APP_CONFIG_PATH);
-                if (f.exists() && ENABLE_CONFIG_FILE)
+        case Account.TYPE_ALFRESCO_TEST_OAUTH:
+            isCloud = true;
+            String apikey = null,
+                    apisecret = null;
+            File f = new File(APP_CONFIG_PATH);
+            if (f.exists() && ENABLE_CONFIG_FILE)
+            {
+                Properties prop = new Properties();
+                InputStream is = null;
+                try
                 {
-                    Properties prop = new Properties();
-                    InputStream is = null;
-                    try
-                    {
-                        is = new FileInputStream(f);
-                        // load a properties file
-                        prop.load(is);
-                        apikey = prop.getProperty("apikey");
-                        apisecret = prop.getProperty("apisecret");
-                    }
-                    catch (IOException ex)
-                    {
-                        throw new AlfrescoServiceException(ErrorCodeRegistry.PARSING_GENERIC, ex);
-                    }
-                    finally
-                    {
-                        IOUtils.closeStream(is);
-                    }
+                    is = new FileInputStream(f);
+                    // load a properties file
+                    prop.load(is);
+                    apikey = prop.getProperty("apikey");
+                    apisecret = prop.getProperty("apisecret");
                 }
+                catch (IOException ex)
+                {
+                    throw new AlfrescoServiceException(ErrorCodeRegistry.PARSING_GENERIC, ex);
+                }
+                finally
+                {
+                    IOUtils.closeStream(is);
+                }
+            }
 
-                baseUrl = acc.getUrl();
-                data = new OAuth2DataImpl(apikey, apisecret, acc.getAccessToken(), acc.getRefreshToken());
-                break;
-            case Account.TYPE_ALFRESCO_CLOUD:
-                isCloud = true;
-                baseUrl = acc.getUrl();
-                data = new OAuth2DataImpl(getText(R.string.oauth_api_key), getText(R.string.oauth_api_secret),
-                        acc.getAccessToken(), acc.getRefreshToken());
-                repositoryId = acc.getRepositoryId();
-                break;
+            baseUrl = acc.getUrl();
+            data = new OAuth2DataImpl(apikey, apisecret, acc.getAccessToken(), acc.getRefreshToken());
+            break;
+        case Account.TYPE_ALFRESCO_CLOUD:
+            isCloud = true;
+            baseUrl = acc.getUrl();
+            data = new OAuth2DataImpl(getText(R.string.oauth_api_key), getText(R.string.oauth_api_secret),
+                    acc.getAccessToken(), acc.getRefreshToken());
+            repositoryId = acc.getRepositoryId();
+            break;
 
-            case Account.TYPE_ALFRESCO_TEST_BASIC:
-            case Account.TYPE_ALFRESCO_CMIS:
-                isCloud = false;
-                baseUrl = acc.getUrl();
-                username = acc.getUsername();
-                password = acc.getPassword();
-                break;
-            default:
-                break;
+        case Account.TYPE_ALFRESCO_TEST_BASIC:
+        case Account.TYPE_ALFRESCO_CMIS:
+            isCloud = false;
+            baseUrl = acc.getUrl();
+            username = acc.getUsername();
+            password = acc.getPassword();
+            break;
+        default:
+            break;
         }
     }
 
@@ -240,6 +245,12 @@ public class AccountSettingsHelper
         settings.put(SessionParameter.CLIENT_COMPRESSION, "true");
         settings.put(AlfrescoSession.HTTP_INVOKER_CLASSNAME, NetworkHttpInvoker.class.getName());
         settings.put(AlfrescoSession.CACHE_FOLDER, StorageManager.getCacheDir(context, "AlfrescoMobile"));
+
+        if (proto != null)
+        {
+            settings.put(OdsRepositorySession.PROTO_TYPE, proto);
+        }
+
         return settings;
     }
 
@@ -294,7 +305,7 @@ public class AccountSettingsHelper
             {
                 settings.put(CloudSession.CLOUD_NETWORK_ID, repositoryId);
             }
-            
+
             settings.put(AlfrescoSession.HTTP_ACCEPT_ENCODING, "false");
             settings.put(AlfrescoSession.HTTP_CHUNK_TRANSFERT, "true");
         }

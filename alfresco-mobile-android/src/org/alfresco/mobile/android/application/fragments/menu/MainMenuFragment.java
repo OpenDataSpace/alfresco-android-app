@@ -19,12 +19,14 @@ package org.alfresco.mobile.android.application.fragments.menu;
 
 import java.util.Map;
 
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.AccountSchema;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountCursorAdapter;
+import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.configuration.ConfigurationContext;
 import org.alfresco.mobile.android.application.configuration.ConfigurationManager;
@@ -36,11 +38,13 @@ import org.alfresco.mobile.android.application.operations.sync.SynchroProvider;
 import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
 import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
 import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
+import org.alfresco.mobile.android.application.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.apache.chemistry.opencmis.commons.impl.JSONConverter;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -79,6 +83,10 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
     private Button menuSlidingFavorites;
 
+    private Button menuShared;
+
+    private Button menuGlobal;
+
     private ConfigurationManager configurationManager;
 
     private View rootView;
@@ -116,6 +124,8 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
             display();
         }
 
+        menuShared = (Button) rootView.findViewById(R.id.menu_browse_shared);
+        menuGlobal = (Button) rootView.findViewById(R.id.menu_browse_global);
         return rootView;
     }
 
@@ -175,6 +185,8 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         {
             display();
         }
+
+        updateFolderAccess();
     }
 
     @Override
@@ -199,6 +211,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
     {
         refresh();
         displayFavoriteStatut();
+        updateFolderAccess();
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -212,31 +225,31 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
         switch (accountId)
         {
-            case AccountCursorAdapter.NETWORK_ITEM:
-                ((MainActivity) getActivity()).displayNetworks();
-                hideSlidingMenu(false);
-                break;
-            case AccountCursorAdapter.MANAGE_ITEM:
-                ((MainActivity) getActivity()).displayAccounts();
-                hideSlidingMenu(false);
-                break;
+        case AccountCursorAdapter.NETWORK_ITEM:
+            ((MainActivity) getActivity()).displayNetworks();
+            hideSlidingMenu(false);
+            break;
+        case AccountCursorAdapter.MANAGE_ITEM:
+            ((MainActivity) getActivity()).displayAccounts();
+            hideSlidingMenu(false);
+            break;
 
-            default:
-                Account currentAccount = SessionUtils.getAccount(getActivity());
-                if (currentAccount != null && cursor.getCount() > 1
-                        && currentAccount.getId() != cursor.getLong(AccountSchema.COLUMN_ID_ID))
-                {
-                    hideSlidingMenu(true);
+        default:
+            Account currentAccount = SessionUtils.getAccount(getActivity());
+            if (currentAccount != null && cursor.getCount() > 1
+                    && currentAccount.getId() != cursor.getLong(AccountSchema.COLUMN_ID_ID))
+            {
+                hideSlidingMenu(true);
 
-                    // Request session loading for the selected account.
-                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
-                            new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT).putExtra(
-                                    IntentIntegrator.EXTRA_ACCOUNT_ID, cursor.getLong(AccountSchema.COLUMN_ID_ID)));
+                // Request session loading for the selected account.
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
+                        new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT).putExtra(
+                                IntentIntegrator.EXTRA_ACCOUNT_ID, cursor.getLong(AccountSchema.COLUMN_ID_ID)));
 
-                    // Update dropdown menu (eventual new items to display)
-                    cursorAdapter.swapCursor(AccountCursorAdapter.createMergeCursor(getActivity(), accountCursor));
-                }
-                break;
+                // Update dropdown menu (eventual new items to display)
+                cursorAdapter.swapCursor(AccountCursorAdapter.createMergeCursor(getActivity(), accountCursor));
+            }
+            break;
         }
     }
 
@@ -490,6 +503,20 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
                     display();
                 }
             }
+
+            updateFolderAccess();
         }
+    }
+
+    public void updateFolderAccess()
+    {
+        Activity acc = getActivity();
+        AlfrescoSession ses = acc instanceof BaseActivity ? ((BaseActivity) acc).getCurrentSession() : null;
+        OdsRepositorySession ods = ses instanceof OdsRepositorySession ? (OdsRepositorySession) ses : null;
+        boolean hasShared = ods != null && ods.getShared() != null;
+        boolean hasGlobal = ods != null && ods.getGlobal() != null;
+
+        menuShared.setVisibility(hasShared ? View.VISIBLE : View.GONE);
+        menuGlobal.setVisibility(hasGlobal ? View.VISIBLE : View.GONE);
     }
 }

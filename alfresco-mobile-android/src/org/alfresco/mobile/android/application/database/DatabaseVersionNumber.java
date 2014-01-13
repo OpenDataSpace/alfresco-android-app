@@ -24,4 +24,6 @@ public interface DatabaseVersionNumber
     int VERSION_1_1_0 = 3;
 
     int VERSION_1_2_0 = 4;
+
+    int VERSION_1_3_0 = 5;
 }

@@ -29,7 +29,7 @@ public class DatabaseManager implements DatabaseVersionNumber
 {
     private static final String DATABASE_NAME = "AlfrescoMobileDataBase";
 
-    public static final int DATABASE_VERSION = VERSION_1_2_0;
+    public static final int DATABASE_VERSION = VERSION_1_3_0;
 
     private final GenericDbHelper dbHelper;
 

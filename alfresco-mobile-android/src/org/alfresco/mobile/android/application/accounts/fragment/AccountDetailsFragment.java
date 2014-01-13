@@ -21,6 +21,7 @@ import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
+import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
@@ -67,11 +68,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 /**
@@ -88,6 +91,8 @@ public class AccountDetailsFragment extends BaseFragment
 
     private String url = null, host = null, username = null, password = null, servicedocument = null,
             description = null;
+
+    private Account.ProtocolType proto = Account.ProtocolType.JSON;
 
     private boolean https = false;
 
@@ -312,7 +317,7 @@ public class AccountDetailsFragment extends BaseFragment
             }
         });
 
-        formValue = (EditText) v.findViewById(R.id.repository_port);
+        formValue = (EditText) portForm;
         if (tmprUrl.getPort() != -1)
         {
             formValue.setText(tmprUrl.getPort() + "");
@@ -323,9 +328,41 @@ public class AccountDetailsFragment extends BaseFragment
         }
         formValue.setEnabled(isEditable);
 
-        formValue = (EditText) v.findViewById(R.id.repository_servicedocument);
-        formValue.setText(tmprUrl.getPath());
-        formValue.setEnabled(isEditable);
+        final EditText pathForm = (EditText) v.findViewById(R.id.repository_servicedocument);
+        pathForm.setText(tmprUrl.getPath());
+        pathForm.setEnabled(isEditable);
+
+        Spinner sp = (Spinner) v.findViewById(R.id.repository_proto);
+        sp.setSelection(acc.getProtocolType() == Account.ProtocolType.JSON ? 0 : 1);
+        sp.setEnabled(isEditable);
+
+        sp.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener()
+        {
+            @Override
+            public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2, long arg3)
+            {
+                if (validate != null)
+                {
+                    validate.setEnabled(retrieveFormValues());
+
+                    if (proto == Account.ProtocolType.ATOM && (pathForm.getText().toString() == null ||
+                            pathForm.getText().toString().equals(OnPremiseUrlRegistry.BINDING_JSON)))
+                    {
+                        pathForm.setText(OnPremiseUrlRegistry.BINDING_CMIS);
+                    } else if (proto == Account.ProtocolType.JSON && (pathForm.getText().toString() == null ||
+                            pathForm.getText().toString().equals(OnPremiseUrlRegistry.BINDING_CMIS)))
+                    {
+                        pathForm.setText(OnPremiseUrlRegistry.BINDING_JSON);
+                    }
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0)
+            {
+                // TODO Auto-generated method stub
+            }
+        });
     }
 
     private boolean retrieveFormValues()
@@ -381,11 +418,20 @@ public class AccountDetailsFragment extends BaseFragment
             port = (protocol.equals("https")) ? 443 : 80;
         }
 
+        Spinner spin = (Spinner) vRoot.findViewById(R.id.repository_proto);
+        proto = spin.getSelectedItemId() == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON;
+
         formValue = (EditText) vRoot.findViewById(R.id.repository_servicedocument);
         servicedocument = formValue.getText().toString();
         URL u = null;
         try
         {
+            if ("".equals(servicedocument))
+            {
+                servicedocument = proto == Account.ProtocolType.JSON ? OnPremiseUrlRegistry.BINDING_JSON :
+                    OnPremiseUrlRegistry.BINDING_CMIS;
+            }
+
             u = new URL(protocol, host, port, servicedocument);
         }
         catch (MalformedURLException e)
@@ -394,9 +440,7 @@ public class AccountDetailsFragment extends BaseFragment
         }
 
         url = u.toString();
-
         return true;
-
     }
 
     private void initForm()
@@ -410,7 +454,7 @@ public class AccountDetailsFragment extends BaseFragment
             formValue.addTextChangedListener(watcher);
         }
     }
-    
+
     private void removeFormWatcher()
     {
         int[] ids = new int[] { R.id.repository_username, R.id.repository_password, R.id.repository_hostname,
@@ -459,13 +503,13 @@ public class AccountDetailsFragment extends BaseFragment
     public void edit()
     {
         if (isEditable){
-          return;
+            return;
         }
 
         isEditable = true;
         initValues(vRoot);
         initForm();
-        
+
         validate = (Button) vRoot.findViewById(R.id.validate_account);
         validate.setVisibility(View.VISIBLE);
         validate.setOnClickListener(new OnClickListener()
@@ -479,8 +523,8 @@ public class AccountDetailsFragment extends BaseFragment
                 retrieveFormValues();
                 acc = AccountManager.update(getActivity(), getArguments().getLong(ARGUMENT_ACCOUNT_ID), description,
                         (url != null) ? url : acc.getUrl(), username, password, acc.getRepositoryId(),
-                        Integer.valueOf((int) acc.getTypeId()), null, acc.getAccessToken(), acc.getRefreshToken(),
-                        acc.getIsPaidAccount() ? 1 : 0);
+                                Integer.valueOf((int) acc.getTypeId()), null, acc.getAccessToken(), acc.getRefreshToken(),
+                                acc.getIsPaidAccount() ? 1 : 0, proto);
 
                 initValues(vRoot);
                 vRoot.findViewById(R.id.browse_document).setVisibility(View.VISIBLE);
@@ -524,7 +568,7 @@ public class AccountDetailsFragment extends BaseFragment
                     AccountManager.CONTENT_URI,
                     AccountManager.COLUMN_ALL,
                     AccountSchema.COLUMN_ID + "!=" + acc.getId() + " AND " + AccountSchema.COLUMN_IS_PAID_ACCOUNT
-                            + " = 1", null, null);
+                    + " = 1", null, null);
             if (cursor.getCount() == 0)
             {
                 dataProtectionDeletion = true;

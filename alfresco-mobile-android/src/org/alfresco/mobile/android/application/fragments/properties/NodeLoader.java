@@ -43,6 +43,7 @@ import org.alfresco.mobile.android.application.operations.batch.utils.MapUtil;
 import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
 import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
 import org.alfresco.mobile.android.application.operations.sync.utils.NodeSyncPlaceHolder;
+import org.alfresco.mobile.android.application.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 
 import android.app.Activity;
@@ -82,9 +83,9 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
     private String uri;
 
     private Account selectAccount;
-    
+
     private Account acc;
-    
+
     public NodeLoader(Activity context, Account acc, AlfrescoSession session, String nodeIdentifier)
     {
         super(context);
@@ -188,7 +189,7 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
         }
         else
         {
-            session = RepositorySession.connect(settingsHelper.getBaseUrl(), settingsHelper.getUsername(),
+            session = OdsRepositorySession.connect(settingsHelper.getBaseUrl(), settingsHelper.getUsername(),
                     settingsHelper.getPassword(), settings);
         }
 
