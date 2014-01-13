@@ -177,14 +177,14 @@ public class AccountEditFragment extends DialogFragment
             // Create Account + Session
             OperationsRequestGroup group = new OperationsRequestGroup(getActivity());
             group.enqueue(new CreateAccountRequest(url, username, password, description)
-                    .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+            .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
             if (getActivity() instanceof MainActivity)
             {
                 OperationWaitingDialogFragment.newInstance(FavoriteNodeRequest.TYPE_ID, R.drawable.ic_onpremise,
                         getString(R.string.account), getString(R.string.account_verify), null, -1).show(
-                        getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+                                getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
             }
         }
     }
@@ -266,6 +266,11 @@ public class AccountEditFragment extends DialogFragment
             return false;
         }
 
+        if ("".equals(description))
+        {
+            description = host;
+        }
+
         CheckBox sw = (CheckBox) findViewByIdInternal(R.id.repository_https);
         boolean https = sw.isChecked();
         String protocol = https ? "https" : "http";
@@ -319,7 +324,7 @@ public class AccountEditFragment extends DialogFragment
         {
             if (IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED.equals(intent.getAction()) && getActivity() instanceof MainActivity)
             {
-                getActivity().getFragmentManager().popBackStack(AccountTypesFragment.TAG,
+                getActivity().getFragmentManager().popBackStack(AccountEditFragment.TAG,
                         FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                 if (intent.getExtras() != null && intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
