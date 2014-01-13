@@ -673,41 +673,41 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     {
         switch (requestCode)
         {
-            case PublicIntent.REQUESTCODE_FILEPICKER:
-                if (data != null && IntentIntegrator.ACTION_PICK_FILE.equals(data.getAction()))
+        case PublicIntent.REQUESTCODE_FILEPICKER:
+            if (data != null && IntentIntegrator.ACTION_PICK_FILE.equals(data.getAction()))
+            {
+                ActionManager.actionPickFile(getFragmentManager().findFragmentByTag(TAG),
+                        IntentIntegrator.REQUESTCODE_FILEPICKER);
+            }
+            else if (data != null && data.getData() != null)
+            {
+                String tmpPath = ActionManager.getPath(getActivity(), data.getData());
+                if (tmpPath != null)
                 {
-                    ActionManager.actionPickFile(getFragmentManager().findFragmentByTag(TAG),
-                            IntentIntegrator.REQUESTCODE_FILEPICKER);
+                    tmpFile = new File(tmpPath);
                 }
-                else if (data != null && data.getData() != null)
+                else
                 {
-                    String tmpPath = ActionManager.getPath(getActivity(), data.getData());
-                    if (tmpPath != null)
-                    {
-                        tmpFile = new File(tmpPath);
-                    }
-                    else
-                    {
-                        // Error case : Unable to find the file path associated
-                        // to user pick.
-                        // Sample : Picasa image case
-                        ActionManager.actionDisplayError(this, new AlfrescoAppException(
-                                getString(R.string.error_unknown_filepath), true));
-                    }
+                    // Error case : Unable to find the file path associated
+                    // to user pick.
+                    // Sample : Picasa image case
+                    ActionManager.actionDisplayError(this, new AlfrescoAppException(
+                            getString(R.string.error_unknown_filepath), true));
                 }
-                else if (data != null && data.getExtras() != null && data.getExtras().containsKey(Intent.EXTRA_STREAM))
+            }
+            else if (data != null && data.getExtras() != null && data.getExtras().containsKey(Intent.EXTRA_STREAM))
+            {
+                List<File> files = new ArrayList<File>();
+                List<Uri> uris = data.getExtras().getParcelableArrayList(Intent.EXTRA_STREAM);
+                for (Uri uri : uris)
                 {
-                    List<File> files = new ArrayList<File>();
-                    List<Uri> uris = data.getExtras().getParcelableArrayList(Intent.EXTRA_STREAM);
-                    for (Uri uri : uris)
-                    {
-                        files.add(new File(ActionManager.getPath(getActivity(), uri)));
-                    }
-                    createFiles(files);
+                    files.add(new File(ActionManager.getPath(getActivity(), uri)));
                 }
-                break;
-            default:
-                break;
+                createFiles(files);
+            }
+            break;
+        default:
+            break;
         }
     }
 
@@ -783,7 +783,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         if (getActivity() instanceof MainActivity)
         {
             getMenu(alfSession, menu, parentFolder);
-            
+
             displayMenuItem = menu.add(Menu.NONE, MenuActionItem.MENU_DISPLAY_GALLERY, Menu.FIRST
                     + MenuActionItem.MENU_DISPLAY_GALLERY, R.string.display_gallery);
             displayMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
@@ -832,7 +832,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         {
             return;
         }
-
+        /*
         if (!actionMode)
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_SEARCH_FOLDER, Menu.FIRST + MenuActionItem.MENU_SEARCH_FOLDER,
@@ -840,7 +840,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             mi.setIcon(R.drawable.ic_search);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
-
+         */
         if (!actionMode && permission.canAddChildren())
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_CREATE_FOLDER, Menu.FIRST + MenuActionItem.MENU_CREATE_FOLDER,
@@ -982,7 +982,10 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         {
             Log.d(TAG, intent.getAction());
 
-            if (adapter == null) return;
+            if (adapter == null)
+            {
+                return;
+            }
 
             if (intent.getExtras() != null)
             {
@@ -1158,17 +1161,17 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     {
         switch (displayMode)
         {
-            case DISPLAY_LIST:
-                displayMode = DISPLAY_LIST_LARGE;
-                break;
-            case DISPLAY_LIST_LARGE:
-                displayMode = DISPLAY_GRID;
-                break;
-            case DISPLAY_GRID:
-                displayMode = DISPLAY_LIST;
-                break;
-            default:
-                break;
+        case DISPLAY_LIST:
+            displayMode = DISPLAY_LIST_LARGE;
+            break;
+        case DISPLAY_LIST_LARGE:
+            displayMode = DISPLAY_GRID;
+            break;
+        case DISPLAY_GRID:
+            displayMode = DISPLAY_LIST;
+            break;
+        default:
+            break;
         }
 
         setDisplayItems(getActivity(), displayMode);
@@ -1185,28 +1188,28 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     private int getDisplayItemLayout()
     {
         int displayItemLayout = R.layout.app_grid_large_progress_row;
-        
+
         if (getActivity() instanceof PublicDispatcherActivity || getActivity() instanceof PrivateDialogActivity){
             gv.setColumnWidth(DisplayUtils.getDPI(getResources().getDisplayMetrics(), 1000));
             return R.layout.app_grid_large_progress_row;
         }
-            
+
         switch (displayMode)
         {
-            case DISPLAY_LIST:
-                gv.setColumnWidth(DisplayUtils.getDPI(getResources().getDisplayMetrics(), 240));
-                displayItemLayout = R.layout.app_grid_large_progress_row;
-                break;
-            case DISPLAY_LIST_LARGE:
-                gv.setColumnWidth(DisplayUtils.getDPI(getResources().getDisplayMetrics(), 320));
-                displayItemLayout = R.layout.app_grid_progress_row;
-                break;
-            case DISPLAY_GRID:
-                gv.setColumnWidth(DisplayUtils.getDPI(getResources().getDisplayMetrics(), 240));
-                displayItemLayout = R.layout.app_grid_progress_row;
-                break;
-            default:
-                break;
+        case DISPLAY_LIST:
+            gv.setColumnWidth(DisplayUtils.getDPI(getResources().getDisplayMetrics(), 240));
+            displayItemLayout = R.layout.app_grid_large_progress_row;
+            break;
+        case DISPLAY_LIST_LARGE:
+            gv.setColumnWidth(DisplayUtils.getDPI(getResources().getDisplayMetrics(), 320));
+            displayItemLayout = R.layout.app_grid_progress_row;
+            break;
+        case DISPLAY_GRID:
+            gv.setColumnWidth(DisplayUtils.getDPI(getResources().getDisplayMetrics(), 240));
+            displayItemLayout = R.layout.app_grid_progress_row;
+            break;
+        default:
+            break;
         }
         return displayItemLayout;
     }

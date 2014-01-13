@@ -18,6 +18,7 @@
 package org.alfresco.mobile.android.application.fragments.about;
 
 import org.alfresco.mobile.android.api.Version;
+import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.opendataspace.android.app.R;
 
 import android.app.AlertDialog;
@@ -55,8 +56,19 @@ public class AboutFragment extends DialogFragment
     {
         View v = inflater.inflate(R.layout.app_about, container, false);
 
+        if (getDialog() != null)
+        {
+            getDialog().setTitle(R.string.menu_about);
+        }
+        else
+        {
+            UIUtils.displayTitle(getActivity(), R.string.menu_about);
+        }
+
+        /*
         TextView foo = (TextView) v.findViewById(R.id.about_description);
         foo.setText(Html.fromHtml(getString(R.string.about_description)));
+         */
 
         // Version Number
         TextView tv = (TextView) v.findViewById(R.id.about_buildnumber);
@@ -66,8 +78,10 @@ public class AboutFragment extends DialogFragment
             StringBuilder sb = new StringBuilder(getText(R.string.buildnumber_version));
             sb.append(" ");
             sb.append(getActivity().getPackageManager().getPackageInfo(getActivity().getPackageName(), 0).versionName);
+            /*
             sb.append(".");
             sb.append(getText(R.string.bamboo_buildnumber));
+             */
             versionNumber = sb.toString();
         }
         catch (NameNotFoundException e)
@@ -75,14 +89,14 @@ public class AboutFragment extends DialogFragment
             versionNumber = "X.x.x.x";
         }
         tv.setText(versionNumber);
-
+        /*
         // SDK Version Number
         tv = (TextView) v.findViewById(R.id.about_sdknumber);
         StringBuilder sb = new StringBuilder(getText(R.string.sdknumber_version));
         sb.append(" ");
         sb.append(Version.SDK);
         tv.setText(sb.toString());
-
+         */
         return v;
     }
 

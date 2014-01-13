@@ -168,7 +168,7 @@ public class NodeActions extends AbstractActions<Node>
     protected void getMenu(Activity activity, Menu menu)
     {
         MenuItem mi;
-        SubMenu createMenu;
+        //SubMenu createMenu;
 
         if (selectedFolder.isEmpty())
         {
@@ -176,7 +176,7 @@ public class NodeActions extends AbstractActions<Node>
                     R.string.download);
             mi.setIcon(R.drawable.ic_download_dark);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
+            /*
             createMenu = menu.addSubMenu(Menu.NONE, MenuActionItem.MENU_FAVORITE_GROUP, Menu.FIRST
                     + MenuActionItem.MENU_FAVORITE_GROUP, R.string.favorite);
             createMenu.setIcon(R.drawable.ic_favorite_dark);
@@ -191,8 +191,9 @@ public class NodeActions extends AbstractActions<Node>
                     + MenuActionItem.MENU_PROCESS_REVIEW_ATTACHMENTS, R.string.process_start_review);
             mi.setIcon(R.drawable.ic_start_review);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+             */
         }
-
+        /*
         createMenu = menu.addSubMenu(Menu.NONE, MenuActionItem.MENU_LIKE_GROUP, Menu.FIRST
                 + MenuActionItem.MENU_LIKE_GROUP, R.string.like);
         createMenu.setIcon(R.drawable.ic_like);
@@ -202,7 +203,7 @@ public class NodeActions extends AbstractActions<Node>
                 Menu.FIRST + MenuActionItem.MENU_LIKE_GROUP_LIKE, R.string.like);
         createMenu.add(Menu.NONE, MenuActionItem.MENU_LIKE_GROUP_UNLIKE, Menu.FIRST
                 + MenuActionItem.MENU_LIKE_GROUP_UNLIKE, R.string.unlike);
-
+         */
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_DELETE, Menu.FIRST + MenuActionItem.MENU_DELETE, R.string.delete);
         mi.setIcon(R.drawable.ic_delete);
         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
@@ -218,54 +219,54 @@ public class NodeActions extends AbstractActions<Node>
         Boolean b = false;
         switch (item.getItemId())
         {
-            case MenuActionItem.MENU_DETAILS:
-                ((MainActivity) activity).addPropertiesFragment(selectedItems.get(0));
-                DisplayUtils.switchSingleOrTwo(activity, false);
-                break;
-            case MenuActionItem.MENU_UPDATE:
-                update(activity.getFragmentManager().findFragmentByTag(DetailsFragment.TAG));
-                b = true;
-                break;
-            case MenuActionItem.MENU_FAVORITE_GROUP_FAVORITE:
-                favorite(true);
-                b = true;
-                break;
-            case MenuActionItem.MENU_FAVORITE_GROUP_UNFAVORITE:
-                favorite(false);
-                b = true;
-                break;
-            case MenuActionItem.MENU_LIKE_GROUP_LIKE:
-                like(true);
-                b = true;
-                break;
-            case MenuActionItem.MENU_LIKE_GROUP_UNLIKE:
-                like(false);
-                b = true;
-                break;
-            case MenuActionItem.MENU_DOWNLOAD_ALL:
-            case MenuActionItem.MENU_DOWNLOAD:
-                download();
-                b = true;
-                break;
-            case MenuActionItem.MENU_EDIT:
-                edit(activity, parentFolder, selectedItems.get(0));
-                b = true;
-                break;
-            case MenuActionItem.MENU_DELETE:
-            case MenuActionItem.MENU_DELETE_FOLDER:
-                delete(activity, fragment, new ArrayList<Node>(selectedItems));
-                b = true;
-                break;
-            case MenuActionItem.MENU_SELECT_ALL:
-                selectAll();
-                b = false;
-                break;
-            case MenuActionItem.MENU_PROCESS_REVIEW_ATTACHMENTS:
-                startReview();
-                b = true;
-                break;
-            default:
-                break;
+        case MenuActionItem.MENU_DETAILS:
+            ((MainActivity) activity).addPropertiesFragment(selectedItems.get(0));
+            DisplayUtils.switchSingleOrTwo(activity, false);
+            break;
+        case MenuActionItem.MENU_UPDATE:
+            update(activity.getFragmentManager().findFragmentByTag(DetailsFragment.TAG));
+            b = true;
+            break;
+        case MenuActionItem.MENU_FAVORITE_GROUP_FAVORITE:
+            favorite(true);
+            b = true;
+            break;
+        case MenuActionItem.MENU_FAVORITE_GROUP_UNFAVORITE:
+            favorite(false);
+            b = true;
+            break;
+        case MenuActionItem.MENU_LIKE_GROUP_LIKE:
+            like(true);
+            b = true;
+            break;
+        case MenuActionItem.MENU_LIKE_GROUP_UNLIKE:
+            like(false);
+            b = true;
+            break;
+        case MenuActionItem.MENU_DOWNLOAD_ALL:
+        case MenuActionItem.MENU_DOWNLOAD:
+            download();
+            b = true;
+            break;
+        case MenuActionItem.MENU_EDIT:
+            edit(activity, parentFolder, selectedItems.get(0));
+            b = true;
+            break;
+        case MenuActionItem.MENU_DELETE:
+        case MenuActionItem.MENU_DELETE_FOLDER:
+            delete(activity, fragment, new ArrayList<Node>(selectedItems));
+            b = true;
+            break;
+        case MenuActionItem.MENU_SELECT_ALL:
+            selectAll();
+            b = false;
+            break;
+        case MenuActionItem.MENU_PROCESS_REVIEW_ATTACHMENTS:
+            startReview();
+            b = true;
+            break;
+        default:
+            break;
         }
         if (b)
         {
@@ -293,7 +294,7 @@ public class NodeActions extends AbstractActions<Node>
         for (Node node : selectedItems)
         {
             group.enqueue(new FavoriteNodeRequest(parentFolder, node, doFavorite)
-                    .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+            .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
         }
 
         BatchOperationManager.getInstance(activity).enqueue(group);
@@ -309,7 +310,7 @@ public class NodeActions extends AbstractActions<Node>
             }
             OperationWaitingDialogFragment.newInstance(FavoriteNodeRequest.TYPE_ID, iconId,
                     fragment.getString(titleId), null, parentFolder, selectedItems.size()).show(
-                    fragment.getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+                            fragment.getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
         }
     }
 
@@ -319,7 +320,7 @@ public class NodeActions extends AbstractActions<Node>
         for (Node node : selectedItems)
         {
             group.enqueue(new LikeNodeRequest(parentFolder, node, doLike)
-                    .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+            .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
         }
         BatchOperationManager.getInstance(activity).enqueue(group);
 
@@ -334,7 +335,7 @@ public class NodeActions extends AbstractActions<Node>
             }
             OperationWaitingDialogFragment.newInstance(LikeNodeRequest.TYPE_ID, iconId, fragment.getString(titleId),
                     null, parentFolder, selectedItems.size()).show(fragment.getActivity().getFragmentManager(),
-                    OperationWaitingDialogFragment.TAG);
+                            OperationWaitingDialogFragment.TAG);
         }
     }
 
@@ -425,21 +426,21 @@ public class NodeActions extends AbstractActions<Node>
                 if (nodes.size() == 1)
                 {
                     group.enqueue(new DeleteNodeRequest(parent, nodes.get(0))
-                            .setNotificationVisibility(OperationRequest.VISIBILITY_TOAST));
+                    .setNotificationVisibility(OperationRequest.VISIBILITY_TOAST));
                 }
                 else
                 {
                     for (Node node : nodes)
                     {
                         group.enqueue(new DeleteNodeRequest(parent, node)
-                                .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+                        .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
                     }
 
                     if (f instanceof ChildrenBrowserFragment)
                     {
                         OperationWaitingDialogFragment.newInstance(DeleteNodeRequest.TYPE_ID, R.drawable.ic_delete,
                                 f.getString(R.string.delete), null, parent, nodes.size()).show(
-                                f.getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+                                        f.getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
                     }
                 }
 

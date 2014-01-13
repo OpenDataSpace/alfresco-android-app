@@ -97,6 +97,7 @@ public class UpdateContentThread extends AbstractUpThread
                 }
                 catch (Exception e)
                 {
+                    /*
                     Log.e(TAG, Log.getStackTraceString(e));
                     if (idpwc == null)
                     {
@@ -110,26 +111,34 @@ public class UpdateContentThread extends AbstractUpThread
                             throw ee;
                         }
                     }
-                }
-
-                org.apache.chemistry.opencmis.client.api.Document cmisDocpwc = null;
-                try
-                {
-                    cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
-                }
-                catch (Exception e)
-                {
-                    Log.e(TAG, Log.getStackTraceString(e));
-                    cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
+                     */
                 }
 
                 ContentStream c = cmisSession.getObjectFactory().createContentStream(contentFile.getFileName(),
                         contentFile.getLength(), contentFile.getMimeType(),
                         IOUtils.getContentFileInputStream(contentFile));
 
-                ObjectId iddoc = cmisDocpwc.checkIn(false, null, c, "");
-                cmisDoc = (AlfrescoDocument) cmisSession.getObject(iddoc);
-                cmisDoc = (AlfrescoDocument) cmisDoc.getObjectOfLatestVersion(false);
+                if (idpwc != null)
+                {
+                    org.apache.chemistry.opencmis.client.api.Document cmisDocpwc = null;
+                    try
+                    {
+                        cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
+                    }
+                    catch (Exception e)
+                    {
+                        Log.e(TAG, Log.getStackTraceString(e));
+                        cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
+                    }
+
+                    ObjectId iddoc = cmisDocpwc.checkIn(false, null, c, "");
+                    cmisDoc = (AlfrescoDocument) cmisSession.getObject(iddoc);
+                    cmisDoc = (AlfrescoDocument) cmisDoc.getObjectOfLatestVersion(false);
+                }
+                else
+                {
+                    cmisDoc.setContentStream(c, true, true);
+                }
 
                 updatedDocument = (Document) session.getServiceRegistry().getDocumentFolderService()
                         .getNodeByIdentifier(cmisDoc.getId());

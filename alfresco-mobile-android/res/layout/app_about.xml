@@ -43,7 +43,7 @@
                 android:scaleType="fitCenter"
                 android:src="@drawable/alfresco_logo_large" />
         </LinearLayout>
-
+<!--
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
@@ -59,7 +59,7 @@
                 android:text="@string/about_description_title"
                 android:textSize="@dimen/about_text_size" />
         </LinearLayout>
-
+-->
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dip"
@@ -74,13 +74,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="@dimen/about_text_size" />
-            
+<!--
             <TextView
                 android:id="@+id/about_sdknumber"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:textSize="@dimen/about_text_size" />
+-->
         </LinearLayout>
     </LinearLayout>
 

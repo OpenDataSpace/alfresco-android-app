@@ -19,23 +19,23 @@
 -->
 <resources>
 
-    <string name="app_name">Alfresco</string>
+    <string name="app_name">ODS</string>
     <string name="app_name_beta">Beta</string>
     <string name="empty_accounts">Nessun account disponibile</string>
 
     <!-- HOME SCREEN -->
     <string name="home_title">Per iniziare... </string>
-    <string name="home_sign_cloud">Registrazione al Cloud Alfresco</string>
+    <string name="home_sign_cloud">Registrazione al Cloud DataSpace</string>
     <string name="home_sign_cloud_description">Benvenuto Crea un account gratuito online per salvare documenti e accedervi da qualsiasi luogo.</string>
     <string name="home_account">Dispongo già di un account</string>
-    <string name="home_account_description">Scegli questa opzione se hai già un account del Cloud Alfresco o per connetterti a un server Alfresco.</string>
-    <string name="home_helper">Per maggiori informazioni su Alfresco Mobile, consulta la <a href="alfresco://view_help_guide/">guida</a> nell\'area Aiuto.</string>
+    <string name="home_account_description">Scegli questa opzione se hai già un account del Cloud DataSpace o per connetterti a un server DataSpace.</string>
+    <string name="home_helper">Per maggiori informazioni su DataSpace, consulta la <a href="alfresco://view_help_guide/">guida</a> nell\'area Aiuto.</string>
 
     <!-- ACCOUNT WIZARD SCRE STEP 1 -->
-    <string name="account_wizard_alfresco_server">Server Alfresco</string>
-    <string name="account_wizard_alfresco_server_description">Connetti a un server Alfresco</string>
-    <string name="account_wizard_alfresco_cloud">Alfresco Cloud</string>
-    <string name="account_wizard_alfresco_cloud_description">Accedi al tuo account del Alfresco Cloud</string>
+    <string name="account_wizard_alfresco_server">Server DataSpace</string>
+    <string name="account_wizard_alfresco_server_description">Connetti a un server DataSpace</string>
+    <string name="account_wizard_alfresco_cloud">DataSpace Cloud</string>
+    <string name="account_wizard_alfresco_cloud_description">Accedi al tuo account del DataSpace Cloud</string>
     <string name="account_wizard_alfresco_help">Benvenuto <a href="alfresco://sign_up_cloud/">Registrati</a> per un account gratuito</string>
     <string name="account_wizard_alfresco_help_inside_app">Benvenuto <a href="alfresco://sign_up_cloud_i/">Registrati</a> per un account gratuito</string>
 
@@ -47,7 +47,7 @@
     <string name="account_hostname">Nome host</string>
     <string name="account_hostname_hint">www.esempio.com (obbligatorio)</string>
     <string name="account_description">Descrizione</string>
-    <string name="account_description_hint">Server Alfresco (opzionale)</string>
+    <string name="account_description_hint">Server DataSpace (opzionale)</string>
     <string name="account_advanced">Avanzate</string>
     <string name="account_authentication">Autenticazione account</string>
     <string name="account_https">HTTPS</string>
@@ -70,8 +70,8 @@
     <!-- ACCOUNTS -->
     <string name="account_not_activated">Account non attivato. Controllare la schermata Gestione account.</string>
     <string name="account_not_activated_description">Account in attesa di verifica</string>
-    <string name="account_default_cloud">Cloud Alfresco</string>
-    <string name="account_default_onpremise">Server Alfresco</string>
+    <string name="account_default_cloud">Cloud DataSpace</string>
+    <string name="account_default_onpremise">Server DataSpace</string>
 
     <!-- WAITING SESSION -->
     <string name="wait_title">Attendere</string>
@@ -92,7 +92,7 @@
     <string name="error_session_certificate">
 <![CDATA[<p><b>Il certificato di sicurezza del server non è attendibile!</b><br/></p>
 		L\'organizzazione di terze parti che ha emesso il certificato di destinazione del server non è riconosciuta dal dispositivo.<br/>
-		Per consentire ad Alfresco Mobile di verificare che ci si sta connettendo al server corretto, il certificato deve essere emesso da un\'organizzazione attendibile.<br/>
+		Per consentire ad DataSpace Mobile di verificare che ci si sta connettendo al server corretto, il certificato deve essere emesso da un\'organizzazione attendibile.<br/>
 		Se il server dispone di un certificato autofirmato, aggiungerlo al dispositivo per poter effettuare la connessione..<br/> ]]>
     </string>
     <string name="error_session_certificate_expired">
@@ -104,7 +104,7 @@
         Verificare le impostazioni account e riprovare.<br/> Se il problema non viene risolto, contattare l\'amministratore.]]>
     </string>
     <string name="error_session_cloud_unavailable">
-<![CDATA[<p><b>Il carico di lavoro del Cloud Alfresco è eccessivo!</b><br/></p>
+<![CDATA[<p><b>Il carico di lavoro del Cloud DataSpace è eccessivo!</b><br/></p>
         Riprovare tra qualche minuto.<br/>]]>
     </string>
     <string name="error_session_expired">La sessione è scaduta. Ripetere l\'accesso.</string>
@@ -189,10 +189,10 @@
     <string name="cloud_signup_password_hint">Min. 6 caratteri</string>
     <string name="cloud_signup_confirm">Conferma password</string>
     <string name="cloud_signup_action">Registrati</string>
-    <string name="cloud_signup_hint">Scegliendo Registrati, si accettano i <a href="http://www.alfresco.com/legal/agreements/cloud">Termini del servizio</a> e la <a href="http://www.alfresco.com/privacy">Politica sulla privacy</a> di Alfresco.</string>
-    <string name="sign_up_cloud">Registrazione al Cloud Alfresco</string>
+    <string name="cloud_signup_hint">Scegliendo Registrati, si accettano i <a href="http://www.alfresco.com/legal/agreements/cloud">Termini del servizio</a> e la <a href="http://www.alfresco.com/privacy">Politica sulla privacy</a> di DataSpace.</string>
+    <string name="sign_up_cloud">Registrazione al Cloud DataSpace</string>
     <string name="sign_up_cloud_email_verification">Account in attesa di verifica e-mail</string>
-    <string name="sign_up_cloud_email_verification_line1">Hai eseguito l\'accesso ad Alfresco nel cloud con l\'indirizzo e-mail:</string>
+    <string name="sign_up_cloud_email_verification_line1">Hai eseguito l\'accesso ad DataSpace nel cloud con l\'indirizzo e-mail:</string>
     <string name="sign_up_cloud_email_verification_line2">Verificare l\'indirizzo e-mail. Abbiamo inviato un collegamento da utilizzare per completare la registrazione.</string>
     <string name="sign_up_cloud_email_having_trouble">Problemi con l\'attivazione?</string>
     <string name="sign_up_cloud_email_having_trouble_line1"><a href="http://getsatisfaction.com/alfresco/products/alfresco_alfresco_mobile_app">Contattaci</a> per problemi con l\'attivazione dell\'account.</string>
@@ -200,8 +200,8 @@
     <string name="cloud_signup_resend">Reinvia e-mail</string>
     <string name="cloud_signup_resend_successfull">Reinvio e-mail riuscito</string>
     <string name="cloud_signup_resend_body">Non hai ricevuto la nostra e-mail? Verificare di aver fornito l\'indirizzo corretto e controllare la cartella dello spam.</string>
-    <string name="cloud_signup_error_email">Alfresco richiede l\'utilizzo dell\'indirizzo e-mail aziendale dell\'utente per l\'aggiunta alla rete di collaborazione dell\'azienda.</string>
-    <string name="cloud_signup_error_email_title">Cloud Alfresco: registrazione</string>
+    <string name="cloud_signup_error_email">DataSpace richiede l\'utilizzo dell\'indirizzo e-mail aziendale dell\'utente per l\'aggiunta alla rete di collaborazione dell\'azienda.</string>
+    <string name="cloud_signup_error_email_title">Cloud DataSpace: registrazione</string>
 
     <!-- AUTHENTICATION -->
     <string name="cloud_authentication">Autenticazione</string>
@@ -237,9 +237,9 @@
     <string name="sdknumber_version">SDK: </string>
     <string name="about_description">
 <![CDATA[
-<p>Alfresco Mobile si collega ad Alfresco nel cloud e nei server locali (3,4 e superiori) per fornire l\'accesso sicuro ai documenti in qualsiasi momento.</p> 
+<p>DataSpace Mobile si collega ad DataSpace nel cloud e nei server locali (3,4 e superiori) per fornire l\'accesso sicuro ai documenti in qualsiasi momento.</p> 
 
-<p>Alfresco Mobile si collega alla tua repository Alfresco con le credenziali di accesso ad Alfresco (con protocollo HTTP o HTTPS) e gestisce l\'accesso degli utenti in base ai permessi che possiedono.</p> 
+<p>DataSpace Mobile si collega alla tua repository DataSpace con le credenziali di accesso ad DataSpace (con protocollo HTTP o HTTPS) e gestisce l\'accesso degli utenti in base ai permessi che possiedono.</p> 
 ]]>
     </string>
 
@@ -249,7 +249,7 @@
     <string name="link_or_attach">Condividere come allegato o collegamento?</string>
     <string name="full_attachment">Allegato</string>
     <string name="link_to_repo">Collegamento</string>
-    <string name="email_content"><![CDATA[<!DOCTYPE html><html><body>Invia con <a href="http://play.google.com/store/apps/details?id=org.alfresco.mobile.android.application">Alfresco Mobile</a></body></html>]]></string>
+    <string name="email_content"><![CDATA[<!DOCTYPE html><html><body>Invia con <a href="http://play.google.com/store/apps/details?id=org.alfresco.mobile.android.application">DataSpace Mobile</a></body></html>]]></string>
 
     <!-- Delete -->
     <plurals name="delete_items">
@@ -296,11 +296,11 @@
     <string name="content_being_encrypted">Protezione contenuto in corso Attendere</string>
     <string name="content_being_decrypted">Rimozione della protezione contenuto in corso Attendere</string>
     <string name="data_protection">Protezione dati</string>
-    <string name="data_protection_blurb"><![CDATA[<p><b>Protezione dati disponibile.</b><br/> Abilitarla? <p>  L\'operazione crittograferà l\'intero contenuto Alfresco scaricato da ogni account. I documenti non potranno essere letti da altre applicazioni, solo dall\'applicazione Alfresco. ]]></string>
+    <string name="data_protection_blurb"><![CDATA[<p><b>Protezione dati disponibile.</b><br/> Abilitarla? <p>  L\'operazione crittograferà l\'intero contenuto DataSpace scaricato da ogni account. I documenti non potranno essere letti da altre applicazioni, solo dall\'applicazione DataSpace. ]]></string>
     <string name="encryption_failed">Crittografia non riuscita</string>
     <string name="decryption_failed">Decrittografia non riuscita</string>
-    <string name="protect_question"><![CDATA[<p><b>Proteggere l\'intero contenuto Alfresco scaricato?</b><p>  L\'operazione crittograferà tutti i documenti scaricati da tutti gli account Alfresco, che non potranno essere letti da altre applicazioni, solo dall\'applicazione Alfresco.]]></string>
-    <string name="unprotect_question"><![CDATA[<p><b>Rimuovere la protezione dell\'intero contenuto Alfresco scaricato?</b><p>  L\'operazione rimuoverà la protezione di tutti i documenti scaricati da tutti gli account Alfresco.]]></string>
+    <string name="protect_question"><![CDATA[<p><b>Proteggere l\'intero contenuto DataSpace scaricato?</b><p>  L\'operazione crittograferà tutti i documenti scaricati da tutti gli account DataSpace, che non potranno essere letti da altre applicazioni, solo dall\'applicazione DataSpace.]]></string>
+    <string name="unprotect_question"><![CDATA[<p><b>Rimuovere la protezione dell\'intero contenuto DataSpace scaricato?</b><p>  L\'operazione rimuoverà la protezione di tutti i documenti scaricati da tutti gli account DataSpace.]]></string>
     <string name="already_encrypted">Il documento è già stato crittografato!</string>
     <string name="already_decrypted">Il documento è già stato decrittografato!</string>
     <string name="decryption_title">Disattivazione protezione dati in corso...</string>
@@ -339,7 +339,7 @@
     <string name="action_unfavorite_site_error">Impossibile rimuovere il sito \&quot;%s\&quot; dai preferiti a causa di un problema.</string>
 
     <!-- IMPORT -->
-    <string name="import_document_title">Carica in Alfresco Mobile</string>
+    <string name="import_document_title">Carica in DataSpace Mobile</string>
     <string name="import_document_name">Nome documento</string>
     <string name="import_documents">Documenti</string>
     <string name="import_account">Account</string>
@@ -347,7 +347,7 @@
     <string name="import_send_downloads">I documenti sono disponibili nella tua cartella \&quot;Download\&quot;.</string>
     <string name="import_folder">Carica cartella</string>
     <string name="import_error">Errore durante il caricamento.</string>
-    <string name="import_unsupported_intent">Alfresco Mobile: impossibile recuperare l\'informazione.</string>
+    <string name="import_unsupported_intent">DataSpace Mobile: impossibile recuperare l\'informazione.</string>
     <string name="action_upload">Carica</string>
     <string name="action_import">Importa</string>
 
@@ -367,7 +367,7 @@
     <string name="passcode_timeout">Scadenza</string>
     <string name="passcode_timeout_summary">{0,choice,0#Dopo 0 minuti|1#Dopo 1 minuto|1&lt;Dopo {0} minuti}</string>
     <string name="passcode_erase_data">Cancella dati</string>
-    <string name="passcode_erase_data_summary">Cancella tutti i dati di Alfresco Mobile da questo dispositivo dopo 10 tentativi non riusciti di immissione del passcode.</string>
+    <string name="passcode_erase_data_summary">Cancella tutti i dati di DataSpace Mobile da questo dispositivo dopo 10 tentativi non riusciti di immissione del passcode.</string>
     <string name="passcode_edit">Immettere nuovo passcode</string>
     <string name="passcode_confirmation">Immettere nuovamente il passcode </string>
     <string name="passcode_error_confirmation">I passcode non corrispondono.</string>
@@ -401,18 +401,18 @@
     <!-- Settings -->
     <string name="settings">Impostazioni</string>
     <string name="settings_enterprise">Impostazioni Enterprise</string>
-    <string name="settings_privatefolder_summary">La protezione dati rende l\'intero contenuto scaricato leggibile solo dall\'applicazione Alfresco. (solo clienti Enterprise)</string>
+    <string name="settings_privatefolder_summary">La protezione dati rende l\'intero contenuto scaricato leggibile solo dall\'applicazione DataSpace. (solo clienti Enterprise)</string>
     <string name="settings_privatefolder_title">Protezione dati</string>
     <string name="settings_links">Collegamenti</string>
-    <string name="settings_links_website">Alfresco</string>
-    <string name="settings_links_website_summary">Visita il sito web ufficiale di Alfresco</string>
-    <string name="settings_links_website">Alfresco</string>
-    <string name="settings_links_website_summary">Visita il sito web ufficiale di Alfresco</string>
+    <string name="settings_links_website">DataSpace</string>
+    <string name="settings_links_website_summary">Visita il sito web ufficiale di DataSpace</string>
+    <string name="settings_links_website">DataSpace</string>
+    <string name="settings_links_website_summary">Visita il sito web ufficiale di DataSpace</string>
     <string name="settings_links_website_url">http://www.alfresco.com/products/mobile</string>
     <string name="settings_rating">Scrivi una recensione</string>
-    <string name="settings_rating_summary">Valuta Alfresco Mobile in Google Play</string>
+    <string name="settings_rating_summary">Valuta DataSpace Mobile in Google Play</string>
     <string name="settings_rating_url">market://details?id=org.alfresco.mobile.android.application</string>
-    <string name="settings_links_facebook">Di\' che ti piace Alfresco su Facebook</string>
+    <string name="settings_links_facebook">Di\' che ti piace DataSpace su Facebook</string>
     <string name="settings_links_facebook_summary">Di\' che ti piace su Facebook</string>
     <string name="settings_links_facebook_url">http://www.facebook.com/alfrescosoftware</string>
     <string name="settings_favorite">Preferiti</string>
@@ -562,7 +562,7 @@
 
     <!-- FILE EXPLORER Menu -->
     <string name="shortcuts">Scelte rapide</string>
-    <string name="shortcut_alfresco">Alfresco</string>
+    <string name="shortcut_alfresco">DataSpace</string>
     <string name="shortcut_alfresco_downloads">Download</string>
     <string name="shortcut_alfresco_sync">Sincr.</string>
     <string name="shortcut_library">Libreria</string>
@@ -579,9 +579,9 @@
     <string name="action_select">Seleziona</string>
 
     <!-- FILE Editor Menu -->
-    <string name="file_editor_name">Alfresco Text Editor</string>
+    <string name="file_editor_name">DataSpace Text Editor</string>
     <string name="file_editor_error_open">Impossibile aprire il file.</string>
-    <string name="file_editor_error_too_large">La dimensione del file supera il limite consentito di Alfresco Text Editor.</string>
+    <string name="file_editor_error_too_large">La dimensione del file supera il limite consentito di DataSpace Text Editor.</string>
     <string name="file_editor_error_speech">Funzione Text To Speech non disponibile nel dispositivo.</string>
     <string name="file_editor_save_request">Il file è stato modificato.</string>
     <string name="file_editor_save_description"><![CDATA[Uscire senza salvare le modifiche? <br/> Le modifiche non salvate saranno perse.]]></string>

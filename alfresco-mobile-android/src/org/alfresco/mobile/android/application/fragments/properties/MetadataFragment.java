@@ -161,12 +161,12 @@ public class MetadataFragment extends BaseFragment
         addPathProperty(generalGroup, inflater);
         View vr = addPropertyLine(generalGroup, inflater, node, R.string.metadata_prop_creator, PropertyIds.CREATED_BY,
                 null, false);
-
+        /*
         createAspectPanel(inflater, grouprootview, node, ContentModel.ASPECT_GEOGRAPHIC);
         createAspectPanel(inflater, grouprootview, node, ContentModel.ASPECT_EXIF);
         createAspectPanel(inflater, grouprootview, node, ContentModel.ASPECT_AUDIO);
         createAspectPanel(inflater, grouprootview, node, ContentModel.ASPECT_RESTRICTABLE);
-
+         */
         sv.addView(v);
 
         return sv;
@@ -200,17 +200,17 @@ public class MetadataFragment extends BaseFragment
             Node tmpNode = (parentNode != null) ? parentNode : node;
             addPropertyLine(generalGroup, inflater, tmpNode, R.string.metadata_prop_path, PropertyIds.PATH,
                     new OnClickListener()
+            {
+                @Override
+                public void onClick(View v)
+                {
+                    if (getActivity() instanceof BaseActivity)
                     {
-                        @Override
-                        public void onClick(View v)
-                        {
-                            if (getActivity() instanceof BaseActivity)
-                            {
-                                ((BaseActivity) getActivity()).addBrowserFragment((String) ((Folder) v.getTag())
-                                        .getPropertyValue(PropertyIds.PATH));
-                            }
-                        }
-                    }, true);
+                        ((BaseActivity) getActivity()).addBrowserFragment((String) ((Folder) v.getTag())
+                                .getPropertyValue(PropertyIds.PATH));
+                    }
+                }
+            }, true);
         }
     }
 

@@ -82,39 +82,12 @@
             <TableRow
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/content_description" />
-
-                <EditText
-                    android:id="@+id/content_description"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/content_description_hint"
-                    android:imeOptions="actionNext"
-                    android:inputType="text" >
-                </EditText>
             </TableRow>
 
             <TableRow
                 android:id="@+id/tags_line"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" >
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/content_tags" />
-
-                <EditText
-                    android:id="@+id/content_tags"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/content_tags_hint"
-                    android:imeOptions="actionDone"
-                    android:inputType="text" />
             </TableRow>
         </TableLayout>
     </LinearLayout>

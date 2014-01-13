@@ -58,7 +58,7 @@ public class PreviewFragment extends BaseFragment
     public static final String ARGUMENT_NODE = "node";
 
     private File tempFile = null;
-    
+
     private Node node;
 
     protected boolean isRestrictable = false;
@@ -86,7 +86,7 @@ public class PreviewFragment extends BaseFragment
         bf.setArguments(createBundleArgs(n));
         return bf;
     }
-    
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -104,7 +104,7 @@ public class PreviewFragment extends BaseFragment
 
         node = (Node) getArguments().get(ARGUMENT_NODE);
         if (node == null) { return null; }
-        
+
         // Detect if isRestrictable
         isRestrictable = node.hasAspect(ContentModel.ASPECT_RESTRICTABLE);
 
@@ -117,7 +117,7 @@ public class PreviewFragment extends BaseFragment
         if (node.isDocument() && node instanceof NodeImpl)
         {
             iconId = MimeTypeManager.getIcon(node.getName(), true);
-            if (((Document) node).isLatestVersion())
+            //if (((Document) node).isLatestVersion())
             {
                 ((ImageViewTouch)preview).setScaleEnabled(false);
                 ((ImageViewTouch)preview).setDoubleTapEnabled(false);
@@ -141,7 +141,7 @@ public class PreviewFragment extends BaseFragment
         if (isRestrictable){
             return;
         }
-        
+
         Bundle b = new Bundle();
 
         // 3 cases

@@ -25,7 +25,6 @@ import org.alfresco.mobile.android.api.constants.ContentModel;
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.impl.RepositoryVersionHelper;
 import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
@@ -39,17 +38,14 @@ import org.alfresco.mobile.android.ui.utils.Formatter;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.TextView.OnEditorActionListener;
 
 public class UpdateDialogFragment extends UpdateNodeDialogFragment
 {
@@ -99,11 +95,11 @@ public class UpdateDialogFragment extends UpdateNodeDialogFragment
         if (alfSession == null) { return v; }
 
         final EditText tv = (EditText) v.findViewById(R.id.content_name);
-        final EditText desc = (EditText) v.findViewById(R.id.content_description);
+        //final EditText desc = (EditText) v.findViewById(R.id.content_description);
         TextView tsize = (TextView) v.findViewById(R.id.content_size);
 
         v.findViewById(R.id.tags_line).setVisibility(View.GONE);
-        desc.setImeOptions(EditorInfo.IME_ACTION_DONE);
+        //desc.setImeOptions(EditorInfo.IME_ACTION_DONE);
 
         Button button = (Button) v.findViewById(R.id.cancel);
         button.setOnClickListener(new OnClickListener()
@@ -120,10 +116,10 @@ public class UpdateDialogFragment extends UpdateNodeDialogFragment
         {
             public void onClick(View v)
             {
-                updateNode(tv, desc, bcreate);
+                updateNode(tv, null, bcreate);
             }
         });
-
+        /*
         desc.setOnEditorActionListener(new OnEditorActionListener()
         {
             @Override
@@ -138,7 +134,7 @@ public class UpdateDialogFragment extends UpdateNodeDialogFragment
                 return handled;
             }
         });
-
+         */
         if (node != null)
         {
             tv.setText(node.getName());
@@ -147,14 +143,14 @@ public class UpdateDialogFragment extends UpdateNodeDialogFragment
                 tsize.setText(Formatter.formatFileSize(getActivity(), ((Document) node).getContentStreamLength()));
                 tsize.setVisibility(View.VISIBLE);
             }
-
+            /*
             if (RepositoryVersionHelper.isAlfrescoProduct(alfSession)
                     && node.getProperty(ContentModel.PROP_DESCRIPTION) != null
                     && node.getProperty(ContentModel.PROP_DESCRIPTION).getValue() != null)
             {
                 desc.setText(node.getProperty(ContentModel.PROP_DESCRIPTION).getValue().toString());
             }
-
+             */
             bcreate.setEnabled(true);
 
         }
@@ -222,7 +218,7 @@ public class UpdateDialogFragment extends UpdateNodeDialogFragment
 
         Map<String, Serializable> props = new HashMap<String, Serializable>(2);
         props.put(ContentModel.PROP_NAME, tv.getText().toString().trim());
-        if (desc.getText() != null && desc.getText().length() > 0)
+        if (desc != null && desc.getText() != null && desc.getText().length() > 0)
         {
             props.put(ContentModel.PROP_DESCRIPTION, desc.getText().toString());
         }

@@ -262,7 +262,7 @@ public class AccountDetailsFragment extends BaseFragment
                 ActionManager.reloadAccount(getActivity(), acc);
             }
         });
-
+        /*
         advanced = (Button) v.findViewById(R.id.my_profile);
         advanced.setOnClickListener(new OnClickListener()
         {
@@ -275,7 +275,7 @@ public class AccountDetailsFragment extends BaseFragment
             }
         });
         displayProfileButton();
-
+         */
         // Init values
         EditText formValue = (EditText) v.findViewById(R.id.repository_hostname);
         formValue.setText(tmprUrl.getHost());
@@ -553,7 +553,7 @@ public class AccountDetailsFragment extends BaseFragment
         });
 
         vRoot.findViewById(R.id.browse_document).setVisibility(View.GONE);
-        vRoot.findViewById(R.id.profile_group).setVisibility(View.GONE);
+        //vRoot.findViewById(R.id.profile_group).setVisibility(View.GONE);
     }
 
     public void delete()
@@ -705,6 +705,7 @@ public class AccountDetailsFragment extends BaseFragment
     // ///////////////////////////////////////////////////////////////////////////
     private void displayProfileButton()
     {
+        /*
         if (ApplicationManager.getInstance(getActivity()).hasSession(acc.getId()))
         {
             vRoot.findViewById(R.id.profile_group).setVisibility(View.VISIBLE);
@@ -713,6 +714,7 @@ public class AccountDetailsFragment extends BaseFragment
         {
             vRoot.findViewById(R.id.profile_group).setVisibility(View.GONE);
         }
+         */
     }
 
     // ///////////////////////////////////////////////////////////////////////////

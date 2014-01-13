@@ -408,12 +408,12 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
     }
 
     @SuppressWarnings("serial")
-    private static final List<Integer> IMPORT_FOLDER_LIST = new ArrayList<Integer>(3)
+    private static final List<Integer> IMPORT_FOLDER_LIST = new ArrayList<Integer>(2)
     {
         {
             add(R.string.menu_downloads);
-            add(R.string.menu_browse_sites);
-            add(R.string.menu_favorites_folder);
+            //add(R.string.menu_browse_sites);
+            //add(R.string.menu_favorites_folder);
             add(R.string.menu_browse_root);
         }
     };
@@ -425,47 +425,47 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
 
         switch (folderImportId)
         {
-            case R.string.menu_browse_sites:
-            case R.string.menu_browse_root:
-            case R.string.menu_favorites_folder:
+        case R.string.menu_browse_sites:
+        case R.string.menu_browse_root:
+        case R.string.menu_favorites_folder:
 
-                if (getActivity() instanceof PublicDispatcherActivity)
-                {
-                    ((PublicDispatcherActivity) getActivity()).setUploadFolder(folderImportId);
-                }
+            if (getActivity() instanceof PublicDispatcherActivity)
+            {
+                ((PublicDispatcherActivity) getActivity()).setUploadFolder(folderImportId);
+            }
 
-                AlfrescoSession session = ApplicationManager.getInstance(getActivity()).getSession(tmpAccount.getId());
+            AlfrescoSession session = ApplicationManager.getInstance(getActivity()).getSession(tmpAccount.getId());
 
-                // Try to use Session used by the application
-                if (session != null)
-                {
-                    ((BaseActivity) getActivity()).setCurrentAccount(tmpAccount);
-                    ((BaseActivity) getActivity()).setRenditionManager(null);
-                    LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
-                            new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT_COMPLETED).putExtra(
-                                    IntentIntegrator.EXTRA_ACCOUNT_ID, tmpAccount.getId()));
-                    return;
-                }
+            // Try to use Session used by the application
+            if (session != null)
+            {
+                ((BaseActivity) getActivity()).setCurrentAccount(tmpAccount);
+                ((BaseActivity) getActivity()).setRenditionManager(null);
+                LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
+                        new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT_COMPLETED).putExtra(
+                                IntentIntegrator.EXTRA_ACCOUNT_ID, tmpAccount.getId()));
+                return;
+            }
 
-                // Session is not used by the application so create one.
-                ActionManager.loadAccount(getActivity(), tmpAccount);
+            // Session is not used by the application so create one.
+            ActionManager.loadAccount(getActivity(), tmpAccount);
 
-                break;
-            case R.string.menu_downloads:
-                if (files.size() == 1)
-                {
-                    UploadLocalDialogFragment fr = UploadLocalDialogFragment.newInstance(tmpAccount, file);
-                    fr.show(getActivity().getFragmentManager(), UploadLocalDialogFragment.TAG);
-                }
-                else
-                {
-                    File folderStorage = StorageManager.getDownloadFolder(getActivity(), tmpAccount);
-                    DataProtectionManager.getInstance(getActivity()).copyAndEncrypt(tmpAccount, files, folderStorage);
-                    getActivity().finish(); 
-                }
-                break;
-            default:
-                break;
+            break;
+        case R.string.menu_downloads:
+            if (files.size() == 1)
+            {
+                UploadLocalDialogFragment fr = UploadLocalDialogFragment.newInstance(tmpAccount, file);
+                fr.show(getActivity().getFragmentManager(), UploadLocalDialogFragment.TAG);
+            }
+            else
+            {
+                File folderStorage = StorageManager.getDownloadFolder(getActivity(), tmpAccount);
+                DataProtectionManager.getInstance(getActivity()).copyAndEncrypt(tmpAccount, files, folderStorage);
+                getActivity().finish();
+            }
+            break;
+        default:
+            break;
         }
     }
 

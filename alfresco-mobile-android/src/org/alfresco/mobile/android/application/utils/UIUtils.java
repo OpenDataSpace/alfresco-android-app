@@ -107,6 +107,7 @@ public class UIUtils extends org.alfresco.mobile.android.application.commons.uti
      */
     public static void displayHelp(Activity activity)
     {
+        /*
         String pathHelpGuideFile = null;
         try
         {
@@ -137,6 +138,7 @@ public class UIUtils extends org.alfresco.mobile.android.application.commons.uti
         {
             Log.e("HelpGuide", "Unable to open help guide.");
         }
+         */
     }
 
     public static void displayTitle(Activity activity, int titleId)

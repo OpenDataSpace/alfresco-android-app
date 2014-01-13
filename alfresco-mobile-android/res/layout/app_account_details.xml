@@ -35,7 +35,7 @@
             android:layout_marginLeft="@dimen/wizard_main_margin"
             android:layout_marginRight="@dimen/wizard_main_margin"
             android:text="@string/browse_documents" />
-
+<!--
         <LinearLayout
             android:id="@+id/profile_group"
             android:layout_width="fill_parent"
@@ -52,7 +52,7 @@
                 android:padding="25dip"
                 android:text="@string/my_profile" />
         </LinearLayout>
-
+-->
         <LinearLayout
             android:id="@+id/edit_account"
             style="?android:attr/buttonBarStyle"

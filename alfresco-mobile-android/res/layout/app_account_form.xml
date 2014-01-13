@@ -53,7 +53,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/required"
-                android:inputType="text">
+                android:inputType="textFilter|textNoSuggestions">
             </EditText>
         </TableRow>
 
@@ -91,7 +91,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/account_hostname_hint"
-                android:inputType="text">
+                android:inputType="textFilter|textNoSuggestions">
             </EditText>
         </TableRow>
 
@@ -109,7 +109,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/account_description_hint"
-                android:inputType="text">
+                android:inputType="textFilter|textNoSuggestions">
             </EditText>
         </TableRow>
 
@@ -181,7 +181,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:hint="@string/optional"
-                android:inputType="text"
+                android:inputType="textFilter|textNoSuggestions"
                 android:text="@string/account_service_document">
             </EditText>
         </TableRow>

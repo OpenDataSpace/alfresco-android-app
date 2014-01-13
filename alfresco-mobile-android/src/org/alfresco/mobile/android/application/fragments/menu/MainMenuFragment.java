@@ -105,14 +105,14 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
         spinnerAccount = (Spinner) rootView.findViewById(R.id.accounts_spinner);
         spinnerAccount.setOnItemSelectedListener(this);
-
+        /*
         menuFavorites = (Button) rootView.findViewById(R.id.menu_favorites);
 
         if (SLIDING_TAG.equals(getTag()))
         {
             menuSlidingFavorites = (Button) rootView.findViewById(R.id.menu_favorites);
         }
-
+         */
         configurationManager = ApplicationManager.getInstance(getActivity()).getConfigurationManager();
         if (configurationManager != null
                 && configurationManager.getConfigurationState() == ConfigurationManager.STATE_HAS_CONFIGURATION)
@@ -294,16 +294,22 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         {
             Map<String, Object> menuConfig = (Map<String, Object>) configurationContext.getJson().get(
                     ConfigurationManager.CATEGORY_ROOTMENU);
+            /*
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_ACTIVITIES, R.id.menu_browse_activities);
+             */
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_REPOSITORY, R.id.menu_browse_root);
+            /*
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_SITES, R.id.menu_browse_my_sites);
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_TASKS, R.id.menu_workflow);
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_FAVORITES, R.id.menu_favorites);
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_SEARCH, R.id.menu_search);
+             */
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_LOCAL_FILES, R.id.menu_downloads);
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_NOTIFICATIONS, R.id.menu_notifications);
+            /*
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_SHARED, R.id.menu_browse_shared, true);
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_MYFILES, R.id.menu_browse_userhome, true);
+             */
         }
         else
         {
@@ -313,10 +319,13 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
     private void display()
     {
+        /*
         Account acc = SessionUtils.getAccount(getActivity());
 
         rootView.findViewById(R.id.menu_browse_activities).setVisibility(View.VISIBLE);
+         */
         rootView.findViewById(R.id.menu_browse_root).setVisibility(View.VISIBLE);
+        /*
         rootView.findViewById(R.id.menu_browse_my_sites).setVisibility(View.VISIBLE);
         if (acc != null && acc.getTypeId() == Account.TYPE_ALFRESCO_CLOUD)
         {
@@ -328,10 +337,13 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         }
         rootView.findViewById(R.id.menu_favorites).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.menu_search).setVisibility(View.VISIBLE);
+         */
         rootView.findViewById(R.id.menu_downloads).setVisibility(View.VISIBLE);
         rootView.findViewById(R.id.menu_notifications).setVisibility(View.VISIBLE);
+        /*
         rootView.findViewById(R.id.menu_browse_shared).setVisibility(View.GONE);
         rootView.findViewById(R.id.menu_browse_userhome).setVisibility(View.GONE);
+         */
     }
 
     private void hideOrDisplay(Map<String, Object> menuConfig, String configKey, int viewId)
@@ -418,6 +430,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
     public void hideWorkflowMenu(Account currentAccount)
     {
+        /*
         if (rootView == null || rootView.findViewById(R.id.menu_workflow) == null) { return; }
         if (currentAccount.getTypeId() == Account.TYPE_ALFRESCO_CLOUD
                 || currentAccount.getTypeId() == Account.TYPE_ALFRESCO_TEST_OAUTH)
@@ -428,6 +441,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         {
             rootView.findViewById(R.id.menu_workflow).setVisibility(View.VISIBLE);
         }
+         */
     }
 
     public void displayFavoriteStatut()

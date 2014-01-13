@@ -21,7 +21,6 @@ import java.io.File;
 import java.io.Serializable;
 import java.util.Stack;
 
-import org.alfresco.mobile.android.api.asynchronous.NodeChildrenLoader;
 import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
@@ -65,13 +64,11 @@ import org.alfresco.mobile.android.application.fragments.person.PersonProfileFra
 import org.alfresco.mobile.android.application.fragments.properties.DetailsFragment;
 import org.alfresco.mobile.android.application.fragments.properties.PreviewGallery;
 import org.alfresco.mobile.android.application.fragments.search.KeywordSearch;
-import org.alfresco.mobile.android.application.fragments.search.SearchAggregatorFragment;
 import org.alfresco.mobile.android.application.fragments.sites.BrowserSitesFragment;
 import org.alfresco.mobile.android.application.fragments.sites.SiteMembersFragment;
 import org.alfresco.mobile.android.application.fragments.workflow.process.ProcessesFragment;
 import org.alfresco.mobile.android.application.fragments.workflow.task.TaskDetailsFragment;
 import org.alfresco.mobile.android.application.fragments.workflow.task.TasksFragment;
-import org.alfresco.mobile.android.application.fragments.workflow.task.TasksHelper;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.intent.PublicIntent;
 import org.alfresco.mobile.android.application.manager.ActionManager;
@@ -466,6 +463,7 @@ public class MainActivity extends BaseActivity
         fragmentQueue = -1;
         switch (id)
         {
+        /*
         case R.id.menu_browse_my_sites:
             if (!checkSession(R.id.menu_browse_my_sites)) { return; }
             frag = new BrowserSitesFragment();
@@ -473,6 +471,7 @@ public class MainActivity extends BaseActivity
             FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                     BrowserSitesFragment.TAG, true);
             break;
+         */
         case R.id.menu_browse_root:
             if (!checkSession(R.id.menu_browse_root) || getCurrentSession() == null) { return; }
             frag = ChildrenBrowserFragment.newInstance(SessionUtils.getSession(this).getRootFolder());
@@ -516,7 +515,6 @@ public class MainActivity extends BaseActivity
             FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                     ChildrenBrowserFragment.TAG, true);
             break;
-         */
         case R.id.menu_browse_userhome:
             if (!checkSession(R.id.menu_browse_userhome)) { return; }
             frag = ChildrenBrowserFragment.newInstance(NodeChildrenLoader.FOLDER_USER_HOMES);
@@ -545,6 +543,7 @@ public class MainActivity extends BaseActivity
             if (!checkSession(R.id.menu_workflow)) { return; }
             TasksHelper.displayNavigationMode(this);
             break;
+         */
         case R.id.menu_downloads:
             if (currentAccount == null)
             {
@@ -566,15 +565,19 @@ public class MainActivity extends BaseActivity
                         IntentIntegrator.EXTRA_ACCOUNT_ID, currentAccount.getId()));
             }
             break;
+            /*
         case R.id.menu_prefs:
             displayPreferences();
             break;
+             */
         case R.id.menu_about:
             displayAbout();
             break;
+            /*
         case R.id.menu_help:
             UIUtils.displayHelp(this);
             break;
+             */
         default:
             break;
         }

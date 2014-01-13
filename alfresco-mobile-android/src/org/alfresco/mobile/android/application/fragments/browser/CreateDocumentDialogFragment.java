@@ -6,7 +6,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
  * 
  *  Unless required by applicable law or agreed to in writing, software
@@ -83,7 +83,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
 
     private static final String ARGUMENT_IS_CREATION = "isCreation";
 
-    private EditText editTags;
+    //private EditText editTags;
 
     private List<Tag> selectedTags = new ArrayList<Tag>();
 
@@ -132,10 +132,10 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
         View v = inflater.inflate(R.layout.sdk_create_content_props, container, false);
         errorMessage = (TextView) v.findViewById(R.id.error_message);
         tv = (EditText) v.findViewById(R.id.content_name);
-        final EditText desc = (EditText) v.findViewById(R.id.content_description);
+        //final EditText desc = (EditText) v.findViewById(R.id.content_description);
         TextView tsize = (TextView) v.findViewById(R.id.content_size);
 
-        editTags = (EditText) v.findViewById(R.id.content_tags);
+        //editTags = (EditText) v.findViewById(R.id.content_tags);
 
         Button button = (Button) v.findViewById(R.id.cancel);
         button.setOnClickListener(new OnClickListener()
@@ -160,7 +160,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
         {
             public void onClick(View v)
             {
-                createDocument(tv, desc, bcreate);
+                createDocument(tv, null, bcreate);
             }
         });
 
@@ -220,7 +220,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
 
             }
         });
-
+        /*
         editTags.setOnEditorActionListener(new OnEditorActionListener()
         {
             @Override
@@ -229,17 +229,17 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
                 boolean handled = false;
                 if (actionId == EditorInfo.IME_ACTION_DONE)
                 {
-                    createDocument(tv, desc, bcreate);
+                    createDocument(tv, null, bcreate);
                     handled = true;
                 }
                 return handled;
             }
         });
-
+         */
         Folder parentFolder = getParent();
         OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new RetrieveDocumentNameRequest(parentFolder.getIdentifier(), contentFile.getFileName())
-                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+        .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
         return v;
@@ -286,7 +286,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
             documentName = recommandedName;
         }
 
-        if (desc.getText() != null && desc.getText().length() > 0)
+        if (desc != null && desc.getText() != null && desc.getText().length() > 0)
         {
             props.put(ContentModel.PROP_DESCRIPTION, desc.getText().toString());
         }
@@ -321,7 +321,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
 
     private void onValidateTags()
     {
-        String s = editTags.getText().toString();
+        String s = ""; // editTags.getText().toString();
         String[] listValues = s.split(",");
         for (int i = 0; i < listValues.length; i++)
         {

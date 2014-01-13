@@ -115,7 +115,11 @@ public class SyncFavoriteThread extends NodeOperationThread<Void>
 
             switch (mode)
             {
-                case SyncFavoriteRequest.MODE_DOCUMENTS:
+            case SyncFavoriteRequest.MODE_DOCUMENTS:
+                if (session instanceof CloudSession
+                        || (session instanceof RepositorySessionImpl && ((RepositorySessionImpl) session)
+                                .hasPublicAPI()))
+                {
                     // Retrieve list of Favorites
                     remoteFavorites = session.getServiceRegistry().getDocumentFolderService()
                             .getFavoriteDocuments(listingContext);
@@ -143,32 +147,27 @@ public class SyncFavoriteThread extends NodeOperationThread<Void>
                     {
                     }
 
-                    if (session instanceof CloudSession
-                            || (session instanceof RepositorySessionImpl && ((RepositorySessionImpl) session)
-                                    .hasPublicAPI()))
+                    // Objects don't contain enough information
+                    // We request all node object with a search query
+                    // to retrieve ContentStreamId and permissions.
+                    List<Document> favoriteDocumentsList = new ArrayList<Document>(remoteFavorites.getTotalItems());
+                    if (remoteFavorites.getTotalItems() > 0)
                     {
-                        // Objects don't contain enough information
-                        // We request all node object with a search query
-                        // to retrieve ContentStreamId and permissions.
-                        List<Document> favoriteDocumentsList = new ArrayList<Document>(remoteFavorites.getTotalItems());
-                        if (remoteFavorites.getTotalItems() > 0)
+                        StringBuilder builder = new StringBuilder();
+                        builder.append("SELECT * FROM cmis:document WHERE ( cmis:objectId=");
+                        join(builder, " OR cmis:objectId=", remoteFavorites.getList());
+                        builder.append(")");
+
+                        List<Node> nodes = session.getServiceRegistry().getSearchService()
+                                .search(builder.toString(), SearchLanguage.CMIS);
+
+                        for (Node node : nodes)
                         {
-                            StringBuilder builder = new StringBuilder();
-                            builder.append("SELECT * FROM cmis:document WHERE ( cmis:objectId=");
-                            join(builder, " OR cmis:objectId=", remoteFavorites.getList());
-                            builder.append(")");
-
-                            List<Node> nodes = session.getServiceRegistry().getSearchService()
-                                    .search(builder.toString(), SearchLanguage.CMIS);
-
-                            for (Node node : nodes)
-                            {
-                                favoriteDocumentsList.add((Document) node);
-                            }
+                            favoriteDocumentsList.add((Document) node);
                         }
-                        remoteFavorites = new PagingResultImpl<Document>(favoriteDocumentsList,
-                                remoteFavorites.hasMoreItems(), remoteFavorites.getTotalItems());
                     }
+                    remoteFavorites = new PagingResultImpl<Document>(favoriteDocumentsList,
+                            remoteFavorites.hasMoreItems(), remoteFavorites.getTotalItems());
 
                     // Check Restrictable
                     if (restrictableIds != null && !restrictableIds.isEmpty())
@@ -184,33 +183,37 @@ public class SyncFavoriteThread extends NodeOperationThread<Void>
                         remoteFavorites = new PagingResultImpl<Document>(tmpNodes, remoteFavorites.hasMoreItems(),
                                 remoteFavorites.getTotalItems());
                     }
+                }
 
-                    // Retrieve list of local Favorites
-                    localFavoritesCursor = context.getContentResolver().query(SynchroProvider.CONTENT_URI,
-                            SynchroSchema.COLUMN_ALL, SynchroProvider.getAccountFilter(acc), null, null);
-                    break;
-                default:
-                    break;
+                // Retrieve list of local Favorites
+                localFavoritesCursor = context.getContentResolver().query(SynchroProvider.CONTENT_URI,
+                        SynchroSchema.COLUMN_ALL, SynchroProvider.getAccountFilter(acc), null, null);
+                break;
+            default:
+                break;
             }
 
-            // We have our favorites
-            // Update the referential contentProvider
-            if (!isFirstSync())
+            if (remoteFavorites != null)
             {
-                // Check updated favorites
-                scanUpdateItem();
+                // We have our favorites
+                // Update the referential contentProvider
+                if (!isFirstSync())
+                {
+                    // Check updated favorites
+                    scanUpdateItem();
 
-                // Check deleted favorites
-                scanDeleteItem();
+                    // Check deleted favorites
+                    scanDeleteItem();
+                }
+
+                if (!group.getRequests().isEmpty())
+                {
+                    SynchroManager.getInstance(context).enqueue(group);
+                }
+
+                // Flag the execution of last sync
+                SynchroManager.updateLastActivity(context);
             }
-
-            if (!group.getRequests().isEmpty())
-            {
-                SynchroManager.getInstance(context).enqueue(group);
-            }
-
-            // Flag the execution of last sync
-            SynchroManager.updateLastActivity(context);
         }
         catch (Exception e)
         {
@@ -400,7 +403,10 @@ public class SyncFavoriteThread extends NodeOperationThread<Void>
 
     private void scanDeleteItem()
     {
-        if (localFavoritesCursor == null) return;
+        if (localFavoritesCursor == null)
+        {
+            return;
+        }
 
         // USE CASE : DELETE
         // Compare referential and list of favorite Ids
@@ -444,11 +450,11 @@ public class SyncFavoriteThread extends NodeOperationThread<Void>
                     // Check status
                     switch (localFavoriteCursor.getInt(SynchroSchema.COLUMN_STATUS_ID))
                     {
-                        case SyncOperation.STATUS_HIDDEN:
-                            addSyncdeleteRequest(id, localFavoriteCursor);
-                            break;
-                        default:
-                            break;
+                    case SyncOperation.STATUS_HIDDEN:
+                        addSyncdeleteRequest(id, localFavoriteCursor);
+                        break;
+                    default:
+                        break;
                     }
                 }
             }

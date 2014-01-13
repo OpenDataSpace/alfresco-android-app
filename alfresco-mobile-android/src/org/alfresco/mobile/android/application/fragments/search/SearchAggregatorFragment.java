@@ -17,7 +17,6 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.search;
 
-import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
@@ -181,24 +180,24 @@ public class SearchAggregatorFragment extends BaseFragment implements OnMenuItem
     {
         switch (searchKey)
         {
-            case MENU_ITEM_DOCUMENT:
-                frag = DocumentFolderSearchFragment.newInstance(keywords, false);
-                frag.setSession(alfSession);
-                FragmentDisplayer.replaceFragment(getActivity(), frag, R.id.search_list_group,
-                        DocumentFolderSearchFragment.TAG, false, false);
-                break;
-            case MENU_ITEM_PERSON:
-                frag = PersonSearchFragment.newInstance(keywords);
-                frag.setSession(alfSession);
-                FragmentDisplayer.replaceFragment(getActivity(), frag, R.id.search_list_group,
-                        PersonSearchFragment.TAG, false, false);
-                break;
-            default:
-                frag = DocumentFolderSearchFragment.newInstance(keywords, true);
-                frag.setSession(alfSession);
-                FragmentDisplayer.replaceFragment(getActivity(), frag, R.id.search_list_group,
-                        DocumentFolderSearchFragment.TAG, false, false);
-                break;
+        case MENU_ITEM_DOCUMENT:
+            frag = DocumentFolderSearchFragment.newInstance(keywords, false);
+            frag.setSession(alfSession);
+            FragmentDisplayer.replaceFragment(getActivity(), frag, R.id.search_list_group,
+                    DocumentFolderSearchFragment.TAG, false, false);
+            break;
+        case MENU_ITEM_PERSON:
+            frag = PersonSearchFragment.newInstance(keywords);
+            frag.setSession(alfSession);
+            FragmentDisplayer.replaceFragment(getActivity(), frag, R.id.search_list_group,
+                    PersonSearchFragment.TAG, false, false);
+            break;
+        default:
+            frag = DocumentFolderSearchFragment.newInstance(keywords, true);
+            frag.setSession(alfSession);
+            FragmentDisplayer.replaceFragment(getActivity(), frag, R.id.search_list_group,
+                    DocumentFolderSearchFragment.TAG, false, false);
+            break;
         }
     }
 
@@ -206,12 +205,12 @@ public class SearchAggregatorFragment extends BaseFragment implements OnMenuItem
     {
         switch (searchKey)
         {
-            case MENU_ITEM_DOCUMENT:
-                break;
-            case MENU_ITEM_PERSON:
-                break;
-            default:
-                break;
+        case MENU_ITEM_DOCUMENT:
+            break;
+        case MENU_ITEM_PERSON:
+            break;
+        default:
+            break;
         }
     }
 
@@ -222,27 +221,27 @@ public class SearchAggregatorFragment extends BaseFragment implements OnMenuItem
     {
         switch (searchKey)
         {
-            case MENU_ITEM_PERSON:
-                menu.add(Menu.NONE, MENU_ITEM_DOCUMENT, Menu.FIRST + MENU_ITEM_DOCUMENT, R.string.search_documents);
-                menu.add(Menu.NONE, MENU_ITEM_FOLDER, Menu.FIRST + MENU_ITEM_FOLDER, R.string.search_folders);
-                break;
-            case MENU_ITEM_DOCUMENT:
-                //Remove to activate person search
-                if ((alfSession instanceof RepositorySession))
-                {
-                    menu.add(Menu.NONE, MENU_ITEM_PERSON, Menu.FIRST + MENU_ITEM_PERSON, R.string.search_person);
-                }
-                menu.add(Menu.NONE, MENU_ITEM_FOLDER, Menu.FIRST + MENU_ITEM_FOLDER, R.string.search_folders);
-                break;
-            case MENU_ITEM_FOLDER:
-                menu.add(Menu.NONE, MENU_ITEM_DOCUMENT, Menu.FIRST + MENU_ITEM_DOCUMENT, R.string.search_documents);
-                if ((alfSession instanceof RepositorySession))
-                {
-                    menu.add(Menu.NONE, MENU_ITEM_PERSON, Menu.FIRST + MENU_ITEM_PERSON, R.string.search_person);
-                }
-                break;
-            default:
-                break;
+        case MENU_ITEM_PERSON:
+            menu.add(Menu.NONE, MENU_ITEM_DOCUMENT, Menu.FIRST + MENU_ITEM_DOCUMENT, R.string.search_documents);
+            menu.add(Menu.NONE, MENU_ITEM_FOLDER, Menu.FIRST + MENU_ITEM_FOLDER, R.string.search_folders);
+            break;
+        case MENU_ITEM_DOCUMENT:
+            //Remove to activate person search
+            if ((alfSession instanceof RepositorySession))
+            {
+                menu.add(Menu.NONE, MENU_ITEM_PERSON, Menu.FIRST + MENU_ITEM_PERSON, R.string.search_person);
+            }
+            menu.add(Menu.NONE, MENU_ITEM_FOLDER, Menu.FIRST + MENU_ITEM_FOLDER, R.string.search_folders);
+            break;
+        case MENU_ITEM_FOLDER:
+            menu.add(Menu.NONE, MENU_ITEM_DOCUMENT, Menu.FIRST + MENU_ITEM_DOCUMENT, R.string.search_documents);
+            if ((alfSession instanceof RepositorySession))
+            {
+                menu.add(Menu.NONE, MENU_ITEM_PERSON, Menu.FIRST + MENU_ITEM_PERSON, R.string.search_person);
+            }
+            break;
+        default:
+            break;
         }
     }
 
@@ -266,20 +265,20 @@ public class SearchAggregatorFragment extends BaseFragment implements OnMenuItem
         int iconId = R.drawable.ic_search;
         switch (id)
         {
-            case MENU_ITEM_PERSON:
-                hintId = R.string.search_person_hint;
-                iconId = R.drawable.ic_person;
-                break;
-            case MENU_ITEM_DOCUMENT:
-                hintId = R.string.search_form_hint;
-                iconId = R.drawable.ic_office;
-                break;
-            case MENU_ITEM_FOLDER:
-                hintId = R.string.search_form_hint;
-                iconId = R.drawable.ic_repository_dark;
-                break;
-            default:
-                break;
+        case MENU_ITEM_PERSON:
+            hintId = R.string.search_person_hint;
+            iconId = R.drawable.ic_person;
+            break;
+        case MENU_ITEM_DOCUMENT:
+            hintId = R.string.search_form_hint;
+            iconId = R.drawable.ic_office;
+            break;
+        case MENU_ITEM_FOLDER:
+            hintId = R.string.search_form_hint;
+            iconId = R.drawable.ic_repository_dark;
+            break;
+        default:
+            break;
         }
 
         // Reset form

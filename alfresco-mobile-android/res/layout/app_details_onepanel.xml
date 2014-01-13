@@ -103,7 +103,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:src="@drawable/ic_open_dark" />
-
+<!--
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -123,7 +123,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content" />
                 </FrameLayout>
-
+-->
                 <ImageView
                     android:id="@+id/action_share"
                     style="@style/details_action_icon"
@@ -131,7 +131,7 @@
                     android:layout_height="wrap_content"
                     android:contentDescription="@string/like"
                     android:src="@drawable/ic_share" />
-
+<!--
                 <FrameLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -160,6 +160,7 @@
                     android:contentDescription="@string/geolocation"
                     android:src="@drawable/ic_location"
                     android:visibility="gone" />
+-->
             </LinearLayout>
 
             <include

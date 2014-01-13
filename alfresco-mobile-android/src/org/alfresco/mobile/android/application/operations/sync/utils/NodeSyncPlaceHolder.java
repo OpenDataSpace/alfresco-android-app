@@ -6,7 +6,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
  * 
  *  Unless required by applicable law or agreed to in writing, software
@@ -118,6 +118,7 @@ public class NodeSyncPlaceHolder implements Node
     {
         if (getPropertyValue(PropertyIds.OBJECT_TYPE_ID) != null)
         {
+            /*
             if (((String) getPropertyValue(PropertyIds.OBJECT_TYPE_ID))
                     .startsWith(AbstractDocumentFolderServiceImpl.CMISPREFIX_DOCUMENT))
             {
@@ -130,7 +131,7 @@ public class NodeSyncPlaceHolder implements Node
                 return ((String) getPropertyValue(PropertyIds.OBJECT_TYPE_ID)).replaceFirst(
                         AbstractDocumentFolderServiceImpl.CMISPREFIX_FOLDER, "");
             }
-            else if (ObjectType.DOCUMENT_BASETYPE_ID.equals(getPropertyValue(PropertyIds.OBJECT_TYPE_ID)))
+            else */ if (ObjectType.DOCUMENT_BASETYPE_ID.equals(getPropertyValue(PropertyIds.OBJECT_TYPE_ID)))
             {
                 return ContentModel.TYPE_CONTENT;
             }
@@ -369,7 +370,7 @@ public class NodeSyncPlaceHolder implements Node
      * This method is similar as "deserialization" in java world.
      */
     public static final Parcelable.Creator<NodeSyncPlaceHolder> CREATOR = new Parcelable.Creator<NodeSyncPlaceHolder>()
-    {
+            {
         public NodeSyncPlaceHolder createFromParcel(Parcel in)
         {
             return new NodeSyncPlaceHolder(in);
@@ -379,23 +380,23 @@ public class NodeSyncPlaceHolder implements Node
         {
             return new NodeSyncPlaceHolder[size];
         }
-    };
+            };
 
-    /**
-     * Constructor of a Node object depending of a Parcel object previously
-     * created by writeToParcel method.
-     * 
-     * @param o the Parcel object
-     */
-    public NodeSyncPlaceHolder(Parcel o)
-    {
-        this.identifier = o.readString();
-        this.properties = new HashMap<String, Property>();
-        o.readMap(this.properties, getClass().getClassLoader());
-        this.aspects = new ArrayList<String>();
-        o.readList(this.aspects, getClass().getClassLoader());
-        this.allowableActions = new ArrayList<String>();
-        o.readList(this.allowableActions, getClass().getClassLoader());
-        this.hasAllProperties = Boolean.parseBoolean(o.readString());
-    }
+            /**
+             * Constructor of a Node object depending of a Parcel object previously
+             * created by writeToParcel method.
+             * 
+             * @param o the Parcel object
+             */
+            public NodeSyncPlaceHolder(Parcel o)
+            {
+                this.identifier = o.readString();
+                this.properties = new HashMap<String, Property>();
+                o.readMap(this.properties, getClass().getClassLoader());
+                this.aspects = new ArrayList<String>();
+                o.readList(this.aspects, getClass().getClassLoader());
+                this.allowableActions = new ArrayList<String>();
+                o.readList(this.allowableActions, getClass().getClassLoader());
+                this.hasAllProperties = Boolean.parseBoolean(o.readString());
+            }
 }
