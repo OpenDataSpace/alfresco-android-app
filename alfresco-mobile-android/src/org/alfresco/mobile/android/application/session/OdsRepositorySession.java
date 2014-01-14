@@ -29,6 +29,8 @@ public class OdsRepositorySession extends RepositorySessionImpl
 {
     public static final String PROTO_TYPE = "org.opendataspace.android.app.session.proto";
 
+    public static final String BINDING_JSON = "/cmis/browser";
+
     private OdsRepositorySession shared;
     private OdsRepositorySession global;
 
@@ -178,7 +180,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
 
             if ("".equals(u.getPath()))
             {
-                url += isJsonProto(settings) ? OnPremiseUrlRegistry.BINDING_JSON : OnPremiseUrlRegistry.BINDING_CMIS;
+                url += isJsonProto(settings) ? OdsRepositorySession.BINDING_JSON : OnPremiseUrlRegistry.BINDING_CMIS;
             }
         } catch (Exception ex) {
             // nothing

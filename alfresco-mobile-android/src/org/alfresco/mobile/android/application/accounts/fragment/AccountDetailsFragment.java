@@ -43,6 +43,7 @@ import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
 import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
+import org.alfresco.mobile.android.application.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
@@ -346,13 +347,13 @@ public class AccountDetailsFragment extends BaseFragment
                     validate.setEnabled(retrieveFormValues());
 
                     if (proto == Account.ProtocolType.ATOM && (pathForm.getText().toString() == null ||
-                            pathForm.getText().toString().equals(OnPremiseUrlRegistry.BINDING_JSON)))
+                            pathForm.getText().toString().equals(OdsRepositorySession.BINDING_JSON)))
                     {
                         pathForm.setText(OnPremiseUrlRegistry.BINDING_CMIS);
                     } else if (proto == Account.ProtocolType.JSON && (pathForm.getText().toString() == null ||
                             pathForm.getText().toString().equals(OnPremiseUrlRegistry.BINDING_CMIS)))
                     {
-                        pathForm.setText(OnPremiseUrlRegistry.BINDING_JSON);
+                        pathForm.setText(OdsRepositorySession.BINDING_JSON);
                     }
                 }
             }
@@ -428,7 +429,7 @@ public class AccountDetailsFragment extends BaseFragment
         {
             if ("".equals(servicedocument))
             {
-                servicedocument = proto == Account.ProtocolType.JSON ? OnPremiseUrlRegistry.BINDING_JSON :
+                servicedocument = proto == Account.ProtocolType.JSON ? OdsRepositorySession.BINDING_JSON :
                     OnPremiseUrlRegistry.BINDING_CMIS;
             }
 

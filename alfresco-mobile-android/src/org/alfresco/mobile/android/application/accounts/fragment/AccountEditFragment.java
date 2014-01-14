@@ -32,6 +32,7 @@ import org.alfresco.mobile.android.application.operations.OperationsRequestGroup
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
 import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountRequest;
 import org.alfresco.mobile.android.application.operations.batch.node.favorite.FavoriteNodeRequest;
+import org.alfresco.mobile.android.application.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 
 import android.app.DialogFragment;
@@ -303,7 +304,7 @@ public class AccountEditFragment extends DialogFragment
         {
             if ("".equals(servicedocument))
             {
-                servicedocument = proto == Account.ProtocolType.JSON ? OnPremiseUrlRegistry.BINDING_JSON :
+                servicedocument = proto == Account.ProtocolType.JSON ? OdsRepositorySession.BINDING_JSON :
                     OnPremiseUrlRegistry.BINDING_CMIS;
             }
 
