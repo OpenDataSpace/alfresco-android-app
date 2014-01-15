@@ -44,6 +44,8 @@ import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.manager.ActionManager;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
+import org.alfresco.mobile.android.application.session.OdsRepositorySession;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
@@ -142,6 +144,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
             public void onItemSelected(AdapterView<?> parent, View view, int pos, long id)
             {
                 selectedAccountCursor = (Cursor) parent.getItemAtPosition(pos);
+                refreshImportFolder();
             }
 
             @Override
@@ -318,7 +321,25 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
             startActivityForResult(new Intent(getActivity(), HomeScreenActivity.class), 1);
             return;
         }
+
         cursorAdapter.changeCursor(cursor);
+
+        Account acc = ApplicationManager.getInstance(getActivity()).getCurrentAccount();
+
+        if (acc == null)
+        {
+            return;
+        }
+
+        for (cursor.moveToFirst(); !cursor.isAfterLast(); cursor.moveToNext())
+        {
+            if (cursor.getLong(AccountSchema.COLUMN_ID_ID) == acc.getId())
+            {
+                int accountIndex = cursor.getPosition();
+                spinnerAccount.setSelection(accountIndex);
+                break;
+            }
+        }
     }
 
     @Override
@@ -380,9 +401,21 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
 
     private void refreshImportFolder()
     {
+        AlfrescoSession ses;
+
+        if (selectedAccountCursor != null)
+        {
+            long accountId = selectedAccountCursor.getLong(AccountSchema.COLUMN_ID_ID);
+            ses = ApplicationManager.getInstance(getActivity()).getSession(accountId);
+        } else {
+            ses = ApplicationManager.getInstance(getActivity()).getCurrentSession();
+        }
+
+        boolean isOds = ses != null && ses instanceof OdsRepositorySession;
+
         Spinner spinner = (Spinner) rootView.findViewById(R.id.import_folder_spinner);
         UploadFolderAdapter upLoadadapter = new UploadFolderAdapter(getActivity(), R.layout.sdk_list_row,
-                IMPORT_FOLDER_LIST);
+                isOds  ? ODS_IMPORT_FOLDER_LIST : IMPORT_FOLDER_LIST);
         spinner.setAdapter(upLoadadapter);
         spinner.setOnItemSelectedListener(new OnItemSelectedListener()
         {
@@ -408,13 +441,23 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
     }
 
     @SuppressWarnings("serial")
-    private static final List<Integer> IMPORT_FOLDER_LIST = new ArrayList<Integer>(2)
+    private static final List<Integer> IMPORT_FOLDER_LIST = new ArrayList<Integer>(1)
     {
         {
-            add(R.string.menu_downloads);
+            //add(R.string.menu_downloads);
             //add(R.string.menu_browse_sites);
             //add(R.string.menu_favorites_folder);
             add(R.string.menu_browse_root);
+        }
+    };
+
+    @SuppressWarnings("serial")
+    private static final List<Integer> ODS_IMPORT_FOLDER_LIST = new ArrayList<Integer>(3)
+    {
+        {
+            add(R.string.menu_browse_root);
+            add(R.string.menu_browse_shared);
+            add(R.string.menu_browse_global);
         }
     };
 
@@ -428,6 +471,8 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
         case R.string.menu_browse_sites:
         case R.string.menu_browse_root:
         case R.string.menu_favorites_folder:
+        case R.string.menu_browse_shared:
+        case R.string.menu_browse_global:
 
             if (getActivity() instanceof PublicDispatcherActivity)
             {

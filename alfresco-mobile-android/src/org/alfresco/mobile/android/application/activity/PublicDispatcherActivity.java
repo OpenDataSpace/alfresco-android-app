@@ -39,6 +39,7 @@ import org.alfresco.mobile.android.application.fragments.upload.UploadFormFragme
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
 import org.alfresco.mobile.android.application.security.PassCodeActivity;
+import org.alfresco.mobile.android.application.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 
@@ -134,7 +135,7 @@ public class PublicDispatcherActivity extends BaseActivity
             {
                 currentAccount = AccountManager.retrieveAccount(this, getIntent().getLongExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, 1));
             }
-            
+
             File f = Environment.getExternalStorageDirectory();
             if (getIntent().hasExtra(IntentIntegrator.EXTRA_FOLDER))
             {
@@ -237,24 +238,24 @@ public class PublicDispatcherActivity extends BaseActivity
     {
         switch (item.getItemId())
         {
-            case MenuActionItem.MENU_CREATE_FOLDER:
-                ((ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG)).createFolder();
-                return true;
-            case android.R.id.home:
-                if (getIntent() != null && IntentIntegrator.ACTION_PICK_FILE.equals(getIntent().getAction()))
-                {
-                    finish();
-                }
-                else
-                {
-                    Intent i = new Intent(this, MainActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                    finish();
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        case MenuActionItem.MENU_CREATE_FOLDER:
+            ((ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG)).createFolder();
+            return true;
+        case android.R.id.home:
+            if (getIntent() != null && IntentIntegrator.ACTION_PICK_FILE.equals(getIntent().getAction()))
+            {
+                finish();
+            }
+            else
+            {
+                Intent i = new Intent(this, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+            }
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -336,6 +337,14 @@ public class PublicDispatcherActivity extends BaseActivity
                     frag = FavoritesFragment.newInstance(FavoritesFragment.MODE_FOLDERS);
                     FragmentDisplayer.replaceFragment(activity, frag, DisplayUtils.getLeftFragmentId(activity),
                             FavoritesFragment.TAG, true);
+                }
+                else if (getCurrentSession() != null && uploadFolder == R.string.menu_browse_shared)
+                {
+                    addNavigationFragment(((OdsRepositorySession) getCurrentSession()).getShared().getRootFolder());
+                }
+                else if (getCurrentSession() != null && uploadFolder == R.string.menu_browse_global)
+                {
+                    addNavigationFragment(((OdsRepositorySession) getCurrentSession()).getGlobal().getRootFolder());
                 }
                 return;
             }
