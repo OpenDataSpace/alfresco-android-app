@@ -10,6 +10,7 @@ import org.alfresco.mobile.android.api.exceptions.AlfrescoSessionException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.alfresco.mobile.android.api.model.impl.FolderImpl;
 import org.alfresco.mobile.android.api.model.impl.onpremise.OnPremiseRepositoryInfoImpl;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.alfresco.mobile.android.api.session.authentication.AuthenticationProvider;
 import org.alfresco.mobile.android.api.session.authentication.impl.PassthruAuthenticationProviderImpl;
@@ -165,11 +166,12 @@ public class OdsRepositorySession extends RepositorySessionImpl
             sessionParameters.put(SessionParameter.BINDING_TYPE, BindingType.BROWSER.value());
             sessionParameters.put(SessionParameter.BROWSER_URL, getBaseUrl());
         }
+
+        sessionParameters.put(SessionParameter.COOKIES, "true");
     }
 
-
     private boolean isJsonProto(Map<String, Serializable> params) {
-        return Account.ProtocolType.JSON.equals((Account.ProtocolType) params.get(PROTO_TYPE));
+        return params != null && Account.ProtocolType.JSON.equals((Account.ProtocolType) params.get(PROTO_TYPE));
     }
 
     @Override
@@ -186,6 +188,14 @@ public class OdsRepositorySession extends RepositorySessionImpl
             // nothing
         }
 
-        super.initSettings(url, username, password, settings);
+        Map<String, Serializable> tmpSettings = new HashMap<String, Serializable>();
+
+        if (settings != null)
+        {
+            tmpSettings.putAll(settings);
+        }
+
+        tmpSettings.put(AlfrescoSession.HTTP_CHUNK_TRANSFERT, "true");
+        super.initSettings(url, username, password, tmpSettings);
     }
 }
