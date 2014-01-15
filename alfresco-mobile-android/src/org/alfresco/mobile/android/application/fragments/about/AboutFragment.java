@@ -65,10 +65,8 @@ public class AboutFragment extends DialogFragment
             UIUtils.displayTitle(getActivity(), R.string.menu_about);
         }
 
-        /*
         TextView foo = (TextView) v.findViewById(R.id.about_description);
-        foo.setText(Html.fromHtml(getString(R.string.about_description)));
-         */
+        foo.setText(Html.fromHtml(getString(R.string.about_ods)));
 
         // Version Number
         TextView tv = (TextView) v.findViewById(R.id.about_buildnumber);

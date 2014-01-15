@@ -248,6 +248,12 @@
 <p>DataSpace Mobile stellt mithilfe Ihrer DataSpace Anmeldeinformationen eine Verbindung zu Ihrem DataSpace Repository (über HTTP oder HTTPS) her und verwaltet den Benutzerzugriff basierend auf deren Berechtigungen.</p> 
 ]]>
     </string>
+    <string name="about_ods">
+<![CDATA[<p>&#169; 2005&#8211;2014 Alfresco Software Limited<br/>
+&#169; 2013&#8211;2014 The Open DataSpace project<br/>
+<a href="mailto:info@opendataspace.org">info@opendataspace.org</a></p>
+<p>Diese Software ist unter der\nApache-Lizenz Version 2.0 lizenziert</p></center>]]>
+    </string>
 
     <!-- Waiting Message -->
     <string name="get_pdf_viewer">Zur Anzeige dieses Dokuments benötigen Sie einen PDF-Viewer.\n\nMöchten Sie nun einen beziehen?</string>

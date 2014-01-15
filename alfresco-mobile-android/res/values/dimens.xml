@@ -29,7 +29,7 @@
     <dimen name="home_description_size">12sp</dimen>
 
     <!-- ABOUT -->
-    <dimen name="about_text_size">16sp</dimen>
+    <dimen name="about_text_size">14sp</dimen>
 
     <!-- PANELS -->
     <item name="weight_left_panel" format="float" type="dimen">0.7</item>
