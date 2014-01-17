@@ -414,7 +414,7 @@ public final class AccountManager
             if (intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
             {
                 acc = retrieveAccount(appContext, intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID));
-                Log.d(TAG, "AccountId : " + acc);
+                Log.d(TAG, "AccountId : " + acc.getId());
             }
 
             if (IntentIntegrator.ACTION_LOAD_ACCOUNT.equals(intent.getAction()))
