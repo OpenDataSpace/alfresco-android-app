@@ -183,18 +183,18 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
         {
             if (Intent.ACTION_SEND_MULTIPLE.equals(action))
             {
-                ClipData clipdata = intent.getClipData();
-                if (clipdata != null && clipdata.getItemCount() > 1)
+                ArrayList<Uri> list = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
+
+                if (list != null && list.size() > 1)
                 {
-                    Item item = null;
-                    for (int i = 0; i < clipdata.getItemCount(); i++)
+                    for (int i = 0; i < list.size(); i++)
                     {
-                        item = clipdata.getItemAt(i);
-                        Uri uri = item.getUri();
+                        Uri uri = list.get(i);
                         if (uri != null)
                         {
                             retrieveIntentInfo(uri);
                         }
+                        /*
                         else
                         {
                             String timeStamp = new SimpleDateFormat("yyyyddMM_HHmmss").format(new Date());
@@ -205,6 +205,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                                 retrieveIntentInfo(Uri.fromFile(f));
                             }
                         }
+                         */
                         if (!files.contains(file))
                         {
                             files.add(file);
