@@ -79,7 +79,7 @@ public interface IntentIntegrator extends PublicIntent
     String ACTION_RELOAD_ACCOUNT = "org.alfresco.mobile.android.intent.ACTION_RELOAD_ACCOUNT";
 
     String ACTION_CREATE_ACCOUNT = "org.alfresco.mobile.android.intent.ACTION_CREATE_ACCOUNT";
-    
+
     String ACTION_CREATE_ACCOUNT_CLOUD_ERROR = "org.alfresco.mobile.android.intent.ACTION_CREATE_ACCOUNT_CLOUD_ERROR";
 
     // BROADCAST
@@ -149,6 +149,8 @@ public interface IntentIntegrator extends PublicIntent
     String EXTRA_CREATED_FOLDER = "org.alfresco.mobile.android.intent.EXTRA_CREATED_FOLDER";
 
     String EXTRA_DOCUMENT_NAME = "org.alfresco.mobile.android.intent.EXTRA_DOCUMENT_NAME";
+
+    String EXTRA_DOCUMENT_ID = "org.alfresco.mobile.android.intent.EXTRA_DOCUMENT_ID";
 
     // ///////////////////////////////////////////////////////////////////////////
     // COLLABORATION MANAGEMENT
@@ -234,7 +236,7 @@ public interface IntentIntegrator extends PublicIntent
     String ACTION_TASK_DELEGATE_STARTED = "org.alfresco.mobile.android.intent.ACTION_TASK_DELEGATE_STARTED";
 
     String ACTION_TASK_DELEGATE_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_TASK_DELEGATE_COMPLETED";
-    
+
     String ACTION_TASK_COMPLETE_STARTED = "org.alfresco.mobile.android.intent.ACTION_TASK_COMPLETE_STARTED";
 
     String ACTION_TASK_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_TASK_COMPLETED";
@@ -245,11 +247,11 @@ public interface IntentIntegrator extends PublicIntent
 
     // EXTRA
     String EXTRA_PROCESS = "org.alfresco.mobile.android.intent.EXTRA_PROCESS";
-    
+
     String EXTRA_TASK = "org.alfresco.mobile.android.intent.EXTRA_TASK";
 
     String EXTRA_UPDATED_TASK = "org.alfresco.mobile.android.intent.EXTRA_UPDATED_TASK";
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // SERVER SIDE CONFIGURATION
     // ///////////////////////////////////////////////////////////////////////////
@@ -257,7 +259,7 @@ public interface IntentIntegrator extends PublicIntent
     String ACTION_CONFIGURATION_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_CONFIGURATION_COMPLETED";
 
     String ACTION_CONFIGURATION_MENU = "org.alfresco.mobile.android.intent.ACTION_CONFIGURATION_MENU";
-    
+
     // EXTRA
     String EXTRA_CONFIGURATION = "org.alfresco.mobile.android.intent.EXTRA_CONFIGURATION";
     String EXTRA_DATA_DICTIONARY_ID = "org.alfresco.mobile.android.intent.DATA_DICTIONARY_ID";

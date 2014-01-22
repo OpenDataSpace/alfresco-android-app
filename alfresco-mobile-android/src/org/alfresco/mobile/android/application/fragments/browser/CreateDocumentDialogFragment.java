@@ -26,6 +26,7 @@ import java.util.Map;
 
 import org.alfresco.mobile.android.api.constants.ContentModel;
 import org.alfresco.mobile.android.api.model.ContentFile;
+import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Tag;
 import org.alfresco.mobile.android.api.model.impl.TagImpl;
@@ -38,6 +39,8 @@ import org.alfresco.mobile.android.application.operations.OperationsRequestGroup
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
 import org.alfresco.mobile.android.application.operations.batch.node.create.CreateDocumentRequest;
 import org.alfresco.mobile.android.application.operations.batch.node.create.RetrieveDocumentNameRequest;
+import org.alfresco.mobile.android.application.operations.batch.node.update.UpdateContentRequest;
+import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
@@ -98,6 +101,8 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
     private TextView errorMessage;
 
     private EditText tv;
+
+    private String originalId = "";
 
     // //////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -280,12 +285,12 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
     {
         Map<String, Serializable> props = new HashMap<String, Serializable>();
         String documentName = tv.getText().toString().trim();
-
+        /*
         if (originalName.equals(documentName) && recommandedName != null && !recommandedName.equals(originalName))
         {
             documentName = recommandedName;
         }
-
+         */
         if (desc != null && desc.getText() != null && desc.getText().length() > 0)
         {
             props.put(ContentModel.PROP_DESCRIPTION, desc.getText().toString());
@@ -306,8 +311,17 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
         Boolean isCreation = getArguments().getBoolean(ARGUMENT_IS_CREATION);
 
         OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
-        group.enqueue(new CreateDocumentRequest(parentFolder.getIdentifier(), documentName, props, listTagValue, f,
-                isCreation));
+
+        if (originalId != "")
+        {
+            group.enqueue(new UpdateContentRequest(parentFolder.getIdentifier(), originalId, documentName, f));
+        }
+        else
+        {
+            group.enqueue(new CreateDocumentRequest(parentFolder.getIdentifier(), documentName, props, listTagValue, f,
+                    isCreation));
+        }
+
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
         if (getActivity() instanceof PublicDispatcherActivity)
@@ -357,7 +371,12 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
                 recommandedName = b.getString(IntentIntegrator.EXTRA_DOCUMENT_NAME);
                 if (!recommandedName.equals(originalName))
                 {
-                    errorMessage.setVisibility(View.VISIBLE);
+                    originalId = b.getString(IntentIntegrator.EXTRA_DOCUMENT_ID, "");
+
+                    if (originalId == null || "".equals(originalId))
+                    {
+                        errorMessage.setVisibility(View.VISIBLE);
+                    }
                 }
 
             }

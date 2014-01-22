@@ -114,13 +114,10 @@ public class UpdateContentThread extends AbstractUpThread
                      */
                 }
 
-                ContentStream c = cmisSession.getObjectFactory().createContentStream(contentFile.getFileName(),
-                        contentFile.getLength(), contentFile.getMimeType(),
-                        IOUtils.getContentFileInputStream(contentFile));
+                org.apache.chemistry.opencmis.client.api.Document cmisDocpwc = null;
 
                 if (idpwc != null)
                 {
-                    org.apache.chemistry.opencmis.client.api.Document cmisDocpwc = null;
                     try
                     {
                         cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
@@ -130,7 +127,14 @@ public class UpdateContentThread extends AbstractUpThread
                         Log.e(TAG, Log.getStackTraceString(e));
                         cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
                     }
+                }
 
+                ContentStream c = cmisSession.getObjectFactory().createContentStream(contentFile.getFileName(),
+                        contentFile.getLength(), contentFile.getMimeType(),
+                        IOUtils.getContentFileInputStream(contentFile));
+
+                if (cmisDocpwc != null)
+                {
                     ObjectId iddoc = cmisDocpwc.checkIn(false, null, c, "");
                     cmisDoc = (AlfrescoDocument) cmisSession.getObject(iddoc);
                     cmisDoc = (AlfrescoDocument) cmisDoc.getObjectOfLatestVersion(false);

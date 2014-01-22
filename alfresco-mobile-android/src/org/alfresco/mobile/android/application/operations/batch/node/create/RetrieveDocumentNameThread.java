@@ -41,8 +41,10 @@ public class RetrieveDocumentNameThread extends AbstractBatchOperationThread<Str
 
     /** Name of the future document. */
     protected String documentName;
-    
+
     protected String finalDocumentName;
+
+    protected String originalId;
 
     // ////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -67,9 +69,9 @@ public class RetrieveDocumentNameThread extends AbstractBatchOperationThread<Str
         try
         {
             result = super.doInBackground();
-            
+
             parentFolder = retrieveParentFolder();
-            
+
             finalDocumentName = createUniqueName();
         }
         catch (Exception e)
@@ -111,7 +113,15 @@ public class RetrieveDocumentNameThread extends AbstractBatchOperationThread<Str
         {
             Document tmpDoc = (Document) session.getServiceRegistry().getDocumentFolderService()
                     .getChildByPath(parentFolder, documentPath);
-            if (tmpDoc != null) { return true; }
+            if (tmpDoc != null)
+            {
+                if (originalId == null)
+                {
+                    originalId = tmpDoc.getIdentifier();
+                }
+
+                return true;
+            }
         }
         catch (Exception e)
         {
@@ -119,7 +129,7 @@ public class RetrieveDocumentNameThread extends AbstractBatchOperationThread<Str
         }
         return false;
     }
-    
+
     private Folder retrieveParentFolder()
     {
         if (parentFolder == null && parentFolderIdentifier != null)
@@ -137,7 +147,7 @@ public class RetrieveDocumentNameThread extends AbstractBatchOperationThread<Str
     {
         return parentFolder;
     }
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // EVENTS
     // ///////////////////////////////////////////////////////////////////////////
@@ -148,6 +158,7 @@ public class RetrieveDocumentNameThread extends AbstractBatchOperationThread<Str
         Bundle b = new Bundle();
         b.putParcelable(IntentIntegrator.EXTRA_FOLDER, getParentFolder());
         b.putString(IntentIntegrator.EXTRA_DOCUMENT_NAME, finalDocumentName);
+        b.putString(IntentIntegrator.EXTRA_DOCUMENT_ID, originalId);
         broadcastIntent.putExtra(IntentIntegrator.EXTRA_DATA, b);
         return broadcastIntent;
     }
