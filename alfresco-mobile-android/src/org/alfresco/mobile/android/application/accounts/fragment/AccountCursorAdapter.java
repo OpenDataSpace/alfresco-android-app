@@ -108,7 +108,11 @@ public class AccountCursorAdapter extends BaseCursorLoader<GenericViewHolder>
             default:
                 break;
             }
-            vh.icon.setImageDrawable(context.getResources().getDrawable(defaultIcon));
+
+            if (vh.icon != null)
+            {
+                vh.icon.setImageDrawable(context.getResources().getDrawable(defaultIcon));
+            }
             break;
         default:
             updateIconList(vh, cursor);
@@ -133,7 +137,11 @@ public class AccountCursorAdapter extends BaseCursorLoader<GenericViewHolder>
             iconId = R.drawable.ic_onpremise;
             break;
         }
-        vh.icon.setImageDrawable(context.getResources().getDrawable(iconId));
+
+        if (vh.icon != null)
+        {
+            vh.icon.setImageDrawable(context.getResources().getDrawable(iconId));
+        }
     }
 
     public static final int NETWORK_ITEM = -3;
