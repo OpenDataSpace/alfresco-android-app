@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ public abstract class BaseCursorLoader<VH> extends CursorAdapter
     protected int layoutResourceId;
 
     protected String vhClassName;
-    
+
     protected Context context;
 
     public BaseCursorLoader(Context context, Cursor c, int layoutId)
@@ -80,16 +80,18 @@ public abstract class BaseCursorLoader<VH> extends CursorAdapter
     protected abstract void updateBottomText(VH vh, Cursor cursor);
 
     protected abstract void updateIcon(VH vh, Cursor cursor);
-    
+
     @SuppressWarnings("unchecked")
     protected VH create(String className, View v)
     {
         VH s = null;
         try
         {
+            Log.i(TAG, className);
             Class<?> c = Class.forName(className);
             Constructor<?> t = c.getDeclaredConstructor(View.class);
             s = (VH) t.newInstance(v);
+            Log.i(TAG, className + " - done");
         }
         catch (Exception e)
         {
