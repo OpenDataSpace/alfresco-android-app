@@ -286,6 +286,8 @@ public class MainActivity extends BaseActivity
             else
             {
                 activateCheckPasscode = true;
+                setSessionState(SESSION_ACTIVE);
+                setProgressBarIndeterminateVisibility(false);
             }
         }
 
