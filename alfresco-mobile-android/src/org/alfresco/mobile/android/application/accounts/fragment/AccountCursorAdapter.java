@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *  
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *  
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *  
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *  
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,10 +49,7 @@ public class AccountCursorAdapter extends BaseCursorLoader<GenericViewHolder>
     @Override
     protected void updateTopText(GenericViewHolder vh, Cursor cursor)
     {
-        if (vh != null && vh.topText != null && cursor != null)
-        {
-            vh.topText.setText(cursor.getString(AccountSchema.COLUMN_NAME_ID));
-        }
+        vh.topText.setText(cursor.getString(AccountSchema.COLUMN_NAME_ID));
     }
 
     @Override
@@ -60,12 +57,12 @@ public class AccountCursorAdapter extends BaseCursorLoader<GenericViewHolder>
     {
         switch (layoutId)
         {
-        case R.layout.app_account_list_row:
-            // Do nothing
-            break;
-        default:
-            updateBottomTextList(v, cursor);
-            break;
+            case R.layout.app_account_list_row:
+                // Do nothing
+                break;
+            default:
+                updateBottomTextList(v, cursor);
+                break;
         }
     }
 
@@ -96,27 +93,23 @@ public class AccountCursorAdapter extends BaseCursorLoader<GenericViewHolder>
     {
         switch (layoutId)
         {
-        case R.layout.app_account_list_row:
-            int itemName = Integer.parseInt(cursor.getString(AccountSchema.COLUMN_ID_ID));
-            int defaultIcon = R.drawable.ic_account_light;
-            switch (itemName)
-            {
-            case NETWORK_ITEM:
-            case MANAGE_ITEM:
-                defaultIcon = R.drawable.ic_settings_light;
+            case R.layout.app_account_list_row:
+                int itemName = Integer.parseInt(cursor.getString(AccountSchema.COLUMN_ID_ID));
+                int defaultIcon = R.drawable.ic_account_light;
+                switch (itemName)
+                {
+                    case NETWORK_ITEM:
+                    case MANAGE_ITEM:
+                        defaultIcon = R.drawable.ic_settings_light;
+                        break;
+                    default:
+                        break;
+                }
+                vh.icon.setImageDrawable(context.getResources().getDrawable(defaultIcon));
                 break;
             default:
+                updateIconList(vh, cursor);
                 break;
-            }
-
-            if (vh.icon != null)
-            {
-                vh.icon.setImageDrawable(context.getResources().getDrawable(defaultIcon));
-            }
-            break;
-        default:
-            updateIconList(vh, cursor);
-            break;
         }
 
     }
@@ -126,22 +119,18 @@ public class AccountCursorAdapter extends BaseCursorLoader<GenericViewHolder>
         int iconId = R.drawable.ic_onpremise;
         switch (cursor.getInt(AccountSchema.COLUMN_REPOSITORY_TYPE_ID))
         {
-        case Account.TYPE_ALFRESCO_TEST_BASIC:
-        case Account.TYPE_ALFRESCO_TEST_OAUTH:
-            iconId = R.drawable.ic_cloud_alf;
-            break;
-        case Account.TYPE_ALFRESCO_CLOUD:
-            iconId = R.drawable.ic_cloud;
-            break;
-        default:
-            iconId = R.drawable.ic_onpremise;
-            break;
+            case Account.TYPE_ALFRESCO_TEST_BASIC:
+            case Account.TYPE_ALFRESCO_TEST_OAUTH:
+                iconId = R.drawable.ic_cloud_alf;
+                break;
+            case Account.TYPE_ALFRESCO_CLOUD:
+                iconId = R.drawable.ic_cloud;
+                break;
+            default:
+                iconId = R.drawable.ic_onpremise;
+                break;
         }
-
-        if (vh.icon != null)
-        {
-            vh.icon.setImageDrawable(context.getResources().getDrawable(iconId));
-        }
+        vh.icon.setImageDrawable(context.getResources().getDrawable(iconId));
     }
 
     public static final int NETWORK_ITEM = -3;
