@@ -155,13 +155,13 @@
                 android:singleLine="true"
                 android:maxLines="1"
                 android:scrollHorizontally="true" />
-<!--
+
             <Button
                 android:id="@+id/menu_prefs"
                 style="@style/main_menu_action_button"
                 android:drawableLeft="@drawable/ic_settings_light"
                 android:text="@string/menu_prefs"/>
-
+<!--
             <Button
                 android:id="@+id/menu_help"
                 style="@style/main_menu_action_button"

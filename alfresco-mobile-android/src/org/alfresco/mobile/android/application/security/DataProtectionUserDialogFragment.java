@@ -152,7 +152,7 @@ public class DataProtectionUserDialogFragment extends DialogFragment
             if (firstTime)
             {
                 prefs.edit().putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, true).commit();
-                prefs.edit().putBoolean(GeneralPreferences.HAS_ACCESSED_PAID_SERVICES, true).commit();
+                //prefs.edit().putBoolean(GeneralPreferences.HAS_ACCESSED_PAID_SERVICES, true).commit();
                 localMessageId = R.string.encryption_title;
             }
             else
@@ -199,7 +199,7 @@ public class DataProtectionUserDialogFragment extends DialogFragment
             if (firstTime)
             {
                 prefs.edit().putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, true).commit();
-                prefs.edit().putBoolean(GeneralPreferences.HAS_ACCESSED_PAID_SERVICES, true).commit();
+                //prefs.edit().putBoolean(GeneralPreferences.HAS_ACCESSED_PAID_SERVICES, true).commit();
             }
         }
     };

@@ -95,6 +95,7 @@ public class GeneralPreferences extends PreferenceFragment
         Preference privateFoldersPref = findPreference(PRIVATE_FOLDERS_BUTTON);
 
         // DATA PROTECTION
+        /*
         if (!sharedPref.getBoolean(HAS_ACCESSED_PAID_SERVICES, false))
         {
             privateFoldersPref.setSelectable(false);
@@ -103,6 +104,7 @@ public class GeneralPreferences extends PreferenceFragment
             sharedPref.edit().putBoolean(PRIVATE_FOLDERS, false).commit();
         }
         else
+         */
         {
             privateFoldersPref.setSelectable(true);
             privateFoldersPref.setEnabled(true);
@@ -134,7 +136,7 @@ public class GeneralPreferences extends PreferenceFragment
         Boolean passcodeEnable = sharedPref.getBoolean(PasscodePreferences.KEY_PASSCODE_ENABLE, false);
         Preference pref = findPreference(getString(R.string.passcode_title));
 
-        boolean isActivate = sharedPref.getBoolean(HAS_ACCESSED_PAID_SERVICES, false);
+        boolean isActivate = true; //sharedPref.getBoolean(HAS_ACCESSED_PAID_SERVICES, false);
         pref.setSelectable(isActivate);
         pref.setEnabled(isActivate);
 
@@ -158,6 +160,7 @@ public class GeneralPreferences extends PreferenceFragment
         });
 
         // FAVORITE SYNC
+        /*
         final CheckBoxPreference cpref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync));
         final CheckBoxPreference wifiPref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync_wifi));
         account = SessionUtils.getAccount(getActivity());
@@ -254,7 +257,7 @@ public class GeneralPreferences extends PreferenceFragment
         }
 
         getActivity().invalidateOptionsMenu();
-
+         */
     }
 
     // ///////////////////////////////////////////////////////////////////////////

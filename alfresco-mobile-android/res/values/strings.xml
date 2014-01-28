@@ -431,6 +431,7 @@
     <string name="settings_favorite_sync">Enable Sync for \"%s\"</string>
     <string name="settings_favorite_sync_data">Data Usage</string>
     <string name="settings_favorite_sync_data_all">Use Cellular Data for Sync.</string>
+    <string name="settings_encryption">Encryption</string>
 
     <!-- Multi Selection -->
     <plurals name="selected_document">

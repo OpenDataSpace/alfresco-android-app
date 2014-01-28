@@ -123,7 +123,7 @@
 
         <!-- Private : Passcode Activity -->
         <activity
-            android:name=".security.PassCodeActivity"
+            android:name="org.alfresco.mobile.android.application.security.PassCodeActivity"
             android:exported="false"
             android:label="@string/app_name" />
 

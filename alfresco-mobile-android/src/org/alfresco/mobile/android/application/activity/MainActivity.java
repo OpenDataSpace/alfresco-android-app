@@ -565,11 +565,9 @@ public class MainActivity extends BaseActivity
                         IntentIntegrator.EXTRA_ACCOUNT_ID, currentAccount.getId()));
             }
             break;
-            /*
         case R.id.menu_prefs:
             displayPreferences();
             break;
-             */
         case R.id.menu_about:
             displayAbout();
             break;
@@ -662,7 +660,7 @@ public class MainActivity extends BaseActivity
         clearCentralPane();
         super.addNavigationFragment(f);
     }
-    
+
     public void addNavigationFragment(Folder f, boolean isShortCut)
     {
         clearScreen();

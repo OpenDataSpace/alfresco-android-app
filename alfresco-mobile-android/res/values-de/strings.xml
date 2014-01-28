@@ -431,6 +431,7 @@
     <string name="settings_favorite_sync">Synchronisierung für \&quot;%s\&quot; aktivieren</string>
     <string name="settings_favorite_sync_data">Datennutzung</string>
     <string name="settings_favorite_sync_data_all">Mobilfunkdaten für die Synchronisierung verwenden</string>
+    <string name="settings_encryption">Verschlüsselung</string>
 
     <!-- Multi Selection -->
     <plurals name="selected_document">
