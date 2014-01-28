@@ -420,10 +420,10 @@
     <string name="settings_links_website_summary">Offizielle DataSpace Website besuchen</string>
     <string name="settings_links_website">DataSpace</string>
     <string name="settings_links_website_summary">Offizielle DataSpace Website besuchen</string>
-    <string name="settings_links_website_url">http://www.alfresco.com/products/mobile</string>
+    <string name="settings_links_website_url">https://github.com/OpenDataSpace</string>
     <string name="settings_rating">Bewertung verfassen</string>
-    <string name="settings_rating_summary">DataSpace Mobile auf Google Play bewerten</string>
-    <string name="settings_rating_url">market://details?id=org.alfresco.mobile.android.application</string>
+    <string name="settings_rating_summary">DataSpace auf Google Play bewerten</string>
+    <string name="settings_rating_url">market://details?id=org.opendataspace.android.app</string>
     <string name="settings_links_facebook">&quot;Gefällt mir&quot; für DataSpace auf Facebook</string>
     <string name="settings_links_facebook_summary">&quot;Gefällt mir&quot; auf Facebook</string>
     <string name="settings_links_facebook_url">http://www.facebook.com/alfrescosoftware</string>

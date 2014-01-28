@@ -193,7 +193,7 @@ public class ActionManager extends org.alfresco.mobile.android.ui.manager.Action
     {
         // Retrieve list of application that understand market Intent
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setData(Uri.parse("market://details?id=org.alfresco.mobile.android.application"));
+        intent.setData(Uri.parse("market://details?id=org.opendataspace.android.app"));
         final PackageManager mgr = c.getPackageManager();
         List<ResolveInfo> list = mgr.queryIntentActivities(intent, 0);
 
@@ -249,7 +249,7 @@ public class ActionManager extends org.alfresco.mobile.android.ui.manager.Action
             MessengerManager.showToast(activity, R.string.error_unable_open_file);
         }
     }
-    
+
     public static void actionSendDocument(Fragment fr, File myFile)
     {
         actionSend(fr.getActivity(), myFile);
