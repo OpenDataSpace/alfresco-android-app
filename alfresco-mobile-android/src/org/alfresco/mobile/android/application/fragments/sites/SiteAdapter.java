@@ -71,7 +71,7 @@ public class SiteAdapter extends org.alfresco.mobile.android.ui.site.SiteAdapter
     {
         super.updateTopText(vh, item);
 
-        if (mode == ListingModeFragment.MODE_IMPORT || mode == ListingModeFragment.MODE_PICK) { return; }
+        if (mode == ListingModeFragment.MODE_IMPORT || mode == ListingModeFragment.MODE_PICK || mode == ListingModeFragment.MODE_FOLDERS) { return; }
 
         UIUtils.setBackground(((View) vh.choose),
                 getContext().getResources().getDrawable(R.drawable.quickcontact_badge_overlay_light));
@@ -149,34 +149,34 @@ public class SiteAdapter extends org.alfresco.mobile.android.ui.site.SiteAdapter
         Bundle b = new Bundle();
         switch (item.getItemId())
         {
-            case MenuActionItem.MENU_SITE_MEMBERS:
-                if (fragment.getActivity() instanceof MainActivity)
-                {
-                    ((MainActivity) fragment.getActivity()).addMembersFragment(selectedOptionItems.get(0));
-                }
-                onMenuItemClick = true;
-                break;
-            case MenuActionItem.MENU_SITE_LEAVE:
-                b.putBoolean(SiteMembershipLoaderCallback.PARAM_ISJOINING, false);
-                b.putSerializable(SiteMembershipLoaderCallback.PARAM_SITE, selectedOptionItems.get(0));
-                onMenuItemClick = true;
-                launchMemberShip(b);
-                break;
-            case MenuActionItem.MENU_SITE_JOIN:
-                b.putBoolean(SiteMembershipLoaderCallback.PARAM_ISJOINING, true);
-                b.putSerializable(SiteMembershipLoaderCallback.PARAM_SITE, selectedOptionItems.get(0));
-                onMenuItemClick = true;
-                launchMemberShip(b);
-                break;
-            case MenuActionItem.MENU_SITE_FAVORITE:
-            case MenuActionItem.MENU_SITE_UNFAVORITE:
-                b.putSerializable(SiteFavoriteLoaderCallback.PARAM_SITE, selectedOptionItems.get(0));
-                onMenuItemClick = true;
-                launchFavorite(b);
-                break;
-            default:
-                onMenuItemClick = false;
-                break;
+        case MenuActionItem.MENU_SITE_MEMBERS:
+            if (fragment.getActivity() instanceof MainActivity)
+            {
+                ((MainActivity) fragment.getActivity()).addMembersFragment(selectedOptionItems.get(0));
+            }
+            onMenuItemClick = true;
+            break;
+        case MenuActionItem.MENU_SITE_LEAVE:
+            b.putBoolean(SiteMembershipLoaderCallback.PARAM_ISJOINING, false);
+            b.putSerializable(SiteMembershipLoaderCallback.PARAM_SITE, selectedOptionItems.get(0));
+            onMenuItemClick = true;
+            launchMemberShip(b);
+            break;
+        case MenuActionItem.MENU_SITE_JOIN:
+            b.putBoolean(SiteMembershipLoaderCallback.PARAM_ISJOINING, true);
+            b.putSerializable(SiteMembershipLoaderCallback.PARAM_SITE, selectedOptionItems.get(0));
+            onMenuItemClick = true;
+            launchMemberShip(b);
+            break;
+        case MenuActionItem.MENU_SITE_FAVORITE:
+        case MenuActionItem.MENU_SITE_UNFAVORITE:
+            b.putSerializable(SiteFavoriteLoaderCallback.PARAM_SITE, selectedOptionItems.get(0));
+            onMenuItemClick = true;
+            launchFavorite(b);
+            break;
+        default:
+            onMenuItemClick = false;
+            break;
         }
         selectedOptionItems.clear();
         return onMenuItemClick;
@@ -187,12 +187,12 @@ public class SiteAdapter extends org.alfresco.mobile.android.ui.site.SiteAdapter
         if (fragment.getActivity().getLoaderManager().getLoader(SiteMembershipLoader.ID) == null)
         {
             fragment.getActivity().getLoaderManager()
-                    .initLoader(SiteMembershipLoader.ID, b, new SiteMembershipLoaderCallback(fragment));
+            .initLoader(SiteMembershipLoader.ID, b, new SiteMembershipLoaderCallback(fragment));
         }
         else
         {
             fragment.getActivity().getLoaderManager()
-                    .restartLoader(SiteMembershipLoader.ID, b, new SiteMembershipLoaderCallback(fragment));
+            .restartLoader(SiteMembershipLoader.ID, b, new SiteMembershipLoaderCallback(fragment));
         }
     }
 
@@ -201,12 +201,12 @@ public class SiteAdapter extends org.alfresco.mobile.android.ui.site.SiteAdapter
         if (fragment.getActivity().getLoaderManager().getLoader(SiteFavoriteLoader.ID) == null)
         {
             fragment.getActivity().getLoaderManager()
-                    .initLoader(SiteFavoriteLoader.ID, b, new SiteFavoriteLoaderCallback(fragment));
+            .initLoader(SiteFavoriteLoader.ID, b, new SiteFavoriteLoaderCallback(fragment));
         }
         else
         {
             fragment.getActivity().getLoaderManager()
-                    .restartLoader(SiteFavoriteLoader.ID, b, new SiteFavoriteLoaderCallback(fragment));
+            .restartLoader(SiteFavoriteLoader.ID, b, new SiteFavoriteLoaderCallback(fragment));
         }
     }
 }

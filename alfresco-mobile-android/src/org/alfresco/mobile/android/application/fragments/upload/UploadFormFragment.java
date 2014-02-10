@@ -30,6 +30,7 @@ import java.util.List;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.AccountSchema;
@@ -44,8 +45,6 @@ import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.manager.ActionManager;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.session.OdsRepositorySession;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
@@ -403,20 +402,22 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
     private void refreshImportFolder()
     {
         AlfrescoSession ses;
+        int type = 0;
 
         if (selectedAccountCursor != null)
         {
             long accountId = selectedAccountCursor.getLong(AccountSchema.COLUMN_ID_ID);
             ses = ApplicationManager.getInstance(getActivity()).getSession(accountId);
+            type = selectedAccountCursor.getInt(AccountSchema.COLUMN_REPOSITORY_TYPE_ID);
         } else {
             ses = ApplicationManager.getInstance(getActivity()).getCurrentSession();
         }
 
-        boolean isOds = ses != null && ses instanceof OdsRepositorySession;
+        boolean isOds = (ses != null && ses instanceof OdsRepositorySession) || type == Account.TYPE_ODS_CMIS;
 
         Spinner spinner = (Spinner) rootView.findViewById(R.id.import_folder_spinner);
         UploadFolderAdapter upLoadadapter = new UploadFolderAdapter(getActivity(), R.layout.sdk_list_row,
-                isOds  ? ODS_IMPORT_FOLDER_LIST : IMPORT_FOLDER_LIST);
+                isOds ? ODS_IMPORT_FOLDER_LIST : IMPORT_FOLDER_LIST);
         spinner.setAdapter(upLoadadapter);
         spinner.setOnItemSelectedListener(new OnItemSelectedListener()
         {
@@ -445,9 +446,9 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
     private static final List<Integer> IMPORT_FOLDER_LIST = new ArrayList<Integer>(1)
     {
         {
-            //add(R.string.menu_downloads);
-            //add(R.string.menu_browse_sites);
-            //add(R.string.menu_favorites_folder);
+            // add(R.string.menu_downloads);
+            // add(R.string.menu_browse_sites);
+            // add(R.string.menu_favorites_folder);
             add(R.string.menu_browse_root);
         }
     };

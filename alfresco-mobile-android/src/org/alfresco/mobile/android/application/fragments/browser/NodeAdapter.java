@@ -305,7 +305,7 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
     protected void updateTopText(ProgressViewHolder vh, Node item)
     {
         vh.topText.setText(item.getName());
-        if (item.isDocument() && mode == ListingModeFragment.MODE_IMPORT)
+        if (item.isDocument() && (mode == ListingModeFragment.MODE_IMPORT || mode == ListingModeFragment.MODE_FOLDERS))
         {
             vh.topText.setEnabled(false);
         }
@@ -344,7 +344,7 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
             }
         }
 
-        if (item.isDocument() && mode == ListingModeFragment.MODE_IMPORT)
+        if (item.isDocument() && (mode == ListingModeFragment.MODE_IMPORT || mode == ListingModeFragment.MODE_FOLDERS))
         {
             // Disable document : grey font color instead of black
             vh.bottomText.setEnabled(false);

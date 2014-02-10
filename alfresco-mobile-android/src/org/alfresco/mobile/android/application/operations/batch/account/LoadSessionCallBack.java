@@ -75,6 +75,7 @@ public class LoadSessionCallBack extends AbstractBatchOperationCallback<Alfresco
             break;
         case Account.TYPE_ALFRESCO_TEST_BASIC:
         case Account.TYPE_ALFRESCO_CMIS:
+        case Account.TYPE_ODS_CMIS:
             Intent broadcastIntent = new Intent();
             broadcastIntent.setAction(IntentIntegrator.ACTION_LOAD_ACCOUNT_ERROR);
             broadcastIntent.putExtra(SimpleAlertDialogFragment.PARAM_ICON, R.drawable.ic_alfresco_logo);

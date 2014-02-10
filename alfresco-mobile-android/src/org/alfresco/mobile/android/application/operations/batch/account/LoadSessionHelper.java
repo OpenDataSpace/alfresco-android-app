@@ -28,7 +28,7 @@ import org.alfresco.mobile.android.api.session.authentication.impl.OAuthHelper;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountSettingsHelper;
-import org.alfresco.mobile.android.application.session.OdsRepositorySession;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 
 import android.content.Context;
 

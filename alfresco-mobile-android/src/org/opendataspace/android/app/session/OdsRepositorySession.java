@@ -1,4 +1,4 @@
-package org.alfresco.mobile.android.application.session;
+package org.opendataspace.android.app.session;
 
 import java.io.Serializable;
 import java.net.URL;

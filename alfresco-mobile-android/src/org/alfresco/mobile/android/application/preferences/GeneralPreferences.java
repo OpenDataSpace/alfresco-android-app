@@ -21,27 +21,27 @@ package org.alfresco.mobile.android.application.preferences;
 import java.io.File;
 
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.SelectFolderFragment;
 import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.favorites.FavoriteAlertDialogFragment;
-import org.alfresco.mobile.android.application.fragments.favorites.FavoriteAlertDialogFragment.OnFavoriteChangeListener;
+import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.intent.PublicIntent;
 import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
 import org.alfresco.mobile.android.application.security.DataProtectionUserDialogFragment;
-import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
@@ -71,7 +71,11 @@ public class GeneralPreferences extends PreferenceFragment
 
     private static final String SYNCHRO_DISPLAY_PREFIX = "SynchroDisplayEnable-";
 
-    private Account account;
+    private static final String ODS_SYNCHONISATION = "odsAutoSync";
+
+    private static final String ODS_SYNCHONISATION_BUTTON = "odssyncourcebutton";
+
+    //private Account account;
 
     // ///////////////////////////////////////////////////////////////////////////
     // LIFE CYCLE
@@ -155,6 +159,31 @@ public class GeneralPreferences extends PreferenceFragment
                 Fragment f = new PasscodePreferences();
                 FragmentDisplayer.replaceFragment(getActivity(), f, DisplayUtils.getMainPaneId(getActivity()),
                         PasscodePreferences.TAG, true);
+                return false;
+            }
+        });
+
+        // ODS SYNC
+
+        Preference odsSyncPref = findPreference(ODS_SYNCHONISATION_BUTTON);
+        refreshOdsSync();
+
+        odsSyncPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                String id = sharedPref.getString(ODS_SYNCHONISATION, "");
+
+                if (id != null && !"".equals(id))
+                {
+                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(ODS_SYNCHONISATION, "").apply();
+                    refreshOdsSync();
+                    return false;
+                }
+
+                Intent i = new Intent(IntentIntegrator.ACTION_PICK_FOLDER, null, getActivity(), PublicDispatcherActivity.class);
+                startActivityForResult(i, PublicIntent.REQUESTCODE_FOLDERPICKER);
                 return false;
             }
         });
@@ -260,6 +289,24 @@ public class GeneralPreferences extends PreferenceFragment
          */
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data)
+    {
+        if (requestCode == PublicIntent.REQUESTCODE_FOLDERPICKER && data != null &&
+                IntentIntegrator.ACTION_PICK_FOLDER.equals(data.getAction()))
+        {
+            String id = data.getStringExtra(IntentIntegrator.EXTRA_FOLDER_ID);
+
+            if (id != null && !"".equals(id))
+            {
+                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(ODS_SYNCHONISATION, id).apply();
+                refreshOdsSync();
+            }
+        }
+
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
     // ///////////////////////////////////////////////////////////////////////////
     // PUBLIC
     // ///////////////////////////////////////////////////////////////////////////
@@ -269,6 +316,15 @@ public class GeneralPreferences extends PreferenceFragment
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         privateFoldersPref.setSummary(sharedPref.getBoolean(PRIVATE_FOLDERS, false) ? R.string.data_protection_on
                 : R.string.data_protection_off);
+    }
+
+    public void refreshOdsSync()
+    {
+        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        Preference odsSyncPref = findPreference(ODS_SYNCHONISATION_BUTTON);
+        String id = sharedPref.getString(ODS_SYNCHONISATION, "");
+        odsSyncPref.setSummary((id != null && !"".equals(id)) ? R.string.settings_autosync_settings_on
+                : R.string.settings_autosync_settings_off);
     }
 
     // ///////////////////////////////////////////////////////////////////////////

@@ -36,10 +36,10 @@ import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 import org.alfresco.mobile.android.api.session.authentication.impl.OAuth2DataImpl;
 import org.alfresco.mobile.android.api.utils.IOUtils;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.manager.NetworkHttpInvoker;
 import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.session.OdsRepositorySession;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 
@@ -224,6 +224,7 @@ public class AccountSettingsHelper
 
         case Account.TYPE_ALFRESCO_TEST_BASIC:
         case Account.TYPE_ALFRESCO_CMIS:
+        case Account.TYPE_ODS_CMIS:
             isCloud = false;
             baseUrl = acc.getUrl();
             username = acc.getUsername();

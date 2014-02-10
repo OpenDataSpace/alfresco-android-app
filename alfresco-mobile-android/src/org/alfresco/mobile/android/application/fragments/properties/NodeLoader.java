@@ -42,8 +42,8 @@ import org.alfresco.mobile.android.application.operations.batch.utils.MapUtil;
 import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
 import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
 import org.alfresco.mobile.android.application.operations.sync.utils.NodeSyncPlaceHolder;
-import org.alfresco.mobile.android.application.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 
 import android.app.Activity;
 import android.database.Cursor;

@@ -21,6 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
@@ -32,7 +33,6 @@ import org.alfresco.mobile.android.application.operations.OperationsRequestGroup
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
 import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountRequest;
 import org.alfresco.mobile.android.application.operations.batch.node.favorite.FavoriteNodeRequest;
-import org.alfresco.mobile.android.application.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 
 import android.app.DialogFragment;

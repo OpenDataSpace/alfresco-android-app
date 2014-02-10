@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -66,7 +66,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.ProgressBar;
 
 public class ProgressNodeAdapter extends NodeAdapter implements LoaderManager.LoaderCallbacks<Cursor>,
-        OnMenuItemClickListener
+OnMenuItemClickListener
 {
     private static final String TAG = ProgressNodeAdapter.class.getName();
 
@@ -198,16 +198,16 @@ public class ProgressNodeAdapter extends NodeAdapter implements LoaderManager.Lo
                 int resId = R.string.download_await;
                 switch ((Integer) item.getPropertyValue(PublicAPIPropertyIds.REQUEST_TYPE))
                 {
-                    case DownloadRequest.TYPE_ID:
-                        resId = R.string.download_await;
-                        break;
-                    case CreateDocumentRequest.TYPE_ID:
-                    case UpdateContentRequest.TYPE_ID:
-                        resId = R.string.upload_await;
-                        break;
+                case DownloadRequest.TYPE_ID:
+                    resId = R.string.download_await;
+                    break;
+                case CreateDocumentRequest.TYPE_ID:
+                case UpdateContentRequest.TYPE_ID:
+                    resId = R.string.upload_await;
+                    break;
 
-                    default:
-                        break;
+                default:
+                    break;
                 }
                 vh.bottomText.setText(resId);
             }
@@ -242,6 +242,7 @@ public class ProgressNodeAdapter extends NodeAdapter implements LoaderManager.Lo
 
             if (mode == ListingModeFragment.MODE_IMPORT) { return; }
             if (mode == ListingModeFragment.MODE_PICK) { return; }
+            if (mode == ListingModeFragment.MODE_FOLDERS) { return; }
 
             UIUtils.setBackground(((View) vh.choose),
                     context.getResources().getDrawable(R.drawable.quickcontact_badge_overlay_light));
@@ -308,33 +309,33 @@ public class ProgressNodeAdapter extends NodeAdapter implements LoaderManager.Lo
 
             switch (status)
             {
-                case Operation.STATUS_PAUSED:
-                case Operation.STATUS_PENDING:
-                    // Add Node if not present
-                    if (name != null && !hasNode(name))
-                    {
-                        replaceNode(new NodePlaceHolder(name, type, status));
-                    }
-                    break;
-                case Operation.STATUS_RUNNING:
-                    // Update node if not present
-                    long progress = cursor.getLong(BatchOperationSchema.COLUMN_BYTES_DOWNLOADED_SO_FAR_ID);
-                    long totalSize = cursor.getLong(BatchOperationSchema.COLUMN_TOTAL_SIZE_BYTES_ID);
-                    replaceNode(new NodePlaceHolder(name, type, status, totalSize, progress));
-                    break;
-                case Operation.STATUS_SUCCESSFUL:
-                    // Update node if not present
-                    if (type != DownloadRequest.TYPE_ID && hasNode(name) && getNode(name) instanceof NodePlaceHolder)
-                    {
-                        notifyDataSetChanged();
-                    }
-                    break;
-                default:
-                    if (hasNode(name) && getNode(name) instanceof NodePlaceHolder)
-                    {
-                        remove(name);
-                    }
-                    break;
+            case Operation.STATUS_PAUSED:
+            case Operation.STATUS_PENDING:
+                // Add Node if not present
+                if (name != null && !hasNode(name))
+                {
+                    replaceNode(new NodePlaceHolder(name, type, status));
+                }
+                break;
+            case Operation.STATUS_RUNNING:
+                // Update node if not present
+                long progress = cursor.getLong(BatchOperationSchema.COLUMN_BYTES_DOWNLOADED_SO_FAR_ID);
+                long totalSize = cursor.getLong(BatchOperationSchema.COLUMN_TOTAL_SIZE_BYTES_ID);
+                replaceNode(new NodePlaceHolder(name, type, status, totalSize, progress));
+                break;
+            case Operation.STATUS_SUCCESSFUL:
+                // Update node if not present
+                if (type != DownloadRequest.TYPE_ID && hasNode(name) && getNode(name) instanceof NodePlaceHolder)
+                {
+                    notifyDataSetChanged();
+                }
+                break;
+            default:
+                if (hasNode(name) && getNode(name) instanceof NodePlaceHolder)
+                {
+                    remove(name);
+                }
+                break;
             }
         }
     }
@@ -382,25 +383,25 @@ public class ProgressNodeAdapter extends NodeAdapter implements LoaderManager.Lo
         boolean onMenuItemClick = true;
         switch (item.getItemId())
         {
-            case MenuActionItem.MENU_DETAILS:
-                onMenuItemClick = true;
-                ((MainActivity) context).addPropertiesFragment(selectedOptionItems.get(0));
-                selectedItems.add(selectedOptionItems.get(0));
-                notifyDataSetChanged();
-                break;
-            case MenuActionItem.MENU_EDIT:
-                onMenuItemClick = true;
-                NodeActions.edit((Activity) context, (Folder) parentNode, selectedOptionItems.get(0));
-                break;
-            case MenuActionItem.MENU_DELETE_FOLDER:
-                onMenuItemClick = true;
-                Fragment fr = ((Activity) context).getFragmentManager().findFragmentByTag(
-                        ChildrenBrowserFragment.TAG);
-                NodeActions.delete((Activity) context, fr, selectedOptionItems.get(0));
-                break;
-            default:
-                onMenuItemClick = false;
-                break;
+        case MenuActionItem.MENU_DETAILS:
+            onMenuItemClick = true;
+            ((MainActivity) context).addPropertiesFragment(selectedOptionItems.get(0));
+            selectedItems.add(selectedOptionItems.get(0));
+            notifyDataSetChanged();
+            break;
+        case MenuActionItem.MENU_EDIT:
+            onMenuItemClick = true;
+            NodeActions.edit((Activity) context, (Folder) parentNode, selectedOptionItems.get(0));
+            break;
+        case MenuActionItem.MENU_DELETE_FOLDER:
+            onMenuItemClick = true;
+            Fragment fr = ((Activity) context).getFragmentManager().findFragmentByTag(
+                    ChildrenBrowserFragment.TAG);
+            NodeActions.delete((Activity) context, fr, selectedOptionItems.get(0));
+            break;
+        default:
+            onMenuItemClick = false;
+            break;
         }
         selectedOptionItems.clear();
         return onMenuItemClick;

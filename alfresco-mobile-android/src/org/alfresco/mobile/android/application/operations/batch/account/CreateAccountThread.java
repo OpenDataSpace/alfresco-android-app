@@ -25,6 +25,7 @@ import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountSettingsHelper;
@@ -114,7 +115,11 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
         {
             // Non OAuth login
             type = Integer.valueOf(Account.TYPE_ALFRESCO_CMIS);
-            if (session instanceof CloudSession && !session.getBaseUrl().startsWith(OAuthConstant.PUBLIC_API_HOSTNAME))
+            if (session instanceof OdsRepositorySession)
+            {
+                type = Integer.valueOf(Account.TYPE_ODS_CMIS);
+            }
+            else if (session instanceof CloudSession && !session.getBaseUrl().startsWith(OAuthConstant.PUBLIC_API_HOSTNAME))
             {
                 type = Integer.valueOf(Account.TYPE_ALFRESCO_TEST_BASIC);
             }

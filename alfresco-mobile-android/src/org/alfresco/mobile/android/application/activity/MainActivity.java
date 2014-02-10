@@ -32,6 +32,7 @@ import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountDetailsFragment;
@@ -83,7 +84,6 @@ import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.alfresco.mobile.android.application.security.DataProtectionUserDialogFragment;
 import org.alfresco.mobile.android.application.security.PassCodeActivity;
-import org.alfresco.mobile.android.application.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
@@ -1329,7 +1329,12 @@ public class MainActivity extends BaseActivity
                 }
 
                 // Return to root screen
-                activity.getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                try
+                {
+                    activity.getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
 
                 // Display progress
                 activity.setProgressBarIndeterminateVisibility(true);

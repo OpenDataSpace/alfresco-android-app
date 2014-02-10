@@ -23,6 +23,8 @@ import java.util.List;
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.SelectFolderFragment;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountOAuthFragment;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -37,9 +39,9 @@ import org.alfresco.mobile.android.application.fragments.operations.OperationsFr
 import org.alfresco.mobile.android.application.fragments.sites.BrowserSitesFragment;
 import org.alfresco.mobile.android.application.fragments.upload.UploadFormFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.intent.PublicIntent;
 import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
 import org.alfresco.mobile.android.application.security.PassCodeActivity;
-import org.alfresco.mobile.android.application.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 
@@ -145,6 +147,14 @@ public class PublicDispatcherActivity extends BaseActivity
                         FileExplorerFragment.TAG, false, false);
             }
         }
+
+        if (IntentIntegrator.ACTION_PICK_FOLDER.equals(action))
+        {
+            Fragment f = new SelectFolderFragment();
+            FragmentDisplayer.replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), SelectFolderFragment.TAG,
+                    false, false);
+            return;
+        }
     }
 
     @Override
@@ -213,6 +223,16 @@ public class PublicDispatcherActivity extends BaseActivity
 
     public void validateAction(View v)
     {
+        if (IntentIntegrator.ACTION_PICK_FOLDER.equals(getIntent().getAction()))
+        {
+            ChildrenBrowserFragment f = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
+            Intent intent = new Intent(IntentIntegrator.ACTION_PICK_FOLDER);
+            intent.putExtra(IntentIntegrator.EXTRA_FOLDER_ID, f.getImportFolder().getIdentifier());
+            setResult(PublicIntent.REQUESTCODE_FOLDERPICKER, intent);
+            finish();
+            return;
+        }
+
         ((ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG)).createFiles(uploadFiles);
     }
 

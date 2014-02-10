@@ -432,6 +432,10 @@
     <string name="settings_favorite_sync_data">Data Usage</string>
     <string name="settings_favorite_sync_data_all">Use Cellular Data for Sync.</string>
     <string name="settings_encryption">Encryption</string>
+    <string name="settings_autosync">Synchronisation</string>
+    <string name="settings_autosync_settings">Settings</string>
+    <string name="settings_autosync_settings_off">Synchronisation of images and videos is currently off</string>
+    <string name="settings_autosync_settings_on">Synchronisation of images and videos is currently on</string>
 
     <!-- Multi Selection -->
     <plurals name="selected_document">

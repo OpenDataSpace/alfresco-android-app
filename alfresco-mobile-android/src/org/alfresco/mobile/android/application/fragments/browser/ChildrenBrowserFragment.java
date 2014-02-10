@@ -152,7 +152,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     {
         return newInstance(folder, null, null);
     }
-    
+
     public static ChildrenBrowserFragment newInstance(Folder folder, boolean isShortcut)
     {
         return newInstance(folder, null, null, isShortcut);
@@ -184,7 +184,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     {
         return newInstance(folder, null, site);
     }
-    
+
     public static ChildrenBrowserFragment newInstance(Site site, Folder folder, boolean isShortCut)
     {
         return newInstance(folder, null, site, isShortCut);
@@ -194,7 +194,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     {
         return newInstance(parentFolder, pathFolder, site, pathFolder != null || parentFolder instanceof CloudFolderImpl);
     }
-    
+
     private static ChildrenBrowserFragment newInstance(Folder parentFolder, String pathFolder, Site site, boolean isShortcut)
     {
         ChildrenBrowserFragment bf = new ChildrenBrowserFragment();
@@ -229,7 +229,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         // In case of Import mode, we disable thumbnails.
         if (getActivity() instanceof PublicDispatcherActivity)
         {
-            mode = MODE_IMPORT;
+            mode = IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()) ? MODE_FOLDERS : MODE_IMPORT;
             setActivateThumbnail(false);
         }
         else if (getActivity() instanceof PrivateDialogActivity)
@@ -254,6 +254,13 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             init(v, emptyListMessageId);
 
             validationButton = (Button) v.findViewById(R.id.action_validation);
+
+            if (getActivity() instanceof PublicDispatcherActivity &&
+                    IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()))
+            {
+                validationButton.setText(R.string.action_select);
+            }
+
             GridView gridView = (GridView) v.findViewById(R.id.gridview);
             if (getActivity() instanceof PrivateDialogActivity)
             {
@@ -287,7 +294,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         int titleId = R.string.app_name;
         if (getActivity() instanceof PublicDispatcherActivity)
         {
-            mode = MODE_IMPORT;
+            mode = IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()) ? MODE_FOLDERS : MODE_IMPORT;
             titleId = R.string.import_document_title;
             checkValidationButton();
         }
@@ -500,7 +507,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
         // In case of import mode, we disable selection of document.
         // It's only possible to select a folder for navigation purpose.
-        if (mode == MODE_IMPORT && getActivity() instanceof PublicDispatcherActivity)
+        if ((mode == MODE_IMPORT || mode == MODE_FOLDERS) && getActivity() instanceof PublicDispatcherActivity)
         {
             l.setChoiceMode(GridView.CHOICE_MODE_NONE);
             if (item.isFolder())
@@ -578,7 +585,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     public boolean onItemLongClick(GridView l, View v, int position, long id)
     {
         // We disable long click during import mode.
-        if (mode == MODE_IMPORT || mode == MODE_PICK) { return false; }
+        if (mode == MODE_IMPORT || mode == MODE_PICK || mode == MODE_FOLDERS) { return false; }
 
         Node n = (Node) l.getItemAtPosition(position);
         boolean b = true;
@@ -1109,7 +1116,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     private void checkValidationButton()
     {
         boolean enable = false;
-        if (mode == MODE_IMPORT)
+        if (mode == MODE_IMPORT || mode == MODE_FOLDERS)
         {
             if (parentFolder != null)
             {
@@ -1140,12 +1147,12 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     {
         return (Boolean) getArguments().get(PARAM_IS_SHORTCUT);
     }
-
+    /*
     private void addNavigationFragment(Site currentSite, Folder item)
     {
         ((BaseActivity) getActivity()).addNavigationFragment(currentSite, item);
     }
-
+     */
     // //////////////////////////////////////////////////////////////////////
     // VIEWS SWITCHER
     // //////////////////////////////////////////////////////////////////////
