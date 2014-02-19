@@ -164,7 +164,7 @@ public class GeneralPreferences extends PreferenceFragment
         });
 
         // ODS SYNC
-
+        /*
         Preference odsSyncPref = findPreference(ODS_SYNCHONISATION_BUTTON);
         refreshOdsSync();
 
@@ -187,7 +187,7 @@ public class GeneralPreferences extends PreferenceFragment
                 return false;
             }
         });
-
+         */
         // FAVORITE SYNC
         /*
         final CheckBoxPreference cpref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync));
