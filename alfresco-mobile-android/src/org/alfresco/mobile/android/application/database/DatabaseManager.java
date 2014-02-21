@@ -45,6 +45,7 @@ public class DatabaseManager implements DatabaseVersionNumber
         return new DatabaseManager(context);
     }
 
+    @SuppressWarnings("deprecation")
     public SQLiteDatabase getWriteDb()
     {
         if (sqliteDb == null || !sqliteDb.isOpen())

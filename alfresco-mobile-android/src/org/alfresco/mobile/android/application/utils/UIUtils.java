@@ -24,6 +24,7 @@ import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
+
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -63,6 +64,7 @@ public class UIUtils extends org.alfresco.mobile.android.application.commons.uti
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static int[] getScreenDimension(Activity activity)
     {
         int width = 0;

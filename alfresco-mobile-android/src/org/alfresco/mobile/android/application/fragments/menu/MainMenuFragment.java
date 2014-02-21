@@ -292,6 +292,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         if (configurationContext != null && configurationContext.getJson() != null
                 && configurationContext.getJson().containsKey(ConfigurationManager.CATEGORY_ROOTMENU))
         {
+            @SuppressWarnings("unchecked")
             Map<String, Object> menuConfig = (Map<String, Object>) configurationContext.getJson().get(
                     ConfigurationManager.CATEGORY_ROOTMENU);
             /*
@@ -355,6 +356,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
     {
         if (menuConfig.containsKey(configKey))
         {
+            @SuppressWarnings("unchecked")
             Map<String, Object> itemVisibility = (Map<String, Object>) menuConfig.get(configKey);
             if (itemVisibility.containsKey(ConfigurationManager.PROP_VISIBILE)
                     && JSONConverter.getBoolean(itemVisibility, ConfigurationManager.PROP_VISIBILE))

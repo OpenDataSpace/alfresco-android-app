@@ -433,6 +433,7 @@ OnMenuItemClickListener
             }
             else
             {
+                favoriteCursor.close();
                 favoriteCursor = context.getContentResolver().query(
                         SynchroProvider.CONTENT_URI,
                         SynchroSchema.COLUMN_ALL,

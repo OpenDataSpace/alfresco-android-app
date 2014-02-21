@@ -56,6 +56,7 @@ public class UIUtils
         }
     }
 
+    @SuppressWarnings("deprecation")
     public static int[] getScreenDimension(Activity activity)
     {
         int width = 0;

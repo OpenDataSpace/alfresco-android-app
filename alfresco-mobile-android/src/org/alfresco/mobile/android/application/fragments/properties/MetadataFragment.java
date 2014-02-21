@@ -159,7 +159,7 @@ public class MetadataFragment extends BaseFragment
         ViewGroup generalGroup = createAspectPanel(inflater, grouprootview, node, ContentModel.ASPECT_GENERAL, false,
                 generalPropertyTitle, filter);
         addPathProperty(generalGroup, inflater);
-        View vr = addPropertyLine(generalGroup, inflater, node, R.string.metadata_prop_creator, PropertyIds.CREATED_BY,
+        /*View vr =*/ addPropertyLine(generalGroup, inflater, node, R.string.metadata_prop_creator, PropertyIds.CREATED_BY,
                 null, false);
         /*
         createAspectPanel(inflater, grouprootview, node, ContentModel.ASPECT_GEOGRAPHIC);

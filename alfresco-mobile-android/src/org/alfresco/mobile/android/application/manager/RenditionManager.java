@@ -54,7 +54,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
 
 /**
  * Utility class for downloading content and display it.
@@ -722,6 +721,7 @@ public class RenditionManager
     // //////////////////////////////////////////////////////////////////////////////////////////
     // UTILS
     // //////////////////////////////////////////////////////////////////////////////////////////
+    /*
     private void addShadow(ImageView imageView, Bitmap bitmap)
     {
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
@@ -731,7 +731,7 @@ public class RenditionManager
         params.height = bitmap.getHeight();
         imageView.setLayoutParams(params);
     }
-
+    */
     public boolean hasSameSession(AlfrescoSession alfrescoSession)
     {
         if (alfrescoSession == null || session == null){

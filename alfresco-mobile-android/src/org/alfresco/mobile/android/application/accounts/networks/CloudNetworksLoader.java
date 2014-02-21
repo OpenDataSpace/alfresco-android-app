@@ -47,6 +47,7 @@ public class CloudNetworksLoader extends AbstractBaseLoader<LoaderResult<List<Cl
         this.cloudSession = session;
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     public LoaderResult<List<CloudNetwork>> loadInBackground()
     {

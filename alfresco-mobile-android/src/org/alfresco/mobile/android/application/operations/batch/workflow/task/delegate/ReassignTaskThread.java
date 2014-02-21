@@ -17,9 +17,6 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.workflow.task.delegate;
 
-import java.io.Serializable;
-import java.util.Map;
-
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.Person;
 import org.alfresco.mobile.android.api.model.Task;
@@ -38,7 +35,7 @@ public class ReassignTaskThread extends TaskOperationThread<Task>
 
     private Task updatedTask = null;
 
-    private Map<String, Serializable> properties;
+    //private Map<String, Serializable> properties;
 
     private Person assignee;
 

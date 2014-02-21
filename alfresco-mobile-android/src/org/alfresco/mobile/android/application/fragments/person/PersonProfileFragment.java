@@ -61,7 +61,7 @@ import android.widget.TextView;
  * @author jm.pascal
  */
 public class PersonProfileFragment extends BaseFragment implements LoaderCallbacks<LoaderResult<Person>>,
-        OnMenuItemClickListener
+OnMenuItemClickListener
 {
     public static final String TAG = PersonProfileFragment.class.getName();
 
@@ -218,76 +218,76 @@ public class PersonProfileFragment extends BaseFragment implements LoaderCallbac
 
     private static final int MODE_CALL = 2;
 
-    private static final int MODE_LOCATION = 4;
+    //private static final int MODE_LOCATION = 4;
 
     private void getMenu(Menu menu, int mode)
     {
         MenuItem mi = null;
         switch (mode)
         {
-            case MODE_CALL:
-                if (person.getTelephoneNumber() != null && !person.getTelephoneNumber().isEmpty())
-                {
-                    mi = menu.add(Menu.NONE, MenuActionItem.MENU_TEL, Menu.FIRST + MenuActionItem.MENU_TEL,
-                            person.getTelephoneNumber());
-                    mi.setIcon(R.drawable.ic_call);
-                    mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-                }
-
-                if (person.getMobileNumber() != null && !person.getMobileNumber().isEmpty())
-                {
-                    mi = menu.add(Menu.NONE, MenuActionItem.MENU_MOBILE, Menu.FIRST + MenuActionItem.MENU_MOBILE,
-                            person.getMobileNumber());
-                    mi.setIcon(R.drawable.ic_call);
-                    mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-                }
-
-                if (person.getCompany() != null && person.getCompany().getTelephoneNumber() != null
-                        && !person.getCompany().getTelephoneNumber().isEmpty())
-                {
-                    mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMPANY_TEL, Menu.FIRST
-                            + MenuActionItem.MENU_COMPANY_TEL, person.getCompany().getTelephoneNumber());
-                    mi.setIcon(R.drawable.ic_call);
-                    mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-                }
-                break;
-            case MODE_SKYPE:
-                mi = menu.add(Menu.NONE, MenuActionItem.MENU_CHAT, Menu.FIRST + MenuActionItem.MENU_CHAT,
-                        R.string.start_chat);
-                mi.setIcon(R.drawable.ic_im);
-                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
-                mi = menu.add(Menu.NONE, MenuActionItem.MENU_CALL, Menu.FIRST + MenuActionItem.MENU_CALL,
-                        R.string.start_call);
+        case MODE_CALL:
+            if (person.getTelephoneNumber() != null && !person.getTelephoneNumber().isEmpty())
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_TEL, Menu.FIRST + MenuActionItem.MENU_TEL,
+                        person.getTelephoneNumber());
                 mi.setIcon(R.drawable.ic_call);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            }
 
-                mi = menu.add(Menu.NONE, MenuActionItem.MENU_VIDEOCALL, Menu.FIRST + MenuActionItem.MENU_VIDEOCALL,
-                        R.string.start_video_call);
-                mi.setIcon(R.drawable.ic_videocall);
+            if (person.getMobileNumber() != null && !person.getMobileNumber().isEmpty())
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_MOBILE, Menu.FIRST + MenuActionItem.MENU_MOBILE,
+                        person.getMobileNumber());
+                mi.setIcon(R.drawable.ic_call);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-                break;
-            case MODE_EMAIL:
-                if (person.getEmail() != null && !person.getEmail().isEmpty())
-                {
-                    mi = menu.add(Menu.NONE, MenuActionItem.MENU_EMAIL, Menu.FIRST + MenuActionItem.MENU_EMAIL,
-                            person.getEmail());
-                    mi.setIcon(R.drawable.ic_send_mail);
-                    mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-                }
+            }
 
-                if (person.getCompany() != null && person.getCompany().getEmail() != null
-                        && !person.getCompany().getEmail().isEmpty())
-                {
-                    mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMPANY_EMAIL, Menu.FIRST
-                            + MenuActionItem.MENU_COMPANY_EMAIL, person.getCompany().getEmail());
-                    mi.setIcon(R.drawable.ic_send_mail);
-                    mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-                }
-                break;
+            if (person.getCompany() != null && person.getCompany().getTelephoneNumber() != null
+                    && !person.getCompany().getTelephoneNumber().isEmpty())
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMPANY_TEL, Menu.FIRST
+                        + MenuActionItem.MENU_COMPANY_TEL, person.getCompany().getTelephoneNumber());
+                mi.setIcon(R.drawable.ic_call);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            }
+            break;
+        case MODE_SKYPE:
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_CHAT, Menu.FIRST + MenuActionItem.MENU_CHAT,
+                    R.string.start_chat);
+            mi.setIcon(R.drawable.ic_im);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
-            default:
-                break;
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_CALL, Menu.FIRST + MenuActionItem.MENU_CALL,
+                    R.string.start_call);
+            mi.setIcon(R.drawable.ic_call);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_VIDEOCALL, Menu.FIRST + MenuActionItem.MENU_VIDEOCALL,
+                    R.string.start_video_call);
+            mi.setIcon(R.drawable.ic_videocall);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            break;
+        case MODE_EMAIL:
+            if (person.getEmail() != null && !person.getEmail().isEmpty())
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_EMAIL, Menu.FIRST + MenuActionItem.MENU_EMAIL,
+                        person.getEmail());
+                mi.setIcon(R.drawable.ic_send_mail);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            }
+
+            if (person.getCompany() != null && person.getCompany().getEmail() != null
+                    && !person.getCompany().getEmail().isEmpty())
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMPANY_EMAIL, Menu.FIRST
+                        + MenuActionItem.MENU_COMPANY_EMAIL, person.getCompany().getEmail());
+                mi.setIcon(R.drawable.ic_send_mail);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            }
+            break;
+
+        default:
+            break;
         }
 
     }
@@ -298,41 +298,41 @@ public class PersonProfileFragment extends BaseFragment implements LoaderCallbac
         boolean onMenuItemClick = true;
         switch (item.getItemId())
         {
-            case MenuActionItem.MENU_CHAT:
-                onMenuItemClick = true;
-                actionSkype(getActivity(), ACTION_CHAT, person.getSkypeId());
-                break;
-            case MenuActionItem.MENU_CALL:
-                actionSkype(getActivity(), ACTION_CALL, person.getSkypeId());
-                onMenuItemClick = true;
-                break;
-            case MenuActionItem.MENU_VIDEOCALL:
-                actionSkype(getActivity(), ACTION_VIDEO_CALL, person.getSkypeId());
-                onMenuItemClick = true;
-                break;
-            case MenuActionItem.MENU_EMAIL:
-                actionEmail(getActivity(), person.getEmail(), null, null);
-                onMenuItemClick = true;
-                break;
-            case MenuActionItem.MENU_COMPANY_EMAIL:
-                actionEmail(getActivity(), person.getCompany().getEmail(), null, null);
-                onMenuItemClick = true;
-                break;
-            case MenuActionItem.MENU_COMPANY_TEL:
-                actionCall(getActivity(), person.getCompany().getTelephoneNumber());
-                onMenuItemClick = true;
-                break;
-            case MenuActionItem.MENU_TEL:
-                actionCall(getActivity(), person.getTelephoneNumber());
-                onMenuItemClick = true;
-                break;
-            case MenuActionItem.MENU_MOBILE:
-                actionCall(getActivity(), person.getMobileNumber());
-                onMenuItemClick = true;
-                break;
-            default:
-                onMenuItemClick = false;
-                break;
+        case MenuActionItem.MENU_CHAT:
+            onMenuItemClick = true;
+            actionSkype(getActivity(), ACTION_CHAT, person.getSkypeId());
+            break;
+        case MenuActionItem.MENU_CALL:
+            actionSkype(getActivity(), ACTION_CALL, person.getSkypeId());
+            onMenuItemClick = true;
+            break;
+        case MenuActionItem.MENU_VIDEOCALL:
+            actionSkype(getActivity(), ACTION_VIDEO_CALL, person.getSkypeId());
+            onMenuItemClick = true;
+            break;
+        case MenuActionItem.MENU_EMAIL:
+            actionEmail(getActivity(), person.getEmail(), null, null);
+            onMenuItemClick = true;
+            break;
+        case MenuActionItem.MENU_COMPANY_EMAIL:
+            actionEmail(getActivity(), person.getCompany().getEmail(), null, null);
+            onMenuItemClick = true;
+            break;
+        case MenuActionItem.MENU_COMPANY_TEL:
+            actionCall(getActivity(), person.getCompany().getTelephoneNumber());
+            onMenuItemClick = true;
+            break;
+        case MenuActionItem.MENU_TEL:
+            actionCall(getActivity(), person.getTelephoneNumber());
+            onMenuItemClick = true;
+            break;
+        case MenuActionItem.MENU_MOBILE:
+            actionCall(getActivity(), person.getMobileNumber());
+            onMenuItemClick = true;
+            break;
+        default:
+            onMenuItemClick = false;
+            break;
         }
         return onMenuItemClick;
     }
@@ -658,8 +658,14 @@ public class PersonProfileFragment extends BaseFragment implements LoaderCallbac
 
     public static void actionEmail(Activity a, String email, String subject, String content)
     {
-        if (subject == null) subject = "";
-        if (content == null) content = "";
+        if (subject == null)
+        {
+            subject = "";
+        }
+        if (content == null)
+        {
+            content = "";
+        }
 
         final Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND);
         emailIntent.setType("plain/text");
@@ -739,17 +745,17 @@ public class PersonProfileFragment extends BaseFragment implements LoaderCallbac
         String mySkypeUri = "skype:";
         switch (skypeAction)
         {
-            case ACTION_CALL:
-                mySkypeUri += personId + "?call";
-                break;
-            case ACTION_CHAT:
-                mySkypeUri += personId + "?chat";
-                break;
-            case ACTION_VIDEO_CALL:
-                mySkypeUri += personId + "?call&video=true";
-                break;
-            default:
-                break;
+        case ACTION_CALL:
+            mySkypeUri += personId + "?call";
+            break;
+        case ACTION_CHAT:
+            mySkypeUri += personId + "?chat";
+            break;
+        case ACTION_VIDEO_CALL:
+            mySkypeUri += personId + "?call&video=true";
+            break;
+        default:
+            break;
         }
 
         // Create the Intent from our Skype URI

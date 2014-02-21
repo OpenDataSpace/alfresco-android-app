@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -111,6 +111,7 @@ public final class NotificationHelper
         return NotificationHelper.createNotification(c, notificationId, b);
     }
 
+    @SuppressWarnings("deprecation")
     public static int createNotification(Context c, int notificationId, Bundle params)
     {
         Notification notification = null;
@@ -144,20 +145,20 @@ public final class NotificationHelper
         PendingIntent pIntent = null;
         switch (notificationId)
         {
-            case SYNC_NOTIFICATION_ID:
-                i = new Intent(IntentIntegrator.ACTION_SYNCHRO_DISPLAY);
-                pIntent = PendingIntent.getActivity(c, 0, i, Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                break;
+        case SYNC_NOTIFICATION_ID:
+            i = new Intent(IntentIntegrator.ACTION_SYNCHRO_DISPLAY);
+            pIntent = PendingIntent.getActivity(c, 0, i, Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            break;
 
-            default:
-                i = new Intent(IntentIntegrator.ACTION_DISPLAY_OPERATIONS);
-                i.putExtra(IntentIntegrator.EXTRA_OPERATIONS_TYPE, notificationId);
-                if (SessionUtils.getAccount(c) != null)
-                {
-                    i.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, SessionUtils.getAccount(c).getId());
-                }
-                pIntent = PendingIntent.getActivity(c, 0, i, 0);
-                break;
+        default:
+            i = new Intent(IntentIntegrator.ACTION_DISPLAY_OPERATIONS);
+            i.putExtra(IntentIntegrator.EXTRA_OPERATIONS_TYPE, notificationId);
+            if (SessionUtils.getAccount(c) != null)
+            {
+                i.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, SessionUtils.getAccount(c).getId());
+            }
+            pIntent = PendingIntent.getActivity(c, 0, i, 0);
+            break;
         }
         builder.setContentIntent(pIntent);
 
