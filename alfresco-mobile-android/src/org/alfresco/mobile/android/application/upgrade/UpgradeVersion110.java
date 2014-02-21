@@ -22,17 +22,17 @@ import java.io.File;
 import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
 import android.os.Environment;
-import android.util.Log;
 
 public final class UpgradeVersion110
 {
 
     private UpgradeVersion110(){
     }
-    
+
     private static final String TAG = UpgradeVersion110.class.getName();
 
     public static void transferFilesBackground(final String sourceFolder, final String destFolder,
@@ -88,7 +88,7 @@ public final class UpgradeVersion110
 
                     if (!result)
                     {
-                        Log.e(TAG, "File copy failed for " + sourceFile.getName());
+                        OdsLog.e(TAG, "File copy failed for " + sourceFile.getName());
                         break;
                     }
 
@@ -103,8 +103,8 @@ public final class UpgradeVersion110
         }
         catch (Exception e)
         {
-            Log.e("Alfresco", "Error during file transfer: " + e.getMessage());
-            Log.d(TAG, Log.getStackTraceString(e));
+            OdsLog.e("Alfresco", "Error during file transfer: " + e.getMessage());
+            OdsLog.exw(TAG, e);
 
             return false;
         }
@@ -128,8 +128,8 @@ public final class UpgradeVersion110
                     .createFolder(
                             folder,
                             context.getResources()
-                                    .getText(
-                                            context.getPackageManager().getPackageInfo(context.getPackageName(), 0).applicationInfo.labelRes)
+                            .getText(
+                                    context.getPackageManager().getPackageInfo(context.getPackageName(), 0).applicationInfo.labelRes)
                                     .toString());
         }
         catch (Exception e)

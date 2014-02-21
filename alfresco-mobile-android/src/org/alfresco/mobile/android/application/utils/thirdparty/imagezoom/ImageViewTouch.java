@@ -1,12 +1,13 @@
 package org.alfresco.mobile.android.application.utils.thirdparty.imagezoom;
 
+import org.opendataspace.android.ui.logging.OdsLog;
+
 import android.content.Context;
 import android.graphics.Matrix;
 import android.graphics.Rect;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.view.GestureDetector;
 import android.view.GestureDetector.OnGestureListener;
 import android.view.MotionEvent;
@@ -114,7 +115,7 @@ public class ImageViewTouch extends ImageViewTouchBase {
 	protected void onZoomAnimationCompleted( float scale ) {
 
 		if( LOG_ENABLED ) {
-			Log.d( LOG_TAG, "onZoomAnimationCompleted. scale: " + scale + ", minZoom: " + getMinScale() );
+			OdsLog.d(LOG_TAG, "onZoomAnimationCompleted. scale: " + scale + ", minZoom: " + getMinScale());
 		}
 
 		if ( scale < getMinScale() ) {
@@ -219,7 +220,7 @@ public class ImageViewTouch extends ImageViewTouchBase {
 
 		@Override
 		public boolean onDoubleTap( MotionEvent e ) {
-			Log.i( LOG_TAG, "onDoubleTap. double tap enabled? " + mDoubleTapEnabled );
+			OdsLog.i(LOG_TAG, "onDoubleTap. double tap enabled? " + mDoubleTapEnabled);
 			if ( mDoubleTapEnabled ) {
 				mUserScaled = true;
 				float scale = getScale();

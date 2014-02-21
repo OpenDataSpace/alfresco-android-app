@@ -32,12 +32,12 @@ import org.alfresco.mobile.android.application.operations.batch.node.AbstractUpT
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.alfresco.mobile.android.application.security.EncryptionUtils;
 import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 public class CreateDocumentThread extends AbstractUpThread
 {
@@ -134,7 +134,7 @@ public class CreateDocumentThread extends AbstractUpThread
         }
         catch (Exception e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
             result.setException(e);
         }
 

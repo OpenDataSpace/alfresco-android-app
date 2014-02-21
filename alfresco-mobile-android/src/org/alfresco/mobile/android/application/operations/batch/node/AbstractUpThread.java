@@ -11,9 +11,9 @@ import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBat
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
 import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
 import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl.ReaderListener;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
-import android.util.Log;
 
 public abstract class AbstractUpThread extends AbstractBatchOperationThread<Document> implements ReaderListener
 {
@@ -33,7 +33,7 @@ public abstract class AbstractUpThread extends AbstractBatchOperationThread<Docu
     private int segment = 0;
 
     private long totalLength = 0;
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     // ///////////////////////////////////////////////////////////////////////////
@@ -61,14 +61,14 @@ public abstract class AbstractUpThread extends AbstractBatchOperationThread<Docu
         try
         {
             super.doInBackground();
-            
+
             if (contentFile instanceof ContentFileProgressImpl)
             {
                 ((ContentFileProgressImpl) contentFile).setReaderListener(this);
             }
 
             parentFolder = retrieveParentFolder();
-            
+
             if (listener != null)
             {
                 listener.onPreExecute(this);
@@ -76,7 +76,7 @@ public abstract class AbstractUpThread extends AbstractBatchOperationThread<Docu
         }
         catch (Exception e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
         return new LoaderResult<Document>();
     }
@@ -116,40 +116,40 @@ public abstract class AbstractUpThread extends AbstractBatchOperationThread<Docu
             segment = 2;
         }
         else
-        // 500kb
-        if (totalLength < 512000)
-        {
-            segment = 3;
-        }
-        else if (totalLength < 1048576)
-        {
-            // 1MB
-            segment = 4;
-        }
-        else if (totalLength < 5242880)
-        {
-            // 5MB
-            segment = 10;
-        }
-        else if (totalLength < 10485760)
-        {
-            // 10MB
-            segment = 15;
-        }
-        else if (totalLength < 20971520)
-        {
-            // 20MB
-            segment = 20;
-        }
-        else if (totalLength < 52428800)
-        {
-            // 50MB
-            segment = 25;
-        }
-        else
-        {
-            segment = Math.round(totalLength / 1048576);
-        }
+            // 500kb
+            if (totalLength < 512000)
+            {
+                segment = 3;
+            }
+            else if (totalLength < 1048576)
+            {
+                // 1MB
+                segment = 4;
+            }
+            else if (totalLength < 5242880)
+            {
+                // 5MB
+                segment = 10;
+            }
+            else if (totalLength < 10485760)
+            {
+                // 10MB
+                segment = 15;
+            }
+            else if (totalLength < 20971520)
+            {
+                // 20MB
+                segment = 20;
+            }
+            else if (totalLength < 52428800)
+            {
+                // 50MB
+                segment = 25;
+            }
+            else
+            {
+                segment = Math.round(totalLength / 1048576);
+            }
 
         return segment;
     }
@@ -176,7 +176,7 @@ public abstract class AbstractUpThread extends AbstractBatchOperationThread<Docu
     {
         return contentFile;
     }
-    
+
     public String getDocumentName()
     {
         return documentName;
@@ -186,7 +186,7 @@ public abstract class AbstractUpThread extends AbstractBatchOperationThread<Docu
     {
         return parentFolder;
     }
-    
+
     public boolean hasCancelled()
     {
         return hasCancelled;

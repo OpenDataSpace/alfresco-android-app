@@ -27,13 +27,13 @@ import org.alfresco.mobile.android.application.fragments.browser.AddContentDialo
 import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerFragment;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 
 public abstract class DeviceCapture implements Serializable
 {
@@ -157,7 +157,7 @@ public abstract class DeviceCapture implements Serializable
         }
         catch (Throwable e)
         {
-            Log.w(DeviceCapture.class.getName(), Log.getStackTraceString(e));
+            OdsLog.exw(DeviceCapture.class.getName(), e);
         }
     }
 

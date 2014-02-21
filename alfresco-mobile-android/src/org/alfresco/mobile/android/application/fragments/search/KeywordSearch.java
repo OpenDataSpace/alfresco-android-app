@@ -29,6 +29,7 @@ import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.Site;
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -42,7 +43,6 @@ import org.apache.chemistry.opencmis.commons.PropertyIds;
 import android.content.Loader;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -275,7 +275,7 @@ public class KeywordSearch extends GridSearchFragment
         }
         else
         {
-            Log.d(TAG, "Result : " + results.getData().getTotalItems());
+            OdsLog.d(TAG, "Result : " + results.getData().getTotalItems());
             displayPagingData(results.getData(), loaderId, callback);
         }
     }

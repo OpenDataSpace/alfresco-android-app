@@ -27,6 +27,7 @@ import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.Task;
 import org.alfresco.mobile.android.api.services.WorkflowService;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -46,7 +47,6 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -282,7 +282,7 @@ public class TasksFragment extends BaseListFragment implements LoaderCallbacks<L
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            Log.d(TAG, intent.getAction());
+            OdsLog.d(TAG, intent.getAction());
 
             if (getActivity() == null) { return; }
 

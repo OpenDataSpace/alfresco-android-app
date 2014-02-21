@@ -26,6 +26,7 @@ import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.ProcessDefinition;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
@@ -44,7 +45,6 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.os.Parcelable;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -277,7 +277,7 @@ public class CreateTaskTypePickerFragment extends BaseFragment implements
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            Log.d(TAG, intent.getAction());
+            OdsLog.d(TAG, intent.getAction());
 
             if (getActivity() == null) { return; }
 

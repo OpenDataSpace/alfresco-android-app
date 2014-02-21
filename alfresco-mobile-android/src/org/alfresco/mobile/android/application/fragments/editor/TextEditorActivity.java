@@ -28,6 +28,7 @@ import java.util.Locale;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
 import org.alfresco.mobile.android.application.manager.ActionManager;
@@ -45,7 +46,6 @@ import android.speech.RecognizerIntent;
 import android.text.Editable;
 import android.text.Html;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.Menu;
@@ -187,20 +187,20 @@ public class TextEditorActivity extends BaseActivity implements LoaderCallbacks<
 
         switch (requestCode)
         {
-            case RESULT_SPEECH:
+        case RESULT_SPEECH:
+        {
+            if (resultCode == RESULT_OK && data != null)
             {
-                if (resultCode == RESULT_OK && data != null)
-                {
-                    ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
-                    int start = tview.getSelectionStart();
-                    int end = tview.getSelectionEnd();
-                    ((Editable) tview.getText()).replace(Math.min(start, end), Math.max(start, end), text.get(0), 0,
-                            text.get(0).length());
-                }
-                break;
+                ArrayList<String> text = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+                int start = tview.getSelectionStart();
+                int end = tview.getSelectionEnd();
+                ((Editable) tview.getText()).replace(Math.min(start, end), Math.max(start, end), text.get(0), 0,
+                        text.get(0).length());
             }
-            default:
-                break;
+            break;
+        }
+        default:
+            break;
         }
     }
 
@@ -242,34 +242,34 @@ public class TextEditorActivity extends BaseActivity implements LoaderCallbacks<
     {
         switch (item.getItemId())
         {
-            case MenuActionItem.MENU_SAVE:
-                save(false);
-                return true;
-            case MenuActionItem.MENU_ENCODING:
-                displayEncoding();
-                return true;
-            case MenuActionItem.MENU_FONT_SIZE:
-                displayFontSize();
-                return true;
-            case MenuActionItem.MENU_SPEECH:
-                speechToText();
-                return true;
-            case android.R.id.home:
-                if (file != null)
+        case MenuActionItem.MENU_SAVE:
+            save(false);
+            return true;
+        case MenuActionItem.MENU_ENCODING:
+            displayEncoding();
+            return true;
+        case MenuActionItem.MENU_FONT_SIZE:
+            displayFontSize();
+            return true;
+        case MenuActionItem.MENU_SPEECH:
+            speechToText();
+            return true;
+        case android.R.id.home:
+            if (file != null)
+            {
+                if (hasChanged())
                 {
-                    if (hasChanged())
-                    {
-                        // Request to save before quit
-                        requestSave();
-                    }
-                    else
-                    {
-                        finish();
-                    }
+                    // Request to save before quit
+                    requestSave();
                 }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+                else
+                {
+                    finish();
+                }
+            }
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
         }
     }
 
@@ -399,7 +399,7 @@ public class TextEditorActivity extends BaseActivity implements LoaderCallbacks<
         }
         catch (Exception e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
         finally
         {
@@ -411,7 +411,7 @@ public class TextEditorActivity extends BaseActivity implements LoaderCallbacks<
                 }
                 catch (IOException e)
                 {
-                    Log.w(TAG, Log.getStackTraceString(e));
+                    OdsLog.exw(TAG, e);
                 }
             }
         }

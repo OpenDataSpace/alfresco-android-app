@@ -45,6 +45,7 @@ import org.alfresco.mobile.android.application.operations.batch.node.update.Upda
 import org.alfresco.mobile.android.application.operations.batch.sync.CleanSyncFavoriteRequest;
 import org.alfresco.mobile.android.application.operations.batch.sync.SyncFavoriteRequest;
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -54,7 +55,6 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.net.ConnectivityManager;
 import android.net.Uri;
-import android.util.Log;
 
 public class BatchOperationManager extends OperationManager
 {
@@ -198,7 +198,7 @@ public class BatchOperationManager extends OperationManager
             }
             else
             {
-                Log.d(TAG, "Unable to retry for" + ids[i]);
+                OdsLog.d(TAG, "Unable to retry for" + ids[i]);
             }
         }
 
@@ -408,7 +408,7 @@ public class BatchOperationManager extends OperationManager
                     request = currentGroup.index.remove(operationId);
                 }
 
-                Log.d(TAG, "PAUSED : " + getNotificationUri(request));
+                OdsLog.d(TAG, "PAUSED : " + getNotificationUri(request));
                 context.getContentResolver().update(getNotificationUri(request),
                         ((AbstractBatchOperationRequestImpl) request).createContentValues(Operation.STATUS_PAUSED),
                         null, null);

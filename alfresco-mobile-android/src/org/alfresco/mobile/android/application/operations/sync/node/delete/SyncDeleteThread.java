@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,12 +33,12 @@ import org.alfresco.mobile.android.application.operations.sync.node.SyncNodeOper
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 public class SyncDeleteThread extends SyncNodeOperationThread<Void>
 {
@@ -95,7 +95,7 @@ public class SyncDeleteThread extends SyncNodeOperationThread<Void>
                         {
                             // Unfavorite operation
                             // Request to update
-                            Log.d(TAG, "Unfavorited");
+                            OdsLog.d(TAG, "Unfavorited");
                             requestUserInteraction(request.getNotificationUri(), SyncOperation.REASON_NODE_UNFAVORITED);
                         }
                         else
@@ -124,7 +124,7 @@ public class SyncDeleteThread extends SyncNodeOperationThread<Void>
         }
         catch (Exception e)
         {
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
             if (result == null)
             {
                 result = new LoaderResult<Void>();

@@ -20,6 +20,7 @@ package org.alfresco.mobile.android.application.accounts.signup;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountDetailsFragment;
@@ -35,7 +36,6 @@ import android.content.DialogInterface;
 import android.content.DialogInterface.OnCancelListener;
 import android.content.Loader;
 import android.os.Bundle;
-import android.util.Log;
 
 public class CloudSignupLoaderCallback implements LoaderCallbacks<LoaderResult<CloudSignupRequest>>
 {
@@ -126,7 +126,7 @@ public class CloudSignupLoaderCallback implements LoaderCallbacks<LoaderResult<C
             }
 
             mProgressDialog.dismiss();
-            Log.e(TAG, Log.getStackTraceString(results.getException()));
+            OdsLog.ex(TAG, results.getException());
             Bundle b = new Bundle();
             b.putInt(SimpleAlertDialogFragment.PARAM_TITLE, R.string.cloud_signup_error_email_title);
             b.putInt(SimpleAlertDialogFragment.PARAM_MESSAGE, errorMessageId);

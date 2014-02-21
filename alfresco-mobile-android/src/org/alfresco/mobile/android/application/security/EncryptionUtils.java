@@ -47,12 +47,12 @@ import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
 import org.alfresco.mobile.android.application.operations.sync.SynchroProvider;
 import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
-import android.util.Log;
 
 public class EncryptionUtils
 {
@@ -104,7 +104,7 @@ public class EncryptionUtils
         }
         catch (NoSuchAlgorithmException e)
         {
-            Log.d(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
 
         if (sourceFile != null)
@@ -171,12 +171,12 @@ public class EncryptionUtils
                         // Rename decrypted file to original name.
                         if (!(ret = dest.renameTo(source)))
                         {
-                            Log.e(TAG, "Cannot rename decrypted file " + dest.getName());
+                            OdsLog.e(TAG, "Cannot rename decrypted file " + dest.getName());
                         }
                     }
                     else
                     {
-                        Log.e(TAG, "Cannot delete original file " + source.getName());
+                        OdsLog.e(TAG, "Cannot delete original file " + source.getName());
                         dest.delete();
                         ret = false;
                     }
@@ -184,7 +184,7 @@ public class EncryptionUtils
             }
             else
             {
-                Log.w(TAG, "File is already decrypted: " + filename);
+                OdsLog.w(TAG, "File is already decrypted: " + filename);
                 return true;
             }
         }
@@ -244,15 +244,15 @@ public class EncryptionUtils
                     {
                         if (filesDecrypted != null)
                         {
-                            Log.e(TAG, "Folder decryption failed for " + sourceFile.getName());
+                            OdsLog.e(TAG, "Folder decryption failed for " + sourceFile.getName());
 
                             // Remove the decrypted versions done so far.
-                            Log.d(TAG, "Decryption rollback in progress...");
+                            OdsLog.d(TAG, "Decryption rollback in progress...");
                             for (int j = 0; j < filesDecrypted.size(); j++)
                             {
                                 if (new File(filesDecrypted.get(j) + DECRYPTION_EXTENSION).delete())
                                 {
-                                    Log.w(TAG, "Deleted decrypted version of " + filesDecrypted.get(j));
+                                    OdsLog.w(TAG, "Deleted decrypted version of " + filesDecrypted.get(j));
                                 }
                             }
                             filesDecrypted.clear();
@@ -291,7 +291,7 @@ public class EncryptionUtils
                             // Delete the original decrypted temp file.
                             if (!tempSrc.delete())
                             {
-                                Log.w(TAG, "Could not delete original file " + tempSrc.getPath());
+                                OdsLog.w(TAG, "Could not delete original file " + tempSrc.getPath());
                             }
 
                             // If the file lives in Sync folder
@@ -303,7 +303,7 @@ public class EncryptionUtils
                                             SynchroProvider.CONTENT_URI,
                                             SynchroSchema.COLUMN_ALL,
                                             SynchroSchema.COLUMN_LOCAL_URI + " LIKE '" + Uri.fromFile(src).toString()
-                                                    + "%'", null, null);
+                                            + "%'", null, null);
 
                                     if (favoriteCursor.getCount() == 1 && favoriteCursor.moveToFirst())
                                     {
@@ -348,7 +348,7 @@ public class EncryptionUtils
         }
         catch (Exception e)
         {
-            Log.d(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
             return false;
         }
     }
@@ -371,7 +371,7 @@ public class EncryptionUtils
      */
     public static boolean encryptFile(Context ctxt, String filename, String newFilename, boolean nuke)
             throws AlfrescoAppException
-    {
+            {
         boolean ret = true;
         OutputStream destStream = null;
         InputStream sourceStream = null;
@@ -390,7 +390,7 @@ public class EncryptionUtils
                 int nBytes = 0;
                 byte buffer[] = new byte[MAX_BUFFER_SIZE];
 
-                Log.i(TAG, "Encrypting file " + filename);
+                OdsLog.i(TAG, "Encrypting file " + filename);
 
                 while (size - copied > 0)
                 {
@@ -425,12 +425,12 @@ public class EncryptionUtils
                         // Rename encrypted file to original name.
                         if (!(ret = dest.renameTo(source)))
                         {
-                            Log.e(TAG, "Cannot rename encrypted file " + dest.getName());
+                            OdsLog.e(TAG, "Cannot rename encrypted file " + dest.getName());
                         }
                     }
                     else
                     {
-                        Log.e(TAG, "Cannot delete original file " + source.getName());
+                        OdsLog.e(TAG, "Cannot delete original file " + source.getName());
 
                         dest.delete();
                         ret = false;
@@ -441,7 +441,7 @@ public class EncryptionUtils
             }
             else
             {
-                Log.w(TAG, "File is already encrypted: " + filename);
+                OdsLog.w(TAG, "File is already encrypted: " + filename);
                 return true;
             }
         }
@@ -451,7 +451,7 @@ public class EncryptionUtils
             IOUtils.closeStream(destStream);
             throw new AlfrescoAppException(-1, e);
         }
-    }
+            }
 
     /*
      * Encrypt an entire folder, recursively if required. Rollback is
@@ -500,15 +500,15 @@ public class EncryptionUtils
                     {
                         if (filesEncrypted != null)
                         {
-                            Log.e(TAG, "Folder encryption failed for " + sourceFile.getName());
+                            OdsLog.e(TAG, "Folder encryption failed for " + sourceFile.getName());
 
                             // Remove the encrypted versions done so far.
-                            Log.i(TAG, "Encryption rollback in progress...");
+                            OdsLog.i(TAG, "Encryption rollback in progress...");
                             for (int j = 0; j < filesEncrypted.size(); j++)
                             {
                                 if (new File(filesEncrypted.get(j) + ENCRYPTION_EXTENSION).delete())
                                 {
-                                    Log.i(TAG, "Deleted encrypted version of " + filesEncrypted.get(j));
+                                    OdsLog.i(TAG, "Deleted encrypted version of " + filesEncrypted.get(j));
                                 }
                             }
                             filesEncrypted.clear();
@@ -544,8 +544,7 @@ public class EncryptionUtils
                             {
                                 // At least rename it out of the way with a temp
                                 // extension, and nuke its content.
-                                Log.w(TAG,
-                                        "Could not delete original file. Nuking and renaming it " + tempSrc.getPath());
+                                OdsLog.w(TAG, "Could not delete original file. Nuking and renaming it " + tempSrc.getPath());
                                 nukeFile(tempSrc, -1);
                             }
                         }
@@ -563,8 +562,8 @@ public class EncryptionUtils
         }
         catch (Exception e)
         {
-            Log.e(TAG, "Error during folder encryption: " + e.getMessage());
-            Log.d(TAG, Log.getStackTraceString(e));
+            OdsLog.e(TAG, "Error during folder encryption: " + e.getMessage());
+            OdsLog.exw(TAG, e);
 
             return false;
         }
@@ -608,7 +607,7 @@ public class EncryptionUtils
     }
 
     public static OutputStream wrapCipherOutputStream(OutputStream streamOut, String password) throws IOException,
-            GeneralSecurityException
+    GeneralSecurityException
     {
         PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray());
         PBEParameterSpec pbeParamSpec = new PBEParameterSpec(SALT, COUNT);
@@ -630,7 +629,7 @@ public class EncryptionUtils
     }
 
     private static InputStream wrapCipherInputStream(InputStream streamIn, String password) throws IOException,
-            GeneralSecurityException
+    GeneralSecurityException
     {
         PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray());
         PBEParameterSpec pbeParamSpec = new PBEParameterSpec(SALT, COUNT);

@@ -23,6 +23,7 @@ import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.session.OdsRepositorySession;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.AccountSchema;
@@ -58,7 +59,6 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -496,7 +496,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            Log.d(TAG, intent.getAction());
+            OdsLog.d(TAG, intent.getAction());
             if (intent.getAction() == null) { return; }
 
             if (IntentIntegrator.ACTION_SYNCHRO_COMPLETED.equals(intent.getAction()))

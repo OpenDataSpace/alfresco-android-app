@@ -6,7 +6,7 @@
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
  * 
  *  Unless required by applicable law or agreed to in writing, software
@@ -33,6 +33,7 @@ import org.alfresco.mobile.android.api.services.impl.AbstractPersonService;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.utils.IOUtils;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.utils.thirdparty.imagezoom.ImageViewTouch;
 import org.alfresco.mobile.android.ui.utils.thirdparty.DiskLruCache;
@@ -49,7 +50,6 @@ import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -103,25 +103,25 @@ public class RenditionManager
         final int cacheSize = 1024 * 1024 * memClass / 10;
 
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize)
-        {
+                {
             @Override
             protected int sizeOf(String key, Bitmap bitmap)
             {
                 return bitmap.getRowBytes() * bitmap.getHeight();
             }
-        };
+                };
 
-        try
-        {
-            File cacheDir = StorageManager.getCacheDir(context, DISK_CACHE_SUBDIR);
-            mDiskCache = DiskLruCache.open(cacheDir, 1, 1, DISK_CACHE_SIZE);
-            mDiskCache.delete();
-            mDiskCache = DiskLruCache.open(cacheDir, 1, 1, DISK_CACHE_SIZE);
-        }
-        catch (IOException e)
-        {
-            Log.w(TAG, e.getMessage());
-        }
+                try
+                {
+                    File cacheDir = StorageManager.getCacheDir(context, DISK_CACHE_SUBDIR);
+                    mDiskCache = DiskLruCache.open(cacheDir, 1, 1, DISK_CACHE_SIZE);
+                    mDiskCache.delete();
+                    mDiskCache = DiskLruCache.open(cacheDir, 1, 1, DISK_CACHE_SIZE);
+                }
+                catch (IOException e)
+                {
+                    OdsLog.w(TAG, e.getMessage());
+                }
     }
 
     public void addBitmapToMemoryCache(String key, Bitmap bitmap)
@@ -152,7 +152,7 @@ public class RenditionManager
         }
         catch (Exception e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
     }
 
@@ -191,7 +191,7 @@ public class RenditionManager
         }
         catch (IOException e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
         return null;
     }
@@ -217,7 +217,7 @@ public class RenditionManager
         }
         catch (IOException e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
     }
 
@@ -366,7 +366,7 @@ public class RenditionManager
         }
         catch (Exception e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
         finally
         {
@@ -407,7 +407,7 @@ public class RenditionManager
         }
         catch (Exception e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
         finally
         {
@@ -432,7 +432,7 @@ public class RenditionManager
         }
         catch (Exception e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
         finally
         {
@@ -604,7 +604,7 @@ public class RenditionManager
             }
             catch (Exception e)
             {
-                Log.d(TAG, Log.getStackTraceString(e));
+                OdsLog.exw(TAG, e);
             }
         }
 

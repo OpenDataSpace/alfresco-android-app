@@ -21,6 +21,7 @@ import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
@@ -39,7 +40,6 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 /**
  * Responsible to manage accounts.
@@ -125,7 +125,7 @@ public final class AccountManager
         // Default account to load
         SharedPreferences settings = appContext.getSharedPreferences(AccountsPreferences.ACCOUNT_PREFS, 0);
         long id = settings.getLong(AccountsPreferences.ACCOUNT_DEFAULT, -1);
-        Log.d(TAG, "Default AccountId " + id);
+        OdsLog.d(TAG, "Default AccountId " + id);
         if (id == -1)
         {
             return retrieveFirstAccount(appContext);
@@ -139,7 +139,7 @@ public final class AccountManager
     public static Account retrieveAccount(Context context, long id)
     {
         Cursor cursor = context.getContentResolver().query(getUri(id), COLUMN_ALL, null, null, null);
-        Log.d(TAG, cursor.getCount() + " ");
+        OdsLog.d(TAG, cursor.getCount() + " ");
         if (cursor.getCount() == 1)
         {
             cursor.moveToFirst();
@@ -179,7 +179,7 @@ public final class AccountManager
     public static Account retrieveFirstAccount(Context context)
     {
         Cursor cursor = context.getContentResolver().query(AccountProvider.CONTENT_URI, COLUMN_ALL, null, null, null);
-        Log.d(TAG, cursor.getCount() + " ");
+        OdsLog.d(TAG, cursor.getCount() + " ");
         if (cursor.getCount() == 0)
         {
             cursor.close();
@@ -218,7 +218,7 @@ public final class AccountManager
     // ///////////////////////////////////////////////////////////////////////////
     private void register()
     {
-        Log.d(TAG, "register()");
+        OdsLog.d(TAG, "register()");
 
         if (receiver != null)
         {
@@ -389,7 +389,7 @@ public final class AccountManager
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            Log.d(TAG, "RECEIVE : " + intent.getAction());
+            OdsLog.d(TAG, "RECEIVE : " + intent.getAction());
 
             if (IntentIntegrator.ACTION_CREATE_ACCOUNT.equals(intent.getAction()))
             {
@@ -414,7 +414,7 @@ public final class AccountManager
             if (intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
             {
                 acc = retrieveAccount(appContext, intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID));
-                Log.d(TAG, "AccountId : " + acc.getId());
+                OdsLog.d(TAG, "AccountId : " + acc.getId());
             }
 
             if (IntentIntegrator.ACTION_LOAD_ACCOUNT.equals(intent.getAction()))

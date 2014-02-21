@@ -22,6 +22,7 @@ import org.alfresco.mobile.android.api.asynchronous.SiteMembershipLoader;
 import org.alfresco.mobile.android.api.model.Site;
 import org.alfresco.mobile.android.api.model.SiteVisibility;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
@@ -29,7 +30,6 @@ import android.app.Fragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
 import android.os.Bundle;
-import android.util.Log;
 
 /**
  * Update UI after a join/leave site background action.
@@ -86,7 +86,7 @@ public class SiteMembershipLoaderCallback implements LoaderCallbacks<LoaderResul
                 messageId = R.string.action_leave_site_validation;
                 if (fragment instanceof BrowserSitesFragment
                         && BrowserSitesFragment.TAB_MY_SITES
-                                .equals(((BrowserSitesFragment) fragment).getCurrentTabId()))
+                        .equals(((BrowserSitesFragment) fragment).getCurrentTabId()))
                 {
                     ((BrowserSitesFragment) fragment).remove(site);
                 }
@@ -101,7 +101,7 @@ public class SiteMembershipLoaderCallback implements LoaderCallbacks<LoaderResul
             messageId = ((SiteMembershipLoader) loader).isJoining() ? R.string.action_join_site_error
                     : R.string.action_leave_site_error;
 
-            Log.w(TAG, Log.getStackTraceString(result.getException()));
+            OdsLog.exw(TAG, result.getException());
         }
 
         MessengerManager.showLongToast(fragment.getActivity(),

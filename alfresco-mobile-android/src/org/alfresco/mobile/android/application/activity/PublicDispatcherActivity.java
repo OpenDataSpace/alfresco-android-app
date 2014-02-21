@@ -25,6 +25,7 @@ import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.fragments.SelectFolderFragment;
 import org.opendataspace.android.app.session.OdsRepositorySession;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountOAuthFragment;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -54,7 +55,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -299,7 +299,7 @@ public class PublicDispatcherActivity extends BaseActivity
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            Log.d(TAG, intent.getAction());
+            OdsLog.d(TAG, intent.getAction());
 
             Activity activity = PublicDispatcherActivity.this;
 

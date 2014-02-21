@@ -28,10 +28,14 @@ import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.opendataspace.android.ui.logging.OdsLog;
+
 import com.squareup.okhttp.OkHttpClient;
 
 public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.NetworkHttpInvoker
 {
+
+    private static final String TAG = "NetworkHttpInvoker";
 
     private OkHttpClient httpClient;
 
@@ -76,7 +80,7 @@ public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.
                 scon.setSSLSocketFactory(sc.getSocketFactory());
                 scon.setHostnameVerifier(hostVerifier);
             } catch (final Exception ex) {
-                ex.printStackTrace();
+                OdsLog.ex(TAG, ex);;
             }
         }
 

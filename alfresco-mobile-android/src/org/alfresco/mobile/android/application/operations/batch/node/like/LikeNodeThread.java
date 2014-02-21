@@ -21,11 +21,11 @@ import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.node.NodeOperationThread;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 public class LikeNodeThread extends NodeOperationThread<Boolean>
 {
@@ -48,7 +48,7 @@ public class LikeNodeThread extends NodeOperationThread<Boolean>
         }
     }
 
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE
     // ///////////////////////////////////////////////////////////////////////////
@@ -76,7 +76,7 @@ public class LikeNodeThread extends NodeOperationThread<Boolean>
         }
         catch (Exception e)
         {
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
             result.setException(e);
         }
 

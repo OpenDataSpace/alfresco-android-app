@@ -29,12 +29,12 @@ import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSync
 import org.alfresco.mobile.android.application.operations.sync.node.SyncNodeOperationThread;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
-import android.util.Log;
 
 public class SyncDownloadThread extends SyncNodeOperationThread<ContentFile>
 {
@@ -117,7 +117,7 @@ public class SyncDownloadThread extends SyncNodeOperationThread<ContentFile>
                     persistentProperties.put(entry.getKey(), (Serializable) entry.getValue().getValue());
                 }
             }
-           
+
             // Update Sync Info
             ContentValues cValues = new ContentValues();
             cValues.put(SynchroSchema.COLUMN_LOCAL_URI, Uri.fromFile(destFile).toString());
@@ -131,7 +131,7 @@ public class SyncDownloadThread extends SyncNodeOperationThread<ContentFile>
         }
         catch (Exception e)
         {
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
             result.setException(e);
         }
         finally
@@ -212,12 +212,12 @@ public class SyncDownloadThread extends SyncNodeOperationThread<ContentFile>
         }
         catch (FileNotFoundException e)
         {
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
             copied = false;
         }
         catch (IOException e)
         {
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
             copied = false;
         }
         finally

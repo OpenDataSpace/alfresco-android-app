@@ -4,11 +4,11 @@ import java.io.File;
 import java.util.Stack;
 
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.Service;
 import android.content.Intent;
 import android.os.IBinder;
-import android.util.Log;
 
 public class DataCleanerService extends Service
 {
@@ -62,7 +62,7 @@ public class DataCleanerService extends Service
     // ////////////////////////////////////////////////////
     private void deleteShareFile(String filePath)
     {
-        Log.d(TAG, "Clean");
+        OdsLog.d(TAG, "Clean");
         if (filePath != null)
         {
             File removeFile = new File(filePath);

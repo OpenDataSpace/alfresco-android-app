@@ -19,6 +19,7 @@ package org.alfresco.mobile.android.application.accounts.fragment;
 
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
@@ -42,7 +43,6 @@ import android.content.IntentFilter;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -150,7 +150,7 @@ public class AccountOAuthFragment extends OAuthFragment
                     getActivity().getFragmentManager().popBackStack();
                 }
 
-                Log.e(TAG, Log.getStackTraceString(e));
+                OdsLog.ex(TAG, e);
                 MessengerManager.showLongToast(getActivity(), getActivity().getString(R.string.error_general));
             }
 
@@ -162,7 +162,7 @@ public class AccountOAuthFragment extends OAuthFragment
                     // Create Account + Session
                     OperationWaitingDialogFragment.newInstance(CreateAccountRequest.TYPE_ID, R.drawable.ic_cloud,
                             getString(R.string.wait_title), getString(R.string.wait_message), null, 0).show(
-                            getFragmentManager(), OperationWaitingDialogFragment.TAG);
+                                    getFragmentManager(), OperationWaitingDialogFragment.TAG);
                 }
             }
 
@@ -240,12 +240,12 @@ public class AccountOAuthFragment extends OAuthFragment
         if (getArguments().containsKey(PARAM_ACCOUNT))
         {
             ActionManager
-                    .loadAccount(getActivity(), (Account) getArguments().getSerializable(PARAM_ACCOUNT), oauthData);
+            .loadAccount(getActivity(), (Account) getArguments().getSerializable(PARAM_ACCOUNT), oauthData);
         }
         else
         {
             ActionManager.createAccount(getActivity(), (CreateAccountRequest) new CreateAccountRequest(oauthData)
-                    .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+            .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
         }
     }
 
@@ -254,7 +254,7 @@ public class AccountOAuthFragment extends OAuthFragment
         FragmentDisplayer.replaceFragment(getActivity(), newFragment,
                 DisplayUtils.getMainPaneId(getActivity()), AccountOAuthFragment.TAG, true);
     }
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // BROADCAST RECEIVER
     // ///////////////////////////////////////////////////////////////////////////
@@ -291,6 +291,6 @@ public class AccountOAuthFragment extends OAuthFragment
             }
         }
     }
-    
-    
+
+
 }

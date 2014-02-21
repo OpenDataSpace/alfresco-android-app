@@ -24,6 +24,7 @@ import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
@@ -42,7 +43,6 @@ import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 public class OAuthRefreshTokenCallback implements LoaderCallbacks<LoaderResult<OAuthData>>
 {
@@ -114,7 +114,7 @@ public class OAuthRefreshTokenCallback implements LoaderCallbacks<LoaderResult<O
             default:
                 break;
             }
-            Log.e(TAG, Log.getStackTraceString(results.getException()));
+            OdsLog.ex(TAG, results.getException());
         }
     }
 

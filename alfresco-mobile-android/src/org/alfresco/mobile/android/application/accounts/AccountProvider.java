@@ -23,6 +23,7 @@ import java.util.HashSet;
 import org.alfresco.mobile.android.application.AlfrescoContentProvider;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.alfresco.mobile.android.application.database.DatabaseManager;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -33,7 +34,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 public class AccountProvider extends ContentProvider implements AlfrescoContentProvider
 {
@@ -122,7 +122,7 @@ public class AccountProvider extends ContentProvider implements AlfrescoContentP
         }
         if (id == -1)
         {
-            Log.e(TAG, uri + " " + values);
+            OdsLog.e(TAG, uri + " " + values);
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return Uri.parse(CONTENT_URI + "/" + id);

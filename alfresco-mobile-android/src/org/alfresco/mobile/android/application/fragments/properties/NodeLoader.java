@@ -44,12 +44,12 @@ import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
 import org.alfresco.mobile.android.application.operations.sync.utils.NodeSyncPlaceHolder;
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.opendataspace.android.app.session.OdsRepositorySession;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.Activity;
 import android.database.Cursor;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 /**
  * Provides an asynchronous loader to retrieve a node (document and/or folder).
@@ -125,7 +125,7 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
             }
             catch (Exception e)
             {
-                Log.w(TAG, Log.getStackTraceString(e));
+                OdsLog.exw(TAG, e);
             }
         }
         catch (Exception e)

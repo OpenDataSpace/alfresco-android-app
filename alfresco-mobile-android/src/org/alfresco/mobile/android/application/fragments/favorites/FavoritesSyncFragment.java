@@ -25,6 +25,7 @@ import java.util.List;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.utils.NodeRefUtils;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
@@ -62,7 +63,6 @@ import android.database.Cursor;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -429,7 +429,7 @@ public class FavoritesSyncFragment extends BaseCursorListFragment implements Ref
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            Log.d(TAG, intent.getAction());
+            OdsLog.d(TAG, intent.getAction());
 
             if (intent.getAction() == null) { return; }
 

@@ -27,6 +27,7 @@ import java.io.IOException;
 
 import org.alfresco.mobile.android.api.utils.IOUtils;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.commons.data.DocumentTypeRecord;
 import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
@@ -49,7 +50,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -189,7 +189,7 @@ public class DocumentPropertiesDialogFragment extends DialogFragment
                     }
                     catch (IOException e1)
                     {
-                        Log.e(TAG, Log.getStackTraceString(e1));
+                        OdsLog.ex(TAG, e1);
                     }
                 }
 

@@ -21,12 +21,9 @@ package org.alfresco.mobile.android.application.preferences;
 import java.io.File;
 
 import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.fragments.SelectFolderFragment;
 import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.intent.PublicIntent;
 import org.alfresco.mobile.android.application.manager.StorageManager;

@@ -4,6 +4,7 @@ import org.alfresco.mobile.android.application.utils.thirdparty.imagezoom.easing
 import org.alfresco.mobile.android.application.utils.thirdparty.imagezoom.easing.Easing;
 import org.alfresco.mobile.android.application.utils.thirdparty.imagezoom.graphics.FastBitmapDrawable;
 import org.alfresco.mobile.android.application.utils.thirdparty.imagezoom.utils.IDisposable;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -14,7 +15,6 @@ import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
 import android.os.Handler;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ImageView;
 
 /**
@@ -133,7 +133,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		if ( scaleType == ScaleType.MATRIX ) {
 			super.setScaleType( scaleType );
 		} else {
-			Log.w( LOG_TAG, "Unsupported scaletype. Only MATRIX can be used" );
+			OdsLog.w(LOG_TAG, "Unsupported scaletype. Only MATRIX can be used");
 		}
 	}
 
@@ -150,7 +150,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 	public void setDisplayType( DisplayType type ) {
 		if ( type != mScaleType ) {
 			if ( LOG_ENABLED ) {
-				Log.i( LOG_TAG, "setDisplayType: " + type );
+				OdsLog.i(LOG_TAG, "setDisplayType: " + type);
 			}
 			mUserScaled = false;
 			mScaleType = type;
@@ -165,7 +165,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 
 	protected void setMinScale( float value ) {
 		if ( LOG_ENABLED ) {
-			Log.d( LOG_TAG, "setMinZoom: " + value );
+			OdsLog.d(LOG_TAG, "setMinZoom: " + value);
 		}
 
 		mMinZoom = value;
@@ -173,7 +173,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 
 	protected void setMaxScale( float value ) {
 		if ( LOG_ENABLED ) {
-			Log.d( LOG_TAG, "setMaxZoom: " + value );
+			OdsLog.d(LOG_TAG, "setMaxZoom: " + value);
 		}
 		mMaxZoom = value;
 	}
@@ -182,7 +182,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 	protected void onLayout( boolean changed, int left, int top, int right, int bottom ) {
 
 		if ( LOG_ENABLED ) {
-			Log.e( LOG_TAG, "onLayout: " + changed + ", bitmapChanged: " + mBitmapChanged + ", scaleChanged: " + mScaleTypeChanged );
+			OdsLog.e(LOG_TAG, "onLayout: " + changed + ", bitmapChanged: " + mBitmapChanged + ", scaleChanged: " + mScaleTypeChanged);
 		}
 
 		super.onLayout( changed, left, top, right, bottom );
@@ -231,18 +231,18 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 				float new_matrix_scale = getScale( mBaseMatrix );
 				
 				if( LOG_ENABLED ) {
-					Log.d( LOG_TAG, "old matrix scale: " + old_matrix_scale );
-					Log.d( LOG_TAG, "new matrix scale: " + new_matrix_scale );
-					Log.d( LOG_TAG, "old min scale: " + old_min_scale );
-					Log.d( LOG_TAG, "old scale: " + old_scale );
+					OdsLog.d(LOG_TAG, "old matrix scale: " + old_matrix_scale);
+					OdsLog.d(LOG_TAG, "new matrix scale: " + new_matrix_scale);
+					OdsLog.d(LOG_TAG, "old min scale: " + old_min_scale);
+					OdsLog.d(LOG_TAG, "old scale: " + old_scale);
 				}
 
 				// 1. bitmap changed or scaletype changed
 				if ( mBitmapChanged || mScaleTypeChanged ) {
 
 					if( LOG_ENABLED ) {
-						Log.d( LOG_TAG, "display type: " + mScaleType );
-						Log.d( LOG_TAG, "newMatrix: " + mNextMatrix );
+						OdsLog.d(LOG_TAG, "display type: " + mScaleType);
+						OdsLog.d(LOG_TAG, "newMatrix: " + mNextMatrix);
 					}
 
 					if ( mNextMatrix != null ) {
@@ -282,9 +282,9 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 					}
 					
 					if ( LOG_ENABLED ) {
-						Log.d( LOG_TAG, "old min scale: " + old_default_scale );
-						Log.d( LOG_TAG, "old scale: " + old_scale );
-						Log.d( LOG_TAG, "new scale: " + scale );
+						OdsLog.d(LOG_TAG, "old min scale: " + old_default_scale);
+						OdsLog.d(LOG_TAG, "old scale: " + old_scale);
+						OdsLog.d(LOG_TAG, "new scale: " + scale);
 					}
 					
 					
@@ -307,7 +307,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 				if ( mBitmapChanged ) mBitmapChanged = false;
 				
 				if( LOG_ENABLED ) {
-					Log.d( LOG_TAG, "new scale: " + getScale() );
+					OdsLog.d(LOG_TAG, "new scale: " + getScale());
 				}
 			}
 		} else {
@@ -332,7 +332,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 	
 	public void resetMatrix() {
 		if( LOG_ENABLED ) {
-			Log.i( LOG_TAG, "resetMatrix" );
+			OdsLog.i(LOG_TAG, "resetMatrix");
 		}
 		mSuppMatrix = new Matrix();
 		
@@ -340,7 +340,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		setImageMatrix( getImageViewMatrix() );
 
 		if( LOG_ENABLED ) {
-			Log.d( LOG_TAG, "default scale: " + scale + ", scale: " +  getScale() );
+			OdsLog.d(LOG_TAG, "default scale: " + scale + ", scale: " +  getScale());
 		}
 		
 		if ( scale != getScale() ) {
@@ -433,13 +433,13 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 	protected void _setImageDrawable( final Drawable drawable, final Matrix initial_matrix, float min_zoom, float max_zoom ) {
 
 		if ( LOG_ENABLED ) {
-			Log.i( LOG_TAG, "_setImageDrawable" );
+			OdsLog.i(LOG_TAG, "_setImageDrawable");
 		}
 
 		if ( drawable != null ) {
 
 			if ( LOG_ENABLED ) {
-				Log.d( LOG_TAG, "size: " + drawable.getIntrinsicWidth() + "x" + drawable.getIntrinsicHeight() );
+				OdsLog.d(LOG_TAG, "size: " + drawable.getIntrinsicWidth() + "x" + drawable.getIntrinsicHeight());
 			}
 			super.setImageDrawable( drawable );
 		} else {
@@ -492,7 +492,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 	 */
 	protected void onDrawableChanged( final Drawable drawable ) {
 		if( LOG_ENABLED ) {
-			Log.i( LOG_TAG, "onDrawableChanged" );
+			OdsLog.i(LOG_TAG, "onDrawableChanged");
 		}
 		fireOnDrawableChangeListener( drawable );
 	}
@@ -521,7 +521,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 	 */
 	protected void onLayoutChanged( int left, int top, int right, int bottom ) {
 		if( LOG_ENABLED ) {
-			Log.i( LOG_TAG, "onLayoutChanged" );
+			OdsLog.i(LOG_TAG, "onLayoutChanged");
 		}
 		fireOnLayoutChangeListener( left, top, right, bottom );
 	}
@@ -538,7 +538,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		float scale = Math.max( fw, fh ) * 8;
 
 		if ( LOG_ENABLED ) {
-			Log.i( LOG_TAG, "computeMaxZoom: " + scale );
+			OdsLog.i(LOG_TAG, "computeMaxZoom: " + scale);
 		}
 		return scale;
 	}
@@ -554,7 +554,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		scale = Math.min( 1f, 1f / scale );
 
 		if ( LOG_ENABLED ) {
-			Log.i( LOG_TAG, "computeMinZoom: " + scale );
+			OdsLog.i(LOG_TAG, "computeMinZoom: " + scale);
 		}
 
 		return scale;
@@ -649,7 +649,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		float viewHeight = mThisHeight;
 
 		if ( LOG_ENABLED ) {
-			Log.d( LOG_TAG, "getProperBaseMatrix. view: " + viewWidth + "x" + viewHeight );
+			OdsLog.d(LOG_TAG, "getProperBaseMatrix. view: " + viewWidth + "x" + viewHeight);
 		}
 
 		float w = drawable.getIntrinsicWidth();
@@ -718,7 +718,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		float scaley = getValue( matrix, Matrix.MSCALE_Y );
 		float tx = getValue( matrix, Matrix.MTRANS_X );
 		float ty = getValue( matrix, Matrix.MTRANS_Y );
-		Log.d( LOG_TAG, "matrix: { x: " + tx + ", y: " + ty + ", scalex: " + scalex + ", scaley: " + scaley + " }" );
+		OdsLog.d(LOG_TAG, "matrix: { x: " + tx + ", y: " + ty + ", scalex: " + scalex + ", scaley: " + scaley + " }");
 	}
 
 	public RectF getBitmapRect() {
@@ -766,7 +766,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 		if ( rect.left != 0 || rect.top != 0 ) {
 
 			if ( LOG_ENABLED ) {
-				Log.i( LOG_TAG, "center" );
+				OdsLog.i(LOG_TAG, "center");
 			}
 			postTranslate( rect.left, rect.top );
 		}
@@ -809,7 +809,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 	protected void postTranslate( float deltaX, float deltaY ) {
 		if ( deltaX != 0 || deltaY != 0 ) {
 			if ( LOG_ENABLED ) {
-				Log.i( LOG_TAG, "postTranslate: " + deltaX + "x" + deltaY );
+				OdsLog.i(LOG_TAG, "postTranslate: " + deltaX + "x" + deltaY);
 			}
 			mSuppMatrix.postTranslate( deltaX, deltaY );
 			setImageMatrix( getImageViewMatrix() );
@@ -818,7 +818,7 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 
 	protected void postScale( float scale, float centerX, float centerY ) {
 		if ( LOG_ENABLED ) {
-			Log.i( LOG_TAG, "postScale: " + scale + ", center: " + centerX + "x" + centerY );
+			OdsLog.i(LOG_TAG, "postScale: " + scale + ", center: " + centerX + "x" + centerY);
 		}
 		mSuppMatrix.postScale( scale, scale, centerX, centerY );
 		setImageMatrix( getImageViewMatrix() );
@@ -830,14 +830,14 @@ public abstract class ImageViewTouchBase extends ImageView implements IDisposabl
 
 	protected void zoomTo( float scale ) {
 		if( LOG_ENABLED ) {
-			Log.i( LOG_TAG, "zoomTo: " + scale );
+			OdsLog.i(LOG_TAG, "zoomTo: " + scale);
 		}
 		
 		if ( scale > getMaxScale() ) scale = getMaxScale();
 		if ( scale < getMinScale() ) scale = getMinScale();
 		
 		if( LOG_ENABLED ) {
-			Log.d( LOG_TAG, "sanitized scale: " + scale );
+			OdsLog.d(LOG_TAG, "sanitized scale: " + scale);
 		}
 		
 

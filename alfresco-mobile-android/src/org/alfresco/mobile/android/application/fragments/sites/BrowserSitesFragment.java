@@ -25,6 +25,7 @@ import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.Site;
 import org.alfresco.mobile.android.api.services.SiteService;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.PrivateDialogActivity;
 import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
@@ -38,7 +39,6 @@ import org.alfresco.mobile.android.ui.site.SitesFragment;
 
 import android.content.Loader;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -252,7 +252,7 @@ public class BrowserSitesFragment extends SitesFragment implements RefreshFragme
         }
         catch (Exception e)
         {
-            Log.w(TAG, "Unable to refresh sites objects");
+            OdsLog.w(TAG, "Unable to refresh sites objects");
         }
     }
 

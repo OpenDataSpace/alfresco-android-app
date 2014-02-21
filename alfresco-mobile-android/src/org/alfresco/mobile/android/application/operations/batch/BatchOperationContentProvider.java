@@ -25,6 +25,7 @@ import org.alfresco.mobile.android.application.ApplicationManager;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.database.DatabaseManager;
 import org.alfresco.mobile.android.application.operations.OperationSchema;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.ContentProvider;
 import android.content.ContentResolver;
@@ -35,7 +36,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteQueryBuilder;
 import android.net.Uri;
 import android.text.TextUtils;
-import android.util.Log;
 
 public class BatchOperationContentProvider extends ContentProvider implements AlfrescoContentProvider
 {
@@ -126,7 +126,7 @@ public class BatchOperationContentProvider extends ContentProvider implements Al
         }
         if (id == -1)
         {
-            Log.e(TAG, uri + " " + values);
+            OdsLog.e(TAG, uri + " " + values);
         }
         getContext().getContentResolver().notifyChange(uri, null);
         return Uri.parse(CONTENT_URI + "/" + id);

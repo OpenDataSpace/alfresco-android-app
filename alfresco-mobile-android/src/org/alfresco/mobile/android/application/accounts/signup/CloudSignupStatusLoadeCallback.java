@@ -19,6 +19,7 @@ package org.alfresco.mobile.android.application.accounts.signup;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
@@ -33,7 +34,6 @@ import android.content.Intent;
 import android.content.Loader;
 import android.net.Uri;
 import android.os.Bundle;
-import android.util.Log;
 
 public class CloudSignupStatusLoadeCallback implements LoaderCallbacks<LoaderResult<Boolean>>
 {
@@ -63,13 +63,13 @@ public class CloudSignupStatusLoadeCallback implements LoaderCallbacks<LoaderRes
     {
         mProgressDialog = ProgressDialog.show(activity, "Please wait", "Contacting your server...", true, true,
                 new OnCancelListener()
-                {
-                    @Override
-                    public void onCancel(DialogInterface dialog)
-                    {
-                        activity.getLoaderManager().destroyLoader(id);
-                    }
-                });
+        {
+            @Override
+            public void onCancel(DialogInterface dialog)
+            {
+                activity.getLoaderManager().destroyLoader(id);
+            }
+        });
         return new CloudSignupStatusLoader(activity, request, activity.getString(R.string.signup_key));
     }
 
@@ -80,7 +80,7 @@ public class CloudSignupStatusLoadeCallback implements LoaderCallbacks<LoaderRes
         Boolean hasData = results.getData();
         if (results.hasException())
         {
-            Log.e(TAG, Log.getStackTraceString(results.getException()));
+            OdsLog.ex(TAG, results.getException());
             MessengerManager.showLongToast(activity, activity.getString(R.string.error_general));
         }
         else if (hasData)

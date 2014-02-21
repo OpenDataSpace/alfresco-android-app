@@ -20,6 +20,7 @@ package org.alfresco.mobile.android.application.operations.batch.account;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
@@ -32,7 +33,6 @@ import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBat
 import android.content.Context;
 import android.content.Intent;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 public class LoadSessionCallBack extends AbstractBatchOperationCallback<AlfrescoSession>
 {
@@ -56,7 +56,7 @@ public class LoadSessionCallBack extends AbstractBatchOperationCallback<Alfresco
     public void onError(Operation<AlfrescoSession> task, Exception e)
     {
         LoadSessionThread loadingTask = ((LoadSessionThread) task);
-        Log.e(TAG, Log.getStackTraceString(e));
+        OdsLog.ex(TAG, e);
 
         switch (loadingTask.getAccount().getTypeId())
         {
@@ -131,7 +131,7 @@ public class LoadSessionCallBack extends AbstractBatchOperationCallback<Alfresco
 
             if (acc == null)
             {
-                Log.e(TAG, "Error during saving oauth data");
+                OdsLog.e(TAG, "Error during saving oauth data");
             }
 
             break;

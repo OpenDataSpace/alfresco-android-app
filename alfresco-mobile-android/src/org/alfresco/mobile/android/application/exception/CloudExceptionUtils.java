@@ -21,6 +21,7 @@ import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.exceptions.AlfrescoSessionException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
@@ -34,7 +35,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 public final class CloudExceptionUtils
 {
@@ -47,23 +47,23 @@ public final class CloudExceptionUtils
 
     public static void handleCloudException(Context context, Long accountId, Exception exception, boolean forceRefresh)
     {
-        Log.w(TAG, Log.getStackTraceString(exception));
+        OdsLog.exw(TAG, exception);
         if (exception instanceof AlfrescoSessionException)
         {
             AlfrescoSessionException ex = ((AlfrescoSessionException) exception);
             switch (ex.getErrorCode())
             {
-                case ErrorCodeRegistry.SESSION_API_KEYS_INVALID:
-                case ErrorCodeRegistry.SESSION_REFRESH_TOKEN_EXPIRED:
+            case ErrorCodeRegistry.SESSION_API_KEYS_INVALID:
+            case ErrorCodeRegistry.SESSION_REFRESH_TOKEN_EXPIRED:
+                manageException(context, forceRefresh);
+                return;
+            default:
+                if (ex.getMessage().contains("No authentication challenges found") || ex.getErrorCode() == 100)
+                {
                     manageException(context, forceRefresh);
                     return;
-                default:
-                    if (ex.getMessage().contains("No authentication challenges found") || ex.getErrorCode() == 100)
-                    {
-                        manageException(context, forceRefresh);
-                        return;
-                    }
-                    break;
+                }
+                break;
             }
         }
 

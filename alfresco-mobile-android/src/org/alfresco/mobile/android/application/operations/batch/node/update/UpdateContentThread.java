@@ -31,11 +31,11 @@ import org.alfresco.mobile.android.application.security.EncryptionUtils;
 import org.apache.chemistry.opencmis.client.api.ObjectId;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 public class UpdateContentThread extends AbstractUpThread
 {
@@ -124,7 +124,7 @@ public class UpdateContentThread extends AbstractUpThread
                     }
                     catch (Exception e)
                     {
-                        Log.e(TAG, Log.getStackTraceString(e));
+                        OdsLog.ex(TAG, e);
                         cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
                     }
                 }
@@ -158,7 +158,7 @@ public class UpdateContentThread extends AbstractUpThread
                 result = new LoaderResult<Document>();
             }
             result.setException(e);
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
         }
 
         result.setData(updatedDocument);

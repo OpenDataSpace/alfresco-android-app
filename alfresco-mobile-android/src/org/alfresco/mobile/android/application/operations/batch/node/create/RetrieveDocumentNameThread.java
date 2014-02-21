@@ -24,11 +24,11 @@ import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
 import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 public class RetrieveDocumentNameThread extends AbstractBatchOperationThread<String>
 {
@@ -76,7 +76,7 @@ public class RetrieveDocumentNameThread extends AbstractBatchOperationThread<Str
         }
         catch (Exception e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
             result.setException(e);
         }
 

@@ -23,6 +23,7 @@ import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.ui.fragments.BaseLoaderCallback;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
@@ -30,7 +31,6 @@ import android.app.Activity;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -80,7 +80,7 @@ public class IsLikedLoaderCallBack extends BaseLoaderCallback implements LoaderC
         }
         if (isLiked.getData() == null)
         {
-            Log.e(TAG, Log.getStackTraceString(isLiked.getException()));
+            OdsLog.ex(TAG, isLiked.getException());
             MessengerManager.showToast(context, R.string.error_retrieve_likes);
         }
         else if (isLiked.getData())

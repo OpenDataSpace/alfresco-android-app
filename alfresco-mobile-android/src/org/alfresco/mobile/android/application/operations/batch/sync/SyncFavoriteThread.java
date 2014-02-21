@@ -50,6 +50,7 @@ import org.alfresco.mobile.android.application.operations.sync.node.download.Syn
 import org.alfresco.mobile.android.application.operations.sync.node.update.SyncUpdateRequest;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.ContentValues;
 import android.content.Context;
@@ -57,7 +58,6 @@ import android.content.Intent;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 public class SyncFavoriteThread extends NodeOperationThread<Void>
 {
@@ -102,7 +102,7 @@ public class SyncFavoriteThread extends NodeOperationThread<Void>
         LoaderResult<Void> result = new LoaderResult<Void>();
         try
         {
-            Log.d(TAG, "Sync Scan Started");
+            OdsLog.d(TAG, "Sync Scan Started");
             result = super.doInBackground();
 
             canExecuteAction = SynchroManager.getInstance(context).canSync(acc);
@@ -217,7 +217,7 @@ public class SyncFavoriteThread extends NodeOperationThread<Void>
         }
         catch (Exception e)
         {
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
             result.setException(e);
         }
         finally

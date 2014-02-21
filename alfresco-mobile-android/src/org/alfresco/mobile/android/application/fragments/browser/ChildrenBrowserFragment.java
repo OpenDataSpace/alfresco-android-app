@@ -39,6 +39,7 @@ import org.alfresco.mobile.android.api.model.impl.cloud.CloudFolderImpl;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
@@ -84,7 +85,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -319,7 +319,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             {
                 if (!createFile.delete())
                 {
-                    Log.w(TAG, createFile.getName() + "is not deleted.");
+                    OdsLog.w(TAG, createFile.getName() + "is not deleted.");
                 }
                 createFile = null;
             }
@@ -1002,7 +1002,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            Log.d(TAG, intent.getAction());
+            OdsLog.d(TAG, intent.getAction());
 
             if (adapter == null)
             {

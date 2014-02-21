@@ -30,6 +30,7 @@ import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.utils.NodeComparator;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.BaseGridFragment;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -45,7 +46,6 @@ import org.alfresco.mobile.android.ui.utils.Formatter;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.Context;
-import android.util.Log;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
@@ -250,7 +250,7 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
         {
             add(objects[i]);
         }
-        Log.d("NodeAdapter", size + "");
+        OdsLog.d("NodeAdapter", size + "");
     }
 
     public synchronized void replaceNode(Node node)

@@ -27,6 +27,7 @@ import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.Person;
 import org.alfresco.mobile.android.api.model.Site;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
@@ -38,7 +39,6 @@ import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ListView;
 
@@ -48,7 +48,7 @@ import android.widget.ListView;
  *
  */
 public class SiteMembersFragment extends BaseListFragment implements
-        LoaderCallbacks<LoaderResult<PagingResult<Person>>>
+LoaderCallbacks<LoaderResult<PagingResult<Person>>>
 {
     private static final String PARAM_SITE = "site";
 
@@ -89,7 +89,7 @@ public class SiteMembersFragment extends BaseListFragment implements
         SessionUtils.checkSession(getActivity(), alfSession);
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
-        
+
         site = (Site) bundle.getSerializable(PARAM_SITE);
     }
 
@@ -139,7 +139,7 @@ public class SiteMembersFragment extends BaseListFragment implements
         }
         if (checkException(results))
         {
-            Log.d(TAG, Log.getStackTraceString(results.getException()));
+            OdsLog.exw(TAG, results.getException());
             onLoaderException(results.getException());
         }
         else

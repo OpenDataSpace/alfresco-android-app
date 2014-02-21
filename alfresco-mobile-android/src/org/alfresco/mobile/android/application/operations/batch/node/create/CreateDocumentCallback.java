@@ -22,6 +22,7 @@ import java.io.File;
 import org.alfresco.mobile.android.api.model.ContentFile;
 import org.alfresco.mobile.android.api.model.Document;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.manager.NotificationHelper;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.Operation;
@@ -34,7 +35,6 @@ import org.alfresco.mobile.android.application.utils.IOUtils;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.util.Log;
 
 /**
  * @author Jean Marie Pascal
@@ -118,7 +118,7 @@ public class CreateDocumentCallback extends AbstractBatchOperationCallback<Docum
 
                 if (!contentFile.getFile().renameTo(dlFile))
                 {
-                    Log.e(TAG, "Unable to rename file");
+                    OdsLog.e(TAG, "Unable to rename file");
                 }
                 else
                 {

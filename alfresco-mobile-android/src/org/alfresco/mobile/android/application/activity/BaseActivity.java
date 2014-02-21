@@ -25,6 +25,7 @@ import org.alfresco.mobile.android.api.model.Site;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
@@ -49,7 +50,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 /**
  * Base class for all activities.
@@ -361,7 +361,7 @@ public abstract class BaseActivity extends Activity
 
             if (activity.isFinishing() || activity.isChangingConfigurations()) { return; }
 
-            Log.d("UtilsReceiver", intent.getAction());
+            OdsLog.d("UtilsReceiver", intent.getAction());
 
             //
             if (IntentIntegrator.ACTION_DISPLAY_DIALOG.equals(intent.getAction()))

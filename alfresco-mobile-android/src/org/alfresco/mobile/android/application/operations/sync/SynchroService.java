@@ -39,6 +39,7 @@ import org.alfresco.mobile.android.application.operations.sync.node.update.SyncU
 import org.alfresco.mobile.android.application.operations.sync.node.update.SyncUpdateRequest;
 import org.alfresco.mobile.android.application.operations.sync.node.update.SyncUpdateThread;
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.Service;
 import android.content.BroadcastReceiver;
@@ -47,7 +48,6 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.IBinder;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 public class SynchroService<T> extends Service
 {
@@ -115,7 +115,7 @@ public class SynchroService<T> extends Service
         int totalItems = requestInfo.totalRequests;
         int pendingRequest = requestInfo.pendingRequests;
 
-        Log.d("OperationService", "Start : " + requestInfo.request.getNotificationTitle());
+        OdsLog.d("OperationService", "Start : " + requestInfo.request.getNotificationTitle());
 
         Operation<T> task = null;
         OperationCallBack<T> callback = null;

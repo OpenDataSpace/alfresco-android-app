@@ -21,6 +21,7 @@ import org.alfresco.mobile.android.api.asynchronous.JoinSiteRequestCancelLoader;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.Site;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
@@ -28,7 +29,6 @@ import android.app.Fragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
 import android.os.Bundle;
-import android.util.Log;
 
 /**
  * Update UI after a cancellation of join site request.
@@ -93,7 +93,7 @@ public class JointSiteRequestCancelLoaderCallBack implements LoaderCallbacks<Loa
         }
         else
         {
-            Log.w(TAG, Log.getStackTraceString(result.getException()));
+            OdsLog.exw(TAG, result.getException());
         }
 
         MessengerManager.showLongToast(fragment.getActivity(),

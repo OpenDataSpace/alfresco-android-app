@@ -10,9 +10,9 @@ import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSync
 import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationThread;
 import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
 import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl.ReaderListener;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
-import android.util.Log;
 
 public abstract class AbstractSyncUpThread extends AbstractSyncOperationThread<Document> implements ReaderListener
 {
@@ -88,7 +88,7 @@ public abstract class AbstractSyncUpThread extends AbstractSyncOperationThread<D
         catch (Exception e)
         {
             result.setException(e);
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
         return result;
     }
@@ -127,40 +127,40 @@ public abstract class AbstractSyncUpThread extends AbstractSyncOperationThread<D
             segment = 2;
         }
         else
-        // 500kb
-        if (totalLength < 512000)
-        {
-            segment = 3;
-        }
-        else if (totalLength < 1048576)
-        {
-            // 1MB
-            segment = 4;
-        }
-        else if (totalLength < 5242880)
-        {
-            // 5MB
-            segment = 10;
-        }
-        else if (totalLength < 10485760)
-        {
-            // 10MB
-            segment = 15;
-        }
-        else if (totalLength < 20971520)
-        {
-            // 20MB
-            segment = 20;
-        }
-        else if (totalLength < 52428800)
-        {
-            // 50MB
-            segment = 25;
-        }
-        else
-        {
-            segment = Math.round(totalLength / 1048576);
-        }
+            // 500kb
+            if (totalLength < 512000)
+            {
+                segment = 3;
+            }
+            else if (totalLength < 1048576)
+            {
+                // 1MB
+                segment = 4;
+            }
+            else if (totalLength < 5242880)
+            {
+                // 5MB
+                segment = 10;
+            }
+            else if (totalLength < 10485760)
+            {
+                // 10MB
+                segment = 15;
+            }
+            else if (totalLength < 20971520)
+            {
+                // 20MB
+                segment = 20;
+            }
+            else if (totalLength < 52428800)
+            {
+                // 50MB
+                segment = 25;
+            }
+            else
+            {
+                segment = Math.round(totalLength / 1048576);
+            }
 
         return segment;
     }
@@ -197,10 +197,10 @@ public abstract class AbstractSyncUpThread extends AbstractSyncOperationThread<D
     {
         return parentFolder;
     }
-    
+
     public Document getDocument()
     {
         return document;
     }
-       
+
 }

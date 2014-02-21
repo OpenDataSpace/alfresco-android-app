@@ -22,6 +22,7 @@ import java.io.File;
 import org.alfresco.mobile.android.application.VersionNumber;
 import org.alfresco.mobile.android.application.upgrade.UpgradeVersion110;
 import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -29,7 +30,6 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class UpgradeManager implements VersionNumber
 {
@@ -97,7 +97,7 @@ public class UpgradeManager implements VersionNumber
         }
         catch (NameNotFoundException e)
         {
-            Log.w(TAG, "Error during upgrade process");
+            OdsLog.w(TAG, "Error during upgrade process");
         }
     }
 
@@ -134,7 +134,7 @@ public class UpgradeManager implements VersionNumber
     {
         if (!prefs.getBoolean(UPGRADE_MIGRATION_FILES, false) && currentVersionNumber >= VERSION_1_1_0 && versionNumber < VERSION_1_1_0)
         {
-            Log.i(TAG, "[upgradeVersion110] : Start");
+            OdsLog.i(TAG, "[upgradeVersion110] : Start");
             // Transfer downloads to new folder structure if they haven't been
             // already.
             if (!prefs.getBoolean(UPGRADE_MIGRATION_FILES, false))
@@ -156,7 +156,7 @@ public class UpgradeManager implements VersionNumber
                     prefs.edit().putBoolean(UPGRADE_MIGRATION_FILES, true).commit();
                 }
             }
-            Log.i(TAG, "[upgradeVersion110] : Completed");
+            OdsLog.i(TAG, "[upgradeVersion110] : Completed");
         }
     }
     

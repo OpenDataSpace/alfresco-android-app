@@ -26,9 +26,9 @@ import java.nio.charset.Charset;
 
 import org.alfresco.mobile.android.api.asynchronous.AbstractBaseLoader;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.Activity;
-import android.util.Log;
 
 /**
  * Loader responsible to do text file loading
@@ -67,9 +67,9 @@ public class TextEditorLoader extends AbstractBaseLoader<LoaderResult<String>>
         catch (Exception e)
         {
             result.setException(e);
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
         }
-        
+
         result.setData(s);
 
         return result;

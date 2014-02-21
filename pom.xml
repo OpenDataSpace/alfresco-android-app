@@ -47,8 +47,8 @@
 		<!-- Android Dependencies -->
 		<android.version.number>16</android.version.number>
 		<android.version>4.1.1.4</android.version>
-		<android.support.version>r18</android.support.version>
-		<android.maven.plugin.version>3.7.0</android.maven.plugin.version>
+		<android.support.version>19.0.1</android.support.version>
+		<android.maven.plugin.version>3.8.0</android.maven.plugin.version>
 
 		<!-- Testing Dependencies -->
 		<junit.version>4.10</junit.version>

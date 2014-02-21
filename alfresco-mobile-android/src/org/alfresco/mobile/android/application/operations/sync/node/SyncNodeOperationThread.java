@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,10 +25,10 @@ import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.sync.SynchroProvider;
 import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
 import org.alfresco.mobile.android.application.operations.sync.impl.AbstractSyncOperationThread;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 public abstract class SyncNodeOperationThread<T> extends AbstractSyncOperationThread<T>
 {
@@ -37,9 +37,9 @@ public abstract class SyncNodeOperationThread<T> extends AbstractSyncOperationTh
     protected String nodeIdentifier;
 
     protected String parentFolderIdentifier;
-    
+
     protected Node node;
-    
+
     protected Folder parentFolder;
 
     protected Cursor cursor;
@@ -78,7 +78,7 @@ public abstract class SyncNodeOperationThread<T> extends AbstractSyncOperationTh
             {
                 // Do Nothing
             }
-            
+
 
             if (listener != null)
             {
@@ -87,11 +87,11 @@ public abstract class SyncNodeOperationThread<T> extends AbstractSyncOperationTh
         }
         catch (Exception e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
         return new LoaderResult<T>();
     }
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // UTILS
     // ///////////////////////////////////////////////////////////////////////////
@@ -118,7 +118,7 @@ public abstract class SyncNodeOperationThread<T> extends AbstractSyncOperationTh
     {
         return node;
     }
-    
+
     public Folder getParentFolder()
     {
         return parentFolder;

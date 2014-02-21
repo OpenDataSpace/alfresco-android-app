@@ -32,12 +32,12 @@ import org.apache.chemistry.opencmis.client.api.ObjectId;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 
 public class SyncUpdateThread extends AbstractSyncUpThread
 {
@@ -87,7 +87,7 @@ public class SyncUpdateThread extends AbstractSyncUpThread
                 }
                 catch (Exception e)
                 {
-                    Log.e(TAG, Log.getStackTraceString(e));
+                    OdsLog.ex(TAG, e);
                     if (idpwc == null)
                     {
                         try
@@ -96,7 +96,7 @@ public class SyncUpdateThread extends AbstractSyncUpThread
                         }
                         catch (Exception ee)
                         {
-                            Log.e(TAG, Log.getStackTraceString(ee));
+                            OdsLog.ex(TAG, ee);
                             throw ee;
                         }
                     }
@@ -109,7 +109,7 @@ public class SyncUpdateThread extends AbstractSyncUpThread
                 }
                 catch (Exception e)
                 {
-                    Log.e(TAG, Log.getStackTraceString(e));
+                    OdsLog.ex(TAG, e);
                     cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
                 }
 
@@ -134,7 +134,7 @@ public class SyncUpdateThread extends AbstractSyncUpThread
                 result = new LoaderResult<Document>();
             }
             result.setException(e);
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
         }
 
         result.setData(updatedNode);

@@ -23,9 +23,9 @@ import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.Process;
 import org.alfresco.mobile.android.api.model.Task;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
-import android.util.Log;
 
 /**
  * @author jpascal
@@ -62,7 +62,7 @@ public class ProcessTasksLoader extends AbstractPagingLoader<LoaderResult<Paging
         }
         catch (Exception e)
         {
-            Log.d("ProcessTasksLoader", Log.getStackTraceString(e));
+            OdsLog.exw("ProcessTasksLoader", e);
             result.setException(e);
         }
 

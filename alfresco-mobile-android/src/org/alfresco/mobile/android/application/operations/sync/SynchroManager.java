@@ -48,6 +48,7 @@ import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
@@ -62,7 +63,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 
 public final class SynchroManager extends OperationManager
 {
@@ -159,7 +159,7 @@ public final class SynchroManager extends OperationManager
             }
             else
             {
-                Log.d(TAG, "Unable to retry for" + ids[i]);
+                OdsLog.d(TAG, "Unable to retry for" + ids[i]);
             }
         }
 
@@ -266,7 +266,7 @@ public final class SynchroManager extends OperationManager
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            Log.d(TAG, intent.getAction());
+            OdsLog.d(TAG, intent.getAction());
 
             if (intent.getExtras() != null
                     && (IntentIntegrator.ACTION_DELETE_COMPLETED.equals(intent.getAction())
@@ -493,7 +493,7 @@ public final class SynchroManager extends OperationManager
                     request = currentGroup.index.remove(operationId);
                 }
 
-                Log.d(TAG, "PAUSED" + getNotificationUri(request));
+                OdsLog.d(TAG, "PAUSED" + getNotificationUri(request));
                 context.getContentResolver().update(getNotificationUri(request),
                         ((AbstractSyncOperationRequestImpl) request).createContentValues(Operation.STATUS_PAUSED),
                         null, null);

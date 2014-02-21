@@ -38,8 +38,7 @@ import org.apache.chemistry.opencmis.commons.impl.JSONConverter;
 import org.apache.chemistry.opencmis.commons.impl.UrlBuilder;
 import org.apache.chemistry.opencmis.commons.impl.json.JSONObject;
 import org.apache.http.HttpStatus;
-
-import android.util.Log;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 /**
  * Represents a request from a user to sign up to Alfresco Cloud.
@@ -146,7 +145,7 @@ public class CloudSignupRequest
         }
         else
         {
-            Log.w(TAG, resp.getErrorContent());
+            OdsLog.w(TAG, resp.getErrorContent());
             throw new AlfrescoServiceException(SESSION_SIGNUP_ERROR, resp.getErrorContent());
         }
     }
@@ -173,7 +172,7 @@ public class CloudSignupRequest
         }
         else
         {
-            Log.w(TAG, resp.getErrorContent());
+            OdsLog.w(TAG, resp.getErrorContent());
             return false;
         }
     }

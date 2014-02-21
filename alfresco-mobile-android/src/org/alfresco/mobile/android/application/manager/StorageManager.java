@@ -29,10 +29,10 @@ import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
 import android.os.Environment;
-import android.util.Log;
 
 public class StorageManager extends org.alfresco.mobile.android.ui.manager.StorageManager
 {
@@ -47,7 +47,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
     private static final String SYNCHRO_DIRECTORY = "Synchro";
 
     private static final String SHARE_DIRECTORY = "Share";
-    
+
     private static final String CONFIGURATION_DIRECTORY = "Configuration";
 
     private static final String ASSETDIR = "Assets";
@@ -67,7 +67,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
     {
         return getPrivateFolder(context, CONFIGURATION_DIRECTORY, acc);
     }
-    
+
     public static File getShareFolder(Context context, Account acc)
     {
         return getPrivateFolder(context, SHARE_DIRECTORY, acc);
@@ -141,7 +141,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
 
         return file;
     }
-    
+
     public static File getRootPrivateFolder(Context context)
     {
         File file = null;
@@ -201,7 +201,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
         }
         catch (MalformedURLException e)
         {
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
         }
         return name + "-" + username;
     }
@@ -224,7 +224,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
 
         return (tempFolder != null && file.getParentFile().getParent().compareTo(tempFolder.getPath()) == 0);
     }
-    
+
     public static boolean isSynchroFile(Context c, File file)
     {
         File tempFolder = c.getExternalFilesDir(null);

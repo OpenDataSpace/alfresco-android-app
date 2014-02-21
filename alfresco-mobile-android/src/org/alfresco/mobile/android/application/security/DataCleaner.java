@@ -23,6 +23,7 @@ import java.util.List;
 
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerHelper;
 import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
@@ -33,7 +34,6 @@ import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 public class DataCleaner extends AsyncTask<String, Integer, Boolean>
 {
@@ -70,7 +70,7 @@ public class DataCleaner extends AsyncTask<String, Integer, Boolean>
 
             // Remove All Accounts
             activity.getContentResolver().delete(AccountManager.CONTENT_URI, null, null);
-            
+
             //Delete loaded accounts
             ApplicationManager.getInstance(activity).clear();
 
@@ -100,7 +100,7 @@ public class DataCleaner extends AsyncTask<String, Integer, Boolean>
         }
         catch (Exception fle)
         {
-            Log.e(TAG, Log.getStackTraceString(fle));
+            OdsLog.ex(TAG, fle);
             return false;
         }
     }

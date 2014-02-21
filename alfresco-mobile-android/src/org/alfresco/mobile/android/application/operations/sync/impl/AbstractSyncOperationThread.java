@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,16 +25,16 @@ import org.alfresco.mobile.android.application.operations.batch.BatchOperationSc
 import org.alfresco.mobile.android.application.operations.impl.AbstractOperationThread;
 import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
 import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 
 public abstract class AbstractSyncOperationThread<T> extends AbstractOperationThread<T> implements SyncOperation<T>
 {
     private static final String TAG = AbstractSyncOperationThread.class.getName();
-    
+
     /** Flag to indicate if status must be persisted in the contentProvider. */
     protected boolean saveStatus = true;
 
@@ -59,11 +59,11 @@ public abstract class AbstractSyncOperationThread<T> extends AbstractOperationTh
         }
         catch (Exception e)
         {
-            Log.w(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
         return new LoaderResult<T>();
     }
-    
+
     protected void onPostExecute(LoaderResult<T> result)
     {
         int resultStatus = Operation.STATUS_SUCCESSFUL;

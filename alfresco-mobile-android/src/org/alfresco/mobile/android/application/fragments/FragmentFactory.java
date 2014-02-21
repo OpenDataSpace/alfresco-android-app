@@ -26,9 +26,9 @@ import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowser
 import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerFragment;
 import org.alfresco.mobile.android.application.fragments.menu.MainMenuFragment;
 import org.alfresco.mobile.android.application.fragments.search.KeywordSearch;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.Fragment;
-import android.util.Log;
 
 public final class FragmentFactory
 {
@@ -54,7 +54,7 @@ public final class FragmentFactory
         }
         catch (Exception e)
         {
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
         }
         return null;
     }

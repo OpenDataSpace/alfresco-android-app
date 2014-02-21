@@ -21,6 +21,7 @@ import java.io.File;
 
 import org.alfresco.mobile.android.api.model.Folder;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
@@ -28,7 +29,6 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
 public class PhotoCapture extends DeviceCapture
 {
@@ -40,7 +40,7 @@ public class PhotoCapture extends DeviceCapture
     {
         this(parent, folder, null);
     }
-    
+
     public PhotoCapture(Activity parent, Folder folder, File parentFolder)
     {
         super(parent, folder, parentFolder);
@@ -78,7 +78,7 @@ public class PhotoCapture extends DeviceCapture
             }
             catch (Exception e)
             {
-                Log.d(TAG, Log.getStackTraceString(e));
+                OdsLog.exw(TAG, e);
                 return false;
             }
 

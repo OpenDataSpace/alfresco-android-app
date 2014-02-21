@@ -34,6 +34,7 @@ import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.alfresco.mobile.android.api.utils.NodeRefUtils;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.exception.AlfrescoAppException;
@@ -97,7 +98,6 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -925,17 +925,17 @@ LoaderCallbacks<LoaderResult<Node>>
                             }
                             else
                             {
-                                Log.i(getString(R.string.app_name), "Site path not as expected: no /sites/");
+                                OdsLog.i(getString(R.string.app_name), "Site path not as expected: no /sites/");
                             }
                         }
                         else
                         {
-                            Log.i(getString(R.string.app_name), "Site path not as expected: no parent path");
+                            OdsLog.i(getString(R.string.app_name), "Site path not as expected: no parent path");
                         }
                     }
                     else
                     {
-                        Log.i(getString(R.string.app_name), "Site path not as expected: No parent folder");
+                        OdsLog.i(getString(R.string.app_name), "Site path not as expected: No parent folder");
                     }
 
                     dialog.dismiss();
@@ -1378,7 +1378,7 @@ LoaderCallbacks<LoaderResult<Node>>
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            Log.d(TAG, intent.getAction());
+            OdsLog.d(TAG, intent.getAction());
 
             if (getActivity() == null) { return; }
 

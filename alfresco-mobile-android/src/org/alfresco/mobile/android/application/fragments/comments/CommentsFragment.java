@@ -28,6 +28,7 @@ import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.services.CommentService;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
@@ -41,7 +42,6 @@ import android.content.Loader;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -189,9 +189,9 @@ public class CommentsFragment extends CommentFragment
         lv.setDivider(null);
         lv.setSelector(android.R.color.transparent);
         lv.setCacheColorHint(android.R.color.transparent);
-        
-        
-        
+
+
+
         return v;
     }
 
@@ -309,7 +309,7 @@ public class CommentsFragment extends CommentFragment
         @Override
         public void onExeceptionDuringCreation(Exception e)
         {
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
             MessengerManager.showLongToast(getActivity(), getActivity().getString(R.string.error_general));
             bAdd.setEnabled(true);
             reload(bundle, loaderId, callback);

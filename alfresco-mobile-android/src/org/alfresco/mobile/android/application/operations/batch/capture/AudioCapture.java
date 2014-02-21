@@ -27,6 +27,7 @@ import java.io.OutputStream;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.utils.IOUtils;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
@@ -35,7 +36,6 @@ import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
-import android.util.Log;
 
 public class AudioCapture extends DeviceCapture
 {
@@ -74,7 +74,7 @@ public class AudioCapture extends DeviceCapture
             catch (Exception e)
             {
                 MessengerManager.showLongToast(context, context.getString(R.string.no_voice_recorder));
-                Log.d(TAG, Log.getStackTraceString(e));
+                OdsLog.exw(TAG, e);
                 return false;
             }
 
@@ -121,7 +121,7 @@ public class AudioCapture extends DeviceCapture
         catch (IOException e)
         {
             MessengerManager.showLongToast(context, context.getString(R.string.cannot_capture));
-            Log.d(TAG, Log.getStackTraceString(e));
+            OdsLog.exw(TAG, e);
         }
     }
 
@@ -175,7 +175,7 @@ public class AudioCapture extends DeviceCapture
         }
         catch (Exception e)
         {
-            
+
         }
         finally
         {

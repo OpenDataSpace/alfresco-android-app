@@ -29,11 +29,11 @@ import org.alfresco.mobile.android.application.operations.sync.SyncOperation;
 import org.alfresco.mobile.android.application.operations.sync.SynchroProvider;
 import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
 import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 
 public class CleanSyncFavoriteThread extends AbstractBatchOperationThread<Void>
 {
@@ -63,12 +63,12 @@ public class CleanSyncFavoriteThread extends AbstractBatchOperationThread<Void>
             //Delete All local files in sync folder
             acc = AccountManager.retrieveAccount(context, accountId);
             File synchroFolder = StorageManager.getSynchroFolder(context, acc);
-            
+
             if (synchroFolder != null && synchroFolder.exists())
             {
                 IOUtils.deleteContents(synchroFolder);
             }
-            
+
             //For each sync row, reset status
             Cursor allFavoritesCursor = context.getContentResolver().query(SynchroProvider.CONTENT_URI,
                     SynchroSchema.COLUMN_ALL, null, null, null);
@@ -82,7 +82,7 @@ public class CleanSyncFavoriteThread extends AbstractBatchOperationThread<Void>
         }
         catch (Exception e)
         {
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
             result.setException(e);
         }
         return result;

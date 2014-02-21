@@ -17,7 +17,6 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.about;
 
-import org.alfresco.mobile.android.api.Version;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.opendataspace.android.app.R;
 

@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,10 +20,10 @@ package org.alfresco.mobile.android.application.fragments;
 import java.lang.reflect.Constructor;
 
 import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
 import android.database.Cursor;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -36,7 +36,7 @@ public abstract class BaseCursorLoader<VH> extends CursorAdapter
     protected int layoutResourceId;
 
     protected String vhClassName;
-    
+
     protected Context context;
 
     public BaseCursorLoader(Context context, Cursor c, int layoutId)
@@ -80,7 +80,7 @@ public abstract class BaseCursorLoader<VH> extends CursorAdapter
     protected abstract void updateBottomText(VH vh, Cursor cursor);
 
     protected abstract void updateIcon(VH vh, Cursor cursor);
-    
+
     @SuppressWarnings("unchecked")
     protected VH create(String className, View v)
     {
@@ -93,7 +93,7 @@ public abstract class BaseCursorLoader<VH> extends CursorAdapter
         }
         catch (Exception e)
         {
-            Log.e(TAG, Log.getStackTraceString(e));
+            OdsLog.ex(TAG, e);
         }
         return s;
     }
