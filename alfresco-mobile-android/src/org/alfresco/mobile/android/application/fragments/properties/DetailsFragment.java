@@ -482,7 +482,7 @@ LoaderCallbacks<LoaderResult<Node>>
         TextView tv = (TextView) vRoot.findViewById(R.id.title);
         tv.setText(node.getName());
         tv = (TextView) vRoot.findViewById(R.id.details);
-        tv.setText(Formatter.createContentBottomText(getActivity(), node, true));
+        tv.setText(Formatter.createContentBottomText(getActivity(), node, false));
 
         if (isRestrictable)
         {
@@ -700,7 +700,7 @@ LoaderCallbacks<LoaderResult<Node>>
         TextView tv = (TextView) vRoot.findViewById(R.id.title);
         tv.setText(node.getName());
         tv = (TextView) vRoot.findViewById(R.id.details);
-        tv.setText(NodeSyncPlaceHolderFormatter.createContentBottomText(getActivity(), refreshedNode, true));
+        tv.setText(NodeSyncPlaceHolderFormatter.createContentBottomText(getActivity(), refreshedNode, false));
 
         // Preview + Thumbnail
         if (vRoot.findViewById(R.id.icon) != null)
