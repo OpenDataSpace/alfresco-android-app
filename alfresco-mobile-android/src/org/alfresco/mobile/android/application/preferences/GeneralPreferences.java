@@ -21,6 +21,7 @@ package org.alfresco.mobile.android.application.preferences;
 import java.io.File;
 
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
@@ -37,6 +38,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
@@ -71,6 +73,10 @@ public class GeneralPreferences extends PreferenceFragment
     private static final String ODS_SYNCHONISATION = "odsAutoSync";
 
     private static final String ODS_SYNCHONISATION_BUTTON = "odssyncourcebutton";
+
+    public static final String ODS_LOGGING = "odslogging";
+
+    public static final String ODS_SENDREPORT = "odssendreport";
 
     //private Account account;
 
@@ -161,30 +167,11 @@ public class GeneralPreferences extends PreferenceFragment
         });
 
         // ODS SYNC
-        /*
-        Preference odsSyncPref = findPreference(ODS_SYNCHONISATION_BUTTON);
-        refreshOdsSync();
+        tuneSyncPrefs(sharedPref);
 
-        odsSyncPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
-        {
-            @Override
-            public boolean onPreferenceClick(Preference preference)
-            {
-                String id = sharedPref.getString(ODS_SYNCHONISATION, "");
+        // FEEDBACK
+        tuneFeedbackPrefs(sharedPref);
 
-                if (id != null && !"".equals(id))
-                {
-                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(ODS_SYNCHONISATION, "").apply();
-                    refreshOdsSync();
-                    return false;
-                }
-
-                Intent i = new Intent(IntentIntegrator.ACTION_PICK_FOLDER, null, getActivity(), PublicDispatcherActivity.class);
-                startActivityForResult(i, PublicIntent.REQUESTCODE_FOLDERPICKER);
-                return false;
-            }
-        });
-         */
         // FAVORITE SYNC
         /*
         final CheckBoxPreference cpref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync));
@@ -283,6 +270,67 @@ public class GeneralPreferences extends PreferenceFragment
         }
 
         getActivity().invalidateOptionsMenu();
+         */
+    }
+
+    private void tuneFeedbackPrefs(SharedPreferences sharedPref)
+    {
+        Preference logCheck = findPreference(ODS_LOGGING);
+        Preference logSend = findPreference(ODS_SENDREPORT);
+
+        logCheck.setOnPreferenceClickListener(new OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                boolean enabled = false;
+                if (preference instanceof CheckBoxPreference)
+                {
+                    enabled = ((CheckBoxPreference) preference).isChecked();
+                }
+
+                OdsLog.enable(enabled);
+                return false;
+            }
+        });
+
+        logSend.setOnPreferenceClickListener(new OnPreferenceClickListener()
+        {
+
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                OdsLog.send(getActivity(), getString(R.string.settings_feedback_send));
+                return false;
+            }
+        });
+    }
+
+    private void tuneSyncPrefs(final SharedPreferences sharedPref)
+    {
+        /*
+        Preference odsSyncPref = findPreference(ODS_SYNCHONISATION_BUTTON);
+        refreshOdsSync();
+
+        odsSyncPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                String id = sharedPref.getString(ODS_SYNCHONISATION, "");
+
+                if (id != null && !"".equals(id))
+                {
+                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(ODS_SYNCHONISATION, "").apply();
+                    refreshOdsSync();
+                    return false;
+                }
+
+                Intent i = new Intent(IntentIntegrator.ACTION_PICK_FOLDER, null, getActivity(), PublicDispatcherActivity.class);
+                startActivityForResult(i, PublicIntent.REQUESTCODE_FOLDERPICKER);
+                return false;
+            }
+        });
          */
     }
 

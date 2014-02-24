@@ -42,7 +42,7 @@
     <string name="favorite_sync_group">favoriteSyncGroup</string>
     <string name="favorite_sync">favoriteSync</string>
     <string name="favorite_sync_wifi">favoriteSyncWifi</string>
-    
+    <string name="ods_logging">odslogging</string>
 
     <!-- HELP -->
     <string name="help_path">Help/</string>

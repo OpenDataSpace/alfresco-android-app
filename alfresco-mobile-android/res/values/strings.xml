@@ -436,6 +436,9 @@
     <string name="settings_autosync_settings">Settings</string>
     <string name="settings_autosync_settings_off">Synchronisation of images and videos is currently off</string>
     <string name="settings_autosync_settings_on">Synchronisation of images and videos is currently on</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_enabled">Collect error info</string>
+    <string name="settings_feedback_send">Send report</string>
 
     <!-- Multi Selection -->
     <plurals name="selected_document">

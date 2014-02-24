@@ -18,7 +18,7 @@
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.opendataspace.android.app"
-    android:versionCode="4"
+    android:versionCode="5"
     android:versionName="project.version" >
 
     <uses-sdk

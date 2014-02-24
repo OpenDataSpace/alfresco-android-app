@@ -48,6 +48,14 @@
             android:title="@string/settings_favorite_sync_data" />
     </PreferenceCategory>
 -->
+    <PreferenceCategory android:title="@string/settings_feedback" >
+        <CheckBoxPreference
+            android:key="@string/ods_logging"
+            android:title="@string/settings_feedback_enabled" />
+        <Preference
+            android:key="odssendreport"
+            android:title="@string/settings_feedback_send" />
+    </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_links" >
         <Preference
             android:key="web"
