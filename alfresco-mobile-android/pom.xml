@@ -315,6 +315,7 @@
 			<id>android-eclipse</id>
 			<properties>
 				<android.maven.plugin.version>3.6.0</android.maven.plugin.version>
+				<android.support.version>19.0.1</android.support.version>
 			</properties>
 		</profile>
 	</profiles>
