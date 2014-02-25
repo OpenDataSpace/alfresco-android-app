@@ -263,9 +263,9 @@
 									<tasks>
 										<replace
 											file="${project.basedir}/src/org/alfresco/mobile/android/application/AlfrescoContentProvider.java"
-											token="org.alfresco.mobile.android.provider" value="${packageName.beta}.provider" />
+											token="org.opendataspace.android.app.provider" value="${packageName.beta}.provider" />
 										<replace file="${project.basedir}/AndroidManifest.xml"
-											token="org.alfresco.mobile.android.provider." value="${packageName.beta}.provider." />
+											token="org.opendataspace.android.app.provider." value="${packageName.beta}.provider." />
 										<replace file="${project.basedir}/AndroidManifest.xml"
 											token="@drawable/ic_alfresco_logo" value="@drawable/ic_alfresco" />
 										<replace file="${project.basedir}/AndroidManifest.xml"
@@ -310,13 +310,6 @@
 					</plugin>
 				</plugins>
 			</build>
-		</profile>
-		<profile>
-			<id>android-eclipse</id>
-			<properties>
-				<android.maven.plugin.version>3.6.0</android.maven.plugin.version>
-				<android.support.version>19.0.1</android.support.version>
-			</properties>
 		</profile>
 	</profiles>
 

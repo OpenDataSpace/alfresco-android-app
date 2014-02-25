@@ -364,6 +364,20 @@
 				<module>alfresco-mobile-android-extensions/alfresco-mobile-android-extension-samsung</module>
 			</modules>
 		</profile>
+		<profile>
+			<id>android-eclipse</id>
+			<properties>
+				<android.maven.plugin.version>3.6.0</android.maven.plugin.version>
+				<android.support.version>19.0.1</android.support.version>
+			</properties>
+		</profile>
+		<profile>
+			<id>android-local</id>
+			<properties>
+				<android.maven.plugin.version>3.8.0</android.maven.plugin.version>
+				<android.support.version>19.0.1</android.support.version>
+			</properties>
+		</profile>
 	</profiles>
 
 	<dependencyManagement>
