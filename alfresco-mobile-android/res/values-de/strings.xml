@@ -434,11 +434,11 @@
     <string name="settings_encryption">Verschlüsselung</string>
     <string name="settings_autosync">Synchronisation</string>
     <string name="settings_autosync_settings">Einstellungen</string>
-    <string name="settings_autosync_settings_off">Synchronisation von Bildern und Videos ist derzeit aus</string>
-    <string name="settings_autosync_settings_on">Synchronisation von Bildern und Videos ist derzeit auf</string>
-    <string name="settings_feedback">Rückkopplung</string>
-    <string name="settings_feedback_enabled">Sammeln Fehler info</string>
-    <string name="settings_feedback_send">Sendebericht</string>
+    <string name="settings_autosync_settings_off">Bild-/Videosynchronisation inaktiv</string>
+    <string name="settings_autosync_settings_on">Bild-/Videosynchronisation aktiv</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_enabled">Fehlerinformationen sammeln</string>
+    <string name="settings_feedback_send">Bericht senden</string>
 
     <!-- Multi Selection -->
     <plurals name="selected_document">
