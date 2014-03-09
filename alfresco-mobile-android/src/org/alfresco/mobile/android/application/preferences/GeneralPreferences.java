@@ -23,6 +23,7 @@ import java.io.File;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
@@ -70,7 +71,7 @@ public class GeneralPreferences extends PreferenceFragment
 
     private static final String SYNCHRO_DISPLAY_PREFIX = "SynchroDisplayEnable-";
 
-    private static final String ODS_SYNCHONISATION = "odsAutoSync";
+    public static final String ODS_SYNCHONISATION = "odsAutoSync";
 
     private static final String ODS_SYNCHONISATION_BUTTON = "odssyncourcebutton";
 
@@ -83,6 +84,7 @@ public class GeneralPreferences extends PreferenceFragment
     // ///////////////////////////////////////////////////////////////////////////
     // LIFE CYCLE
     // ///////////////////////////////////////////////////////////////////////////
+    @Override
     public void onCreate(Bundle savedInstanceState)
     {
         setRetainInstance(true);
@@ -308,7 +310,6 @@ public class GeneralPreferences extends PreferenceFragment
 
     private void tuneSyncPrefs(final SharedPreferences sharedPref)
     {
-        /*
         Preference odsSyncPref = findPreference(ODS_SYNCHONISATION_BUTTON);
         refreshOdsSync();
 
@@ -331,7 +332,6 @@ public class GeneralPreferences extends PreferenceFragment
                 return false;
             }
         });
-         */
     }
 
     @Override

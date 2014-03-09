@@ -35,6 +35,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.sync.OdsSyncReceiver;
 
 /**
  * Provides high level service and responsible to manage sessions across
@@ -78,6 +79,7 @@ public final class ApplicationManager
         upgradeManager = new UpgradeManager(appContext);
         configurationManager = ConfigurationManager.getInstance(appContext);
         samsungManager = createSamsungManager(appContext.getString(R.string.extension_samsung_classname));
+        OdsSyncReceiver.startWatcher(applicationContext);
     }
 
     public static ApplicationManager getInstance(Context context)
