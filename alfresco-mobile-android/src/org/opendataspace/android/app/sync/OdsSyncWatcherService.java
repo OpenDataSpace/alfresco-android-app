@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
 
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -25,9 +26,9 @@ public class OdsSyncWatcherService extends Service
     }
 
     private final ArrayList<FileObserver> monitors = new ArrayList<FileObserver>();
-    private boolean changed = false;
     private boolean watching = false;
     private final PrefListenner prefListener = new PrefListenner();
+    private PendingIntent pending = null;
 
     @Override
     public IBinder onBind(Intent intent)
@@ -68,7 +69,7 @@ public class OdsSyncWatcherService extends Service
             public void onEvent(int event, String path)
             {
                 if (watching)
-                    changed = true;
+                    OdsSyncReceiver.reschedule(OdsSyncWatcherService.this, pending);
             }
         };
 
@@ -89,22 +90,14 @@ public class OdsSyncWatcherService extends Service
                 cur.stopWatching();
 
         if (!watching)
-            changed = false;
+            pending.cancel();
+        else
+            pending = OdsSyncReceiver.getPendingInetent(this);
     }
 
     private void updateWatching(SharedPreferences prefs)
     {
         String id = prefs.getString(GeneralPreferences.ODS_SYNCHONISATION, "");
         setWatching(id != null && !"".equals(id));
-    }
-
-    public boolean hasChanges()
-    {
-        return changed;
-    }
-
-    public boolean isWatching()
-    {
-        return watching;
     }
 }

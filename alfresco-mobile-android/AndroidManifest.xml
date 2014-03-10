@@ -235,7 +235,8 @@
 
         <receiver android:name="org.opendataspace.android.app.sync.OdsSyncReceiver">
             <intent-filter>
-                <action android:name="android.intent.action.BOOT_COMPLETED"/>
+                <action android:name="android.intent.action.BOOT_COMPLETED" />
+                <action android:name="org.opendataspace.android.app.sync.SYNC_START" />
             </intent-filter>
         </receiver>
 
