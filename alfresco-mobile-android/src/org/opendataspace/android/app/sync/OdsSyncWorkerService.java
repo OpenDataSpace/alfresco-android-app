@@ -6,11 +6,13 @@ import java.util.List;
 
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.impl.ContentFileImpl;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.alfresco.mobile.android.application.operations.batch.account.LoadSessionHelper;
 import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.IntentService;
 import android.content.Context;
@@ -23,6 +25,8 @@ import android.preference.PreferenceManager;
 
 public class OdsSyncWorkerService extends IntentService
 {
+    private static final String TAG = OdsSyncWorkerService.class.getCanonicalName();
+
     public OdsSyncWorkerService()
     {
         super(OdsSyncWorkerService.class.getCanonicalName());
@@ -96,7 +100,30 @@ public class OdsSyncWorkerService extends IntentService
 
         final List<Document> remote = svc.getDocuments(target);
         final List<File> ls = findLocalFiles();
-        // TODO upload
+
+        for (File f : ls)
+        {
+            boolean upload = true;
+
+            for (Document doc : remote)
+                if (doc.getName().equals(f.getName()))
+                {
+                    upload = false;
+                    break;
+                }
+
+            if (!upload)
+                continue;
+
+            try
+            {
+                svc.createDocument(target, f.getName(), null, new ContentFileImpl(f));
+            }
+            catch (Exception ex)
+            {
+                OdsLog.exw(TAG, ex);
+            }
+        }
     }
 
     private List<File> findLocalFiles()
@@ -114,9 +141,7 @@ public class OdsSyncWorkerService extends IntentService
     private AlfrescoSession requestSession(long accountId)
     {
         if (ApplicationManager.getInstance(this).hasSession(accountId))
-        {
             return ApplicationManager.getInstance(this).getSession(accountId);
-        }
         else
         {
             LoadSessionHelper helper = new LoadSessionHelper(this, accountId);
