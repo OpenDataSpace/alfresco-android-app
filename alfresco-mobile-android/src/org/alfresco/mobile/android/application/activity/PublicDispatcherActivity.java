@@ -43,6 +43,7 @@ import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.intent.PublicIntent;
 import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
 import org.alfresco.mobile.android.application.security.PassCodeActivity;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 
@@ -228,6 +229,7 @@ public class PublicDispatcherActivity extends BaseActivity
             ChildrenBrowserFragment f = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
             Intent intent = new Intent(IntentIntegrator.ACTION_PICK_FOLDER);
             intent.putExtra(IntentIntegrator.EXTRA_FOLDER_ID, f.getImportFolder().getIdentifier());
+            intent.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, SessionUtils.getAccount(this).getId());
             setResult(PublicIntent.REQUESTCODE_FOLDERPICKER, intent);
             finish();
             return;

@@ -1,17 +1,22 @@
 package org.opendataspace.android.app.sync;
 
+import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.commons.utils.ConnectivityUtils;
+import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
+import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.text.format.DateUtils;
 
 public class OdsSyncReceiver extends BroadcastReceiver
 {
-
     private static final String SYNC_START = "org.opendataspace.android.app.sync.SYNC_START";
 
     @Override
@@ -53,8 +58,19 @@ public class OdsSyncReceiver extends BroadcastReceiver
             return;
         }
 
-        // TODO get shred pref
-        // TODO get account id
-        // TODO start sync
+        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
+        long accId = prefs.getLong(GeneralPreferences.ODS_SYNCHONISATION_ACCOUNT, -1);
+        String folderId = prefs.getString(GeneralPreferences.ODS_SYNCHONISATION, "");
+
+        if (accId == -1 || folderId == null || "".equals(folderId))
+            return;
+
+        Account acc = AccountManager.retrieveAccount(context, Long.valueOf(accId));
+
+        if (acc == null)
+            return;
+
+        SynchroManager mgr = SynchroManager.getInstance(context);
+        //mgr.sync(acc);
     }
 }

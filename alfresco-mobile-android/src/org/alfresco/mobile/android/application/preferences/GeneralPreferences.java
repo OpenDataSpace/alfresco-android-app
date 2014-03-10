@@ -38,6 +38,7 @@ import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -72,6 +73,8 @@ public class GeneralPreferences extends PreferenceFragment
     private static final String SYNCHRO_DISPLAY_PREFIX = "SynchroDisplayEnable-";
 
     public static final String ODS_SYNCHONISATION = "odsAutoSync";
+
+    public static final String ODS_SYNCHONISATION_ACCOUNT = "odsAutoSyncAccId";
 
     private static final String ODS_SYNCHONISATION_BUTTON = "odssyncourcebutton";
 
@@ -322,7 +325,10 @@ public class GeneralPreferences extends PreferenceFragment
 
                 if (id != null && !"".equals(id))
                 {
-                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(ODS_SYNCHONISATION, "").apply();
+                    Editor sp = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+                    sp.putString(ODS_SYNCHONISATION, "");
+                    sp.putLong(ODS_SYNCHONISATION_ACCOUNT, -1);
+                    sp.apply();
                     refreshOdsSync();
                     return false;
                 }
@@ -341,10 +347,14 @@ public class GeneralPreferences extends PreferenceFragment
                 IntentIntegrator.ACTION_PICK_FOLDER.equals(data.getAction()))
         {
             String id = data.getStringExtra(IntentIntegrator.EXTRA_FOLDER_ID);
+            long accId = data.getLongExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, -1);
 
-            if (id != null && !"".equals(id))
+            if (id != null && !"".equals(id) && accId != -1)
             {
-                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit().putString(ODS_SYNCHONISATION, id).apply();
+                Editor sp = PreferenceManager.getDefaultSharedPreferences(getActivity()).edit();
+                sp.putString(ODS_SYNCHONISATION, id);
+                sp.putLong(ODS_SYNCHONISATION_ACCOUNT, accId);
+                sp.apply();
                 refreshOdsSync();
             }
         }
