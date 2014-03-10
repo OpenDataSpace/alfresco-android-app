@@ -1,23 +1,21 @@
 package org.opendataspace.android.app.sync;
 
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.commons.utils.ConnectivityUtils;
-import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
-import android.preference.PreferenceManager;
+import android.os.Environment;
 import android.text.format.DateUtils;
 
 public class OdsSyncReceiver extends BroadcastReceiver
 {
     private static final String SYNC_START = "org.opendataspace.android.app.sync.SYNC_START";
+
+    public static final String[] SYNC_SOURCES =
+        {Environment.DIRECTORY_PICTURES, Environment.DIRECTORY_MOVIES, Environment.DIRECTORY_DCIM};
 
     @Override
     public void onReceive(Context context, Intent intent)
@@ -27,13 +25,25 @@ public class OdsSyncReceiver extends BroadcastReceiver
         if (action == Intent.ACTION_BOOT_COMPLETED)
             startWatcher(context);
         else if (action == SYNC_START)
-            startSync(context);
+        {
+            if (!ConnectivityUtils.isWifiAvailable(context))
+                reschedule(context, getPendingInetent(context));
+            else
+                startWorker(context);
+        }
     }
 
     public static void startWatcher(Context context)
     {
-        Intent i = new Intent(OdsSyncWatcherService.class.getCanonicalName());
+        final Intent i = new Intent(OdsSyncWatcherService.class.getCanonicalName());
         i.setClass(context, OdsSyncWatcherService.class);
+        context.startService(i);
+    }
+
+    public static void startWorker(Context context)
+    {
+        final Intent i = new Intent(OdsSyncWorkerService.class.getCanonicalName());
+        i.setClass(context, OdsSyncWorkerService.class);
         context.startService(i);
     }
 
@@ -48,29 +58,5 @@ public class OdsSyncReceiver extends BroadcastReceiver
         final Intent in = new Intent(context, OdsSyncReceiver.class);
         in.setAction(OdsSyncReceiver.SYNC_START);
         return PendingIntent.getBroadcast(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
-    }
-
-    private void startSync(Context context)
-    {
-        if (!ConnectivityUtils.isWifiAvailable(context))
-        {
-            reschedule(context, getPendingInetent(context));
-            return;
-        }
-
-        final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(context);
-        long accId = prefs.getLong(GeneralPreferences.ODS_SYNCHONISATION_ACCOUNT, -1);
-        String folderId = prefs.getString(GeneralPreferences.ODS_SYNCHONISATION, "");
-
-        if (accId == -1 || folderId == null || "".equals(folderId))
-            return;
-
-        Account acc = AccountManager.retrieveAccount(context, Long.valueOf(accId));
-
-        if (acc == null)
-            return;
-
-        SynchroManager mgr = SynchroManager.getInstance(context);
-        //mgr.sync(acc);
     }
 }

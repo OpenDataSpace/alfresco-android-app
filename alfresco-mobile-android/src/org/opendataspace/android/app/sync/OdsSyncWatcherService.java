@@ -41,9 +41,8 @@ public class OdsSyncWatcherService extends Service
     {
         super.onStartCommand(intent, flags, startId);
 
-        regiterObserver(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
-        regiterObserver(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath());
-        regiterObserver(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DCIM).getAbsolutePath());
+        for (String cur : OdsSyncReceiver.SYNC_SOURCES)
+            regiterObserver(Environment.getExternalStoragePublicDirectory(cur).getAbsolutePath());
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         updateWatching(prefs);
@@ -62,8 +61,7 @@ public class OdsSyncWatcherService extends Service
 
     private void regiterObserver(String path)
     {
-        FileObserver fo = new FileObserver(path, FileObserver.CREATE | FileObserver.DELETE |
-                FileObserver.MODIFY | FileObserver.MOVED_FROM | FileObserver.MOVED_TO)
+        FileObserver fo = new FileObserver(path, FileObserver.CREATE | FileObserver.MOVED_TO)
         {
             @Override
             public void onEvent(int event, String path)

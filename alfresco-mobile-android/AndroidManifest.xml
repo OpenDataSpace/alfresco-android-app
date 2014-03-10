@@ -233,6 +233,10 @@
             android:name="org.opendataspace.android.app.sync.OdsSyncWatcherService"
             android:exported="false" />
 
+        <service
+            android:name="org.opendataspace.android.app.sync.OdsSyncWorkerService"
+            android:exported="false" />
+
         <receiver android:name="org.opendataspace.android.app.sync.OdsSyncReceiver">
             <intent-filter>
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
