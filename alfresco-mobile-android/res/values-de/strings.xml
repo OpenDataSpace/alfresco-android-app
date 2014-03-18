@@ -24,19 +24,19 @@
 
     <!-- HOME SCREEN -->
     <string name="home_title">Erste Schritte... </string>
-    <string name="home_sign_cloud">Anmelden bei DataSpace Cloud</string>
-    <string name="home_sign_cloud_description">Neu bei DataSpace? Erstellen Sie einen kostenlosen Online-Account, um Ihre Dokumente zu speichern und überall darauf zuzugreifen.</string>
+    <string name="home_sign_cloud">Anmelden bei DataSpace</string>
+    <string name="home_sign_cloud_description">Neu bei DataSpace? Fordern Sie einen Online-Account an, um Ihre Dokumente zu speichern. Sie können sie von verschiedenen Geräten aus wieder abrufen.</string>
     <string name="home_account">Ich habe bereits einen Account.</string>
-    <string name="home_account_description">Wählen Sie diese Option, wenn Sie bereits über einen DataSpace Cloud-Account verfügen oder eine Verbindung zu einem DataSpace Server hergestellt werden soll.</string>
-    <string name="home_helper">Wenn Sie mehr über DataSpace Mobile erfahren möchten, dann sehen Sie sich <a href="alfresco://view_help_guide/">unseren Leitfaden</a> im Hilfebereich an.</string>
+    <string name="home_account_description">Wählen Sie diese Option, wenn Sie bereits über einen DataSpace-Account verfügen.</string>
+    <string name="home_helper">Wenn Sie mehr über DataSpace erfahren möchten, dann sehen Sie sich <a href="alfresco://view_help_guide/">unseren Leitfaden</a> an.</string>
 
     <!-- ACCOUNT WIZARD SCRE STEP 1 -->
     <string name="account_wizard_alfresco_server">DataSpace Server</string>
     <string name="account_wizard_alfresco_server_description">Verbindung zu einem DataSpace Server herstellen</string>
     <string name="account_wizard_alfresco_cloud">DataSpace Cloud</string>
-    <string name="account_wizard_alfresco_cloud_description">Auf Ihren DataSpace Cloud-Account zugreifen</string>
-    <string name="account_wizard_alfresco_help">Neu bei DataSpace? Für einen kostenlosen Account <a href="alfresco://sign_up_cloud/">anmelden</a></string>
-    <string name="account_wizard_alfresco_help_inside_app">Neu bei DataSpace? Für einen kostenlosen Account <a href="alfresco://sign_up_cloud_i/">anmelden</a></string>
+    <string name="account_wizard_alfresco_cloud_description">Auf Ihren DataSpace Account zugreifen</string>
+    <string name="account_wizard_alfresco_help">Neu bei DataSpace? Für einen Account <a href="alfresco://sign_up_cloud/">anmelden</a></string>
+    <string name="account_wizard_alfresco_help_inside_app">Neu bei DataSpace? Für einen Account <a href="alfresco://sign_up_cloud_i/">anmelden</a></string>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 2 -->
     <string name="account">Account</string>
@@ -48,11 +48,11 @@
     <string name="account_description">Beschreibung</string>
     <string name="account_description_hint">DataSpace Server (optional)</string>
     <string name="account_advanced">Erweitert</string>
-    <string name="account_authentication">Account-Authentifizierung</string>
+    <string name="account_authentication">Account-Daten</string>
     <string name="account_https">HTTPS</string>
     <string name="account_port">Port</string>
     <string name="account_servicedocument">Dienst-URL</string>
-    <string name="account_wizard_step2_title">Informationen zur Account-Authentifizierung</string>
+    <string name="account_wizard_step2_title">Informationen zu Account-Daten</string>
     <string name="account_verify">Account-Informationen werden verifiziert...</string>
     <string name="email_hint">beispiel@amail.com</string>
     <string name="account_validate">Speichern</string>
@@ -143,11 +143,11 @@
     <string name="action_rename_desc">Neuer Name für %s</string>
 
     <!-- MAIN MENU -->
-    <string name="menu_browse_root">Repository</string>
+    <string name="menu_browse_root">Private Dateien</string>
     <string name="menu_browse_sites">Sites</string>
     <string name="menu_browse_userhome">Meine Dateien</string>
     <string name="menu_browse_shared">Freigegebene Dateien</string>
-    <string name="menu_browse_global">Global Dateien</string>
+    <string name="menu_browse_global">Globale Dateien</string>
     <string name="menu_browse_all_sites">Alle Sites</string>
     <string name="menu_browse_my_sites">Meine Sites</string>
     <string name="menu_browse_favorite_sites">Favoriten-Sites</string>
@@ -245,7 +245,7 @@
 <![CDATA[
 <p>DataSpace Mobile stellt eine Verbindung zu DataSpace in der Cloud und zu DataSpace auf den Servern vor Ort (3.4 und höher) her, um unterwegs einen sicheren Zugriff auf Ihre Unternehmensdokumente zu ermöglichen.</p> 
 
-<p>DataSpace Mobile stellt mithilfe Ihrer DataSpace Anmeldeinformationen eine Verbindung zu Ihrem DataSpace Repository (über HTTP oder HTTPS) her und verwaltet den Benutzerzugriff basierend auf deren Berechtigungen.</p> 
+<p>DataSpace Mobile stellt mithilfe Ihrer DataSpace Anmeldeinformationen eine Verbindung zu Ihrem DataSpace Repositorium (über HTTP oder HTTPS) her und verwaltet den Benutzerzugriff basierend auf deren Berechtigungen.</p> 
 ]]>
     </string>
     <string name="about_ods">
