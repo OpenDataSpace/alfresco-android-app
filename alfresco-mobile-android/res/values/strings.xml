@@ -14,7 +14,8 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.-->
+  limitations under the License.
+-->
 <resources>
 
     <string name="app_name">ODS</string>
@@ -23,19 +24,19 @@
 
     <!-- HOME SCREEN -->
     <string name="home_title">Let\'s get you started&#8230; </string>
-    <string name="home_sign_cloud">Sign up for DataSpace Cloud</string>
-    <string name="home_sign_cloud_description">New to DataSpace ? Create a free online account to store your documents and access them from anywhere.</string>
+    <string name="home_sign_cloud">Sign up for DataSpace</string>
+    <string name="home_sign_cloud_description">New to DataSpace? Create a free online account to store your documents and access them from anywhere.</string>
     <string name="home_account">I already have an account</string>
-    <string name="home_account_description">Choose this option if you already have an DataSpace Cloud account or you want to connect to an DataSpace Server</string>
-    <string name="home_helper">If you want to learn more about DataSpace Mobile take a look at <a href="alfresco://view_help_guide/">our guide</a> in the Help area</string>
+    <string name="home_account_description">Choose this option if you already have an DataSpace account or you want to connect to an DataSpace Server</string>
+    <string name="home_helper">If you want to learn more about DataSpace take a look at <a href="alfresco://view_help_guide/">our guide</a> in the Help area</string>
 
     <!-- ACCOUNT WIZARD SCRE STEP 1 -->
     <string name="account_wizard_alfresco_server">DataSpace Server</string>
     <string name="account_wizard_alfresco_server_description">Connect to an DataSpace Server</string>
-    <string name="account_wizard_alfresco_cloud">DataSpace Cloud</string>
-    <string name="account_wizard_alfresco_cloud_description">Access your DataSpace Cloud account</string>
-    <string name="account_wizard_alfresco_help">New to DataSpace ? <a href="alfresco://sign_up_cloud/">Sign Up</a> for a free account</string>
-    <string name="account_wizard_alfresco_help_inside_app">New to DataSpace ? <a href="alfresco://sign_up_cloud_i/">Sign Up</a> for a free account</string>
+    <string name="account_wizard_alfresco_cloud">DataSpace</string>
+    <string name="account_wizard_alfresco_cloud_description">Access your DataSpace account</string>
+    <string name="account_wizard_alfresco_help">New to DataSpace? <a href="alfresco://sign_up_cloud/">Sign Up</a> for a free account</string>
+    <string name="account_wizard_alfresco_help_inside_app">New to DataSpace? <a href="alfresco://sign_up_cloud_i/">Sign Up</a> for a free account</string>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 2 -->
     <string name="account">Account</string>
@@ -74,7 +75,7 @@
     <!-- ACCOUNTS -->
     <string name="account_not_activated">Your account is not activated. Please check the Manage Account screen.</string>
     <string name="account_not_activated_description">Your account is still waiting for verification</string>
-    <string name="account_default_cloud">DataSpace Cloud</string>
+    <string name="account_default_cloud">DataSpace</string>
     <string name="account_default_onpremise">DataSpace Server</string>
 
     <!-- WAITING SESSION -->
@@ -96,7 +97,7 @@
     <string name="error_session_certificate">
 <![CDATA[<p><b>The server\'s security certificate is not trusted!</b><br/></p>
 		The third-party organization that issued your server destination\'s certificate is not one that your device recognizes.<br/>
-		In order for DataSpace Mobile to verify that you\'re connecting with the appropriate server, its certificate must be from a trusted organization.<br/>
+		In order for DataSpace to verify that you\'re connecting with the appropriate server, its certificate must be from a trusted organization.<br/>
 		If your server has a self signed certificate please add it to your device to successfully connect.<br/> ]]>
     </string>
     <string name="error_session_certificate_expired">
@@ -108,7 +109,7 @@
         Please check your account settings and try again.<br/> If the problem persists please contact your administrator.]]>
     </string>
     <string name="error_session_cloud_unavailable">
-<![CDATA[<p><b>DataSpace in the Cloud is under heavy load right now!</b><br/></p>
+<![CDATA[<p><b>DataSpace is under heavy load right now!</b><br/></p>
         Please try again in a few minutes.<br/>]]>
     </string>
     <string name="error_session_expired">Your session has expired. Please sign in again.</string>
@@ -196,9 +197,9 @@
     <string name="cloud_signup_confirm">Confirm Password</string>
     <string name="cloud_signup_action">Sign Up</string>
     <string name="cloud_signup_hint">By tapping Sign Up, you are agreeing to the DataSpace <a href="http://www.alfresco.com/legal/agreements/cloud">Terms of Service</a> and <a href="http://www.alfresco.com/privacy">Privacy Policy</a>.</string>
-    <string name="sign_up_cloud">Sign Up for DataSpace Cloud</string>
+    <string name="sign_up_cloud">Sign Up for DataSpace</string>
     <string name="sign_up_cloud_email_verification">Account waiting for email verification</string>
-    <string name="sign_up_cloud_email_verification_line1">You\'ve signed up for DataSpace in the cloud using the email address:</string>
+    <string name="sign_up_cloud_email_verification_line1">You\'ve signed up for DataSpace using the email address:</string>
     <string name="sign_up_cloud_email_verification_line2">Please check your email. We\'ve sent you a link that you\'ll need to use to complete the registration.</string>
     <string name="sign_up_cloud_email_having_trouble">Having trouble activating ?</string>
     <string name="sign_up_cloud_email_having_trouble_line1"><a href="http://getsatisfaction.com/alfresco/products/alfresco_alfresco_mobile_app">Please let us know</a> if you are unable to activate your account.</string>
@@ -207,7 +208,7 @@
     <string name="cloud_signup_resend_successfull">Successfully Resent Email</string>
     <string name="cloud_signup_resend_body">Not receiving our email? Please check you entered the email address correctly and remember to look in your spam folders</string>
     <string name="cloud_signup_error_email">DataSpace requires you to use your company email address so you can be added to your company collaboration network.</string>
-    <string name="cloud_signup_error_email_title">DataSpace Cloud : Sign Up.</string>
+    <string name="cloud_signup_error_email_title">DataSpace: Sign Up.</string>
 
     <!-- AUTHENTICATION -->
     <string name="cloud_authentication">Authentication</string>
@@ -243,9 +244,9 @@
     <string name="sdknumber_version">SDK: </string>
     <string name="about_description">
 <![CDATA[
-<p>DataSpace Mobile connects to DataSpace in the cloud and DataSpace on premise servers (3.4 and above) to provide safe access to your corporate documents on the go.</p> 
+<p>DataSpace enables safe access to your corporate documents on the go.</p> 
 
-<p>DataSpace Mobile connects to your DataSpace repository using your DataSpace log-in credentials (over HTTP or HTTPS), and manages user access based on their permissions.</p> 
+<p>DataSpace connects to your DataSpace repository using your DataSpace log-in credentials (over HTTP or HTTPS), and manages user access based on their permissions.</p> 
 ]]>
     </string>
     <string name="about_ods">
@@ -261,7 +262,7 @@
     <string name="link_or_attach">Do you want to share this as an attachment, or a clickable link?</string>
     <string name="full_attachment">Attachment</string>
     <string name="link_to_repo">Clickable link</string>
-    <string name="email_content"><![CDATA[<!DOCTYPE html><html><body>Send with <a href="http://play.google.com/store/apps/details?id=org.alfresco.mobile.android.application">DataSpace Mobile</a></body></html>]]></string>
+    <string name="email_content"><![CDATA[<!DOCTYPE html><html><body>Send with <a href="http://play.google.com/store/apps/details?id=org.alfresco.mobile.android.application">DataSpace</a></body></html>]]></string>
 
     <!-- Delete -->
     <plurals name="delete_items">
@@ -351,7 +352,7 @@
     <string name="action_unfavorite_site_error">A problem prevented you from unfavoriting the site \"%s\".</string>
 
     <!-- IMPORT -->
-    <string name="import_document_title">Upload in DataSpace Mobile</string>
+    <string name="import_document_title">Upload in DataSpace</string>
     <string name="import_document_name">Document Name</string>
     <string name="import_documents">Documents</string>
     <string name="import_account">Account</string>
@@ -359,7 +360,7 @@
     <string name="import_send_downloads">Documents are available inside your \"Downloads\" folder.</string>
     <string name="import_folder">Upload Folder</string>
     <string name="import_error">An error occurred during the upload.</string>
-    <string name="import_unsupported_intent">DataSpace Mobile : Unable to retrieve information.</string>
+    <string name="import_unsupported_intent">DataSpace: Unable to retrieve information.</string>
     <string name="action_upload">Upload</string>
     <string name="action_import">Import</string>
 
@@ -379,7 +380,7 @@
     <string name="passcode_timeout">Expiration</string>
     <string name="passcode_timeout_summary">{0,choice,0#After 0 minute|1#After 1 minute|1&lt;After {0} minutes}</string>
     <string name="passcode_erase_data">Erase Data</string>
-    <string name="passcode_erase_data_summary">Erase all DataSpace Mobile data from this device after 10 failed passcode attempts</string>
+    <string name="passcode_erase_data_summary">Erase all DataSpace data from this device after 10 failed passcode attempts</string>
     <string name="passcode_edit">Enter your new Passcode</string>
     <string name="passcode_confirmation">Re-Enter Passcode</string>
     <string name="passcode_error_confirmation">Your passcode doesn\'t match.</string>
@@ -730,7 +731,7 @@
     <string name="task_dueat">Due Date</string>
     <string name="task_no_dueat">Due Date</string>
     <string name="tasks_history">Tasks History</string>
-
+    
     
     <!-- Tasks Filters -->
     <string name="task_filter_active">Active Tasks</string>
@@ -788,13 +789,13 @@
     
     <string name="task_delegate_in_progress">Reassign in progress&#8230;</string>
     <string name="task_delegate_complete">Reassign completed</string>
-
-    <!-- PROCESS NAME -->
+    
+    <!-- PROCESS NAME -->    
     <string name="process_adhoc">Adhoc Workflow</string>
     <string name="process_parallel_review">Parallel Review and Approve</string>
     <string name="process_review">Review and Approve</string>
     <string name="process_pooled_review">Pooled Review and Approve</string>
-
+    
     
     <!-- AGGREGATOR SEARCH -->
     <string name="search">Search</string>
@@ -802,18 +803,18 @@
     <string name="search_documents">Documents</string>
     <string name="search_folders">Folders</string>
     <string name="search_advanced">Advanced Search</string>
-
+    
     <!-- DOCUMENT PICKER -->
     <string name="picker_document_title">Select attachments</string>
     <string name="picker_assign_person">{0,choice,0#Assign|1#Assign 1 person|1&lt;Assign {0} people}</string>
     <string name="picker_attach_document">{0,choice,0#Attach|1#Attach 1 document|1&lt;Attach {0} documents}</string>
-
+    
     <!-- DISLAY VIEWS ITEMS -->
     <string name="display_views">Views</string>
     <string name="display_gallery">Display Gallery</string>
-
+    
     <!-- Metadata RESTRICTABLE -->
     <string name="metadata_aspect_restrictable">Restrictable</string>
     <string name="metadata_prop_offline_expires_after">Offline Expires After (hours)</string>
-
+    
 </resources>
