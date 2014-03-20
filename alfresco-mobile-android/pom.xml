@@ -23,7 +23,7 @@
 	<name>ODS Android Application</name>
 
 	<build>
-		<finalName>${project.artifactId}</finalName>
+		<finalName>${project.ods.output}</finalName>
 		<sourceDirectory>src</sourceDirectory>
 		<plugins>
 			<plugin>
@@ -128,7 +128,7 @@
 					</resource>
 				</resources>
 
-				<finalName>${project.artifactId}-${project.version}</finalName>
+				<finalName>${project.ods.output}-${project.version}</finalName>
 
 				<plugins>
 					<plugin>
@@ -159,7 +159,7 @@
 									<removeExistingSignatures>true</removeExistingSignatures>
 									<archiveDirectory />
 									<includes>
-										<include>${project.build.directory}/${project.artifactId}-${project.version}.apk</include>
+										<include>${project.build.directory}/${project.ods.output}-${project.version}.apk</include>
 									</includes>
 									<keystore>${project.basedir}/../keystore</keystore>
 									<alias>beta</alias>
@@ -189,8 +189,8 @@
 							<zipalign>
 								<skip>false</skip>
 								<verbose>true</verbose>
-								<inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk</inputApk>
-								<outputApk>${project.build.directory}/${project.artifactId}-signed-aligned.apk </outputApk>
+								<inputApk>${project.build.directory}/${project.ods.output}-${project.version}.apk</inputApk>
+								<outputApk>${project.build.directory}/${project.ods.output}-signed-aligned.apk </outputApk>
 							</zipalign>
 						</configuration>
 						<executions>
@@ -241,7 +241,7 @@
 						</includes>
 					</resource>
 					</resources>
-				<finalName>${project.artifactId}-${project.version}</finalName>
+				<finalName>${project.ods.output}-${project.version}</finalName>
 				<plugins>
 					<plugin>
 						<artifactId>maven-resources-plugin</artifactId>
@@ -293,10 +293,10 @@
 							</sign>
 							<zipalign>
 								<skip>false</skip>
-								<inputApk>${project.build.directory}/${project.artifactId}-${project.version}.apk</inputApk>
-								<outputApk>${project.build.directory}/${project.artifactId}-dev.apk</outputApk>
+								<inputApk>${project.build.directory}/${project.ods.output}-${project.version}.apk</inputApk>
+								<outputApk>${project.build.directory}/${project.ods.output}-dev.apk</outputApk>
 							</zipalign>
-							<file>${project.build.directory}/${project.artifactId}-dev.apk</file>
+							<file>${project.build.directory}/${project.ods.output}-dev.apk</file>
 						</configuration>
 						<executions>
 							<execution>
