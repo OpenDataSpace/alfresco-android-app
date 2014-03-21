@@ -67,7 +67,6 @@
 		<dependency>
 			<groupId>org.alfresco.mobile.android.sdk</groupId>
 			<artifactId>alfresco-mobile-android-ui-library</artifactId>
-			<version>${alfresco.sdk.version}</version>
 			<type>apklib</type>
 		</dependency>
 	</dependencies>
