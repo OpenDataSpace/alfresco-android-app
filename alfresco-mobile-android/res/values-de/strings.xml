@@ -49,7 +49,7 @@
     <string name="account_description">Beschreibung</string>
     <string name="account_description_hint">DataSpace Server (optional)</string>
     <string name="account_advanced">Erweitert</string>
-    <string name="account_authentication">Zugangsdaten</string>
+    <string name="account_authentication">Zugangsauthentifizierung</string>
     <string name="account_https">HTTPS</string>
     <string name="account_port">Port</string>
     <string name="account_servicedocument">Dienst-URL</string>
@@ -71,7 +71,7 @@
     <string name="account_wizard_step1">Schritt 1 von 2</string>
     <string name="account_wizard_step1_description">Zugang auswählen</string>
     <string name="account_wizard_step2">Schritt 2 von 2</string>
-    <string name="account_wizard_step2_description">Zugangsdaten</string>
+    <string name="account_wizard_step2_description">Zugangsinformationen</string>
 
     <!-- ACCOUNTS -->
     <string name="account_not_activated">Ihr Zugang ist nicht aktiviert. Bitte überprüfen Sie den Bildschirm für die Zugangsverwaltung.</string>
@@ -96,13 +96,13 @@
     <string name="error_session_notfound"><![CDATA[Ihr Server konnte nicht erreicht werden.<br/> Überprüfen Sie Ihre Zugangsdaten.]]></string>
     <string name="error_session_port"><![CDATA[Ihr <b>Port</b> ist falsch.<br/> Überprüfen Sie Ihre Zugangsdaten.]]></string>
     <string name="error_session_certificate">
-<![CDATA[<p><b>Das Zertifikat des Servers ist nicht vertrauenswürdig!</b><br/></p>
+<![CDATA[<p><b>Das SSL-Zertifikat des Servers ist nicht vertrauenswürdig!</b><br/></p>
 		Der Drittanbieter, der das Server-Zielzertifikat ausgestellt hat, wird von Ihrem Gerät nicht erkannt.<br/>
 		Damit DataSpace zulassen kann, dass Sie eine Verbindung zum entsprechenden Server herstellen, muss das Zertifikat von einem vertrauenswürdigen Unternehmen stammen.<br/>
 		Falls auf dem Server ein selbstsigniertes Zertifikat installiert ist, fügen Sie dieses Ihrem Gerät hinzu, um eine Verbindung herstellen zu können.<br/> ]]>
     </string>
     <string name="error_session_certificate_expired">
-<![CDATA[<p><b>Das Zertifikat des Servers ist abgelaufen oder noch nicht gültig!</b><br/></p>
+<![CDATA[<p><b>Das SSL-Zertifikat des Servers ist abgelaufen oder noch nicht gültig!</b><br/></p>
 		Überprüfen Sie das Datum und die Uhrzeit, die für Ihr Gerät eingestellt sind.<br/> Kontaktieren Sie Ihren Administrator, falls das Problem weiterhin besteht. ]]>
     </string>
     <string name="error_session_ssl">
