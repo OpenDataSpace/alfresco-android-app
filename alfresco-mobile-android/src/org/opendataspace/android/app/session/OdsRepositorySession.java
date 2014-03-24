@@ -196,6 +196,8 @@ public class OdsRepositorySession extends RepositorySessionImpl
             tmpSettings.putAll(settings);
         }
 
+        tmpSettings.put(SessionParameter.CONNECT_TIMEOUT, "20000");
+        tmpSettings.put(SessionParameter.READ_TIMEOUT, "300000");
         tmpSettings.put(AlfrescoSession.HTTP_CHUNK_TRANSFERT, "true");
         tmpSettings.put(SessionParameter.AUTHENTICATION_PROVIDER_CLASS,
                 "org.opendataspace.android.app.session.OdsAuthProviderImpl");
