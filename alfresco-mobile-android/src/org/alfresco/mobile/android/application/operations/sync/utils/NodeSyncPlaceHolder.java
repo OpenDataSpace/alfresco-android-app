@@ -32,7 +32,6 @@ import org.alfresco.mobile.android.api.model.Property;
 import org.alfresco.mobile.android.api.model.PropertyType;
 import org.alfresco.mobile.android.api.model.impl.PropertyImpl;
 import org.alfresco.mobile.android.api.services.impl.AbstractDocumentFolderServiceImpl;
-import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.enums.Action;
 import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;

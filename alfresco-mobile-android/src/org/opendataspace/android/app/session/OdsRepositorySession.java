@@ -57,6 +57,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
         return new OdsRepositorySession(url, username, password, parameters);
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected Session createSession(SessionFactory sessionFactory,
             AuthenticationProvider authenticator, Map<String, String> param)
@@ -196,6 +197,9 @@ public class OdsRepositorySession extends RepositorySessionImpl
         }
 
         tmpSettings.put(AlfrescoSession.HTTP_CHUNK_TRANSFERT, "true");
+        tmpSettings.put(SessionParameter.AUTHENTICATION_PROVIDER_CLASS,
+                "org.opendataspace.android.app.session.OdsAuthProviderImpl");
+
         super.initSettings(url, username, password, tmpSettings);
     }
 }
