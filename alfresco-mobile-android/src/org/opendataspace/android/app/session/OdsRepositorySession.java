@@ -172,13 +172,14 @@ public class OdsRepositorySession extends RepositorySessionImpl
     }
 
     private boolean isJsonProto(Map<String, Serializable> params) {
-        return params != null && Account.ProtocolType.JSON.equals((Account.ProtocolType) params.get(PROTO_TYPE));
+        return params != null && Account.ProtocolType.JSON.equals(params.get(PROTO_TYPE));
     }
 
     @Override
     protected void initSettings(String url, String username, String password, Map<String, Serializable> settings)
     {
-        try {
+        try
+        {
             URL u = new URL(url);
 
             if ("".equals(u.getPath()))
@@ -201,6 +202,8 @@ public class OdsRepositorySession extends RepositorySessionImpl
         tmpSettings.put(AlfrescoSession.HTTP_CHUNK_TRANSFERT, "true");
         tmpSettings.put(SessionParameter.AUTHENTICATION_PROVIDER_CLASS,
                 "org.opendataspace.android.app.session.OdsAuthProviderImpl");
+        tmpSettings.put(AlfrescoSession.ONPREMISE_SERVICES_CLASSNAME,
+                "org.opendataspace.android.app.session.OdsServiceRegistry");
 
         super.initSettings(url, username, password, tmpSettings);
     }
