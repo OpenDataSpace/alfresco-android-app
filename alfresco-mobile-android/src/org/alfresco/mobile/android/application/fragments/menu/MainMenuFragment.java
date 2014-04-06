@@ -22,6 +22,7 @@ import java.util.Map;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.config.OdsConfigManager;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
@@ -171,10 +172,12 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
         IntentFilter intentFilter = new IntentFilter(IntentIntegrator.ACTION_SYNCHRO_COMPLETED);
         intentFilter.addAction(IntentIntegrator.ACTION_CONFIGURATION_MENU);
+        intentFilter.addAction(IntentIntegrator.ACTION_CONFIGURATION_BRAND);
         receiver = new MainMenuReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, intentFilter);
 
         displayFavoriteStatut();
+        rebrand();
 
         if (configurationManager != null
                 && configurationManager.getConfigurationState() == ConfigurationManager.STATE_HAS_CONFIGURATION)
@@ -518,9 +521,26 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
                 {
                     display();
                 }
+            } else if (IntentIntegrator.ACTION_CONFIGURATION_BRAND.equals(intent.getAction()))
+            {
+                rebrand();
             }
 
             updateFolderAccess();
+        }
+    }
+
+    private void rebrand()
+    {
+        Activity act = getActivity();
+        OdsConfigManager cfg = ApplicationManager.getInstance(act).getOdsConfig();
+        Account acc = SessionUtils.getAccount(act);
+        Drawable dr = cfg.getBrandingDrawable(act, OdsConfigManager.BRAND_ABOUT, acc);
+
+        if (dr != null)
+        {
+            Button bu = (Button) rootView.findViewById(R.id.menu_about);
+            bu.setCompoundDrawablesWithIntrinsicBounds(dr, null, null, null);
         }
     }
 

@@ -18,6 +18,9 @@
 package org.alfresco.mobile.android.application.manager;
 
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.config.OdsConfigManager;
+import org.alfresco.mobile.android.application.ApplicationManager;
+import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
@@ -28,6 +31,8 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 
@@ -124,7 +129,18 @@ public final class NotificationHelper
             builder.setContentText(params.getString(ARGUMENT_DESCRIPTION));
         }
         builder.setNumber(0);
-        builder.setSmallIcon(R.drawable.ic_notif_alfresco);
+
+        OdsConfigManager cfg = ApplicationManager.getInstance(c).getOdsConfig();
+        Account acc = SessionUtils.getAccount(c);
+        Drawable dr = cfg.getBrandingDrawable(c, OdsConfigManager.BRAND_NOTIF, acc);
+
+        if (dr != null && dr instanceof BitmapDrawable)
+        {
+            builder.setLargeIcon(((BitmapDrawable) dr).getBitmap());
+        } else
+        {
+            builder.setSmallIcon(R.drawable.ic_notif_alfresco);
+        }
 
         if (params.containsKey(ARGUMENT_DESCRIPTION))
         {

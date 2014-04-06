@@ -266,6 +266,7 @@ public interface IntentIntegrator extends PublicIntent
     String ACTION_CONFIGURATION_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_CONFIGURATION_COMPLETED";
 
     String ACTION_CONFIGURATION_MENU = "org.alfresco.mobile.android.intent.ACTION_CONFIGURATION_MENU";
+    String ACTION_CONFIGURATION_BRAND = "org.alfresco.mobile.android.intent.ACTION_CONFIGURATION_BRAND";
 
     // EXTRA
     String EXTRA_CONFIGURATION = "org.alfresco.mobile.android.intent.EXTRA_CONFIGURATION";

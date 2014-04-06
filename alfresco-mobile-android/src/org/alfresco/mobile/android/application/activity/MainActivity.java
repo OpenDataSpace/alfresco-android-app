@@ -32,8 +32,10 @@ import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.config.OdsConfigManager;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
+import org.alfresco.mobile.android.application.ApplicationManager;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountDetailsFragment;
@@ -101,6 +103,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.os.Handler;
@@ -1363,7 +1366,14 @@ public class MainActivity extends BaseActivity
             {
                 if (getCurrentSession() instanceof RepositorySession)
                 {
-                    ConfigurationManager.getInstance(activity).retrieveConfiguration(activity, currentAccount);
+                    if (getCurrentSession() instanceof OdsRepositorySession)
+                    {
+                        OdsConfigManager.getInstance(context).retrieveConfiguration(activity, currentAccount);
+                    }
+                    else
+                    {
+                        ConfigurationManager.getInstance(activity).retrieveConfiguration(activity, currentAccount);
+                    }
                 }
 
                 if (!isCurrentAccountToLoad(intent)) { return; }
@@ -1581,5 +1591,23 @@ public class MainActivity extends BaseActivity
         if (currentAccount == null) { return false; }
         if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID)) { return false; }
         return (currentAccount.getId() == intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID));
+    }
+
+    @Override
+    protected void rebrand()
+    {
+        super.rebrand();
+
+        if (DisplayUtils.hasCentralPane(this))
+        {
+            OdsConfigManager cfg = ApplicationManager.getInstance(this).getOdsConfig();
+            Account acc = SessionUtils.getAccount(this);
+            Drawable dr = cfg.getBrandingDrawable(this, OdsConfigManager.BRAND_STUB, acc);
+
+            if (dr != null)
+            {
+                DisplayUtils.getCentralPane(this).setBackground(dr);
+            }
+        }
     }
 }

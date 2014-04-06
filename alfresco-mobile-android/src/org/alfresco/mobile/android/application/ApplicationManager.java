@@ -35,6 +35,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.config.OdsConfigManager;
 import org.opendataspace.android.app.sync.OdsSyncReceiver;
 
 /**
@@ -69,6 +70,8 @@ public final class ApplicationManager
 
     private SamsungManager samsungManager;
 
+    private OdsConfigManager odsConfig;
+
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTOR
     // ///////////////////////////////////////////////////////////////////////////
@@ -79,6 +82,7 @@ public final class ApplicationManager
         upgradeManager = new UpgradeManager(appContext);
         configurationManager = ConfigurationManager.getInstance(appContext);
         samsungManager = createSamsungManager(appContext.getString(R.string.extension_samsung_classname));
+        odsConfig = OdsConfigManager.getInstance(appContext);
         OdsSyncReceiver.startWatcher(applicationContext);
     }
 
@@ -145,6 +149,11 @@ public final class ApplicationManager
     public ConfigurationManager getConfigurationManager()
     {
         return configurationManager;
+    }
+
+    public OdsConfigManager getOdsConfig()
+    {
+        return odsConfig;
     }
 
     // ///////////////////////////////////////////////////////////////////////////

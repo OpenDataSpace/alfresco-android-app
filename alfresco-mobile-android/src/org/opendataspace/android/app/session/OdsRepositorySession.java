@@ -34,6 +34,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
 
     private OdsRepositorySession shared;
     private OdsRepositorySession global;
+    private List<Repository> repos;
 
     private OdsRepositorySession()
     {
@@ -70,9 +71,9 @@ public class OdsRepositorySession extends RepositorySessionImpl
             }
             else
             {
-                Session ses = findSession(((SessionFactoryImpl) sessionFactory)
-                        .getRepositories(param, null, new PassthruAuthenticationProviderImpl(authenticator), null));
-
+                repos = ((SessionFactoryImpl) sessionFactory)
+                        .getRepositories(param, null, new PassthruAuthenticationProviderImpl(authenticator), null);
+                Session ses = findSession();
                 return ses != null ? ses : super.createSession(sessionFactory, authenticator, param);
             }
         }
@@ -97,7 +98,8 @@ public class OdsRepositorySession extends RepositorySessionImpl
             }
             else
             {
-                Session ses = findSession(sessionFactory.getRepositories(param));
+                repos = sessionFactory.getRepositories(param);
+                Session ses = findSession();
                 return ses != null ? ses : super.createSession(sessionFactory, param);
             }
         }
@@ -111,11 +113,11 @@ public class OdsRepositorySession extends RepositorySessionImpl
         }
     }
 
-    private Session findSession(List<Repository> ls)
+    private Session findSession()
     {
         Session ses = null;
 
-        for (Repository cur : ls)
+        for (Repository cur : repos)
         {
             String name = cur.getName();
 
@@ -144,6 +146,25 @@ public class OdsRepositorySession extends RepositorySessionImpl
     public OdsRepositorySession getGlobal()
     {
         return global;
+    }
+
+    public OdsRepositorySession getConfig()
+    {
+        Repository repo = findRepository("config");
+        return repo != null ? create(repo.createSession()) : null;
+    }
+
+    private Repository findRepository(String name)
+    {
+        for (Repository cur : repos)
+        {
+            if (cur.getName().equals(name))
+            {
+                return cur;
+            }
+        }
+
+        return null;
     }
 
     private OdsRepositorySession create(Session ses)

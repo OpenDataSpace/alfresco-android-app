@@ -17,18 +17,25 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.about;
 
+import org.alfresco.mobile.android.application.ApplicationManager;
+import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.config.OdsConfigManager;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.DialogFragment;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class AboutFragment extends DialogFragment
@@ -94,7 +101,21 @@ public class AboutFragment extends DialogFragment
         sb.append(Version.SDK);
         tv.setText(sb.toString());
          */
+        rebrand(v);
         return v;
     }
 
+    private void rebrand(View v)
+    {
+        Activity act = getActivity();
+        OdsConfigManager cfg = ApplicationManager.getInstance(act).getOdsConfig();
+        Account acc = SessionUtils.getAccount(act);
+        Drawable dr = cfg.getBrandingDrawable(act, OdsConfigManager.BRAND_LARGE, acc);
+
+        if (dr != null)
+        {
+            ImageView iv = (ImageView) v.findViewById(R.id.about_logo_large);
+            iv.setImageDrawable(dr);
+        }
+    }
 }

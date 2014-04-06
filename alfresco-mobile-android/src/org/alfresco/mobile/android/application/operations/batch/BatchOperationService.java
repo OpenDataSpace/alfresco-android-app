@@ -94,6 +94,9 @@ import org.alfresco.mobile.android.application.operations.batch.workflow.task.de
 import org.alfresco.mobile.android.application.operations.batch.workflow.task.delegate.ReassignTaskRequest;
 import org.alfresco.mobile.android.application.operations.batch.workflow.task.delegate.ReassignTaskThread;
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
+import org.opendataspace.android.app.operations.OdsConfigCallback;
+import org.opendataspace.android.app.operations.OdsConfigRequest;
+import org.opendataspace.android.app.operations.OdsConfigThread;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.Service;
@@ -295,6 +298,11 @@ public class BatchOperationService<T> extends Service
             task = (AbstractBatchOperationThread<T>) new ConfigurationOperationThread(getBaseContext(), request);
             callback = (OperationCallBack<T>) new ConfigurationOperationCallBack(getBaseContext(), totalItems,
                     pendingRequest);
+            break;
+        case OdsConfigRequest.TYPE_ID:
+            parallelOperation = 1;
+            task = (AbstractBatchOperationThread<T>) new OdsConfigThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new OdsConfigCallback(getBaseContext(), totalItems, pendingRequest);
             break;
         default:
             break;
