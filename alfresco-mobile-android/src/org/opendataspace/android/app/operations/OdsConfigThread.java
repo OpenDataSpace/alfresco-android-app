@@ -59,7 +59,7 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
             if (config != null)
             {
                 svc = config.getServiceRegistry().getDocumentFolderService();
-                folder = (Folder) svc.getChildByPath(config.getRootFolder(), "config");
+                folder = (Folder) svc.getChildByPath(config.getRootFolder(), "branding/android/res");
             }
 
             if (folder != null)
@@ -68,7 +68,12 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
                 {
                     try
                     {
-                        Document doc = (Document) svc.getChildByPath(folder, cur);
+                        Document doc = (Document) svc.getChildByPath(folder, "drawable/" + cur);
+
+                        if (doc == null)
+                        {
+                            doc = (Document) svc.getChildByPath(folder, "drawable-xhdpi/" + cur);
+                        }
 
                         if (doc != null)
                         {
