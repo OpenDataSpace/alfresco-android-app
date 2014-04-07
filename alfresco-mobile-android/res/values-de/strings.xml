@@ -21,26 +21,26 @@
 
     <string name="app_name">ODS</string>
     <string name="app_name_beta">Beta</string>
-    <string name="empty_accounts">Kein Zugang verfügbar.</string>
+    <string name="empty_accounts">Kein Konto verfügbar.</string>
 
     <!-- HOME SCREEN -->
     <string name="home_title">Erste Schritte... </string>
     <string name="home_sign_cloud">Anmelden bei DataSpace</string>
-    <string name="home_sign_cloud_description">Neu bei DataSpace? Fordern Sie einen Online-Zugang an, um Ihre Dokumente zu speichern. Sie können sie von verschiedenen Geräten aus wieder abrufen.</string>
-    <string name="home_account">Ich habe bereits einen Zugang.</string>
-    <string name="home_account_description">Wählen Sie diese Option, wenn Sie bereits über einen DataSpace-Zugang verfügen.</string>
+    <string name="home_sign_cloud_description">Neu bei DataSpace? Fordern Sie ein Online Konto an, um Ihre Dokumente zu speichern. Sie können sie von verschiedenen Geräten aus wieder abrufen.</string>
+    <string name="home_account">Ich habe bereits ein Konto.</string>
+    <string name="home_account_description">Wählen Sie diese Option, wenn Sie bereits über ein DataSpace Konto verfügen.</string>
     <string name="home_helper">Wenn Sie mehr über DataSpace erfahren möchten, dann sehen Sie sich <a href="alfresco://view_help_guide/">unseren Leitfaden</a> an.</string>
 
     <!-- ACCOUNT WIZARD SCRE STEP 1 -->
     <string name="account_wizard_alfresco_server">DataSpace Server</string>
     <string name="account_wizard_alfresco_server_description">Verbindung zu einem DataSpace Server herstellen</string>
     <string name="account_wizard_alfresco_cloud">DataSpace Cloud</string>
-    <string name="account_wizard_alfresco_cloud_description">Auf Ihren DataSpace Zugang zugreifen</string>
-    <string name="account_wizard_alfresco_help">Neu bei DataSpace? Für einen Zugang <a href="alfresco://sign_up_cloud/">anmelden</a></string>
-    <string name="account_wizard_alfresco_help_inside_app">Neu bei DataSpace? Für einen Zugang <a href="alfresco://sign_up_cloud_i/">anmelden</a></string>
+    <string name="account_wizard_alfresco_cloud_description">Auf Ihr DataSpace Konto zugreifen</string>
+    <string name="account_wizard_alfresco_help">Neu bei DataSpace? Für ein Konto <a href="alfresco://sign_up_cloud/">anmelden</a></string>
+    <string name="account_wizard_alfresco_help_inside_app">Neu bei DataSpace? Für ein Konto <a href="alfresco://sign_up_cloud_i/">anmelden</a></string>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 2 -->
-    <string name="account">Zugang</string>
+    <string name="account">Konto</string>
     <string name="action_add_account">Hinzufügen</string>
     <string name="account_username">Benutzername</string>
     <string name="account_password">Passwort</string>
@@ -49,12 +49,12 @@
     <string name="account_description">Beschreibung</string>
     <string name="account_description_hint">DataSpace Server (optional)</string>
     <string name="account_advanced">Erweitert</string>
-    <string name="account_authentication">Zugangsauthentifizierung</string>
+    <string name="account_authentication">Kontoauthentifizierung</string>
     <string name="account_https">HTTPS</string>
     <string name="account_port">Port</string>
     <string name="account_servicedocument">Dienst-URL</string>
-    <string name="account_wizard_step2_title">Informationen zu Zugangsdaten</string>
-    <string name="account_verify">Zugangsdaten werden verifiziert...</string>
+    <string name="account_wizard_step2_title">Informationen zur Kontoauthentifizierung</string>
+    <string name="account_verify">Kontoinformationen werden verifiziert...</string>
     <string name="email_hint">beispiel@amail.com</string>
     <string name="account_validate">Speichern</string>
     <string name="account_proto">Protokoll</string>
@@ -65,17 +65,17 @@
     </string-array>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 3 -->
-    <string name="account_wizard_alldone_description">Sie können Ihren Zugang jetzt verwenden.</string>
+    <string name="account_wizard_alldone_description">Sie können Ihr Konto jetzt verwenden.</string>
 
     <!-- ACCOUNT WIZARD SCREEN STEP -->
     <string name="account_wizard_step1">Schritt 1 von 2</string>
-    <string name="account_wizard_step1_description">Zugang auswählen</string>
+    <string name="account_wizard_step1_description">Konto auswählen</string>
     <string name="account_wizard_step2">Schritt 2 von 2</string>
-    <string name="account_wizard_step2_description">Zugangsinformationen</string>
+    <string name="account_wizard_step2_description">Kontoinformationen</string>
 
     <!-- ACCOUNTS -->
-    <string name="account_not_activated">Ihr Zugang ist nicht aktiviert. Bitte überprüfen Sie den Bildschirm für die Zugangsverwaltung.</string>
-    <string name="account_not_activated_description">Ihr Zugang wartet immer noch auf eine Überprüfung.</string>
+    <string name="account_not_activated">Ihr Konto ist nicht aktiviert. Bitte überprüfen Sie den Bildschirm für die Kontoverwaltung.</string>
+    <string name="account_not_activated_description">Ihr Konto wartet immer noch auf eine Überprüfung.</string>
     <string name="account_default_cloud">DataSpace</string>
     <string name="account_default_onpremise">DataSpace Server</string>
 
@@ -85,16 +85,16 @@
 
     <!-- SESSION ERROR -->
     <string name="retry_account_loading">Wiederholen</string>
-    <string name="error_session_creation_title">Zugangsdaten speichern</string>
+    <string name="error_session_creation_title">Konto speichern</string>
     <string name="error_session_creation_message">Verbindungsfehler</string>
-    <string name="error_session_creation">Fehler bei der Authentifizierung. Überprüfen Sie Ihre Zugangsdaten.</string>
-    <string name="error_session_hostname"><![CDATA[Ihr <b>Hostname</b> ist eventuell falsch<br/> oder Sie müssen <b>Ihr VPN aktivieren</b>.<br/> Überprüfen Sie Ihre Zugangsdaten.]]></string>
+    <string name="error_session_creation">Fehler bei der Authentifizierung. Überprüfen Sie Ihr Konto.</string>
+    <string name="error_session_hostname"><![CDATA[Ihr <b>Hostname</b> ist eventuell falsch<br/> oder Sie müssen <b>Ihr VPN aktivieren</b>.<br/> Überprüfen Sie Ihr Konto.]]></string>
     <string name="error_session_nodata"><![CDATA[<p><b>Ihr Gerät hat keine Datenverbindung.</b><br/></p> Überprüfen Sie Ihre Geräte-Einstellungen und stellen Sie eine Datenverbindung her.]]></string>
-    <string name="error_session_unauthorized"><![CDATA[Sie dürfen nicht auf diesen Server zugreifen.<br/> Überprüfen Sie Ihre Zugangsdaten <b>(Benutzername/Passwort)</b>.]]></string>
-    <string name="error_session_service_url"><![CDATA[Der Wert Ihrer <b>Service-URL</b> ist falsch.<br/> Überprüfen Sie Ihre Zugangsdaten.]]></string>
+    <string name="error_session_unauthorized"><![CDATA[Sie dürfen nicht auf diesen Server zugreifen.<br/> Überprüfen Sie Ihr Konto <b>(Benutzername/Passwort)</b>.]]></string>
+    <string name="error_session_service_url"><![CDATA[Der Wert Ihrer <b>Service-URL</b> ist falsch.<br/> Überprüfen Sie Ihr Konto.]]></string>
     <string name="error_session_service_unavailable"><![CDATA[Der Server kann Ihrer Anfrage aufgrund eines wartungsbedingten Ausfalls oder aufgrund von Kapazitätsproblemen derzeit nicht nachkommen.<br/> Bitte versuchen Sie es später erneut.]]></string>
-    <string name="error_session_notfound"><![CDATA[Ihr Server konnte nicht erreicht werden.<br/> Überprüfen Sie Ihre Zugangsdaten.]]></string>
-    <string name="error_session_port"><![CDATA[Ihr <b>Port</b> ist falsch.<br/> Überprüfen Sie Ihre Zugangsdaten.]]></string>
+    <string name="error_session_notfound"><![CDATA[Ihr Server konnte nicht erreicht werden.<br/> Überprüfen Sie Ihr Konto.]]></string>
+    <string name="error_session_port"><![CDATA[Ihr <b>Port</b> ist falsch.<br/> Überprüfen Sie Ihr Konto.]]></string>
     <string name="error_session_certificate">
 <![CDATA[<p><b>Das SSL-Zertifikat des Servers ist nicht vertrauenswürdig!</b><br/></p>
 		Der Drittanbieter, der das Server-Zielzertifikat ausgestellt hat, wird von Ihrem Gerät nicht erkannt.<br/>
@@ -107,11 +107,11 @@
     </string>
     <string name="error_session_ssl">
 <![CDATA[<p><b>Beim SSL-Protokoll ist ein Fehler aufgetreten.</b><br/></p>
-        Überprüfen Sie Ihre Zugangsdaten und versuchen Sie es erneut.<br/> Kontaktieren Sie Ihren Administrator, falls das Problem weiterhin besteht.]]>
+        Überprüfen Sie Ihr Konto und versuchen Sie es erneut.<br/> Kontaktieren Sie Ihren Administrator, falls das Problem weiterhin besteht.]]>
     </string>
     <string name="error_session_cloud_unavailable">
-<![CDATA[<p><b>Ihr DataSpace-Zugang ist derzeit überlastet!</b><br/></p>
-        Bitte versuchen Sie es in einigen Minuten erneut oder verwenden Sie einen anderen Zugang.<br/>]]>
+<![CDATA[<p><b>Ihr DataSpace-Konto ist derzeit überlastet!</b><br/></p>
+        Bitte versuchen Sie es in einigen Minuten erneut oder verwenden Sie ein anders Konto.<br/>]]>
     </string>
     <string name="error_session_expired">Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.</string>
     <string name="error_session_refresh">Ihre Sitzung wird aktualisiert.</string>
@@ -119,7 +119,7 @@
     <!-- MESSAGE ERROR -->
     <string name="error_general_title">Es ist ein Fehler aufgetreten.</string>
     <string name="error_general">Es ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut.</string>
-    <string name="error_account_url">Die URL ist nicht korrekt. Bitte überprüfen Sie Ihre Zugangsdaten.</string>
+    <string name="error_account_url">Die URL ist nicht korrekt. Bitte überprüfen Sie Ihr Konto.</string>
     <string name="error_unknown_filepath">Die Ressource wurde nicht gefunden.</string>
 
     <!-- DETAILS -->
@@ -159,7 +159,7 @@
     <string name="menu_local_files">Lokale Dateien</string>
     <string name="menu_about">Über</string>
     <string name="menu_settings">Einstellungen</string>
-    <string name="menu_accounts">Zugänge</string>
+    <string name="menu_accounts">Konten</string>
     <string name="menu_view">Ansichten</string>
     <string name="menu_help">Hilfe</string>
     <string name="menu_prefs">Einstellungen</string>
@@ -174,7 +174,7 @@
     <string name="upload_third_application">Andere Anwendung</string>
 
     <!-- ACCOUNTS -->
-    <string name="accounts_manage">Zugänge</string>
+    <string name="accounts_manage">Konten</string>
     <string name="accounts_details">Details</string>
     <string name="browse_documents">Dokumente durchsuchen</string>
 
@@ -185,7 +185,7 @@
 
     <!-- NETWORKS -->
     <string name="cloud_networks_empty">Keine Netzwerke verfügbar</string>
-    <string name="manage_accounts">Zugänge verwalten...</string>
+    <string name="manage_accounts">Konten verwalten...</string>
     <string name="cloud_networks_switch">Netzwerke wechseln...</string>
 
     <!-- CLOUD SIGNUP -->
@@ -198,11 +198,11 @@
     <string name="cloud_signup_action">Anmelden</string>
     <string name="cloud_signup_hint">Indem Sie auf &quot;Anmelden&quot; klicken, stimmen Sie den <a href="http://www.alfresco.com/legal/agreements/cloud">Servicebedingungen</a> und der <a href="http://www.alfresco.com/privacy">Datenschutzrichtlinie</a> von DataSpace zu.</string>
     <string name="sign_up_cloud">Anmelden bei DataSpace</string>
-    <string name="sign_up_cloud_email_verification">Zugang wartet auf E-Mail-Überprüfung</string>
+    <string name="sign_up_cloud_email_verification">Konto wartet auf E-Mail-Überprüfung</string>
     <string name="sign_up_cloud_email_verification_line1">Sie haben sich für DataSpace mit der folgenden E-Mail-Adresse registriert:</string>
     <string name="sign_up_cloud_email_verification_line2">Bitte überprüfen Sie Ihren E-Mail-Posteingang. Wir haben Ihnen einen Link gesendet, den Sie zum Abschluss der Registrierung benötigen.</string>
     <string name="sign_up_cloud_email_having_trouble">Aktivierung nicht möglich?</string>
-    <string name="sign_up_cloud_email_having_trouble_line1"><a href="http://getsatisfaction.com/alfresco/products/alfresco_alfresco_mobile_app">Bitte informieren Sie uns</a>, falls Sie Ihren Zugang nicht aktivieren können.</string>
+    <string name="sign_up_cloud_email_having_trouble_line1"><a href="http://getsatisfaction.com/alfresco/products/alfresco_alfresco_mobile_app">Bitte informieren Sie uns</a>, falls Sie Ihr Konto nicht aktivieren können.</string>
     <string name="sign_up_cloud_awaiting_email">Auf E-Mail-Überprüfung wird gewartet</string>
     <string name="cloud_signup_resend">E-Mail erneut senden</string>
     <string name="cloud_signup_resend_successfull">Erneuter E-Mail-Versand erfolgreich</string>
@@ -246,7 +246,7 @@
 <![CDATA[
 <p>DataSpace ermöglicht Ihnen auch unterwegs einen sicheren Zugriff auf Ihre Daten.</p>
 
-<p>DataSpace stellt mithilfe Ihrer Zugangsdaten eine Verbindung zu Ihrem DataSpace Server (über HTTP oder HTTPS) her und verwaltet den Benutzerzugriff.</p>
+<p>DataSpace stellt mithilfe Ihres Kontos eine Verbindung zu Ihrem DataSpace Server (über HTTP oder HTTPS) her und verwaltet den Benutzerzugriff.</p>
 ]]>
     </string>
     <string name="about_ods">
@@ -270,7 +270,7 @@
         <item quantity="other">Möchten Sie \&quot;%s\&quot; Elemente wirklich löschen?</item>
     </plurals>
 
-    <string name="delete_description_data_protection">Datenschutzmodus ist aktiv.\n\nWenn Sie diesen Zugang löschen, werden Ihre Dokumente in ihren ungeschützten Zustand zurückversetzt.\n\nMöchten Sie \&quot;%s\&quot; wirklich löschen?</string>
+    <string name="delete_description_data_protection">Datenschutzmodus ist aktiv.\n\nWenn Sie dieses Konto löschen, werden Ihre Dokumente in ihren ungeschützten Zustand zurückversetzt.\n\nMöchten Sie \&quot;%s\&quot; wirklich löschen?</string>
     <string name="delete_in_progress">Löschvorgang in Bearbeitung...</string>
     <string name="delete_complete">Löschvorgang abgeschlossen</string>
 
@@ -302,18 +302,18 @@
     <string name="create_document_editor_not_available_description">Sie verfügen über keine App, die diesen Dokumenttyp erstellt.</string>
     <string name="preview_unavailable">Vorschau ist nicht möglich.</string>
     <string name="sdinaccessible">Für diesen Vorgang ist ein Zugriff auf die SD-Karte erforderlich.</string>
-    <string name="loginfirst">Bitte melden Sie sich zunächst mit einem Zugang an.</string>
+    <string name="loginfirst">Bitte melden Sie sich zunächst mit einem Konto an.</string>
 
     <!-- DATA PROTECTION -->
     <string name="encrypt_title">Inhalt wird verschlüsselt</string>
     <string name="content_being_encrypted">Inhalt wird geschützt. Bitte warten</string>
     <string name="content_being_decrypted">Schutz für Inhalt wird aufgehoben. Bitte warten</string>
     <string name="data_protection">Datenschutzmodus</string>
-    <string name="data_protection_blurb"><![CDATA[<p><b>Datenschutz ist verfügbar.</b><br/> Möchten Sie diesen aktivieren? <p>  Damit wird der gesamte heruntergeladene DataSpace Inhalt für jeden Zugang verschlüsselt. Das bedeutet, dass diese Dokumente nur von der DataSpace App gelesen werden können. ]]></string>
+    <string name="data_protection_blurb"><![CDATA[<p><b>Datenschutz ist verfügbar.</b><br/> Möchten Sie diesen aktivieren? <p>  Damit wird der gesamte heruntergeladene DataSpace Inhalt für jedes Konto verschlüsselt. Das bedeutet, dass diese Dokumente nur von der DataSpace App gelesen werden können. ]]></string>
     <string name="encryption_failed">Verschlüsselung fehlgeschlagen</string>
     <string name="decryption_failed">Entschlüsselung fehlgeschlagen</string>
-    <string name="protect_question"><![CDATA[<p><b>Möchten Sie alle heruntergeladenen DataSpace Inhalte jetzt schützen?</b><p>  Dieser Schutz wird auf alle Dokumente angewandt, die Sie von all Ihren DataSpace Zugängen heruntergeladen haben. Das bedeutet, dass diese Dokumente nur von der DataSpace App gelesen werden können.]]></string>
-    <string name="unprotect_question"><![CDATA[<p><b>Möchten Sie den Schutz für alle heruntergeladenen DataSpace Inhalte jetzt aufheben?</b><p>  Dieser Vorgang wird auf alle Dokumente angewandt, die Sie aus all Ihren DataSpace Zugängen heruntergeladen haben.]]></string>
+    <string name="protect_question"><![CDATA[<p><b>Möchten Sie alle heruntergeladenen DataSpace Inhalte jetzt schützen?</b><p>  Dieser Schutz wird auf alle Dokumente angewandt, die Sie von all Ihren DataSpace Konten heruntergeladen haben. Das bedeutet, dass diese Dokumente nur von der DataSpace App gelesen werden können.]]></string>
+    <string name="unprotect_question"><![CDATA[<p><b>Möchten Sie den Schutz für alle heruntergeladenen DataSpace Inhalte jetzt aufheben?</b><p>  Dieser Vorgang wird auf alle Dokumente angewandt, die Sie aus all Ihren DataSpace Konten heruntergeladen haben.]]></string>
     <string name="already_encrypted">Dieses Dokument ist bereits verschlüsselt!</string>
     <string name="already_decrypted">Dieses Dokument ist bereits entschlüsselt!</string>
     <string name="decryption_title">Datenschutz wird deaktiviert...</string>
@@ -355,7 +355,7 @@
     <string name="import_document_title">Nach DataSpace hochladen</string>
     <string name="import_document_name">Dokumentname</string>
     <string name="import_documents">Dokumente</string>
-    <string name="import_account">Zugang</string>
+    <string name="import_account">Konto</string>
     <string name="import_send_download">Das Dokument ist innerhalb des Download-Ordners von \&quot;%s\&quot; verfügbar.</string>
     <string name="import_send_downloads">Dokumente sind in Ihrem Ordner \&quot;Downloads\&quot; verfügbar.</string>
     <string name="import_folder">Upload-Ordner</string>
@@ -551,7 +551,7 @@
     <string name="FavoriteNodeRequest">Favorit</string>
     <string name="CreateFolderRequest">Ordner anlegen</string>
     <string name="LoadSessionRequest">Sitzung laden</string>
-    <string name="CreateAccountRequest">Zugang erstellen</string>
+    <string name="CreateAccountRequest">Konto erstellen</string>
     <string name="UpdatePropertiesRequest">Eigenschaften aktualisieren</string>
     <string name="DeleteFileRequest">Datei löschen</string>
     <string name="CreateDirectoryRequest">Verzeichnis erstellen</string>
