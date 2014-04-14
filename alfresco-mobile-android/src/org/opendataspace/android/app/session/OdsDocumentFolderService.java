@@ -3,6 +3,8 @@ package org.opendataspace.android.app.session;
 import java.util.List;
 
 import org.alfresco.mobile.android.api.model.ContentStream;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.Permissions;
 import org.alfresco.mobile.android.api.model.impl.ContentStreamImpl;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.services.impl.onpremise.OnPremiseDocumentFolderServiceImpl;
@@ -52,5 +54,11 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
             convertException(e);
         }
         return null;
+    }
+
+    @Override
+    public Permissions getPermissions(Node node)
+    {
+        return new OdsPermissions(node);
     }
 }

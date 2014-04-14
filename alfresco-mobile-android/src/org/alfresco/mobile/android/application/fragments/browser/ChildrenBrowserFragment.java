@@ -39,6 +39,7 @@ import org.alfresco.mobile.android.api.model.impl.cloud.CloudFolderImpl;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsPermissions;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
@@ -863,13 +864,21 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
          */
-        if (!actionMode && permission.canAddChildren())
+
+        OdsPermissions odsp = (permission instanceof OdsPermissions) ? (OdsPermissions) permission : null;
+        boolean canCreateFolder = (odsp != null) ? odsp.canCreateFolder() : permission.canAddChildren();
+        boolean canCreateFile = (odsp != null) ? odsp.canCreateFile() : permission.canAddChildren();
+
+        if (!actionMode && canCreateFolder)
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_CREATE_FOLDER, Menu.FIRST + MenuActionItem.MENU_CREATE_FOLDER,
                     R.string.folder_create);
             mi.setIcon(R.drawable.ic_add_folder);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
 
+        if (!actionMode && canCreateFile)
+        {
             SubMenu createMenu = menu.addSubMenu(Menu.NONE, MenuActionItem.MENU_DEVICE_CAPTURE, Menu.FIRST
                     + MenuActionItem.MENU_DEVICE_CAPTURE, R.string.upload);
             createMenu.setIcon(android.R.drawable.ic_menu_add);
