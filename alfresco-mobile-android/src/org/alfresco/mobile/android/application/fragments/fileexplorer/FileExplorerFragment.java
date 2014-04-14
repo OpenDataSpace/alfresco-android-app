@@ -235,21 +235,21 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
     {
         switch (requestCode)
         {
-            case PublicIntent.REQUESTCODE_CREATE:
-                if (createFile != null)
+        case PublicIntent.REQUESTCODE_CREATE:
+            if (createFile != null)
+            {
+                if (createFile.length() > 0 && lastModifiedDate < createFile.lastModified())
                 {
-                    if (createFile.length() > 0 && lastModifiedDate < createFile.lastModified())
-                    {
-                        refresh();
-                    }
-                    else
-                    {
-                        createFile.delete();
-                    }
+                    refresh();
                 }
-                break;
-            default:
-                break;
+                else
+                {
+                    createFile.delete();
+                }
+            }
+            break;
+        default:
+            break;
         }
     }
 
@@ -366,9 +366,15 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
         adapter.notifyDataSetChanged();
     }
 
+    private boolean isListing()
+    {
+        Bundle b = getArguments();
+        return b != null ? b.getInt(PARAM_MODE, MODE_LISTING) == MODE_LISTING : true;
+    }
+
     public boolean onItemLongClick(ListView l, View v, int position, long id)
     {
-        if (nActions != null) { return false; }
+        if (nActions != null || !isListing()) { return false; }
 
         File item = (File) l.getItemAtPosition(position);
 
