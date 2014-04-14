@@ -1090,10 +1090,14 @@ public class MainActivity extends BaseActivity
             }
             return true;
         case MenuActionItem.MENU_REFRESH:
-            ((RefreshFragment) getFragmentManager().findFragmentById(DisplayUtils.getLeftFragmentId(this)))
-            .refresh();
+        {
+            Fragment f = getFragmentManager().findFragmentById(DisplayUtils.getLeftFragmentId(this));
+            if (f instanceof RefreshFragment)
+            {
+                ((RefreshFragment) f).refresh();
+            }
             return true;
-
+        }
         case MenuActionItem.MENU_SHARE:
             ((DetailsFragment) getFragment(DetailsFragment.TAG)).share();
             return true;

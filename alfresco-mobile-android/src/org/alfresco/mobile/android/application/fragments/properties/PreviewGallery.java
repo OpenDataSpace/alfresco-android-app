@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.alfresco.mobile.android.api.model.Node;
 import org.opendataspace.android.app.R;
+import org.alfresco.mobile.android.application.fragments.RefreshFragment;
 import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
@@ -20,7 +21,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public class PreviewGallery extends BaseFragment
+public class PreviewGallery extends BaseFragment implements RefreshFragment
 {
 
     public static final String TAG = PreviewGallery.class.getName();
@@ -32,6 +33,8 @@ public class PreviewGallery extends BaseFragment
     private Node node;
 
     private ChildrenBrowserFragment frag;
+
+    private ViewPager viewPager;
 
     // //////////////////////////////////////////////////////////////////////
     // COSNTRUCTORS
@@ -69,17 +72,8 @@ public class PreviewGallery extends BaseFragment
         // Retrieve nodes
         frag = (ChildrenBrowserFragment) ((getActivity()).getFragmentManager()
                 .findFragmentByTag(ChildrenBrowserFragment.TAG));
-        if (frag != null && nodes.isEmpty())
-        {
-            List<Node> tmpNodes = frag.getNodes();
-            for (Node node : tmpNodes)
-            {
-                if (node.isDocument())
-                {
-                    nodes.add(node);
-                }
-            }
-        }
+        viewPager = (ViewPager) v.findViewById(R.id.view_pager);
+        refresh();
 
         if (getArguments() != null && getArguments().containsKey(ARGUMENT_NODE))
         {
@@ -90,9 +84,6 @@ public class PreviewGallery extends BaseFragment
             node = frag.getSelectedNodes();
         }
 
-        ViewPager viewPager = (ViewPager) v.findViewById(R.id.view_pager);
-        ScreenSlidePagerAdapter adapter = new ScreenSlidePagerAdapter(getActivity().getFragmentManager(), nodes);
-        viewPager.setAdapter(adapter);
         if (node != null)
         {
             viewPager.setCurrentItem(nodes.indexOf(node));
@@ -133,6 +124,32 @@ public class PreviewGallery extends BaseFragment
 
         return v;
     }
+
+    @Override
+    public void refresh()
+    {
+        frag.refresh();
+        nodes.clear();
+
+        if (frag != null && nodes.isEmpty())
+        {
+            List<Node> tmpNodes = frag.getNodes();
+
+            if (tmpNodes != null)
+            {
+                for (Node node : tmpNodes)
+                {
+                    if (node.isDocument())
+                    {
+                        nodes.add(node);
+                    }
+                }
+            }
+        }
+
+        ScreenSlidePagerAdapter adapter = new ScreenSlidePagerAdapter(getActivity().getFragmentManager(), nodes);
+        viewPager.setAdapter(adapter);
+    }
 }
 
 class DepthPageTransformer implements ViewPager.PageTransformer
@@ -145,13 +162,13 @@ class DepthPageTransformer implements ViewPager.PageTransformer
 
         if (position < -1)
         { // [-Infinity,-1)
-          // This page is way off-screen to the left.
+            // This page is way off-screen to the left.
             view.setAlpha(0);
 
         }
         else if (position <= 0)
         { // [-1,0]
-          // Use the default slide transition when moving to the left page
+            // Use the default slide transition when moving to the left page
             view.setAlpha(1);
             view.setTranslationX(0);
             view.setScaleX(1);
@@ -160,7 +177,7 @@ class DepthPageTransformer implements ViewPager.PageTransformer
         }
         else if (position <= 1)
         { // (0,1]
-          // Fade the page out.
+            // Fade the page out.
             view.setAlpha(1 - position);
 
             // Counteract the default slide transition
@@ -174,7 +191,7 @@ class DepthPageTransformer implements ViewPager.PageTransformer
         }
         else
         { // (1,+Infinity]
-          // This page is way off-screen to the right.
+            // This page is way off-screen to the right.
             view.setAlpha(0);
         }
     }
