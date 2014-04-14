@@ -23,7 +23,7 @@ import java.util.List;
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.fragments.SelectFolderFragment;
+import org.opendataspace.android.app.fragments.OdsSelectFolderFragment;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
@@ -151,8 +151,8 @@ public class PublicDispatcherActivity extends BaseActivity
 
         if (IntentIntegrator.ACTION_PICK_FOLDER.equals(action))
         {
-            Fragment f = new SelectFolderFragment();
-            FragmentDisplayer.replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), SelectFolderFragment.TAG,
+            Fragment f = new OdsSelectFolderFragment();
+            FragmentDisplayer.replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), OdsSelectFolderFragment.TAG,
                     false, false);
             return;
         }

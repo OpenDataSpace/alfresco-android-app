@@ -18,7 +18,6 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.os.IBinder;
 import android.os.PowerManager;
 import android.preference.PreferenceManager;
@@ -57,7 +56,9 @@ public class OdsSyncWorkerService extends IntentService
         PowerManager.WakeLock lock = getLock(getApplicationContext());
 
         if (!lock.isHeld() || (flags & START_FLAG_REDELIVERY) != 0)
+        {
             lock.acquire();
+        }
 
         super.onStartCommand(intent, flags, startId);
         return START_REDELIVER_INTENT;
@@ -74,7 +75,9 @@ public class OdsSyncWorkerService extends IntentService
             PowerManager.WakeLock lock = getLock(this.getApplicationContext());
 
             if (lock.isHeld())
+            {
                 lock.release();
+            }
         }
     }
 
@@ -85,18 +88,24 @@ public class OdsSyncWorkerService extends IntentService
         String folderId = prefs.getString(GeneralPreferences.ODS_SYNCHONISATION, "");
 
         if (accId == -1 || folderId == null || "".equals(folderId))
+        {
             return;
+        }
 
         AlfrescoSession ses = requestSession(accId);
 
         if (ses == null)
+        {
             return;
+        }
 
         DocumentFolderService svc = ses.getServiceRegistry().getDocumentFolderService();
         Folder target = (Folder) svc.getNodeByIdentifier(folderId);
 
         if (target == null)
+        {
             return;
+        }
 
         final List<Document> remote = svc.getDocuments(target);
         final List<File> ls = findLocalFiles();
@@ -106,14 +115,18 @@ public class OdsSyncWorkerService extends IntentService
             boolean upload = true;
 
             for (Document doc : remote)
+            {
                 if (doc.getName().equals(f.getName()))
                 {
                     upload = false;
                     break;
                 }
+            }
 
             if (!upload)
+            {
                 continue;
+            }
 
             try
             {
@@ -130,10 +143,16 @@ public class OdsSyncWorkerService extends IntentService
     {
         final List<File> ls = new ArrayList<File>();
 
-        for (String cur : OdsSyncReceiver.SYNC_SOURCES)
-            for (File f : Environment.getExternalStoragePublicDirectory(cur).listFiles())
+        for (File cur : OdsSyncReceiver.getSources())
+        {
+            for (File f : cur.listFiles())
+            {
                 if (f.isFile())
+                {
                     ls.add(f);
+                }
+            }
+        }
 
         return ls;
     }
@@ -141,8 +160,9 @@ public class OdsSyncWorkerService extends IntentService
     private AlfrescoSession requestSession(long accountId)
     {
         if (ApplicationManager.getInstance(this).hasSession(accountId))
+        {
             return ApplicationManager.getInstance(this).getSession(accountId);
-        else
+        } else
         {
             LoadSessionHelper helper = new LoadSessionHelper(this, accountId);
             AlfrescoSession session = helper.requestSession();

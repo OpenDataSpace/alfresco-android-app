@@ -37,7 +37,7 @@ import android.widget.CursorAdapter;
 import android.widget.Spinner;
 import android.widget.AdapterView.OnItemSelectedListener;
 
-public class SelectFolderFragment extends Fragment implements LoaderCallbacks<Cursor>
+public class OdsSelectFolderFragment extends Fragment implements LoaderCallbacks<Cursor>
 {
     public static final String TAG = "SelectFolderFragment";
 
@@ -53,9 +53,9 @@ public class SelectFolderFragment extends Fragment implements LoaderCallbacks<Cu
 
     private int importFolderIndex;
 
-    public static SelectFolderFragment newInstance(Bundle b)
+    public static OdsSelectFolderFragment newInstance(Bundle b)
     {
-        SelectFolderFragment fr = new SelectFolderFragment();
+        OdsSelectFolderFragment fr = new OdsSelectFolderFragment();
         fr.setArguments(b);
         return fr;
     }
@@ -248,8 +248,8 @@ public class SelectFolderFragment extends Fragment implements LoaderCallbacks<Cu
     {
         {
             add(R.string.menu_browse_root);
-            add(R.string.menu_browse_shared);
-            add(R.string.menu_browse_global);
+            //add(R.string.menu_browse_shared);
+            //add(R.string.menu_browse_global);
         }
     };
 

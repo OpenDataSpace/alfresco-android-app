@@ -1,5 +1,9 @@
 package org.opendataspace.android.app.sync;
 
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import org.alfresco.mobile.android.application.commons.utils.ConnectivityUtils;
 
 import android.app.AlarmManager;
@@ -14,8 +18,10 @@ public class OdsSyncReceiver extends BroadcastReceiver
 {
     private static final String SYNC_START = "org.opendataspace.android.app.sync.SYNC_START";
 
-    public static final String[] SYNC_SOURCES =
+    private static final String[] SYNC_SOURCES =
         {Environment.DIRECTORY_PICTURES, Environment.DIRECTORY_MOVIES, Environment.DIRECTORY_DCIM};
+
+    private static final String[] SYNC_DICM = {"100MEDIA", "100ANDRO", "100LGDSC", "100SHARP", "Camera"};
 
     @Override
     public void onReceive(Context context, Intent intent)
@@ -23,13 +29,17 @@ public class OdsSyncReceiver extends BroadcastReceiver
         final String action = intent.getAction();
 
         if (action == Intent.ACTION_BOOT_COMPLETED)
+        {
             startWatcher(context);
-        else if (action == SYNC_START)
+        } else if (action == SYNC_START)
         {
             if (!ConnectivityUtils.isWifiAvailable(context))
+            {
                 reschedule(context, getPendingInetent(context));
-            else
+            } else
+            {
                 startWorker(context);
+            }
         }
     }
 
@@ -58,5 +68,36 @@ public class OdsSyncReceiver extends BroadcastReceiver
         final Intent in = new Intent(context, OdsSyncReceiver.class);
         in.setAction(OdsSyncReceiver.SYNC_START);
         return PendingIntent.getBroadcast(context, 0, in, PendingIntent.FLAG_UPDATE_CURRENT);
+    }
+
+    public static List<File> getSources()
+    {
+        ArrayList<File> src = new ArrayList<File>();
+
+        for (String cur : SYNC_SOURCES)
+        {
+            File f = Environment.getExternalStoragePublicDirectory(cur);
+
+            if (cur == Environment.DIRECTORY_DCIM)
+            {
+                for (String dicm : SYNC_DICM)
+                {
+                    File tmp = new File(f, dicm);
+
+                    if (tmp.exists() && tmp.isDirectory())
+                    {
+                        f = tmp;
+                        break;
+                    }
+                }
+            }
+
+            if (f.exists() && f.isDirectory())
+            {
+                src.add(f);
+            }
+        }
+
+        return src;
     }
 }

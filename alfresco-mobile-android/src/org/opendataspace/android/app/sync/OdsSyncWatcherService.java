@@ -1,5 +1,6 @@
 package org.opendataspace.android.app.sync;
 
+import java.io.File;
 import java.util.ArrayList;
 
 import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
@@ -8,7 +9,6 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Environment;
 import android.os.FileObserver;
 import android.os.IBinder;
 import android.preference.PreferenceManager;
@@ -21,7 +21,9 @@ public class OdsSyncWatcherService extends Service
         public void onSharedPreferenceChanged(SharedPreferences prefs, String key)
         {
             if (key == GeneralPreferences.ODS_SYNCHONISATION)
+            {
                 updateWatching(prefs);
+            }
         }
     }
 
@@ -41,8 +43,10 @@ public class OdsSyncWatcherService extends Service
     {
         super.onStartCommand(intent, flags, startId);
 
-        for (String cur : OdsSyncReceiver.SYNC_SOURCES)
-            regiterObserver(Environment.getExternalStoragePublicDirectory(cur).getAbsolutePath());
+        for (File cur : OdsSyncReceiver.getSources())
+        {
+            regiterObserver(cur);
+        }
 
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(this);
         updateWatching(prefs);
@@ -59,38 +63,53 @@ public class OdsSyncWatcherService extends Service
         super.onDestroy();
     }
 
-    private void regiterObserver(String path)
+    private void regiterObserver(File file)
     {
-        FileObserver fo = new FileObserver(path, FileObserver.CREATE | FileObserver.MOVED_TO)
+        if (!file.exists())
+        {
+            return;
+        }
+
+        monitors.add(new FileObserver(file.getAbsolutePath(), FileObserver.CREATE | FileObserver.MOVED_TO)
         {
             @Override
             public void onEvent(int event, String path)
             {
                 if (watching)
+                {
                     OdsSyncReceiver.reschedule(OdsSyncWatcherService.this, pending);
+                }
             }
-        };
-
-        monitors.add(fo);
+        });
     }
 
     public void setWatching(boolean val)
     {
         if (watching == val)
+        {
             return;
+        }
 
         watching = val;
 
         for (FileObserver cur : monitors)
+        {
             if (val)
+            {
                 cur.startWatching();
-            else
+            } else
+            {
                 cur.stopWatching();
+            }
+        }
 
         if (!watching)
+        {
             pending.cancel();
-        else
+        } else
+        {
             pending = OdsSyncReceiver.getPendingInetent(this);
+        }
     }
 
     private void updateWatching(SharedPreferences prefs)
