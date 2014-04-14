@@ -96,6 +96,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.Loader;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.view.LayoutInflater;
@@ -873,6 +874,18 @@ LoaderCallbacks<LoaderResult<Node>>
         {
             // Only sharing as attachment is allowed when we're not on a cloud
             // account
+
+            Account acc = SessionUtils.getAccount(getActivity());
+            File f = getDownloadFile(getActivity().getApplicationContext(), alfSession, acc);
+            if (f != null)
+            {
+                ActionManager.actionSendMailWithAttachment(this, f.getName(), getFragmentManager()
+                        .findFragmentByTag(DetailsFragment.TAG).getActivity().getString(R.string.email_content),
+                        Uri.fromFile(f), PublicIntent.REQUESTCODE_DECRYPTED);
+
+                return;
+            }
+
             Bundle b = new Bundle();
             b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, (Document) node);
             b.putInt(DownloadDialogFragment.ARGUMENT_ACTION, DownloadDialogFragment.ACTION_EMAIL);
@@ -890,6 +903,17 @@ LoaderCallbacks<LoaderResult<Node>>
             {
                 public void onClick(DialogInterface dialog, int item)
                 {
+                    Account acc = SessionUtils.getAccount(getActivity());
+                    File f = getDownloadFile(getActivity().getApplicationContext(), alfSession, acc);
+                    if (f != null)
+                    {
+                        ActionManager.actionSendMailWithAttachment(DetailsFragment.this, f.getName(), getFragmentManager()
+                                .findFragmentByTag(DetailsFragment.TAG).getActivity().getString(R.string.email_content),
+                                Uri.fromFile(f), PublicIntent.REQUESTCODE_DECRYPTED);
+
+                        return;
+                    }
+
                     Bundle b = new Bundle();
                     b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, (Document) node);
                     b.putInt(DownloadDialogFragment.ARGUMENT_ACTION, DownloadDialogFragment.ACTION_EMAIL);
@@ -946,6 +970,39 @@ LoaderCallbacks<LoaderResult<Node>>
         }
     }
 
+    private File getDownloadFile(Context context, AlfrescoSession session, Account acc)
+    {
+        try
+        {
+            if(context == null || node == null || session == null)
+            {
+                return null;
+            }
+
+            File folder = StorageManager.getDownloadFolder(context, acc);
+
+            if (folder == null)
+            {
+                return null;
+            }
+
+            File file = new File(folder, node.getName());
+
+            if (!file.exists() || ((Document)node).getContentStreamLength() != file.length())
+            {
+                return null;
+            }
+
+            return file;
+        }
+        catch(Exception ex)
+        {
+            OdsLog.ex(TAG, ex);
+        }
+
+        return null;
+    }
+
     public void openin()
     {
         if (isRestrictable) { return; }
@@ -985,6 +1042,13 @@ LoaderCallbacks<LoaderResult<Node>>
         }
         else
         {
+            File f = getDownloadFile(getActivity().getApplicationContext(), alfSession, acc);
+            if (f != null)
+            {
+                ActionManager.openIn(this, f, MimeTypeManager.getMIMEType(f.getName()),PublicIntent.REQUESTCODE_SAVE_BACK);
+                return;
+            }
+
             // Other case
             b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, (Document) node);
             b.putInt(DownloadDialogFragment.ARGUMENT_ACTION, DownloadDialogFragment.ACTION_OPEN);
