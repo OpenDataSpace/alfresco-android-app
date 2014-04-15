@@ -128,7 +128,11 @@ public class PreviewGallery extends BaseFragment implements RefreshFragment
     @Override
     public void refresh()
     {
-        frag.refresh();
+        if (frag.getActivity() != null)
+        {
+            frag.refresh();
+        }
+
         nodes.clear();
 
         if (frag != null && nodes.isEmpty())
