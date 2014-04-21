@@ -28,12 +28,14 @@
             android:key="@string/passcode_title"
             android:title="@string/passcode_preference" />
     </PreferenceCategory>
+<!--
     <PreferenceCategory android:title="@string/settings_autosync" >
         <Preference
             android:key="odssyncourcebutton"
             android:summary="@string/settings_autosync_settings_off"
             android:title="@string/settings_autosync_settings" />
     </PreferenceCategory>
+-->
 <!--
     <PreferenceCategory android:key="@string/favorite_sync_group" android:title="@string/settings_favorite" >
         <CheckBoxPreference
