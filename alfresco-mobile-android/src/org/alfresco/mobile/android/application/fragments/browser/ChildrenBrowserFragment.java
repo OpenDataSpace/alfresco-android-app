@@ -806,10 +806,11 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         if (getActivity() instanceof MainActivity)
         {
             getMenu(alfSession, menu, parentFolder);
-
+            /*
             displayMenuItem = menu.add(Menu.NONE, MenuActionItem.MENU_DISPLAY_GALLERY, Menu.FIRST
                     + MenuActionItem.MENU_DISPLAY_GALLERY, R.string.display_gallery);
             displayMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+             */
         }
         else if (getActivity() instanceof PublicDispatcherActivity)
         {
