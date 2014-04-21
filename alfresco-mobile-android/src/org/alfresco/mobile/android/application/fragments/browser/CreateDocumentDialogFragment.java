@@ -307,7 +307,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
 
         OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
 
-        if (originalId != "")
+        if (originalId != "" && documentName == originalName)
         {
             group.enqueue(new UpdateContentRequest(parentFolder.getIdentifier(), originalId, documentName, f));
         }
