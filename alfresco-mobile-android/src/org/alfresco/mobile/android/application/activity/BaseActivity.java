@@ -390,8 +390,12 @@ public abstract class BaseActivity extends Activity
             {
                 removeWaitingDialog();
 
-                SimpleAlertDialogFragment.newInstance(intent.getExtras()).show(activity.getFragmentManager(),
-                        SimpleAlertDialogFragment.TAG);
+                try {
+                    SimpleAlertDialogFragment.newInstance(intent.getExtras()).show(activity.getFragmentManager(),
+                            SimpleAlertDialogFragment.TAG);
+                } catch (Exception ex) {
+                    OdsLog.ex("UtilsReceiver", ex);
+                }
                 return;
             }
 
