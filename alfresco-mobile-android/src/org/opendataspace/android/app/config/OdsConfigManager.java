@@ -27,7 +27,7 @@ public class OdsConfigManager
 
     private static OdsConfigManager mInstance;
 
-    public static final String BRAND_ICON = "ic_logo_96x96.png";
+    public static final String BRAND_ICON = "ic_logo.png";
 
     public static final String BRAND_ABOUT = "ic_about_light.png";
 

@@ -140,8 +140,6 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     private int displayMode = DISPLAY_GRID;
 
-    private MenuItem displayMenuItem;
-
     // //////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     // //////////////////////////////////////////////////////////////////////
