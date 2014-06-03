@@ -144,6 +144,7 @@ public abstract class BaseActivity extends Activity
 
         if (dr != null)
         {
+            getActionBar().setDisplayUseLogoEnabled(false);
             getActionBar().setIcon(dr);
         }
     }

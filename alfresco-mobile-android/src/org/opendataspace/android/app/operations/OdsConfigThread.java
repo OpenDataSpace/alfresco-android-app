@@ -55,6 +55,7 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
 
             Folder folder = null;
             DocumentFolderService svc = null;
+            int copied = 0;
 
             if (config != null)
             {
@@ -78,8 +79,18 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
                         if (doc != null)
                         {
                             File f = OdsConfigManager.getBrandingFile(context, cur, acc);
+
+                            if (f.exists() && f.length() == doc.getContentStreamLength())
+                            {
+                                continue;
+                            }
+
                             ContentStream contentStream = svc.getContentStream(doc);
-                            copyFile(contentStream.getInputStream(), contentStream.getLength(), f);
+
+                            if (copyFile(contentStream.getInputStream(), contentStream.getLength(), f))
+                            {
+                                copied++;
+                            }
                         }
                     } catch (Exception ex) {
                         // nothing
@@ -87,6 +98,7 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
                 }
 
                 ctx = new OdsConfigContext();
+                ctx.setUpdated(copied > 0);
                 result.setData(ctx);
             }
         }
@@ -98,7 +110,7 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
         return result;
     }
 
-    private void copyFile(InputStream src, long size, File dest)
+    private boolean copyFile(InputStream src, long size, File dest)
     {
         OutputStream os = null;
 
@@ -132,6 +144,8 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
                 os.write(buffer, 0, read);
                 downloaded += read;
             }
+
+            return true;
         }
         catch (FileNotFoundException e)
         {
@@ -146,6 +160,8 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
             org.alfresco.mobile.android.api.utils.IOUtils.closeStream(src);
             org.alfresco.mobile.android.api.utils.IOUtils.closeStream(os);
         }
+
+        return false;
     }
 
     public Intent getCompleteBroadCastIntent()

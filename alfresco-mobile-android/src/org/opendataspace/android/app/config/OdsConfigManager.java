@@ -72,6 +72,7 @@ public class OdsConfigManager
 
     private boolean hasConfig(Context ctx, Account acc)
     {
+        /*
         for (String cur : FILES)
         {
             File f = getBrandingFile(ctx, cur, acc);
@@ -80,6 +81,7 @@ public class OdsConfigManager
                 return true;
             }
         }
+         */
 
         return false;
     }
@@ -112,7 +114,7 @@ public class OdsConfigManager
                     {
                         Serializable ctx = b.getSerializable(IntentIntegrator.EXTRA_CONFIGURATION);
 
-                        if (ctx instanceof OdsConfigContext)
+                        if (ctx instanceof OdsConfigContext && ((OdsConfigContext) ctx).isUpdated())
                         {
                             OdsConfigManager.this.notifyRebrand(context, b.getLong(IntentIntegrator.EXTRA_ACCOUNT_ID));
                         }

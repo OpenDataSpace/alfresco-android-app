@@ -1462,14 +1462,17 @@ public class MainActivity extends BaseActivity
                     SynchroManager.getInstance(activity).sync(currentAccount);
                 }
 
-                if (getFragment(MainMenuFragment.TAG) != null){
+                if (getFragment(MainMenuFragment.TAG) != null) 
+                {
                     ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).updateFolderAccess();
                 }
 
-                if (getFragment(MainMenuFragment.SLIDING_TAG) != null){
+                if (getFragment(MainMenuFragment.SLIDING_TAG) != null)
+                {
                     ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).updateFolderAccess();
                 }
 
+                rebrand();
                 return;
             }
 
