@@ -31,17 +31,19 @@ import javax.net.ssl.X509TrustManager;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import com.squareup.okhttp.OkHttpClient;
+import com.squareup.okhttp.OkUrlFactory;
 
 public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.NetworkHttpInvoker
 {
-
     private static final String TAG = "NetworkHttpInvoker";
 
     private OkHttpClient httpClient;
+    private OkUrlFactory factory;
 
     public NetworkHttpInvoker()
     {
-        httpClient = new OkHttpClient();
+        httpClient = NetworkSingleton.getInstance().getHttpClient();
+        factory = new OkUrlFactory(httpClient);
     }
 
     private final static TrustManager[] trustAllCerts = new TrustManager[] { new X509TrustManager() {
@@ -68,7 +70,7 @@ public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.
     @Override
     protected HttpURLConnection getHttpURLConnection(URL url) throws IOException
     {
-        HttpURLConnection con = httpClient.open(url);
+        HttpURLConnection con = factory.open(url);
 
         if (con instanceof HttpsURLConnection) {
             SSLContext sc;

@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
  * 
  * This file is part of Alfresco Mobile for Android.
  * 
@@ -17,7 +17,10 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.intent;
 
-
+/**
+ * @since 1.2
+ * @author Jean Marie Pascal
+ */
 public interface IntentIntegrator extends PublicIntent
 {
     String ALFRESCO_SCHEME_SHORT = "alfresco";
@@ -44,6 +47,7 @@ public interface IntentIntegrator extends PublicIntent
     String CATEGORY_OAUTH = "org.alfresco.mobile.android.intent.CATEGORY_OAUTH";
 
     String CATEGORY_OAUTH_REFRESH = "org.alfresco.mobile.android.intent.CATEGORY_OAUTH_REFRESH";
+
     // ///////////////////////////////////////////////////////////////////////////
     // OPERATIONS MANAGEMENT
     // ///////////////////////////////////////////////////////////////////////////
@@ -164,6 +168,8 @@ public interface IntentIntegrator extends PublicIntent
     // EXTRA
     String EXTRA_FAVORITE = "org.alfresco.mobile.android.intent.EXTRA_FAVORITE";
 
+    String EXTRA_BATCH_FAVORITE = "org.alfresco.mobile.android.intent.EXTRA_BATCH_FAVORITE";
+
     String EXTRA_LIKE = "org.alfresco.mobile.android.intent.EXTRA_LIKE";
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -204,6 +210,8 @@ public interface IntentIntegrator extends PublicIntent
     String ACTION_SYNCHRO_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_SYNCHRO_COMPLETED";
 
     String ACTION_SYNCHROS_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_SYNCHROS_COMPLETED";
+
+    String ACTION_SYNC_SCAN_STARTED = "org.alfresco.mobile.android.intent.ACTION_SYNC_SCAN_STARTED";
 
     String ACTION_SYNC_SCAN_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_SYNC_SCAN_COMPLETED";
 
@@ -270,7 +278,17 @@ public interface IntentIntegrator extends PublicIntent
 
     // EXTRA
     String EXTRA_CONFIGURATION = "org.alfresco.mobile.android.intent.EXTRA_CONFIGURATION";
+
     String EXTRA_DATA_DICTIONARY_ID = "org.alfresco.mobile.android.intent.DATA_DICTIONARY_ID";
+
     String EXTRA_CONFIGURATION_ID = "org.alfresco.mobile.android.intent.CONFIGURATION_ID";
+
     String EXTRA_LASTMODIFICATION = "org.alfresco.mobile.android.intent.EXTRA_LASTMODIFICATION";
+
+    // ///////////////////////////////////////////////////////////////////////////
+    // SEARCH
+    // ///////////////////////////////////////////////////////////////////////////
+    // BROADCAST
+    String ACTION_SEARCH_OPTION_SELECTED = "org.alfresco.mobile.android.intent.ACTION_SEARCH_OPTION_SELECTED";
+
 }

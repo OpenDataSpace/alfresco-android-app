@@ -144,6 +144,8 @@ public class EncryptionUtils
 
                 byte[] buffer = new byte[MAX_BUFFER_SIZE];
 
+                OdsLog.i(TAG, "Decrypting file " + filename);
+
                 while (size - copied > 0)
                 {
                     if (size - copied < MAX_BUFFER_SIZE)

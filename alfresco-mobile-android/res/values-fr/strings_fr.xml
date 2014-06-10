@@ -1,0 +1,903 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+Copyright (C) 2005-2013 Alfreco Software Limited.
+  
+  This file is part of DataSpace Mobile for Android.
+  
+  Licensed under the Apache License, Version 2.0 (the "License");
+  you may not use this file except in compliance with the License.
+  You may obtain a copy of the License at
+  
+http://www.apache.org/licenses/LICENSE-2.0
+  
+  Unless required by applicable law or agreed to in writing, software
+  distributed under the License is distributed on an "AS IS" BASIS,
+  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+  See the License for the specific language governing permissions and
+  limitations under the License.
+-->
+<resources>
+
+    <string name="app_name">ODS</string>
+    <string name="app_name_beta">Beta</string>
+    <string name="empty_accounts">Aucun compte disponible</string>
+
+    <!-- HOME SCREEN -->
+    <string name="home_title">Commencons&#8230; </string>
+    <string name="home_sign_cloud">Creer un compte DataSpace</string>
+    <string name="home_sign_cloud_description">Nouveau sur DataSapce ? Creez un compte en ligne gratuit pour stocker et acceder a vos contenus depuis n\'importe ou.</string>
+    <string name="home_account">Je possede deja un compte</string>
+    <string name="home_account_description">Choisissez cette option si vous possedez deja un compte DataSpace ou si vous souhaitez vous connecter a un serveur DataSpace</string>
+    <string name="home_helper">Pour plus d\'informations sur DataSpace, consultez <a href="alfresco://view_help_guide/">notre guide</a> dans la section d\'aide</string>
+
+    <!-- ACCOUNT WIZARD SCRE STEP 1 -->
+    <string name="account_wizard_alfresco_server">Serveur DataSpace</string>
+    <string name="account_wizard_alfresco_server_description">Connexion a un serveur DataSpace</string>
+    <string name="account_wizard_alfresco_cloud">DataSpace Cloud</string>
+    <string name="account_wizard_alfresco_cloud_description">Acceder a votre compte DataSpace</string>
+    <string name="account_wizard_alfresco_help">Nouveau sur DataSpace ? <a href="alfresco://sign_up_cloud/">Creer</a> un compte gratuit</string>
+    <string name="account_wizard_alfresco_help_inside_app">Nouveau sur DataSpace ? <a href="alfresco://sign_up_cloud_i/">Creer</a> un compte gratuit</string>
+
+    <!-- ACCOUNT WIZARD SCREEN STEP 2 -->
+    <string name="account">Compte</string>
+    <string name="action_add_account">Ajouter un compte</string>
+    <string name="account_username">Nom utilisateur</string>
+    <string name="account_username_required_hint">Nom utilisateur (requis)</string>
+    <string name="account_password">Mot de passe</string>
+    <string name="account_password_required_hint">Mot de passe (requis)</string>
+    <string name="account_hostname">Nom d\'hote</string>
+    <string name="account_hostname_required_hint">Nom d\'hote tel que www.example.com (requis)</string>
+    <string name="account_hostname_hint">www.example.com (requis)</string>
+    <string name="account_description">Description</string>
+    <string name="account_description_optional_hint">Description (facultatif) Par defaut, c\'est DataSpace Server</string>
+    <string name="account_description_hint">Serveur DataSpace (facultatif)</string>
+    <string name="account_advanced">Avance</string>
+    <string name="account_authentication">Authentification du compte</string>
+    <string name="account_https">HTTPS</string>
+    <string name="account_https_on_hint">HTTPS active</string>
+    <string name="account_https_off_hint">HTTPS desactive</string>
+    <string name="account_port">Port</string>
+    <string name="account_port_hint">Port (facultatif)</string>
+    <string name="account_servicedocument">URL du service</string>
+    <string name="account_servicedocument_hint">URL du service (facultatif) </string>
+    <string name="account_wizard_step2_title">Informations d\'authentification du compte</string>
+    <string name="account_verify">Verification des informations du compte&#8230;</string>
+    <string name="email_hint">exemple@acme.com</string>
+    <string name="account_validate">Enregistrer</string>
+    <string name="account_validate_hint">Enregistrez vos informations de compte</string>
+    <string name="account_validate_disable_hint">Veuillez completer les champs nom d\'utilisateur, mot de passe et nom de l\'hote.</string>
+    <string name="account_validate_disable_url_hint">Les valeurs de nom d\'hote et d\'URL du service semblent incorrectes. Veuillez verifier les parametres de votre compte.</string>
+    <string name="account_proto">Protocol</string>
+
+    <string-array name="account_proto_array">
+        <item id="0">Json</item>
+        <item id="1">Atom</item>
+    </string-array>
+
+    <!-- ACCOUNT WIZARD SCREEN STEP 3 -->
+    <string name="account_wizard_alldone_description">Vous pouvez maintenant utiliser votre compte.</string>
+
+    <!-- ACCOUNT WIZARD SCREEN STEP -->
+    <string name="account_wizard_step1">Etape 1 sur 2</string>
+    <string name="account_wizard_step1_description">Selectionner le compte</string>
+    <string name="account_wizard_step2">Etape 2 sur 2</string>
+    <string name="account_wizard_step2_description">Infos sur le compte</string>
+
+    <!-- ACCOUNTS -->
+    <string name="account_not_activated">Votre compte n\'est pas active. Veuillez verifier sur l\'ecran de gestion des comptes.</string>
+    <string name="account_not_activated_description">Votre compte est en cours de verification</string>
+    <string name="account_default_cloud">DataSpace Cloud</string>
+    <string name="account_default_onpremise">Serveur DataSpace</string>
+    <string name="account_edit_hint">Modifier les informations de compte de "%s"</string>
+    <string name="account_delete_hint">Supprimer les informations de compte de "%s"</string>
+
+
+    <!-- WAITING SESSION -->
+    <string name="wait_title">Veuillez patienter</string>
+    <string name="wait_message">Contact avec votre serveur en cours&#8230;</string>
+
+    <!-- SESSION ERROR -->
+    <string name="retry_account_loading">Re-essayer</string>
+    <string name="error_session_creation_title">Enregistrer le compte</string>
+    <string name="error_session_creation_message">Erreur connexion</string>
+    <string name="error_session_creation">Authentification impossible. Verifiez les parametres de votre compte.</string>
+    <string name="error_session_hostname"><![CDATA[La valeur de votre <b>nom d\'hote</b> semble erronee<br/> ou vous devez peut-etre <b>activer votre VPN</b>.<br/> Veuillez verifier les parametres de votre compte.]]></string>
+    <string name="error_session_nodata"><![CDATA[<p><b>Votre appareil n\'a aucune connexion aux donnees.</b><br/></p> Veuillez verifier les parametres de votre appareil et activer une connexion aux donnees.]]></string>
+    <string name="error_session_unauthorized"><![CDATA[Vous n\'etes pas autorise a acceder a ce serveur.<br/> Veuillez verifier les parametres de votre compte <b>(Nom utilisateur/Mot de passe)</b>.]]></string>
+    <string name="error_session_service_url"><![CDATA[La valeur de votre <b>url de service</b> est incorrecte.<br/> Veuillez verifier les parametres de votre compte.]]></string>
+    <string name="error_session_service_unavailable"><![CDATA[En raison d\'un arret de maintenance ou de problemes de capacite, le serveur ne peut traiter votre demande pour l\'instant.<br/>Veuillez reessayer ulterieurement.]]></string>
+    <string name="error_session_notfound"><![CDATA[Impossible d\'atteindre votre serveur.<br/> Veuillez verifier les parametres de votre compte.]]></string>
+    <string name="error_session_port"><![CDATA[La valeur de votre <b>port</b> est incorrecte.<br/> Veuillez verifier les parametres de votre compte.]]></string>
+    <string name="error_session_certificate">
+<![CDATA[<p><b>Le certificat de securite du serveur n\'est pas verifie !</b><br/></p>
+L\'organisation de tierce partie qui a emis le certificat de destination de votre serveur ne fait pas partie de celles que votre appareil reconnait.<br/>
+Afin qu\'DataSpace puisse verifier que vous vous connectez avec le serveur approprie, son certificat doit provenir d\'une organisation de confiance.<br/>
+Si votre serveur dispose d\'un certificat auto-signe, veuillez l\'ajouter a votre appareil pour vous connecter.<br/> ]]>
+    </string>
+    <string name="error_session_certificate_expired">
+<![CDATA[<p><b>Le certificat de securite du serveur a expire ou n\'est pas encore valide !</b><br/></p>
+Veuillez verifier la date et l\'heure de votre appareil.<br/> Si le probleme persiste, contactez votre administrateur. ]]>
+    </string>
+    <string name="error_session_ssl">
+<![CDATA[<p><b>Une erreur s\'est produite avec le protocole SSL.</b><br/></p>
+Veuillez verifier vos parametres de compte et reessayer.<br/> Si le probleme persiste, contactez votre administrateur.]]>
+    </string>
+    <string name="error_session_cloud_unavailable">
+<![CDATA[<p><b>DataSpace Cloud est actuellement surcharge !</b><br/></p>
+Veuillez reessayer dans quelques minutes.<br/>]]>
+    </string>
+    <string name="error_session_expired">Votre session a expire. Veuillez vous reconnecter.</string>
+    <string name="error_session_refresh">Rafraichissement de la session.</string>
+    <string name="error_chunk_transfert"><![CDATA[Le serveur ne prend pas en charge les transferts par bloc.<br/> Veuillez recharger votre compte</b>.]]></string>
+
+    <!-- MESSAGE ERROR -->
+    <string name="error_general_title">Une erreur s\'est produite.</string>
+    <string name="error_general">Une erreur s\'est produite. Veuillez reessayer.</string>
+    <string name="error_account_url">L\'URL est incorrecte. Veuillez verifier les parametres de votre compte.</string>
+    <string name="error_unknown_filepath">Ressource introuvable.</string>
+
+    <!-- DETAILS -->
+    <string name="geolocation">Geolocalisation</string>
+    <string name="action_version">Versions</string>
+    <string name="document_comments_header">Commentaires</string>
+    <string name="document_tags_header">Tags</string>
+    <string name="document_version_header">Version</string>
+
+    <!-- DOWNLOAD -->
+    <string name="empty_download">Aucun fichier</string>
+
+    <!-- SEARCH -->
+    <string name="search_form_hint">Saisissez un terme de recherche</string>
+
+    <!-- ACCOUNT WIZARD SCREEN STEP -->
+    <string name="optional">Facultatif</string>
+    <string name="required">Obligatoire</string>
+
+    <!-- LOCAL FIlE -->
+    <string name="action_rename">Renommer</string>
+    <string name="action_rename_desc">Nouveau nom pour %s</string>
+
+    <!-- MAIN MENU -->
+    <string name="menu_browse_root">Entrepot</string>
+    <string name="menu_browse_sites">Sites</string>
+    <string name="menu_browse_userhome">My Files</string>
+    <string name="menu_browse_shared">Shared</string>
+    <string name="menu_browse_global">Global</string>
+    <string name="menu_browse_all_sites">Tous les sites</string>
+    <string name="menu_browse_my_sites">Mes sites</string>
+    <string name="menu_browse_favorite_sites">Sites favoris</string>
+    <string name="menu_browse_tags">Tags</string>
+    <string name="menu_browse_activities">Activites</string>
+    <string name="menu_search">Recherche</string>
+    <string name="menu_downloads">Telechargements</string>
+    <string name="menu_local_files">Fichiers locaux</string>
+    <string name="menu_about">Infos</string>
+    <string name="menu_settings">Parametres</string>
+    <string name="menu_accounts">Comptes</string>
+    <string name="menu_view">Vues</string>
+    <string name="menu_help">Aide</string>
+    <string name="menu_prefs">Parametres</string>
+    <string name="menu_resources">Ressources</string>
+
+    <!-- UPLOAD -->
+    <string name="upload_title">Ajouter&#8230;</string>
+    <string name="upload_pick_document">Choisir le contenu&#8230;</string>
+    <string name="upload_photos">Photos</string>
+    <string name="upload_videos">Videos</string>
+    <string name="upload_files">Fichiers</string>
+    <string name="upload_third_application">Autre application</string>
+
+    <!-- ACCOUNTS -->
+    <string name="accounts_manage">Comptes</string>
+    <string name="accounts_details">Details</string>
+    <string name="browse_documents">Parcourir le contenu&#8230;</string>
+
+    <!-- PROPERTIES -->
+    <string name="details">Details</string>
+    <string name="metadata">Proprietes</string>
+    <string name="preview">Apercu</string>
+
+    <!-- NETWORKS -->
+    <string name="cloud_networks_empty">Aucun reseau disponible</string>
+    <string name="manage_accounts">Gerer les comptes&#8230;</string>
+    <string name="cloud_networks_switch">Changer de reseau&#8230;</string>
+
+    <!-- CLOUD SIGNUP -->
+    <string name="cloud_signup_firstname">Prenom</string>
+    <string name="cloud_signup_firstname_hint">Prenom (requis)</string>
+    <string name="cloud_signup_lastname">Nom</string>
+    <string name="cloud_signup_lastname_hint">Nom (requis)</string>
+    <string name="cloud_signup_email">E-mail</string>
+    <string name="cloud_signup_email_hint">E-mail (requis) tel que exemple@acme.com</string>
+    <string name="cloud_signup_password">Mot de passe</string>
+    <string name="cloud_signup_password_hint_long">Mot de passe (requis) 6 caracteres au minimum.</string>
+    <string name="cloud_signup_password_hint">6 caracteres au minimum</string>
+    <string name="cloud_signup_confirm">Confirmer le mot de passe</string>
+    <string name="cloud_signup_confirm_hint">Confirmer le mot de passe (requis)</string>
+    <string name="cloud_signup_action">Creer un compte</string>
+    <string name="cloud_signup_hint">En selectionnant Creer un compte, vous acceptez les <a href="http://www.alfresco.com/legal/agreements/cloud">Conditions d\'utilisation</a> et la <a href="http://www.alfresco.com/privacy">Politique de confidentialite</a> d\'DataSpace.</string>
+    <string name="sign_up_cloud">Creer un compte DataSpace</string>
+    <string name="sign_up_cloud_email_verification">Compte en attente de verification d\'e-mail</string>
+    <string name="sign_up_cloud_email_verification_line1">Vous avez cree un compte DataSpace avec l\'adresse e-mail :</string>
+    <string name="sign_up_cloud_email_verification_line2">Consultez votre boite e-mail. Vous avez recu un lien permettant de terminer le processus d\'enregistrement.</string>
+    <string name="sign_up_cloud_email_having_trouble">Probleme d\'activation ?</string>
+    <string name="sign_up_cloud_email_having_trouble_line1"><a href="http://getsatisfaction.com/alfresco/products/alfresco_alfresco_mobile_app">Veuillez nous informer</a> si vous ne parvenez pas a activer votre compte.</string>
+    <string name="sign_up_cloud_awaiting_email">Confirmation de l\'e-mail en attente</string>
+    <string name="cloud_signup_resend">Renvoyer l\'e-mail</string>
+    <string name="cloud_signup_resend_successfull">L\'e-mail a ete renvoye</string>
+    <string name="cloud_signup_resend_body">Vous ne recevez pas nos e-mails ? Verifiez que l\'adresse indiquee est correcte et consultez le dossier des e-mails indesirables</string>
+    <string name="cloud_signup_error_email">DataSpace a besoin de votre adresse e-mail professionnelle pour ajouter votre profil au reseau de collaboration de votre entreprise.</string>
+    <string name="cloud_signup_error_email_title">DataSpace Cloud : inscription.</string>
+
+    <!-- AUTHENTICATION -->
+    <string name="cloud_authentication">Authentification</string>
+
+    <!-- NETWORK -->
+    <string name="error_network_title">Aucun reseau.</string>
+    <string name="error_network_details">Votre appareil n\'est pas connecte a un reseau. Par consequent, certaines fonctions peuvent etre desactivees.</string>
+
+    <!-- NOTIFICATION -->
+    <string name="upload">Ajouter </string>
+    <string name="upload_complete">Ajout termine.</string>
+    <string name="upload_in_progress">Ajout en cours&#8230;</string>
+    <string name="update_complete">Mise a jour terminee.</string>
+    <string name="update_in_progress">Mise a jour en cours&#8230;</string>
+    <string name="error_unable_open_file_title">Impossible d\'ouvrir le fichier.</string>
+    <string name="error_unable_open_file">Le format du fichier n\'est pas pris en charge. Vous devez installer une application capable de le lire.</string>
+    <string name="error_unable_pick_file">Aucune application externe pour selectionner un fichier.</string>
+
+    <!-- OTHER -->
+    <string name="unlike">Ne plus aimer</string>
+    <string name="error_retrieve_likes">La balise aimer/ne plus aimer pour ce contenu n\'a pas pu etre recuperee.</string>
+    <string name="next">Suivant</string>
+    <string name="save">Enregistrer</string>
+    <string name="enter_details">Saisissez vos informations</string>
+    <string name="share_content">Partager le contenu avec&#8230;</string>
+
+    <!-- HELP -->
+    <string name="asset_folder_prefix">fr</string>
+
+    <!-- About Message -->
+    <string name="about_description_title">Description</string>
+    <string name="buildnumber_version">Version : </string>
+    <string name="sdknumber_version">SDK : </string>
+    <string name="about_description">
+<![CDATA[
+<p>DataSpace se connecte aux serveurs DataSpace dans le Cloud et DataSpace sur site (3,4 et superieur) pour fournir un acces securise a vos contenus en mode mobile.</p>
+
+<p>DataSpace Mobile se connecte a votre repertoire DataSpace au moyen de vos identifiants DataSpace (par HTTP ou HTTPS), et gere les acces des utilisateurs en fonction de leurs permissions.</p>
+]]>
+    </string>
+    <string name="about_ods">
+<![CDATA[<p>&#169; 2005&#8211;2014 Alfresco Software Limited<br/>
+&#169; 2013&#8211;2014 The Open DataSpace project<br/>
+<a href="mailto:info@opendataspace.org">info@opendataspace.org</a></p>
+<p>This software is licensed under the\nApache license Version 2.0</p></center>]]>
+    </string>
+
+    <!-- Waiting Message -->
+    <string name="get_pdf_viewer">Un lecteur de PDF est requis pour afficher ce contenu.\n\nSouhaitez-vous en obtenir un maintenant ?</string>
+    <string name="send_email">Partager les elements attaches</string>
+    <string name="link_or_attach">Souhaitez-vous le partager sous forme d\'elements attaches ou sous forme de lien cliquable ?</string>
+    <string name="full_attachment">Element attache</string>
+    <string name="link_to_repo">Lien cliquable</string>
+    <string name="email_content"><![CDATA[<!DOCTYPE html><html><body>Envoyer avec <a href="http://play.google.com/store/apps/details?id=org.alfresco.mobile.android.application">DataSpace Mobile</a></body></html>]]></string>
+
+    <!-- Delete -->
+    <plurals name="delete_items">
+        <item quantity="one">Voulez-vous vraiment supprimer \"%s\" ?</item>
+        <item quantity="other">Voulez-vous vraiment supprimer \"%s\" ?</item>
+    </plurals>
+
+    <string name="delete_description_data_protection">Protection des donnees active.\n\nSi vous supprimez ce compte, vos contenus reprendront leur etat non protege.\n\nSupprimer \"%s\" ?</string>
+    <string name="delete_in_progress">Suppression en cours&#8230;</string>
+    <string name="delete_complete">Suppression terminee</string>
+
+    <!-- Save Back -->
+    <string name="save_back_description">\"%s\" a ete modifie. Souhaitez-vous ajouter cette nouvelle version ?</string>
+    <string name="update_sucess">\"%s\" a ete mis a jour avec succes.</string>
+    <string name="no_voice_recorder">Vous n\'avez pas d\'enregistreur vocal sur cet appareil</string>
+    <string name="cannot_capture">Impossible de terminer la capture de ces informations</string>
+
+    <!-- Upload -->
+    <string name="action_processing">En cours de traitement&#8230;</string>
+    <string name="action_upload_error">Ajout impossible&#8230;</string>
+
+    <!-- Create Document -->
+    <string name="open_play_store">Ouvrir la boutique Google Play</string>
+    <string name="create_document">Creer&#8230;</string>
+    <string name="create_document_title">Creer&#8230;</string>
+    <string name="create_document_word">Document Word</string>
+    <string name="create_document_powerpoint">Presentation Powerpoint</string>
+    <string name="create_document_excel">Feuille de calcul Excel</string>
+    <string name="create_document_text">Document texte</string>
+    <string name="create_document_name_hint">Saisissez le nom du fichier ici</string>
+    <string name="filename_error_character">Nom invalide.</string>
+    <string name="create_document_filename_error">Ce nom est deja utilise.</string>
+    <string name="create_document_save">Une erreur s\'est produite : votre fichier est enregistre dans � Telechargements �.</string>
+    <string name="upload_error_alreadyexist">Une erreur s\'est produite : ce nom est deja utilise.</string>
+    <string name="create_document_editor_title">Terminer l\'action avec</string>
+    <string name="create_document_editor_not_available">Aucune application disponible</string>
+    <string name="create_document_editor_not_available_description">Vous ne disposez d\'aucune appli capable de creer ce type de fichier.</string>
+    <string name="preview_unavailable">Apercu non disponible.</string>
+    <string name="sdinaccessible">Pour cette operation, la carte SD doit etre accessible</string>
+    <string name="loginfirst">Veuillez d\'abord vous connecter a un compte</string>
+
+    <!-- Comment -->
+    <string name="comment_add_hint">Ajoutez vos commentaires ici&#8230;</string>
+
+    <!-- DATA PROTECTION -->
+    <string name="encrypt_title">Chiffrement du contenu</string>
+    <string name="content_being_encrypted">La protection du contenu est en cours. Veuillez patienter</string>
+    <string name="content_being_decrypted">L\'annulation de la protection du contenu est en cours. Veuillez patienter</string>
+    <string name="data_protection">Protection des donnees</string>
+    <string name="data_protection_blurb"><![CDATA[<p><b>Protection des donnees disponible.</b><br/> Voulez-vous l\'activer ? <p> Cette operation va chiffrer touts les contenus DataSpace telecharges pour chaque compte. Ces contenus ne pourront plus etre lus par aucune application, sauf l\'application DataSpace. ]]></string>
+    <string name="encryption_failed">Echec du chiffrement</string>
+    <string name="decryption_failed">Echec du dechiffrement</string>
+    <string name="protect_question"><![CDATA[<p><b>Souhaitez-vous proteger touts les contenus DataSpace telecharges maintenant ?</b><p> Cette operation s\'appliquera a tous les contenus que vous avez telecharges a partir de vos comptes DataSpace. Ces contenus ne pourront plus etre lus par aucune application, sauf l\'application DataSpace.]]></string>
+    <string name="unprotect_question"><![CDATA[<p><b>Souhaitez-vous desactiver la protection sur tous les contenus DataSpace telecharges maintenant ?</b><p> Ce sera applique a tous les contenus telecharges a partir de tous vos comptes DataSpace.]]></string>
+    <string name="already_encrypted">Ce contenu est deja chiffre !</string>
+    <string name="already_decrypted">Ce contenu est deja chiffre !</string>
+    <string name="decryption_title">Desactivation de la protection des donnees en cours&#8230;</string>
+    <string name="encryption_title">Activation de la protection des donnees en cours&#8230;</string>
+    <string name="copy_file_title">Copie en cours&#8230;</string>
+    <string name="copy_file_completed">Copie terminee</string>
+    <string name="copy_file_description">Copie du fichier en cours</string>
+    <string name="metadata_general">General</string>
+    <string name="encrypt_action">Chiffrer</string>
+    <string name="decrypt_action">Dechiffrer</string>
+
+    <!-- OPEN AS.. -->
+    <string name="open_as_title">Ouvrir dans&#8230;</string>
+    <string name="open_as_image">Image</string>
+    <string name="open_as_audio">Audio</string>
+    <string name="open_as_video">Video</string>
+    <string name="open_as_txt">Document texte</string>
+
+    <!-- SITES ACTION -->
+    <string name="action_join_site">Rejoindre</string>
+    <string name="action_join_request_site">Demander a rejoindre</string>
+    <string name="action_leave_site">Se desabonner</string>
+    <string name="action_favorite_site">Favori</string>
+    <string name="action_unfavorite_site">Supp. fav.</string>
+    <string name="action_join_site_validation">Vous etes maintenant membre de \"%s\".</string>
+    <string name="action_leave_site_validation">Vous avez quitte \"%s\".</string>
+    <string name="action_favorite_site_validation">\"%s\" fait maintenant partie des favoris.</string>
+    <string name="action_unfavorite_site_validation">\"%s\" ne figure plus dans les favoris.</string>
+    <string name="action_join_request_site_validation">Vous avez demande a rejoindre \"%s\"</string>
+    <string name="empty_joinsiterequest">Aucune demande en attente</string>
+    <string name="joinsiterequest_list_title">Liste des demandes en attente</string>
+    <string name="action_cancel_join_site_request">Votre demande de rejoindre \"%s\" a ete annulee.</string>
+    <string name="action_join_site_error">Un probleme vous a empeche de rejoindre le site \"%s\".</string>
+    <string name="action_leave_site_error">Un probleme vous a empeche de quitter le site \"%s\".</string>
+    <string name="action_favorite_error">Un probleme vous a empeche d\'inclure le site \"%s\" dans les favoris.</string>
+    <string name="action_unfavorite_site_error">Un probleme vous a empeche de supprimer le site \"%s\" de vos favoris.</string>
+
+    <!-- IMPORT -->
+    <string name="import_document_title">Ajouter avec DataSpace Mobile</string>
+    <string name="import_document_name">Nom du fichier</string>
+    <string name="import_documents">Fichier</string>
+    <string name="import_account">Compte</string>
+    <string name="import_send_download">Le fichier se trouve dans le dossier Telechargements de \"%s\".</string>
+    <string name="import_send_downloads">Les fichiers sont disponibles dans votre dossier \"Telechargements\".</string>
+    <string name="import_folder">Dossier Ajout</string>
+    <string name="import_error">Une erreur s\'est produite lors de l\'ajout.</string>
+    <string name="import_unsupported_intent">DataSpace Mobile : impossible de recuperer les informations.</string>
+    <string name="action_upload">Ajouter</string>
+    <string name="action_import">Importer</string>
+
+    <!-- SSL -->
+    <string name="security_ssl_disable">La validation du certificat SSL a ete desactivee.</string>
+    <string name="data_protection_unavailable">Protection des donnees non disponible (clients entreprise, souscripteurs de l\'offre entreprise)</string>
+    <string name="data_protection_off">La protection des donnees est actuellement desactivee\"</string>
+    <string name="data_protection_on">La protection des donnees est actuellement activee\"</string>
+
+    <!-- PIN Code -->
+    <string name="passcode_title">Entrer le code d\'acces</string>
+    <string name="passcode_enable_title">Activer le code d\'acces</string>
+    <string name="passcode_preference">Protection par code d\'acces</string>
+    <string name="passcode_enable">Active</string>
+    <string name="passcode_disable">Desactive</string>
+    <string name="passcode_change">Modifier le code d\'acces</string>
+    <string name="passcode_timeout">Expiration</string>
+    <string name="passcode_timeout_summary">{0,choice,0#Apres 0 minute|1#Apres 1 minute|1&lt;Apres {0} minutes}</string>
+    <string name="passcode_erase_data">Effacer les donnees</string>
+    <string name="passcode_erase_data_summary">Effacer toutes les donnees DataSpace Mobile de ce appareil apres 10 tentatives infructueuses de saisie du code d\'acces</string>
+    <string name="passcode_edit">Saisissez votre nouveau code d\'acces</string>
+    <string name="passcode_confirmation">Saisissez une nouvelle fois le code d\'acces</string>
+    <string name="passcode_error_confirmation">Votre code d\'acces ne correspond pas.</string>
+    <string name="passcode_unknown">Votre code d\'acces est incorrect.</string>
+    <string name="passcode_erase_data_complete">Toutes les donnees locales ont ete supprimees.</string>
+    <string name="passcode_timeout_title">Expiration du delai de saisie du code d\'acces</string>
+    <string name="passcode_timeout_1min">1 minute</string>
+    <string name="passcode_timeout_2min">2 minutes</string>
+    <string name="passcode_timeout_5min">5 minutes</string>
+    <string name="passcode_timeout_10min">10 minutes</string>
+    <string name="passcode_timeout_30min">30 minutes</string>
+    <string name="passcode_timeout_60min">1 heure</string>
+
+    <string-array name="passcode_timeout_entries">
+        <item>@string/passcode_timeout_1min</item>
+        <item>@string/passcode_timeout_2min</item>
+        <item>@string/passcode_timeout_5min</item>
+        <item>@string/passcode_timeout_10min</item>
+        <item>@string/passcode_timeout_30min</item>
+        <item>@string/passcode_timeout_60min</item>
+    </string-array>
+    <string-array name="passcode_timeout_values">
+        <item>60000</item>
+        <item>120000</item>
+        <item>300000</item>
+        <item>600000</item>
+        <item>1800000</item>
+        <item>3600000</item>
+    </string-array>
+
+    <!-- Settings -->
+    <string name="settings">Parametres</string>
+    <string name="settings_enterprise">Parametres de la version Entreprise</string>
+    <string name="settings_privatefolder_summary">Avec la protection des donnees, les contenus telecharges ne sont lisibles qu\'a partir des applications DataSpace. (reserve aux utilisateurs de la version Entreprise)</string>
+    <string name="settings_privatefolder_title">Protection des donnees</string>
+    <string name="settings_links">Liens</string>
+    <string name="settings_links_website">DataSpace</string>
+    <string name="settings_links_website_summary">Visiter le site Web officiel d\'DataSpace</string>
+    <string name="settings_links_website">DataSpace</string>
+    <string name="settings_links_website_summary">Visiter le site Web officiel d\'DataSpace</string>
+    <string name="settings_links_website_url">http://www.alfresco.com/products/mobile</string>
+    <string name="settings_rating">Ecrire un commentaire</string>
+    <string name="settings_rating_summary">Noter DataSpace Mobile sur Google Play</string>
+    <string name="settings_rating_url">market://details?id=org.alfresco.mobile.android.application</string>
+    <string name="settings_links_facebook">J\'aime DataSpace sur Facebook</string>
+    <string name="settings_links_facebook_summary">J\'aime sur Facebook</string>
+    <string name="settings_links_facebook_url">http://www.facebook.com/alfrescosoftware</string>
+    <string name="settings_favorite">Favoris</string>
+    <string name="settings_favorite_sync">Activer la synchro pour \"%s\"</string>
+    <string name="settings_favorite_sync_data">Data Usage</string>
+    <string name="settings_favorite_sync_data_all">Use Cellular Data for Sync.</string>
+    <string name="settings_encryption">Encryption</string>
+    <string name="settings_autosync">Synchronisation</string>
+    <string name="settings_autosync_settings">Settings</string>
+    <string name="settings_autosync_settings_off">Synchronisation of images and videos is currently off</string>
+    <string name="settings_autosync_settings_on">Synchronisation of images and videos is currently on</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_favorite_sync_data">Utilisation des donnees</string>
+    <string name="settings_favorite_sync_data_all">Utiliser les donnees cellulaires pour la synchro</string>
+
+    <!-- Multi Selection -->
+    <plurals name="selected_document">
+        <item quantity="zero">Aucun fichier</item>
+        <item quantity="one">1 fichier</item>
+        <item quantity="other">%1$s fichiers</item>
+    </plurals>
+    <plurals name="selected_folders">
+        <item quantity="zero">aucun dossier</item>
+        <item quantity="one">1 dossier</item>
+        <item quantity="other">%1$s dossiers</item>
+    </plurals>
+
+    <string name="waiting_operations">Veuillez patienter&#8230;</string>
+
+    <!-- Favorites -->
+    <string name="menu_favorites_folder">Dossier Favoris</string>
+    <string name="menu_favorites">Favoris</string>
+    <string name="synced_documents">Contenu synchronise</string>
+    <string name="empty_favorites">Aucun favori</string>
+    <string name="favorites_document">Favori</string>
+    <string name="error_retrieve_favorite">Impossible de recuperer les infos de favori de ce contenu.</string>
+    <string name="favorites_activate">Synchroniser le contenu pour \"%s\"</string>
+    <string name="favorites_activate_description">Souhaitez-vous conserver automatiquement vos contenus favoris en synchronisation avec cet appareil ?</string>
+    <string name="favorites_deactivate">Desactiver la synchronisation</string>
+    <string name="favorites_deactivate_description"><![CDATA[<p>Voulez-vous desactiver la synchronisation ?</p> Tous les contenus synchronises seront supprimes dans votre appareil.]]></string>
+    <string name="sync_error_title">Erreurs de synchro</string>
+    <string name="sync_error_node_unfavorited"><![CDATA[<p>Vous avez supprime <b>%s</b> des favoris depuis que vous l\'avez edite. <br/> <b>Synchronisez</b> votre version modifiee sur le serveur ou <b>Enregistrez-la</b> sur votre dossier \"Telechargements\". </p>]]></string>
+    <string name="sync_error_node_deleted"><![CDATA[<p> <b>%s</b> a ete supprime sur le serveur mais une copie a ete enregistree dans votre dossier \"Telechargements\".</p>]]></string>
+    <string name="sync_error_no_permission"><![CDATA[<p> Vous n\'avez pas les droits d\'acces necessaires pour ajouter votre version modifiee de <b>%s</b>. Vous pouvez l\'<b>Enregistrer</b> dans votre dossier Telechargements ou la <b>Remplacer</b> avec la version du serveur qui annulera vos modifications.]]></string>
+    <string name="sync_error_node_local_modification">Erreurs de synchro</string>
+    <string name="sync_action">Synchro</string>
+    <string name="sync_override_action">Remplacer</string>
+    <string name="sync_save_action">Enregistrer</string>
+    <string name="sync_resolve_conflict">Resoudre le conflit</string>
+    <string name="sync_complete">Synchro terminee</string>
+    <string name="sync_in_progress">Synchro en cours&#8230;</string>
+    <string name="upload_await">En attente pour ajouter&#8230;</string>
+    <string name="download_await">En attente pour telecharger&#8230;</string>
+
+    <plurals name="sync_complete_description">
+        <item quantity="zero">aucun contenu synchronise</item>
+        <item quantity="one">1 fichier synchronise</item>
+        <item quantity="other">%1$s fichiers synchronises</item>
+    </plurals>
+    <plurals name="download_complete_description">
+        <item quantity="zero">aucun contenu telecharge</item>
+        <item quantity="one">1 fichier disponible hors ligne</item>
+        <item quantity="other">%1$s fichiers disponibles hors ligne</item>
+    </plurals>
+    <plurals name="upload_complete_description">
+        <item quantity="zero">aucun contenu ajoute.</item>
+        <item quantity="one">1 element ajoute.</item>
+        <item quantity="other">%1$s elements ajoutes.</item>
+    </plurals>
+    <plurals name="update_complete_description">
+        <item quantity="zero">aucun contenu mis a jour.</item>
+        <item quantity="one">1 fichier mis a jour.</item>
+        <item quantity="other">%1$s fichiers mis a jour.</item>
+    </plurals>
+    <plurals name="batch_failed">
+        <item quantity="zero">aucun echec de transfert.</item>
+        <item quantity="one">1 transfert echoue.</item>
+        <item quantity="other">%1$s transferts echoues.</item>
+    </plurals>
+    <plurals name="batch_in_progress">
+        <item quantity="zero">aucun transfert en cours.</item>
+        <item quantity="one">1 transfert en cours.</item>
+        <item quantity="other">%1$s transferts en cours.</item>
+    </plurals>
+    <plurals name="download_in_progress">
+        <item quantity="zero">aucun telechargement en cours.</item>
+        <item quantity="one">1 telechargement en cours.</item>
+        <item quantity="other">%1$s telechargements en cours.</item>
+    </plurals>
+
+    <string name="sync_warning">Avertissement synchronisation</string>
+    <string name="sync_error">Erreur de synchronisation</string>
+    <string name="sync_warning_mobile_data"><![CDATA[<p> Vous etes sur le point de synchroniser <b>%s</b> sur une connexion de donnees.</p> Voulez-vous continuer ?]]></string>
+    <string name="sync_error_storage"><![CDATA[<p> Vous essayez de synchroniser <b>%1$s</b>, seulement %2$s sont disponibles.</p> Vous devez liberer de l\'espace sur votre appareil ou supprimer des contenus de vos favoris.]]></string>
+    <string name="sync_warning_storage"><![CDATA[<p> Vous etes sur le point de synchroniser <b>%1$s</b>, seulement %2$s sont disponibles sur votre appareil.</p> Voulez-vous continuer ?]]></string>
+    <string name="sync_document_not_available">Ce document n\'est pas disponible sur votre appareil.</string>
+
+    <!-- Handling duplicate name -->
+    <string name="error_duplicate_title">Nom en double.</string>
+    <string name="error_duplicate_description"><![CDATA[<p>Il y a deja un fichier telecharge avec le meme nom.</p> Voulez-vous remplacer le fichier existant ?]]></string>
+    <string name="error_duplicate_rename"><![CDATA[ <b>%s</b> est deja utilise. <br/> Veuillez essayer avec un autre nom.]]></string>
+
+    <!-- Quick Action Folder -->
+    <string name="action_view_properties">Afficher les proprietes</string>
+    <string name="action_edit_properties">Modifier les proprietes</string>
+    <string name="like_in_progress">\"Aimer\" en cours</string>
+    <string name="like_completed">J\'aime effectue</string>
+    <string name="like_complete">Aimer termine</string>
+    <string name="unlike_completed">Je n\'aime plus effectue</string>
+    <string name="favorite">Favori</string>
+    <string name="unfavorite">Supp. fav.</string>
+    <string name="favorite_in_progress">\"Favori\" en cours</string>
+    <string name="favorite_completed">Favori termine</string>
+    <string name="favorite_complete">Favori termine</string>
+    <string name="unfavorite_completed">Suppression des favoris termine</string>
+
+    <!-- Operations Status -->
+    <string name="status_pending">En attente</string>
+    <string name="status_running">En cours</string>
+    <string name="status_paused">En pause</string>
+    <string name="status_successful">Reussi</string>
+    <string name="status_failed">Echec</string>
+    <string name="status_cancelled">Annule</string>
+    <string name="session_loaded">Session prete</string>
+
+    <!-- Operations Type -->
+    <string name="notifications">Notifications</string>
+    <string name="operation_default">Notifications</string>
+    <string name="DownloadRequest">Telecharger</string>
+    <string name="CreateDocumentRequest">Creer contenu</string>
+    <string name="UpdateContentRequest">Mettre a jour contenu</string>
+    <string name="DeleteNodeRequest">Supprimer</string>
+    <string name="LikeNodeRequest">Aimer</string>
+    <string name="FavoriteNodeRequest">Favori</string>
+    <string name="CreateFolderRequest">Creer un dossier</string>
+    <string name="LoadSessionRequest">Charger une session</string>
+    <string name="CreateAccountRequest">Creer un compte</string>
+    <string name="UpdatePropertiesRequest">Mettre a jour les proprietes</string>
+    <string name="DeleteFileRequest">Supprimer fichier</string>
+    <string name="CreateDirectoryRequest">Creer un dossier</string>
+    <string name="RenameRequest">Renommer fichier</string>
+    <string name="SyncFavoriteRequest">Synchro</string>
+    <string name="UnSyncFavoriteRequest">Desynchro</string>
+    <string name="RetrieveDocumentNameRequest">Verifier nom de fichier</string>
+
+    <!-- Multi selection -->
+    <string name="empty">Rien</string>
+    <string name="operations_empty">Aucune operation</string>
+    <string name="operations">Operations</string>
+    <string name="select_all">Selectionner tout</string>
+    <string name="unselect_all">Deselectionner tout</string>
+    <string name="cancel_all">Annuler tout</string>
+    <string name="dismiss_all">Effacer la liste</string>
+
+    <!-- Creation Folder -->
+    <string name="create_folder_in_progress">Creation dossier en cours</string>
+    <string name="create_folder_complete">Creation dossier terminee</string>
+    <string name="sdcard_desc">Carte SD</string>
+    <string name="download_folder_desc">Dossier Telechargements</string>
+    <string name="camera_folder_desc">Dossier Camera</string>
+    <string name="savebutton">Enregistrer</string>
+    <string name="discardbutton">Ignorer</string>
+    <string name="new_file">Nouveau fichier texte</string>
+    <string name="textfile_populate_failed">Echec du chargement du texte dans l\'editeur integre</string>
+    <string name="textfile_too_large">Fichier texte trop volumineux pour l\'editeur</string>
+
+    <!-- FILE EXPLORER Menu -->
+    <string name="shortcuts">Raccourcis</string>
+    <string name="shortcut_alfresco">DataSpace</string>
+    <string name="shortcut_alfresco_downloads">Telechargements</string>
+    <string name="shortcut_alfresco_sync">Synchro</string>
+    <string name="shortcut_library">Bibliotheque</string>
+    <string name="shortcut_library_images">Images</string>
+    <string name="shortcut_library_videos">Videos</string>
+    <string name="shortcut_library_audios">Musique</string>
+    <string name="shortcut_library_office">Bureau</string>
+    <string name="shortcut_library_pdf">Bureau</string>
+    <string name="shortcut_local">Raccourci appareil</string>
+    <string name="shortcut_local_downloads">Telechargements appareil</string>
+    <string name="shortcut_local_sdcard">Carte SD</string>
+    <string name="shortcut_thirdparty_app">Applications</string>
+    <string name="shortcut_thirdparty_applications">Applications tierces</string>
+    <string name="action_select">Selectionner</string>
+
+    <!-- FILE Editor Menu -->
+    <string name="file_editor_name">Editeur de texte DataSpace</string>
+    <string name="file_editor_error_open">Impossible d\'ouvrir ce fichier.</string>
+    <string name="file_editor_error_too_large">Ce fichier est trop volumineux pour etre ouvert dans l\'Editeur de texte DataSpace</string>
+    <string name="file_editor_error_speech">Votre appareil ne permet pas la reconnaissance vocale.</string>
+    <string name="file_editor_save_request">Le fichier a ete modifie.</string>
+    <string name="file_editor_save_description"><![CDATA[Voulez-vous quitter sans enregistrer ? <br/> Toutes vos modifications non enregistrees seront perdues.]]></string>
+    <string name="file_editor_save">Enregistrer</string>
+    <string name="file_editor_discard">Ignorer</string>
+    <string name="file_editor_save_confirmation">Le fichier a ete enregistre.</string>
+    <string name="file_editor_loading">Veuillez patienter...</string>
+    <string name="file_editor_encoding">Encodage</string>
+    <string name="file_editor_encoding">Encodage</string>
+    <string name="file_editor_text_size">Taille du texte</string>
+    <string name="file_editor_speech_to_text">Reconnaissance vocale</string>
+
+    <!-- Simple -->
+    <string name="yes">Oui</string>
+    <string name="no">Non</string>
+
+    <!-- People -->
+    <string name="my_profile">Mon Profil</string>
+    <string name="user_profile">Profil utilisateur</string>
+    <string name="about">Infos</string>
+    <string name="firstName">Prenom</string>
+    <string name="lastName">Nom</string>
+    <string name="work_at">%1$s chez %2$s</string>
+    <string name="jobTitle">Intitule du poste</string>
+    <string name="location">Emplacement</string>
+    <string name="summary">Recapitulatif</string>
+    <string name="contactInformation">Informations du contact</string>
+    <string name="email">E-mail</string>
+    <string name="telephone">Telephone</string>
+    <string name="mobile">Mobile</string>
+    <string name="skypeId">Skype</string>
+    <string name="instantMessagingId">IM</string>
+    <string name="instantMessaging">Messagerie instantanee</string>
+    <string name="googleId">Nom utilisateur Google</string>
+    <string name="company">Entreprise</string>
+    <string name="companyDetails">Details de l\'entreprise</string>
+    <string name="companyName">Nom</string>
+    <string name="companyAdress">Adresse</string>
+    <string name="companyPostCode">Code postal</string>
+    <string name="companyTelephone">Telephone</string>
+    <string name="companyFax">Fax</string>
+    <string name="companyEmail">E-mail</string>
+    <string name="call">Appeler</string>
+    <string name="skype">Skype</string>
+    <string name="start_chat">Demarrer un chat</string>
+    <string name="start_call">Demarrer un appel</string>
+    <string name="start_video_call">Demarrer un appel video</string>
+    <string name="search_person_hint">Rechercher par nom ou nom utilisateur</string>
+    <string name="contact_add">Ajouter un contact</string>
+
+    <!-- MEMBERS -->
+    <string name="members">Liste des membres</string>
+    <string name="members_of">Membres de %s</string>
+
+    <!-- PERSON SEARCH -->
+    <string name="person_not_found">Aucun utilisateur trouve</string>
+    <string name="person_search">Recherche</string>
+    <string name="person_selected">Personnes selectionnees</string>
+
+    <!-- Activities -->
+    <string name="activity_site">Details du site</string>
+    <string name="activity_profile">Profil de %s</string>
+    <string name="activity_profile2">Profil de %s</string>
+
+    <!-- Workflow -->
+    <string name="variables">Variables</string>
+    <string name="my_tasks">Mes Taches</string>
+    <string name="empty_tasks">Aucune tache</string>
+    <string name="empty_items">Aucun element attache</string>
+    <string name="task_items">Piece(s) jointe(s)</string>
+    <string name="empty_process_definition">Aucun processus</string>
+    <string name="workflow_start">Creer une tache</string>
+    <string name="task_actions">Reponse</string>
+    <string name="tasks">Taches</string>
+    <string name="task_items">Elements attaches</string>
+    <string name="task_workflow">Processus</string>
+
+    <!-- Workflow FILTERS -->
+    <string name="tasks_status">Etat</string>
+    <string name="tasks_active">Actif</string>
+    <string name="tasks_completed">Termine</string>
+    <string name="tasks_due">Echeance</string>
+    <string name="tasks_due_today">Aujourd\'hui</string>
+    <string name="tasks_due_tomorrow">Demain</string>
+    <string name="tasks_due_week">Les 7 prochains jours</string>
+    <string name="tasks_due_over">En retard</string>
+    <string name="tasks_due_no_date">Aucune date</string>
+    <string name="tasks_priority">Priorite</string>
+    <string name="tasks_priority_low">Basse</string>
+    <string name="tasks_priority_medium">Moyenne</string>
+    <string name="tasks_priority_high">Elevee</string>
+    <string name="tasks_assignee">Acteur</string>
+    <string name="tasks_assignee_me">Moi</string>
+    <string name="tasks_assignee_all">Tout</string>
+    <string name="tasks_assignee_unassigned">Non assigne</string>
+
+    <!-- Multi Selection -->
+    <plurals name="selected_task">
+        <item quantity="zero">aucune tache</item>
+        <item quantity="one">1 tache</item>
+        <item quantity="other">%1$s taches</item>
+    </plurals>
+
+    <!-- Tasks -->
+    <string name="task_filter_view">Afficher les taches</string>
+    <string name="validate">Valider</string>
+    <string name="workflow_priority_low">Priorite basse</string>
+    <string name="workflow_priority_medium">Priorite moyenne</string>
+    <string name="workflow_priority_high">Priorite elevee</string>
+    <string name="task_user_approved"><![CDATA[%s <b>a approuve le contenu</b>]]></string>
+    <string name="task_user_rejected"><![CDATA[%s <b>a approuve le contenu</b>]]></string>
+    <string name="task_user_commented">et a commente :</string>
+    <string name="task_user_no_comment">, mais n\'a pas fourni de commentaire</string>
+    <string name="task_user_completed"><![CDATA[%s <b>a termine cette tache</b>]]></string>
+    <string name="task_user_not_completed"><![CDATA[%s <b>n\'a pas encore termine cette tache</b>]]></string>
+    <string name="task_approve">Approuver</string>
+    <string name="task_reject">Rejeter</string>
+    <string name="task_comment">Commentaire</string>
+    <string name="task_response">Reponse</string>
+    <string name="done">Termine</string>
+    <string name="task_completing">Tache en cours d\'execution</string>
+    <string name="task_reassign">Reaffecter</string>
+    <string name="task_reassign_long">Reassigner cette tache a&#8230;</string>
+    <string name="task_claim">Reclamer</string>
+    <string name="task_unclaim">Remettre dans le pot commun</string>
+    <string name="task_priority">Priorite</string>
+    <string name="task_type">Type de tache</string>
+    <string name="task_initiator">Initiateur de la tache</string>
+    <string name="task_dueat">Date d\'echeance</string>
+    <string name="task_no_dueat">Date d\'echeance</string>
+    <string name="tasks_history">Historique des taches</string>
+
+    <!-- Tasks Filters -->
+    <string name="task_filter_active">Taches actives</string>
+    <string name="task_filter_initiator">Taches que j\'ai demarrees</string>
+    <string name="task_filter_completed">Taches terminees</string>
+    <string name="task_filter_high_priority">Taches de priorite elevee</string>
+    <string name="task_filter_due_today">Taches pour aujourd\'hui</string>
+    <string name="task_filter_overdue">Taches en retard</string>
+    <string name="task_filter_assigned_me">Taches assignees a Moi</string>
+    <string name="task_filter_custom">Mon filtre&#8230;</string>
+
+    <!-- Process Start -->
+    <string name="process_start_review">Envoyer pour revision</string>
+    <string name="process_choose_definition">Choisir un type de tache</string>
+    <string name="process_create_task">Creer une tache</string>
+    <string name="process_choose_assignees">Choisir les acteurs</string>
+    <string name="process_choose_attachments">Choisir les elements attaches</string>
+    <string name="process_start_title">Demarrer la tache</string>
+    <string name="process_title">Titre</string>
+    <string name="process_title_hint">Nouveau titre de tache (requis)</string>
+    <string name="process_due_on">A echeance le</string>
+    <string name="process_no_date">Aucune date</string>
+    <string name="process_assignees">Acteurs</string>
+    <string name="process_diagram">Traiter le diagramme</string>
+    <string name="task_review_document">Reviser %s</string>
+    <string name="task_review_documents">Veuillez examiner ce contenu</string>
+    <string name="task_assignees_plurals">{0,choice,0#Aucun acteur|1#1 acteur|1&lt;{0} acteurs}</string>
+    <string name="task_assignees">Acteurs</string>
+    <string name="task_assignees_selection">Selectionner les acteurs&#8230;</string>
+    <string name="process_approvers_plurals">{0,choice,0#Aucun approbateur|1#1 sur 1 approbateur|1&lt;%s sur {0} approbateurs}</string>
+    <string name="task_attachments_plurals">{0,choice,0#Aucun element attache|1#1 element attache|1&lt;{0} elements attaches}</string>
+    <string name="task_attachments_selection">Selectionner les elements attaches&#8230;</string>
+    <string name="task_attachments">Elements attaches</string>
+    <string name="process_no_description">(aucun message)</string>
+    <string name="process_no_assignees">Aucun acteur</string>
+    <string name="process_initiator">Initiateur</string>
+    <string name="process_diagram">Diagramme</string>
+    <string name="process_attachments">Elements attaches</string>
+    <string name="process_no_attachments">Aucun contenu attache</string>
+    <string name="process_priority">Priorite</string>
+    <string name="process_notification">Notification par e-mail</string>
+    <string name="process_approvers">Approbateurs</string>
+    <string name="process_no_approvers">Aucun approbateur</string>
+    <string name="process_starting">Demarrage du traitement</string>
+    <string name="task_create">Creer une tache</string>
+    <string name="task_todo">A faire</string>
+    <string name="task_todo_description">Assigner une tache a une personne</string>
+    <string name="task_review_approve">Reviser &amp; Approuver</string>
+    <string name="task_review_approve_description">Assigner une tache a une ou plusieurs personnes pour revoir et approuver les contenus.</string>
+    <string name="task_delegate_in_progress">Reaffectation en cours&#8230;</string>
+    <string name="task_delegate_complete">Reaffectation terminee</string>
+    <string name="picker_assignees">Selectionner les acteurs</string>
+    <string name="picker_due_date">Selectionner une date de livraison</string>
+    <string name="picker_attachments">Selectionner les elements attaches</string>
+    <string name="action_remove_approvers">Supprimer un approbateur</string>
+    <string name="action_add_approvers">Ajouter un approbateur</string>
+
+
+
+    <!-- PROCESS NAME -->
+    <string name="process_adhoc">Workflow Adhoc</string>
+    <string name="process_parallel_review">Reviser et Approuver en parallele</string>
+    <string name="process_review">Reviser &amp;amp; Approuver</string>
+    <string name="process_pooled_review">Reviser et Approuver en mode groupe</string>
+
+    <!-- AGGREGATOR SEARCH -->
+    <string name="search">Recherche</string>
+    <string name="search_person">Personnes</string>
+    <string name="search_documents">Fichiers</string>
+    <string name="search_folders">Dossiers</string>
+    <string name="search_advanced">Recherche avancee</string>
+
+    <!-- DOCUMENT PICKER -->
+    <string name="picker_document_title">Selectionner les elements attaches</string>
+    <string name="picker_assign_person">{0,choice,0#Assigner|1#Assigner 1 personne|1&lt;Assigner {0} personnes}</string>
+    <string name="picker_attach_document">{0,choice,0#Joindre|1#Joindre 1 fichier|1&lt;Joindre {0} fichiers}</string>
+
+    <!-- DISLAY VIEWS ITEMS -->
+    <string name="display_views">Vues</string>
+    <string name="display_gallery">Afficher la galerie</string>
+
+    <!-- Metadata RESTRICTABLE -->
+    <string name="metadata_aspect_restrictable">Limite</string>
+    <string name="metadata_prop_offline_expires_after">Le hors-ligne expire apres (heures)</string>
+
+    <!-- Advanced Search -->
+    <string name="search_title">Rechercher : %s</string>
+    <string name="clear">Effacer</string>
+    <string name="metadata_type">Type</string>
+    <string name="metadata_modified_by">Modifie par</string>
+    <string name="modified_by">Par</string>
+    <string name="metadata_modification_date">Derniere modification</string>
+    <string name="metadata_modification_date_from">De</string>
+    <string name="metadata_modification_date_to">A</string>
+    <string name="search_name">Nom ou nom d\'utilisateur</string>
+    <string name="mimetype_unknown">Inconnu</string>
+    <string name="mimetype_documents">Documents</string>
+    <string name="mimetype_presentations">Presentations</string>
+    <string name="mimetype_spreadsheets">Feuilles de calcul</string>
+    <string name="mimetype_images">Images</string>
+    <string name="mimetype_videos">Videos</string>
+    <string name="mimetype_music">Musique</string>
+    <string name="mimetype_text">Texte</string>
+    <string name="error_search_fields_empty">Veuillez remplir au moins un champ</string>
+    <string name="picker_user">Selectionner une personne</string>
+    <string name="picker_date_from">Selectionner une date de depart</string>
+    <string name="picker_date_to">Selectionner une date de fin</string>
+
+
+    <!-- Storage Access Framework -->
+    <string name="menu_browse_favorites_folder">Dossier Favoris</string>
+    <string name="account_alfresco">DataSpace</string>
+    <string name="account_alfresco_cloud">DataSpace Cloud</string>
+    <string name="account_alfresco_onpremise">DataSpace sur site</string>
+
+
+    <!-- Accessibility -->
+    <string name="mime_folder">Dossier</string>
+    <string name="mime_document">Document</string>
+    <string name="more_options_folder">Plus d\'options pour le Dossier %s</string>
+    <string name="more_options_favorite">Plus d\'options pour le dossier %s</string>
+    <string name="mime_site">Site</string>
+    <string name="more_options_site">Plus d\'options pour le Site %s</string>
+    <string name="navigation_drawer_description">DataSpace : ouvrir l\'onglet de navigation</string>
+    <string name="metadata_modified">Modifie </string>
+    <string name="metadata_created_by">Cree par %s</string>
+    <string name="metadata_size">Taille </string>
+    <string name="contact_card">Ouvrir fiche de contact pour %s </string>
+    <string name="add_comment">Envoyer un commentaire</string>
+    <string name="advanced_search_hint">Bouton recherche avancee</string>
+    <string name="add_menu">Ajouter a ce dossier</string>
+
+
+</resources>

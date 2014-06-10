@@ -51,7 +51,7 @@ public class CreateFolderRequest extends NodeOperationRequest
 
         properties = new HashMap<String, Serializable>(2);
         properties.put(PropertyIds.OBJECT_TYPE_ID, BaseTypeId.CMIS_FOLDER.value());
-
+        
         persistentProperties = new HashMap<String, Serializable>();
         persistentProperties.put(ContentModel.PROP_NAME, folderName);
         persistentProperties.putAll(properties);

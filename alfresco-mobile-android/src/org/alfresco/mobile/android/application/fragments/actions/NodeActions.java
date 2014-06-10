@@ -25,6 +25,7 @@ import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
 import org.opendataspace.android.app.R;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.activity.PrivateDialogActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -176,33 +177,44 @@ public class NodeActions extends AbstractActions<Node>
             mi.setIcon(R.drawable.ic_download_dark);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             /*
-            createMenu = menu.addSubMenu(Menu.NONE, MenuActionItem.MENU_FAVORITE_GROUP, Menu.FIRST
-                    + MenuActionItem.MENU_FAVORITE_GROUP, R.string.favorite);
-            createMenu.setIcon(R.drawable.ic_favorite_dark);
-            createMenu.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
-
-            createMenu.add(Menu.NONE, MenuActionItem.MENU_FAVORITE_GROUP_FAVORITE, Menu.FIRST
-                    + MenuActionItem.MENU_FAVORITE_GROUP_FAVORITE, R.string.favorite);
-            createMenu.add(Menu.NONE, MenuActionItem.MENU_FAVORITE_GROUP_UNFAVORITE, Menu.FIRST
-                    + MenuActionItem.MENU_FAVORITE_GROUP_UNFAVORITE, R.string.unfavorite);
-
-            mi = menu.add(Menu.NONE, MenuActionItem.MENU_PROCESS_REVIEW_ATTACHMENTS, Menu.FIRST
-                    + MenuActionItem.MENU_PROCESS_REVIEW_ATTACHMENTS, R.string.process_start_review);
-            mi.setIcon(R.drawable.ic_start_review);
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            if (!(SessionUtils.getSession(activity) instanceof CloudSession))
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_PROCESS_REVIEW_ATTACHMENTS, Menu.FIRST
+                        + MenuActionItem.MENU_PROCESS_REVIEW_ATTACHMENTS, R.string.process_start_review);
+                mi.setIcon(R.drawable.ic_start_review);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            }
              */
         }
         /*
-        createMenu = menu.addSubMenu(Menu.NONE, MenuActionItem.MENU_LIKE_GROUP, Menu.FIRST
-                + MenuActionItem.MENU_LIKE_GROUP, R.string.like);
-        createMenu.setIcon(R.drawable.ic_like);
+        createMenu = menu.addSubMenu(Menu.NONE, MenuActionItem.MENU_FAVORITE_GROUP, Menu.FIRST
+                + MenuActionItem.MENU_FAVORITE_GROUP, R.string.favorite);
+        createMenu.setIcon(R.drawable.ic_favorite_dark);
         createMenu.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
-        createMenu.add(Menu.NONE, MenuActionItem.MENU_LIKE_GROUP_LIKE,
-                Menu.FIRST + MenuActionItem.MENU_LIKE_GROUP_LIKE, R.string.like);
-        createMenu.add(Menu.NONE, MenuActionItem.MENU_LIKE_GROUP_UNLIKE, Menu.FIRST
-                + MenuActionItem.MENU_LIKE_GROUP_UNLIKE, R.string.unlike);
+        createMenu.add(Menu.NONE, MenuActionItem.MENU_FAVORITE_GROUP_FAVORITE, Menu.FIRST
+                + MenuActionItem.MENU_FAVORITE_GROUP_FAVORITE, R.string.favorite);
+        createMenu.add(Menu.NONE, MenuActionItem.MENU_FAVORITE_GROUP_UNFAVORITE, Menu.FIRST
+                + MenuActionItem.MENU_FAVORITE_GROUP_UNFAVORITE, R.string.unfavorite);
          */
+        AlfrescoSession alfSession = SessionUtils.getSession(activity);
+        if (alfSession != null && alfSession.getRepositoryInfo() != null
+                && alfSession.getRepositoryInfo().getCapabilities() != null
+                && alfSession.getRepositoryInfo().getCapabilities().doesSupportLikingNodes())
+        {
+            /*
+            createMenu = menu.addSubMenu(Menu.NONE, MenuActionItem.MENU_LIKE_GROUP, Menu.FIRST
+                    + MenuActionItem.MENU_LIKE_GROUP, R.string.like);
+            createMenu.setIcon(R.drawable.ic_like);
+            createMenu.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
+
+            createMenu.add(Menu.NONE, MenuActionItem.MENU_LIKE_GROUP_LIKE, Menu.FIRST
+                    + MenuActionItem.MENU_LIKE_GROUP_LIKE, R.string.like);
+            createMenu.add(Menu.NONE, MenuActionItem.MENU_LIKE_GROUP_UNLIKE, Menu.FIRST
+                    + MenuActionItem.MENU_LIKE_GROUP_UNLIKE, R.string.unlike);
+             */
+        }
+
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_DELETE, Menu.FIRST + MenuActionItem.MENU_DELETE, R.string.delete);
         mi.setIcon(R.drawable.ic_delete);
         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
@@ -283,7 +295,8 @@ public class NodeActions extends AbstractActions<Node>
     private void startReview()
     {
         Intent it = new Intent(IntentIntegrator.ACTION_START_PROCESS, null, activity, PrivateDialogActivity.class);
-        it.putParcelableArrayListExtra(IntentIntegrator.EXTRA_DOCUMENTS, (ArrayList<? extends Parcelable>) selectedItems);
+        it.putParcelableArrayListExtra(IntentIntegrator.EXTRA_DOCUMENTS,
+                (ArrayList<? extends Parcelable>) selectedItems);
         activity.startActivity(it);
     }
 
@@ -292,7 +305,7 @@ public class NodeActions extends AbstractActions<Node>
         OperationsRequestGroup group = new OperationsRequestGroup(activity, SessionUtils.getAccount(activity));
         for (Node node : selectedItems)
         {
-            group.enqueue(new FavoriteNodeRequest(parentFolder, node, doFavorite)
+            group.enqueue(new FavoriteNodeRequest(parentFolder, node, doFavorite, true)
             .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
         }
 

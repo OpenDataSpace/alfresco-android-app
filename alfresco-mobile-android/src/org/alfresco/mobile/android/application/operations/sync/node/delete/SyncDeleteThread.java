@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2005-2013 Alfresco Software Limited.
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
  * 
  *  This file is part of Alfresco Mobile for Android.
  * 
@@ -118,6 +118,14 @@ public class SyncDeleteThread extends SyncNodeOperationThread<Void>
                     context.getContentResolver().delete(
                             SynchroManager.getUri(cursor.getLong(cursor.getColumnIndex(SynchroSchema.COLUMN_ID))),
                             null, null);
+                    
+                    /* Update Parent Folder if present
+                    //Parent Identifier
+                    String parentIdentifier = cursor.getString(SynchroSchema.COLUMN_PARENT_ID_ID);
+                    if (!TextUtils.isEmpty(parentIdentifier))
+                    {
+                        SynchroManager.getInstance(context).updateParentFolder(acc, parentIdentifier);
+                    }*/
                 }
             }
 
@@ -125,10 +133,6 @@ public class SyncDeleteThread extends SyncNodeOperationThread<Void>
         catch (Exception e)
         {
             OdsLog.ex(TAG, e);
-            if (result == null)
-            {
-                result = new LoaderResult<Void>();
-            }
             result.setException(e);
         }
         finally
@@ -141,7 +145,6 @@ public class SyncDeleteThread extends SyncNodeOperationThread<Void>
 
         return result;
     }
-
     // ///////////////////////////////////////////////////////////////////////////
     // INTERNALS UTILS
     // ///////////////////////////////////////////////////////////////////////////
@@ -172,6 +175,9 @@ public class SyncDeleteThread extends SyncNodeOperationThread<Void>
             cValues.put(BatchOperationSchema.COLUMN_STATUS, SyncOperation.STATUS_FAILED);
             context.getContentResolver().update(SynchroManager.getUri(favoriteId), cValues, null, null);
         }
+        
+        //Data Protection if necessary
+        StorageManager.manageFile(context, newLocalFile);
 
         c.close();
     }

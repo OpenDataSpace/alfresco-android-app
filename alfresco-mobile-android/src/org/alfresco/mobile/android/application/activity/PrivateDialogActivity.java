@@ -35,7 +35,6 @@ import org.alfresco.mobile.android.application.fragments.workflow.CreateTaskFrag
 import org.alfresco.mobile.android.application.fragments.workflow.CreateTaskTypePickerFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
 import org.alfresco.mobile.android.application.security.PassCodeActivity;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 
@@ -61,8 +60,6 @@ public class PrivateDialogActivity extends BaseActivity
 {
     private static final String TAG = PrivateDialogActivity.class.getName();
 
-    private boolean activateCheckPasscode = false;
-
     private boolean doubleBackToExitPressedOnce = false;
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -73,8 +70,6 @@ public class PrivateDialogActivity extends BaseActivity
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
-        activateCheckPasscode = false;
-
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_ACTION_BAR);
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_DIM_BEHIND, WindowManager.LayoutParams.FLAG_DIM_BEHIND);
@@ -159,7 +154,6 @@ public class PrivateDialogActivity extends BaseActivity
             }
             else
             {
-                activateCheckPasscode = true;
             }
         }
     }
@@ -168,26 +162,10 @@ public class PrivateDialogActivity extends BaseActivity
     protected void onStart()
     {
         getActionBar().setDisplayHomeAsUpEnabled(true);
-        if (receiver == null)
-        {
-            receiver = new PrivateDialogActivityReceiver();
-            IntentFilter filters = new IntentFilter(IntentIntegrator.ACTION_DECRYPT_ALL_COMPLETED);
-            filters.addAction(IntentIntegrator.ACTION_ENCRYPT_ALL_COMPLETED);
-            broadcastManager.registerReceiver(receiver, filters);
-        }
+        IntentFilter filters = new IntentFilter(IntentIntegrator.ACTION_DECRYPT_ALL_COMPLETED);
+        filters.addAction(IntentIntegrator.ACTION_ENCRYPT_ALL_COMPLETED);
+        registerPrivateReceiver(new PrivateDialogActivityReceiver(), filters);
         super.onStart();
-        PassCodeActivity.requestUserPasscode(this);
-        activateCheckPasscode = PasscodePreferences.hasPasscodeEnable(this);
-    }
-
-    @Override
-    protected void onPause()
-    {
-        super.onPause();
-        if (!activateCheckPasscode)
-        {
-            PasscodePreferences.updateLastActivityDisplay(this);
-        }
     }
 
     @Override
@@ -236,8 +214,10 @@ public class PrivateDialogActivity extends BaseActivity
 
     public void doCancel(View v)
     {
-        getFragmentManager().popBackStackImmediate(CreateTaskDocumentPickerFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getFragmentManager().popBackStackImmediate(CreateTaskDocumentPickerFragment.TAG,
+                FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
+
     // ////////////////////////////////////////////////////////
     // BROADCAST RECEIVER
     // ///////////////////////////////////////////////////////
@@ -252,12 +232,12 @@ public class PrivateDialogActivity extends BaseActivity
                     || IntentIntegrator.ACTION_ENCRYPT_ALL_COMPLETED.equals(intent.getAction()))
             {
                 removeWaitingDialog();
-                
+
                 if (getFragment(GeneralPreferences.TAG) != null)
                 {
                     ((GeneralPreferences) getFragment(GeneralPreferences.TAG)).refreshDataProtection();
                 }
-                
+
                 return;
             }
         }

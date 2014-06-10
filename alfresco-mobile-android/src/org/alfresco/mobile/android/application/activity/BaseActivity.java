@@ -286,6 +286,14 @@ public abstract class BaseActivity extends Activity
         FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                 ChildrenBrowserFragment.TAG, true);
     }
+    
+    public void addNavigationFragment(String folderIdentifier)
+    {
+        BaseFragment frag = ChildrenBrowserFragment.newInstanceById(folderIdentifier);
+        frag.setSession(SessionUtils.getSession(this));
+        FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
+                ChildrenBrowserFragment.TAG, true);
+    }
 
     public void addNavigationFragment(Site site, Folder f)
     {
@@ -383,8 +391,6 @@ public abstract class BaseActivity extends Activity
             Activity activity = BaseActivity.this;
 
             if (activity.isFinishing() || activity.isChangingConfigurations()) { return; }
-
-            OdsLog.d("UtilsReceiver", intent.getAction());
 
             //
             if (IntentIntegrator.ACTION_DISPLAY_DIALOG.equals(intent.getAction()))

@@ -126,7 +126,7 @@ public class OdsSelectFolderFragment extends Fragment implements LoaderCallbacks
             }
         });
 
-        b = (Button) rootView.findViewById(R.id.ok);
+        b = (Button) rootView.findViewById(R.id.next);
         b.setOnClickListener(new OnClickListener()
         {
             @Override

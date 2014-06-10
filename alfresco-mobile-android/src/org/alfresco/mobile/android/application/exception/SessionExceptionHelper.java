@@ -26,6 +26,7 @@ import java.security.cert.CertificateNotYetValidException;
 import javax.net.ssl.SSLHandshakeException;
 
 import org.opendataspace.android.app.R;
+import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisConnectionException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisObjectNotFoundException;
@@ -136,6 +137,9 @@ public final class SessionExceptionHelper
         else if (e.getCause() instanceof CmisConnectionException && e.getCause().getMessage().contains("Cannot access"))
         {
             messageId = R.string.error_session_notfound;
+        }
+        else if (e instanceof AlfrescoServiceException && e.getMessage().contains("API plan limit exceeded")){
+            messageId = R.string.error_general;
         }
         else
         // Default case. We don't know what's wrong...

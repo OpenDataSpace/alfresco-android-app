@@ -54,10 +54,12 @@ import org.alfresco.mobile.android.application.fragments.tags.TagsListNodeFragme
 import org.alfresco.mobile.android.application.fragments.versions.VersionFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.intent.PublicIntent;
+import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
 import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.MimeTypeManager;
 import org.alfresco.mobile.android.application.manager.RenditionManager;
 import org.alfresco.mobile.android.application.manager.StorageManager;
+import org.alfresco.mobile.android.application.mimetype.MimeType;
+import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
@@ -145,6 +147,8 @@ LoaderCallbacks<LoaderResult<Node>>
 
     private UpdateReceiver receiver;
 
+    private String nodeIdentifier;
+
     // //////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     // //////////////////////////////////////////////////////////////////////
@@ -190,6 +194,20 @@ LoaderCallbacks<LoaderResult<Node>>
             SessionUtils.checkSession(getActivity(), alfSession);
         }
         super.onActivityCreated(savedInstanceState);
+
+        if (node != null)
+        {
+            // Detect if isRestrictable
+            isRestrictable = node.hasAspect(ContentModel.ASPECT_RESTRICTABLE);
+            if (DisplayUtils.hasCentralPane(getActivity()))
+            {
+                display(node, (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
+            }
+        }
+        else if (nodeIdentifier != null)
+        {
+            getActivity().getLoaderManager().restartLoader(NodeLoader.ID, getArguments(), this);
+        }
     }
 
     @Override
@@ -211,7 +229,7 @@ LoaderCallbacks<LoaderResult<Node>>
         }
 
         node = (Node) getArguments().get(ARGUMENT_NODE);
-        String nodeIdentifier = (String) getArguments().get(ARGUMENT_NODE_ID);
+        nodeIdentifier = (String) getArguments().get(ARGUMENT_NODE_ID);
         parentNode = (Folder) getArguments().get(ARGUMENT_NODE_PARENT);
         if (node == null && nodeIdentifier == null) { return null; }
 
@@ -222,19 +240,6 @@ LoaderCallbacks<LoaderResult<Node>>
             savedInstanceState.remove(TAB_SELECTED);
         }
 
-        if (node != null)
-        {
-            // Detect if isRestrictable
-            isRestrictable = node.hasAspect(ContentModel.ASPECT_RESTRICTABLE);
-            if (DisplayUtils.hasCentralPane(getActivity()))
-            {
-                display(node, (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE));
-            }
-        }
-        else if (nodeIdentifier != null)
-        {
-            getActivity().getLoaderManager().restartLoader(NodeLoader.ID, getArguments(), this);
-        }
         return vRoot;
     }
 
@@ -379,6 +384,9 @@ LoaderCallbacks<LoaderResult<Node>>
                     {
                         SynchroManager.getInstance(getActivity()).sync(SessionUtils.getAccount(getActivity()));
                     }
+
+                    // Encrypt sync file if necessary
+                    StorageManager.manageFile(getActivity(), dlFile);
                 }
                 else
                 {
@@ -400,9 +408,8 @@ LoaderCallbacks<LoaderResult<Node>>
                     {
                         public void onClick(DialogInterface dialog, int item)
                         {
-                            DataProtectionManager.getInstance(getActivity()).checkEncrypt(
-                                    SessionUtils.getAccount(getActivity()), dlFile);
-                            dialog.dismiss();
+                            SynchroManager.getInstance(getActivity())
+                            .sync(SessionUtils.getAccount(getActivity()), node);
                         }
                     });
                     AlertDialog alert = builder.create();
@@ -518,16 +525,8 @@ LoaderCallbacks<LoaderResult<Node>>
 
         if (mTabHost == null)
         {
-            ViewGroup parent = (ViewGroup) vRoot.findViewById(R.id.metadata);
-            ViewGroup generalGroup = createAspectPanel(inflater, parent, node, ContentModel.ASPECT_GENERAL, false,
-                    generalPropertyTitle, filter);
-            addPathProperty(generalGroup, inflater);
-            /*
-            createAspectPanel(inflater, parent, node, ContentModel.ASPECT_GEOGRAPHIC);
-            createAspectPanel(inflater, parent, node, ContentModel.ASPECT_EXIF);
-            createAspectPanel(inflater, parent, node, ContentModel.ASPECT_AUDIO);
-            createAspectPanel(inflater, parent, node, ContentModel.ASPECT_RESTRICTABLE);
-             */
+            grouprootview = (ViewGroup) vRoot.findViewById(R.id.metadata);
+            createPropertiesPanel(inflater, generalPropertyTitle, filter);
         }
 
         // BUTTONS
@@ -653,7 +652,8 @@ LoaderCallbacks<LoaderResult<Node>>
         int iconId = defaultIconId;
         if (node.isDocument())
         {
-            iconId = MimeTypeManager.getIcon(node.getName(), isLarge);
+            MimeType mime = MimeTypeManager.getMimetype(getActivity(), node.getName());
+            iconId = MimeTypeManager.getIcon(getActivity(), node.getName(), isLarge);
             //if (((Document) node).isLatestVersion())
             {
                 if (isLarge)
@@ -671,8 +671,10 @@ LoaderCallbacks<LoaderResult<Node>>
                 iv.setImageResource(iconId);
             }
              */
+            AccessibilityHelper.addContentDescription(iv, mime != null ? mime.getDescription() : ((Document) node)
+                    .getContentStreamMimeType());
 
-            if (!isRestrictable)
+            if (!isRestrictable && !AccessibilityHelper.isEnabled(getActivity()))
             {
                 iv.setOnClickListener(new OnClickListener()
                 {
@@ -687,6 +689,7 @@ LoaderCallbacks<LoaderResult<Node>>
         else
         {
             iv.setImageResource(defaultIconId);
+            AccessibilityHelper.addContentDescription(iv, R.string.mime_folder);
         }
     }
 
@@ -706,13 +709,13 @@ LoaderCallbacks<LoaderResult<Node>>
         // Preview + Thumbnail
         if (vRoot.findViewById(R.id.icon) != null)
         {
-            ((ImageView) vRoot.findViewById(R.id.icon))
-            .setImageResource(MimeTypeManager.getIcon(node.getName(), false));
+            ((ImageView) vRoot.findViewById(R.id.icon)).setImageResource(MimeTypeManager.getIcon(getActivity(),
+                    node.getName(), false));
         }
         if (vRoot.findViewById(R.id.preview) != null)
         {
-            ((ImageView) vRoot.findViewById(R.id.preview)).setImageResource(MimeTypeManager.getIcon(node.getName(),
-                    true));
+            ((ImageView) vRoot.findViewById(R.id.preview)).setImageResource(MimeTypeManager.getIcon(getActivity(),
+                    node.getName(), true));
         }
 
         // Description
@@ -807,7 +810,7 @@ LoaderCallbacks<LoaderResult<Node>>
          */
         if (DisplayUtils.hasCentralPane(getActivity()))
         {
-            if (!isRestrictable)
+            if (!isRestrictable && !AccessibilityHelper.isEnabled(getActivity()))
             {
                 vRoot.findViewById(R.id.icon).setOnClickListener(new OnClickListener()
                 {
@@ -847,7 +850,11 @@ LoaderCallbacks<LoaderResult<Node>>
             SynchroManager syncManager = SynchroManager.getInstance(getActivity());
             Account acc = SessionUtils.getAccount(getActivity());
             final File syncFile = syncManager.getSyncFile(acc, node);
-            if (syncFile == null) { return; }
+            if (syncFile == null || !syncFile.exists())
+            {
+                MessengerManager.showLongToast(getActivity(), getString(R.string.sync_document_not_available));
+                return;
+            }
             long datetime = syncFile.lastModified();
             setDownloadDateTime(new Date(datetime));
 
@@ -1016,7 +1023,11 @@ LoaderCallbacks<LoaderResult<Node>>
         if (syncManager.isSynced(SessionUtils.getAccount(getActivity()), node))
         {
             final File syncFile = syncManager.getSyncFile(acc, node);
-            if (syncFile == null) { return; }
+            if (syncFile == null || !syncFile.exists())
+            {
+                MessengerManager.showLongToast(getActivity(), getString(R.string.sync_document_not_available));
+                return;
+            }
             long datetime = syncFile.lastModified();
             setDownloadDateTime(new Date(datetime));
 
@@ -1036,7 +1047,7 @@ LoaderCallbacks<LoaderResult<Node>>
             else
             {
                 // If sync file + sync activate
-                ActionManager.openIn(this, syncFile, MimeTypeManager.getMIMEType(syncFile.getName()),
+                ActionManager.openIn(this, syncFile, MimeTypeManager.getMIMEType(getActivity(), syncFile.getName()),
                         PublicIntent.REQUESTCODE_SAVE_BACK);
             }
         }
@@ -1045,7 +1056,7 @@ LoaderCallbacks<LoaderResult<Node>>
             File f = getDownloadFile(getActivity().getApplicationContext(), alfSession, acc);
             if (f != null)
             {
-                ActionManager.openIn(this, f, MimeTypeManager.getMIMEType(f.getName()),PublicIntent.REQUESTCODE_SAVE_BACK);
+                ActionManager.openIn(this, f, MimeTypeManager.getMIMEType(getActivity().getApplicationContext(), f.getName()),PublicIntent.REQUESTCODE_SAVE_BACK);
                 return;
             }
 
@@ -1542,12 +1553,16 @@ LoaderCallbacks<LoaderResult<Node>>
                             }
                             Boolean isLiked = (b.getString(IntentIntegrator.EXTRA_LIKE) != null) ? Boolean
                                     .parseBoolean(b.getString(IntentIntegrator.EXTRA_LIKE)) : null;
-                                    if (isLiked != null)
-                                    {
-                                        int drawable = isLiked ? R.drawable.ic_like : R.drawable.ic_unlike;
-                                        imageView.setImageDrawable(context.getResources().getDrawable(drawable));
-                                    }
-                                    return;
+                            if (isLiked != null)
+                            {
+                                int drawable = isLiked ? R.drawable.ic_like : R.drawable.ic_unlike;
+                                imageView.setImageDrawable(context.getResources().getDrawable(drawable));
+                                AccessibilityHelper.addContentDescription(imageView, isLiked ? R.string.unlike
+                                        : R.string.like);
+                                AccessibilityHelper.notifyActionCompleted(context, isLiked ? R.string.like_completed
+                                        : R.string.unlike_completed);
+                            }
+                            return;
                         }
 
                         if (intent.getAction().equals(IntentIntegrator.ACTION_FAVORITE_COMPLETED))
@@ -1560,12 +1575,16 @@ LoaderCallbacks<LoaderResult<Node>>
                             }
                             Boolean isFavorite = (b.getString(IntentIntegrator.EXTRA_FAVORITE) != null) ? Boolean
                                     .parseBoolean(b.getString(IntentIntegrator.EXTRA_FAVORITE)) : null;
-                                    if (isFavorite != null)
-                                    {
-                                        int drawable = isFavorite ? R.drawable.ic_favorite_dark : R.drawable.ic_unfavorite_dark;
-                                        imageView.setImageDrawable(context.getResources().getDrawable(drawable));
-                                    }
-                                    return;
+                            if (isFavorite != null)
+                            {
+                                int drawable = isFavorite ? R.drawable.ic_favorite_dark : R.drawable.ic_unfavorite_dark;
+                                imageView.setImageDrawable(context.getResources().getDrawable(drawable));
+                                AccessibilityHelper.addContentDescription(imageView, isFavorite ? R.string.unfavorite
+                                        : R.string.favorite);
+                                AccessibilityHelper.notifyActionCompleted(context,
+                                        isFavorite ? R.string.favorite_completed : R.string.unfavorite_completed);
+                            }
+                            return;
                         }
                          */
                         if (intent.getAction().equals(IntentIntegrator.ACTION_UPDATE_COMPLETED))
@@ -1574,8 +1593,6 @@ LoaderCallbacks<LoaderResult<Node>>
 
                             Node updatedNode = (Node) b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
 
-                            ApplicationManager.getInstance(getActivity()).getRenditionManager(getActivity())
-                            .removeFromCache(_node.getIdentifier());
                             Boolean backstack = false;
                             if (!DisplayUtils.hasCentralPane(getActivity()))
                             {

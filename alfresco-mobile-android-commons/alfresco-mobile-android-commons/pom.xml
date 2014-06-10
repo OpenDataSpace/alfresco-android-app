@@ -14,7 +14,7 @@
 	<parent>
 		<groupId>org.opendataspace.android.apps</groupId>
 		<artifactId>opendataspace-android-apps</artifactId>
-		<version>1.3.2</version>
+		<version>1.4.0</version>
 		<relativePath>../../pom.xml</relativePath>
 	</parent>
 
@@ -39,16 +39,17 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.google.android</groupId>
+			<groupId>android</groupId>
 			<artifactId>android</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.google.android</groupId>
+			<groupId>com.google.android.annotations</groupId>
 			<artifactId>annotations</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.alfresco.mobile.android.sdk</groupId>
 			<artifactId>alfresco-mobile-android-ui-library</artifactId>
+			<version>${alfresco.sdk.version}</version>
 			<type>apklib</type>
 			<scope>provided</scope>
 		</dependency>

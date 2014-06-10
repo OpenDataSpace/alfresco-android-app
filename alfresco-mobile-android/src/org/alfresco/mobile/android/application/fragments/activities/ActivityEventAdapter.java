@@ -1,5 +1,5 @@
 /*******************************************************************************
- * Copyright (C) 2005-2012 Alfresco Software Limited.
+ * Copyright (C) 2005-2014 Alfresco Software Limited.
  * 
  * This file is part of the Alfresco Mobile SDK.
  * 
@@ -28,13 +28,15 @@ import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
 import org.alfresco.mobile.android.api.model.ActivityEntry;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.opendataspace.android.app.R;
+import org.alfresco.mobile.android.application.ApplicationManager;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
 import org.alfresco.mobile.android.application.fragments.person.PersonProfileFragment;
+import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
 import org.alfresco.mobile.android.application.manager.RenditionManager;
+import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.manager.MimeTypeManager;
 import org.alfresco.mobile.android.ui.utils.ViewHolder;
 
 import android.annotation.TargetApi;
@@ -72,7 +74,7 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
     {
         super(fr.getActivity(), textViewResourceId, listItems);
         this.vhClassName = GenericViewHolder.class.getCanonicalName();
-        this.renditionManager = new RenditionManager(fr.getActivity(), session);
+        this.renditionManager = ApplicationManager.getInstance(fr.getActivity()).getRenditionManager(fr.getActivity());
         this.selectedItems = selectedItems;
         this.fr = fr;
     }
@@ -96,8 +98,8 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
 
         if (selectedItems != null && selectedItems.contains(item))
         {
-            UIUtils.setBackground(((LinearLayout) vh.icon.getParent().getParent().getParent()), getContext().getResources()
-                    .getDrawable(R.drawable.list_longpressed_holo));
+            UIUtils.setBackground(((LinearLayout) vh.icon.getParent().getParent().getParent()), getContext()
+                    .getResources().getDrawable(R.drawable.list_longpressed_holo));
         }
         else
         {
@@ -128,6 +130,8 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
     protected void updateIcon(GenericViewHolder vh, ActivityEntry item)
     {
         getCreatorAvatar(vh, item);
+        AccessibilityHelper.addContentDescription(vh.icon,
+                String.format(getContext().getString(R.string.contact_card), getUser(item)));
     }
 
     private void getCreatorAvatar(GenericViewHolder vh, ActivityEntry item)
@@ -150,7 +154,7 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
             {
                 tmp = null;
             }
-            renditionManager.display(vh.icon, tmp,  R.drawable.ic_person);
+            renditionManager.display(vh.icon, tmp, R.drawable.ic_person);
         }
         else if (type.startsWith(PREFIX_SUBSCRIPTION))
         {
@@ -159,11 +163,11 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
             {
                 tmp = null;
             }
-            renditionManager.display(vh.icon, tmp,  R.drawable.ic_person);
+            renditionManager.display(vh.icon, tmp, R.drawable.ic_person);
         }
         else
         {
-            renditionManager.display(vh.icon, item.getCreatedBy(),  R.drawable.ic_person);
+            renditionManager.display(vh.icon, item.getCreatedBy(), R.drawable.ic_person);
         }
     }
 
@@ -174,7 +178,7 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
 
         if (s.startsWith(PREFIX_FILE))
         {
-            drawable = MimeTypeManager.getIcon(getData(item, OnPremiseConstant.TITLE_VALUE));
+            drawable = MimeTypeManager.getIcon(getContext(), getData(item, OnPremiseConstant.TITLE_VALUE));
         }
         else
         {

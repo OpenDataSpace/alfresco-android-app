@@ -82,8 +82,8 @@ import org.alfresco.mobile.android.application.operations.batch.node.update.Upda
 import org.alfresco.mobile.android.application.operations.batch.sync.CleanSyncFavoriteRequest;
 import org.alfresco.mobile.android.application.operations.batch.sync.CleanSyncFavoriteThread;
 import org.alfresco.mobile.android.application.operations.batch.sync.SyncCallBack;
-import org.alfresco.mobile.android.application.operations.batch.sync.SyncFavoriteRequest;
-import org.alfresco.mobile.android.application.operations.batch.sync.SyncFavoriteThread;
+import org.alfresco.mobile.android.application.operations.batch.sync.SyncPrepareRequest;
+import org.alfresco.mobile.android.application.operations.batch.sync.SyncPrepareThread;
 import org.alfresco.mobile.android.application.operations.batch.workflow.process.start.StartProcessCallback;
 import org.alfresco.mobile.android.application.operations.batch.workflow.process.start.StartProcessRequest;
 import org.alfresco.mobile.android.application.operations.batch.workflow.process.start.StartProcessThread;
@@ -186,119 +186,119 @@ public class BatchOperationService<T> extends Service
         parallelOperation = 1;
         switch (request.getTypeId())
         {
-        case DownloadRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new DownloadThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new DownloadCallBack(getBaseContext(), totalItems, pendingRequest);
-            parallelOperation = 4;
-            break;
-        case CreateDocumentRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new CreateDocumentThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new CreateDocumentCallback(getBaseContext(), totalItems,
-                    pendingRequest);
-            parallelOperation = 4;
-            break;
-        case UpdateContentRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new UpdateContentThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new UpdateContentCallback(getBaseContext(), totalItems,
-                    pendingRequest);
-            break;
-        case DeleteNodeRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new DeleteNodeThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new DeleteNodeCallback(getBaseContext(), totalItems, pendingRequest);
-            parallelOperation = 4;
-            break;
-        case LikeNodeRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new LikeNodeThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new LikeNodeCallback(getBaseContext(), totalItems, pendingRequest);
-            parallelOperation = 4;
-            break;
-        case FavoriteNodeRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new FavoriteNodeThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new FavoriteNodeCallback(getBaseContext(), totalItems, pendingRequest);
-            parallelOperation = 1;
-            break;
-        case CreateFolderRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new CreateFolderThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new CreateFolderCallBack(getBaseContext(), totalItems, pendingRequest);
-            break;
-        case LoadSessionRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new LoadSessionThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new LoadSessionCallBack(getBaseContext(), totalItems, pendingRequest);
-            break;
-        case CreateAccountRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new CreateAccountThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new CreateAccountCallBack(getBaseContext(), totalItems,
-                    pendingRequest);
-            break;
-        case UpdatePropertiesRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new UpdatePropertiesThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new UpdatePropertiesCallback(getBaseContext(), totalItems,
-                    pendingRequest);
-            break;
-        case DeleteFileRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new DeleteFileThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new DeleteFileCallback(getBaseContext(), totalItems, pendingRequest);
-            break;
-        case CreateDirectoryRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new CreateDirectoryThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new CreateDirectoryCallBack(getBaseContext(), totalItems,
-                    pendingRequest);
-            break;
-        case RenameRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new RenameThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new RenameCallback(getBaseContext(), totalItems, pendingRequest);
-            break;
-        case SyncFavoriteRequest.TYPE_ID:
-            parallelOperation = 1;
-            task = (AbstractBatchOperationThread<T>) new SyncFavoriteThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new SyncCallBack(getBaseContext(), totalItems, pendingRequest);
-            break;
-        case CleanSyncFavoriteRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new CleanSyncFavoriteThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new SyncCallBack(getBaseContext(), totalItems, pendingRequest);
-            break;
-        case RetrieveDocumentNameRequest.TYPE_ID:
-            task = (AbstractBatchOperationThread<T>) new RetrieveDocumentNameThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new RetrieveDocumentNameCallBack(getBaseContext(), totalItems,
-                    pendingRequest);
-            break;
-        case StartProcessRequest.TYPE_ID:
-            parallelOperation = 1;
-            task = (AbstractBatchOperationThread<T>) new StartProcessThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new StartProcessCallback(getBaseContext(), totalItems,
-                    pendingRequest);
-            break;
-        case CompleteTaskRequest.TYPE_ID:
-            parallelOperation = 1;
-            task = (AbstractBatchOperationThread<T>) new CompleteTaskThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new CompleteTaskCallback(getBaseContext(), totalItems,
-                    pendingRequest);
-            break;
-        case ReassignTaskRequest.TYPE_ID:
-            parallelOperation = 1;
-            task = (AbstractBatchOperationThread<T>) new ReassignTaskThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new ReassignTaskCallback(getBaseContext(), totalItems,
-                    pendingRequest);
-            break;
-        case DataProtectionRequest.TYPE_ID:
-            parallelOperation = 2;
-            if (new File(((DataProtectionRequest) request).getFilePath()).isDirectory())
-            {
-                task = (AbstractBatchOperationThread<T>) new FolderProtectionThread(getBaseContext(), request);
-            }
-            else
-            {
-                task = (AbstractBatchOperationThread<T>) new FileProtectionThread(getBaseContext(), request);
-            }
-            callback = (OperationCallBack<T>) new DataProtectionCallback(getBaseContext(), totalItems,
-                    pendingRequest);
-            break;
-        case ConfigurationOperationRequest.TYPE_ID:
-            parallelOperation = 1;
-            task = (AbstractBatchOperationThread<T>) new ConfigurationOperationThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new ConfigurationOperationCallBack(getBaseContext(), totalItems,
-                    pendingRequest);
-            break;
+            case DownloadRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new DownloadThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new DownloadCallBack(getBaseContext(), totalItems, pendingRequest);
+                parallelOperation = 4;
+                break;
+            case CreateDocumentRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new CreateDocumentThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new CreateDocumentCallback(getBaseContext(), totalItems,
+                        pendingRequest);
+                parallelOperation = 4;
+                break;
+            case UpdateContentRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new UpdateContentThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new UpdateContentCallback(getBaseContext(), totalItems,
+                        pendingRequest);
+                break;
+            case DeleteNodeRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new DeleteNodeThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new DeleteNodeCallback(getBaseContext(), totalItems, pendingRequest);
+                parallelOperation = 4;
+                break;
+            case LikeNodeRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new LikeNodeThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new LikeNodeCallback(getBaseContext(), totalItems, pendingRequest);
+                parallelOperation = 4;
+                break;
+            case FavoriteNodeRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new FavoriteNodeThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new FavoriteNodeCallback(getBaseContext(), totalItems, pendingRequest);
+                parallelOperation = 1;
+                break;
+            case CreateFolderRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new CreateFolderThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new CreateFolderCallBack(getBaseContext(), totalItems, pendingRequest);
+                break;
+            case LoadSessionRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new LoadSessionThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new LoadSessionCallBack(getBaseContext(), totalItems, pendingRequest);
+                break;
+            case CreateAccountRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new CreateAccountThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new CreateAccountCallBack(getBaseContext(), totalItems,
+                        pendingRequest);
+                break;
+            case UpdatePropertiesRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new UpdatePropertiesThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new UpdatePropertiesCallback(getBaseContext(), totalItems,
+                        pendingRequest);
+                break;
+            case DeleteFileRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new DeleteFileThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new DeleteFileCallback(getBaseContext(), totalItems, pendingRequest);
+                break;
+            case CreateDirectoryRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new CreateDirectoryThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new CreateDirectoryCallBack(getBaseContext(), totalItems,
+                        pendingRequest);
+                break;
+            case RenameRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new RenameThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new RenameCallback(getBaseContext(), totalItems, pendingRequest);
+                break;
+            case SyncPrepareRequest.TYPE_ID:
+                parallelOperation = 1;
+                task = (AbstractBatchOperationThread<T>) new SyncPrepareThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new SyncCallBack(getBaseContext(), totalItems, pendingRequest);
+                break;
+            case CleanSyncFavoriteRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new CleanSyncFavoriteThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new SyncCallBack(getBaseContext(), totalItems, pendingRequest);
+                break;
+            case RetrieveDocumentNameRequest.TYPE_ID:
+                task = (AbstractBatchOperationThread<T>) new RetrieveDocumentNameThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new RetrieveDocumentNameCallBack(getBaseContext(), totalItems,
+                        pendingRequest);
+                break;
+            case StartProcessRequest.TYPE_ID:
+                parallelOperation = 1;
+                task = (AbstractBatchOperationThread<T>) new StartProcessThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new StartProcessCallback(getBaseContext(), totalItems,
+                        pendingRequest);
+                break;
+            case CompleteTaskRequest.TYPE_ID:
+                parallelOperation = 1;
+                task = (AbstractBatchOperationThread<T>) new CompleteTaskThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new CompleteTaskCallback(getBaseContext(), totalItems,
+                        pendingRequest);
+                break;
+            case ReassignTaskRequest.TYPE_ID:
+                parallelOperation = 1;
+                task = (AbstractBatchOperationThread<T>) new ReassignTaskThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new ReassignTaskCallback(getBaseContext(), totalItems,
+                        pendingRequest);
+                break;
+            case DataProtectionRequest.TYPE_ID:
+                parallelOperation = 2;
+                if (new File(((DataProtectionRequest) request).getFilePath()).isDirectory())
+                {
+                    task = (AbstractBatchOperationThread<T>) new FolderProtectionThread(getBaseContext(), request);
+                }
+                else
+                {
+                    task = (AbstractBatchOperationThread<T>) new FileProtectionThread(getBaseContext(), request);
+                }
+                callback = (OperationCallBack<T>) new DataProtectionCallback(getBaseContext(), totalItems,
+                        pendingRequest);
+                break;
+            case ConfigurationOperationRequest.TYPE_ID:
+                parallelOperation = 1;
+                task = (AbstractBatchOperationThread<T>) new ConfigurationOperationThread(getBaseContext(), request);
+                callback = (OperationCallBack<T>) new ConfigurationOperationCallBack(getBaseContext(), totalItems,
+                        pendingRequest);
+                break;
         case OdsConfigRequest.TYPE_ID:
             parallelOperation = 1;
             task = (AbstractBatchOperationThread<T>) new OdsConfigThread(getBaseContext(), request);

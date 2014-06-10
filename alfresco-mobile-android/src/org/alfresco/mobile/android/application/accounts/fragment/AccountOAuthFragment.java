@@ -22,6 +22,7 @@ import org.opendataspace.android.app.R;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
+import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
@@ -30,6 +31,7 @@ import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.manager.ActionManager;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountRequest;
+import org.alfresco.mobile.android.application.operations.batch.account.LoadSessionRequest;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.alfresco.mobile.android.ui.oauth.OAuthFragment;
@@ -130,7 +132,7 @@ public class AccountOAuthFragment extends OAuthFragment
         }
         else
         {
-            UIUtils.displayTitle(getActivity(), R.string.account_wizard_step2_title);
+            UIUtils.displayTitle(getActivity(), R.string.account_wizard_step2_title, !(getActivity() instanceof HomeScreenActivity));
         }
 
         final View v = super.onCreateView(inflater, container, savedInstanceState);
@@ -157,10 +159,18 @@ public class AccountOAuthFragment extends OAuthFragment
             @Override
             public void beforeRequestAccessToken(Bundle b)
             {
+                int operationId = CreateAccountRequest.TYPE_ID;
+                String intentId = IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED;
+                if (getArguments().containsKey(PARAM_ACCOUNT))
+                {
+                    operationId = LoadSessionRequest.TYPE_ID;
+                    intentId = IntentIntegrator.ACTION_LOAD_ACCOUNT_COMPLETED;
+                }
+                
                 if (getFragmentManager().findFragmentByTag(OperationWaitingDialogFragment.TAG) == null)
                 {
                     // Create Account + Session
-                    OperationWaitingDialogFragment.newInstance(CreateAccountRequest.TYPE_ID, R.drawable.ic_cloud,
+                    OperationWaitingDialogFragment.newInstance(intentId, operationId, R.drawable.ic_cloud,
                             getString(R.string.wait_title), getString(R.string.wait_message), null, 0).show(
                                     getFragmentManager(), OperationWaitingDialogFragment.TAG);
                 }
