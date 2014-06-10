@@ -14,7 +14,8 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.
+  limitations under the License.
+
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="org.opendataspace.android.app"
@@ -209,20 +210,19 @@
         <provider
             android:name="org.alfresco.mobile.android.application.accounts.AccountProvider"
             android:authorities="org.opendataspace.android.app.provider.accounts"
-            android:exported="false"
-             />
+            android:exported="false" />
          <provider
             android:name="org.alfresco.mobile.android.application.fragments.search.HistorySearchProvider"
-            android:authorities="org.alfresco.mobile.android.provider.searches"
+            android:authorities="org.opendataspace.android.app.provider.searches"
             android:exported="false" />
          <provider
             android:name="org.alfresco.mobile.android.application.mimetype.MimeTypeProvider"
-            android:authorities="org.alfresco.mobile.android.provider.mimetypes"
+            android:authorities="org.opendataspace.android.app.provider.mimetypes"
             android:exported="false" />
          
          <provider
             android:name="org.alfresco.mobile.android.application.storage.provider.StorageAccessDocumentsProvider"
-            android:authorities="org.alfresco.android.provider.documents"
+            android:authorities="org.opendataspace.android.app.provider.documents"
             android:exported="true"
             android:grantUriPermissions="true"
             android:permission="android.permission.MANAGE_DOCUMENTS"
