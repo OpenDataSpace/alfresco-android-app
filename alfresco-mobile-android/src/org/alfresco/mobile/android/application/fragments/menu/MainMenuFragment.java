@@ -171,6 +171,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
     public void onResume()
     {
         super.onResume();
+        getActivity().getActionBar().setDisplayUseLogoEnabled(false);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
         getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
@@ -204,6 +205,7 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         super.onPause();
         if (!isVisible() && TAG.equals(getTag()))
         {
+            getActivity().getActionBar().setDisplayUseLogoEnabled(false);
             getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
         }
 

@@ -416,6 +416,7 @@ public class MainActivity extends BaseActivity
         View slideMenu = findViewById(R.id.slide_pane);
         slideMenu.setVisibility(View.GONE);
         slideMenu.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rbm_out_to_left));
+        getActionBar().setDisplayUseLogoEnabled(false);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // We await the end of sliding menu animation to display the bottom bar
@@ -446,6 +447,7 @@ public class MainActivity extends BaseActivity
         View slideMenu = findViewById(R.id.slide_pane);
         slideMenu.setVisibility(View.VISIBLE);
         slideMenu.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rbm_in_from_left));
+        getActionBar().setDisplayUseLogoEnabled(false);
         getActionBar().setDisplayHomeAsUpEnabled(false);
         invalidateOptionsMenu();
     }
@@ -1322,6 +1324,7 @@ public class MainActivity extends BaseActivity
 
                 // Add accountName in actionBar
                 UIUtils.displayTitle(activity, getString(R.string.app_name));
+                getActionBar().setDisplayUseLogoEnabled(false);
                 activity.getActionBar().setDisplayHomeAsUpEnabled(false);
 
                 return;

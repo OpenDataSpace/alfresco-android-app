@@ -337,6 +337,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
         if (getActivity().getActionBar() != null)
         {
+            getActivity().getActionBar().setDisplayUseLogoEnabled(false);
             getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
             getActivity().getActionBar().setDisplayShowCustomEnabled(false);
             getActivity().setTitle(titleId);

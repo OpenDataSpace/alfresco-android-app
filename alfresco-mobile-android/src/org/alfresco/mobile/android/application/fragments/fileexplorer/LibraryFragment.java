@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *  
+ * 
  *  This file is part of Alfresco Mobile for Android.
- *  
+ * 
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ * 
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ * 
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -123,6 +123,7 @@ public class LibraryFragment extends BaseCursorListFragment implements ListingMo
             getActivity().getActionBar().show();
             FileExplorerHelper.displayNavigationMode(getActivity(), getMode(), false,
                     getArguments().getInt(PARAM_MENUID));
+            getActivity().getActionBar().setDisplayUseLogoEnabled(false);
             getActivity().getActionBar().setDisplayShowTitleEnabled(false);
         }
         getActivity().invalidateOptionsMenu();
@@ -259,7 +260,7 @@ public class LibraryFragment extends BaseCursorListFragment implements ListingMo
     // CURSOR ADAPTER
     // ///////////////////////////////////////////////////////////////////////////
     private static final List<String> OFFICE_EXTENSION = new ArrayList<String>()
-    {
+            {
         private static final long serialVersionUID = 1L;
 
         {
@@ -271,40 +272,40 @@ public class LibraryFragment extends BaseCursorListFragment implements ListingMo
             add("ppt");
             add("pptx");
         }
-    };
+            };
 
-    @Override
-    public Loader<Cursor> onCreateLoader(int id, Bundle args)
-    {
-        mediaTypeId = (Integer) getArguments().get(PARAM_MEDIATYPE_ID);
-
-        //String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "=?";
-        StringBuilder selection = new StringBuilder(MediaStore.Files.FileColumns.MEDIA_TYPE + "=?");
-        String selectionFinal = selection.toString();
-        List<String> argumentsList = new ArrayList<String>();
-        argumentsList.add(Integer.toString(mediaTypeId));
-        if (mediaTypeId == 0)
-        {
-            String mimeType = null;
-            selection.append(" AND " + MediaStore.Files.FileColumns.MIME_TYPE + " IN (");
-            for (String extension : OFFICE_EXTENSION)
+            @Override
+            public Loader<Cursor> onCreateLoader(int id, Bundle args)
             {
-                mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
-                argumentsList.add(mimeType);
-                selection.append( " ? ,");
-            }
-            selectionFinal = selection.toString().substring(0, selection.lastIndexOf(",")) + ")";
-        }
-        String[] arguments = new String[argumentsList.size()];
-        arguments = argumentsList.toArray(arguments);
+                mediaTypeId = (Integer) getArguments().get(PARAM_MEDIATYPE_ID);
 
-        setListShown(false);
-        String[] projection = new String[] { MediaStore.Files.FileColumns._ID, MediaStore.Files.FileColumns.TITLE,
-                MediaStore.Files.FileColumns.DISPLAY_NAME, MediaStore.Files.FileColumns.MIME_TYPE,
-                MediaStore.Files.FileColumns.DATA };
-        Uri baseUri = MediaStore.Files.getContentUri("external");
-        return new CursorLoader(getActivity(), baseUri, projection, selectionFinal, arguments,
-                MediaStore.Files.FileColumns.DATA + " ASC");
-    }
+                //String selection = MediaStore.Files.FileColumns.MEDIA_TYPE + "=?";
+                StringBuilder selection = new StringBuilder(MediaStore.Files.FileColumns.MEDIA_TYPE + "=?");
+                String selectionFinal = selection.toString();
+                List<String> argumentsList = new ArrayList<String>();
+                argumentsList.add(Integer.toString(mediaTypeId));
+                if (mediaTypeId == 0)
+                {
+                    String mimeType = null;
+                    selection.append(" AND " + MediaStore.Files.FileColumns.MIME_TYPE + " IN (");
+                    for (String extension : OFFICE_EXTENSION)
+                    {
+                        mimeType = MimeTypeMap.getSingleton().getMimeTypeFromExtension(extension);
+                        argumentsList.add(mimeType);
+                        selection.append( " ? ,");
+                    }
+                    selectionFinal = selection.toString().substring(0, selection.lastIndexOf(",")) + ")";
+                }
+                String[] arguments = new String[argumentsList.size()];
+                arguments = argumentsList.toArray(arguments);
+
+                setListShown(false);
+                String[] projection = new String[] { MediaStore.Files.FileColumns._ID, MediaStore.Files.FileColumns.TITLE,
+                        MediaStore.Files.FileColumns.DISPLAY_NAME, MediaStore.Files.FileColumns.MIME_TYPE,
+                        MediaStore.Files.FileColumns.DATA };
+                Uri baseUri = MediaStore.Files.getContentUri("external");
+                return new CursorLoader(getActivity(), baseUri, projection, selectionFinal, arguments,
+                        MediaStore.Files.FileColumns.DATA + " ASC");
+            }
 
 }

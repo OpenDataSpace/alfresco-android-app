@@ -202,6 +202,7 @@ public class SearchFragment extends BaseCursorListFragment
 
         if (getActivity().getActionBar() != null)
         {
+            getActivity().getActionBar().setDisplayUseLogoEnabled(false);
             getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
             getActivity().getActionBar().setDisplayShowCustomEnabled(false);
             displaySearchOptionHeader();

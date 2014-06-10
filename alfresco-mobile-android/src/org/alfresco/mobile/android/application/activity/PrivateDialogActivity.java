@@ -161,6 +161,7 @@ public class PrivateDialogActivity extends BaseActivity
     @Override
     protected void onStart()
     {
+        getActionBar().setDisplayUseLogoEnabled(false);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         IntentFilter filters = new IntentFilter(IntentIntegrator.ACTION_DECRYPT_ALL_COMPLETED);
         filters.addAction(IntentIntegrator.ACTION_ENCRYPT_ALL_COMPLETED);
@@ -186,21 +187,21 @@ public class PrivateDialogActivity extends BaseActivity
     {
         switch (item.getItemId())
         {
-            case android.R.id.home:
-                if (getIntent() != null && IntentIntegrator.ACTION_PICK_FILE.equals(getIntent().getAction()))
-                {
-                    finish();
-                }
-                else
-                {
-                    Intent i = new Intent(this, MainActivity.class);
-                    i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                    startActivity(i);
-                    finish();
-                }
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
+        case android.R.id.home:
+            if (getIntent() != null && IntentIntegrator.ACTION_PICK_FILE.equals(getIntent().getAction()))
+            {
+                finish();
+            }
+            else
+            {
+                Intent i = new Intent(this, MainActivity.class);
+                i.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                startActivity(i);
+                finish();
+            }
+            return true;
+        default:
+            return super.onOptionsItemSelected(item);
         }
     }
 

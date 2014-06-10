@@ -142,12 +142,12 @@ public class UIUtils extends org.alfresco.mobile.android.application.commons.uti
     {
         displayTitle(activity, activity.getString(titleId));
     }
-    
+
     public static void displayTitle(Activity activity, int titleId, boolean isUpEnable)
     {
         displayTitle(activity, activity.getString(titleId), isUpEnable);
     }
-    
+
     public static void displayTitle(Activity activity, String title){
         displayTitle(activity, title, true);
     }
@@ -168,6 +168,8 @@ public class UIUtils extends org.alfresco.mobile.android.application.commons.uti
             {
                 bar.setHomeButtonEnabled(isUpEnable);
             }
+
+            activity.getActionBar().setDisplayUseLogoEnabled(false);
             activity.getActionBar().setDisplayHomeAsUpEnabled(isUpEnable);
 
             View v = bar.getCustomView();
@@ -227,14 +229,14 @@ public class UIUtils extends org.alfresco.mobile.android.application.commons.uti
         bcreate.setText(actionId);
         return bcreate;
     }
-    
+
     public static Button initCancel(View vRoot, int actionId)
     {
         Button bcreate = (Button) vRoot.findViewById(R.id.cancel);
         bcreate.setText(actionId);
         return bcreate;
     }
-    
+
     public static Button initCancel(View vRoot, int actionId, boolean hide)
     {
         Button bcreate = (Button) vRoot.findViewById(R.id.cancel);
@@ -245,7 +247,7 @@ public class UIUtils extends org.alfresco.mobile.android.application.commons.uti
         }
         return bcreate;
     }
-    
+
     public static Button initValidation(View vRoot, int actionId, boolean hideCancel)
     {
         Button bcreate = initValidation(vRoot, actionId);

@@ -54,7 +54,7 @@ import android.view.View;
 import android.widget.ListView;
 
 public class ProcessesFragment extends BaseListFragment implements
-        LoaderCallbacks<LoaderResult<PagingResult<Process>>>, RefreshFragment
+LoaderCallbacks<LoaderResult<PagingResult<Process>>>, RefreshFragment
 {
 
     private static final String PARAM_MENUID = "menuId";
@@ -122,6 +122,7 @@ public class ProcessesFragment extends BaseListFragment implements
         if (getArguments().containsKey(PARAM_MENUID))
         {
             TasksHelper.displayNavigationMode(getActivity(), false, getArguments().getInt(PARAM_MENUID));
+            getActivity().getActionBar().setDisplayUseLogoEnabled(false);
             getActivity().getActionBar().setDisplayShowTitleEnabled(false);
             getActivity().getActionBar().setDisplayShowCustomEnabled(true);
             getActivity().getActionBar().setCustomView(null);
@@ -201,7 +202,7 @@ public class ProcessesFragment extends BaseListFragment implements
     {
         // Nothing special
     }
-    
+
     @Override
     public void onLoaderException(Exception e)
     {

@@ -179,6 +179,7 @@ public class PublicDispatcherActivity extends BaseActivity
     @Override
     protected void onStart()
     {
+        getActionBar().setDisplayUseLogoEnabled(false);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         if (receiver == null)
         {
