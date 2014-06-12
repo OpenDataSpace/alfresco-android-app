@@ -111,11 +111,7 @@ public class AboutFragment extends DialogFragment
         OdsConfigManager cfg = ApplicationManager.getInstance(act).getOdsConfig();
         Account acc = SessionUtils.getAccount(act);
         Drawable dr = cfg.getBrandingDrawable(act, OdsConfigManager.BRAND_LARGE, acc);
-
-        if (dr != null)
-        {
-            ImageView iv = (ImageView) v.findViewById(R.id.about_logo_large);
-            iv.setImageDrawable(dr);
-        }
+        ImageView iv = (ImageView) v.findViewById(R.id.about_logo_large);
+        iv.setImageDrawable(dr != null ? dr : getResources().getDrawable(R.drawable.alfresco_logo_large));
     }
 }

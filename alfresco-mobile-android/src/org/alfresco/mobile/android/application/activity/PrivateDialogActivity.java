@@ -161,7 +161,6 @@ public class PrivateDialogActivity extends BaseActivity
     @Override
     protected void onStart()
     {
-        getActionBar().setDisplayUseLogoEnabled(false);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         IntentFilter filters = new IntentFilter(IntentIntegrator.ACTION_DECRYPT_ALL_COMPLETED);
         filters.addAction(IntentIntegrator.ACTION_ENCRYPT_ALL_COMPLETED);

@@ -30,6 +30,7 @@ import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
+import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
 import org.alfresco.mobile.android.application.exception.AlfrescoAppException;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -43,6 +44,7 @@ import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.BroadcastReceiver;
@@ -84,6 +86,8 @@ public abstract class BaseActivity extends Activity
     public void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
+        //requestWindowFeature(Window.FEATURE_LEFT_ICON);
+
         broadcastManager = LocalBroadcastManager.getInstance(this);
         applicationManager = ApplicationManager.getInstance(this);
         accountManager = applicationManager.getAccountManager();
@@ -136,16 +140,15 @@ public abstract class BaseActivity extends Activity
         rebrand();
     }
 
+    @SuppressLint("NewApi")
     protected void rebrand()
     {
-        OdsConfigManager cfg = ApplicationManager.getInstance(this).getOdsConfig();
-        Account acc = SessionUtils.getAccount(this);
-        Drawable dr = cfg.getBrandingDrawable(this, OdsConfigManager.BRAND_ICON, acc);
-
-        if (dr != null)
+        if (AndroidVersion.isICSOrAbove())
         {
-            getActionBar().setDisplayUseLogoEnabled(false);
-            getActionBar().setIcon(dr);
+            OdsConfigManager cfg = ApplicationManager.getInstance(this).getOdsConfig();
+            Account acc = SessionUtils.getAccount(this);
+            Drawable dr = cfg.getBrandingDrawable(this, OdsConfigManager.BRAND_ICON, acc);
+            getActionBar().setLogo(dr != null ? dr : getResources().getDrawable(R.drawable.ic_alfresco_logo));
         }
     }
 
@@ -286,7 +289,7 @@ public abstract class BaseActivity extends Activity
         FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                 ChildrenBrowserFragment.TAG, true);
     }
-    
+
     public void addNavigationFragment(String folderIdentifier)
     {
         BaseFragment frag = ChildrenBrowserFragment.newInstanceById(folderIdentifier);

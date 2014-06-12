@@ -169,7 +169,6 @@ public class UIUtils extends org.alfresco.mobile.android.application.commons.uti
                 bar.setHomeButtonEnabled(isUpEnable);
             }
 
-            activity.getActionBar().setDisplayUseLogoEnabled(false);
             activity.getActionBar().setDisplayHomeAsUpEnabled(isUpEnable);
 
             View v = bar.getCustomView();

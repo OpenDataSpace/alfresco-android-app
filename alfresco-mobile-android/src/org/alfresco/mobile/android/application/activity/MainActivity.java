@@ -416,7 +416,6 @@ public class MainActivity extends BaseActivity
         View slideMenu = findViewById(R.id.slide_pane);
         slideMenu.setVisibility(View.GONE);
         slideMenu.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rbm_out_to_left));
-        getActionBar().setDisplayUseLogoEnabled(false);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         // We await the end of sliding menu animation to display the bottom bar
@@ -447,7 +446,6 @@ public class MainActivity extends BaseActivity
         View slideMenu = findViewById(R.id.slide_pane);
         slideMenu.setVisibility(View.VISIBLE);
         slideMenu.startAnimation(AnimationUtils.loadAnimation(this, R.anim.rbm_in_from_left));
-        getActionBar().setDisplayUseLogoEnabled(false);
         getActionBar().setDisplayHomeAsUpEnabled(false);
         invalidateOptionsMenu();
     }
@@ -1324,7 +1322,6 @@ public class MainActivity extends BaseActivity
 
                 // Add accountName in actionBar
                 UIUtils.displayTitle(activity, getString(R.string.app_name));
-                getActionBar().setDisplayUseLogoEnabled(false);
                 activity.getActionBar().setDisplayHomeAsUpEnabled(false);
 
                 return;
@@ -1586,6 +1583,7 @@ public class MainActivity extends BaseActivity
         return (currentAccount.getId() == intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID));
     }
 
+    @SuppressWarnings("deprecation")
     @Override
     protected void rebrand()
     {
@@ -1596,11 +1594,7 @@ public class MainActivity extends BaseActivity
             OdsConfigManager cfg = ApplicationManager.getInstance(this).getOdsConfig();
             Account acc = SessionUtils.getAccount(this);
             Drawable dr = cfg.getBrandingDrawable(this, OdsConfigManager.BRAND_STUB, acc);
-
-            if (dr != null)
-            {
-                DisplayUtils.getCentralPane(this).setBackground(dr);
-            }
+            DisplayUtils.getCentralPane(this).setBackgroundDrawable(dr != null ? dr : getResources().getDrawable(R.drawable.bg_alfresco_logo_light));
         }
     }
 }

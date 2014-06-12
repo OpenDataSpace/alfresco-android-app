@@ -122,7 +122,6 @@ LoaderCallbacks<LoaderResult<PagingResult<Process>>>, RefreshFragment
         if (getArguments().containsKey(PARAM_MENUID))
         {
             TasksHelper.displayNavigationMode(getActivity(), false, getArguments().getInt(PARAM_MENUID));
-            getActivity().getActionBar().setDisplayUseLogoEnabled(false);
             getActivity().getActionBar().setDisplayShowTitleEnabled(false);
             getActivity().getActionBar().setDisplayShowCustomEnabled(true);
             getActivity().getActionBar().setCustomView(null);

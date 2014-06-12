@@ -171,7 +171,6 @@ public class TextEditorActivity extends BaseActivity implements LoaderCallbacks<
     @Override
     protected void onStart()
     {
-        getActionBar().setDisplayUseLogoEnabled(false);
         getActionBar().setDisplayHomeAsUpEnabled(true);
 
         retrieveTitle();
@@ -213,7 +212,6 @@ public class TextEditorActivity extends BaseActivity implements LoaderCallbacks<
     {
         super.onCreateOptionsMenu(menu);
 
-        getActionBar().setDisplayUseLogoEnabled(false);
         getActionBar().setDisplayShowTitleEnabled(true);
         MenuItem mi = menu.add(Menu.NONE, MenuActionItem.MENU_SAVE, Menu.FIRST + MenuActionItem.MENU_SAVE,
                 R.string.save);

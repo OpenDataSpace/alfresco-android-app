@@ -55,7 +55,7 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
 
             Folder folder = null;
             DocumentFolderService svc = null;
-            int copied = 0;
+            //int copied = 0;
 
             if (config != null)
             {
@@ -89,7 +89,7 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
 
                             if (copyFile(contentStream.getInputStream(), contentStream.getLength(), f))
                             {
-                                copied++;
+                                //copied++;
                             }
                         }
                     } catch (Exception ex) {
@@ -98,7 +98,7 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
                 }
 
                 ctx = new OdsConfigContext();
-                ctx.setUpdated(copied > 0);
+                ctx.setUpdated(true);
                 result.setData(ctx);
             }
         }

@@ -171,7 +171,6 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
     public void onResume()
     {
         super.onResume();
-        getActivity().getActionBar().setDisplayUseLogoEnabled(false);
         getActivity().getActionBar().setDisplayHomeAsUpEnabled(false);
         getActivity().getActionBar().setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 
@@ -205,7 +204,6 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         super.onPause();
         if (!isVisible() && TAG.equals(getTag()))
         {
-            getActivity().getActionBar().setDisplayUseLogoEnabled(false);
             getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
@@ -624,12 +622,8 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         OdsConfigManager cfg = ApplicationManager.getInstance(act).getOdsConfig();
         Account acc = SessionUtils.getAccount(act);
         Drawable dr = cfg.getBrandingDrawable(act, OdsConfigManager.BRAND_ABOUT, acc);
-
-        if (dr != null)
-        {
-            Button bu = (Button) rootView.findViewById(R.id.menu_about);
-            bu.setCompoundDrawablesWithIntrinsicBounds(dr, null, null, null);
-        }
+        Button bu = (Button) rootView.findViewById(R.id.menu_about);
+        bu.setCompoundDrawablesWithIntrinsicBounds(dr != null ? dr : getResources().getDrawable(R.drawable.ic_about_light), null, null, null);
     }
 
     public void updateFolderAccess()

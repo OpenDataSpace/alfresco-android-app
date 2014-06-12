@@ -211,7 +211,6 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
             {
                 FileExplorerHelper.displayNavigationMode(getActivity(), getMode(), false,
                         getArguments().getInt(PARAM_MENUID));
-                getActivity().getActionBar().setDisplayUseLogoEnabled(false);
                 getActivity().getActionBar().setDisplayShowTitleEnabled(false);
             }
         }
