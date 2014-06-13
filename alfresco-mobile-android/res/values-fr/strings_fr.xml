@@ -24,19 +24,19 @@ http://www.apache.org/licenses/LICENSE-2.0
 
     <!-- HOME SCREEN -->
     <string name="home_title">Commençons&#8230; </string>
-    <string name="home_sign_cloud">Créer un compte DataDpace Cloud</string>
-    <string name="home_sign_cloud_description">Nouveau sur DataDpace ? Créez un compte en ligne gratuit pour stocker et accéder à vos contenus depuis n\'importe où.</string>
+    <string name="home_sign_cloud">Créer un compte DataSpace Cloud</string>
+    <string name="home_sign_cloud_description">Nouveau sur DataSpace ? Créez un compte en ligne gratuit pour stocker et accéder à vos contenus depuis n\'importe où.</string>
     <string name="home_account">Je possède déjà un compte</string>
-    <string name="home_account_description">Choisissez cette option si vous possédez déjà un compte DataDpace Cloud ou si vous souhaitez vous connecter à un serveur DataDpace</string>
-    <string name="home_helper">Pour plus d\'informations sur DataDpace Mobile, consultez <a href="alfresco://view_help_guide/">notre guide</a> dans la section d\'aide</string>
+    <string name="home_account_description">Choisissez cette option si vous possédez déjà un compte DataSpace Cloud ou si vous souhaitez vous connecter à un serveur DataSpace</string>
+    <string name="home_helper">Pour plus d\'informations sur DataSpace Mobile, consultez <a href="alfresco://view_help_guide/">notre guide</a> dans la section d\'aide</string>
 
     <!-- ACCOUNT WIZARD SCRE STEP 1 -->
-    <string name="account_wizard_alfresco_server">Serveur DataDpace</string>
-    <string name="account_wizard_alfresco_server_description">Connexion à un serveur DataDpace</string>
-    <string name="account_wizard_alfresco_cloud">DataDpace Cloud</string>
-    <string name="account_wizard_alfresco_cloud_description">Accéder à votre compte DataDpace Cloud</string>
-    <string name="account_wizard_alfresco_help">Nouveau sur DataDpace ? <a href="alfresco://sign_up_cloud/">Créer</a> un compte gratuit</string>
-    <string name="account_wizard_alfresco_help_inside_app">Nouveau sur DataDpace ? <a href="alfresco://sign_up_cloud_i/">Créer</a> un compte gratuit</string>
+    <string name="account_wizard_alfresco_server">Serveur DataSpace</string>
+    <string name="account_wizard_alfresco_server_description">Connexion à un serveur DataSpace</string>
+    <string name="account_wizard_alfresco_cloud">DataSpace Cloud</string>
+    <string name="account_wizard_alfresco_cloud_description">Accéder à votre compte DataSpace Cloud</string>
+    <string name="account_wizard_alfresco_help">Nouveau sur DataSpace ? <a href="alfresco://sign_up_cloud/">Créer</a> un compte gratuit</string>
+    <string name="account_wizard_alfresco_help_inside_app">Nouveau sur DataSpace ? <a href="alfresco://sign_up_cloud_i/">Créer</a> un compte gratuit</string>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 2 -->
     <string name="account">Compte</string>
@@ -49,8 +49,8 @@ http://www.apache.org/licenses/LICENSE-2.0
     <string name="account_hostname_required_hint">Nom d\'hôte tel que www.example.com (requis)</string>
     <string name="account_hostname_hint">www.example.com (requis)</string>
     <string name="account_description">Description</string>
-    <string name="account_description_optional_hint">Description (facultatif) Par défaut, c\'est DataDpace Server</string>
-    <string name="account_description_hint">Serveur DataDpace (facultatif)</string>
+    <string name="account_description_optional_hint">Description (facultatif) Par défaut, c\'est DataSpace Server</string>
+    <string name="account_description_hint">Serveur DataSpace (facultatif)</string>
     <string name="account_advanced">Avancé</string>
     <string name="account_authentication">Authentification du compte</string>
     <string name="account_https">HTTPS</string>
@@ -86,8 +86,8 @@ http://www.apache.org/licenses/LICENSE-2.0
     <!-- ACCOUNTS -->
     <string name="account_not_activated">Votre compte n\'est pas activé. Veuillez vérifier sur l\'écran de gestion des comptes.</string>
     <string name="account_not_activated_description">Votre compte est en cours de vérification</string>
-    <string name="account_default_cloud">DataDpace Cloud</string>
-    <string name="account_default_onpremise">Serveur DataDpace</string>
+    <string name="account_default_cloud">DataSpace Cloud</string>
+    <string name="account_default_onpremise">Serveur DataSpace</string>
     <string name="account_edit_hint">Modifier les informations de compte de "%s"</string>
     <string name="account_delete_hint">Supprimer les informations de compte de "%s"</string>
 
@@ -111,7 +111,7 @@ http://www.apache.org/licenses/LICENSE-2.0
     <string name="error_session_certificate">
 <![CDATA[<p><b>Le certificat de sécurité du serveur n\'est pas vérifié !</b><br/></p>
 L\'organisation de tierce partie qui a émis le certificat de destination de votre serveur ne fait pas partie de celles que votre appareil reconnaît.<br/>
-Afin qu\'DataDpace Mobile puisse vérifier que vous vous connectez avec le serveur approprié, son certificat doit provenir d\'une organisation de confiance.<br/>
+Afin qu\'DataSpace Mobile puisse vérifier que vous vous connectez avec le serveur approprié, son certificat doit provenir d\'une organisation de confiance.<br/>
 Si votre serveur dispose d\'un certificat auto-signé, veuillez l\'ajouter à votre appareil pour vous connecter.<br/> ]]>
     </string>
     <string name="error_session_certificate_expired">
@@ -123,7 +123,7 @@ Veuillez vérifier la date et l\'heure de votre appareil.<br/> Si le problème p
 Veuillez vérifier vos paramètres de compte et réessayer.<br/> Si le problème persiste, contactez votre administrateur.]]>
     </string>
     <string name="error_session_cloud_unavailable">
-<![CDATA[<p><b>DataDpace Cloud est actuellement surchargé !</b><br/></p>
+<![CDATA[<p><b>DataSpace Cloud est actuellement surchargé !</b><br/></p>
 Veuillez réessayer dans quelques minutes.<br/>]]>
     </string>
     <string name="error_session_expired">Votre session a expiré. Veuillez vous reconnecter.</string>
@@ -215,10 +215,10 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="cloud_signup_confirm">Confirmer le mot de passe</string>
     <string name="cloud_signup_confirm_hint">Confirmer le mot de passe (requis)</string>
     <string name="cloud_signup_action">Créer un compte</string>
-    <string name="cloud_signup_hint">En sélectionnant Créer un compte, vous acceptez les <a href="http://www.alfresco.com/legal/agreements/cloud">Conditions d\'utilisation</a> et la <a href="http://www.alfresco.com/privacy">Politique de confidentialité</a> d\'DataDpace.</string>
-    <string name="sign_up_cloud">Créer un compte DataDpace Cloud</string>
+    <string name="cloud_signup_hint">En sélectionnant Créer un compte, vous acceptez les <a href="http://www.alfresco.com/legal/agreements/cloud">Conditions d\'utilisation</a> et la <a href="http://www.alfresco.com/privacy">Politique de confidentialité</a> d\'DataSpace.</string>
+    <string name="sign_up_cloud">Créer un compte DataSpace Cloud</string>
     <string name="sign_up_cloud_email_verification">Compte en attente de vérification d\'e-mail</string>
-    <string name="sign_up_cloud_email_verification_line1">Vous avez créé un compte DataDpace Cloud avec l\'adresse e-mail :</string>
+    <string name="sign_up_cloud_email_verification_line1">Vous avez créé un compte DataSpace Cloud avec l\'adresse e-mail :</string>
     <string name="sign_up_cloud_email_verification_line2">Consultez votre boîte e-mail. Vous avez reçu un lien permettant de terminer le processus d\'enregistrement.</string>
     <string name="sign_up_cloud_email_having_trouble">Problème d\'activation ?</string>
     <string name="sign_up_cloud_email_having_trouble_line1"><a href="http://getsatisfaction.com/alfresco/products/alfresco_alfresco_mobile_app">Veuillez nous informer</a> si vous ne parvenez pas à activer votre compte.</string>
@@ -226,8 +226,8 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="cloud_signup_resend">Renvoyer l\'e-mail</string>
     <string name="cloud_signup_resend_successfull">L\'e-mail a été renvoyé</string>
     <string name="cloud_signup_resend_body">Vous ne recevez pas nos e-mails ? Vérifiez que l\'adresse indiquée est correcte et consultez le dossier des e-mails indésirables</string>
-    <string name="cloud_signup_error_email">DataDpace a besoin de votre adresse e-mail professionnelle pour ajouter votre profil au réseau de collaboration de votre entreprise.</string>
-    <string name="cloud_signup_error_email_title">DataDpace Cloud : inscription.</string>
+    <string name="cloud_signup_error_email">DataSpace a besoin de votre adresse e-mail professionnelle pour ajouter votre profil au réseau de collaboration de votre entreprise.</string>
+    <string name="cloud_signup_error_email_title">DataSpace Cloud : inscription.</string>
 
     <!-- AUTHENTICATION -->
     <string name="cloud_authentication">Authentification</string>
@@ -263,13 +263,13 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="sdknumber_version">SDK : </string>
     <string name="about_description">
 <![CDATA[
-<p>DataDpace Mobile se connecte aux serveurs DataDpace dans le Cloud et DataDpace sur site (3,4 et supérieur) pour fournir un accès sécurisé à vos contenus en mode mobile.</p>
+<p>DataSpace Mobile se connecte aux serveurs DataSpace dans le Cloud et DataSpace sur site (3,4 et supérieur) pour fournir un accès sécurisé à vos contenus en mode mobile.</p>
 
-<p>DataDpace Mobile se connecte à votre répertoire DataDpace au moyen de vos identifiants DataDpace (par HTTP ou HTTPS), et gère les accès des utilisateurs en fonction de leurs permissions.</p>
+<p>DataSpace Mobile se connecte à votre répertoire DataSpace au moyen de vos identifiants DataSpace (par HTTP ou HTTPS), et gère les accès des utilisateurs en fonction de leurs permissions.</p>
 ]]>
     </string>
     <!-- translate --> <string name="about_ods">
-<![CDATA[<p>&#169; 2005&#8211;2014 DataDpace Software Limited<br/>
+<![CDATA[<p>&#169; 2005&#8211;2014 DataSpace Software Limited<br/>
 &#169; 2013&#8211;2014 The Open DataSpace project<br/>
 <a href="mailto:info@opendataspace.org">info@opendataspace.org</a></p>
 <p>This software is licensed under the\nApache license Version 2.0</p></center>]]>
@@ -281,7 +281,7 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="link_or_attach">Souhaitez-vous le partager sous forme d\'éléments attachés ou sous forme de lien cliquable ?</string>
     <string name="full_attachment">Élément attaché</string>
     <string name="link_to_repo">Lien cliquable</string>
-    <string name="email_content"><![CDATA[<!DOCTYPE html><html><body>Envoyer avec <a href="http://play.google.com/store/apps/details?id=org.alfresco.mobile.android.application">DataDpace Mobile</a></body></html>]]></string>
+    <string name="email_content"><![CDATA[<!DOCTYPE html><html><body>Envoyer avec <a href="http://play.google.com/store/apps/details?id=org.alfresco.mobile.android.application">DataSpace Mobile</a></body></html>]]></string>
 
     <!-- Delete -->
     <plurals name="delete_items">
@@ -331,11 +331,11 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="content_being_encrypted">La protection du contenu est en cours. Veuillez patienter</string>
     <string name="content_being_decrypted">L\'annulation de la protection du contenu est en cours. Veuillez patienter</string>
     <string name="data_protection">Protection des données</string>
-    <string name="data_protection_blurb"><![CDATA[<p><b>Protection des données disponible.</b><br/> Voulez-vous l\'activer ? <p> Cette opération va chiffrer touts les contenus DataDpace téléchargés pour chaque compte. Ces contenus ne pourront plus être lus par aucune application, sauf l\'application DataDpace. ]]></string>
+    <string name="data_protection_blurb"><![CDATA[<p><b>Protection des données disponible.</b><br/> Voulez-vous l\'activer ? <p> Cette opération va chiffrer touts les contenus DataSpace téléchargés pour chaque compte. Ces contenus ne pourront plus être lus par aucune application, sauf l\'application DataSpace. ]]></string>
     <string name="encryption_failed">Échec du chiffrement</string>
     <string name="decryption_failed">Échec du déchiffrement</string>
-    <string name="protect_question"><![CDATA[<p><b>Souhaitez-vous protéger touts les contenus DataDpace téléchargés maintenant ?</b><p> Cette opération s\'appliquera à tous les contenus que vous avez téléchargés à partir de vos comptes DataDpace. Ces contenus ne pourront plus être lus par aucune application, sauf l\'application DataDpace.]]></string>
-    <string name="unprotect_question"><![CDATA[<p><b>Souhaitez-vous désactiver la protection sur tous les contenus DataDpace téléchargés maintenant ?</b><p> Ce sera appliqué à tous les contenus téléchargés à partir de tous vos comptes DataDpace.]]></string>
+    <string name="protect_question"><![CDATA[<p><b>Souhaitez-vous protéger touts les contenus DataSpace téléchargés maintenant ?</b><p> Cette opération s\'appliquera à tous les contenus que vous avez téléchargés à partir de vos comptes DataSpace. Ces contenus ne pourront plus être lus par aucune application, sauf l\'application DataSpace.]]></string>
+    <string name="unprotect_question"><![CDATA[<p><b>Souhaitez-vous désactiver la protection sur tous les contenus DataSpace téléchargés maintenant ?</b><p> Ce sera appliqué à tous les contenus téléchargés à partir de tous vos comptes DataSpace.]]></string>
     <string name="already_encrypted">Ce contenu est déjà chiffré !</string>
     <string name="already_decrypted">Ce contenu est déjà chiffré !</string>
     <string name="decryption_title">Désactivation de la protection des données en cours&#8230;</string>
@@ -374,7 +374,7 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="action_unfavorite_site_error">Un problème vous a empêché de supprimer le site \"%s\" de vos favoris.</string>
 
     <!-- IMPORT -->
-    <string name="import_document_title">Ajouter avec DataDpace Mobile</string>
+    <string name="import_document_title">Ajouter avec DataSpace Mobile</string>
     <string name="import_document_name">Nom du fichier</string>
     <string name="import_documents">Fichier</string>
     <string name="import_account">Compte</string>
@@ -382,7 +382,7 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="import_send_downloads">Les fichiers sont disponibles dans votre dossier \"Téléchargements\".</string>
     <string name="import_folder">Dossier Ajout</string>
     <string name="import_error">Une erreur s\'est produite lors de l\'ajout.</string>
-    <string name="import_unsupported_intent">DataDpace Mobile : impossible de récupérer les informations.</string>
+    <string name="import_unsupported_intent">DataSpace Mobile : impossible de récupérer les informations.</string>
     <string name="action_upload">Ajouter</string>
     <string name="action_import">Importer</string>
 
@@ -402,7 +402,7 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="passcode_timeout">Expiration</string>
     <string name="passcode_timeout_summary">{0,choice,0#Après 0 minute|1#Après 1 minute|1&lt;Après {0} minutes}</string>
     <string name="passcode_erase_data">Effacer les données</string>
-    <string name="passcode_erase_data_summary">Effacer toutes les données DataDpace Mobile de ce appareil après 10 tentatives infructueuses de saisie du code d\'accès</string>
+    <string name="passcode_erase_data_summary">Effacer toutes les données DataSpace Mobile de ce appareil après 10 tentatives infructueuses de saisie du code d\'accès</string>
     <string name="passcode_edit">Saisissez votre nouveau code d\'accès</string>
     <string name="passcode_confirmation">Saisissez une nouvelle fois le code d\'accès</string>
     <string name="passcode_error_confirmation">Votre code d\'accès ne correspond pas.</string>
@@ -436,18 +436,18 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <!-- Settings -->
     <string name="settings">Paramètres</string>
     <string name="settings_enterprise">Paramètres de la version Entreprise</string>
-    <string name="settings_privatefolder_summary">Avec la protection des données, les contenus téléchargés ne sont lisibles qu\'à partir des applications DataDpace. (réservé aux utilisateurs de la version Entreprise)</string>
+    <string name="settings_privatefolder_summary">Avec la protection des données, les contenus téléchargés ne sont lisibles qu\'à partir des applications DataSpace. (réservé aux utilisateurs de la version Entreprise)</string>
     <string name="settings_privatefolder_title">Protection des données</string>
     <string name="settings_links">Liens</string>
-    <string name="settings_links_website">DataDpace</string>
-    <string name="settings_links_website_summary">Visiter le site Web officiel d\'DataDpace</string>
-    <string name="settings_links_website">DataDpace</string>
-    <string name="settings_links_website_summary">Visiter le site Web officiel d\'DataDpace</string>
+    <string name="settings_links_website">DataSpace</string>
+    <string name="settings_links_website_summary">Visiter le site Web officiel d\'DataSpace</string>
+    <string name="settings_links_website">DataSpace</string>
+    <string name="settings_links_website_summary">Visiter le site Web officiel d\'DataSpace</string>
     <string name="settings_links_website_url">http://www.alfresco.com/products/mobile</string>
     <string name="settings_rating">Écrire un commentaire</string>
-    <string name="settings_rating_summary">Noter DataDpace Mobile sur Google Play</string>
+    <string name="settings_rating_summary">Noter DataSpace Mobile sur Google Play</string>
     <string name="settings_rating_url">market://details?id=org.alfresco.mobile.android.application</string>
-    <string name="settings_links_facebook">J\'aime DataDpace sur Facebook</string>
+    <string name="settings_links_facebook">J\'aime DataSpace sur Facebook</string>
     <string name="settings_links_facebook_summary">J\'aime sur Facebook</string>
     <string name="settings_links_facebook_url">http://www.facebook.com/alfrescosoftware</string>
     <string name="settings_favorite">Favoris</string>
@@ -616,7 +616,7 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
 
     <!-- FILE EXPLORER Menu -->
     <string name="shortcuts">Raccourcis</string>
-    <string name="shortcut_alfresco">DataDpace</string>
+    <string name="shortcut_alfresco">DataSpace</string>
     <string name="shortcut_alfresco_downloads">Téléchargements</string>
     <string name="shortcut_alfresco_sync">Synchro</string>
     <string name="shortcut_library">Bibliothèque</string>
@@ -633,9 +633,9 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="action_select">Sélectionner</string>
 
     <!-- FILE Editor Menu -->
-    <string name="file_editor_name">Éditeur de texte DataDpace</string>
+    <string name="file_editor_name">Éditeur de texte DataSpace</string>
     <string name="file_editor_error_open">Impossible d\'ouvrir ce fichier.</string>
-    <string name="file_editor_error_too_large">Ce fichier est trop volumineux pour être ouvert dans l\'Éditeur de texte DataDpace</string>
+    <string name="file_editor_error_too_large">Ce fichier est trop volumineux pour être ouvert dans l\'Éditeur de texte DataSpace</string>
     <string name="file_editor_error_speech">Votre appareil ne permet pas la reconnaissance vocale.</string>
     <string name="file_editor_save_request">Le fichier a été modifié.</string>
     <string name="file_editor_save_description"><![CDATA[Voulez-vous quitter sans enregistrer ? <br/> Toutes vos modifications non enregistrées seront perdues.]]></string>
@@ -878,9 +878,9 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
 
     <!-- Storage Access Framework -->
     <string name="menu_browse_favorites_folder">Dossier Favoris</string>
-    <string name="account_alfresco">DataDpace</string>
-    <string name="account_alfresco_cloud">DataDpace Cloud</string>
-    <string name="account_alfresco_onpremise">DataDpace sur site</string>
+    <string name="account_alfresco">DataSpace</string>
+    <string name="account_alfresco_cloud">DataSpace Cloud</string>
+    <string name="account_alfresco_onpremise">DataSpace sur site</string>
 
 
     <!-- Accessibility -->
@@ -890,7 +890,7 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="more_options_favorite">Plus d\'options pour le dossier %s</string>
     <string name="mime_site">Site</string>
     <string name="more_options_site">Plus d\'options pour le Site %s</string>
-    <string name="navigation_drawer_description">DataDpace : ouvrir l\'onglet de navigation</string>
+    <string name="navigation_drawer_description">DataSpace : ouvrir l\'onglet de navigation</string>
     <string name="metadata_modified">Modifié </string>
     <string name="metadata_created_by">Créé par %s</string>
     <string name="metadata_size">Taille </string>
