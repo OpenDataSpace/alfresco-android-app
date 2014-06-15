@@ -48,8 +48,8 @@ public class MimeType implements Serializable
     private static final String PREFIX = "R.drawable.";
 
     private static final String DRAWABLE = "drawable";
-    
-    private static final String PACKAGE_NAME = "org.alfresco.mobile.android.application";
+
+    private static final String PACKAGE_NAME = "org.opendataspace.android.app";
 
     private long id;
 
@@ -65,14 +65,14 @@ public class MimeType implements Serializable
 
     private String largeIcon;
 
-    
+
     public MimeType(String type, String subType)
     {
         super();
         this.type = type;
         this.subType = subType;
     }
-    
+
     public MimeType(String extension, String type, String subType)
     {
         super();
@@ -80,7 +80,7 @@ public class MimeType implements Serializable
         this.type = type;
         this.subType = subType;
     }
-    
+
     public MimeType(long id, String extension, String type, String subType, String description, String smallIcon,
             String largeIcon)
     {
