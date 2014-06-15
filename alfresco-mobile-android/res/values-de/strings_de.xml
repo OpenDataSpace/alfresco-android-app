@@ -413,6 +413,7 @@
     <string name="passcode_timeout_10min">10 Minuten</string>
     <string name="passcode_timeout_30min">30 Minuten</string>
     <string name="passcode_timeout_60min">1 Stunde</string>
+    <!-- translate --> <string name="passcode_error_unknown">Encryption engine failure.</string>
 
     <string-array name="passcode_timeout_entries">
         <item>@string/passcode_timeout_1min</item>
@@ -437,8 +438,6 @@
     <string name="settings_privatefolder_summary">Der Datenschutzmodus ermöglicht, den gesamten heruntergeladenen Inhalt ausschließlich für die DataSpace App lesbar zu machen. (Nur Unternehmen)</string>
     <string name="settings_privatefolder_title">Datenschutzmodus</string>
     <string name="settings_links">Links</string>
-    <string name="settings_links_website">DataSpace</string>
-    <string name="settings_links_website_summary">Offizielle DataSpace Website besuchen</string>
     <string name="settings_links_website">DataSpace</string>
     <string name="settings_links_website_summary">Offizielle DataSpace Website besuchen</string>
     <string name="settings_links_website_url">https://github.com/OpenDataSpace</string>
@@ -642,7 +641,6 @@
     <string name="file_editor_save_confirmation">Datei wurde gespeichert.</string>
     <string name="file_editor_loading">Warten Sie einen Augenblick&#8230;</string>
     <string name="file_editor_encoding">Verschlüsselung</string>
-    <string name="file_editor_encoding">Verschlüsselung</string>
     <string name="file_editor_text_size">Textgröße</string>
     <string name="file_editor_speech_to_text">Sprache-in-Text</string>
 
@@ -708,7 +706,6 @@
     <string name="workflow_start">Aufgabe erstellen</string>
     <string name="task_actions">Antwort</string>
     <string name="tasks">Aufgaben</string>
-    <string name="task_items">Anhänge</string>
     <string name="task_workflow">Prozess</string>
 
     <!-- Workflow FILTERS -->
@@ -801,7 +798,6 @@
     <string name="process_no_description">(Keine Nachricht)</string>
     <string name="process_no_assignees">Keine zugewiesene Person</string>
     <string name="process_initiator">Initiator</string>
-    <string name="process_diagram">Diagramm</string>
     <string name="process_attachments">Anhänge</string>
     <string name="process_no_attachments">Keinen Inhalt angehängt</string>
     <string name="process_priority">Priorität</string>

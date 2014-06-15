@@ -415,6 +415,7 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="passcode_timeout_10min">10 minutes</string>
     <string name="passcode_timeout_30min">30 minutes</string>
     <string name="passcode_timeout_60min">1 heure</string>
+    <!-- translate --> <string name="passcode_error_unknown">Encryption engine failure.</string>
 
     <string-array name="passcode_timeout_entries">
         <item>@string/passcode_timeout_1min</item>
@@ -441,8 +442,6 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="settings_links">Liens</string>
     <string name="settings_links_website">DataSpace</string>
     <string name="settings_links_website_summary">Visiter le site Web officiel d\'DataSpace</string>
-    <string name="settings_links_website">DataSpace</string>
-    <string name="settings_links_website_summary">Visiter le site Web officiel d\'DataSpace</string>
     <string name="settings_links_website_url">http://www.alfresco.com/products/mobile</string>
     <string name="settings_rating">Écrire un commentaire</string>
     <string name="settings_rating_summary">Noter DataSpace Mobile sur Google Play</string>
@@ -460,8 +459,6 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <!-- translate --> <string name="settings_autosync_settings_off">Synchronisation of images and videos is currently off</string>
     <!-- translate --> <string name="settings_autosync_settings_on">Synchronisation of images and videos is currently on</string>
     <!-- translate --> <string name="settings_feedback">Feedback</string>
-    <!-- translate --> <string name="settings_favorite_sync_data">Utilisation des donnees</string>
-    <!-- translate --> <string name="settings_favorite_sync_data_all">Utiliser les donnees cellulaires pour la synchro</string>
 
     <!-- Multi Selection -->
     <plurals name="selected_document">
@@ -644,7 +641,6 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="file_editor_save_confirmation">Le fichier a été enregistré.</string>
     <string name="file_editor_loading">Veuillez patienter...</string>
     <string name="file_editor_encoding">Encodage</string>
-    <string name="file_editor_encoding">Encodage</string>
     <string name="file_editor_text_size">Taille du texte</string>
     <string name="file_editor_speech_to_text">Reconnaissance vocale</string>
 
@@ -710,7 +706,6 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="workflow_start">Créer une tâche</string>
     <string name="task_actions">Réponse</string>
     <string name="tasks">Tâches</string>
-    <string name="task_items">Éléments attachés</string>
     <string name="task_workflow">Processus</string>
 
     <!-- Workflow FILTERS -->
@@ -803,7 +798,6 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="process_no_description">(aucun message)</string>
     <string name="process_no_assignees">Aucun acteur</string>
     <string name="process_initiator">Initiateur</string>
-    <string name="process_diagram">Diagramme</string>
     <string name="process_attachments">Éléments attachés</string>
     <string name="process_no_attachments">Aucun contenu attaché</string>
     <string name="process_priority">Priorité</string>

@@ -21,7 +21,6 @@ import static org.alfresco.mobile.android.application.preferences.PasscodePrefer
 import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ATTEMPT;
 import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ENABLE;
 import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_MAX_ATTEMPT;
-import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_VALUE;
 
 import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.MainActivity;
@@ -66,7 +65,7 @@ public class PassCodeDialogFragment extends DialogFragment
     public static final int MODE_DELETE = 3;
 
     public static final int MODE_USER_REQUEST = 4;
-    
+
     private static final int PASSCODE_LENGTH = 4;
 
     /** Public Fragment TAG. */
@@ -185,68 +184,68 @@ public class PassCodeDialogFragment extends DialogFragment
             int i = 0;
             switch (v.getId())
             {
-                case R.id.keyboard_0:
-                    i = 0;
-                    break;
-                case R.id.keyboard_1:
-                    i = 1;
-                    break;
-                case R.id.keyboard_2:
-                    i = 2;
-                    break;
-                case R.id.keyboard_3:
-                    i = 3;
-                    break;
-                case R.id.keyboard_4:
-                    i = 4;
-                    break;
-                case R.id.keyboard_5:
-                    i = 5;
-                    break;
-                case R.id.keyboard_6:
-                    i = 6;
-                    break;
-                case R.id.keyboard_7:
-                    i = 7;
-                    break;
-                case R.id.keyboard_8:
-                    i = 8;
-                    break;
-                case R.id.keyboard_9:
-                    i = 9;
-                    break;
-                case R.id.keyboard_back:
-                    previous(focusValue);
-                    return;
-                default:
-                    break;
+            case R.id.keyboard_0:
+                i = 0;
+                break;
+            case R.id.keyboard_1:
+                i = 1;
+                break;
+            case R.id.keyboard_2:
+                i = 2;
+                break;
+            case R.id.keyboard_3:
+                i = 3;
+                break;
+            case R.id.keyboard_4:
+                i = 4;
+                break;
+            case R.id.keyboard_5:
+                i = 5;
+                break;
+            case R.id.keyboard_6:
+                i = 6;
+                break;
+            case R.id.keyboard_7:
+                i = 7;
+                break;
+            case R.id.keyboard_8:
+                i = 8;
+                break;
+            case R.id.keyboard_9:
+                i = 9;
+                break;
+            case R.id.keyboard_back:
+                previous(focusValue);
+                return;
+            default:
+                break;
             }
 
             focusValue.setText("X");
 
             switch (focusValue.getId())
             {
-                case R.id.passcode_1:
-                    value2.requestFocus();
-                    focusValue = value2;
-                    initCode(0, i);
-                    break;
-                case R.id.passcode_2:
-                    value3.requestFocus();
-                    focusValue = value3;
-                    initCode(1, i);
-                    break;
-                case R.id.passcode_3:
-                    value4.requestFocus();
-                    focusValue = value4;
-                    initCode(2, i);
-                    break;
-                case R.id.passcode_4:
-                    initCode(3, i);
-                    validate();
-                    break;
-                default:
-                    break;
+            case R.id.passcode_1:
+                value2.requestFocus();
+                focusValue = value2;
+                initCode(0, i);
+                break;
+            case R.id.passcode_2:
+                value3.requestFocus();
+                focusValue = value3;
+                initCode(1, i);
+                break;
+            case R.id.passcode_3:
+                value4.requestFocus();
+                focusValue = value4;
+                initCode(2, i);
+                break;
+            case R.id.passcode_4:
+                initCode(3, i);
+                validate();
+                break;
+            default:
+                break;
             }
         }
     };
@@ -269,35 +268,35 @@ public class PassCodeDialogFragment extends DialogFragment
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         switch (mode)
         {
-            case MODE_USER_REQUEST:
-                if (checkValue())
-                {
-                    Editor editor = sharedPref.edit();
-                    editor.putLong(KEY_PASSCODE_ACTIVATED_AT, -1);
-                    editor.remove(KEY_PASSCODE_ATTEMPT);
-                    editor.commit();
-                    getActivity().setResult(Activity.RESULT_OK);
-                    getActivity().finish();
-                }
-                break;
-            case MODE_CREATE:
+        case MODE_USER_REQUEST:
+            if (checkValue())
+            {
+                Editor editor = sharedPref.edit();
+                editor.putLong(KEY_PASSCODE_ACTIVATED_AT, -1);
+                editor.remove(KEY_PASSCODE_ATTEMPT);
+                editor.commit();
+                getActivity().setResult(Activity.RESULT_OK);
+                getActivity().finish();
+            }
+            break;
+        case MODE_CREATE:
+            create();
+            break;
+        case MODE_DELETE:
+            delete();
+            break;
+        case MODE_UPDATE:
+            if (!editionEnable)
+            {
+                update();
+            }
+            else
+            {
                 create();
-                break;
-            case MODE_DELETE:
-                delete();
-                break;
-            case MODE_UPDATE:
-                if (!editionEnable)
-                {
-                    update();
-                }
-                else
-                {
-                    create();
-                }
-                break;
-            default:
-                break;
+            }
+            break;
+        default:
+            break;
         }
     }
 
@@ -312,17 +311,27 @@ public class PassCodeDialogFragment extends DialogFragment
         }
         else if (needConfirmation && getUserPassCode(true) != null)
         {
+            if (!EncryptionUtils.generateKey(getActivity(), getUserPassCode(true)))
+            {
+                needConfirmation = false;
+                errorMessage.setVisibility(View.VISIBLE);
+                errorMessage.setText(R.string.passcode_error_unknown);
+                title.setText(R.string.passcode_title);
+                return;
+            }
+
             Editor editor = sharedPref.edit();
             editor.putBoolean(KEY_PASSCODE_ENABLE, true);
             editor.remove(KEY_PASSCODE_ATTEMPT);
-            editor.putString(KEY_PASSCODE_VALUE, getUserPassCode(true));
+            //editor.putString(KEY_PASSCODE_VALUE, getUserPassCode(true));
             editor.commit();
+
             dismiss();
             errorMessage.setVisibility(View.GONE);
             if (getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG) != null)
             {
                 ((PasscodePreferences) getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG))
-                        .refresh();
+                .refresh();
             }
         }
         else
@@ -336,20 +345,29 @@ public class PassCodeDialogFragment extends DialogFragment
 
     private void delete()
     {
-        String passCodeValue = sharedPref.getString(KEY_PASSCODE_VALUE, "0000");
-        if (passCodeValue.equals(getUserPassCode(false)))
+        if (EncryptionUtils.checkKey(getActivity(), getUserPassCode(false)))
         {
+            if (!EncryptionUtils.removeKey(getActivity(), getUserPassCode(false)))
+            {
+                needConfirmation = false;
+                errorMessage.setVisibility(View.VISIBLE);
+                errorMessage.setText(R.string.passcode_error_unknown);
+                title.setText(R.string.passcode_title);
+                return;
+            }
+
             Editor editor = sharedPref.edit();
             editor.putBoolean(KEY_PASSCODE_ENABLE, false);
             editor.remove(KEY_PASSCODE_ATTEMPT);
-            editor.remove(KEY_PASSCODE_VALUE);
+            //editor.remove(KEY_PASSCODE_VALUE);
             editor.commit();
+
             dismiss();
             errorMessage.setVisibility(View.GONE);
             if (getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG) != null)
             {
                 ((PasscodePreferences) getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG))
-                        .refresh();
+                .refresh();
             }
         }
         else
@@ -381,8 +399,7 @@ public class PassCodeDialogFragment extends DialogFragment
 
     private boolean checkValue()
     {
-        String passCodeValue = sharedPref.getString(KEY_PASSCODE_VALUE, "0000");
-        if (passCodeValue.equals(getUserPassCode(false)))
+        if (EncryptionUtils.checkKey(getActivity(), getUserPassCode(false)))
         {
             return true;
         }
@@ -456,20 +473,20 @@ public class PassCodeDialogFragment extends DialogFragment
         {
             switch (v.getId())
             {
-                case R.id.passcode_1:
-                    clear(value1);
-                    break;
-                case R.id.passcode_2:
-                    clear(value2);
-                    break;
-                case R.id.passcode_3:
-                    clear(value3);
-                    break;
-                case R.id.passcode_4:
-                    clear(value4);
-                    break;
-                default:
-                    break;
+            case R.id.passcode_1:
+                clear(value1);
+                break;
+            case R.id.passcode_2:
+                clear(value2);
+                break;
+            case R.id.passcode_3:
+                clear(value3);
+                break;
+            case R.id.passcode_4:
+                clear(value4);
+                break;
+            default:
+                break;
             }
         }
     };
@@ -478,19 +495,19 @@ public class PassCodeDialogFragment extends DialogFragment
     {
         switch (v.getId())
         {
-            case R.id.passcode_1:
-                break;
-            case R.id.passcode_2:
-                value1.requestFocus();
-                break;
-            case R.id.passcode_3:
-                value2.requestFocus();
-                break;
-            case R.id.passcode_4:
-                value3.requestFocus();
-                break;
-            default:
-                break;
+        case R.id.passcode_1:
+            break;
+        case R.id.passcode_2:
+            value1.requestFocus();
+            break;
+        case R.id.passcode_3:
+            value2.requestFocus();
+            break;
+        case R.id.passcode_4:
+            value3.requestFocus();
+            break;
+        default:
+            break;
         }
     }
 
@@ -519,7 +536,7 @@ public class PassCodeDialogFragment extends DialogFragment
         {
             getActivity().getWindow().setSoftInputMode(
                     WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-                            | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+                    | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             mgr.hideSoftInputFromWindow(focusValue.getWindowToken(), 0);
         }
