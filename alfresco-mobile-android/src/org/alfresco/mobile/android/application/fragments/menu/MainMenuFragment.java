@@ -24,7 +24,6 @@ import org.alfresco.mobile.android.api.model.RepositoryInfo;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.config.OdsConfigManager;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
@@ -178,12 +177,10 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         intentFilter.addAction(IntentIntegrator.ACTION_SYNC_SCAN_COMPLETED);
         intentFilter.addAction(IntentIntegrator.ACTION_SYNC_SCAN_STARTED);
         intentFilter.addAction(IntentIntegrator.ACTION_CONFIGURATION_MENU);
-        intentFilter.addAction(IntentIntegrator.ACTION_CONFIGURATION_BRAND);
         receiver = new MainMenuReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, intentFilter);
 
         displayFavoriteStatut();
-        rebrand();
 
         if (configurationManager != null
                 && configurationManager.getConfigurationState() == ConfigurationManager.STATE_HAS_CONFIGURATION)
@@ -565,12 +562,12 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
                 R.string.menu_prefs);
         mi.setIcon(R.drawable.ic_settings_light);
         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-
+        /*
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_HELP_ID, Menu.FIRST + MenuActionItem.MENU_HELP_ID,
                 R.string.menu_help);
         mi.setIcon(R.drawable.ic_help);
         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-
+         */
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_ABOUT_ID, Menu.FIRST + MenuActionItem.MENU_ABOUT_ID,
                 R.string.menu_about);
         mi.setIcon(R.drawable.ic_about_light);
@@ -607,23 +604,10 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
                 {
                     display();
                 }
-            } else if (IntentIntegrator.ACTION_CONFIGURATION_BRAND.equals(intent.getAction()))
-            {
-                rebrand();
             }
 
             updateFolderAccess();
         }
-    }
-
-    private void rebrand()
-    {
-        Activity act = getActivity();
-        OdsConfigManager cfg = ApplicationManager.getInstance(act).getOdsConfig();
-        Account acc = SessionUtils.getAccount(act);
-        Drawable dr = cfg.getBrandingDrawable(act, OdsConfigManager.BRAND_ABOUT, acc);
-        Button bu = (Button) rootView.findViewById(R.id.menu_about);
-        bu.setCompoundDrawablesWithIntrinsicBounds(dr != null ? dr : getResources().getDrawable(R.drawable.ic_about_light), null, null, null);
     }
 
     public void updateFolderAccess()

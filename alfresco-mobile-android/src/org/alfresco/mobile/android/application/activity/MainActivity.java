@@ -525,12 +525,6 @@ public class MainActivity extends BaseActivity
                         IntentIntegrator.EXTRA_ACCOUNT_ID, currentAccount.getId()));
             }
             break;
-        case R.id.menu_prefs:
-            displayPreferences();
-            break;
-        case R.id.menu_about:
-            displayAbout();
-            break;
         default:
             break;
         }

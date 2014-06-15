@@ -29,15 +29,13 @@ public class OdsConfigManager
 
     public static final String BRAND_ICON = "ic_logo.png";
 
-    public static final String BRAND_ABOUT = "ic_about_light.png";
-
     public static final String BRAND_LARGE = "logo_large.png";
 
     public static final String BRAND_NOTIF = "ic_notif.png";
 
     public static final String BRAND_STUB = "bg_logo_light.9.png";
 
-    public static final String[] FILES = new String[] {BRAND_ICON, BRAND_ABOUT, BRAND_LARGE, BRAND_NOTIF, BRAND_STUB};
+    public static final String[] FILES = new String[] {BRAND_ICON, BRAND_LARGE, BRAND_NOTIF, BRAND_STUB};
 
     private OdsConfigManager(Context applicationContext)
     {
