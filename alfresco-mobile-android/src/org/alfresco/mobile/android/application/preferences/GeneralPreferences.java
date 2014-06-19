@@ -325,6 +325,11 @@ public class GeneralPreferences extends PreferenceFragment
         Preference odsSyncPref = findPreference(ODS_SYNCHONISATION_BUTTON);
         refreshOdsSync();
 
+        if (odsSyncPref == null)
+        {
+            return;
+        }
+
         odsSyncPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
         {
             @Override
@@ -386,6 +391,12 @@ public class GeneralPreferences extends PreferenceFragment
     {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         Preference odsSyncPref = findPreference(ODS_SYNCHONISATION_BUTTON);
+
+        if (odsSyncPref == null)
+        {
+            return;
+        }
+
         String id = sharedPref.getString(ODS_SYNCHONISATION, "");
         odsSyncPref.setSummary((id != null && !"".equals(id)) ? R.string.settings_autosync_settings_on
                 : R.string.settings_autosync_settings_off);
