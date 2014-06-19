@@ -158,11 +158,11 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="action_rename_desc">Nouveau nom pour %s</string>
 
     <!-- MAIN MENU -->
-    <string name="menu_browse_root">Entrepôt</string>
+    <string name="menu_browse_root">Fichiers privés</string>
     <string name="menu_browse_sites">Sites</string>
-    <string name="menu_browse_userhome">Mes classeurs</string>
-    <string name="menu_browse_shared">Classeurs partagés</string>
-    <string name="menu_browse_global">Classeurs globals</string>
+    <string name="menu_browse_userhome">Mes fichiers</string>
+    <string name="menu_browse_shared">Fichiers partagés</string>
+    <string name="menu_browse_global">Fichiers globals</string>
     <string name="menu_browse_all_sites">Tous les sites</string>
     <string name="menu_browse_my_sites">Mes sites</string>
     <string name="menu_browse_favorite_sites">Sites favoris</string>
