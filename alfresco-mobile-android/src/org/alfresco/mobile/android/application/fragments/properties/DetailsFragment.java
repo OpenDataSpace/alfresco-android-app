@@ -662,7 +662,8 @@ LoaderCallbacks<LoaderResult<Node>>
                 }
                 else
                 {
-                    renditionManager.display(iv, node, iconId);
+                    //renditionManager.display(iv, node, iconId);
+                    iv.setImageResource(iconId);
                 }
             }
             /*

@@ -1576,19 +1576,4 @@ public class MainActivity extends BaseActivity
         if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID)) { return false; }
         return (currentAccount.getId() == intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID));
     }
-
-    @SuppressWarnings("deprecation")
-    @Override
-    protected void rebrand()
-    {
-        super.rebrand();
-
-        if (DisplayUtils.hasCentralPane(this))
-        {
-            OdsConfigManager cfg = ApplicationManager.getInstance(this).getOdsConfig();
-            Account acc = SessionUtils.getAccount(this);
-            Drawable dr = cfg.getBrandingDrawable(this, OdsConfigManager.BRAND_STUB, acc);
-            DisplayUtils.getCentralPane(this).setBackgroundDrawable(dr != null ? dr : getResources().getDrawable(R.drawable.bg_alfresco_logo_light));
-        }
-    }
 }

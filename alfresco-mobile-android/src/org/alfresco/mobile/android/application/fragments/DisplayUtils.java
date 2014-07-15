@@ -83,7 +83,7 @@ public abstract class DisplayUtils
 
     public static View getCentralPane(Activity a)
     {
-        return a.findViewById(R.id.central_pane);
+        return a.findViewById(R.id.central_pane_body);
     }
 
     public static View getMainPane(Activity a)
@@ -208,11 +208,11 @@ public abstract class DisplayUtils
         DisplayMetrics outMetrics = new DisplayMetrics();
         display.getMetrics(outMetrics);
         float density = context.getResources().getDisplayMetrics().density;
-        
+
         SplitPaneLayout split = (SplitPaneLayout) context.findViewById(R.id.master_pane);
         return (split != null) ?  Math.round(split.getSplitterPosition() / density)  :  Math.round(outMetrics.widthPixels / density);
     }
-    
+
     public static int getScreenWidth(Activity context)
     {
         Display display = context.getWindowManager().getDefaultDisplay();
@@ -221,7 +221,7 @@ public abstract class DisplayUtils
 
         float density = context.getResources().getDisplayMetrics().density;
         int width = Math.round(outMetrics.widthPixels / density);
-        
+
         return width;
     }
 }

@@ -14,11 +14,12 @@
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.-->
+  limitations under the License.
+-->
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:spl="http://schemas.android.com/apk/res-auto"
     android:layout_width="fill_parent"
-    android:layout_height="fill_parent" >
+    android:layout_height="fill_parent">
 
     <org.alfresco.mobile.android.application.utils.thirdparty.split.SplitPaneLayout
         android:id="@+id/master_pane"
@@ -29,7 +30,7 @@
         spl:splitterBackground="@drawable/divider_touch"
         spl:splitterDraggingBackground="@drawable/divider_touch"
         spl:splitterPosition="33%"
-        spl:splitterSize="12dip" >
+        spl:splitterSize="12dip">
 
         <LinearLayout
             android:id="@+id/left_pane"
@@ -37,39 +38,34 @@
             android:layout_height="fill_parent"
             android:layout_weight="@dimen/weight_left_panel"
             android:orientation="vertical"
-            android:visibility="visible" >
+            android:visibility="visible">
 
             <LinearLayout
                 android:id="@+id/left_pane_body"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
                 android:gravity="center"
-                android:orientation="vertical" />
+                android:orientation="vertical"/>
         </LinearLayout>
 
         <LinearLayout
             style="?AlfrescoTheme.Background.White"
             android:layout_weight="@dimen/weight_right_panel"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
-                android:id="@+id/central_pane"
-                style="?AlfrescoTheme.Background.Logo"
-                android:orientation="vertical" >
+                android:id="@+id/central_pane_body"
+                android:layout_width="fill_parent"
+                android:layout_height="fill_parent"
+                android:gravity="center"
+                android:orientation="vertical"/>
 
-                <LinearLayout
-                    android:id="@+id/central_pane_body"
-                    android:layout_width="fill_parent"
-                    android:layout_height="fill_parent"
-                    android:gravity="center"
-                    android:orientation="vertical" />
-            </LinearLayout>
         </LinearLayout>
     </org.alfresco.mobile.android.application.utils.thirdparty.split.SplitPaneLayout>
 
     <include
         android:layout_width="@dimen/sliding_panel"
         android:layout_height="fill_parent"
-        layout="@layout/app_main_sliding_pane" />
+        layout="@layout/app_main_sliding_pane"/>
 
 </RelativeLayout>
