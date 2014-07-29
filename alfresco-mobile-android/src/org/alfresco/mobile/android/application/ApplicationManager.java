@@ -36,6 +36,8 @@ import android.content.Context;
 
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.config.OdsConfigManager;
+import org.opendataspace.android.app.session.OdsRenditionManager;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.sync.OdsSyncReceiver;
 
 /**
@@ -110,20 +112,29 @@ public final class ApplicationManager
     public RenditionManager getRenditionManager(Activity activity)
     {
         Account acc = currentAccount;
+
         if (activity instanceof BaseActivity)
         {
             acc = ((BaseActivity) activity).getCurrentAccount();
+
             if (((BaseActivity) activity).getRenditionManager() == null)
             {
-                renditionManager = new RenditionManager(activity, sessionIndex.get(acc.getId()));
+                AlfrescoSession session = sessionIndex.get(acc.getId());
+                renditionManager = session instanceof OdsRepositorySession ? new OdsRenditionManager(activity, session) : new RenditionManager(activity, session);
                 ((BaseActivity) activity).setRenditionManager(renditionManager);
             }
         }
 
-        if (renditionManager != null && acc != null && !renditionManager.hasSameSession(sessionIndex.get(acc.getId())))
+        if (renditionManager != null && acc != null)
         {
-            renditionManager = new RenditionManager(activity, sessionIndex.get(acc.getId()));
+            AlfrescoSession session = sessionIndex.get(acc.getId());
+
+            if (!renditionManager.hasSameSession(session))
+            {
+                renditionManager = session instanceof OdsRepositorySession ? new OdsRenditionManager(activity, session) : new RenditionManager(activity, session);
+            }
         }
+
         return renditionManager;
     }
 
