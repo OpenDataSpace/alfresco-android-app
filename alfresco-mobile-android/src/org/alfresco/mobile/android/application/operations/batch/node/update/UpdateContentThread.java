@@ -27,10 +27,10 @@ import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
 import org.alfresco.mobile.android.application.operations.batch.node.AbstractUpThread;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.security.EncryptionUtils;
 import org.apache.chemistry.opencmis.client.api.ObjectId;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
+import org.opendataspace.android.app.security.OdsEncryptionUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
@@ -80,7 +80,7 @@ public class UpdateContentThread extends AbstractUpThread
                         && DataProtectionManager.getInstance(context).isEncrypted(contentFile.getFile().getPath()))
                 {
                     //Decrypt now !
-                    EncryptionUtils.decryptFile(context, contentFile.getFile().getPath());
+                    OdsEncryptionUtils.decryptFile(context, contentFile.getFile().getPath());
                 }
 
                 Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();

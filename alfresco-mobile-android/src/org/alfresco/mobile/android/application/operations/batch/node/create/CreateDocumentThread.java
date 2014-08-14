@@ -30,8 +30,8 @@ import org.alfresco.mobile.android.application.operations.batch.BatchOperationSc
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
 import org.alfresco.mobile.android.application.operations.batch.node.AbstractUpThread;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.security.EncryptionUtils;
 import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.app.security.OdsEncryptionUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.ContentValues;
@@ -111,7 +111,7 @@ public class CreateDocumentThread extends AbstractUpThread
 
             if (encdec)
             {
-                EncryptionUtils.decryptFile(context, filename);
+                OdsEncryptionUtils.decryptFile(context, filename);
             }
 
             if (parentFolder != null)
@@ -129,7 +129,7 @@ public class CreateDocumentThread extends AbstractUpThread
 
             if (encdec)
             {
-                EncryptionUtils.encryptFile(context, filename, true);
+                OdsEncryptionUtils.encryptFile(context, filename, true);
             }
         }
         catch (Exception e)

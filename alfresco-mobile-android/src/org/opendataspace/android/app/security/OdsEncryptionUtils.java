@@ -1,21 +1,4 @@
-/*******************************************************************************
- * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
- * This file is part of Alfresco Mobile for Android.
- * 
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- ******************************************************************************/
-package org.alfresco.mobile.android.application.security;
+package org.opendataspace.android.app.security;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,19 +9,17 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
+import java.security.KeyStore;
 import java.security.NoSuchAlgorithmException;
-import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
-import javax.crypto.KeyGenerator;
 import javax.crypto.SecretKey;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.PBEParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 import org.alfresco.mobile.android.api.utils.IOUtils;
@@ -54,9 +35,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
 
-public class EncryptionUtils
+public class OdsEncryptionUtils
 {
-    private static final String TAG = EncryptionUtils.class.getName();
+    private static final String TAG = OdsEncryptionUtils.class.getName();
 
     private static final byte[] SALT = { 0x0A, 0x02, 0x13, 0x3C, 0x3B, 0x0F, 0x1A };
 
@@ -64,11 +45,17 @@ public class EncryptionUtils
 
     private static final byte[] REFERENCE_DATA = "AlfrescoCrypto".getBytes(Charset.forName("UTF-8"));
 
-    private static final String ALGORITHM = "PBEWithMD5AndDES";
+    private static final String ALGORITHM = "AES/CBC/PKCS5Padding";
 
     private static final int KEY_LENGTH = 128;
 
-    private static final String INFO_FILE = "tmp.qzv";
+    // private static final String INFO_FILE = "tmp.qzv";
+
+    private static final String KEYSTORE_FILE = "keystore";
+
+    private static final String DEFAULT_PASSWORD = "ocya1QNlUI%4gn3b^6ZnLzFZ";
+
+    private static final String DEFAULT_ALIAS = "local_files";
 
     private static SecretKey info = null;
 
@@ -82,7 +69,7 @@ public class EncryptionUtils
 
     private static final String ENCRYPTION_EXTENSION = ".etmp";
 
-    private EncryptionUtils()
+    private OdsEncryptionUtils()
     {
     }
 
@@ -100,7 +87,7 @@ public class EncryptionUtils
         InputStream sourceFile = null;
         try
         {
-            sourceFile = testInputStream(new FileInputStream(source), generateKey(ctxt, KEY_LENGTH).toString());
+            sourceFile = testInputStream(new FileInputStream(source), getKey(ctxt));
         }
         catch (NoSuchAlgorithmException e)
         {
@@ -137,8 +124,7 @@ public class EncryptionUtils
                 long size = source.length();
                 long copied = 0;
                 File dest = new File(newFilename != null ? newFilename : filename + ".utmp");
-                sourceStream = wrapCipherInputStream(new FileInputStream(source), generateKey(ctxt, KEY_LENGTH)
-                        .toString());
+                sourceStream = wrapCipherInputStream(new FileInputStream(source), getKey(ctxt));
                 destStream = new FileOutputStream(dest);
                 int nBytes = 0;
 
@@ -387,8 +373,7 @@ public class EncryptionUtils
                 long copied = 0;
                 File dest = new File(newFilename != null ? newFilename : filename + ".etmp");
                 sourceStream = new FileInputStream(source);
-                destStream = wrapCipherOutputStream(new FileOutputStream(dest), generateKey(ctxt, KEY_LENGTH)
-                        .toString());
+                destStream = wrapCipherOutputStream(new FileOutputStream(dest), getKey(ctxt));
                 int nBytes = 0;
                 byte buffer[] = new byte[MAX_BUFFER_SIZE];
 
@@ -574,18 +559,12 @@ public class EncryptionUtils
     // ///////////////////////////////////////////////////////////////////////////
     // INTERNALS
     // ///////////////////////////////////////////////////////////////////////////
-    private static InputStream testInputStream(InputStream streamIn, String password)
+    private static InputStream testInputStream(InputStream streamIn, SecretKey key)
     {
         try
         {
-            PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray());
-            PBEParameterSpec pbeParamSpec = new PBEParameterSpec(SALT, COUNT);
-
-            SecretKeyFactory keyFac = SecretKeyFactory.getInstance(ALGORITHM);
-            SecretKey pbeKey = keyFac.generateSecret(pbeKeySpec);
-
             Cipher pbeCipher = Cipher.getInstance(ALGORITHM);
-            pbeCipher.init(Cipher.DECRYPT_MODE, pbeKey, pbeParamSpec);
+            pbeCipher.init(Cipher.DECRYPT_MODE, key);
 
             int count = streamIn.read();
             if (count <= 0 || count > 1024) { return null; }
@@ -608,17 +587,11 @@ public class EncryptionUtils
         return null;
     }
 
-    public static OutputStream wrapCipherOutputStream(OutputStream streamOut, String password) throws IOException,
+    public static OutputStream wrapCipherOutputStream(OutputStream streamOut, SecretKey key) throws IOException,
     GeneralSecurityException
     {
-        PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray());
-        PBEParameterSpec pbeParamSpec = new PBEParameterSpec(SALT, COUNT);
-
-        SecretKeyFactory keyFac = SecretKeyFactory.getInstance(ALGORITHM);
-        SecretKey pbeKey = keyFac.generateSecret(pbeKeySpec);
-
         Cipher pbeCipher = Cipher.getInstance(ALGORITHM);
-        pbeCipher.init(Cipher.ENCRYPT_MODE, pbeKey, pbeParamSpec);
+        pbeCipher.init(Cipher.ENCRYPT_MODE, key);
 
         /*
          * Write predefined data first (see the reading code)
@@ -630,17 +603,11 @@ public class EncryptionUtils
         return new CipherOutputStream(streamOut, pbeCipher);
     }
 
-    private static InputStream wrapCipherInputStream(InputStream streamIn, String password) throws IOException,
+    private static InputStream wrapCipherInputStream(InputStream streamIn, SecretKey key) throws IOException,
     GeneralSecurityException
     {
-        PBEKeySpec pbeKeySpec = new PBEKeySpec(password.toCharArray());
-        PBEParameterSpec pbeParamSpec = new PBEParameterSpec(SALT, COUNT);
-
-        SecretKeyFactory keyFac = SecretKeyFactory.getInstance(ALGORITHM);
-        SecretKey pbeKey = keyFac.generateSecret(pbeKeySpec);
-
         Cipher pbeCipher = Cipher.getInstance(ALGORITHM);
-        pbeCipher.init(Cipher.DECRYPT_MODE, pbeKey, pbeParamSpec);
+        pbeCipher.init(Cipher.DECRYPT_MODE, key);
 
         /*
          * Read a predefined data block. If the password is incorrect, we'll get
@@ -661,41 +628,146 @@ public class EncryptionUtils
     // ///////////////////////////////////////////////////////////////////////////
     // KEY GENERATOR
     // ///////////////////////////////////////////////////////////////////////////
-    private static SecretKey generateKey(Context ctxt, int bits) throws IOException, NoSuchAlgorithmException
+    private static SecretKey getKey(Context ctx) throws IOException, NoSuchAlgorithmException
     {
-        if (info != null) { return info; }
+        if (info == null)
+        {
+            try
+            {
+                KeyStore ks = loadKeyStore(ctx);
+                KeyStore.Entry ke = ks.getEntry(DEFAULT_ALIAS, new KeyStore.PasswordProtection(DEFAULT_PASSWORD.toCharArray()));
 
-        SecretKey r;
+                if (ke instanceof KeyStore.SecretKeyEntry)
+                {
+                    info = ((KeyStore.SecretKeyEntry) ke).getSecretKey();
+                }
+            }
+            catch (Exception ex)
+            {
+                // nothing
+            }
+        }
+
+        return info;
+    }
+
+    public static boolean checkKey(Context ctx, String password)
+    {
+        try
+        {
+            KeyStore ks = loadKeyStore(ctx);
+            KeyStore.Entry ke = ks.getEntry(DEFAULT_ALIAS, new KeyStore.PasswordProtection(password.toCharArray()));
+
+            if (ke instanceof KeyStore.SecretKeyEntry)
+            {
+                info = ((KeyStore.SecretKeyEntry) ke).getSecretKey();
+                return true;
+            }
+        }
+        catch (Exception ex)
+        {
+            // nothing
+        }
+
+        return false;
+    }
+
+    public static boolean generateKey(Context ctx, String password)
+    {
+        try
+        {
+            KeyStore ks = loadKeyStore(ctx);
+            SecretKey key = null;
+
+            if (ks.containsAlias(DEFAULT_ALIAS))
+            {
+                KeyStore.Entry ke = ks.getEntry(DEFAULT_ALIAS, new KeyStore.PasswordProtection(DEFAULT_PASSWORD.toCharArray()));
+
+                if (ke instanceof KeyStore.SecretKeyEntry)
+                {
+                    key = ((KeyStore.SecretKeyEntry) ke).getSecretKey();
+                    ks.deleteEntry(DEFAULT_ALIAS);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+            else
+            {
+                PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), SALT, COUNT, KEY_LENGTH);
+                key = new SecretKeySpec(SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1").generateSecret(spec).getEncoded(), "AES");
+            }
+
+            ks.setEntry(DEFAULT_ALIAS, new KeyStore.SecretKeyEntry(key), new KeyStore.PasswordProtection(password.toCharArray()));
+            saveKeyStore(ctx, ks);
+            info = key;
+            return true;
+        }
+        catch (Exception ex)
+        {
+            OdsLog.ex(TAG, ex);
+        }
+
+        return false;
+    }
+
+    public static boolean removeKey(Context ctx, String password)
+    {
+        try
+        {
+            KeyStore ks = loadKeyStore(ctx);
+            SecretKey key = null;
+
+            if (ks.containsAlias(DEFAULT_ALIAS))
+            {
+                KeyStore.Entry ke = ks.getEntry(DEFAULT_ALIAS, new KeyStore.PasswordProtection(password.toCharArray()));
+
+                if (ke instanceof KeyStore.SecretKeyEntry)
+                {
+                    key = ((KeyStore.SecretKeyEntry) ke).getSecretKey();
+                    ks.deleteEntry(DEFAULT_ALIAS);
+                }
+                else
+                {
+                    return false;
+                }
+            }
+
+            ks.setEntry(DEFAULT_ALIAS, new KeyStore.SecretKeyEntry(key), new KeyStore.PasswordProtection(DEFAULT_PASSWORD.toCharArray()));
+            saveKeyStore(ctx, ks);
+            info = key;
+            return true;
+        }
+        catch (Exception ex)
+        {
+            OdsLog.ex(TAG, ex);
+        }
+
+        return false;
+    }
+
+    private static KeyStore loadKeyStore(Context ctx) throws Exception
+    {
+        KeyStore ks = KeyStore.getInstance("BKS");
+
         FileInputStream fis = null;
         try
         {
-            fis = ctxt.openFileInput(INFO_FILE);
+            fis = ctx.openFileInput(KEYSTORE_FILE);
         }
         catch (FileNotFoundException e)
         {
             fis = null;
         }
 
-        if (fis != null)
-        {
-            byte[] b = new byte[bits / 8];
-            fis.read(b);
-            r = new SecretKeySpec(b, "AES");
-        }
-        else
-        {
-            // Do NOT seed
-            // SecureRandom: automatically seeded from system entropy.
-            SecureRandom secureRandom = new SecureRandom();
-            KeyGenerator kgen = KeyGenerator.getInstance("AES");
-            kgen.init(bits, secureRandom);
-            r = kgen.generateKey();
-            FileOutputStream fos = ctxt.openFileOutput(INFO_FILE, Context.MODE_PRIVATE);
-            fos.write(r.getEncoded());
-        }
+        ks.load(fis, DEFAULT_PASSWORD.toCharArray()); // null will initialize empty keystore
+        return ks;
+    }
 
-        info = r;
-        return r;
+    private static void saveKeyStore(Context ctx, KeyStore ks) throws Exception
+    {
+        ks.store(ctx.openFileOutput(KEYSTORE_FILE, Context.MODE_PRIVATE), DEFAULT_PASSWORD.toCharArray());
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -724,3 +796,4 @@ public class EncryptionUtils
         destroyFile.close();
     }
 }
+

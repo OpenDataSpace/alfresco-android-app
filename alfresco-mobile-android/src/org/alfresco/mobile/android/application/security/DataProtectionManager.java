@@ -15,6 +15,7 @@ import org.alfresco.mobile.android.application.operations.batch.BatchOperationMa
 import org.alfresco.mobile.android.application.operations.batch.file.encryption.DataProtectionRequest;
 import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
 import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.app.security.OdsEncryptionUtils;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -87,12 +88,12 @@ public class DataProtectionManager implements VersionNumber
             if (isEncryptionEnable())
             {
                 group.enqueue(new DataProtectionRequest(sourceFile, destinationFile, true, ACTION_NONE)
-                        .setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
+                .setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
             }
             else
             {
                 group.enqueue(new DataProtectionRequest(sourceFile, destinationFile, true, ACTION_COPY)
-                        .setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
+                .setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
             }
         }
 
@@ -106,12 +107,12 @@ public class DataProtectionManager implements VersionNumber
         if (isEncryptionEnable())
         {
             group.enqueue(new DataProtectionRequest(sourceFile, destinationFile, true, ACTION_NONE)
-                    .setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
+            .setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
         }
         else
         {
             group.enqueue(new DataProtectionRequest(sourceFile, destinationFile, true, ACTION_COPY)
-                    .setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
+            .setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
         }
         BatchOperationManager.getInstance(mAppContext).enqueue(group);
     }
@@ -121,7 +122,7 @@ public class DataProtectionManager implements VersionNumber
         File folder = StorageManager.getPrivateFolder(mAppContext, "", null);
         OperationsRequestGroup group = new OperationsRequestGroup(mAppContext, account);
         group.enqueue(new DataProtectionRequest(folder, true)
-                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+        .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
         BatchOperationManager.getInstance(mAppContext).enqueue(group);
     }
 
@@ -129,7 +130,7 @@ public class DataProtectionManager implements VersionNumber
     {
         OperationsRequestGroup group = new OperationsRequestGroup(mAppContext, account);
         group.enqueue(new DataProtectionRequest(file, true)
-                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+        .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
         BatchOperationManager.getInstance(mAppContext).enqueue(group);
     }
 
@@ -150,7 +151,7 @@ public class DataProtectionManager implements VersionNumber
         File folder = StorageManager.getPrivateFolder(mAppContext, "", null);
         OperationsRequestGroup group = new OperationsRequestGroup(mAppContext, account);
         group.enqueue(new DataProtectionRequest(folder, false)
-                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+        .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
         BatchOperationManager.getInstance(mAppContext).enqueue(group);
     }
 
@@ -166,7 +167,7 @@ public class DataProtectionManager implements VersionNumber
         {
             OperationsRequestGroup group = new OperationsRequestGroup(mAppContext, account);
             group.enqueue(new DataProtectionRequest(file, false, intentAction)
-                    .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+            .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
             BatchOperationManager.getInstance(mAppContext).enqueue(group);
         }
     }
@@ -175,7 +176,7 @@ public class DataProtectionManager implements VersionNumber
     {
         try
         {
-            return EncryptionUtils.isEncrypted(mAppContext, filePath);
+            return OdsEncryptionUtils.isEncrypted(mAppContext, filePath);
         }
         catch (IOException e)
         {
@@ -211,17 +212,17 @@ public class DataProtectionManager implements VersionNumber
         Intent intentI = null;
         switch (intentAction)
         {
-            case DataProtectionManager.ACTION_SEND_ALFRESCO:
-                intentI = ActionManager.createSendFileToAlfrescoIntent(activity, f);
-                break;
-            case DataProtectionManager.ACTION_SEND:
-                intentI = ActionManager.createSendIntent(activity, f);
-                break;
-            case DataProtectionManager.ACTION_VIEW:
-                intentI = ActionManager.createViewIntent(activity, f);
-                break;
-            default:
-                break;
+        case DataProtectionManager.ACTION_SEND_ALFRESCO:
+            intentI = ActionManager.createSendFileToAlfrescoIntent(activity, f);
+            break;
+        case DataProtectionManager.ACTION_SEND:
+            intentI = ActionManager.createSendIntent(activity, f);
+            break;
+        case DataProtectionManager.ACTION_VIEW:
+            intentI = ActionManager.createViewIntent(activity, f);
+            break;
+        default:
+            break;
         }
 
         if (intentI != null)

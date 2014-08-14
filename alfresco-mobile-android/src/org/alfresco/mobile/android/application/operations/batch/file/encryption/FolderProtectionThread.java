@@ -23,7 +23,7 @@ import org.alfresco.mobile.android.application.operations.batch.file.FileOperati
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
 import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.security.EncryptionUtils;
+import org.opendataspace.android.app.security.OdsEncryptionUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
@@ -70,14 +70,14 @@ public class FolderProtectionThread extends FileOperationThread<Void>
             {
                 if (doEncrypt)
                 {
-                    if (EncryptionUtils.encryptFiles(context, file.getPath(), true))
+                    if (OdsEncryptionUtils.encryptFiles(context, file.getPath(), true))
                     {
                         prefs.edit().putBoolean(GeneralPreferences.PRIVATE_FOLDERS, true).commit();
                     }
                 }
                 else if (!doEncrypt)
                 {
-                    if (EncryptionUtils.decryptFiles(context, file.getPath(), true))
+                    if (OdsEncryptionUtils.decryptFiles(context, file.getPath(), true))
                     {
                         prefs.edit().putBoolean(GeneralPreferences.PRIVATE_FOLDERS, false).commit();
                     }

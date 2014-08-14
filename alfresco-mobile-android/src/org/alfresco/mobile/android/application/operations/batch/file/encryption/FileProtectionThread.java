@@ -28,8 +28,8 @@ import org.alfresco.mobile.android.application.operations.batch.file.FileOperati
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
 import org.alfresco.mobile.android.application.security.DataCleanerService;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.security.EncryptionUtils;
 import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.app.security.OdsEncryptionUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.AlarmManager;
@@ -114,11 +114,11 @@ public class FileProtectionThread extends FileOperationThread<Void>
                 boolean isEncrypted = DataProtectionManager.getInstance(context).isEncrypted(tmpFile.getPath());
                 if (doEncrypt && !isEncrypted)
                 {
-                    EncryptionUtils.encryptFile(context, tmpFile.getPath(), true);
+                    OdsEncryptionUtils.encryptFile(context, tmpFile.getPath(), true);
                 }
                 else if (!doEncrypt && isEncrypted)
                 {
-                    EncryptionUtils.decryptFile(context, tmpFile.getPath());
+                    OdsEncryptionUtils.decryptFile(context, tmpFile.getPath());
                 }
             }
         }

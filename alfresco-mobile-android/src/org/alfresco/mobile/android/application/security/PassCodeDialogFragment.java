@@ -23,6 +23,7 @@ import static org.alfresco.mobile.android.application.preferences.PasscodePrefer
 import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_MAX_ATTEMPT;
 
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.security.OdsEncryptionUtils;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
 import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
@@ -311,7 +312,7 @@ public class PassCodeDialogFragment extends DialogFragment
         }
         else if (needConfirmation && getUserPassCode(true) != null)
         {
-            if (!EncryptionUtils.generateKey(getActivity(), getUserPassCode(true)))
+            if (!OdsEncryptionUtils.generateKey(getActivity(), getUserPassCode(true)))
             {
                 needConfirmation = false;
                 errorMessage.setVisibility(View.VISIBLE);
@@ -345,9 +346,9 @@ public class PassCodeDialogFragment extends DialogFragment
 
     private void delete()
     {
-        if (EncryptionUtils.checkKey(getActivity(), getUserPassCode(false)))
+        if (OdsEncryptionUtils.checkKey(getActivity(), getUserPassCode(false)))
         {
-            if (!EncryptionUtils.removeKey(getActivity(), getUserPassCode(false)))
+            if (!OdsEncryptionUtils.removeKey(getActivity(), getUserPassCode(false)))
             {
                 needConfirmation = false;
                 errorMessage.setVisibility(View.VISIBLE);
@@ -399,7 +400,7 @@ public class PassCodeDialogFragment extends DialogFragment
 
     private boolean checkValue()
     {
-        if (EncryptionUtils.checkKey(getActivity(), getUserPassCode(false)))
+        if (OdsEncryptionUtils.checkKey(getActivity(), getUserPassCode(false)))
         {
             return true;
         }
