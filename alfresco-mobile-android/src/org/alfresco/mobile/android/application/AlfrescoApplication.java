@@ -22,6 +22,7 @@ import java.io.File;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
 import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.alfresco.mobile.android.application.security.PRNGFixes;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.Application;
@@ -36,6 +37,7 @@ public class AlfrescoApplication extends Application
     public void onCreate()
     {
         super.onCreate();
+        PRNGFixes.apply();
 
         File fld = getExternalFilesDir(null).getParentFile();
         fld = IOUtils.createFolder(fld,  "logs");

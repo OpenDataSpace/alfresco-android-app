@@ -19,13 +19,12 @@ package org.alfresco.mobile.android.application.preferences;
 
 import java.text.MessageFormat;
 import java.util.Date;
-
 import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.security.PassCodeActivity;
 import org.alfresco.mobile.android.application.security.PassCodeDialogFragment;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -52,7 +51,7 @@ public class PasscodePreferences extends PreferenceFragment
 
     public static final String KEY_PASSCODE_ENABLE = "PasscodeEnabled";
 
-    public static final String KEY_PASSCODE_VALUE = "PasscodeValue";
+    //public static final String KEY_PASSCODE_VALUE = "PasscodeValue";
 
     public static final String KEY_PASSCODE_TIMEOUT = "PasscodeTimeOut";
 
@@ -96,6 +95,7 @@ public class PasscodePreferences extends PreferenceFragment
         addPreferencesFromResource(R.xml.passcode_preferences);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onResume()
     {
@@ -198,6 +198,7 @@ public class PasscodePreferences extends PreferenceFragment
     /**
      * This method is used to refresh passcode preferences screen.
      */
+    @SuppressLint("NewApi")
     public void refresh()
     {
         if (editionEnable)
