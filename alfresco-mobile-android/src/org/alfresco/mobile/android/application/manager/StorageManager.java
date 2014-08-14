@@ -57,7 +57,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
     // ///////////////////////////////////////////////////////////////////////////
     // STATUS SDCARD
     // ///////////////////////////////////////////////////////////////////////////
-    private static boolean isExternalStorageAccessible()
+    public static boolean isExternalStorageAccessible()
     {
         return (Environment.getExternalStorageState().compareTo(Environment.MEDIA_MOUNTED) == 0);
     }
@@ -228,7 +228,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
         return folder;
     }
 
-    private static String getAccountFolder(String urlValue, String username)
+    public static String getAccountFolder(String urlValue, String username)
     {
         String name = null;
         try

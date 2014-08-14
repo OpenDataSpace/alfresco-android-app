@@ -80,7 +80,7 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
                         {
                             File f = OdsConfigManager.getBrandingFile(context, cur, acc);
 
-                            if (f.exists() && f.length() == doc.getContentStreamLength())
+                            if (f == null || f.exists() && f.length() == doc.getContentStreamLength())
                             {
                                 continue;
                             }

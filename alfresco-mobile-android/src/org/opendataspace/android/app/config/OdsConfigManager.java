@@ -9,8 +9,10 @@ import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
+import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.opendataspace.android.app.operations.OdsConfigRequest;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -86,7 +88,22 @@ public class OdsConfigManager
 
     public static File getBrandingFile(Context ctx, String name, Account acc)
     {
-        return new File(StorageManager.getPrivateFolder(ctx, "Brand", acc), name);
+        File folder = null;
+
+        try
+        {
+            if (StorageManager.isExternalStorageAccessible() && acc != null)
+            {
+                folder = new File(IOUtils.createFolder(ctx.getExternalFilesDir(null).getParentFile(),
+                        "brand" + File.separator + StorageManager.getAccountFolder(acc.getUrl(), acc.getUsername())), name);
+            }
+        }
+        catch (Exception ex)
+        {
+            OdsLog.exw("brand", ex);
+        }
+
+        return folder;
     }
 
     private void notifyRebrand(Context context, long accId)
