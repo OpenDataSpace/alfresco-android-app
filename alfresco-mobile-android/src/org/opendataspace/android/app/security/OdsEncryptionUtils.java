@@ -353,7 +353,6 @@ public class OdsEncryptionUtils
         InputStream sourceStream = null;
         try
         {
-
             if (!isEncrypted(ctxt, filename))
             {
                 File source = new File(filename);
@@ -563,13 +562,9 @@ public class OdsEncryptionUtils
 
             return new CipherInputStream(streamIn, pbeCipher);
         }
-        catch (IOException io)
+        catch (Exception ex)
         {
             // nothing
-        }
-        catch (GeneralSecurityException ge)
-        {
-            OdsLog.exw(TAG, ge);
         }
 
         return null;
@@ -591,8 +586,7 @@ public class OdsEncryptionUtils
         return new CipherOutputStream(streamOut, pbeCipher);
     }
 
-    private static InputStream wrapCipherInputStream(InputStream streamIn, SecretKey key) throws IOException,
-    GeneralSecurityException
+    private static InputStream wrapCipherInputStream(InputStream streamIn, SecretKey key) throws IOException, GeneralSecurityException
     {
         Cipher pbeCipher = Cipher.getInstance(ALGORITHM);
         pbeCipher.init(Cipher.DECRYPT_MODE, key);
