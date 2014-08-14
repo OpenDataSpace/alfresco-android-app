@@ -52,7 +52,7 @@ import android.view.ViewGroup;
 public class PasscodePreferences extends PreferenceFragment
 {
 
-    public static final String KEY_PASSCODE_ENABLE = "PasscodeEnabled";
+    //public static final String KEY_PASSCODE_ENABLE = "PasscodeEnabled";
 
     //public static final String KEY_PASSCODE_VALUE = "PasscodeValue";
 
@@ -104,7 +104,7 @@ public class PasscodePreferences extends PreferenceFragment
     {
         super.onResume();
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        passcodeEnable = sharedPref.getBoolean(KEY_PASSCODE_ENABLE, false);
+        passcodeEnable = sharedPref.getBoolean(GeneralPreferences.PRIVATE_FOLDERS, false);
         boolean maxAttemptActivated = (sharedPref.getInt(KEY_PASSCODE_MAX_ATTEMPT, 0) == 0) ? false : true;
         long timeout = Long.parseLong(sharedPref.getString(KEY_PASSCODE_TIMEOUT, "300000"));
 
@@ -213,7 +213,7 @@ public class PasscodePreferences extends PreferenceFragment
             valueHasChanged = true;
         }
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        passcodeEnable = sharedPref.getBoolean(KEY_PASSCODE_ENABLE, false);
+        passcodeEnable = sharedPref.getBoolean(GeneralPreferences.PRIVATE_FOLDERS, false);
 
         Preference pref = (Preference) findPreference(getString(R.string.passcode_enable_key));
         // Depending on Android version we use different component.
@@ -258,7 +258,7 @@ public class PasscodePreferences extends PreferenceFragment
     public static boolean hasPasscodeEnable(Context context)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-        boolean passcodeActivated = sharedPref.getBoolean(KEY_PASSCODE_ENABLE, false);
+        boolean passcodeActivated = sharedPref.getBoolean(GeneralPreferences.PRIVATE_FOLDERS, false);
         if (!passcodeActivated) { return false; }
 
         long activationTime = sharedPref.getLong(KEY_PASSCODE_ACTIVATED_AT, DEFAULT_ACTIVATION_TIME);

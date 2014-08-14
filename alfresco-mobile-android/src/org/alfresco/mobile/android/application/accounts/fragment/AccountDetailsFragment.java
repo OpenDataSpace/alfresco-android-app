@@ -17,7 +17,6 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.accounts.fragment;
 
-import java.io.File;
 import java.net.MalformedURLException;
 import java.net.URL;
 
@@ -27,7 +26,6 @@ import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.accounts.AccountSchema;
 import org.alfresco.mobile.android.application.accounts.signup.CloudSignupLoader;
 import org.alfresco.mobile.android.application.accounts.signup.CloudSignupLoaderCallback;
 import org.alfresco.mobile.android.application.accounts.signup.CloudSignupStatusLoadeCallback;
@@ -40,14 +38,11 @@ import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
 import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
 import org.alfresco.mobile.android.application.operations.batch.sync.CleanSyncFavoriteRequest;
 import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
@@ -582,6 +577,7 @@ public class AccountDetailsFragment extends BaseFragment
 
     public void delete()
     {
+        /*
         final SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         boolean dataProtectionDeletion = false;
 
@@ -599,9 +595,9 @@ public class AccountDetailsFragment extends BaseFragment
             }
             cursor.close();
         }
-
+         */
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-
+        /*
         final File folder = StorageManager.getPrivateFolder(getActivity(), "", null);
         if (dataProtectionDeletion && folder != null)
         {
@@ -638,6 +634,7 @@ public class AccountDetailsFragment extends BaseFragment
             });
         }
         else
+         */
         {
             builder.setTitle(R.string.delete);
             builder.setMessage(String.format(getResources().getQuantityString(R.plurals.delete_items, 1),

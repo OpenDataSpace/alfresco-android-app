@@ -19,7 +19,6 @@ package org.alfresco.mobile.android.application.security;
 
 import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ACTIVATED_AT;
 import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ATTEMPT;
-import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ENABLE;
 import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_MAX_ATTEMPT;
 
 import org.opendataspace.android.app.R;
@@ -323,7 +322,7 @@ public class PassCodeDialogFragment extends DialogFragment
             }
 
             Editor editor = sharedPref.edit();
-            editor.putBoolean(KEY_PASSCODE_ENABLE, true);
+            //editor.putBoolean(KEY_PASSCODE_ENABLE, true);
             editor.remove(KEY_PASSCODE_ATTEMPT);
             //editor.putString(KEY_PASSCODE_VALUE, getUserPassCode(true));
             editor.commit();
@@ -371,7 +370,7 @@ public class PassCodeDialogFragment extends DialogFragment
             }
 
             Editor editor = sharedPref.edit();
-            editor.putBoolean(KEY_PASSCODE_ENABLE, false);
+            // editor.putBoolean(KEY_PASSCODE_ENABLE, false);
             editor.remove(KEY_PASSCODE_ATTEMPT);
             //editor.remove(KEY_PASSCODE_VALUE);
             editor.commit();
