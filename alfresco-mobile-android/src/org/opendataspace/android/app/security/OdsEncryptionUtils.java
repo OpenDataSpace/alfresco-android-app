@@ -10,7 +10,6 @@ import java.io.OutputStream;
 import java.nio.charset.Charset;
 import java.security.GeneralSecurityException;
 import java.security.KeyStore;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -49,11 +48,7 @@ public class OdsEncryptionUtils
 
     private static final int KEY_LENGTH = 128;
 
-    // private static final String INFO_FILE = "tmp.qzv";
-
     private static final String KEYSTORE_FILE = "keystore";
-
-    private static final String DEFAULT_PASSWORD = "ocya1QNlUI%4gn3b^6ZnLzFZ";
 
     private static final String DEFAULT_ALIAS = "local_files";
 
@@ -68,6 +63,8 @@ public class OdsEncryptionUtils
     private static ArrayList<String> filesEncrypted = null;
 
     private static final String ENCRYPTION_EXTENSION = ".etmp";
+
+    private static final String DEFAULT_PASSWORD = "ocya1QNlUI%4gn3b^6ZnLzFZ";
 
     private OdsEncryptionUtils()
     {
@@ -84,15 +81,7 @@ public class OdsEncryptionUtils
     public static boolean isEncrypted(Context ctxt, String filename) throws IOException
     {
         File source = new File(filename);
-        InputStream sourceFile = null;
-        try
-        {
-            sourceFile = testInputStream(new FileInputStream(source), getKey(ctxt));
-        }
-        catch (NoSuchAlgorithmException e)
-        {
-            OdsLog.exw(TAG, e);
-        }
+        InputStream sourceFile = testInputStream(new FileInputStream(source), getKey());
 
         if (sourceFile != null)
         {
@@ -124,7 +113,7 @@ public class OdsEncryptionUtils
                 long size = source.length();
                 long copied = 0;
                 File dest = new File(newFilename != null ? newFilename : filename + ".utmp");
-                sourceStream = wrapCipherInputStream(new FileInputStream(source), getKey(ctxt));
+                sourceStream = wrapCipherInputStream(new FileInputStream(source), getKey());
                 destStream = new FileOutputStream(dest);
                 int nBytes = 0;
 
@@ -357,9 +346,8 @@ public class OdsEncryptionUtils
      * filename file to encrypt nuke whether to zero the original unencrypted
      * file before attempting its deletion, for additional security.
      */
-    public static boolean encryptFile(Context ctxt, String filename, String newFilename, boolean nuke)
-            throws AlfrescoAppException
-            {
+    public static boolean encryptFile(Context ctxt, String filename, String newFilename, boolean nuke) throws AlfrescoAppException
+    {
         boolean ret = true;
         OutputStream destStream = null;
         InputStream sourceStream = null;
@@ -373,7 +361,7 @@ public class OdsEncryptionUtils
                 long copied = 0;
                 File dest = new File(newFilename != null ? newFilename : filename + ".etmp");
                 sourceStream = new FileInputStream(source);
-                destStream = wrapCipherOutputStream(new FileOutputStream(dest), getKey(ctxt));
+                destStream = wrapCipherOutputStream(new FileOutputStream(dest), getKey());
                 int nBytes = 0;
                 byte buffer[] = new byte[MAX_BUFFER_SIZE];
 
@@ -438,7 +426,7 @@ public class OdsEncryptionUtils
             IOUtils.closeStream(destStream);
             throw new AlfrescoAppException(-1, e);
         }
-            }
+    }
 
     /*
      * Encrypt an entire folder, recursively if required. Rollback is
@@ -577,11 +565,11 @@ public class OdsEncryptionUtils
         }
         catch (IOException io)
         {
-
+            // nothing
         }
         catch (GeneralSecurityException ge)
         {
-
+            OdsLog.exw(TAG, ge);
         }
 
         return null;
@@ -628,26 +616,8 @@ public class OdsEncryptionUtils
     // ///////////////////////////////////////////////////////////////////////////
     // KEY GENERATOR
     // ///////////////////////////////////////////////////////////////////////////
-    private static SecretKey getKey(Context ctx) throws IOException, NoSuchAlgorithmException
+    private static SecretKey getKey()
     {
-        if (info == null)
-        {
-            try
-            {
-                KeyStore ks = loadKeyStore(ctx);
-                KeyStore.Entry ke = ks.getEntry(DEFAULT_ALIAS, new KeyStore.PasswordProtection(DEFAULT_PASSWORD.toCharArray()));
-
-                if (ke instanceof KeyStore.SecretKeyEntry)
-                {
-                    info = ((KeyStore.SecretKeyEntry) ke).getSecretKey();
-                }
-            }
-            catch (Exception ex)
-            {
-                // nothing
-            }
-        }
-
         return info;
     }
 
@@ -677,27 +647,14 @@ public class OdsEncryptionUtils
         try
         {
             KeyStore ks = loadKeyStore(ctx);
-            SecretKey key = null;
 
             if (ks.containsAlias(DEFAULT_ALIAS))
             {
-                KeyStore.Entry ke = ks.getEntry(DEFAULT_ALIAS, new KeyStore.PasswordProtection(DEFAULT_PASSWORD.toCharArray()));
+                ks.deleteEntry(DEFAULT_ALIAS);
+            }
 
-                if (ke instanceof KeyStore.SecretKeyEntry)
-                {
-                    key = ((KeyStore.SecretKeyEntry) ke).getSecretKey();
-                    ks.deleteEntry(DEFAULT_ALIAS);
-                }
-                else
-                {
-                    return false;
-                }
-            }
-            else
-            {
-                PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), SALT, COUNT, KEY_LENGTH);
-                key = new SecretKeySpec(SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1").generateSecret(spec).getEncoded(), "AES");
-            }
+            PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), SALT, COUNT, KEY_LENGTH);
+            SecretKey key = new SecretKeySpec(SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1").generateSecret(spec).getEncoded(), "AES");
 
             ks.setEntry(DEFAULT_ALIAS, new KeyStore.SecretKeyEntry(key), new KeyStore.PasswordProtection(password.toCharArray()));
             saveKeyStore(ctx, ks);
@@ -717,7 +674,6 @@ public class OdsEncryptionUtils
         try
         {
             KeyStore ks = loadKeyStore(ctx);
-            SecretKey key = null;
 
             if (ks.containsAlias(DEFAULT_ALIAS))
             {
@@ -725,8 +681,8 @@ public class OdsEncryptionUtils
 
                 if (ke instanceof KeyStore.SecretKeyEntry)
                 {
-                    key = ((KeyStore.SecretKeyEntry) ke).getSecretKey();
                     ks.deleteEntry(DEFAULT_ALIAS);
+                    saveKeyStore(ctx, ks);
                 }
                 else
                 {
@@ -734,9 +690,7 @@ public class OdsEncryptionUtils
                 }
             }
 
-            ks.setEntry(DEFAULT_ALIAS, new KeyStore.SecretKeyEntry(key), new KeyStore.PasswordProtection(DEFAULT_PASSWORD.toCharArray()));
-            saveKeyStore(ctx, ks);
-            info = key;
+            info = null;
             return true;
         }
         catch (Exception ex)
@@ -794,6 +748,11 @@ public class OdsEncryptionUtils
 
         destroyFile.flush();
         destroyFile.close();
+    }
+
+    public static boolean hasKey()
+    {
+        return getKey() != null;
     }
 }
 

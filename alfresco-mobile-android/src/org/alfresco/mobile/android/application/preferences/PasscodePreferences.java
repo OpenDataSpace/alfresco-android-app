@@ -19,11 +19,14 @@ package org.alfresco.mobile.android.application.preferences;
 
 import java.text.MessageFormat;
 import java.util.Date;
+
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.security.OdsEncryptionUtils;
 import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.security.PassCodeActivity;
 import org.alfresco.mobile.android.application.security.PassCodeDialogFragment;
+
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -264,7 +267,7 @@ public class PasscodePreferences extends PreferenceFragment
         long durationTime = Long.parseLong(sharedPref.getString(KEY_PASSCODE_TIMEOUT, DEFAULT_TIMEOUT));
         long now = new Date().getTime();
 
-        boolean isTimeOut = (now - activationTime) > durationTime;
+        boolean isTimeOut = (now - activationTime) > durationTime || !OdsEncryptionUtils.hasKey();
         if (!isTimeOut)
         {
             updateLastActivity(context);

@@ -24,9 +24,11 @@
             android:key="privatefoldersbutton"
             android:summary="@string/settings_privatefolder_summary"
             android:title="@string/settings_privatefolder_title" />
+<!--
         <Preference
             android:key="@string/passcode_title"
             android:title="@string/passcode_preference" />
+-->
     </PreferenceCategory>
 <!--
     <PreferenceCategory android:title="@string/settings_autosync" >

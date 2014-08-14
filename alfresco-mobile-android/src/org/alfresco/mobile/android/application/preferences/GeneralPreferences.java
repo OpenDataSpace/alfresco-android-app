@@ -23,8 +23,6 @@ import org.opendataspace.android.app.R;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.intent.PublicIntent;
 import org.alfresco.mobile.android.application.manager.StorageManager;
@@ -33,7 +31,6 @@ import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
-import android.app.Fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -59,28 +56,28 @@ public class GeneralPreferences extends PreferenceFragment
 
     public static final String REQUIRES_ENCRYPT = "RequiresEncrypt";
 
-    public static final String ENCRYPTION_USER_INTERACTION = "EncryptionUserInteraction";
+    //public static final String ENCRYPTION_USER_INTERACTION = "EncryptionUserInteraction";
 
     public static final String PRIVATE_FOLDERS = "privatefolders";
 
     private static final String PRIVATE_FOLDERS_BUTTON = "privatefoldersbutton";
 
     private static final String SYNCHRO_PREFIX = "SynchroEnable-";
-    
+
     private static final String SYNCHRO_EVEYTHING_PREFIX = "SynchroEverythingEnable-";
 
     private static final String SYNCHRO_WIFI_PREFIX = "SynchroWifiEnable-";
 
     private static final String SYNCHRO_DISPLAY_PREFIX = "SynchroDisplayEnable-";
-    
+
     private static final String SYNCHRO_DATA_ALERT_PREFIX = "SynchroDataAlert-";
-    
+
     private static final long SYNCHRO_DATA_ALERT_LENGTH = 20971520; //20Mb
-    
+
     private static final String SYNCHRO_FREE_SPACE_ALERT_PREFIX = "SynchroDataAlert-";
-    
+
     private static final float SYNCHRO_FREE_SPACE_ALERT_LENGTH = 0.1f; //In Percent of total space
-    
+
     public static final String ODS_SYNCHONISATION = "odsAutoSync";
 
     public static final String ODS_SYNCHONISATION_ACCOUNT = "odsAutoSyncAccId";
@@ -154,6 +151,7 @@ public class GeneralPreferences extends PreferenceFragment
         });
 
         // PASSCODE
+        /*
         Boolean passcodeEnable = sharedPref.getBoolean(PasscodePreferences.KEY_PASSCODE_ENABLE, false);
         Preference pref = findPreference(getString(R.string.passcode_title));
 
@@ -179,7 +177,7 @@ public class GeneralPreferences extends PreferenceFragment
                 return false;
             }
         });
-
+         */
         // ODS SYNC
         tuneSyncPrefs(sharedPref);
 
@@ -455,7 +453,7 @@ public class GeneralPreferences extends PreferenceFragment
         }
         return false;
     }
-    
+
     public static boolean canSyncEverything(Context context, Account account)
     {
         if (account != null)
@@ -475,7 +473,7 @@ public class GeneralPreferences extends PreferenceFragment
             sharedPref.edit().putBoolean(SYNCHRO_EVEYTHING_PREFIX + account.getId(), isActive).commit();
         }
     }
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // SYNC FOLDER
     // ///////////////////////////////////////////////////////////////////////////
@@ -488,8 +486,8 @@ public class GeneralPreferences extends PreferenceFragment
         }
         return SYNCHRO_DATA_ALERT_LENGTH;
     }
-    
-    
+
+
     public static void setDataSyncTransferAlert(Activity activity, long length)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -499,7 +497,7 @@ public class GeneralPreferences extends PreferenceFragment
             sharedPref.edit().putLong(SYNCHRO_DATA_ALERT_PREFIX + account.getId(), length).commit();
         }
     }
-    
+
     public static float getDataSyncPercentFreeSpace(Context context, Account account)
     {
         if (account != null)
@@ -509,7 +507,7 @@ public class GeneralPreferences extends PreferenceFragment
         }
         return SYNCHRO_FREE_SPACE_ALERT_LENGTH;
     }
-    
+
     public static void setDataSyncTransferAlert(Activity activity, float percent)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);

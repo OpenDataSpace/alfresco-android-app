@@ -27,6 +27,7 @@ import org.opendataspace.android.app.security.OdsEncryptionUtils;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
 import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 
 import android.app.Activity;
@@ -331,8 +332,20 @@ public class PassCodeDialogFragment extends DialogFragment
             errorMessage.setVisibility(View.GONE);
             if (getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG) != null)
             {
-                ((PasscodePreferences) getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG))
-                .refresh();
+                ((PasscodePreferences) getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG)).refresh();
+            }
+            else
+            {
+                // Display Dialog
+                if (getFragmentManager().findFragmentByTag(WaitingDialogFragment.TAG) == null)
+                {
+                    WaitingDialogFragment dialog = WaitingDialogFragment.newInstance(R.string.data_protection,
+                            R.string.encryption_title, false);
+                    dialog.show(getActivity().getFragmentManager(), WaitingDialogFragment.TAG);
+                }
+
+                // Execute encryption / decryption
+                DataProtectionManager.getInstance(getActivity()).encrypt(SessionUtils.getAccount(getActivity()));
             }
         }
         else

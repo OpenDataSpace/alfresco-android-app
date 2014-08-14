@@ -148,48 +148,29 @@ public class DataProtectionUserDialogFragment extends DialogFragment
         @Override
         public void onPositive()
         {
-            int localMessageId = R.string.decryption_title;
             if (firstTime)
             {
-                prefs.edit().putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, true).commit();
+                //prefs.edit().putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, true).commit();
                 //prefs.edit().putBoolean(GeneralPreferences.HAS_ACCESSED_PAID_SERVICES, true).commit();
-                localMessageId = R.string.encryption_title;
+            }
+
+            if (checked)
+            {
+
+                // Display Dialog
+                if (getFragmentManager().findFragmentByTag(WaitingDialogFragment.TAG) == null)
+                {
+                    WaitingDialogFragment dialog = WaitingDialogFragment.newInstance(R.string.data_protection,
+                            R.string.decryption_title, false);
+                    dialog.show(getActivity().getFragmentManager(), WaitingDialogFragment.TAG);
+                }
+
+                DataProtectionManager.getInstance(getActivity()).decrypt(SessionUtils.getAccount(getActivity()));
             }
             else
             {
-                if (checked)
-                {
-                    localMessageId = R.string.decryption_title;
-                }
-                else
-                {
-                    localMessageId = R.string.encryption_title;
-                }
-            }
-
-            // Display Dialog
-            if (getFragmentManager().findFragmentByTag(WaitingDialogFragment.TAG) == null)
-            {
-                WaitingDialogFragment dialog = WaitingDialogFragment.newInstance(R.string.data_protection,
-                        localMessageId, false);
-                dialog.show(getActivity().getFragmentManager(), WaitingDialogFragment.TAG);
-            }
-
-            // Execute encryption / decryption
-            if (firstTime)
-            {
-                DataProtectionManager.getInstance(getActivity()).encrypt(SessionUtils.getAccount(getActivity()));
-            }
-            else
-            {
-                if (checked)
-                {
-                    DataProtectionManager.getInstance(getActivity()).decrypt(SessionUtils.getAccount(getActivity()));
-                }
-                else
-                {
-                    DataProtectionManager.getInstance(getActivity()).encrypt(SessionUtils.getAccount(getActivity()));
-                }
+                PassCodeDialogFragment f = PassCodeDialogFragment.enable();
+                f.show(getActivity().getFragmentManager(), PassCodeDialogFragment.TAG);
             }
         }
 
@@ -198,7 +179,7 @@ public class DataProtectionUserDialogFragment extends DialogFragment
         {
             if (firstTime)
             {
-                prefs.edit().putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, true).commit();
+                //prefs.edit().putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, true).commit();
                 //prefs.edit().putBoolean(GeneralPreferences.HAS_ACCESSED_PAID_SERVICES, true).commit();
             }
         }

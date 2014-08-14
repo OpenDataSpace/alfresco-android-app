@@ -368,8 +368,8 @@ public class AccountDetailsFragment extends BaseFragment
                 // TODO Auto-generated method stub
             }
         });
-        
-        
+
+
         // Accessibility
         if (AccessibilityHelper.isEnabled(getActivity()))
         {
@@ -618,7 +618,7 @@ public class AccountDetailsFragment extends BaseFragment
 
                     // Unflag this so that on next (first) addition of a new
                     // paid account, they will get prompted again.
-                    edit.putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, false);
+                    // edit.putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, false);
                     // Last paid service removed, so unflag that we've accessed
                     // paid services.
                     edit.putBoolean(GeneralPreferences.HAS_ACCESSED_PAID_SERVICES, false);
@@ -665,13 +665,13 @@ public class AccountDetailsFragment extends BaseFragment
     // TODO move to mainActivity + broadcast !
     private void deleteAccount()
     {
-        
+
         //Remove all Sync
         if (acc == null) { return; }
         OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), acc);
         group.enqueue(new CleanSyncFavoriteRequest(acc, true).setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
-        
+
         //Delete Account
         getActivity().getContentResolver().delete(AccountManager.getUri(acc.getId()), null, null);
 
