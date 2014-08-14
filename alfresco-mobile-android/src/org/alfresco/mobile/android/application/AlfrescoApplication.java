@@ -17,8 +17,11 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application;
 
+import java.io.File;
+
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
+import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.Application;
@@ -33,8 +36,11 @@ public class AlfrescoApplication extends Application
     public void onCreate()
     {
         super.onCreate();
-        OdsLog.init(getExternalFilesDir(null).getAbsolutePath(),
-                PreferenceManager.getDefaultSharedPreferences(this).getBoolean(GeneralPreferences.ODS_LOGGING, false));
+
+        File fld = getExternalFilesDir(null).getParentFile();
+        fld = IOUtils.createFolder(fld,  "logs");
+        OdsLog.init(fld.getAbsolutePath(), PreferenceManager.getDefaultSharedPreferences(this).getBoolean(GeneralPreferences.ODS_LOGGING, false));
+
         helper = ApplicationManager.getInstance(this);
         helper.setAccountManager(AccountManager.getInstance(this));
     }
