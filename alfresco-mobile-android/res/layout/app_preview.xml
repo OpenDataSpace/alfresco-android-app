@@ -37,7 +37,6 @@
             android:layout_margin="0dip"
             android:gravity="center"
             android:text="@string/preview_unavailable"
-            android:visibility="gone"
-            android:layout_below="@+id/preview" />
+            android:visibility="gone" />
 
 </LinearLayout>

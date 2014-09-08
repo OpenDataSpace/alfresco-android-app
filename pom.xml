@@ -269,6 +269,11 @@
 			<name>libs-release</name>
 			<url>https://artifactory.dataspace.cc/artifactory/libs-release</url>
 		</repository>
+		<repository>
+			<id>sdk</id>
+			<name>libs-sdk</name>
+			<url>https://artifactory.dataspace.cc/artifactory/android-sdk</url>
+		</repository>
 	</repositories>
 
 	<reporting>
@@ -375,6 +380,7 @@
 			<properties>
 				<android.maven.plugin.version>3.6.0</android.maven.plugin.version>
 				<android.support.version>19.1.0</android.support.version>
+				<android.annotation.version>22.6.4</android.annotation.version>
 			</properties>
 		</profile>
 		<profile>
@@ -382,6 +388,7 @@
 			<properties>
 				<android.maven.plugin.version>3.8.0</android.maven.plugin.version>
 				<android.support.version>19.1.0</android.support.version>
+				<android.annotation.version>22.6.4</android.annotation.version>
 			</properties>
 		</profile>
 	</profiles>

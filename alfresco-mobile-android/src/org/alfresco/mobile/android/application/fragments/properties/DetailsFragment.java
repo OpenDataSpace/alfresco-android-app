@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -115,7 +115,7 @@ import android.widget.TextView;
 
 /**
  * Responsible to display details of a specific Node.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class DetailsFragment extends MetadataFragment implements OnTabChangeListener,
@@ -398,6 +398,7 @@ LoaderCallbacks<LoaderResult<Node>>
                             node.getName()));
                     builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
                     {
+                        @Override
                         public void onClick(DialogInterface dialog, int item)
                         {
                             update(dlFile);
@@ -406,6 +407,7 @@ LoaderCallbacks<LoaderResult<Node>>
                     });
                     builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
                     {
+                        @Override
                         public void onClick(DialogInterface dialog, int item)
                         {
                             SynchroManager.getInstance(getActivity())
@@ -639,7 +641,7 @@ LoaderCallbacks<LoaderResult<Node>>
 
     /**
      * Display a drawable associated to the node type on a specific imageview.
-     * 
+     *
      * @param node
      * @param defaultIconId
      * @param iv
@@ -650,6 +652,8 @@ LoaderCallbacks<LoaderResult<Node>>
         if (iv == null) { return; }
 
         int iconId = defaultIconId;
+        vRoot.findViewById(R.id.preview_message).setVisibility(View.GONE);
+
         if (node.isDocument())
         {
             MimeType mime = MimeTypeManager.getMimetype(getActivity(), node.getName());
@@ -895,7 +899,7 @@ LoaderCallbacks<LoaderResult<Node>>
             }
 
             Bundle b = new Bundle();
-            b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, (Document) node);
+            b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, node);
             b.putInt(DownloadDialogFragment.ARGUMENT_ACTION, DownloadDialogFragment.ACTION_EMAIL);
             DialogFragment frag = new DownloadDialogFragment();
             frag.setArguments(b);
@@ -909,6 +913,7 @@ LoaderCallbacks<LoaderResult<Node>>
 
             builder.setPositiveButton(R.string.full_attachment, new DialogInterface.OnClickListener()
             {
+                @Override
                 public void onClick(DialogInterface dialog, int item)
                 {
                     Account acc = SessionUtils.getAccount(getActivity());
@@ -923,7 +928,7 @@ LoaderCallbacks<LoaderResult<Node>>
                     }
 
                     Bundle b = new Bundle();
-                    b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, (Document) node);
+                    b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, node);
                     b.putInt(DownloadDialogFragment.ARGUMENT_ACTION, DownloadDialogFragment.ACTION_EMAIL);
                     DialogFragment frag = new DownloadDialogFragment();
                     frag.setArguments(b);
@@ -932,6 +937,7 @@ LoaderCallbacks<LoaderResult<Node>>
             });
             builder.setNegativeButton(R.string.link_to_repo, new DialogInterface.OnClickListener()
             {
+                @Override
                 public void onClick(DialogInterface dialog, int item)
                 {
                     if (parentNode != null)
@@ -1062,7 +1068,7 @@ LoaderCallbacks<LoaderResult<Node>>
             }
 
             // Other case
-            b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, (Document) node);
+            b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, node);
             b.putInt(DownloadDialogFragment.ARGUMENT_ACTION, DownloadDialogFragment.ACTION_OPEN);
             DialogFragment frag = new DownloadDialogFragment();
             frag.setArguments(b);

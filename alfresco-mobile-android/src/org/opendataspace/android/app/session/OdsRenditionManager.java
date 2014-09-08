@@ -37,6 +37,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.TextView;
 
 /**
  * Utility class for downloading content and display it.
@@ -74,7 +75,7 @@ public class OdsRenditionManager extends RenditionManager
         this.session = session;
 
         dm = new DisplayMetrics();
-        ((Activity) context).getWindowManager().getDefaultDisplay().getMetrics(dm);
+        context.getWindowManager().getDefaultDisplay().getMetrics(dm);
 
         // Get memory class of this device, exceeding this amount will throw an
         // OutOfMemory exception.
@@ -84,30 +85,32 @@ public class OdsRenditionManager extends RenditionManager
         final int cacheSize = 1024 * 1024 * memClass / 10;
 
         mMemoryCache = new LruCache<String, Bitmap>(cacheSize)
-                {
+        {
             @Override
             protected int sizeOf(String key, Bitmap bitmap)
             {
                 return bitmap.getRowBytes() * bitmap.getHeight();
             }
-                };
+        };
 
-                try
-                {
-                    File cacheDir = StorageManager.getCacheDir(context, DISK_CACHE_SUBDIR);
-                    mDiskCache = DiskLruCache.open(cacheDir, 1, 1, DISK_CACHE_SIZE);
-                    mDiskCache.delete();
-                    mDiskCache = DiskLruCache.open(cacheDir, 1, 1, DISK_CACHE_SIZE);
-                }
-                catch (IOException e)
-                {
-                    OdsLog.w(TAG, e.getMessage());
-                }
+        try
+        {
+            File cacheDir = StorageManager.getCacheDir(context, DISK_CACHE_SUBDIR);
+            mDiskCache = DiskLruCache.open(cacheDir, 1, 1, DISK_CACHE_SIZE);
+            mDiskCache.delete();
+            mDiskCache = DiskLruCache.open(cacheDir, 1, 1, DISK_CACHE_SIZE);
+        } catch (IOException e)
+        {
+            OdsLog.w(TAG, e.getMessage());
+        }
     }
 
     private void addBitmapToMemoryCache(String key, Bitmap bitmap)
     {
-        if (key == null || bitmap == null) { return; }
+        if (key == null || bitmap == null)
+        {
+            return;
+        }
         String hashKey = StorageManager.md5(key);
         if (getBitmapFromMemCache(hashKey) == null)
         {
@@ -118,7 +121,10 @@ public class OdsRenditionManager extends RenditionManager
 
     private void addBitmapToDiskMemoryCache(String key, ContentStream cf)
     {
-        if (key == null || key.isEmpty()) { return; }
+        if (key == null || key.isEmpty())
+        {
+            return;
+        }
         String hashKey = StorageManager.md5(key);
         try
         {
@@ -130,8 +136,7 @@ public class OdsRenditionManager extends RenditionManager
                 editor.commit();
             }
             // Log.d(TAG, "Add DiskCache : " + key);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             OdsLog.exw(TAG, e);
         }
@@ -139,7 +144,10 @@ public class OdsRenditionManager extends RenditionManager
 
     private Bitmap getBitmapFromMemCache(String key)
     {
-        if (key == null || key.isEmpty()) { return null; }
+        if (key == null || key.isEmpty())
+        {
+            return null;
+        }
         String hashKey = StorageManager.md5(key);
         return mMemoryCache.get(hashKey);
     }
@@ -151,7 +159,10 @@ public class OdsRenditionManager extends RenditionManager
 
     private Bitmap getBitmapFromDiskCache(String key, Integer preview)
     {
-        if (key == null || key.isEmpty()) { return null; }
+        if (key == null || key.isEmpty())
+        {
+            return null;
+        }
         String hashKey = StorageManager.md5(key);
         Snapshot snapshot = null;
         try
@@ -163,14 +174,12 @@ public class OdsRenditionManager extends RenditionManager
                 if (preview != null)
                 {
                     return decodeStream(mDiskCache, hashKey, preview, dm);
-                }
-                else
+                } else
                 {
                     return decodeStream(snapshot.getInputStream(0), dm);
                 }
             }
-        }
-        catch (IOException e)
+        } catch (IOException e)
         {
             OdsLog.exw(TAG, e);
         }
@@ -195,11 +204,10 @@ public class OdsRenditionManager extends RenditionManager
             {
                 ((ImageViewTouch) iv).setScaleEnabled(true);
                 ((ImageViewTouch) iv).setDoubleTapEnabled(true);
-                ((View)iv.getTag()).setVisibility(View.GONE);
+                ((View) iv.getTag()).setVisibility(View.GONE);
             }
             // Log.d(TAG, "Cache : " + identifier);
-        }
-        else if (cancelPotentialWork(identifier, iv))
+        } else if (cancelPotentialWork(identifier, iv))
         {
             final BitmapThread thread = new BitmapThread(context, session, iv, identifier, type, preview, scaleType);
             thread.setPriority(Thread.MIN_PRIORITY);
@@ -213,6 +221,17 @@ public class OdsRenditionManager extends RenditionManager
             if (thread.getState() == Thread.State.NEW)
             {
                 thread.start();
+            }
+
+            if (iv != null)
+            {
+                View vw = ((ViewGroup) iv.getParent()).findViewById(R.id.preview_message);
+
+                if (vw != null && vw instanceof TextView)
+                {
+                    ((TextView) vw).setText(R.string.waiting_operations);
+                    vw.setVisibility(View.VISIBLE);
+                }
             }
         }
     }
@@ -268,12 +287,10 @@ public class OdsRenditionManager extends RenditionManager
             o.inPurgeable = true;
             bmp = BitmapFactory.decodeStream(fis, null, o2);
             fis.close();
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             OdsLog.exw(TAG, e);
-        }
-        finally
+        } finally
         {
             IOUtils.closeStream(fis);
         }
@@ -282,7 +299,10 @@ public class OdsRenditionManager extends RenditionManager
 
     private static Bitmap decodeStream(InputStream is, DisplayMetrics dm)
     {
-        if (is == null) { return null; }
+        if (is == null)
+        {
+            return null;
+        }
         try
         {
             BufferedInputStream bis = new BufferedInputStream(is);
@@ -293,12 +313,10 @@ public class OdsRenditionManager extends RenditionManager
             o.inTargetDensity = dm.densityDpi;
             o.inPurgeable = true;
             return BitmapFactory.decodeStream(bis, null, o);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             OdsLog.exw(TAG, e);
-        }
-        finally
+        } finally
         {
             IOUtils.closeStream(is);
         }
@@ -339,12 +357,10 @@ public class OdsRenditionManager extends RenditionManager
             if (type == TYPE_NODE)
             {
                 this.identifier = identifier;
-            }
-            else if (type == TYPE_PERSON)
+            } else if (type == TYPE_PERSON)
             {
                 this.username = identifier;
-            }
-            else if (type == TYPE_WORKFLOW)
+            } else if (type == TYPE_WORKFLOW)
             {
                 this.processId = identifier;
             }
@@ -356,8 +372,10 @@ public class OdsRenditionManager extends RenditionManager
             if (identifier != null)
             {
                 return identifier;
+            } else if (username != null)
+            {
+                return username;
             }
-            else if (username != null) { return username; }
             return null;
         }
 
@@ -368,8 +386,14 @@ public class OdsRenditionManager extends RenditionManager
             try
             {
 
-                if (session == null) { return; }
-                if (isInterrupted()) { return; }
+                if (session == null)
+                {
+                    return;
+                }
+                if (isInterrupted())
+                {
+                    return;
+                }
 
                 Bitmap bm = null;
                 ContentStream cf = null;
@@ -396,36 +420,34 @@ public class OdsRenditionManager extends RenditionManager
                                 renditionId = DocumentFolderService.RENDITION_PREVIEW;
                             }
 
-                            if (isInterrupted()) { return; }
+                            if (isInterrupted())
+                            {
+                                return;
+                            }
                             cf = ((AbstractDocumentFolderServiceImpl) session.getServiceRegistry()
                                     .getDocumentFolderService()).getRenditionStream(identifier, renditionId);
-                        }
-                        catch (AlfrescoServiceException e)
+                        } catch (AlfrescoServiceException e)
                         {
                             cf = null;
                         }
-                    }
-                    else if (username != null)
+                    } else if (username != null)
                     {
                         try
                         {
                             cf = ((AbstractPersonService) session.getServiceRegistry().getPersonService())
                                     .getAvatarStream(username);
                             key = username;
-                        }
-                        catch (AlfrescoServiceException e)
+                        } catch (AlfrescoServiceException e)
                         {
                             cf = null;
                         }
-                    }
-                    else if (processId != null)
+                    } else if (processId != null)
                     {
                         try
                         {
                             cf = session.getServiceRegistry().getWorkflowService().getProcessDiagram(processId);
                             key = processId;
-                        }
-                        catch (AlfrescoServiceException e)
+                        } catch (AlfrescoServiceException e)
                         {
                             cf = null;
                         }
@@ -434,11 +456,13 @@ public class OdsRenditionManager extends RenditionManager
                     {
                         if (mDiskCache != null)
                         {
-                            if (isInterrupted()) { return; }
+                            if (isInterrupted())
+                            {
+                                return;
+                            }
                             addBitmapToDiskMemoryCache(key, cf);
                             bm = getBitmapFromDiskCache(key, preview);
-                        }
-                        else
+                        } else
                         {
                             bm = decodeStream(cf.getInputStream(), dm);
                         }
@@ -455,13 +479,11 @@ public class OdsRenditionManager extends RenditionManager
                         ((Activity) imageViewReference.get().getContext()).runOnUiThread(new BitmapDisplayer(bm,
                                 preview, imageViewReference, this));
                     }
-                }
-                else if (imageViewReference != null && imageViewReference.get() != null && ctxt != null)
+                } else if (imageViewReference != null && imageViewReference.get() != null && ctxt != null)
                 {
                     ctxt.runOnUiThread(new BitmapDisplayer(bm, preview, imageViewReference, this));
                 }
-            }
-            catch (Exception e)
+            } catch (Exception e)
             {
                 OdsLog.exw(TAG, e);
             }
@@ -495,6 +517,7 @@ public class OdsRenditionManager extends RenditionManager
             bitmapTask = bt;
         }
 
+        @Override
         public void run()
         {
             if (imageViewReference != null && bitmap != null)
@@ -514,13 +537,28 @@ public class OdsRenditionManager extends RenditionManager
                         ((View) imageView.getTag()).setVisibility(View.GONE);
                     }
                 }
-            }
-            else if (preview != null && bitmap == null)
+
+                if (imageView != null)
+                {
+                    View vw = ((ViewGroup) imageView.getParent()).findViewById(R.id.preview_message);
+
+                    if (vw != null)
+                    {
+                        vw.setVisibility(View.GONE);
+                    }
+                }
+            } else if (preview != null && bitmap == null)
             {
                 imageView = imageViewReference.get();
-                if (imageView != null && ((ViewGroup) imageView.getParent()).findViewById(R.id.preview_message) != null)
+                if (imageView != null)
                 {
-                    ((ViewGroup) imageView.getParent()).findViewById(R.id.preview_message).setVisibility(View.VISIBLE);
+                    View vw = ((ViewGroup) imageView.getParent()).findViewById(R.id.preview_message);
+
+                    if (vw != null && vw instanceof TextView)
+                    {
+                        ((TextView) vw).setText(R.string.preview_unavailable);
+                        vw.setVisibility(View.VISIBLE);
+                    }
                 }
             }
         }
@@ -555,8 +593,7 @@ public class OdsRenditionManager extends RenditionManager
             if (bitmapData != null && !bitmapData.equals(data))
             {
                 bitmapWorkerTask.interrupt();
-            }
-            else
+            } else
             {
                 return false;
             }
