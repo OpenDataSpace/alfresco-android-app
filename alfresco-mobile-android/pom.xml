@@ -199,10 +199,6 @@
 								<inputApk>${project.build.directory}/${project.ods.output}-${project.version}.apk</inputApk>
 								<outputApk>${project.build.directory}/${project.ods.output}-${project.version}-signed-aligned.apk </outputApk>
 							</zipalign>
-							<manifest>
-								<versionName>{project.version}</versionName>
-								<manifestVersionCodeUpdateFromVersion>true</manifestVersionCodeUpdateFromVersion>
-							</manifest>
 						</configuration>
 						<executions>
 							<execution>
@@ -211,6 +207,18 @@
 								<goals>
 									<goal>zipalign</goal>
 								</goals>
+							</execution>
+							<execution>
+								<id>update-manifest</id>
+								<goals>
+									<goal>manifest-update</goal>
+								</goals>
+								<configuration>
+									<manifest>
+										<versionName>${project.version}</versionName>
+										<versionCodeUpdateFromVersion>true</versionCodeUpdateFromVersion>
+									</manifest>
+								</configuration>
 							</execution>
 						</executions>
 					</plugin>
