@@ -174,10 +174,10 @@
 									<keypass>d@taspace!</keypass>
 									<verbose>false</verbose>
 									<arguments>
-											<argument>-sigalg</argument>
-											<argument>MD5withRSA</argument>
-											<argument>-digestalg</argument>
-											<argument>SHA1</argument>
+										<argument>-sigalg</argument>
+										<argument>MD5withRSA</argument>
+										<argument>-digestalg</argument>
+										<argument>SHA1</argument>
 									</arguments>
 								</configuration>
 							</execution>
@@ -199,6 +199,10 @@
 								<inputApk>${project.build.directory}/${project.ods.output}-${project.version}.apk</inputApk>
 								<outputApk>${project.build.directory}/${project.ods.output}-${project.version}-signed-aligned.apk </outputApk>
 							</zipalign>
+							<manifest>
+								<versionName>{project.version}</versionName>
+								<manifestVersionCodeUpdateFromVersion>true</manifestVersionCodeUpdateFromVersion>
+							</manifest>
 						</configuration>
 						<executions>
 							<execution>
@@ -206,23 +210,6 @@
 								<phase>install</phase>
 								<goals>
 									<goal>zipalign</goal>
-								</goals>
-							</execution>
-						</executions>
-					</plugin>
-					<plugin>
-						<artifactId>maven-antrun-plugin</artifactId>
-						<executions>
-							<execution>
-								<phase>initialize</phase>
-								<configuration>
-									<tasks>
-										<replace file="${project.basedir}/AndroidManifest.xml"
-											token="project.version" value="${project.version}" />
-									</tasks>
-								</configuration>
-								<goals>
-									<goal>run</goal>
 								</goals>
 							</execution>
 						</executions>
@@ -247,7 +234,7 @@
 							<include>**/*.*</include>
 						</includes>
 					</resource>
-					</resources>
+				</resources>
 				<finalName>${project.ods.output}-${project.version}</finalName>
 				<plugins>
 					<plugin>
