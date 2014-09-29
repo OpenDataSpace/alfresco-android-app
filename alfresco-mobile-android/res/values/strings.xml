@@ -195,6 +195,15 @@
     <string name="details">Details</string>
     <string name="metadata">Properties</string>
     <string name="preview">Preview</string>
+    
+    <!-- LINKS -->
+    <!-- translate all -->
+    <string name="links">Links</string> 
+    <string name="links_add">Add Link</string>
+    <string name="links_edit">Edit Link</string>
+    <string name="links_remove">Remove Link</string>
+    <string name="empty_links">No links found</string>
+    <string name="document_links_header">Links</string>
 
     <!-- NETWORKS -->
     <string name="cloud_networks_empty">No networks available</string>

@@ -49,9 +49,9 @@ public interface MenuActionItem
     int MENU_REFRESH = 40;
 
     int MENU_DETAILS = 50;
-    
+
     int MENU_DISPLAY_ITEMS = 12;
-    
+
     int MENU_DISPLAY_GALLERY = 13;
 
     // ///////////////////////////////////////////
@@ -114,6 +114,8 @@ public interface MenuActionItem
 
     int MENU_DELETE_FOLDER = 191;
 
+    int MENU_LINKS = 192;
+
     // ///////////////////////////////////////////
     // SELECTION
     // ///////////////////////////////////////////
@@ -161,22 +163,22 @@ public interface MenuActionItem
     // SYNC
     // ///////////////////////////////////////////
     int MENU_RESOLVE_CONFLICT = 500;
-    
+
     // ///////////////////////////////////////////
     // WORKFLOW
     // ///////////////////////////////////////////
     int MENU_PROCESS_DETAILS = 600;
 
     int MENU_WORKFLOW_ADD = 603;
-    
+
     int MENU_PROCESS_REVIEW_ATTACHMENTS = 601;
-    
+
     int MENU_TASK_REASSIGN= 602;
 
     int MENU_TASK_CLAIM= 604;
-    
+
     int MENU_TASK_UNCLAIM= 605;
-    
+
     int MENU_PROCESS_HISTORY = 606;
 
     // ///////////////////////////////////////////
@@ -206,7 +208,7 @@ public interface MenuActionItem
     int MENU_TEL = 656;
 
     int MENU_MOBILE = 657;
-    
+
     // ///////////////////////////////////////////
     // SYNC
     // ///////////////////////////////////////////
@@ -217,7 +219,7 @@ public interface MenuActionItem
     // ///////////////////////////////////////////
 
     int ACCOUNT_ID = 1000;
-    
+
     int ACCOUNT_RELOAD = 1001;
 
     int PARAMETER_ID = 2000;

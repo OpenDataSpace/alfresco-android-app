@@ -34,6 +34,7 @@ import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.alfresco.mobile.android.api.utils.NodeRefUtils;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.OdsLinksFragment;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.MainActivity;
@@ -1162,6 +1163,11 @@ LoaderCallbacks<LoaderResult<Node>>
         addTags(node, DisplayUtils.getMainPaneId(getActivity()), true);
     }
 
+    public void links()
+    {
+        addLinks((Document) node, DisplayUtils.getMainPaneId(getActivity()), true);
+    }
+
     // ///////////////////////////////////////////////////////////////////////////
     // MENU
     // ///////////////////////////////////////////////////////////////////////////
@@ -1217,9 +1223,10 @@ LoaderCallbacks<LoaderResult<Node>>
             mi.setIcon(R.drawable.ic_delete);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
-        /*
+
         if (!DisplayUtils.hasCentralPane(activity))
         {
+            /*
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMMENT, Menu.FIRST + MenuActionItem.MENU_COMMENT,
                     R.string.comments);
             mi.setIcon(R.drawable.ic_comment);
@@ -1236,8 +1243,15 @@ LoaderCallbacks<LoaderResult<Node>>
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_TAGS, Menu.FIRST + MenuActionItem.MENU_TAGS, R.string.tags);
             mi.setIcon(R.drawable.mime_tags);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+             */
+
+            if (node.isDocument())
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_LINKS, Menu.FIRST
+                        + MenuActionItem.MENU_LINKS, R.string.links);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            }
         }
-         */
     }
 
     public void getMenu(Menu menu)
@@ -1309,6 +1323,8 @@ LoaderCallbacks<LoaderResult<Node>>
 
     private static final String TAB_TAGS = "Tags";
 
+    private static final String TAB_LINKS = "Links";
+
     private void setupTabs()
     {
         if (mTabHost == null) { return; }
@@ -1321,6 +1337,7 @@ LoaderCallbacks<LoaderResult<Node>>
             mTabHost.addTab(newTab(TAB_PREVIEW, R.string.preview, android.R.id.tabcontent));
         }
         mTabHost.addTab(newTab(TAB_METADATA, R.string.metadata, android.R.id.tabcontent));
+        mTabHost.addTab(newTab(TAB_LINKS, R.string.links, android.R.id.tabcontent));
         /*
         if (node.isDocument())
         {
@@ -1356,23 +1373,28 @@ LoaderCallbacks<LoaderResult<Node>>
         }
         else if (TAB_COMMENTS.equals(tabId))
         {
-            tabSelected = 3;
+            tabSelected = 4;
             addComments(node);
         }
         else if (TAB_HISTORY.equals(tabId) && node.isDocument())
         {
-            tabSelected = 2;
+            tabSelected = 3;
             addVersions((Document) node);
         }
         else if (TAB_TAGS.equals(tabId))
         {
-            tabSelected = 4;
+            tabSelected = 5;
             addTags(node);
         }
         else if (TAB_PREVIEW.equals(tabId))
         {
             tabSelected = 0;
             addPreview(node);
+        }
+        else if (TAB_LINKS.equals(tabId) && node.isDocument())
+        {
+            tabSelected = 2;
+            addLinks((Document) node);
         }
     }
 
@@ -1434,6 +1456,18 @@ LoaderCallbacks<LoaderResult<Node>>
     public void addTags(Node d)
     {
         addTags(d, android.R.id.tabcontent, false);
+    }
+
+    public void addLinks(Document d, int layoutId, boolean backstack)
+    {
+        BaseFragment frag = OdsLinksFragment.newInstance(d, parentNode);
+        frag.setSession(alfSession);
+        FragmentDisplayer.replaceFragment(getActivity(), frag, layoutId, OdsLinksFragment.TAG, backstack);
+    }
+
+    public void addLinks(Document node)
+    {
+        addLinks(node, android.R.id.tabcontent, false);
     }
 
     public void setDownloadDateTime(Date downloadDateTime)

@@ -1084,6 +1084,9 @@ public class MainActivity extends BaseActivity
         case MenuActionItem.MENU_TAGS:
             ((DetailsFragment) getFragment(DetailsFragment.TAG)).tags();
             return true;
+        case MenuActionItem.MENU_LINKS:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).links();
+            return true;
         case MenuActionItem.MENU_DELETE:
             ((DetailsFragment) getFragment(DetailsFragment.TAG)).delete();
             return true;
