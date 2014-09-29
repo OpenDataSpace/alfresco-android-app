@@ -1,4 +1,4 @@
-package org.opendataspace.android.app.config;
+package org.opendataspace.android.app.operations;
 
 import java.io.Serializable;
 

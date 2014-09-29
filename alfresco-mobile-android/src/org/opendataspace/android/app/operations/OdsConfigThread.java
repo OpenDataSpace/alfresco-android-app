@@ -16,7 +16,6 @@ import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
-import org.opendataspace.android.app.config.OdsConfigContext;
 import org.opendataspace.android.app.config.OdsConfigManager;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;

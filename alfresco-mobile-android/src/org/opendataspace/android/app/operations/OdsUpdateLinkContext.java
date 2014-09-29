@@ -1,4 +1,4 @@
-package org.opendataspace.android.app.links;
+package org.opendataspace.android.app.operations;
 
 import java.io.Serializable;
 

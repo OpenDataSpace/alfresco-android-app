@@ -19,7 +19,7 @@ import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.app.links.OdsLinksAdapter;
 import org.opendataspace.android.app.links.OdsLinksLoader;
-import org.opendataspace.android.app.links.OdsUpdateLinkContext;
+import org.opendataspace.android.app.operations.OdsUpdateLinkContext;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.Fragment;

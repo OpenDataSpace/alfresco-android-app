@@ -4,7 +4,6 @@ import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
-import org.opendataspace.android.app.links.OdsUpdateLinkContext;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
