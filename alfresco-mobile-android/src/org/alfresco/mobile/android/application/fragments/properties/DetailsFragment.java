@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,6 +35,7 @@ import org.alfresco.mobile.android.api.utils.NodeRefUtils;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.fragments.OdsLinksFragment;
+import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.MainActivity;
@@ -116,7 +117,7 @@ import android.widget.TextView;
 
 /**
  * Responsible to display details of a specific Node.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class DetailsFragment extends MetadataFragment implements OnTabChangeListener,
@@ -640,7 +641,7 @@ LoaderCallbacks<LoaderResult<Node>>
 
     /**
      * Display a drawable associated to the node type on a specific imageview.
-     * 
+     *
      * @param node
      * @param defaultIconId
      * @param iv
@@ -1251,6 +1252,15 @@ LoaderCallbacks<LoaderResult<Node>>
                         + MenuActionItem.MENU_LINKS, R.string.links);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
+        } else
+        {
+            if (node.isDocument())
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_CREATE_LINK, Menu.FIRST + MenuActionItem.MENU_CREATE_LINK,
+                        R.string.links_add);
+                mi.setIcon(R.drawable.ic_add);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+            }
         }
     }
 
@@ -1460,7 +1470,7 @@ LoaderCallbacks<LoaderResult<Node>>
 
     public void addLinks(Document d, int layoutId, boolean backstack)
     {
-        BaseFragment frag = OdsLinksFragment.newInstance(d, parentNode);
+        BaseFragment frag = OdsLinksFragment.newInstance(d);
         frag.setSession(alfSession);
         FragmentDisplayer.replaceFragment(getActivity(), frag, layoutId, OdsLinksFragment.TAG, backstack);
     }
@@ -1693,4 +1703,8 @@ LoaderCallbacks<LoaderResult<Node>>
         }
     }
 
+    public void createLink()
+    {
+        OdsLinksFragment.editLink(node, new OdsLink(), getFragmentManager());
+    }
 }

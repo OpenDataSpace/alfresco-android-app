@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ package org.alfresco.mobile.android.application.fragments.menu;
 
 /**
  * List of all Action Item menu available inside the application.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public interface MenuActionItem
@@ -115,6 +115,8 @@ public interface MenuActionItem
     int MENU_DELETE_FOLDER = 191;
 
     int MENU_LINKS = 192;
+
+    int MENU_CREATE_LINK = 193;
 
     // ///////////////////////////////////////////
     // SELECTION

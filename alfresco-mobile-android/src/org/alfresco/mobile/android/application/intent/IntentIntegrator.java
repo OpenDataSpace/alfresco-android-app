@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -146,6 +146,8 @@ public interface IntentIntegrator extends PublicIntent
     String ACTION_CREATE_FOLDER_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_CREATE_FOLDER_COMPLETED";
 
     String ACTION_RETRIEVE_NAME_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_RETRIEVE_NAME_COMPLETED";
+
+    String ACTION_UPDATE_LINK_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_UPDATE_LINK_COMPLETED";
 
     // EXTRA
     String EXTRA_UPDATED_NODE = "org.alfresco.mobile.android.intent.EXTRA_UPDATED_NODE";

@@ -204,6 +204,7 @@
     <string name="links_remove">Remove Link</string>
     <string name="empty_links">No links found</string>
     <string name="document_links_header">Links</string>
+    <string name="link_name_hint">Type the link name here &#8230;</string>
 
     <!-- NETWORKS -->
     <string name="cloud_networks_empty">No networks available</string>
