@@ -118,6 +118,8 @@ public interface MenuActionItem
 
     int MENU_CREATE_LINK = 193;
 
+    int MENU_COPY = 194;
+
     // ///////////////////////////////////////////
     // SELECTION
     // ///////////////////////////////////////////

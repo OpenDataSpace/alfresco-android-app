@@ -14,6 +14,9 @@ import org.opendataspace.android.app.fragments.OdsLinksFragment;
 import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
 
 import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,6 +61,10 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
                 PopupMenu popup = new PopupMenu(fr.getActivity(), v);
                 MenuItem mi;
 
+                mi = popup.getMenu().add(Menu.NONE, MenuActionItem.MENU_COPY, Menu.FIRST + MenuActionItem.MENU_COPY,
+                        R.string.link_copy_url);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
                 mi = popup.getMenu().add(Menu.NONE, MenuActionItem.MENU_EDIT, Menu.FIRST + MenuActionItem.MENU_EDIT,
                         R.string.edit);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
@@ -82,21 +89,31 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
     public boolean onMenuItemClick(MenuItem item)
     {
         boolean onMenuItemClick = true;
+
         switch (item.getItemId())
         {
         case MenuActionItem.MENU_EDIT:
-            onMenuItemClick = true;
             edit(menuCtx);
             break;
         case MenuActionItem.MENU_DELETE:
-            onMenuItemClick = true;
             delete(menuCtx);
+            break;
+        case MenuActionItem.MENU_COPY:
+            copyLink();
             break;
         default:
             onMenuItemClick = false;
             break;
         }
         return onMenuItemClick;
+    }
+
+    private void copyLink()
+    {
+        final ClipboardManager clipboard = (ClipboardManager) fr.getActivity().getSystemService(
+                Context.CLIPBOARD_SERVICE);
+
+        clipboard.setPrimaryClip(ClipData.newPlainText("url", menuCtx.getUrl()));
     }
 
     private void edit(OdsLink link)
