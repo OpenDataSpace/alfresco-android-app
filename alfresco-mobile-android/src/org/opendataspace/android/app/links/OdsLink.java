@@ -8,6 +8,7 @@ public class OdsLink implements Serializable
 
     private String name = "";
     private String url = "";
+    private String objectId = "";
 
     public String getName()
     {
@@ -27,5 +28,15 @@ public class OdsLink implements Serializable
     public void setUrl(String url)
     {
         this.url = url;
+    }
+
+    public String getObjectId()
+    {
+        return objectId;
+    }
+
+    public void setObjectId(String objectId)
+    {
+        this.objectId = objectId;
     }
 }
