@@ -114,6 +114,10 @@ public class OdsLinkDialogFragment extends BaseFragment
                     @Override
                     public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth)
                     {
+                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+                                Context.INPUT_METHOD_SERVICE);
+                        imm.hideSoftInputFromWindow(dpe.getWindowToken(), 0);
+
                         bcreate.setEnabled(validate(lnk));
                     }
                 });

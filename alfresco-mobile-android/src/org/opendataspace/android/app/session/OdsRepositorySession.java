@@ -49,39 +49,42 @@ public class OdsRepositorySession extends RepositorySessionImpl
     public static RepositorySession connect(String url, String username, String password,
             Map<String, Serializable> parameters)
     {
-        if (url == null || url.isEmpty()) { throw new IllegalArgumentException(String.format(
-                Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "url")); }
+        if (url == null || url.isEmpty())
+        {
+            throw new IllegalArgumentException(String.format(
+                    Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "url"));
+        }
 
-        if (username == null || username.isEmpty()) { throw new IllegalArgumentException(String.format(
-                Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "username")); }
+        if (username == null || username.isEmpty())
+        {
+            throw new IllegalArgumentException(String.format(
+                    Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "username"));
+        }
 
         return new OdsRepositorySession(url, username, password, parameters);
     }
 
     @SuppressWarnings("deprecation")
     @Override
-    protected Session createSession(SessionFactory sessionFactory,
-            AuthenticationProvider authenticator, Map<String, String> param)
+    protected Session createSession(SessionFactory sessionFactory, AuthenticationProvider authenticator,
+            Map<String, String> param)
     {
         try
         {
             if (param.get(SessionParameter.REPOSITORY_ID) != null)
             {
                 return super.createSession(sessionFactory, authenticator, param);
-            }
-            else
+            } else
             {
-                repos = ((SessionFactoryImpl) sessionFactory)
-                        .getRepositories(param, null, new PassthruAuthenticationProviderImpl(authenticator), null);
+                repos = ((SessionFactoryImpl) sessionFactory).getRepositories(param, null,
+                        new PassthruAuthenticationProviderImpl(authenticator), null);
                 Session ses = findSession();
                 return ses != null ? ses : super.createSession(sessionFactory, authenticator, param);
             }
-        }
-        catch (CmisPermissionDeniedException e)
+        } catch (CmisPermissionDeniedException e)
         {
             throw new AlfrescoSessionException(ErrorCodeRegistry.SESSION_UNAUTHORIZED, e);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             throw new AlfrescoSessionException(ErrorCodeRegistry.SESSION_GENERIC, e);
         }
@@ -95,19 +98,16 @@ public class OdsRepositorySession extends RepositorySessionImpl
             if (param.get(SessionParameter.REPOSITORY_ID) != null)
             {
                 return super.createSession(sessionFactory, param);
-            }
-            else
+            } else
             {
                 repos = sessionFactory.getRepositories(param);
                 Session ses = findSession();
                 return ses != null ? ses : super.createSession(sessionFactory, param);
             }
-        }
-        catch (CmisPermissionDeniedException e)
+        } catch (CmisPermissionDeniedException e)
         {
             throw new AlfrescoSessionException(ErrorCodeRegistry.SESSION_UNAUTHORIZED, e);
-        }
-        catch (Exception e)
+        } catch (Exception e)
         {
             throw new AlfrescoSessionException(ErrorCodeRegistry.SESSION_GENERIC, e);
         }
@@ -124,12 +124,10 @@ public class OdsRepositorySession extends RepositorySessionImpl
             if (name.equals("my"))
             {
                 ses = cur.createSession();
-            }
-            else if (name.equals("shared"))
+            } else if (name.equals("shared"))
             {
                 shared = create(cur.createSession());
-            }
-            else if (name.equals("global"))
+            } else if (name.equals("global"))
             {
                 global = create(cur.createSession());
             }
@@ -170,7 +168,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
     private OdsRepositorySession create(Session ses)
     {
         OdsRepositorySession rep = new OdsRepositorySession();
-        rep.initSettings(baseUrl, userIdentifier, password, new HashMap<String, Serializable> (userParameters));
+        rep.initSettings(baseUrl, userIdentifier, password, new HashMap<String, Serializable>(userParameters));
         rep.cmisSession = ses;
         rep.rootNode = new FolderImpl(rep.cmisSession.getRootFolder());
         rep.repositoryInfo = new OnPremiseRepositoryInfoImpl(rep.cmisSession.getRepositoryInfo());
@@ -192,7 +190,8 @@ public class OdsRepositorySession extends RepositorySessionImpl
         sessionParameters.put(SessionParameter.COOKIES, "true");
     }
 
-    private boolean isJsonProto(Map<String, Serializable> params) {
+    private boolean isJsonProto(Map<String, Serializable> params)
+    {
         return params != null && Account.ProtocolType.JSON.equals(params.get(PROTO_TYPE));
     }
 
@@ -207,7 +206,8 @@ public class OdsRepositorySession extends RepositorySessionImpl
             {
                 url += isJsonProto(settings) ? OdsRepositorySession.BINDING_JSON : OnPremiseUrlRegistry.BINDING_CMIS;
             }
-        } catch (Exception ex) {
+        } catch (Exception ex)
+        {
             // nothing
         }
 
@@ -225,7 +225,17 @@ public class OdsRepositorySession extends RepositorySessionImpl
                 "org.opendataspace.android.app.session.OdsAuthProviderImpl");
         tmpSettings.put(AlfrescoSession.ONPREMISE_SERVICES_CLASSNAME,
                 "org.opendataspace.android.app.session.OdsServiceRegistry");
+        tmpSettings.put(SessionParameter.OBJECT_FACTORY_CLASS,
+                "org.opendataspace.android.app.session.OdsObjectFactoryImpl");
 
         super.initSettings(url, username, password, tmpSettings);
+    }
+
+    @Override
+    protected Map<String, String> retrieveSessionParameters()
+    {
+        Map<String, String> res = super.retrieveSessionParameters();
+        res.put(SessionParameter.OBJECT_FACTORY_CLASS, "org.opendataspace.android.app.session.OdsObjectFactoryImpl");
+        return res;
     }
 }
