@@ -1,5 +1,7 @@
 package org.opendataspace.android.app.operations;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -49,6 +51,8 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
 
         try
         {
+            super.doInBackground();
+
             Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
 
             if (!TextUtils.isEmpty(link.getObjectId()))
@@ -61,11 +65,21 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                 final Map<String, Object> properties = new HashMap<String, Object>();
 
                 properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:item");
-                properties.put(PropertyIds.EXPIRATION_DATE, null);
+                properties.put(PropertyIds.EXPIRATION_DATE, link.getExpires());
                 properties.put("gds:objectIds", Arrays.asList(nodeId));
                 properties.put("gds:subject", link.getName());
+                properties.put("gds:message", link.getMessage());
+                properties.put("gds:comment", "");
+                properties.put("gds:emailAddress", link.getEmail());
                 properties.put(PropertyIds.SECONDARY_OBJECT_TYPE_IDS,
                         Arrays.asList(SecondaryTypeIds.CLIENT_MANAGED_RETENTION, "gds:downloadLink"));
+
+                if (!TextUtils.isEmpty(link.getPassword()))
+                {
+                    MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                    byte[] hash = digest.digest(link.getPassword().getBytes("UTF-8"));
+                    properties.put("gds:password", new BigInteger(1, hash).toString(16));
+                }
 
                 DocumentFolderService svc = session.getServiceRegistry().getDocumentFolderService();
                 Folder folder = svc.getParentFolder(svc.getNodeByIdentifier(nodeId));

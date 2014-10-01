@@ -1,5 +1,8 @@
 package org.opendataspace.android.app.fragments;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
@@ -15,6 +18,9 @@ import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,6 +30,7 @@ import android.view.View.OnClickListener;
 import android.view.ViewGroup.LayoutParams;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 
 public class OdsLinkDialogFragment extends BaseFragment
@@ -32,6 +39,9 @@ public class OdsLinkDialogFragment extends BaseFragment
 
     public static final String ARGUMENT_NODE = "node";
     public static final String ARGUMENT_LINK = "link";
+
+    private EditText tvn, tve, tvp, tvm;
+    private DatePicker dpe;
 
     public OdsLinkDialogFragment()
     {
@@ -83,10 +93,30 @@ public class OdsLinkDialogFragment extends BaseFragment
                                 "%", "")) * 0.01));
         v.setLayoutParams(new LayoutParams(width, LayoutParams.MATCH_PARENT));
 
-        OdsLink lnk = (OdsLink) getArguments().getSerializable(ARGUMENT_LINK);
-        final EditText tv = (EditText) v.findViewById(R.id.link_name);
+        final OdsLink lnk = (OdsLink) getArguments().getSerializable(ARGUMENT_LINK);
+        final Calendar exp = lnk.getExpires();
+        final Button bcreate = UIUtils.initValidation(v, TextUtils.isEmpty(lnk.getObjectId()) ? R.string.create
+                : R.string.update);
 
-        tv.setText(lnk.getName());
+        tvn = (EditText) v.findViewById(R.id.link_name);
+        tve = (EditText) v.findViewById(R.id.link_email);
+        tvp = (EditText) v.findViewById(R.id.link_password);
+        tvm = (EditText) v.findViewById(R.id.link_message);
+        dpe = (DatePicker) v.findViewById(R.id.link_expire);
+
+        tvn.setText(lnk.getName());
+        tve.setText(lnk.getEmail());
+        tvp.setText(lnk.getPassword());
+        tvm.setText(lnk.getMessage());
+        dpe.init(exp.get(Calendar.YEAR), 1 + exp.get(Calendar.MONTH), exp.get(Calendar.DAY_OF_MONTH),
+                new DatePicker.OnDateChangedListener()
+                {
+                    @Override
+                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+                    {
+                        bcreate.setEnabled(validate(lnk));
+                    }
+                });
 
         Button button = (Button) v.findViewById(R.id.cancel);
         button.setOnClickListener(new OnClickListener()
@@ -97,18 +127,20 @@ public class OdsLinkDialogFragment extends BaseFragment
             }
         });
 
-        final Button bcreate = UIUtils.initValidation(v, R.string.create);
         bcreate.setOnClickListener(new OnClickListener()
         {
             public void onClick(View v)
             {
+                if (!validate(lnk))
+                {
+                    return;
+                }
+
                 InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
                         Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
+                imm.hideSoftInputFromWindow(tvn.getWindowToken(), 0);
 
                 Node nod = (Node) getArguments().getParcelable(ARGUMENT_NODE);
-                OdsLink lnk = (OdsLink) getArguments().getSerializable(ARGUMENT_LINK);
-                lnk.setName(tv.getText().toString().trim());
 
                 OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils
                         .getAccount(getActivity()));
@@ -117,13 +149,34 @@ public class OdsLinkDialogFragment extends BaseFragment
                 BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
                 OperationWaitingDialogFragment.newInstance(OdsUpdateLinkRequest.TYPE_ID, R.drawable.ic_add,
-                        getString(R.string.links_add), null, nod, 0).show(
-                        getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+                        getString(R.string.links_add), null, nod, 0).show(getActivity().getFragmentManager(),
+                        OperationWaitingDialogFragment.TAG);
 
                 dismiss();
             }
         });
 
+        TextWatcher tv = new TextWatcher()
+        {
+            public void afterTextChanged(Editable s)
+            {
+                bcreate.setEnabled(validate(lnk));
+            }
+
+            public void beforeTextChanged(CharSequence s, int start, int count, int after)
+            {
+            }
+
+            public void onTextChanged(CharSequence s, int start, int before, int count)
+            {
+            }
+        };
+
+        tvn.addTextChangedListener(tv);
+        tve.addTextChangedListener(tv);
+        tvp.addTextChangedListener(tv);
+        tvm.addTextChangedListener(tv);
+        bcreate.setEnabled(validate(lnk));
         return v;
     }
 
@@ -146,5 +199,16 @@ public class OdsLinkDialogFragment extends BaseFragment
         {
             getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         }
+    }
+
+    private boolean validate(OdsLink lnk)
+    {
+        lnk.setEmail(tve.getText().toString().trim());
+        lnk.setExpires(new GregorianCalendar(dpe.getYear(), dpe.getMonth() - 1, dpe.getDayOfMonth()));
+        lnk.setMessage(tvm.getText().toString().trim());
+        lnk.setName(tvn.getText().toString().trim());
+        lnk.setPassword(tvp.getText().toString().trim());
+
+        return lnk.isValid();
     }
 }

@@ -1,6 +1,9 @@
 package org.opendataspace.android.app.links;
 
 import java.io.Serializable;
+import java.util.Calendar;
+
+import android.text.TextUtils;
 
 public class OdsLink implements Serializable
 {
@@ -8,7 +11,11 @@ public class OdsLink implements Serializable
 
     private String name = "";
     private String url = "";
+    private String message = "";
+    private String email = "";
+    private String password = "";
     private String objectId = "";
+    private Calendar expires = Calendar.getInstance();
 
     public String getName()
     {
@@ -38,5 +45,50 @@ public class OdsLink implements Serializable
     public void setObjectId(String objectId)
     {
         this.objectId = objectId;
+    }
+
+    public String getMessage()
+    {
+        return message;
+    }
+
+    public void setMessage(String message)
+    {
+        this.message = message;
+    }
+
+    public String getEmail()
+    {
+        return email;
+    }
+
+    public void setEmail(String email)
+    {
+        this.email = email;
+    }
+
+    public String getPassword()
+    {
+        return password;
+    }
+
+    public void setPassword(String password)
+    {
+        this.password = password;
+    }
+
+    public Calendar getExpires()
+    {
+        return expires;
+    }
+
+    public void setExpires(Calendar expires)
+    {
+        this.expires = expires;
+    }
+
+    public boolean isValid()
+    {
+        return !TextUtils.isEmpty(name) && !TextUtils.isEmpty(message) && !TextUtils.isEmpty(email) && expires != null;
     }
 }
