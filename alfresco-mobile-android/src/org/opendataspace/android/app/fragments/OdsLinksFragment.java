@@ -220,7 +220,7 @@ public class OdsLinksFragment extends BaseListFragment implements LoaderCallback
 
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_CREATE_LINK, Menu.FIRST + MenuActionItem.MENU_CREATE_LINK,
                 R.string.links_add);
-        mi.setIcon(R.drawable.ic_add);
+        mi.setIcon(R.drawable.ic_add_link);
         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
 
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_REFRESH, Menu.FIRST + MenuActionItem.MENU_REFRESH,
