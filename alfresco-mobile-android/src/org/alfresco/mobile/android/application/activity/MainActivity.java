@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -33,6 +33,7 @@ import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.config.OdsConfigManager;
+import org.opendataspace.android.app.fragments.OdsLinksFragment;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
@@ -114,7 +115,7 @@ import android.view.animation.AnimationUtils;
 
 /**
  * Main activity of the application.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class MainActivity extends BaseActivity
@@ -974,6 +975,12 @@ public class MainActivity extends BaseActivity
             return true;
         }
 
+        if (isVisible(OdsLinksFragment.TAG))
+        {
+            ((OdsLinksFragment) getFragment(OdsLinksFragment.TAG)).getMenu(menu);
+            return true;
+        }
+
         return true;
     }
 
@@ -1083,6 +1090,12 @@ public class MainActivity extends BaseActivity
             return true;
         case MenuActionItem.MENU_TAGS:
             ((DetailsFragment) getFragment(DetailsFragment.TAG)).tags();
+            return true;
+        case MenuActionItem.MENU_LINKS:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).links();
+            return true;
+        case MenuActionItem.MENU_CREATE_LINK:
+            ((DetailsFragment) getFragment(DetailsFragment.TAG)).createLink();
             return true;
         case MenuActionItem.MENU_DELETE:
             ((DetailsFragment) getFragment(DetailsFragment.TAG)).delete();

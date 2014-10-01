@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -19,7 +19,7 @@ package org.alfresco.mobile.android.application.fragments.menu;
 
 /**
  * List of all Action Item menu available inside the application.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public interface MenuActionItem
@@ -49,9 +49,9 @@ public interface MenuActionItem
     int MENU_REFRESH = 40;
 
     int MENU_DETAILS = 50;
-    
+
     int MENU_DISPLAY_ITEMS = 12;
-    
+
     int MENU_DISPLAY_GALLERY = 13;
 
     // ///////////////////////////////////////////
@@ -114,6 +114,12 @@ public interface MenuActionItem
 
     int MENU_DELETE_FOLDER = 191;
 
+    int MENU_LINKS = 192;
+
+    int MENU_CREATE_LINK = 193;
+
+    int MENU_COPY = 194;
+
     // ///////////////////////////////////////////
     // SELECTION
     // ///////////////////////////////////////////
@@ -161,22 +167,22 @@ public interface MenuActionItem
     // SYNC
     // ///////////////////////////////////////////
     int MENU_RESOLVE_CONFLICT = 500;
-    
+
     // ///////////////////////////////////////////
     // WORKFLOW
     // ///////////////////////////////////////////
     int MENU_PROCESS_DETAILS = 600;
 
     int MENU_WORKFLOW_ADD = 603;
-    
+
     int MENU_PROCESS_REVIEW_ATTACHMENTS = 601;
-    
+
     int MENU_TASK_REASSIGN= 602;
 
     int MENU_TASK_CLAIM= 604;
-    
+
     int MENU_TASK_UNCLAIM= 605;
-    
+
     int MENU_PROCESS_HISTORY = 606;
 
     // ///////////////////////////////////////////
@@ -206,7 +212,7 @@ public interface MenuActionItem
     int MENU_TEL = 656;
 
     int MENU_MOBILE = 657;
-    
+
     // ///////////////////////////////////////////
     // SYNC
     // ///////////////////////////////////////////
@@ -217,7 +223,7 @@ public interface MenuActionItem
     // ///////////////////////////////////////////
 
     int ACCOUNT_ID = 1000;
-    
+
     int ACCOUNT_RELOAD = 1001;
 
     int PARAMETER_ID = 2000;

@@ -4,9 +4,9 @@ import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBat
 
 import android.content.Context;
 
-public class OdsConfigCallback extends AbstractBatchOperationCallback<OdsConfigContext>
+public class OdsUpdateLinkCallback extends AbstractBatchOperationCallback<OdsUpdateLinkContext>
 {
-    public OdsConfigCallback(Context context, int totalItems, int pendingItems)
+    public OdsUpdateLinkCallback(Context context, int totalItems, int pendingItems)
     {
         super(context, totalItems, pendingItems);
     }

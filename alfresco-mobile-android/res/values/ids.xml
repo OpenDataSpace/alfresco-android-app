@@ -26,6 +26,7 @@
     <item name="tag_action" type="id"/>
     <item name="site_action" type="id"/>
     <item name="node_action" type="id"/>
+    <item name="link_action" type="id"/>
     <item name="favorite_id" type="id"/>
     <item name="operation_id" type="id"/>
     <item name="operation_status" type="id"/>
@@ -35,7 +36,6 @@
     <!-- Backward compatibility -->
     <item name="create_content" type="id"/>
     <item name="create_folder" type="id"/>
-    <item name="create_content" type="id"/>
 
     <!-- Account -->
     <string name="account_service_document"></string>
