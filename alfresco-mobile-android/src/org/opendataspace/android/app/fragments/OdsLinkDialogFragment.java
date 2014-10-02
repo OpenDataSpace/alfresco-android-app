@@ -1,5 +1,6 @@
 package org.opendataspace.android.app.fragments;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
@@ -15,6 +16,9 @@ import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
 
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.Context;
 import android.content.res.Configuration;
 import android.os.Bundle;
@@ -32,6 +36,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 
 public class OdsLinkDialogFragment extends BaseFragment
 {
@@ -41,7 +46,12 @@ public class OdsLinkDialogFragment extends BaseFragment
     public static final String ARGUMENT_LINK = "link";
 
     private EditText tvn, tve, tvp, tvm;
-    private DatePicker dpe;
+    private TextView dpe;
+
+    private static abstract class DatePickerFragment extends DialogFragment implements
+            DatePickerDialog.OnDateSetListener
+    {
+    }
 
     public OdsLinkDialogFragment()
     {
@@ -102,25 +112,46 @@ public class OdsLinkDialogFragment extends BaseFragment
         tve = (EditText) v.findViewById(R.id.link_email);
         tvp = (EditText) v.findViewById(R.id.link_password);
         tvm = (EditText) v.findViewById(R.id.link_message);
-        dpe = (DatePicker) v.findViewById(R.id.link_expire);
+        dpe = (TextView) v.findViewById(R.id.link_expires);
 
         tvn.setText(lnk.getName());
         tve.setText(lnk.getEmail());
         tvp.setText(lnk.getPassword());
         tvm.setText(lnk.getMessage());
-        dpe.init(exp.get(Calendar.YEAR), 1 + exp.get(Calendar.MONTH), exp.get(Calendar.DAY_OF_MONTH),
-                new DatePicker.OnDateChangedListener()
+        dpe.setText(SimpleDateFormat.getDateInstance().format(exp.getTime()));
+
+        if (!TextUtils.isEmpty(lnk.getObjectId()))
+        {
+            tvn.setEnabled(false);
+            tve.setEnabled(false);
+            tvm.setEnabled(false);
+        }
+
+        dpe.setOnClickListener(new View.OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                DialogFragment newFragment = new DatePickerFragment()
                 {
                     @Override
-                    public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth)
-                    {
-                        InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                                Context.INPUT_METHOD_SERVICE);
-                        imm.hideSoftInputFromWindow(dpe.getWindowToken(), 0);
+                    public Dialog onCreateDialog(Bundle savedInstanceState) {
+                        return new DatePickerDialog(getActivity(), this, exp.get(Calendar.YEAR), exp
+                                .get(Calendar.MONDAY) + 1, exp.get(Calendar.DATE));
+                    }
 
+                    @Override
+                    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
+                    {
+                        lnk.setExpires(new GregorianCalendar(year, monthOfYear, dayOfMonth));
+                        dpe.setText(SimpleDateFormat.getDateInstance().format(lnk.getExpires().getTime()));
                         bcreate.setEnabled(validate(lnk));
                     }
-                });
+                };
+
+                newFragment.show(getFragmentManager(), "timePicker");
+            }
+        });
 
         Button button = (Button) v.findViewById(R.id.cancel);
         button.setOnClickListener(new OnClickListener()
@@ -208,7 +239,6 @@ public class OdsLinkDialogFragment extends BaseFragment
     private boolean validate(OdsLink lnk)
     {
         lnk.setEmail(tve.getText().toString().trim());
-        lnk.setExpires(new GregorianCalendar(dpe.getYear(), dpe.getMonth() - 1, dpe.getDayOfMonth()));
         lnk.setMessage(tvm.getText().toString().trim());
         lnk.setName(tvn.getText().toString().trim());
         lnk.setPassword(tvp.getText().toString().trim());

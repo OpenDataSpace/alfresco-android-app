@@ -15,7 +15,13 @@ public class OdsLink implements Serializable
     private String email = "";
     private String password = "";
     private String objectId = "";
-    private Calendar expires = Calendar.getInstance();
+    private Calendar expires;
+
+    public OdsLink()
+    {
+        expires = Calendar.getInstance();
+        expires.add(Calendar.DAY_OF_MONTH, 7);
+    }
 
     public String getName()
     {

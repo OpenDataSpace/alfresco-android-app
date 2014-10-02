@@ -204,11 +204,12 @@
     <string name="links_remove">Remove Link</string>
     <string name="empty_links">No links found</string>
     <string name="document_links_header">Links</string>
-    <string name="link_name_hint">Type the link name here</string>
-    <string name="link_email_hint">Email address deliver to</string>
-    <string name="link_password_hint">Password to access (Optional)</string>
-    <string name="link_message_hint">Comment</string>
+    <string name="link_name">Subject:</string>
+    <string name="link_email">Email:</string>
+    <string name="link_password">Password:</string>
+    <string name="link_message">Comment:</string>
     <string name="link_copy_url">Copy Url</string>
+    <string name="link_expires">Expires:</string>
 
     <!-- NETWORKS -->
     <string name="cloud_networks_empty">No networks available</string>
