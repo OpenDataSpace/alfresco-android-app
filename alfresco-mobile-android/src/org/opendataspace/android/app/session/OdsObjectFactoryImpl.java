@@ -63,6 +63,11 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
                 throw new IllegalArgumentException("Type or type property must be set!");
             }
 
+            if (typeId != "cmis:item")
+            {
+                return super.convertProperties(properties, type, secondaryTypes, updatabilityFilter);
+            }
+
             type = session.getTypeDefinition(typeId.toString());
         }
 
@@ -99,12 +104,15 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
 
         boolean found = false;
 
-        for (SecondaryType tp : allSecondaryTypes)
+        if (allSecondaryTypes != null)
         {
-            if (tp.getId().equals("gds:downloadLink"))
+            for (SecondaryType tp : allSecondaryTypes)
             {
-                found = true;
-                break;
+                if (tp.getId().equals("gds:downloadLink"))
+                {
+                    found = true;
+                    break;
+                }
             }
         }
 
