@@ -120,6 +120,8 @@ public interface MenuActionItem
 
     int MENU_COPY = 194;
 
+    int MENU_PASTE = 195;
+
     // ///////////////////////////////////////////
     // SELECTION
     // ///////////////////////////////////////////

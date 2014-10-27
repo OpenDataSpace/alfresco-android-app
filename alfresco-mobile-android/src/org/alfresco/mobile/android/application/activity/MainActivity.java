@@ -1055,6 +1055,14 @@ public class MainActivity extends BaseActivity
                         PublicIntent.REQUESTCODE_FILEPICKER);
             }
             return true;
+
+        case MenuActionItem.MENU_PASTE:
+            if (getFragment(ChildrenBrowserFragment.TAG) != null)
+            {
+                ((ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG)).pasteFileList();
+            }
+            return true;
+
         case MenuActionItem.MENU_REFRESH:
             ((RefreshFragment) getFragmentManager().findFragmentById(DisplayUtils.getLeftFragmentId(this)))
             .refresh();

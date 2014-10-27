@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,7 +25,6 @@ import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
 import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.activity.PrivateDialogActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -162,6 +161,11 @@ public class NodeActions extends AbstractActions<Node>
         ((ChildrenBrowserFragment) fragment).selectAll();
     }
 
+    private void copyFiles()
+    {
+        ((ChildrenBrowserFragment) fragment).copySelectedFiles();
+    }
+
     // ///////////////////////////////////////////////////////////////////////////////////
     // MENU
     // ///////////////////////////////////////////////////////////////////////////////////
@@ -196,13 +200,12 @@ public class NodeActions extends AbstractActions<Node>
                 + MenuActionItem.MENU_FAVORITE_GROUP_FAVORITE, R.string.favorite);
         createMenu.add(Menu.NONE, MenuActionItem.MENU_FAVORITE_GROUP_UNFAVORITE, Menu.FIRST
                 + MenuActionItem.MENU_FAVORITE_GROUP_UNFAVORITE, R.string.unfavorite);
-         */
+
         AlfrescoSession alfSession = SessionUtils.getSession(activity);
         if (alfSession != null && alfSession.getRepositoryInfo() != null
                 && alfSession.getRepositoryInfo().getCapabilities() != null
                 && alfSession.getRepositoryInfo().getCapabilities().doesSupportLikingNodes())
         {
-            /*
             createMenu = menu.addSubMenu(Menu.NONE, MenuActionItem.MENU_LIKE_GROUP, Menu.FIRST
                     + MenuActionItem.MENU_LIKE_GROUP, R.string.like);
             createMenu.setIcon(R.drawable.ic_like);
@@ -212,12 +215,15 @@ public class NodeActions extends AbstractActions<Node>
                     + MenuActionItem.MENU_LIKE_GROUP_LIKE, R.string.like);
             createMenu.add(Menu.NONE, MenuActionItem.MENU_LIKE_GROUP_UNLIKE, Menu.FIRST
                     + MenuActionItem.MENU_LIKE_GROUP_UNLIKE, R.string.unlike);
-             */
         }
+        */
 
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_DELETE, Menu.FIRST + MenuActionItem.MENU_DELETE, R.string.delete);
         mi.setIcon(R.drawable.ic_delete);
         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+        mi = menu.add(Menu.NONE, MenuActionItem.MENU_COPY, Menu.FIRST + MenuActionItem.MENU_COPY, R.string.copy_files);
+        mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_SELECT_ALL, Menu.FIRST + MenuActionItem.MENU_SELECT_ALL,
                 R.string.select_all);
@@ -275,6 +281,9 @@ public class NodeActions extends AbstractActions<Node>
         case MenuActionItem.MENU_PROCESS_REVIEW_ATTACHMENTS:
             startReview();
             b = true;
+            break;
+        case MenuActionItem.MENU_COPY:
+            copyFiles();
             break;
         default:
             break;

@@ -267,6 +267,10 @@
     <string name="save">Save</string>
     <string name="enter_details">Enter your details</string>
     <string name="share_content">Share Content with&#8230;</string>
+    <!-- translate -->
+    <string name="copy_files">Copy</string>
+    <string name="paste_files">Paste</string>
+    <string name="copy_operation">Copy files&#8230;</string>
 
     <!-- HELP -->
     <string name="asset_folder_prefix">en</string>

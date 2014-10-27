@@ -149,6 +149,8 @@ public interface IntentIntegrator extends PublicIntent
 
     String ACTION_UPDATE_LINK_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_UPDATE_LINK_COMPLETED";
 
+    String ACTION_MOVE_NODES_COMPLETED = "org.alfresco.mobile.android.intent.ACTION_MOVE_NODES_COMPLETED";
+
     // EXTRA
     String EXTRA_UPDATED_NODE = "org.alfresco.mobile.android.intent.EXTRA_UPDATED_NODE";
 

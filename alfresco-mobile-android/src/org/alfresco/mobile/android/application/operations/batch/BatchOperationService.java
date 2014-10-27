@@ -97,6 +97,9 @@ import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.opendataspace.android.app.operations.OdsConfigCallback;
 import org.opendataspace.android.app.operations.OdsConfigRequest;
 import org.opendataspace.android.app.operations.OdsConfigThread;
+import org.opendataspace.android.app.operations.OdsMoveNodesCallback;
+import org.opendataspace.android.app.operations.OdsMoveNodesRequest;
+import org.opendataspace.android.app.operations.OdsMoveNodesThread;
 import org.opendataspace.android.app.operations.OdsUpdateLinkCallback;
 import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
 import org.opendataspace.android.app.operations.OdsUpdateLinkThread;
@@ -311,6 +314,11 @@ public class BatchOperationService<T> extends Service
             parallelOperation = 1;
             task = (AbstractBatchOperationThread<T>) new OdsUpdateLinkThread(getBaseContext(), request);
             callback = (OperationCallBack<T>) new OdsUpdateLinkCallback(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case OdsMoveNodesRequest.TYPE_ID:
+            parallelOperation = 1;
+            task = (AbstractBatchOperationThread<T>) new OdsMoveNodesThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new OdsMoveNodesCallback(getBaseContext(), totalItems, pendingRequest);
             break;
         default:
             break;

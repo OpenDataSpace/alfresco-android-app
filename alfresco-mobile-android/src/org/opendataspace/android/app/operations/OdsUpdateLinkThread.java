@@ -7,19 +7,18 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.session.impl.AbstractAlfrescoSessionImpl;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
 import org.apache.chemistry.opencmis.client.api.Item;
-import org.apache.chemistry.opencmis.client.api.ObjectId;
 import org.apache.chemistry.opencmis.client.api.Property;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.SecondaryTypeIds;
 import org.opendataspace.android.app.links.OdsLink;
+import org.opendataspace.android.app.session.OdsFolder;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
@@ -82,10 +81,8 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                 }
 
                 DocumentFolderService svc = session.getServiceRegistry().getDocumentFolderService();
-                Folder folder = svc.getParentFolder(svc.getNodeByIdentifier(nodeId));
-                final ObjectId objectId = cmisSession.createItem(properties,
-                        cmisSession.getObject(folder.getIdentifier()));
-                final Item item = (Item) cmisSession.getObject(objectId);
+                OdsFolder folder = (OdsFolder) svc.getParentFolder(svc.getNodeByIdentifier(nodeId));
+                final Item item = (Item) cmisSession.createItem(properties, folder.getCmisObject());
                 final Property<String> property = item.getProperty("gds:url");
 
                 link.setUrl(property.getFirstValue());

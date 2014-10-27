@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,11 @@ import org.alfresco.mobile.android.api.model.impl.RepositoryVersionHelper;
 import org.alfresco.mobile.android.api.model.impl.cloud.CloudFolderImpl;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.operations.OdsMoveNodesRequest;
+import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
 import org.opendataspace.android.app.session.OdsPermissions;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
@@ -56,12 +60,15 @@ import org.alfresco.mobile.android.application.fragments.RefreshFragment;
 import org.alfresco.mobile.android.application.fragments.actions.AbstractActions.onFinishModeListerner;
 import org.alfresco.mobile.android.application.fragments.actions.NodeActions;
 import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
+import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
 import org.alfresco.mobile.android.application.fragments.search.SearchFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.intent.PublicIntent;
 import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
 import org.alfresco.mobile.android.application.manager.ActionManager;
+import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
 import org.alfresco.mobile.android.application.operations.Operation;
+import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
 import org.alfresco.mobile.android.application.operations.batch.node.create.CreateDocumentRequest;
@@ -77,6 +84,8 @@ import android.app.ActionBar.OnNavigationListener;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -84,6 +93,7 @@ import android.content.Loader;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -98,7 +108,7 @@ import android.widget.SpinnerAdapter;
 /**
  * Display a dialogFragment to retrieve information about the content of a
  * specific folder.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class ChildrenBrowserFragment extends GridNavigationFragment implements RefreshFragment, ListingModeFragment
@@ -357,6 +367,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             intentFilter.addAction(IntentIntegrator.ACTION_UPDATE_COMPLETED);
             intentFilter.addAction(IntentIntegrator.ACTION_FAVORITE_COMPLETED);
             intentFilter.addAction(IntentIntegrator.ACTION_DOWNLOAD_COMPLETED);
+            intentFilter.addAction(IntentIntegrator.ACTION_MOVE_NODES_COMPLETED);
             receiver = new TransfertReceiver();
             LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, intentFilter);
         }
@@ -818,7 +829,20 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                 displayMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
             }
              */
-        }
+
+            if (selectedItems == null || selectedItems.isEmpty())
+            {
+                ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(
+                        Context.CLIPBOARD_SERVICE);
+
+                if (clipboard.hasPrimaryClip()
+                        && clipboard.getPrimaryClipDescription().hasMimeType(MimeTypeManager.MIME_NODE_LIST))
+                {
+                    MenuItem mi = menu.add(Menu.NONE, MenuActionItem.MENU_PASTE,
+                            Menu.FIRST + MenuActionItem.MENU_PASTE, R.string.paste_files);
+                    mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                }
+            }
         else if (getActivity() instanceof PublicDispatcherActivity)
         {
             Permissions permission = alfSession.getServiceRegistry().getDocumentFolderService()
@@ -959,7 +983,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     /**
      * Remove a site object inside the listing without requesting an HTTP call.
-     * 
+     *
      * @param site : site to remove
      */
     public void remove(Node node)
@@ -1022,6 +1046,98 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     public Node getSelectedNodes()
     {
         return (selectedItems != null && !selectedItems.isEmpty()) ? selectedItems.get(0) : null;
+    }
+
+    public void copySelectedFiles()
+    {
+        try
+        {
+            if (selectedItems == null || selectedItems.isEmpty())
+            {
+                return;
+            }
+
+            JSONArray list = new JSONArray();
+
+            for (Node cur : selectedItems)
+            {
+                JSONObject obj = new JSONObject();
+                obj.put("nodeId", cur.getIdentifier());
+                list.put(obj);
+            }
+
+            JSONObject data = new JSONObject();
+            data.put("nodes", list);
+
+            ClipData cd = new ClipData("ods nodes", new String[] { MimeTypeManager.MIME_NODE_LIST }, new ClipData.Item(
+                    data.toString()));
+            ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+            clipboard.setPrimaryClip(cd);
+        } catch (Exception ex)
+        {
+            OdsLog.ex(TAG, ex);
+        }
+    }
+
+    public void pasteFileList()
+    {
+        try
+        {
+            ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+
+            if (!clipboard.hasPrimaryClip()
+                    || !clipboard.getPrimaryClipDescription().hasMimeType(MimeTypeManager.MIME_NODE_LIST)
+                    || clipboard.getPrimaryClip().getItemCount() != 1)
+            {
+                return;
+            }
+
+            JSONObject jso = new JSONObject(clipboard.getPrimaryClip().getItemAt(0).coerceToText(getActivity())
+                    .toString());
+            JSONArray list = jso.optJSONArray("nodes");
+
+            if (list == null)
+            {
+                return;
+            }
+
+            ArrayList<String> ids = new ArrayList<String>();
+
+            for (int n = 0, cnt = list.length(); n != cnt; ++n)
+            {
+                JSONObject cur = list.optJSONObject(n);
+
+                if (jso == null)
+                {
+                    continue;
+                }
+
+                String id = cur.optString("nodeId");
+
+                if (!TextUtils.isEmpty(id))
+                {
+                    ids.add(id);
+                }
+            }
+
+            if (ids.isEmpty())
+            {
+                return;
+            }
+
+            OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
+                    SessionUtils.getAccount(getActivity()));
+            group.enqueue(new OdsMoveNodesRequest(ids, parentFolder.getIdentifier())
+                    .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+            BatchOperationManager.getInstance(getActivity()).enqueue(group);
+
+            OperationWaitingDialogFragment.newInstance(OdsUpdateLinkRequest.TYPE_ID, R.drawable.ic_add,
+                    getString(R.string.copy_operation), null, parentFolder, 0).show(getActivity().getFragmentManager(),
+                    OperationWaitingDialogFragment.TAG);
+        } catch (Exception ex)
+        {
+            OdsLog.ex(TAG, ex);
+        }
     }
 
     // //////////////////////////////////////////////////////////////////////
@@ -1093,6 +1209,11 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                     {
                         Node node = (Node) b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
                         ((ProgressNodeAdapter) adapter).replaceNode(node);
+                    }
+                    else if (intent.getAction().equals(IntentIntegrator.ACTION_MOVE_NODES_COMPLETED))
+                    {
+                        refresh();
+                        return;
                     }
                     ((ProgressNodeAdapter) adapter).refreshOperations();
                     refreshList();

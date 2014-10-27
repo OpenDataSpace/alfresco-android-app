@@ -11,6 +11,7 @@ public class OdsConfigRequest extends AbstractBatchOperationRequestImpl
     public OdsConfigRequest()
     {
         super();
+
         requestTypeId = TYPE_ID;
     }
 

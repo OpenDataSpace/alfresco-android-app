@@ -222,7 +222,7 @@
             android:name="org.alfresco.mobile.android.application.mimetype.MimeTypeProvider"
             android:authorities="org.opendataspace.android.app.provider.mimetypes"
             android:exported="false" />
-         
+
          <provider
             android:name="org.alfresco.mobile.android.application.storage.provider.StorageAccessDocumentsProvider"
             android:authorities="org.opendataspace.android.app.provider.documents"
