@@ -843,6 +843,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                     mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
                 }
             }
+        }
         else if (getActivity() instanceof PublicDispatcherActivity)
         {
             Permissions permission = alfSession.getServiceRegistry().getDocumentFolderService()
