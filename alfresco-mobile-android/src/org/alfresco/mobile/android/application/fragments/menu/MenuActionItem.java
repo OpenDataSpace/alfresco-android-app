@@ -122,6 +122,8 @@ public interface MenuActionItem
 
     int MENU_PASTE = 195;
 
+    int MENU_MOVE = 196;
+
     // ///////////////////////////////////////////
     // SELECTION
     // ///////////////////////////////////////////

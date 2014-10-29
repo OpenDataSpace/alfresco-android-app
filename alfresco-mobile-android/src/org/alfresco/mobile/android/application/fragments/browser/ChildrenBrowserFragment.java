@@ -841,6 +841,10 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                     MenuItem mi = menu.add(Menu.NONE, MenuActionItem.MENU_PASTE,
                             Menu.FIRST + MenuActionItem.MENU_PASTE, R.string.paste_files);
                     mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
+                    mi = menu.add(Menu.NONE, MenuActionItem.MENU_MOVE, Menu.FIRST + MenuActionItem.MENU_MOVE,
+                            R.string.move_files);
+                    mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
                 }
             }
         }
@@ -1049,18 +1053,18 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         return (selectedItems != null && !selectedItems.isEmpty()) ? selectedItems.get(0) : null;
     }
 
-    public void copySelectedFiles()
+    public void copyFiles(List<Node> files)
     {
         try
         {
-            if (selectedItems == null || selectedItems.isEmpty())
+            if (files == null || files.isEmpty())
             {
                 return;
             }
 
             JSONArray list = new JSONArray();
 
-            for (Node cur : selectedItems)
+            for (Node cur : files)
             {
                 JSONObject obj = new JSONObject();
                 obj.put("nodeId", cur.getIdentifier());
@@ -1069,18 +1073,35 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
             JSONObject data = new JSONObject();
             data.put("nodes", list);
+            data.put("account", SessionUtils.getAccount(getActivity()).getId());
 
             ClipData cd = new ClipData("ods nodes", new String[] { MimeTypeManager.MIME_NODE_LIST }, new ClipData.Item(
                     data.toString()));
             ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
             clipboard.setPrimaryClip(cd);
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             OdsLog.ex(TAG, ex);
         }
     }
 
+    public void copySelectedFiles()
+    {
+        copyFiles(selectedItems);
+    }
+
     public void pasteFileList()
+    {
+        copyMove(false);
+    }
+
+    public void moveFileList()
+    {
+        copyMove(true);
+    }
+
+    private void copyMove(boolean isMove)
     {
         try
         {
@@ -1096,8 +1117,9 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             JSONObject jso = new JSONObject(clipboard.getPrimaryClip().getItemAt(0).coerceToText(getActivity())
                     .toString());
             JSONArray list = jso.optJSONArray("nodes");
+            long accId = jso.optLong("account", -1);
 
-            if (list == null)
+            if (list == null || SessionUtils.getAccount(getActivity()).getId() != accId)
             {
                 return;
             }
@@ -1128,13 +1150,13 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
             OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
                     SessionUtils.getAccount(getActivity()));
-            group.enqueue(new OdsMoveNodesRequest(ids, parentFolder.getIdentifier())
+            group.enqueue(new OdsMoveNodesRequest(ids, parentFolder.getIdentifier(), isMove)
                     .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
             OperationWaitingDialogFragment.newInstance(OdsUpdateLinkRequest.TYPE_ID, R.drawable.ic_add,
-                    getString(R.string.copy_operation), null, parentFolder, 0).show(getActivity().getFragmentManager(),
-                    OperationWaitingDialogFragment.TAG);
+                    getString(isMove ? R.string.move_operation : R.string.copy_operation), null, parentFolder, 0).show(
+                    getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
         } catch (Exception ex)
         {
             OdsLog.ex(TAG, ex);

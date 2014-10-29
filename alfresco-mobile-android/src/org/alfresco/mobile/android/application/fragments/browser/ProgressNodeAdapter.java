@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -463,7 +463,7 @@ OnMenuItemClickListener
         if (permission.canEdit())
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_EDIT, Menu.FIRST + MenuActionItem.MENU_EDIT,
-                    R.string.action_edit_properties);
+                    R.string.action_rename);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         }
 
@@ -474,6 +474,12 @@ OnMenuItemClickListener
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         }
 
+        if (node.isFolder())
+        {
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_COPY, Menu.FIRST + MenuActionItem.MENU_COPY,
+                    R.string.copy_files);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        }
     }
 
     @Override
@@ -497,12 +503,25 @@ OnMenuItemClickListener
             Fragment fr = ((Activity) context).getFragmentManager().findFragmentByTag(ChildrenBrowserFragment.TAG);
             NodeActions.delete((Activity) context, fr, selectedOptionItems.get(0));
             break;
+        case MenuActionItem.MENU_COPY:
+            onMenuItemClick = true;
+            copyFolder();
+            break;
         default:
             onMenuItemClick = false;
             break;
         }
         selectedOptionItems.clear();
         return onMenuItemClick;
+    }
+
+    private void copyFolder()
+    {
+        ChildrenBrowserFragment fr = (ChildrenBrowserFragment) ((Activity) context).getFragmentManager()
+                .findFragmentByTag(ChildrenBrowserFragment.TAG);
+        List<Node> ls = new ArrayList<Node>();
+        ls.add(selectedOptionItems.get(0));
+        fr.copyFiles(ls);
     }
 
     // ///////////////////////////////////////////////////////////////////////////

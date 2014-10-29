@@ -270,7 +270,9 @@
     <!-- translate -->
     <string name="copy_files">Copy</string>
     <string name="paste_files">Paste</string>
+    <string name="move_files">Move</string>
     <string name="copy_operation">Copy files&#8230;</string>
+    <string name="move_operation">Move files&#8230;</string>
 
     <!-- HELP -->
     <string name="asset_folder_prefix">en</string>

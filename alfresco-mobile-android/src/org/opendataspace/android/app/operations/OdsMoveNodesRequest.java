@@ -12,13 +12,15 @@ public class OdsMoveNodesRequest extends AbstractBatchOperationRequestImpl
 
     private final List<String> ids;
     private final String targetId;
+    private final boolean isMove;
 
-    public OdsMoveNodesRequest(List<String> ids, String targetId)
+    public OdsMoveNodesRequest(List<String> ids, String targetId, boolean isMove)
     {
         super();
 
         this.ids = ids;
         this.targetId = targetId;
+        this.isMove = isMove;
         requestTypeId = TYPE_ID;
     }
 
@@ -36,5 +38,10 @@ public class OdsMoveNodesRequest extends AbstractBatchOperationRequestImpl
     public String getTargetId()
     {
         return targetId;
+    }
+
+    public boolean isMove()
+    {
+        return isMove;
     }
 }
