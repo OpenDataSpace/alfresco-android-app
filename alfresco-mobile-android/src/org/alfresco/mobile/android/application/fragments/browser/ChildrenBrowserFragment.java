@@ -858,10 +858,6 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                     MenuItem mi = menu.add(Menu.NONE, MenuActionItem.MENU_PASTE,
                             Menu.FIRST + MenuActionItem.MENU_PASTE, R.string.paste_files);
                     mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-
-                    mi = menu.add(Menu.NONE, MenuActionItem.MENU_MOVE, Menu.FIRST + MenuActionItem.MENU_MOVE,
-                            R.string.move_files);
-                    mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
                 }
             }
         }
@@ -1076,7 +1072,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         return (selectedItems != null && !selectedItems.isEmpty()) ? selectedItems.get(0) : null;
     }
 
-    public void copyFiles(List<Node> files)
+    public void copyFiles(List<Node> files, boolean isCopy)
     {
         try
         {
@@ -1097,6 +1093,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             JSONObject data = new JSONObject();
             data.put("nodes", list);
             data.put("account", SessionUtils.getAccount(getActivity()).getId());
+            data.put("isCopy", isCopy);
 
             ClipData cd = new ClipData("ods nodes", new String[] { MimeTypeManager.MIME_NODE_LIST }, new ClipData.Item(
                     data.toString()));
@@ -1109,22 +1106,12 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         }
     }
 
-    public void copySelectedFiles()
+    public void copySelectedFiles(boolean isCopy)
     {
-        copyFiles(selectedItems);
+        copyFiles(selectedItems, isCopy);
     }
 
     public void pasteFileList()
-    {
-        copyMove(false);
-    }
-
-    public void moveFileList()
-    {
-        copyMove(true);
-    }
-
-    private void copyMove(boolean isMove)
     {
         try
         {
@@ -1141,6 +1128,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                     .toString());
             JSONArray list = jso.optJSONArray("nodes");
             long accId = jso.optLong("account", -1);
+            boolean isCopy = jso.optBoolean("isCopy", true);
 
             if (list == null || SessionUtils.getAccount(getActivity()).getId() != accId)
             {
@@ -1173,12 +1161,12 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
             OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
                     SessionUtils.getAccount(getActivity()));
-            group.enqueue(new OdsMoveNodesRequest(ids, parentFolder.getIdentifier(), isMove)
+            group.enqueue(new OdsMoveNodesRequest(ids, parentFolder.getIdentifier(), !isCopy)
                     .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
             OperationWaitingDialogFragment.newInstance(OdsUpdateLinkRequest.TYPE_ID, R.drawable.ic_add,
-                    getString(isMove ? R.string.move_operation : R.string.copy_operation), null, parentFolder, true)
+                    getString(isCopy ? R.string.copy_operation : R.string.move_operation), null, parentFolder, true)
                     .show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
         }
         catch (Exception ex)

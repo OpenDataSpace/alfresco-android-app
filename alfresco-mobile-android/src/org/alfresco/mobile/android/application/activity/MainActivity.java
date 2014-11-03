@@ -1062,12 +1062,6 @@ public class MainActivity extends BaseActivity
                 ((ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG)).pasteFileList();
             }
             return true;
-        case MenuActionItem.MENU_MOVE:
-            if (getFragment(ChildrenBrowserFragment.TAG) != null)
-            {
-                ((ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG)).moveFileList();
-            }
-            return true;
 
         case MenuActionItem.MENU_REFRESH:
             ((RefreshFragment) getFragmentManager().findFragmentById(DisplayUtils.getLeftFragmentId(this)))

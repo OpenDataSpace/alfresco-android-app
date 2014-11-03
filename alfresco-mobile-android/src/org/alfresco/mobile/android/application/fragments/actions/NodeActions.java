@@ -161,9 +161,9 @@ public class NodeActions extends AbstractActions<Node>
         ((ChildrenBrowserFragment) fragment).selectAll();
     }
 
-    private void copyFiles()
+    private void copyFiles(boolean isCopy)
     {
-        ((ChildrenBrowserFragment) fragment).copySelectedFiles();
+        ((ChildrenBrowserFragment) fragment).copySelectedFiles(isCopy);
     }
 
     // ///////////////////////////////////////////////////////////////////////////////////
@@ -221,6 +221,9 @@ public class NodeActions extends AbstractActions<Node>
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_DELETE, Menu.FIRST + MenuActionItem.MENU_DELETE, R.string.delete);
         mi.setIcon(R.drawable.ic_delete);
         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+        mi = menu.add(Menu.NONE, MenuActionItem.MENU_CUT, Menu.FIRST + MenuActionItem.MENU_CUT, R.string.cut_files);
+        mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_COPY, Menu.FIRST + MenuActionItem.MENU_COPY, R.string.copy_files);
         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
@@ -283,7 +286,10 @@ public class NodeActions extends AbstractActions<Node>
             b = true;
             break;
         case MenuActionItem.MENU_COPY:
-            copyFiles();
+            copyFiles(true);
+            break;
+        case MenuActionItem.MENU_CUT:
+            copyFiles(false);
             break;
         default:
             break;

@@ -110,6 +110,12 @@ public interface MenuActionItem
 
     int MENU_TAGS = 180;
 
+    int MENU_CUT = 185;
+
+    int MENU_COPY = 186;
+
+    int MENU_PASTE = 187;
+
     int MENU_DELETE = 190;
 
     int MENU_DELETE_FOLDER = 191;
@@ -117,12 +123,6 @@ public interface MenuActionItem
     int MENU_LINKS = 192;
 
     int MENU_CREATE_LINK = 193;
-
-    int MENU_COPY = 194;
-
-    int MENU_PASTE = 195;
-
-    int MENU_MOVE = 196;
 
     // ///////////////////////////////////////////
     // SELECTION

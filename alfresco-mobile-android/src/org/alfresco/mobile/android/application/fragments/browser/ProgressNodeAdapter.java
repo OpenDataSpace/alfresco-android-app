@@ -476,6 +476,9 @@ OnMenuItemClickListener
 
         if (node.isFolder())
         {
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_CUT, Menu.FIRST + MenuActionItem.MENU_CUT, R.string.cut_files);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_COPY, Menu.FIRST + MenuActionItem.MENU_COPY,
                     R.string.copy_files);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
@@ -505,7 +508,11 @@ OnMenuItemClickListener
             break;
         case MenuActionItem.MENU_COPY:
             onMenuItemClick = true;
-            copyFolder();
+            copyFolder(true);
+            break;
+        case MenuActionItem.MENU_CUT:
+            onMenuItemClick = true;
+            copyFolder(false);
             break;
         default:
             onMenuItemClick = false;
@@ -515,13 +522,13 @@ OnMenuItemClickListener
         return onMenuItemClick;
     }
 
-    private void copyFolder()
+    private void copyFolder(boolean isCopy)
     {
         ChildrenBrowserFragment fr = (ChildrenBrowserFragment) ((Activity) context).getFragmentManager()
                 .findFragmentByTag(ChildrenBrowserFragment.TAG);
         List<Node> ls = new ArrayList<Node>();
         ls.add(selectedOptionItems.get(0));
-        fr.copyFiles(ls);
+        fr.copyFiles(ls, isCopy);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
