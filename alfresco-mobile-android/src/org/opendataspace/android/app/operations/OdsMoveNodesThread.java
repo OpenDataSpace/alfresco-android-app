@@ -29,6 +29,8 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
     private final String targetId;
     private final boolean isMove;
     private OdsFolder target;
+    private long pos = 0;
+    private long max = 0;
 
     public OdsMoveNodesThread(Context context, OperationRequest request)
     {
@@ -38,6 +40,7 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
         ids = rq.getIds();
         targetId = rq.getTargetId();
         isMove = rq.isMove();
+        max = ids.size();
     }
 
     @Override
@@ -80,16 +83,24 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
     {
         try
         {
+            boolean res = true;
+
             if (node.isDocument())
             {
                 processDocument((OdsDocument) node, to, svc);
             }
             else
             {
-                return processFolder((OdsFolder) node, to, svc);
+                res = processFolder((OdsFolder) node, to, svc);
             }
 
-            return true;
+            if (res && listener != null)
+            {
+                ++pos;
+                listener.onProgressUpdate(this, 100 * pos / max);
+            }
+
+            return res;
         }
         catch (Exception ex)
         {
@@ -104,8 +115,10 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
         Map<String, Serializable> properties = new HashMap<String, Serializable>(2);
         properties.put(PropertyIds.OBJECT_TYPE_ID, BaseTypeId.CMIS_FOLDER.value());
         OdsFolder fld = (OdsFolder) svc.createFolder(to, from.getName(), properties);
+        List<Node> ls = svc.getChildren(from);
+        max += ls.size();
 
-        for (Node cur : svc.getChildren(from))
+        for (Node cur : ls)
         {
             if (!processNode(cur, fld, svc))
             {

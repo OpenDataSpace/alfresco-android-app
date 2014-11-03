@@ -245,7 +245,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         // In case of Import mode, we disable thumbnails.
         if (getActivity() instanceof PublicDispatcherActivity)
         {
-            mode = IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()) ? MODE_FOLDERS : MODE_IMPORT;
+            mode = IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()) ? MODE_FOLDERS
+                    : MODE_IMPORT;
             setActivateThumbnail(false);
         }
         else if (getActivity() instanceof PrivateDialogActivity)
@@ -269,8 +270,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
             validationButton = (Button) v.findViewById(R.id.action_validation);
 
-            if (getActivity() instanceof PublicDispatcherActivity &&
-                    IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()))
+            if (getActivity() instanceof PublicDispatcherActivity
+                    && IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()))
             {
                 validationButton.setText(R.string.action_select);
             }
@@ -308,7 +309,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         int titleId = R.string.app_name;
         if (getActivity() instanceof PublicDispatcherActivity)
         {
-            mode = IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()) ? MODE_FOLDERS : MODE_IMPORT;
+            mode = IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()) ? MODE_FOLDERS
+                    : MODE_IMPORT;
             titleId = R.string.import_document_title;
             checkValidationButton();
         }
@@ -429,7 +431,10 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                 @Override
                 public boolean onNavigationItemSelected(int itemPosition, long itemId)
                 {
-                    if (itemPosition == 0) { return true; }
+                    if (itemPosition == 0)
+                    {
+                        return true;
+                    }
 
                     if (isShortcut())
                     {
@@ -601,7 +606,10 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     public boolean onItemLongClick(GridView l, View v, int position, long id)
     {
         // We disable long click during import mode.
-        if (mode == MODE_IMPORT || mode == MODE_PICK || mode == MODE_FOLDERS) { return false; }
+        if (mode == MODE_IMPORT || mode == MODE_PICK || mode == MODE_FOLDERS)
+        {
+            return false;
+        }
 
         Node n = (Node) l.getItemAtPosition(position);
         boolean b = true;
@@ -627,7 +635,10 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     private boolean startSelection(Node item)
     {
-        if (nActions != null) { return false; }
+        if (nActions != null)
+        {
+            return false;
+        }
 
         selectedItems.clear();
         selectedItems.add(item);
@@ -802,7 +813,10 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     public void refresh()
     {
-        if (!ConnectivityUtils.hasNetwork((BaseActivity) getActivity())) { return; }
+        if (!ConnectivityUtils.hasNetwork((BaseActivity) getActivity()))
+        {
+            return;
+        }
 
         if (parentFolder == null)
         {
@@ -816,7 +830,10 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     // //////////////////////////////////////////////////////////////////////
     public void getMenu(Menu menu)
     {
-        if (parentFolder == null) { return; }
+        if (parentFolder == null)
+        {
+            return;
+        }
 
         if (getActivity() instanceof MainActivity)
         {
@@ -882,7 +899,10 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     {
         MenuItem mi;
 
-        if (parentFolder == null) { return; }
+        if (parentFolder == null)
+        {
+            return;
+        }
         Permissions permission = null;
         try
         {
@@ -1042,7 +1062,10 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         {
             for (Node node : ((ProgressNodeAdapter) adapter).getNodes())
             {
-                if (node.isDocument()) { return true; }
+                if (node.isDocument())
+                {
+                    return true;
+                }
             }
         }
         return false;
@@ -1155,9 +1178,10 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
             OperationWaitingDialogFragment.newInstance(OdsUpdateLinkRequest.TYPE_ID, R.drawable.ic_add,
-                    getString(isMove ? R.string.move_operation : R.string.copy_operation), null, parentFolder, 0).show(
-                    getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
-        } catch (Exception ex)
+                    getString(isMove ? R.string.move_operation : R.string.copy_operation), null, parentFolder, true)
+                    .show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+        }
+        catch (Exception ex)
         {
             OdsLog.ex(TAG, ex);
         }
@@ -1182,8 +1206,14 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             {
                 Folder parentFolder = getParent();
                 Bundle b = intent.getExtras().getParcelable(IntentIntegrator.EXTRA_DATA);
-                if (b == null) { return; }
-                if (b.getSerializable(IntentIntegrator.EXTRA_FOLDER) instanceof File) { return; }
+                if (b == null)
+                {
+                    return;
+                }
+                if (b.getSerializable(IntentIntegrator.EXTRA_FOLDER) instanceof File)
+                {
+                    return;
+                }
                 String pFolder = ((Folder) b.getParcelable(IntentIntegrator.EXTRA_FOLDER)).getIdentifier();
 
                 if (pFolder.equals(parentFolder.getIdentifier()))

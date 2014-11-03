@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -65,6 +65,8 @@ public class OperationWaitingDialogFragment extends DialogFragment implements Lo
 
     private static final String PARAM_SIZE = "nbItems";
 
+    private static final String PARAM_PROG = "prog";
+
     //private static final String PARAM_FINISH = "nbItems";
 
     private boolean canDismiss = false;
@@ -118,6 +120,22 @@ public class OperationWaitingDialogFragment extends DialogFragment implements Lo
     }
 
     public static OperationWaitingDialogFragment newInstance(int operationType, int iconId, String title,
+            String message, Node parent, boolean needProg)
+    {
+        OperationWaitingDialogFragment fragment = new OperationWaitingDialogFragment();
+        Bundle bundle = new Bundle();
+        bundle.putInt(PARAM_TYPEID, operationType);
+        bundle.putInt(PARAM_ICONID, iconId);
+        bundle.putInt(PARAM_SIZE, 0);
+        bundle.putString(PARAM_TITLEID, title);
+        bundle.putString(PARAM_MESSAGEID, message);
+        bundle.putParcelable(PARAM_NODEID, parent);
+        bundle.putBoolean(PARAM_PROG, true);
+        fragment.setArguments(bundle);
+        return fragment;
+    }
+
+    public static OperationWaitingDialogFragment newInstance(int operationType, int iconId, String title,
             String message, Node parent, int nbItems, boolean finishActivity)
     {
         OperationWaitingDialogFragment fragment = new OperationWaitingDialogFragment();
@@ -162,7 +180,7 @@ public class OperationWaitingDialogFragment extends DialogFragment implements Lo
         }
         dialog.setMessage(message);
         boolean indeterminate = true;
-        if (nbItems > 0)
+        if (nbItems > 0 || getArguments().getBoolean(PARAM_PROG, false))
         {
             dialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
             dialog.setProgress(0);
@@ -196,6 +214,7 @@ public class OperationWaitingDialogFragment extends DialogFragment implements Lo
         setCancelable(false);
         super.onResume();
         IntentFilter intentFilter = new IntentFilter(IntentIntegrator.ACTION_OPERATIONS_COMPLETED);
+        intentFilter.addAction(IntentIntegrator.ACTION_OPERATION_PROGRESS_UPDATE);
         if (intentId != null)
         {
             intentFilter.addAction(intentId);
@@ -306,6 +325,14 @@ public class OperationWaitingDialogFragment extends DialogFragment implements Lo
             {
                 canDismiss = true;
                 dismiss();
+                return;
+            }
+
+            if (IntentIntegrator.ACTION_OPERATION_PROGRESS_UPDATE.equals(intent.getAction()))
+            {
+                ProgressDialog dialog = (ProgressDialog) getDialog();
+                dialog.setProgress((int) intent.getLongExtra(IntentIntegrator.EXTRA_DATA, 0));
+                dialog.setMax(100);
             }
         }
     }

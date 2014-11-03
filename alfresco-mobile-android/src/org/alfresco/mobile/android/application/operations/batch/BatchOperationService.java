@@ -318,7 +318,8 @@ public class BatchOperationService<T> extends Service
         case OdsMoveNodesRequest.TYPE_ID:
             parallelOperation = 1;
             task = (AbstractBatchOperationThread<T>) new OdsMoveNodesThread(getBaseContext(), request);
-            callback = (OperationCallBack<T>) new OdsMoveNodesCallback(getBaseContext(), totalItems, pendingRequest);
+            callback = (OperationCallBack<T>) new OdsMoveNodesCallback(getBaseContext(), totalItems, pendingRequest,
+                    ((OdsMoveNodesRequest) request).isMove());
             break;
         default:
             break;
