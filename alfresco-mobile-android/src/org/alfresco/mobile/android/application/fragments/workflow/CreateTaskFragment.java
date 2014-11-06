@@ -31,6 +31,7 @@ import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.Person;
 import org.alfresco.mobile.android.api.model.ProcessDefinition;
+import org.alfresco.mobile.android.api.session.impl.RepositorySessionImpl;
 import org.alfresco.mobile.android.api.utils.DateUtils;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.ui.logging.OdsLog;
@@ -206,17 +207,19 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
         {
             dueOn.setText(DateFormat.getDateFormat(getActivity()).format(dueAt.getTime()));
         }
+        else
+        {
+            dueOn.setText(getString(R.string.tasks_due_no_date));
+        }
 
-        Button b = (Button) vRoot.findViewById(R.id.process_due_on);
-        b.setOnClickListener(new OnClickListener()
+        dueOn.setOnClickListener(new OnClickListener()
         {
             @Override
             public void onClick(View v)
             {
-                new DatePickerFragment().show(getFragmentManager(), DatePickerFragment.TAG);
+                DatePickerFragment.newInstance(0, TAG).show(getFragmentManager(), DatePickerFragment.TAG);
             }
         });
-        b.setText(getString(R.string.tasks_due_no_date));
 
         // ASSIGNEES
         ib = (ImageButton) vRoot.findViewById(R.id.action_process_assignee);
@@ -375,10 +378,20 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
     @Override
     public void onDatePicked(int dateId, GregorianCalendar gregorianCalendar)
     {
-        gregorianCalendar.set(Calendar.HOUR_OF_DAY, 23);
-        gregorianCalendar.set(Calendar.MINUTE, 59);
-        gregorianCalendar.set(Calendar.SECOND, 59);
-        gregorianCalendar.set(Calendar.MILLISECOND, 999);
+        if (alfSession instanceof RepositorySessionImpl && ((RepositorySessionImpl) alfSession).hasPublicAPI())
+        {
+            gregorianCalendar.set(Calendar.HOUR_OF_DAY, 00);
+            gregorianCalendar.set(Calendar.MINUTE, 00);
+            gregorianCalendar.set(Calendar.SECOND, 00);
+            gregorianCalendar.set(Calendar.MILLISECOND, 000);
+        }
+        else
+        {
+            gregorianCalendar.set(Calendar.HOUR_OF_DAY, 23);
+            gregorianCalendar.set(Calendar.MINUTE, 59);
+            gregorianCalendar.set(Calendar.SECOND, 59);
+            gregorianCalendar.set(Calendar.MILLISECOND, 999);
+        }
         dueAt = gregorianCalendar;
         Button dueOn = (Button) vRoot.findViewById(R.id.process_due_on);
         dueOn.setText(DateFormat.getDateFormat(getActivity()).format(dueAt.getTime()));
@@ -392,7 +405,14 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
         Map<String, Serializable> variables = new HashMap<String, Serializable>();
         if (dueAt != null)
         {
-            variables.put(WorkflowModel.PROP_WORKFLOW_DUE_DATE, DateUtils.format(dueAt));
+            if (alfSession instanceof RepositorySessionImpl && ((RepositorySessionImpl) alfSession).hasPublicAPI())
+            {
+                variables.put(WorkflowModel.PROP_WORKFLOW_DUE_DATE, DateUtils.formatISO(dueAt));
+            }
+            else
+            {
+                variables.put(WorkflowModel.PROP_WORKFLOW_DUE_DATE, DateUtils.format(dueAt));
+            }
         }
         variables.put(WorkflowModel.PROP_WORKFLOW_PRIORITY, priority);
         variables.put(WorkflowModel.PROP_WORKFLOW_DESCRIPTION, titleTask.getText().toString().trim());

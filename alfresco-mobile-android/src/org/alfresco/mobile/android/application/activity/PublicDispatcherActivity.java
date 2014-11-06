@@ -210,6 +210,7 @@ public class PublicDispatcherActivity extends BaseActivity
         if (receiver != null)
         {
             broadcastManager.unregisterReceiver(receiver);
+            receiver = null;
         }
         super.onStop();
     }

@@ -538,7 +538,7 @@ GridFragment
 
             if (intent.getAction() == null) { return; }
 
-            if (mi != null && intent.getAction().equals(IntentIntegrator.ACTION_SYNC_SCAN_COMPLETED))
+            if (mi != null && getActivity() != null && intent.getAction().equals(IntentIntegrator.ACTION_SYNC_SCAN_COMPLETED))
             {
                 // Hide spinning wheel
                 mi.setActionView(null);

@@ -1280,6 +1280,12 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     // //////////////////////////////////////////////////////////////////////
     public void search(int fragmentPlaceId)
     {
+        // Use case : DocumentLibrary Site
+        if (folderParameter == null && currentSiteParameter != null)
+        {
+            folderParameter = parentFolder;
+        }
+
         FragmentDisplayer.replaceFragment(getActivity(),
                 SearchFragment.newInstance(folderParameter, currentSiteParameter), fragmentPlaceId, SearchFragment.TAG,
                 true);
@@ -1338,6 +1344,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     public boolean isShortcut()
     {
-        return (Boolean) getArguments().get(PARAM_IS_SHORTCUT);
+        if (getArguments() == null || !getArguments().containsKey(PARAM_IS_SHORTCUT)) { return false; }
+        return (getArguments().get(PARAM_IS_SHORTCUT) instanceof Boolean) ? (Boolean) getArguments().get(
+                PARAM_IS_SHORTCUT) : false;
     }
 }

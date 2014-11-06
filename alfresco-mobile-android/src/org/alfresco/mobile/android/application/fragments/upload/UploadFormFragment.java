@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -74,7 +74,7 @@ import android.widget.Spinner;
 
 /**
  * Display the form to choose account and import folder.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class UploadFormFragment extends Fragment implements LoaderCallbacks<Cursor>
@@ -182,33 +182,67 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
         {
             if (Intent.ACTION_SEND_MULTIPLE.equals(action))
             {
-                ArrayList<Uri> list = intent.getParcelableArrayListExtra(Intent.EXTRA_STREAM);
-
-                if (list != null && list.size() > 1)
+                if (AndroidVersion.isJBOrAbove())
                 {
-                    for (int i = 0; i < list.size(); i++)
+                    ClipData clipdata = intent.getClipData();
+                    if (clipdata != null && clipdata.getItemCount() > 1)
                     {
-                        Uri uri = list.get(i);
-                        if (uri != null)
+                        Item item = null;
+                        for (int i = 0; i < clipdata.getItemCount(); i++)
                         {
-                            retrieveIntentInfo(uri);
-                        }
-                        /*
-                        else
-                        {
-                            String timeStamp = new SimpleDateFormat("yyyyddMM_HHmmss").format(new Date());
-                            File localParentFolder = StorageManager.getCacheDir(getActivity(), "AlfrescoMobile/import");
-                            File f = createFile(localParentFolder, timeStamp + ".txt", item.getText().toString());
-                            if (f.exists())
+                            item = clipdata.getItemAt(i);
+                            Uri uri = item.getUri();
+                            if (uri != null)
                             {
-                                retrieveIntentInfo(Uri.fromFile(f));
+                                retrieveIntentInfo(uri);
+                            }
+                            /*
+                            else
+                            {
+                                String timeStamp = new SimpleDateFormat("yyyyddMM_HHmmss").format(new Date());
+                                File localParentFolder = StorageManager.getCacheDir(getActivity(),
+                                        "AlfrescoMobile/import");
+                                File f = createFile(localParentFolder, timeStamp + ".txt", item.getText().toString());
+                                if (f.exists())
+                                {
+                                    retrieveIntentInfo(Uri.fromFile(f));
+                                }
+                            }
+                            */
+                            if (!files.contains(file))
+                            {
+                                files.add(file);
                             }
                         }
-                         */
-                        if (!files.contains(file))
+                    }
+                }
+                else
+                {
+                    if (intent.getExtras() != null && intent.getExtras().get(Intent.EXTRA_STREAM) instanceof ArrayList)
+                    {
+                        @SuppressWarnings("unchecked")
+                        List<Object> attachments = (ArrayList<Object>) intent.getExtras().get(Intent.EXTRA_STREAM);
+                        for (Object object : attachments)
                         {
-                            files.add(file);
+                            if (object instanceof Uri)
+                            {
+                                Uri uri = (Uri) object;
+                                if (uri != null)
+                                {
+                                    retrieveIntentInfo(uri);
+                                }
+                                if (!files.contains(file))
+                                {
+                                    files.add(file);
+                                }
+                            }
                         }
+                    }
+                    else if (file == null || fileName == null)
+                    {
+                        MessengerManager.showLongToast(getActivity(), getString(R.string.import_unsupported_intent));
+                        getActivity().finish();
+                        return;
                     }
                 }
             }
@@ -497,22 +531,22 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
             // Session is not used by the application so create one.
             ActionManager.loadAccount(getActivity(), tmpAccount);
 
-            break;
-        case R.string.menu_downloads:
-            if (files.size() == 1)
-            {
-                UploadLocalDialogFragment fr = UploadLocalDialogFragment.newInstance(tmpAccount, file);
-                fr.show(getActivity().getFragmentManager(), UploadLocalDialogFragment.TAG);
-            }
-            else
-            {
-                File folderStorage = StorageManager.getDownloadFolder(getActivity(), tmpAccount);
-                DataProtectionManager.getInstance(getActivity()).copyAndEncrypt(tmpAccount, files, folderStorage);
-                getActivity().finish();
-            }
-            break;
-        default:
-            break;
+                break;
+            case R.string.menu_downloads:
+                if (files.size() == 1)
+                {
+                    UploadLocalDialogFragment fr = UploadLocalDialogFragment.newInstance(tmpAccount, file);
+                    fr.show(getActivity().getFragmentManager(), UploadLocalDialogFragment.TAG);
+                }
+                else
+                {
+                    File folderStorage = StorageManager.getDownloadFolder(getActivity(), tmpAccount);
+                    DataProtectionManager.getInstance(getActivity()).copyAndEncrypt(tmpAccount, files, folderStorage);
+                    getActivity().finish();
+                }
+                break;
+            default:
+                break;
         }
     }
 

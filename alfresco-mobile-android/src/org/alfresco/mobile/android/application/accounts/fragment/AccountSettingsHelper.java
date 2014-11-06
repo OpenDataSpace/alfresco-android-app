@@ -27,7 +27,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.alfresco.mobile.android.api.constants.OAuthConstant;
 import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
@@ -121,17 +120,6 @@ public class AccountSettingsHelper
         this.password = password;
         this.data = data;
         this.proto = proto;
-    }
-
-    public static String getSignUpHostname()
-    {
-        String url = OAuthConstant.PUBLIC_API_HOSTNAME;
-        Bundle b = getOAuthSettings();
-        if (b != null && b.getString(OAUTH_URL) != null)
-        {
-            url = b.getString(OAUTH_URL);
-        }
-        return url;
     }
 
     public static Bundle getOAuthSettings()
@@ -245,7 +233,7 @@ public class AccountSettingsHelper
         settings.put(AlfrescoSession.CREATE_THUMBNAIL, true);
         settings.put(SessionParameter.CLIENT_COMPRESSION, "true");
         settings.put(AlfrescoSession.HTTP_INVOKER_CLASSNAME, NetworkHttpInvoker.class.getName());
-        settings.put(AlfrescoSession.CACHE_FOLDER, StorageManager.getCacheDir(context, "AlfrescoMobile"));
+        settings.put(AlfrescoSession.CACHE_FOLDER, StorageManager.getCacheDir(context, "AlfrescoMobile").getPath());
 
         if (proto != null)
         {

@@ -46,7 +46,6 @@ import org.alfresco.mobile.android.application.accounts.fragment.AccountsFragmen
 import org.alfresco.mobile.android.application.accounts.networks.CloudNetworksFragment;
 import org.alfresco.mobile.android.application.accounts.oauth.OAuthRefreshTokenCallback;
 import org.alfresco.mobile.android.application.accounts.oauth.OAuthRefreshTokenLoader;
-import org.alfresco.mobile.android.application.accounts.signup.CloudSignupDialogFragment;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
 import org.alfresco.mobile.android.application.configuration.ConfigurationManager;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -210,12 +209,6 @@ public class MainActivity extends BaseActivity
 
         checkForUpdates();
 
-        // REDIRECT To Accounts Fragment if signup process
-        if (IntentIntegrator.ACTION_CHECK_SIGNUP.equals(getIntent().getAction()))
-        {
-            displayAccounts();
-        }
-
         // Display or not Left/central panel for middle tablet.
         DisplayUtils.switchSingleOrTwo(this, false);
     }
@@ -319,14 +312,6 @@ public class MainActivity extends BaseActivity
                 return;
             }
 
-            // Intent for CLOUD SIGN UP
-            if (IntentIntegrator.ACTION_CHECK_SIGNUP.equals(intent.getAction()))
-            {
-                FragmentDisplayer.removeFragment(this, CloudSignupDialogFragment.TAG);
-                displayAccounts();
-                return;
-            }
-
             if (Intent.ACTION_VIEW.equals(intent.getAction()) && intent.getData() != null
                     && intent.getData().getHost().equals("activate-cloud-account")
                     && getFragment(AccountDetailsFragment.TAG) != null)
@@ -347,17 +332,6 @@ public class MainActivity extends BaseActivity
                     FragmentDisplayer.replaceFragment(this, frag, getFragmentPlace(), DetailsFragment.TAG, false);
                 }
                 return;
-            }
-
-            // Intent for display Sign up Dialog
-            if (Intent.ACTION_VIEW.equals(intent.getAction())
-                    && IntentIntegrator.ALFRESCO_SCHEME_SHORT.equals(intent.getData().getScheme())
-                    && IntentIntegrator.CLOUD_SIGNUP_I.equals(intent.getData().getHost()))
-            {
-                getFragmentManager().popBackStack(AccountTypesFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                CloudSignupDialogFragment newFragment = new CloudSignupDialogFragment();
-                FragmentDisplayer.replaceFragment(this, newFragment, DisplayUtils.getFragmentPlace(this),
-                        CloudSignupDialogFragment.TAG, true);
             }
         }
         catch (Exception e)
@@ -393,7 +367,10 @@ public class MainActivity extends BaseActivity
     // ///////////////////////////////////////////////////////////////////////////
     public void toggleSlideMenu()
     {
-        if (getFragment(MainMenuFragment.TAG) != null && getFragment(MainMenuFragment.TAG).isAdded()) { return; }
+        if (getFragment(MainMenuFragment.TAG) != null && getFragment(MainMenuFragment.TAG).isAdded())
+        {
+            return;
+        }
         View slideMenu = findViewById(R.id.slide_pane);
         if (slideMenu.getVisibility() == View.VISIBLE)
         {
@@ -468,7 +445,10 @@ public class MainActivity extends BaseActivity
         switch (id)
         {
         case R.id.menu_browse_root:
-            if (!checkSession(R.id.menu_browse_root) || getCurrentSession() == null) { return; }
+            if (!checkSession(R.id.menu_browse_root) || getCurrentSession() == null)
+            {
+                return;
+            }
             frag = ChildrenBrowserFragment.newInstance(SessionUtils.getSession(this).getRootFolder());
             frag.setSession(SessionUtils.getSession(this));
             FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
@@ -476,7 +456,10 @@ public class MainActivity extends BaseActivity
             break;
         case R.id.menu_browse_shared:
         {
-            if (!checkSession(R.id.menu_browse_shared)) { return; }
+            if (!checkSession(R.id.menu_browse_shared))
+            {
+                return;
+            }
             AlfrescoSession ses = getCurrentSession();
 
             if (ses instanceof OdsRepositorySession)
@@ -487,10 +470,13 @@ public class MainActivity extends BaseActivity
                         ChildrenBrowserFragment.TAG, true);
             }
         }
-        break;
+            break;
         case R.id.menu_browse_global:
         {
-            if (!checkSession(R.id.menu_browse_global)) { return; }
+            if (!checkSession(R.id.menu_browse_global))
+            {
+                return;
+            }
             AlfrescoSession ses = getCurrentSession();
 
             if (ses instanceof OdsRepositorySession)
@@ -502,7 +488,7 @@ public class MainActivity extends BaseActivity
                 break;
             }
         }
-        break;
+            break;
         case R.id.menu_downloads:
             if (currentAccount == null)
             {
@@ -1039,8 +1025,7 @@ public class MainActivity extends BaseActivity
             {
                 fragmentTag = ChildrenBrowserFragment.TAG;
             }
-            DocumentTypesDialogFragment dialogft = DocumentTypesDialogFragment.newInstance(currentAccount,
-                    fragmentTag);
+            DocumentTypesDialogFragment dialogft = DocumentTypesDialogFragment.newInstance(currentAccount, fragmentTag);
             dialogft.show(getFragmentManager(), DocumentTypesDialogFragment.TAG);
             return true;
 
@@ -1048,11 +1033,16 @@ public class MainActivity extends BaseActivity
             if (getFragment(ChildrenBrowserFragment.TAG) != null)
             {
                 Intent i = new Intent(IntentIntegrator.ACTION_PICK_FILE, null, this, PublicDispatcherActivity.class);
-                i.putExtra(IntentIntegrator.EXTRA_FOLDER,
-                        StorageManager.getDownloadFolder(this, getCurrentAccount()));
+                i.putExtra(IntentIntegrator.EXTRA_FOLDER, StorageManager.getDownloadFolder(this, getCurrentAccount()));
                 i.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, getCurrentAccount().getId());
-                getFragment(ChildrenBrowserFragment.TAG).startActivityForResult(i,
-                        PublicIntent.REQUESTCODE_FILEPICKER);
+                getFragment(ChildrenBrowserFragment.TAG).startActivityForResult(i, PublicIntent.REQUESTCODE_FILEPICKER);
+            }
+            return true;
+        case MenuActionItem.MENU_REFRESH:
+            if (getFragmentManager().findFragmentById(DisplayUtils.getLeftFragmentId(this)) instanceof RefreshFragment)
+            {
+                ((RefreshFragment) getFragmentManager().findFragmentById(DisplayUtils.getLeftFragmentId(this)))
+                        .refresh();
             }
             return true;
 
@@ -1061,11 +1051,6 @@ public class MainActivity extends BaseActivity
             {
                 ((ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG)).pasteFileList();
             }
-            return true;
-
-        case MenuActionItem.MENU_REFRESH:
-            ((RefreshFragment) getFragmentManager().findFragmentById(DisplayUtils.getLeftFragmentId(this)))
-            .refresh();
             return true;
 
         case MenuActionItem.MENU_SHARE:
@@ -1081,8 +1066,7 @@ public class MainActivity extends BaseActivity
             if (getFragment(DetailsFragment.TAG) != null)
             {
                 Intent i = new Intent(IntentIntegrator.ACTION_PICK_FILE, null, this, PublicDispatcherActivity.class);
-                i.putExtra(IntentIntegrator.EXTRA_FOLDER,
-                        StorageManager.getDownloadFolder(this, getCurrentAccount()));
+                i.putExtra(IntentIntegrator.EXTRA_FOLDER, StorageManager.getDownloadFolder(this, getCurrentAccount()));
                 i.putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, getCurrentAccount().getId());
                 getFragment(DetailsFragment.TAG).startActivityForResult(i, PublicIntent.REQUESTCODE_FILEPICKER);
             }
@@ -1302,7 +1286,10 @@ public class MainActivity extends BaseActivity
                 // Change activity state to loading.
                 setSessionState(SESSION_LOADING);
 
-                if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID)) { return; }
+                if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
+                {
+                    return;
+                }
 
                 // Assign the account
                 currentAccount = AccountManager.retrieveAccount(context,
@@ -1312,21 +1299,23 @@ public class MainActivity extends BaseActivity
                 {
                     ((MainMenuFragment) getFragment(MainMenuFragment.TAG)).displayFavoriteStatut();
                     ((MainMenuFragment) getFragment(MainMenuFragment.TAG)).hideWorkflowMenu(currentAccount);
-                    ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).updateFolderAccess();
+                    ((MainMenuFragment) getFragment(MainMenuFragment.TAG)).updateFolderAccess();
                 }
 
                 if (getFragment(MainMenuFragment.SLIDING_TAG) != null)
                 {
                     ((MainMenuFragment) getFragment(MainMenuFragment.SLIDING_TAG)).displayFavoriteStatut();
                     ((MainMenuFragment) getFragment(MainMenuFragment.SLIDING_TAG)).hideWorkflowMenu(currentAccount);
-                    ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).updateFolderAccess();
+                    ((MainMenuFragment) getFragment(MainMenuFragment.TAG)).updateFolderAccess();
                 }
 
                 // Return to root screen
                 try
                 {
                     activity.getFragmentManager().popBackStack(null, FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                } catch (Exception ex) {
+                }
+                catch (Exception ex)
+                {
                     OdsLog.ex(TAG, ex);
                 }
 
@@ -1367,16 +1356,21 @@ public class MainActivity extends BaseActivity
                     }
                     if (getFragment(MainMenuFragment.TAG) != null)
                     {
-                        ((MainMenuFragment) getFragment(MainMenuFragment.TAG)).displayFolderShortcut(getCurrentSession());
+                        ((MainMenuFragment) getFragment(MainMenuFragment.TAG))
+                                .displayFolderShortcut(getCurrentSession());
                     }
 
                     if (getFragment(MainMenuFragment.SLIDING_TAG) != null)
                     {
-                        ((MainMenuFragment) getFragment(MainMenuFragment.SLIDING_TAG)).displayFolderShortcut(getCurrentSession());
+                        ((MainMenuFragment) getFragment(MainMenuFragment.SLIDING_TAG))
+                                .displayFolderShortcut(getCurrentSession());
                     }
                 }
 
-                if (!isCurrentAccountToLoad(intent)) { return; }
+                if (!isCurrentAccountToLoad(intent))
+                {
+                    return;
+                }
 
                 setSessionState(SESSION_ACTIVE);
                 setProgressBarIndeterminateVisibility(false);
@@ -1460,12 +1454,12 @@ public class MainActivity extends BaseActivity
 
                 if (getFragment(MainMenuFragment.TAG) != null)
                 {
-                    ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).updateFolderAccess();
+                    ((MainMenuFragment) getFragment(MainMenuFragment.TAG)).updateFolderAccess();
                 }
 
                 if (getFragment(MainMenuFragment.SLIDING_TAG) != null)
                 {
-                    ((MainMenuFragment)getFragment(MainMenuFragment.TAG)).updateFolderAccess();
+                    ((MainMenuFragment) getFragment(MainMenuFragment.TAG)).updateFolderAccess();
                 }
 
                 rebrand();
@@ -1494,7 +1488,10 @@ public class MainActivity extends BaseActivity
 
             if (IntentIntegrator.ACTION_LOAD_ACCOUNT_ERROR.equals(intent.getAction()))
             {
-                if (!isCurrentAccountToLoad(intent)) { return; }
+                if (!isCurrentAccountToLoad(intent))
+                {
+                    return;
+                }
 
                 // Display error dialog message
                 ActionManager.actionDisplayDialog(context, intent.getExtras());
@@ -1520,7 +1517,10 @@ public class MainActivity extends BaseActivity
 
             if (IntentIntegrator.ACTION_ACCOUNT_INACTIVE.equals(intent.getAction()))
             {
-                if (!isCurrentAccountToLoad(intent) && !intent.hasExtra(IntentIntegrator.ACTION_ACCOUNT_INACTIVE)) { return; }
+                if (!isCurrentAccountToLoad(intent) && !intent.hasExtra(IntentIntegrator.ACTION_ACCOUNT_INACTIVE))
+                {
+                    return;
+                }
 
                 setSessionState(SESSION_INACTIVE);
                 activity.setProgressBarIndeterminateVisibility(false);
@@ -1530,16 +1530,22 @@ public class MainActivity extends BaseActivity
 
             if (IntentIntegrator.ACTION_USER_AUTHENTICATION.equals(intent.getAction()))
             {
-                if (!isCurrentAccountToLoad(intent)) { return; }
+                if (!isCurrentAccountToLoad(intent))
+                {
+                    return;
+                }
 
-                if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID)) { return; }
+                if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
+                {
+                    return;
+                }
                 Long accountId = intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID);
                 Account acc = AccountManager.retrieveAccount(activity, accountId);
 
                 if (intent.getCategories().contains(IntentIntegrator.CATEGORY_OAUTH)
                         && getFragment(AccountOAuthFragment.TAG) == null
                         || (getFragment(AccountOAuthFragment.TAG) != null && getFragment(AccountOAuthFragment.TAG)
-                        .isAdded()))
+                                .isAdded()))
                 {
                     AccountOAuthFragment newFragment = AccountOAuthFragment.newInstance(acc);
                     FragmentDisplayer.replaceFragment(activity, newFragment, DisplayUtils.getMainPaneId(activity),
@@ -1591,8 +1597,14 @@ public class MainActivity extends BaseActivity
     // Due to dropdown the account loaded might not be the last one to load.
     private boolean isCurrentAccountToLoad(Intent intent)
     {
-        if (currentAccount == null) { return false; }
-        if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID)) { return false; }
+        if (currentAccount == null)
+        {
+            return false;
+        }
+        if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
+        {
+            return false;
+        }
         return (currentAccount.getId() == intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID));
     }
 }

@@ -23,6 +23,7 @@
     <string name="empty_accounts">Kein Konto verfügbar.</string>
 
     <!-- HOME SCREEN -->
+    <string name="home_login">Anmelden</string>
     <string name="home_title">Erste Schritte... </string>
     <string name="home_sign_cloud">Anmelden bei DataSpace</string>
     <string name="home_sign_cloud_description">Neu bei DataSpace? Fordern Sie ein Online Konto an, um Ihre Dokumente zu speichern. Sie können sie von verschiedenen Geräten aus wieder abrufen.</string>

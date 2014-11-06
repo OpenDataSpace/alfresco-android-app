@@ -97,6 +97,7 @@ public abstract class BaseActivity extends Activity
         filters.addAction(IntentIntegrator.ACTION_DISPLAY_ERROR);
         filters.addAction(IntentIntegrator.ACTION_CONFIGURATION_BRAND);
         utilsReceiver = new UtilsReceiver();
+        receivers.add(utilsReceiver);
         broadcastManager.registerReceiver(utilsReceiver, filters);
     }
 

@@ -22,6 +22,7 @@
     <string name="empty_accounts">No account available</string>
 
     <!-- HOME SCREEN -->
+    <string name="home_login">Login</string>
     <string name="home_title">Let\'s get you started&#8230; </string>
     <string name="home_sign_cloud">Sign up for DataSpace</string>
     <string name="home_sign_cloud_description">New to DataSpace? Create a free online account to store your documents and access them from anywhere.</string>

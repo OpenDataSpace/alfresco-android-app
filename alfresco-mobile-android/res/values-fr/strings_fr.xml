@@ -23,6 +23,7 @@ http://www.apache.org/licenses/LICENSE-2.0
     <string name="empty_accounts">Aucun compte disponible</string>
 
     <!-- HOME SCREEN -->
+    <string name="home_login">Connexion</string>
     <string name="home_title">Commençons&#8230; </string>
     <string name="home_sign_cloud">Créer un compte DataSpace Cloud</string>
     <string name="home_sign_cloud_description">Nouveau sur DataSpace ? Créez un compte en ligne gratuit pour stocker et accéder à vos contenus depuis n\'importe où.</string>

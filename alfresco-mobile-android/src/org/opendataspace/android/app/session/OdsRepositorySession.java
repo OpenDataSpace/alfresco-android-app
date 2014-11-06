@@ -172,7 +172,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
         rep.cmisSession = ses;
         rep.rootNode = new FolderImpl(rep.cmisSession.getRootFolder());
         rep.repositoryInfo = new OnPremiseRepositoryInfoImpl(rep.cmisSession.getRepositoryInfo());
-        rep.create();
+        rep.initServices();
         return rep;
     }
 

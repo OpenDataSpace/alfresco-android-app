@@ -19,7 +19,6 @@ package org.alfresco.mobile.android.application.accounts.fragment;
 
 import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
-import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
 import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
@@ -27,14 +26,12 @@ import org.alfresco.mobile.android.application.utils.UIUtils;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
-import android.text.method.LinkMovementMethod;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.TextView;
 
 public class AccountTypesFragment extends DialogFragment
 {
@@ -86,17 +83,6 @@ public class AccountTypesFragment extends DialogFragment
                         DisplayUtils.getMainPaneId(getActivity()), AccountOAuthFragment.TAG, true);
             }
         });
-
-        TextView t2 = (TextView) v.findViewById(R.id.cloud_signup_hint);
-        if (getActivity() instanceof MainActivity)
-        {
-            t2.setText(R.string.account_wizard_alfresco_help_inside_app);
-        }
-        else
-        {
-            t2.setText(R.string.account_wizard_alfresco_help);
-        }
-        t2.setMovementMethod(LinkMovementMethod.getInstance());
 
         return v;
     }

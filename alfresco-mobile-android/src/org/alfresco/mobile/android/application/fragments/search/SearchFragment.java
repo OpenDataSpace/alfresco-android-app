@@ -296,19 +296,19 @@ public class SearchFragment extends BaseCursorListFragment
 
             switch (searchKey)
             {
-            case HistorySearch.TYPE_PERSON:
-                frag = PersonSearchFragment.newInstance(search.getQuery(), search.getDescription());
-                frag.setSession(alfSession);
-                FragmentDisplayer.replaceFragment(getActivity(), frag,
-                        DisplayUtils.getLeftFragmentId(getActivity()), PersonSearchFragment.TAG, true, true);
-                break;
-            default:
-                frag = DocumentFolderSearchFragment.newInstance(search.getQuery(), search.getDescription());
-                frag.setSession(alfSession);
-                FragmentDisplayer.replaceFragment(getActivity(), frag,
-                        DisplayUtils.getLeftFragmentId(getActivity()), DocumentFolderSearchFragment.TAG, true,
-                        true);
-                break;
+                case HistorySearch.TYPE_PERSON:
+                    frag = PersonSearchFragment.newInstance(search.getQuery(), search.getDescription());
+                    frag.setSession(alfSession);
+                    FragmentDisplayer.replaceFragment(getActivity(), frag,
+                            DisplayUtils.getLeftFragmentId(getActivity()), PersonSearchFragment.TAG, true, true);
+                    break;
+                default:
+                    frag = DocumentFolderSearchFragment.newInstance(search.getQuery(), search.getDescription());
+                    frag.setSession(alfSession);
+                    FragmentDisplayer
+                            .replaceFragment(getActivity(), frag, DisplayUtils.getLeftFragmentId(getActivity()),
+                                    DocumentFolderSearchFragment.TAG, true, true);
+                    break;
             }
 
             // Update
@@ -344,7 +344,7 @@ public class SearchFragment extends BaseCursorListFragment
         if (search == null)
         {
             HistorySearchManager.createHistorySearch(getActivity(), SessionUtils.getAccount(getActivity()).getId(),
-                    searchKey, 0, getQueryDescription(keywords, tmpParentFolder), null, new Date().getTime());
+                    searchKey, 0, getQueryDescription(keywords, tmpParentFolder, site), keywords, new Date().getTime());
         }
         else
         {
@@ -356,11 +356,24 @@ public class SearchFragment extends BaseCursorListFragment
     // //////////////////////////////////////////////////////////////////////
     // QUERY DESCRIPTION
     // //////////////////////////////////////////////////////////////////////
-    private static String getQueryDescription(String keywords, Folder folder){
+    private static final String DOCUMENT_LIBRARY_PATTERN = "/Sites/%s/documentLibrary";
+
+    private static String getQueryDescription(String keywords, Folder folder, Site site)
+    {
         StringBuilder builder = new StringBuilder();
         if (folder != null)
         {
-            addParameter(builder, "in", folder.getName());
+            //If Site Documentlibrary we display the site name instead of folder name
+            if (site != null
+                    && String.format(DOCUMENT_LIBRARY_PATTERN, site.getIdentifier()).equalsIgnoreCase(
+                            (String) folder.getPropertyValue(PropertyIds.PATH)))
+            {
+                addParameter(builder, "in", site.getTitle());
+            }
+            else
+            {
+                addParameter(builder, "in", folder.getName());
+            }
             builder.append(" ");
         }
         builder.append(keywords);
@@ -452,7 +465,7 @@ public class SearchFragment extends BaseCursorListFragment
     public void onListItemClick(ListView l, View v, int position, long id)
     {
         Cursor cursor = (Cursor) l.getItemAtPosition(position);
-        String keywords = cursor.getString(HistorySearchSchema.COLUMN_DESCRIPTION_ID);
+        String keywords = cursor.getString(HistorySearchSchema.COLUMN_QUERY_ID);
         search(keywords, HistorySearchManager.createHistorySearch(cursor));
     }
 
