@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,6 +36,7 @@ import android.content.Context;
 
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.config.OdsConfigManager;
+import org.opendataspace.android.app.data.OdsDataHelper;
 import org.opendataspace.android.app.session.OdsRenditionManager;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.sync.OdsSyncReceiver;
@@ -43,7 +44,7 @@ import org.opendataspace.android.app.sync.OdsSyncReceiver;
 /**
  * Provides high level service and responsible to manage sessions across
  * activities.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public final class ApplicationManager
@@ -85,6 +86,7 @@ public final class ApplicationManager
         configurationManager = ConfigurationManager.getInstance(appContext);
         samsungManager = createSamsungManager(appContext.getString(R.string.extension_samsung_classname));
         odsConfig = OdsConfigManager.getInstance(appContext);
+        OdsDataHelper.setHelper(applicationContext);
         OdsSyncReceiver.startWatcher(applicationContext);
     }
 
@@ -224,6 +226,11 @@ public final class ApplicationManager
         mInstance = null;
     }
 
+    public void release()
+    {
+        OdsDataHelper.releaseHelper();
+    }
+
     // ///////////////////////////////////////////////////////////////////////////
     // SAMSUNG EXTENSION
     // ///////////////////////////////////////////////////////////////////////////
@@ -252,5 +259,4 @@ public final class ApplicationManager
         }
         return s;
     }
-
 }

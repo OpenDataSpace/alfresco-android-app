@@ -4,7 +4,6 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 
-import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
@@ -57,18 +56,17 @@ public class OdsLinkDialogFragment extends BaseFragment
     {
     }
 
-    public static Bundle createBundle(Node node, OdsLink link)
+    public static Bundle createBundle(OdsLink link)
     {
         Bundle args = new Bundle();
-        args.putParcelable(ARGUMENT_NODE, node);
         args.putSerializable(ARGUMENT_LINK, link);
         return args;
     }
 
-    public static OdsLinkDialogFragment newInstance(Node node, OdsLink link)
+    public static OdsLinkDialogFragment newInstance(OdsLink link)
     {
         OdsLinkDialogFragment adf = new OdsLinkDialogFragment();
-        adf.setArguments(createBundle(node, link));
+        adf.setArguments(createBundle(link));
         adf.setRetainInstance(true);
         return adf;
     }
@@ -175,16 +173,14 @@ public class OdsLinkDialogFragment extends BaseFragment
                         Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(tvn.getWindowToken(), 0);
 
-                Node nod = (Node) getArguments().getParcelable(ARGUMENT_NODE);
-
                 OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils
                         .getAccount(getActivity()));
-                group.enqueue(new OdsUpdateLinkRequest(nod, lnk)
+                group.enqueue(new OdsUpdateLinkRequest(lnk)
                         .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
                 BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
                 OperationWaitingDialogFragment.newInstance(OdsUpdateLinkRequest.TYPE_ID, R.drawable.ic_add,
-                        getString(R.string.links_add), null, nod, 0).show(getActivity().getFragmentManager(),
+                        getString(R.string.links_add), null, null, 0).show(getActivity().getFragmentManager(),
                         OperationWaitingDialogFragment.TAG);
 
                 dismiss();

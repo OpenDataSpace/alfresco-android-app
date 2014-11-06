@@ -13,10 +13,13 @@ import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
 import org.apache.chemistry.opencmis.client.api.Item;
+import org.apache.chemistry.opencmis.client.api.ObjectId;
 import org.apache.chemistry.opencmis.client.api.Property;
 import org.apache.chemistry.opencmis.client.api.Session;
+import org.apache.chemistry.opencmis.client.runtime.ObjectIdImpl;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.SecondaryTypeIds;
+import org.opendataspace.android.app.data.OdsDataHelper;
 import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.app.session.OdsFolder;
 import org.opendataspace.android.ui.logging.OdsLog;
@@ -32,7 +35,6 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
 
     private OdsUpdateLinkContext ctx;
     private OdsLink link;
-    private String nodeId;
 
     public OdsUpdateLinkThread(Context context, OperationRequest request)
     {
@@ -40,7 +42,6 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
 
         OdsUpdateLinkRequest rq = (OdsUpdateLinkRequest) request;
         link = rq.getLink();
-        nodeId = rq.getNodeId();
     }
 
     @Override
@@ -56,16 +57,17 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
 
             if (!TextUtils.isEmpty(link.getObjectId()))
             {
-                cmisSession.delete(cmisSession.getObject(link.getObjectId()));
+                cmisSession.delete(new ObjectIdImpl(link.getObjectId()));
+                link.setObjectId(null);
             }
 
-            if (!TextUtils.isEmpty(nodeId))
+            if (!TextUtils.isEmpty(link.getNodeId()))
             {
                 final Map<String, Object> properties = new HashMap<String, Object>();
 
                 properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:item");
                 properties.put(PropertyIds.EXPIRATION_DATE, link.getExpires());
-                properties.put("gds:objectIds", Arrays.asList(nodeId));
+                properties.put("gds:objectIds", Arrays.asList(link.getNodeId()));
                 properties.put("gds:subject", link.getName());
                 properties.put("gds:message", link.getMessage());
                 properties.put("gds:comment", "");
@@ -81,16 +83,20 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                 }
 
                 DocumentFolderService svc = session.getServiceRegistry().getDocumentFolderService();
-                OdsFolder folder = (OdsFolder) svc.getParentFolder(svc.getNodeByIdentifier(nodeId));
-                final Item item = (Item) cmisSession.createItem(properties, folder.getCmisObject());
+                OdsFolder folder = (OdsFolder) svc.getParentFolder(svc.getNodeByIdentifier(link.getNodeId()));
+                final ObjectId id = cmisSession.createItem(properties, folder.getCmisObject());
+                final Item item = (Item) cmisSession.getObject(id);
                 final Property<String> property = item.getProperty("gds:url");
 
                 link.setUrl(property.getFirstValue());
+                link.setObjectId(item.getId());
             }
 
+            OdsDataHelper.getHelper().getLinkDAO().process(link);
             ctx = new OdsUpdateLinkContext();
             result.setData(ctx);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             OdsLog.exw(TAG, e);
             result.setException(e);

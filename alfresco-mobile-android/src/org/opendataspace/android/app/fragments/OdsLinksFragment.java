@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.RefreshFragment;
@@ -21,6 +20,8 @@ import org.opendataspace.android.app.links.OdsLinksAdapter;
 import org.opendataspace.android.app.links.OdsLinksLoader;
 import org.opendataspace.android.app.operations.OdsUpdateLinkContext;
 import org.opendataspace.android.ui.logging.OdsLog;
+
+import com.j256.ormlite.dao.CloseableIterator;
 
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -40,8 +41,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-public class OdsLinksFragment extends BaseListFragment implements LoaderCallbacks<LoaderResult<PagingResult<OdsLink>>>,
-        RefreshFragment
+public class OdsLinksFragment extends BaseListFragment implements
+        LoaderCallbacks<LoaderResult<CloseableIterator<OdsLink>>>, RefreshFragment
 {
     public static final String TAG = "OdsLinksFragment";
     public static final String ARGUMENT_NODE = "node";
@@ -153,8 +154,12 @@ public class OdsLinksFragment extends BaseListFragment implements LoaderCallback
         }
         ft.addToBackStack(null);
 
-        // Create and show the dialog.
-        OdsLinkDialogFragment.newInstance(node, val).show(ft, OdsLinkDialogFragment.TAG);
+        if (node != null)
+        {
+            val.setNodeId(node.getIdentifier());
+        }
+
+        OdsLinkDialogFragment.newInstance(val).show(ft, OdsLinkDialogFragment.TAG);
     }
 
     @Override
@@ -165,7 +170,7 @@ public class OdsLinksFragment extends BaseListFragment implements LoaderCallback
     }
 
     @Override
-    public Loader<LoaderResult<PagingResult<OdsLink>>> onCreateLoader(int id, Bundle ba)
+    public Loader<LoaderResult<CloseableIterator<OdsLink>>> onCreateLoader(int id, Bundle ba)
     {
         if (!hasmore)
         {
@@ -192,24 +197,30 @@ public class OdsLinksFragment extends BaseListFragment implements LoaderCallback
     }
 
     @Override
-    public void onLoadFinished(Loader<LoaderResult<PagingResult<OdsLink>>> arg0,
-            LoaderResult<PagingResult<OdsLink>> results)
+    public void onLoadFinished(Loader<LoaderResult<CloseableIterator<OdsLink>>> loader,
+            LoaderResult<CloseableIterator<OdsLink>> results)
     {
-        if (adapter == null)
-        {
-            adapter = new OdsLinksAdapter(this, R.layout.sdk_list_row, new ArrayList<OdsLink>(0));
-        }
         if (checkException(results))
         {
             onLoaderException(results.getException());
-        } else
+        }
+        else
         {
-            displayPagingData(results.getData(), loaderId, callback);
+            adapter = new OdsLinksAdapter(this, R.layout.sdk_list_row, new ArrayList<OdsLink>());
+
+            while (results.getData().hasNext())
+            {
+                ((OdsLinksAdapter) adapter).add(results.getData().next());
+            }
+
+            lv.setAdapter(adapter);
+            results.getData().closeQuietly();
+            setListShown(true);
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<LoaderResult<PagingResult<OdsLink>>> arg0)
+    public void onLoaderReset(Loader<LoaderResult<CloseableIterator<OdsLink>>> loader)
     {
         // nothing
     }

@@ -74,7 +74,11 @@
 			<groupId>android.support</groupId>
 			<artifactId>compatibility-v13</artifactId>
 		</dependency>
-	</dependencies>
+		<dependency>
+			<groupId>com.j256.ormlite</groupId>
+			<artifactId>ormlite-android</artifactId>
+	</dependency>
+</dependencies>
 
 
 	<profiles>

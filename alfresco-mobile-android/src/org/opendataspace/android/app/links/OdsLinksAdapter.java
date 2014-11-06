@@ -7,6 +7,7 @@ import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
 import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 import org.opendataspace.android.app.R;
@@ -47,7 +48,9 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
     @Override
     protected void updateIcon(GenericViewHolder vh, OdsLink item)
     {
-        vh.icon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_all_sites_light));
+        vh.icon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_site_flatten));
+        UIUtils.setBackground(((View) vh.choose),
+                getContext().getResources().getDrawable(R.drawable.quickcontact_badge_overlay_light));
 
         vh.choose.setVisibility(View.VISIBLE);
         vh.choose.setTag(R.id.link_action, item);
@@ -134,7 +137,8 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
                 OperationsRequestGroup group = new OperationsRequestGroup(fr.getActivity(), SessionUtils.getAccount(fr
                         .getActivity()));
 
-                group.enqueue(new OdsUpdateLinkRequest(null, link)
+                link.setNodeId(null);
+                group.enqueue(new OdsUpdateLinkRequest(link)
                         .setNotificationVisibility(OperationRequest.VISIBILITY_TOAST));
 
                 BatchOperationManager.getInstance(fr.getActivity()).enqueue(group);

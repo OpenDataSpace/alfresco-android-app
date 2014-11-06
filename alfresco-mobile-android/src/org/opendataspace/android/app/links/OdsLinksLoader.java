@@ -1,21 +1,18 @@
 package org.opendataspace.android.app.links;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import org.alfresco.mobile.android.api.asynchronous.AbstractPagingLoader;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.opendataspace.android.app.data.OdsDataHelper;
+import com.j256.ormlite.dao.CloseableIterator;
 
 import android.content.Context;
 
-public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<PagingResult<OdsLink>>>
+public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<CloseableIterator<OdsLink>>>
 {
     public static final int ID = OdsLinksLoader.class.hashCode();
 
-    @SuppressWarnings("unused")
     private Node node;
 
     public OdsLinksLoader(Context context, AlfrescoSession session, Node node)
@@ -26,45 +23,21 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<PagingResu
     }
 
     @Override
-    public LoaderResult<PagingResult<OdsLink>> loadInBackground()
+    public LoaderResult<CloseableIterator<OdsLink>> loadInBackground()
     {
-        LoaderResult<PagingResult<OdsLink>> result = new LoaderResult<PagingResult<OdsLink>>();
-        PagingResult<OdsLink> pagingResult = null;
+        LoaderResult<CloseableIterator<OdsLink>> result = new LoaderResult<CloseableIterator<OdsLink>>();
+        CloseableIterator<OdsLink> it = null;
 
         try
         {
-            // TODO
-            pagingResult = new PagingResult<OdsLink>()
-            {
-                private static final long serialVersionUID = 1L;
-
-                private List<OdsLink> ls = new ArrayList<OdsLink>();
-
-                @Override
-                public Boolean hasMoreItems()
-                {
-                    return false;
-                }
-
-                @Override
-                public int getTotalItems()
-                {
-                    return ls.size();
-                }
-
-                @Override
-                public List<OdsLink> getList()
-                {
-                    return ls;
-                }
-            };
+            it = OdsDataHelper.getHelper().getLinkDAO().getLinksByNode(node.getIdentifier());
         }
         catch (Exception e)
         {
             result.setException(e);
         }
 
-        result.setData(pagingResult);
+        result.setData(it);
         return result;
     }
 }

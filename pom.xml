@@ -55,11 +55,12 @@
 
 		<!-- Testing Dependencies -->
 		<junit.version>4.10</junit.version>
-		
+
 		<!-- Square Dependencies -->
 		<okhttp.version>1.6.0</okhttp.version>
 		<picasso.version>2.3.2</picasso.version>
-		
+		<ormlite.version>4.48</ormlite.version>
+
 		<!-- Alfresco Configuration -->
 		<alfresco.sdk.version>1.3.1</alfresco.sdk.version>
 		<alfresco.apps.version>1.4.0</alfresco.apps.version>
@@ -140,7 +141,6 @@
 				</plugin>
 			</plugins>
 		</pluginManagement>
-
 
 		<plugins>
 			<plugin>
@@ -257,17 +257,19 @@
 		</plugins>
 	</build>
 
-
 	<repositories>
-		<repository>
-			<id>apache-repository</id>
-			<name>Apache Maven Repository</name>
-			<url>https://repository.apache.org/content/groups/public/</url>
-		</repository>
 		<repository>
 			<id>central</id>
 			<name>libs-release</name>
 			<url>https://artifactory.dataspace.cc/artifactory/repo</url>
+		</repository>
+		<repository>
+			<id>maven-central</id>
+			<layout>default</layout>
+			<url>http://repo1.maven.org/maven2</url>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
 		</repository>
 	</repositories>
 
@@ -438,6 +440,11 @@
 				<artifactId>alfresco-mobile-android-ui-library</artifactId>
 				<version>${alfresco.sdk.version}</version>
 				<type>apklib</type>
+			</dependency>
+			<dependency>
+				<groupId>com.j256.ormlite</groupId>
+				<artifactId>ormlite-android</artifactId>
+				<version>${ormlite.version}</version>
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
