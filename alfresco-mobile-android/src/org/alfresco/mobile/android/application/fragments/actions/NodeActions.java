@@ -24,7 +24,6 @@ import java.util.List;
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
-import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.activity.PrivateDialogActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -46,6 +45,7 @@ import org.alfresco.mobile.android.application.operations.batch.node.favorite.Fa
 import org.alfresco.mobile.android.application.operations.batch.node.like.LikeNodeRequest;
 import org.alfresco.mobile.android.application.operations.batch.utils.NodePlaceHolder;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.app.R;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -86,6 +86,7 @@ public class NodeActions extends AbstractActions<Node>
     // ///////////////////////////////////////////////////////////////////////////
     // INTERNALS
     // ///////////////////////////////////////////////////////////////////////////
+    @Override
     protected String createTitle()
     {
         String title = "";
@@ -121,6 +122,7 @@ public class NodeActions extends AbstractActions<Node>
     // LIST MANAGEMENT
     // ///////////////////////////////////////////////////////////////////////////////////
 
+    @Override
     public void selectNodes(List<Node> nodes)
     {
         selectedDocument.clear();
@@ -128,6 +130,7 @@ public class NodeActions extends AbstractActions<Node>
         super.selectNodes(nodes);
     }
 
+    @Override
     protected void addNode(Node n)
     {
         super.addNode(n);
@@ -143,16 +146,17 @@ public class NodeActions extends AbstractActions<Node>
         }
     }
 
+    @Override
     protected void removeNode(Node n)
     {
         super.removeNode(n);
         if (n.isDocument())
         {
-            selectedDocument.remove((Document) n);
+            selectedDocument.remove(n);
         }
         else
         {
-            selectedFolder.remove((Folder) n);
+            selectedFolder.remove(n);
         }
     }
 
@@ -169,6 +173,7 @@ public class NodeActions extends AbstractActions<Node>
     // ///////////////////////////////////////////////////////////////////////////////////
     // MENU
     // ///////////////////////////////////////////////////////////////////////////////////
+    @Override
     protected void getMenu(Activity activity, Menu menu)
     {
         MenuItem mi;
@@ -287,9 +292,11 @@ public class NodeActions extends AbstractActions<Node>
             break;
         case MenuActionItem.MENU_COPY:
             copyFiles(true);
+            b = true;
             break;
         case MenuActionItem.MENU_CUT:
             copyFiles(false);
+            b = true;
             break;
         default:
             break;
@@ -446,6 +453,7 @@ public class NodeActions extends AbstractActions<Node>
         builder.setMessage(description);
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
         {
+            @Override
             public void onClick(DialogInterface dialog, int item)
             {
                 OperationsRequestGroup group = new OperationsRequestGroup(activity, SessionUtils.getAccount(activity));
@@ -478,6 +486,7 @@ public class NodeActions extends AbstractActions<Node>
         });
         builder.setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener()
         {
+            @Override
             public void onClick(DialogInterface dialog, int item)
             {
                 dialog.dismiss();
