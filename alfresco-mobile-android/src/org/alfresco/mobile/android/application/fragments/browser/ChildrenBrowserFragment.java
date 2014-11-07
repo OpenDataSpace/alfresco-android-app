@@ -38,13 +38,6 @@ import org.alfresco.mobile.android.api.model.impl.RepositoryVersionHelper;
 import org.alfresco.mobile.android.api.model.impl.cloud.CloudFolderImpl;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.json.JSONArray;
-import org.json.JSONObject;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.operations.OdsMoveNodesRequest;
-import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
-import org.opendataspace.android.app.session.OdsPermissions;
-import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.activity.PrivateDialogActivity;
@@ -78,6 +71,13 @@ import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.ui.documentfolder.actions.CreateFolderDialogFragment;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.operations.OdsMoveNodesRequest;
+import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
+import org.opendataspace.android.app.session.OdsPermissions;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
@@ -603,6 +603,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         }
     }
 
+    @Override
     public boolean onItemLongClick(GridView l, View v, int position, long id)
     {
         // We disable long click during import mode.
@@ -754,9 +755,9 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                 }
                 createFiles(files);
             }
-            break;
+        break;
         default:
-            break;
+        break;
         }
     }
 
@@ -811,6 +812,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         AddFolderDialogFragment.newInstance(parentFolder).show(ft, CreateFolderDialogFragment.TAG);
     }
 
+    @Override
     public void refresh()
     {
         if (!ConnectivityUtils.hasNetwork((BaseActivity) getActivity()))
@@ -1094,6 +1096,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             data.put("nodes", list);
             data.put("account", SessionUtils.getAccount(getActivity()).getId());
             data.put("isCopy", isCopy);
+            data.put("srcId", parentFolder.getIdentifier());
 
             ClipData cd = new ClipData("ods nodes", new String[] { MimeTypeManager.MIME_NODE_LIST }, new ClipData.Item(
                     data.toString()));
@@ -1126,11 +1129,14 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
             JSONObject jso = new JSONObject(clipboard.getPrimaryClip().getItemAt(0).coerceToText(getActivity())
                     .toString());
+
             JSONArray list = jso.optJSONArray("nodes");
             long accId = jso.optLong("account", -1);
             boolean isCopy = jso.optBoolean("isCopy", true);
+            String srcId = jso.optString("src", "");
 
-            if (list == null || SessionUtils.getAccount(getActivity()).getId() != accId)
+            if (list == null || SessionUtils.getAccount(getActivity()).getId() != accId
+                    || srcId.equals(parentFolder.getIdentifier()))
             {
                 return;
             }
@@ -1161,7 +1167,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
             OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
                     SessionUtils.getAccount(getActivity()));
-            group.enqueue(new OdsMoveNodesRequest(ids, parentFolder.getIdentifier(), !isCopy)
+            group.enqueue(new OdsMoveNodesRequest(ids, parentFolder.getIdentifier(), srcId, !isCopy)
                     .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
@@ -1344,7 +1350,10 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     public boolean isShortcut()
     {
-        if (getArguments() == null || !getArguments().containsKey(PARAM_IS_SHORTCUT)) { return false; }
+        if (getArguments() == null || !getArguments().containsKey(PARAM_IS_SHORTCUT))
+        {
+            return false;
+        }
         return (getArguments().get(PARAM_IS_SHORTCUT) instanceof Boolean) ? (Boolean) getArguments().get(
                 PARAM_IS_SHORTCUT) : false;
     }

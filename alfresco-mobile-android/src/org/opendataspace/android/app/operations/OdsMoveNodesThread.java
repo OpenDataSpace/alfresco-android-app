@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
@@ -60,7 +61,7 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
                 try
                 {
                     Node cur = svc.getNodeByIdentifier(id);
-                    processNode(cur, target, svc);
+                    processNode(cur, target, svc, true);
                 }
                 catch (Exception ex)
                 {
@@ -79,7 +80,7 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
         return result;
     }
 
-    private boolean processNode(Node node, OdsFolder to, DocumentFolderService svc)
+    private boolean processNode(Node node, OdsFolder to, DocumentFolderService svc, boolean checkParent)
     {
         try
         {
@@ -87,11 +88,11 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
 
             if (node.isDocument())
             {
-                processDocument((OdsDocument) node, to, svc);
+                res = processDocument((OdsDocument) node, to, svc);
             }
             else
             {
-                res = processFolder((OdsFolder) node, to, svc);
+                res = processFolder((OdsFolder) node, to, svc, checkParent);
             }
 
             if (res && listener != null)
@@ -110,8 +111,23 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
         return false;
     }
 
-    private boolean processFolder(OdsFolder from, OdsFolder to, DocumentFolderService svc)
+    private boolean processFolder(OdsFolder from, OdsFolder to, DocumentFolderService svc, boolean checkParent)
     {
+        if (checkParent)
+        {
+            Folder p = to;
+
+            while (p != null)
+            {
+                if (p.getIdentifier().equals(from.getIdentifier()))
+                {
+                    return false;
+                }
+
+                p = svc.getParentFolder(p);
+            }
+        }
+
         Map<String, Serializable> properties = new HashMap<String, Serializable>(2);
         properties.put(PropertyIds.OBJECT_TYPE_ID, BaseTypeId.CMIS_FOLDER.value());
         OdsFolder fld = (OdsFolder) svc.createFolder(to, from.getName(), properties);
@@ -120,7 +136,7 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
 
         for (Node cur : ls)
         {
-            if (!processNode(cur, fld, svc))
+            if (!processNode(cur, fld, svc, false))
             {
                 return false;
             }
@@ -134,7 +150,7 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
         return true;
     }
 
-    private void processDocument(OdsDocument doc, OdsFolder to, DocumentFolderService svc)
+    private boolean processDocument(OdsDocument doc, OdsFolder to, DocumentFolderService svc)
     {
         org.apache.chemistry.opencmis.client.api.Document cmisdoc = (org.apache.chemistry.opencmis.client.api.Document) doc
                 .getCmisObject();
@@ -142,12 +158,20 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
         if (isMove)
         {
             OdsFolder from = (OdsFolder) svc.getParentFolder(doc);
+
+            if (from.getIdentifier().equals(to.getIdentifier()))
+            {
+                return true;
+            }
+
             cmisdoc.move(from.getCmisObject(), to.getCmisObject());
         }
         else
         {
             cmisdoc.copy(to.getCmisObject());
         }
+
+        return true;
     }
 
     @Override
