@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,10 +26,9 @@ import java.util.Map;
 
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.services.DocumentFolderService;
-import org.alfresco.mobile.android.api.utils.NodeComparator;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsNodeComparator;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.fragments.BaseCursorGridAdapterHelper;
 import org.alfresco.mobile.android.application.fragments.BaseGridFragment;
@@ -56,7 +55,7 @@ import android.widget.LinearLayout;
 /**
  * Provides access to node (documents or folders) and displays them as a view
  * based on GenericViewHolder.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
@@ -215,7 +214,7 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
         }
         originalNodes.add(node);
         originalNodes.removeAll(Collections.singleton(null));
-        Collections.sort(originalNodes, new NodeComparator(true, DocumentFolderService.SORT_PROPERTY_NAME));
+        Collections.sort(originalNodes, new OdsNodeComparator(true, OdsNodeComparator.SORT_FOLDERS));
 
         List<Node> tmpNodes = new ArrayList<Node>(originalNodes);
         clear();
