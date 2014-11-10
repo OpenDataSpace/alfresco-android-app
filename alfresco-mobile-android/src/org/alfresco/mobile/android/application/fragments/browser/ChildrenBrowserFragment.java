@@ -800,6 +800,11 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     public void createFolder()
     {
+        if (parentFolder == null)
+        {
+            return;
+        }
+
         FragmentTransaction ft = getFragmentManager().beginTransaction();
         Fragment prev = getFragmentManager().findFragmentByTag(CreateFolderDialogFragment.TAG);
         if (prev != null)

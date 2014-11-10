@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of the Alfresco Mobile SDK.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -104,15 +104,20 @@ public abstract class CreateFolderDialogFragment extends BaseFragment
                         Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
 
-                OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils
-                        .getAccount(getActivity()));
-                group.enqueue(new CreateFolderRequest((Folder) getArguments().get(ARGUMENT_FOLDER), tv.getText()
-                        .toString().trim()).setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
-                BatchOperationManager.getInstance(getActivity()).enqueue(group);
+                Folder folder = (Folder) getArguments().get(ARGUMENT_FOLDER);
 
-                OperationWaitingDialogFragment.newInstance(CreateFolderRequest.TYPE_ID, R.drawable.ic_add_folder,
-                        getString(R.string.folder_create), null, (Folder) getArguments().get(ARGUMENT_FOLDER), 0).show(
-                        getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+                if (folder != null)
+                {
+                    OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils
+                            .getAccount(getActivity()));
+                    group.enqueue(new CreateFolderRequest(folder, tv.getText().toString().trim())
+                            .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+                    BatchOperationManager.getInstance(getActivity()).enqueue(group);
+
+                    OperationWaitingDialogFragment.newInstance(CreateFolderRequest.TYPE_ID, R.drawable.ic_add_folder,
+                            getString(R.string.folder_create), null, (Folder) getArguments().get(ARGUMENT_FOLDER), 0)
+                            .show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+                }
 
                 dismiss();
             }
