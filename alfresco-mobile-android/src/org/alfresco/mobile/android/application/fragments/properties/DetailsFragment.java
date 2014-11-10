@@ -121,7 +121,7 @@ import android.widget.TextView;
  * @author Jean Marie Pascal
  */
 public class DetailsFragment extends MetadataFragment implements OnTabChangeListener,
-LoaderCallbacks<LoaderResult<Node>>
+        LoaderCallbacks<LoaderResult<Node>>
 {
     private static final String ACTION_REFRESH = "org.alfresco.mobile.android.intent.ACTION_REFRESH";
 
@@ -227,13 +227,19 @@ LoaderCallbacks<LoaderResult<Node>>
 
         if (!getArguments().containsKey(ARGUMENT_ISFAVORITE))
         {
-            if (alfSession == null) { return vRoot; }
+            if (alfSession == null)
+            {
+                return vRoot;
+            }
         }
 
         node = (Node) getArguments().get(ARGUMENT_NODE);
         nodeIdentifier = (String) getArguments().get(ARGUMENT_NODE_ID);
         parentNode = (Folder) getArguments().get(ARGUMENT_NODE_PARENT);
-        if (node == null && nodeIdentifier == null) { return null; }
+        if (node == null && nodeIdentifier == null)
+        {
+            return null;
+        }
 
         // TAB
         if (savedInstanceState != null)
@@ -318,8 +324,8 @@ LoaderCallbacks<LoaderResult<Node>>
             if (isSynced)
             {
                 // We use the sync file stored locally
-                tmpFile = SynchroManager.getInstance(getActivity()).getSyncFile(
-                        SessionUtils.getAccount(getActivity()), node);
+                tmpFile = SynchroManager.getInstance(getActivity()).getSyncFile(SessionUtils.getAccount(getActivity()),
+                        node);
             }
             else
             {
@@ -351,9 +357,8 @@ LoaderCallbacks<LoaderResult<Node>>
 
                     cValues.put(SynchroSchema.COLUMN_STATUS, operationStatut);
                     getActivity().getContentResolver().update(
-                            SynchroManager.getInstance(getActivity()).getUri(
-                                    SessionUtils.getAccount(getActivity()), node.getIdentifier()), cValues, null,
-                                    null);
+                            SynchroManager.getInstance(getActivity()).getUri(SessionUtils.getAccount(getActivity()),
+                                    node.getIdentifier()), cValues, null, null);
                 }
 
                 // Encrypt sync file if necessary
@@ -377,9 +382,8 @@ LoaderCallbacks<LoaderResult<Node>>
 
                     cValues.put(SynchroSchema.COLUMN_STATUS, operationStatut);
                     getActivity().getContentResolver().update(
-                            SynchroManager.getInstance(getActivity()).getUri(
-                                    SessionUtils.getAccount(getActivity()), node.getIdentifier()), cValues, null,
-                                    null);
+                            SynchroManager.getInstance(getActivity()).getUri(SessionUtils.getAccount(getActivity()),
+                                    node.getIdentifier()), cValues, null, null);
 
                     // Sync if it's possible.
                     if (SynchroManager.getInstance(getActivity()).canSync(SessionUtils.getAccount(getActivity())))
@@ -413,7 +417,7 @@ LoaderCallbacks<LoaderResult<Node>>
                         public void onClick(DialogInterface dialog, int item)
                         {
                             SynchroManager.getInstance(getActivity())
-                            .sync(SessionUtils.getAccount(getActivity()), node);
+                                    .sync(SessionUtils.getAccount(getActivity()), node);
                         }
                     });
                     AlertDialog alert = builder.create();
@@ -427,7 +431,7 @@ LoaderCallbacks<LoaderResult<Node>>
                 // Delete otherwise
                 StorageManager.manageFile(getActivity(), dlFile);
             }
-            break;
+        break;
         case PublicIntent.REQUESTCODE_FILEPICKER:
             if (data != null && IntentIntegrator.ACTION_PICK_FILE.equals(data.getAction()))
             {
@@ -451,9 +455,9 @@ LoaderCallbacks<LoaderResult<Node>>
                             getString(R.string.error_unknown_filepath), true));
                 }
             }
-            break;
+        break;
         default:
-            break;
+        break;
         }
     }
 
@@ -654,10 +658,18 @@ LoaderCallbacks<LoaderResult<Node>>
      */
     private void displayIcon(Node node, int defaultIconId, ImageView iv, boolean isLarge)
     {
-        if (iv == null) { return; }
+        if (iv == null)
+        {
+            return;
+        }
 
         int iconId = defaultIconId;
-        vRoot.findViewById(R.id.preview_message).setVisibility(View.GONE);
+        View msg = vRoot.findViewById(R.id.preview_message);
+
+        if (msg != null)
+        {
+            msg.setVisibility(View.GONE);
+        }
 
         if (node.isDocument())
         {
@@ -761,7 +773,10 @@ LoaderCallbacks<LoaderResult<Node>>
             mTabHost.addTab(newTab(TAB_METADATA, R.string.metadata, android.R.id.tabcontent));
             if (tabSelection != null)
             {
-                if (tabSelection == 0) { return; }
+                if (tabSelection == 0)
+                {
+                    return;
+                }
                 int index = (node.isDocument()) ? tabSelection : tabSelection - 1;
                 mTabHost.setCurrentTab(index);
             }
@@ -853,7 +868,10 @@ LoaderCallbacks<LoaderResult<Node>>
     // ///////////////////////////////////////////////////////////////////////////
     public void share()
     {
-        if (node.isFolder()) { return; }
+        if (node.isFolder())
+        {
+            return;
+        }
 
         if (node instanceof NodeSyncPlaceHolder)
         {
@@ -896,9 +914,13 @@ LoaderCallbacks<LoaderResult<Node>>
             File f = getDownloadFile(getActivity().getApplicationContext(), alfSession, acc);
             if (f != null)
             {
-                ActionManager.actionSendMailWithAttachment(this, f.getName(), getFragmentManager()
-                        .findFragmentByTag(DetailsFragment.TAG).getActivity().getString(R.string.email_content),
-                        Uri.fromFile(f), PublicIntent.REQUESTCODE_DECRYPTED);
+                ActionManager
+                        .actionSendMailWithAttachment(
+                                this,
+                                f.getName(),
+                                getFragmentManager().findFragmentByTag(DetailsFragment.TAG).getActivity()
+                                        .getString(R.string.email_content), Uri.fromFile(f),
+                                PublicIntent.REQUESTCODE_DECRYPTED);
 
                 return;
             }
@@ -925,9 +947,12 @@ LoaderCallbacks<LoaderResult<Node>>
                     File f = getDownloadFile(getActivity().getApplicationContext(), alfSession, acc);
                     if (f != null)
                     {
-                        ActionManager.actionSendMailWithAttachment(DetailsFragment.this, f.getName(), getFragmentManager()
-                                .findFragmentByTag(DetailsFragment.TAG).getActivity().getString(R.string.email_content),
-                                Uri.fromFile(f), PublicIntent.REQUESTCODE_DECRYPTED);
+                        ActionManager.actionSendMailWithAttachment(
+                                DetailsFragment.this,
+                                f.getName(),
+                                getFragmentManager().findFragmentByTag(DetailsFragment.TAG).getActivity()
+                                        .getString(R.string.email_content), Uri.fromFile(f),
+                                PublicIntent.REQUESTCODE_DECRYPTED);
 
                         return;
                     }
@@ -993,7 +1018,7 @@ LoaderCallbacks<LoaderResult<Node>>
     {
         try
         {
-            if(context == null || node == null || session == null)
+            if (context == null || node == null || session == null)
             {
                 return null;
             }
@@ -1007,14 +1032,14 @@ LoaderCallbacks<LoaderResult<Node>>
 
             File file = new File(folder, node.getName());
 
-            if (!file.exists() || ((Document)node).getContentStreamLength() != file.length())
+            if (!file.exists() || ((Document) node).getContentStreamLength() != file.length())
             {
                 return null;
             }
 
             return file;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             OdsLog.ex(TAG, ex);
         }
@@ -1024,7 +1049,10 @@ LoaderCallbacks<LoaderResult<Node>>
 
     public void openin()
     {
-        if (isRestrictable) { return; }
+        if (isRestrictable)
+        {
+            return;
+        }
 
         Bundle b = new Bundle();
 
@@ -1068,7 +1096,9 @@ LoaderCallbacks<LoaderResult<Node>>
             File f = getDownloadFile(getActivity().getApplicationContext(), alfSession, acc);
             if (f != null)
             {
-                ActionManager.openIn(this, f, MimeTypeManager.getMIMEType(getActivity().getApplicationContext(), f.getName()),PublicIntent.REQUESTCODE_SAVE_BACK);
+                ActionManager.openIn(this, f,
+                        MimeTypeManager.getMIMEType(getActivity().getApplicationContext(), f.getName()),
+                        PublicIntent.REQUESTCODE_SAVE_BACK);
                 return;
             }
 
@@ -1083,7 +1113,10 @@ LoaderCallbacks<LoaderResult<Node>>
 
     public void download()
     {
-        if (isRestrictable) { return; }
+        if (isRestrictable)
+        {
+            return;
+        }
 
         if (node instanceof Document)
         {
@@ -1118,13 +1151,16 @@ LoaderCallbacks<LoaderResult<Node>>
         //vRoot.findViewById(R.id.like_progress).setVisibility(View.VISIBLE);
         OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new LikeNodeRequest(parentNode, node)
-        .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
     }
 
     public void favorite(View v)
     {
-        if (isRestrictable) { return; }
+        if (isRestrictable)
+        {
+            return;
+        }
 
         if (!GeneralPreferences.hasDisplayedActivateSync(getActivity()))
         {
@@ -1152,7 +1188,7 @@ LoaderCallbacks<LoaderResult<Node>>
             OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
                     SessionUtils.getAccount(getActivity()));
             group.enqueue(new FavoriteNodeRequest(parentNode, node)
-            .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+                    .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
         }
 
@@ -1186,8 +1222,14 @@ LoaderCallbacks<LoaderResult<Node>>
     {
         MenuItem mi;
 
-        if (node == null) { return; }
-        if (node instanceof NodeSyncPlaceHolder) { return; }
+        if (node == null)
+        {
+            return;
+        }
+        if (node instanceof NodeSyncPlaceHolder)
+        {
+            return;
+        }
 
         boolean isRestrict = node.hasAspect(ContentModel.ASPECT_RESTRICTABLE);
 
@@ -1202,7 +1244,7 @@ LoaderCallbacks<LoaderResult<Node>>
             }
 
             if (//((Document) node).isLatestVersion() &&
-                    ((DocumentImpl) node).hasAllowableAction(Action.CAN_SET_CONTENT_STREAM.value()))
+            ((DocumentImpl) node).hasAllowableAction(Action.CAN_SET_CONTENT_STREAM.value()))
             {
                 mi = menu.add(Menu.NONE, MenuActionItem.MENU_UPDATE, Menu.FIRST + MenuActionItem.MENU_UPDATE,
                         R.string.update);
@@ -1257,11 +1299,12 @@ LoaderCallbacks<LoaderResult<Node>>
 
             if (node.isDocument())
             {
-                mi = menu.add(Menu.NONE, MenuActionItem.MENU_LINKS, Menu.FIRST
-                        + MenuActionItem.MENU_LINKS, R.string.links);
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_LINKS, Menu.FIRST + MenuActionItem.MENU_LINKS,
+                        R.string.links);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
-        } else
+        }
+        else
         {
             if (node.isDocument())
             {
@@ -1346,7 +1389,10 @@ LoaderCallbacks<LoaderResult<Node>>
 
     private void setupTabs()
     {
-        if (mTabHost == null) { return; }
+        if (mTabHost == null)
+        {
+            return;
+        }
 
         mTabHost.setup();
         mTabHost.setOnTabChangedListener(this);
@@ -1368,7 +1414,10 @@ LoaderCallbacks<LoaderResult<Node>>
 
         if (tabSelection != null)
         {
-            if (tabSelection == 0) { return; }
+            if (tabSelection == 0)
+            {
+                return;
+            }
             int index = (node.isDocument()) ? tabSelection : tabSelection - 1;
             mTabHost.setCurrentTab(index);
         }
@@ -1509,7 +1558,10 @@ LoaderCallbacks<LoaderResult<Node>>
         {
             OdsLog.d(TAG, intent.getAction());
 
-            if (getActivity() == null) { return; }
+            if (getActivity() == null)
+            {
+                return;
+            }
 
             if (intent.getAction().equals(ACTION_REFRESH))
             {
@@ -1529,13 +1581,22 @@ LoaderCallbacks<LoaderResult<Node>>
                                     .equals(intent.getAction())))
                     {
                         Bundle b = intent.getExtras().getParcelable(IntentIntegrator.EXTRA_DATA);
-                        if (b == null) { return; }
-                        if (b.getSerializable(IntentIntegrator.EXTRA_FOLDER) instanceof Folder) { return; }
+                        if (b == null)
+                        {
+                            return;
+                        }
+                        if (b.getSerializable(IntentIntegrator.EXTRA_FOLDER) instanceof Folder)
+                        {
+                            return;
+                        }
 
                         if (IntentIntegrator.ACTION_DECRYPT_COMPLETED.equals(intent.getAction()))
                         {
                             int actionIntent = b.getInt(IntentIntegrator.EXTRA_INTENT_ACTION);
-                            if (actionIntent == DataProtectionManager.ACTION_NONE || actionIntent == 0) { return; }
+                            if (actionIntent == DataProtectionManager.ACTION_NONE || actionIntent == 0)
+                            {
+                                return;
+                            }
 
                             File f = (File) b.getSerializable(IntentIntegrator.EXTRA_FILE);
                             downloadDateTime = new Date(f.lastModified());
@@ -1563,7 +1624,10 @@ LoaderCallbacks<LoaderResult<Node>>
                     }
 
                     Bundle b = intent.getExtras().getParcelable(IntentIntegrator.EXTRA_DATA);
-                    if (b == null) { return; }
+                    if (b == null)
+                    {
+                        return;
+                    }
 
                     Node _node = null;
                     if (b.containsKey(IntentIntegrator.EXTRA_DOCUMENT))
