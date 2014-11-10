@@ -839,7 +839,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
         if (getActivity() instanceof MainActivity)
         {
-            getMenu(alfSession, menu, parentFolder);
+            getMenu(alfSession, menu, parentFolder, getActivity());
             /*
             if (hasDocument())
             {
@@ -848,20 +848,6 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                 displayMenuItem.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
             }
              */
-
-            if (selectedItems == null || selectedItems.isEmpty())
-            {
-                ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(
-                        Context.CLIPBOARD_SERVICE);
-
-                if (clipboard.hasPrimaryClip()
-                        && clipboard.getPrimaryClipDescription().hasMimeType(MimeTypeManager.MIME_NODE_LIST))
-                {
-                    MenuItem mi = menu.add(Menu.NONE, MenuActionItem.MENU_PASTE,
-                            Menu.FIRST + MenuActionItem.MENU_PASTE, R.string.paste_files);
-                    mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-                }
-            }
         }
         else if (getActivity() instanceof PublicDispatcherActivity)
         {
@@ -893,7 +879,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
          */
     }
 
-    public static void getMenu(AlfrescoSession session, Menu menu, Folder parentFolder, boolean actionMode)
+    public static void getMenu(AlfrescoSession session, Menu menu, Folder parentFolder, boolean actionMode, Context ctx)
     {
         MenuItem mi;
 
@@ -989,11 +975,25 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             mi.setIcon(R.drawable.ic_refresh);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
+
+        if (!actionMode && canCreateFile && canCreateFolder)
+        {
+            ClipboardManager clipboard = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
+
+            if (clipboard.hasPrimaryClip()
+                    && clipboard.getPrimaryClipDescription().hasMimeType(MimeTypeManager.MIME_NODE_LIST))
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_PASTE, Menu.FIRST + MenuActionItem.MENU_PASTE,
+                        R.string.paste_files);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            }
+        }
+
     }
 
-    public static void getMenu(AlfrescoSession session, Menu menu, Folder parentFolder)
+    public static void getMenu(AlfrescoSession session, Menu menu, Folder parentFolder, Context ctx)
     {
-        getMenu(session, menu, parentFolder, false);
+        getMenu(session, menu, parentFolder, false, ctx);
     }
 
     // //////////////////////////////////////////////////////////////////////
