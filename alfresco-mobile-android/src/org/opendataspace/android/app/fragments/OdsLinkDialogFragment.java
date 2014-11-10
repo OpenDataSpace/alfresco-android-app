@@ -11,6 +11,7 @@ import org.alfresco.mobile.android.application.operations.batch.BatchOperationMa
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
@@ -141,7 +142,15 @@ public class OdsLinkDialogFragment extends BaseFragment
                     @Override
                     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)
                     {
-                        lnk.setExpires(new GregorianCalendar(year, monthOfYear, dayOfMonth));
+                        Calendar cal = new GregorianCalendar(year, monthOfYear, dayOfMonth);
+
+                        if (cal.before(Calendar.getInstance()))
+                        {
+                            MessengerManager.showToast(getActivity(), R.string.link_date_invalid);
+                            return;
+                        }
+
+                        lnk.setExpires(cal);
                         dpe.setText(SimpleDateFormat.getDateInstance().format(lnk.getExpires().getTime()));
                         bcreate.setEnabled(validate(lnk));
                     }

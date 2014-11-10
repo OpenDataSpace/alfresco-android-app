@@ -211,6 +211,7 @@
     <string name="link_message">Comment:</string>
     <string name="link_copy_url">Copy Url</string>
     <string name="link_expires">Expires:</string>
+    <string name="link_date_invalid">This date has already passed.</string>
 
     <!-- NETWORKS -->
     <string name="cloud_networks_empty">No networks available</string>
