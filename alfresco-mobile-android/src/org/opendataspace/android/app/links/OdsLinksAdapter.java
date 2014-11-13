@@ -71,10 +71,12 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
                 mi = popup.getMenu().add(Menu.NONE, MenuActionItem.MENU_EDIT, Menu.FIRST + MenuActionItem.MENU_EDIT,
                         R.string.edit);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                mi.setEnabled(false);
 
                 mi = popup.getMenu().add(Menu.NONE, MenuActionItem.MENU_DELETE,
                         Menu.FIRST + MenuActionItem.MENU_DELETE, R.string.delete);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                mi.setEnabled(false);
 
                 popup.setOnMenuItemClickListener(OdsLinksAdapter.this);
                 popup.show();
@@ -121,7 +123,7 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
 
     private void edit(OdsLink link)
     {
-        OdsLinksFragment.editLink(((OdsLinksFragment) fr).getNode(), link, fr.getActivity().getFragmentManager());
+        //OdsLinksFragment.editLink(((OdsLinksFragment) fr).getNode(), link, fr.getActivity().getFragmentManager());
     }
 
     private void delete(final OdsLink link)

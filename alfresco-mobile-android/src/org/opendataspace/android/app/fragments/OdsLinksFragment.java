@@ -249,7 +249,7 @@ public class OdsLinksFragment extends BaseListFragment implements
     @Override
     public void onListItemClick(ListView l, View v, int position, long id)
     {
-        editLink(node, (OdsLink) l.getItemAtPosition(position), getFragmentManager());
+        //editLink(node, (OdsLink) l.getItemAtPosition(position), getFragmentManager());
     }
 
     public Node getNode()
