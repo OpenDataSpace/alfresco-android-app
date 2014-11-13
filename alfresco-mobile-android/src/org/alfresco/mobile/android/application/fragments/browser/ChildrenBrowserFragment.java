@@ -479,7 +479,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     private List<String> getPath(String pathValue, boolean fromSite)
     {
-        String[] path = pathValue.split("/");
+        String[] path = pathValue != null ? pathValue.split("/") : new String[] {};
         if (path.length == 0)
         {
             path = new String[] { "/" };
