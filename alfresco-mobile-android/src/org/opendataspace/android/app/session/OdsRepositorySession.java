@@ -34,6 +34,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
 
     private OdsRepositorySession shared;
     private OdsRepositorySession global;
+    private OdsRepositorySession current;
     private List<Repository> repos;
 
     private OdsRepositorySession()
@@ -237,5 +238,15 @@ public class OdsRepositorySession extends RepositorySessionImpl
         Map<String, String> res = super.retrieveSessionParameters();
         res.put(SessionParameter.OBJECT_FACTORY_CLASS, "org.opendataspace.android.app.session.OdsObjectFactoryImpl");
         return res;
+    }
+
+    public OdsRepositorySession getCurrent()
+    {
+        return current;
+    }
+
+    public void setCurrent(OdsRepositorySession current)
+    {
+        this.current = current;
     }
 }

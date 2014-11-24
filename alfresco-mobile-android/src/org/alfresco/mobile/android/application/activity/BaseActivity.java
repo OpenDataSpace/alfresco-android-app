@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -26,6 +26,7 @@ import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.config.OdsConfigManager;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
@@ -57,7 +58,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 /**
  * Base class for all activities.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public abstract class BaseActivity extends Activity
@@ -228,7 +229,20 @@ public abstract class BaseActivity extends Activity
             currentAccount = applicationManager.getCurrentAccount();
         }
 
-        return currentAccount != null ? applicationManager.getSession(currentAccount.getId()) : null;
+        AlfrescoSession ses = currentAccount != null ? applicationManager.getSession(currentAccount.getId()) : null;
+
+        if (ses instanceof OdsRepositorySession)
+        {
+            OdsRepositorySession ods = (OdsRepositorySession) ses;
+            ods = ((OdsRepositorySession) ses).getCurrent();
+
+            if (ods != null)
+            {
+                ses = ods;
+            }
+        }
+
+        return ses;
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -358,7 +372,7 @@ public abstract class BaseActivity extends Activity
     /**
      * Register a broadcast receiver to this specific activity. If used this
      * methods is responsible to unregister the receiver during on stop().
-     * 
+     *
      * @param receiver
      * @param filter
      */
@@ -384,7 +398,7 @@ public abstract class BaseActivity extends Activity
      * Utility BroadcastReceiver for displaying dialog after an error or to
      * display custom message. Use ACTION_DISPLAY_DIALOG or ACTION_DISPLAY_ERROR
      * Action inside an Intent and send it with localBroadcastManager instance.
-     * 
+     *
      * @author Jean Marie Pascal
      */
     private class UtilsReceiver extends BroadcastReceiver

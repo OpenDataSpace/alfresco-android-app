@@ -445,14 +445,24 @@ public class MainActivity extends BaseActivity
         switch (id)
         {
         case R.id.menu_browse_root:
+        {
             if (!checkSession(R.id.menu_browse_root) || getCurrentSession() == null)
             {
                 return;
             }
-            frag = ChildrenBrowserFragment.newInstance(SessionUtils.getSession(this).getRootFolder());
-            frag.setSession(SessionUtils.getSession(this));
+
+            AlfrescoSession ses = getCurrentSession();
+            if (ses instanceof OdsRepositorySession)
+            {
+                final OdsRepositorySession ods = ((OdsRepositorySession) ses);
+                ods.setCurrent(null);
+            }
+
+            frag = ChildrenBrowserFragment.newInstance(ses.getRootFolder());
+            frag.setSession(ses);
             FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                     ChildrenBrowserFragment.TAG, true);
+        }
             break;
         case R.id.menu_browse_shared:
         {
@@ -464,8 +474,10 @@ public class MainActivity extends BaseActivity
 
             if (ses instanceof OdsRepositorySession)
             {
-                frag = ChildrenBrowserFragment.newInstance(((OdsRepositorySession) ses).getShared().getRootFolder());
-                frag.setSession(SessionUtils.getSession(this));
+                final OdsRepositorySession ods = ((OdsRepositorySession) ses);
+                ods.setCurrent(ods.getShared());
+                frag = ChildrenBrowserFragment.newInstance(ods.getCurrent().getRootFolder());
+                frag.setSession(ods.getCurrent());
                 FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                         ChildrenBrowserFragment.TAG, true);
             }
@@ -481,8 +493,10 @@ public class MainActivity extends BaseActivity
 
             if (ses instanceof OdsRepositorySession)
             {
-                frag = ChildrenBrowserFragment.newInstance(((OdsRepositorySession) ses).getGlobal().getRootFolder());
-                frag.setSession(SessionUtils.getSession(this));
+                final OdsRepositorySession ods = ((OdsRepositorySession) ses);
+                ods.setCurrent(ods.getGlobal());
+                frag = ChildrenBrowserFragment.newInstance(ods.getCurrent().getRootFolder());
+                frag.setSession(ods.getCurrent());
                 FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
                         ChildrenBrowserFragment.TAG, true);
                 break;
