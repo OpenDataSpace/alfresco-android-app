@@ -20,6 +20,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.pm.ApplicationInfo;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -40,6 +41,8 @@ public class OdsConfigManager
 
     public static final String[] FILES = new String[] {BRAND_ICON, BRAND_LARGE, BRAND_NOTIF, BRAND_STUB};
 
+    private static boolean dbg = false;
+
     private OdsConfigManager(Context applicationContext)
     {
         LocalBroadcastManager.getInstance(applicationContext).registerReceiver(new ConfigurationReceiver(),
@@ -53,6 +56,7 @@ public class OdsConfigManager
             if (mInstance == null)
             {
                 mInstance = new OdsConfigManager(context.getApplicationContext());
+                dbg = 0 != (context.getApplicationInfo().flags &= ApplicationInfo.FLAG_DEBUGGABLE);
             }
             return mInstance;
         }
@@ -60,31 +64,14 @@ public class OdsConfigManager
 
     public void retrieveConfiguration(Activity activity, Account acc)
     {
-        if (hasConfig(activity, acc))
+        if (isDebug())
         {
-            notifyRebrand(activity, acc.getId());
             return;
         }
 
         OperationsRequestGroup group = new OperationsRequestGroup(activity, SessionUtils.getAccount(activity));
         group.enqueue(new OdsConfigRequest().setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
         BatchOperationManager.getInstance(activity).enqueue(group);
-    }
-
-    private boolean hasConfig(Context ctx, Account acc)
-    {
-        /*
-        for (String cur : FILES)
-        {
-            File f = getBrandingFile(ctx, cur, acc);
-            if (f != null && f.exists())
-            {
-                return true;
-            }
-        }
-         */
-
-        return false;
     }
 
     public static File getBrandingFile(Context ctx, String name, Account acc)
@@ -148,5 +135,10 @@ public class OdsConfigManager
     {
         File f = getBrandingFile(ctx, name, acc);
         return (f != null && f.exists()) ? Drawable.createFromPath(f.getAbsolutePath()) : null;
+    }
+
+    public static boolean isDebug()
+    {
+        return dbg;
     }
 }
