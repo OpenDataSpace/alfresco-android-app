@@ -31,5 +31,6 @@
     <color name="dark_red">#ffcc0000</color>
     <color name="hint_foreground_holo_light">#808080</color>
     <color name="blue_light">#33B5E5</color>
+    <color name="download_bg">#deffbe</color>
 
 </resources>

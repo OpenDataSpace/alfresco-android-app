@@ -16,7 +16,9 @@ import com.j256.ormlite.table.TableUtils;
 public class OdsDatabase extends OrmLiteSqliteOpenHelper
 {
     private static final String DATABASE_NAME = "odsdata.db";
-    private static final int DATABASE_VERSION = 1;
+    private static final String TAG = "odsdb";
+
+    private static final int DATABASE_VERSION = 2;
 
     private OdsLinkDAO links;
     private OdsFileInfoDAO files;
@@ -32,16 +34,28 @@ public class OdsDatabase extends OrmLiteSqliteOpenHelper
         try
         {
             TableUtils.createTable(connectionSource, OdsLink.class);
-        } catch (Exception ex)
+            TableUtils.createTable(connectionSource, OdsFileInfo.class);
+        }
+        catch (Exception ex)
         {
-            OdsLog.ex("odsdb", ex);
+            OdsLog.ex(TAG, ex);
         }
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, ConnectionSource connectionSource, int oldVer, int newVer)
     {
-        // nothing
+        try
+        {
+            if (newVer < 3)
+            {
+                TableUtils.createTable(connectionSource, OdsFileInfo.class);
+            }
+        }
+        catch (Exception ex)
+        {
+            OdsLog.ex(TAG, ex);
+        }
     }
 
     @Override

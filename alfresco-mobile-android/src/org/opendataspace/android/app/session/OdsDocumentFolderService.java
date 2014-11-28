@@ -1,11 +1,16 @@
 package org.opendataspace.android.app.session;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.alfresco.mobile.android.api.model.ContentStream;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.Permissions;
 import org.alfresco.mobile.android.api.model.impl.ContentStreamImpl;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
@@ -17,6 +22,10 @@ import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.OperationContext;
 import org.apache.chemistry.opencmis.client.api.Rendition;
 import org.apache.chemistry.opencmis.client.api.Session;
+import org.opendataspace.android.app.data.OdsDataHelper;
+import org.opendataspace.android.app.fileinfo.OdsFileInfo;
+
+import com.j256.ormlite.dao.CloseableIterator;
 
 public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
 {
@@ -32,7 +41,8 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
         {
             Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
             OperationContext context = cmisSession.createOperationContext();
-            context.setRenditionFilterString(type == DocumentFolderService.RENDITION_PREVIEW ? "image/*" : "cmis:thumbnail");
+            context.setRenditionFilterString(type == DocumentFolderService.RENDITION_PREVIEW ? "image/*"
+                    : "cmis:thumbnail");
 
             CmisObject targetDocument = cmisSession.getObject(identifier, context);
             List<Rendition> renditions = targetDocument.getRenditions();
@@ -83,5 +93,44 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
             throw new AlfrescoServiceException(ErrorCodeRegistry.DOCFOLDER_WRONG_NODE_TYPE,
                     Messagesl18n.getString("AlfrescoService.2") + object.getBaseTypeId());
         }
+    }
+
+    @Override
+    public PagingResult<Node> getChildren(Folder parentFolder, ListingContext lcontext)
+    {
+        PagingResult<Node> res = super.getChildren(parentFolder, lcontext);
+
+        try
+        {
+            CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
+                    .getLinksByFolder(parentFolder.getIdentifier(), OdsFileInfo.TYPE_DOWNLOAD);
+            Map<String, OdsFileInfo> mp = new HashMap<String, OdsFileInfo>();
+
+            while (it.hasNext())
+            {
+                OdsFileInfo nfo = it.next();
+                mp.put(nfo.getNodeId(), nfo);
+            }
+
+            for (Node cur : res.getList())
+            {
+                OdsFileInfo nfo = mp.get(cur.getIdentifier());
+
+                if (nfo != null && cur instanceof OdsDocument)
+                {
+                    OdsDocument doc = (OdsDocument) cur;
+                    doc.setDownloaded(nfo.isValid(doc));
+                    doc.setFileInfo(nfo);
+                }
+            }
+
+            it.closeQuietly();
+        }
+        catch (Exception ex)
+        {
+            convertException(ex);
+        }
+
+        return res;
     }
 }

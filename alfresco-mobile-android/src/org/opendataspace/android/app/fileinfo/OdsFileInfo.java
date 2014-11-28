@@ -1,7 +1,9 @@
 package org.opendataspace.android.app.fileinfo;
 
+import java.io.File;
 import java.io.Serializable;
 
+import org.alfresco.mobile.android.api.model.Document;
 import com.j256.ormlite.field.DatabaseField;
 import com.j256.ormlite.table.DatabaseTable;
 
@@ -18,7 +20,7 @@ public class OdsFileInfo implements Serializable
 
     @DatabaseField(id = true, columnName = NODE_ID_FIELD)
     private String nodeId;
-    @DatabaseField(unique = true, columnName = FOLDER_ID_FIELD, canBeNull = false)
+    @DatabaseField(index = true, columnName = FOLDER_ID_FIELD, canBeNull = false)
     private String folderId;
     @DatabaseField(canBeNull = false)
     private String path;
@@ -58,5 +60,21 @@ public class OdsFileInfo implements Serializable
     public void setType(int type)
     {
         this.type = type;
+    }
+
+    public boolean isValid(Document cur)
+    {
+        File f = new File(getPath());
+        return f.exists() && f.length() == cur.getContentStreamLength();
+    }
+
+    public String getPath()
+    {
+        return path;
+    }
+
+    public void setPath(String path)
+    {
+        this.path = path;
     }
 }

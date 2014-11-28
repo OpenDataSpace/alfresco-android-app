@@ -34,8 +34,10 @@ import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.alfresco.mobile.android.api.utils.NodeRefUtils;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fileinfo.OdsFileInfo;
 import org.opendataspace.android.app.fragments.OdsLinksFragment;
 import org.opendataspace.android.app.links.OdsLink;
+import org.opendataspace.android.app.session.OdsDocument;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.MainActivity;
@@ -431,7 +433,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                 // Delete otherwise
                 StorageManager.manageFile(getActivity(), dlFile);
             }
-        break;
+            break;
         case PublicIntent.REQUESTCODE_FILEPICKER:
             if (data != null && IntentIntegrator.ACTION_PICK_FILE.equals(data.getAction()))
             {
@@ -455,9 +457,9 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                             getString(R.string.error_unknown_filepath), true));
                 }
             }
-        break;
+            break;
         default:
-        break;
+            break;
         }
     }
 
@@ -500,7 +502,13 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         tv = (TextView) vRoot.findViewById(R.id.details);
         tv.setText(Formatter.createContentBottomText(getActivity(), node, false));
 
-        if (isRestrictable)
+        if (node instanceof OdsDocument && ((OdsDocument) node).isDownloaded())
+        {
+            tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_save, 0);
+            vRoot.findViewById(R.id.properties_details)
+                    .setBackgroundColor(getResources().getColor(R.color.download_bg));
+        }
+        else if (isRestrictable)
         {
             tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_encrypt, 0);
         }
@@ -1018,26 +1026,16 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
     {
         try
         {
-            if (context == null || node == null || session == null)
+            if (node instanceof OdsDocument)
             {
-                return null;
+                OdsDocument doc = (OdsDocument) node;
+                OdsFileInfo nfo = doc.getFileInfo();
+
+                if (doc.isDownloaded() && nfo != null && nfo.isValid(doc))
+                {
+                    return new File(nfo.getPath());
+                }
             }
-
-            File folder = StorageManager.getDownloadFolder(context, acc);
-
-            if (folder == null)
-            {
-                return null;
-            }
-
-            File file = new File(folder, node.getName());
-
-            if (!file.exists() || ((Document) node).getContentStreamLength() != file.length())
-            {
-                return null;
-            }
-
-            return file;
         }
         catch (Exception ex)
         {

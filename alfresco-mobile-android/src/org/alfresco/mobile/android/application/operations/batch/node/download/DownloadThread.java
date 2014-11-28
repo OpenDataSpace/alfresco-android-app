@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,6 +36,8 @@ import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBat
 import org.alfresco.mobile.android.application.operations.batch.node.NodeOperationThread;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.opendataspace.android.app.data.OdsDataHelper;
+import org.opendataspace.android.app.fileinfo.OdsFileInfo;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
@@ -101,6 +103,7 @@ public class DownloadThread extends NodeOperationThread<ContentFile>
 
             //Encryption if necessary
             DataProtectionManager.getInstance(context).checkEncrypt(acc, destFile);
+            updateFileInfo();
         }
         catch (Exception e)
         {
@@ -111,6 +114,24 @@ public class DownloadThread extends NodeOperationThread<ContentFile>
         result.setData(contentFileResult);
 
         return result;
+    }
+
+    private void updateFileInfo()
+    {
+        try
+        {
+            OdsFileInfo nfo = new OdsFileInfo();
+            nfo.setNodeId(node.getIdentifier());
+            nfo.setFolderId(parentFolder.getIdentifier());
+            nfo.setType(OdsFileInfo.TYPE_DOWNLOAD);
+            nfo.setPath(destFile.getAbsolutePath());
+
+            OdsDataHelper.getHelper().getFileInfoDAO().createIfNotExists(nfo);
+        }
+        catch (Exception ex)
+        {
+            OdsLog.ex(TAG, ex);
+        }
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -236,5 +257,4 @@ public class DownloadThread extends NodeOperationThread<ContentFile>
         broadcastIntent.putExtra(IntentIntegrator.EXTRA_DATA, b);
         return broadcastIntent;
     }
-
 }

@@ -5,6 +5,7 @@ import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 
 public final class ProgressViewHolder extends GenericViewHolder
@@ -14,8 +15,10 @@ public final class ProgressViewHolder extends GenericViewHolder
     public ImageView iconTopRight;
 
     public ImageView iconBottomRight;
-    
+
     public ImageView favoriteIcon;
+
+    public LinearLayout bg;
 
     public ProgressViewHolder(View v)
     {

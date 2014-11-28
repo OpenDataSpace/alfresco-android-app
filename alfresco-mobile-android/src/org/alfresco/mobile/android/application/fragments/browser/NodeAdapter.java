@@ -28,6 +28,7 @@ import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsDocument;
 import org.opendataspace.android.app.session.OdsNodeComparator;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.fragments.BaseCursorGridAdapterHelper;
@@ -169,6 +170,7 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
 
         ProgressViewHolder vh = (ProgressViewHolder) v.getTag();
         Node item = getItem(position);
+
         updateControls(vh, item);
         return v;
     }
@@ -258,6 +260,8 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
     protected void updateTopText(ProgressViewHolder vh, Node item)
     {
         vh.topText.setText(item.getName());
+        boolean dl = item instanceof OdsDocument && ((OdsDocument) item).isDownloaded();
+
         if (item.isDocument() && (mode == ListingModeFragment.MODE_IMPORT || mode == ListingModeFragment.MODE_FOLDERS))
         {
             vh.topText.setEnabled(false);
@@ -265,6 +269,11 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
         else
         {
             vh.topText.setEnabled(true);
+        }
+
+        if (dl)
+        {
+            vh.topText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_save, 0);
         }
     }
 
@@ -278,6 +287,7 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
     {
         vh.bottomText.setText(createContentBottomText(getContext(), item));
         AccessibilityHelper.addContentDescription(vh.bottomText, createContentDescriptionBottomText(context, item));
+        boolean dl = item instanceof OdsDocument && ((OdsDocument) item).isDownloaded();
 
         if (mode == ListingModeFragment.MODE_PICK)
         {
@@ -285,6 +295,10 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
             {
                 UIUtils.setBackground(getSelectionLayout(vh),
                         getContext().getResources().getDrawable(R.drawable.list_longpressed_holo));
+            }
+            else if (dl)
+            {
+                getSelectionLayout(vh).setBackgroundColor(getContext().getResources().getColor(R.color.download_bg));
             }
             else
             {
@@ -297,6 +311,10 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
             {
                 UIUtils.setBackground(getSelectionLayout(vh),
                         getContext().getResources().getDrawable(R.drawable.list_longpressed_holo));
+            }
+            else if (dl)
+            {
+                getSelectionLayout(vh).setBackgroundColor(getContext().getResources().getColor(R.color.download_bg));
             }
             else
             {
