@@ -39,7 +39,6 @@ import org.opendataspace.android.app.config.OdsConfigManager;
 import org.opendataspace.android.app.data.OdsDataHelper;
 import org.opendataspace.android.app.session.OdsRenditionManager;
 import org.opendataspace.android.app.session.OdsRepositorySession;
-import org.opendataspace.android.app.sync.OdsSyncReceiver;
 
 /**
  * Provides high level service and responsible to manage sessions across
@@ -87,7 +86,6 @@ public final class ApplicationManager
         samsungManager = createSamsungManager(appContext.getString(R.string.extension_samsung_classname));
         odsConfig = OdsConfigManager.getInstance(appContext);
         OdsDataHelper.setHelper(applicationContext);
-        OdsSyncReceiver.startWatcher(applicationContext);
     }
 
     public static ApplicationManager getInstance(Context context)
