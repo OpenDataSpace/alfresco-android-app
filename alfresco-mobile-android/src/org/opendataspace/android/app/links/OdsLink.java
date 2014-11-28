@@ -13,6 +13,7 @@ import android.text.TextUtils;
 public class OdsLink implements Serializable
 {
     private static final long serialVersionUID = 1L;
+
     public final static String NODE_ID_FIELD = "nodeid";
 
     @DatabaseField(generatedId = true)

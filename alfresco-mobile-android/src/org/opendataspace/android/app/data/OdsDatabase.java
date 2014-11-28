@@ -2,6 +2,7 @@ package org.opendataspace.android.app.data;
 
 import java.sql.SQLException;
 
+import org.opendataspace.android.app.fileinfo.OdsFileInfo;
 import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.ui.logging.OdsLog;
 
@@ -18,6 +19,7 @@ public class OdsDatabase extends OrmLiteSqliteOpenHelper
     private static final int DATABASE_VERSION = 1;
 
     private OdsLinkDAO links;
+    private OdsFileInfoDAO files;
 
     public OdsDatabase(Context context)
     {
@@ -42,6 +44,13 @@ public class OdsDatabase extends OrmLiteSqliteOpenHelper
         // nothing
     }
 
+    @Override
+    public void close()
+    {
+        super.close();
+        links = null;
+    }
+
     public OdsLinkDAO getLinkDAO() throws SQLException
     {
         if (links == null)
@@ -52,10 +61,13 @@ public class OdsDatabase extends OrmLiteSqliteOpenHelper
         return links;
     }
 
-    @Override
-    public void close()
+    public OdsFileInfoDAO getFileInfoDAO() throws SQLException
     {
-        super.close();
-        links = null;
+        if (files == null)
+        {
+            files = new OdsFileInfoDAO(getConnectionSource(), OdsFileInfo.class);
+        }
+
+        return files;
     }
 }
