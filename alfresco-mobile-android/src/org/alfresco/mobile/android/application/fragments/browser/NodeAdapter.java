@@ -219,9 +219,11 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
         Collections.sort(originalNodes, new OdsNodeComparator(true, OdsNodeComparator.SORT_FOLDERS));
 
         List<Node> tmpNodes = new ArrayList<Node>(originalNodes);
+        setNotifyOnChange(false);
         clear();
         addAll(tmpNodes);
-        notifyDataSetChanged();
+        setNotifyOnChange(true);
+        notifyDataSetInvalidated();
     }
 
     public synchronized void remove(String nodeName)
@@ -231,9 +233,11 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
             int position = getPosition(nodeNameIndexer.get(nodeName));
             originalNodes.remove(position);
             List<Node> tmpNodes = new ArrayList<Node>(originalNodes);
+            setNotifyOnChange(false);
             clear();
             addAll(tmpNodes);
-            notifyDataSetChanged();
+            setNotifyOnChange(true);
+            notifyDataSetInvalidated();
         }
     }
 

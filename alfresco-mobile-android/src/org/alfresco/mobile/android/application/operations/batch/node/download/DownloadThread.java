@@ -38,6 +38,7 @@ import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.opendataspace.android.app.data.OdsDataHelper;
 import org.opendataspace.android.app.fileinfo.OdsFileInfo;
+import org.opendataspace.android.app.session.OdsDocument;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.Context;
@@ -127,6 +128,13 @@ public class DownloadThread extends NodeOperationThread<ContentFile>
             nfo.setPath(destFile.getAbsolutePath());
 
             OdsDataHelper.getHelper().getFileInfoDAO().createIfNotExists(nfo);
+
+            if (node instanceof OdsDocument)
+            {
+                OdsDocument ods = (OdsDocument) node;
+                ods.setDownloaded(true);
+                ods.setFileInfo(nfo);
+            }
         }
         catch (Exception ex)
         {
