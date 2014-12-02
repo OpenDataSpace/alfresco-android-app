@@ -287,7 +287,6 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
     {
         vh.bottomText.setText(createContentBottomText(getContext(), item));
         AccessibilityHelper.addContentDescription(vh.bottomText, createContentDescriptionBottomText(context, item));
-        boolean dl = item instanceof OdsDocument && ((OdsDocument) item).isDownloaded();
 
         if (mode == ListingModeFragment.MODE_PICK)
         {
@@ -295,10 +294,6 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
             {
                 UIUtils.setBackground(getSelectionLayout(vh),
                         getContext().getResources().getDrawable(R.drawable.list_longpressed_holo));
-            }
-            else if (dl)
-            {
-                getSelectionLayout(vh).setBackgroundColor(getContext().getResources().getColor(R.color.download_bg));
             }
             else
             {
@@ -311,10 +306,6 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
             {
                 UIUtils.setBackground(getSelectionLayout(vh),
                         getContext().getResources().getDrawable(R.drawable.list_longpressed_holo));
-            }
-            else if (dl)
-            {
-                getSelectionLayout(vh).setBackgroundColor(getContext().getResources().getColor(R.color.download_bg));
             }
             else
             {

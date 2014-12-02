@@ -505,8 +505,6 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         if (node instanceof OdsDocument && ((OdsDocument) node).isDownloaded())
         {
             tv.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_save, 0);
-            vRoot.findViewById(R.id.properties_details)
-                    .setBackgroundColor(getResources().getColor(R.color.download_bg));
         }
         else if (isRestrictable)
         {
