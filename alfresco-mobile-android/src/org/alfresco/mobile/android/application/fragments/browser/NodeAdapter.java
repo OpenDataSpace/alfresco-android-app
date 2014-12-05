@@ -279,6 +279,10 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
         {
             vh.topText.setCompoundDrawablesWithIntrinsicBounds(0, 0, R.drawable.ic_save, 0);
         }
+        else
+        {
+            vh.topText.setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, 0);
+        }
     }
 
     private LinearLayout getSelectionLayout(ProgressViewHolder vh)
