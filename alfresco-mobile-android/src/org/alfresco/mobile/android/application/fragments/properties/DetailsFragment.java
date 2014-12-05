@@ -1648,6 +1648,14 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                             }
                             else
                             {
+                                ChildrenBrowserFragment f = (ChildrenBrowserFragment) getFragmentManager()
+                                        .findFragmentByTag(ChildrenBrowserFragment.TAG);
+
+                                if (f != null)
+                                {
+                                    f.remove(_node);
+                                }
+
                                 getFragmentManager().popBackStack(DetailsFragment.TAG,
                                         FragmentManager.POP_BACK_STACK_INCLUSIVE);
                             }
@@ -1701,35 +1709,6 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                             return;
                         }
                          */
-                        if (intent.getAction().equals(IntentIntegrator.ACTION_UPDATE_COMPLETED))
-                        {
-                            LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
-
-                            Node updatedNode = (Node) b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
-
-                            Boolean backstack = false;
-                            if (!DisplayUtils.hasCentralPane(getActivity()))
-                            {
-                                backstack = true;
-                                getFragmentManager().popBackStack(DetailsFragment.TAG,
-                                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
-                            }
-                            else if (((ChildrenBrowserFragment) getFragmentManager().findFragmentByTag(
-                                    ChildrenBrowserFragment.TAG)) != null)
-                            {
-                                ((ChildrenBrowserFragment) getFragmentManager().findFragmentByTag(
-                                        ChildrenBrowserFragment.TAG)).select(updatedNode);
-                            }
-                            Folder pFolder = (Folder) b.getParcelable(IntentIntegrator.EXTRA_FOLDER);
-
-                            ((MainActivity) getActivity()).addPropertiesFragment(updatedNode, pFolder, backstack);
-
-                            MessengerManager.showToast(getActivity(),
-                                    String.format(getResources().getString(R.string.update_sucess), _node.getName()));
-
-                            return;
-                        }
-
                         if (intent.getAction().equals(IntentIntegrator.ACTION_UPDATE_COMPLETED))
                         {
                             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
