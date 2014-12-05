@@ -21,14 +21,14 @@
     android:gravity="center"
     android:orientation="vertical" >
 
-    <org.alfresco.mobile.android.application.utils.thirdparty.imagezoom.ImageViewTouch
+    <ImageView
         android:id="@+id/preview"
         android:layout_width="fill_parent"
         android:layout_height="0dip"
         android:layout_weight="1"
         android:gravity="center"
         android:contentDescription="@null"
-        android:scaleType="matrix"
+        android:scaleType="centerInside"
         />
 
  	<TextView

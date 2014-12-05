@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,6 @@ import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
 import org.alfresco.mobile.android.application.operations.sync.utils.NodeSyncPlaceHolder;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.thirdparty.imagezoom.ImageViewTouch;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 import org.alfresco.mobile.android.ui.manager.ActionManager.ActionManagerListener;
 
@@ -48,6 +47,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.View.OnClickListener;
 import android.widget.ImageView;
 
 /**
@@ -125,8 +125,8 @@ public class PreviewFragment extends BaseFragment
             iconId = MimeTypeManager.getIcon(getActivity(), node.getName(), true);
             //if (((Document) node).isLatestVersion())
             {
-                ((ImageViewTouch)preview).setScaleEnabled(false);
-                ((ImageViewTouch)preview).setDoubleTapEnabled(false);
+                //((ImageViewTouch)preview).setScaleEnabled(false);
+                //((ImageViewTouch)preview).setDoubleTapEnabled(false);
                 renditionManager.preview((ImageView) preview, node, iconId, DisplayUtils.getWidth(getActivity()));
             }
         }
@@ -138,6 +138,15 @@ public class PreviewFragment extends BaseFragment
         {
             preview.setImageResource(iconId);
         }
+
+        preview.setOnClickListener(new OnClickListener()
+        {
+            @Override
+            public void onClick(View v)
+            {
+                openin();
+            }
+        });
 
         return v;
     }
