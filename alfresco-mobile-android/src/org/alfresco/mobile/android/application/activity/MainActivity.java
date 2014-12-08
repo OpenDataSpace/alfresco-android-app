@@ -454,7 +454,15 @@ public class MainActivity extends BaseActivity
             AlfrescoSession ses = getCurrentSession();
             if (ses instanceof OdsRepositorySession)
             {
-                final OdsRepositorySession ods = ((OdsRepositorySession) ses);
+                OdsRepositorySession ods = ((OdsRepositorySession) ses);
+                OdsRepositorySession p = ods.getParent();
+
+                if (p != null)
+                {
+                    ses = p;
+                    ods = p;
+                }
+
                 ods.setCurrent(null);
             }
 
@@ -474,7 +482,14 @@ public class MainActivity extends BaseActivity
 
             if (ses instanceof OdsRepositorySession)
             {
-                final OdsRepositorySession ods = ((OdsRepositorySession) ses);
+                OdsRepositorySession ods = ((OdsRepositorySession) ses);
+                OdsRepositorySession p = ods.getParent();
+
+                if (p != null)
+                {
+                    ods = p;
+                }
+
                 ods.setCurrent(ods.getShared());
                 frag = ChildrenBrowserFragment.newInstance(ods.getCurrent().getRootFolder());
                 frag.setSession(ods.getCurrent());
@@ -493,7 +508,14 @@ public class MainActivity extends BaseActivity
 
             if (ses instanceof OdsRepositorySession)
             {
-                final OdsRepositorySession ods = ((OdsRepositorySession) ses);
+                OdsRepositorySession ods = ((OdsRepositorySession) ses);
+                OdsRepositorySession p = ods.getParent();
+
+                if (p != null)
+                {
+                    ods = p;
+                }
+
                 ods.setCurrent(ods.getGlobal());
                 frag = ChildrenBrowserFragment.newInstance(ods.getCurrent().getRootFolder());
                 frag.setSession(ods.getCurrent());

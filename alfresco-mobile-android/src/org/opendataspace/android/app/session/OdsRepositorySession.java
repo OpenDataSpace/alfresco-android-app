@@ -1,6 +1,7 @@
 package org.opendataspace.android.app.session;
 
 import java.io.Serializable;
+import java.lang.ref.WeakReference;
 import java.net.URL;
 import java.util.HashMap;
 import java.util.List;
@@ -35,6 +36,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
     private OdsRepositorySession shared;
     private OdsRepositorySession global;
     private OdsRepositorySession current;
+    private WeakReference<OdsRepositorySession> parent;
     private List<Repository> repos;
 
     private OdsRepositorySession()
@@ -127,10 +129,10 @@ public class OdsRepositorySession extends RepositorySessionImpl
                 ses = cur.createSession();
             } else if (name.equals("shared"))
             {
-                shared = create(cur.createSession());
+                shared = create(cur.createSession(), this);
             } else if (name.equals("global"))
             {
-                global = create(cur.createSession());
+                global = create(cur.createSession(), this);
             }
         }
 
@@ -150,7 +152,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
     public OdsRepositorySession getConfig()
     {
         Repository repo = findRepository("config");
-        return repo != null ? create(repo.createSession()) : null;
+        return repo != null ? create(repo.createSession(), this) : null;
     }
 
     private Repository findRepository(String name)
@@ -166,7 +168,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
         return null;
     }
 
-    private OdsRepositorySession create(Session ses)
+    private OdsRepositorySession create(Session ses, OdsRepositorySession parent)
     {
         OdsRepositorySession rep = new OdsRepositorySession();
         rep.initSettings(baseUrl, userIdentifier, password, new HashMap<String, Serializable>(userParameters));
@@ -174,6 +176,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
         rep.rootNode = new FolderImpl(rep.cmisSession.getRootFolder());
         rep.repositoryInfo = new OnPremiseRepositoryInfoImpl(rep.cmisSession.getRepositoryInfo());
         rep.initServices();
+        rep.parent = new WeakReference<OdsRepositorySession>(parent);
         return rep;
     }
 
@@ -248,5 +251,10 @@ public class OdsRepositorySession extends RepositorySessionImpl
     public void setCurrent(OdsRepositorySession current)
     {
         this.current = current;
+    }
+
+    public OdsRepositorySession getParent()
+    {
+        return parent != null ? parent.get() : null;
     }
 }

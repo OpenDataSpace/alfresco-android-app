@@ -620,6 +620,13 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         Activity acc = getActivity();
         AlfrescoSession ses = acc instanceof BaseActivity ? ((BaseActivity) acc).getCurrentSession() : null;
         OdsRepositorySession ods = ses instanceof OdsRepositorySession ? (OdsRepositorySession) ses : null;
+        OdsRepositorySession p = ods != null ? ods.getParent() : null;
+
+        if (p != null)
+        {
+            ods = p;
+        }
+
         boolean hasShared = ods != null && ods.getShared() != null;
         boolean hasGlobal = ods != null && ods.getGlobal() != null;
 
