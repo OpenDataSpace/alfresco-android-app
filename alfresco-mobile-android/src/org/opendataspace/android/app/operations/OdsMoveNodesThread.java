@@ -124,6 +124,11 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
                     return false;
                 }
 
+                if (p.getIdentifier().equals(svc.getRootFolder().getIdentifier()))
+                {
+                    break;
+                }
+
                 p = svc.getParentFolder(p);
             }
         }
