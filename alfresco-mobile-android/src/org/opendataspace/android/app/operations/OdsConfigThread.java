@@ -2,7 +2,6 @@ package org.opendataspace.android.app.operations;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -11,8 +10,8 @@ import java.io.OutputStream;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.ContentStream;
 import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
+import org.alfresco.mobile.android.api.utils.IOUtils;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
@@ -49,51 +48,58 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
 
             if (session instanceof OdsRepositorySession)
             {
-                config = ((OdsRepositorySession) session).getConfig();
+                OdsRepositorySession ses = (OdsRepositorySession) session;
+
+                if (ses.getParent() != null)
+                {
+                    ses = ses.getParent();
+                }
+
+                config = ses.getConfig();
             }
 
-            Folder folder = null;
             DocumentFolderService svc = null;
-            //int copied = 0;
 
             if (config != null)
             {
                 svc = config.getServiceRegistry().getDocumentFolderService();
-                folder = (Folder) svc.getChildByPath(config.getRootFolder(), "branding/android/res");
             }
 
-            if (folder != null)
+            for (String cur : OdsConfigManager.FILES)
             {
-                for (String cur : OdsConfigManager.FILES)
+                try
                 {
-                    try
+                    Document doc = (Document) svc.getChildByPath(config.getRootFolder(),
+                            "branding/android/resdrawable-xxhdpi/" + cur);
+
+                    if (doc == null)
                     {
-                        Document doc = (Document) svc.getChildByPath(folder, "drawable/" + cur);
-
-                        if (doc == null)
-                        {
-                            doc = (Document) svc.getChildByPath(folder, "drawable-xhdpi/" + cur);
-                        }
-
-                        if (doc != null)
-                        {
-                            File f = OdsConfigManager.getBrandingFile(context, cur, acc);
-
-                            if (f == null || f.exists() && f.length() == doc.getContentStreamLength())
-                            {
-                                continue;
-                            }
-
-                            ContentStream contentStream = svc.getContentStream(doc);
-
-                            if (copyFile(contentStream.getInputStream(), contentStream.getLength(), f))
-                            {
-                                //copied++;
-                            }
-                        }
-                    } catch (Exception ex) {
-                        // nothing
+                        doc = (Document) svc.getChildByPath(config.getRootFolder(),
+                                "branding/android/resdrawable-xhdpi/" + cur);
                     }
+
+                    if (doc == null)
+                    {
+                        doc = (Document) svc.getChildByPath(config.getRootFolder(), "branding/android/resdrawable/"
+                                + cur);
+                    }
+
+                    if (doc != null)
+                    {
+                        File f = OdsConfigManager.getBrandingFile(context, cur, acc);
+
+                        if (f == null || f.exists() && f.length() == doc.getContentStreamLength())
+                        {
+                            continue;
+                        }
+
+                        ContentStream contentStream = svc.getContentStream(doc);
+                        copyFile(contentStream.getInputStream(), contentStream.getLength(), f);
+                    }
+                }
+                catch (Exception ex)
+                {
+                    // nothing
                 }
 
                 ctx = new OdsConfigContext();
@@ -146,18 +152,14 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
 
             return true;
         }
-        catch (FileNotFoundException e)
-        {
-            OdsLog.ex(TAG, e);
-        }
-        catch (IOException e)
+        catch (Exception e)
         {
             OdsLog.ex(TAG, e);
         }
         finally
         {
-            org.alfresco.mobile.android.api.utils.IOUtils.closeStream(src);
-            org.alfresco.mobile.android.api.utils.IOUtils.closeStream(os);
+            IOUtils.closeStream(src);
+            IOUtils.closeStream(os);
         }
 
         return false;

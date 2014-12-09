@@ -37,9 +37,7 @@ public class OdsConfigManager
 
     public static final String BRAND_NOTIF = "ic_notif.png";
 
-    public static final String BRAND_STUB = "bg_logo_light.9.png";
-
-    public static final String[] FILES = new String[] {BRAND_ICON, BRAND_LARGE, BRAND_NOTIF, BRAND_STUB};
+    public static final String[] FILES = new String[] { BRAND_ICON, BRAND_LARGE, BRAND_NOTIF };
 
     private static boolean dbg = false;
 
