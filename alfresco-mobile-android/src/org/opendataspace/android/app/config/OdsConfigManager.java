@@ -62,11 +62,6 @@ public class OdsConfigManager
 
     public void retrieveConfiguration(Activity activity, Account acc)
     {
-        if (isDebug())
-        {
-            return;
-        }
-
         OperationsRequestGroup group = new OperationsRequestGroup(activity, SessionUtils.getAccount(activity));
         group.enqueue(new OdsConfigRequest().setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
         BatchOperationManager.getInstance(activity).enqueue(group);

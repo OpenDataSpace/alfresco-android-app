@@ -70,17 +70,17 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
                 try
                 {
                     Document doc = (Document) svc.getChildByPath(config.getRootFolder(),
-                            "branding/android/resdrawable-xxhdpi/" + cur);
+                            "branding/android/res/drawable-xxhdpi/" + cur);
 
                     if (doc == null)
                     {
                         doc = (Document) svc.getChildByPath(config.getRootFolder(),
-                                "branding/android/resdrawable-xhdpi/" + cur);
+                                "branding/android/res/drawable-xhdpi/" + cur);
                     }
 
                     if (doc == null)
                     {
-                        doc = (Document) svc.getChildByPath(config.getRootFolder(), "branding/android/resdrawable/"
+                        doc = (Document) svc.getChildByPath(config.getRootFolder(), "branding/android/res/drawable/"
                                 + cur);
                     }
 
