@@ -21,6 +21,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.ApplicationInfo;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
@@ -127,7 +130,33 @@ public class OdsConfigManager
     public Drawable getBrandingDrawable(Context ctx, String name, Account acc)
     {
         File f = getBrandingFile(ctx, name, acc);
-        return (f != null && f.exists()) ? Drawable.createFromPath(f.getAbsolutePath()) : null;
+
+        if (f == null || !f.exists())
+        {
+            return null;
+        }
+
+        Bitmap bmp = BitmapFactory.decodeFile(f.getAbsolutePath());
+
+        if (bmp == null)
+        {
+            return null;
+        }
+
+        if (name.equals(BRAND_ICON))
+        {
+            bmp = Bitmap.createScaledBitmap(bmp, 192, 192, false);
+        }
+        else if (name.equals(BRAND_NOTIF))
+        {
+            bmp = Bitmap.createScaledBitmap(bmp, 96, 96, false);
+        }
+        else if (name.equals(BRAND_LARGE))
+        {
+            bmp = Bitmap.createScaledBitmap(bmp, 1100, 250, false);
+        }
+
+        return new BitmapDrawable(ctx.getResources(), bmp);
     }
 
     public static boolean isDebug()
