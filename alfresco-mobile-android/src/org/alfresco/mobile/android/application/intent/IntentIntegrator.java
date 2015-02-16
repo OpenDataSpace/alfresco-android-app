@@ -77,6 +77,8 @@ public interface IntentIntegrator extends PublicIntent
 
     String ACTION_CREATE_ACCOUNT_CLOUD_ERROR = "org.alfresco.mobile.android.intent.ACTION_CREATE_ACCOUNT_CLOUD_ERROR";
 
+    String ACTION_DISLPAY_ACCOUNTS = "org.alfresco.mobile.android.intent.ACTION_DISPLAY_ACCOUNTS";
+
     // BROADCAST
     /** The specified account is inactive. */
     String ACTION_ACCOUNT_INACTIVE = "org.alfresco.mobile.android.intent.ACTION_ACCOUNT_INACTIVE";

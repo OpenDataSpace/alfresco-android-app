@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -23,6 +23,7 @@ import java.net.URL;
 import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.account.OdsAccountAuthenticator;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
@@ -72,7 +73,7 @@ import android.widget.Spinner;
 
 /**
  * It's responsible to display the details of a specific account.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class AccountDetailsFragment extends BaseFragment
@@ -493,6 +494,7 @@ public class AccountDetailsFragment extends BaseFragment
                 removeFormWatcher();
                 validate.setEnabled(false);
                 retrieveFormValues();
+                renameSystemAccount(acc, description);
                 acc = AccountManager.update(getActivity(), getArguments().getLong(ARGUMENT_ACCOUNT_ID), description,
                         (url != null) ? url : acc.getUrl(), username, password, acc.getRepositoryId(),
                                 Integer.valueOf((int) acc.getTypeId()), null, acc.getAccessToken(), acc.getRefreshToken(),
@@ -680,6 +682,25 @@ public class AccountDetailsFragment extends BaseFragment
         AccountOAuthFragment newFragment = AccountOAuthFragment.newInstance(acc);
         FragmentDisplayer.replaceFragment(getActivity(), newFragment, DisplayUtils.getMainPaneId(getActivity()),
                 AccountOAuthFragment.TAG, true);
+    }
+
+    private void renameSystemAccount(Account acc, String description)
+    {
+        if (description.equals(acc.getDescription()))
+        {
+            return;
+        }
+
+        android.accounts.Account sysAcc = new android.accounts.Account(acc.getDescription(),
+                OdsAccountAuthenticator.ACCOUNT_TYPE);
+        android.accounts.AccountManager mgr = android.accounts.AccountManager.get(getActivity());
+
+        mgr.removeAccount(sysAcc, null, null);
+
+        Bundle bu = new Bundle();
+        bu.putLong(IntentIntegrator.EXTRA_ACCOUNT_ID, acc.getId());
+        sysAcc = new android.accounts.Account(description, OdsAccountAuthenticator.ACCOUNT_TYPE);
+        mgr.addAccountExplicitly(sysAcc, null, bu);
     }
 
     // ///////////////////////////////////////////////////////////////////////////

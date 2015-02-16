@@ -19,6 +19,7 @@
 <resources>
 
     <string name="app_name">ODS</string>
+    <string name="app_full_name">Open DataSpace</string>
     <string name="app_name_beta">Beta</string>
     <string name="empty_accounts">Kein Konto verfügbar.</string>
 

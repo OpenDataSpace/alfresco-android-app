@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceScreen
+        android:key="account_settings"
+        android:summary="@string/account_edit_desc"
+        android:title="@string/account_edit">
+        <intent
+            android:action="org.alfresco.mobile.android.intent.ACTION_DISPLAY_ACCOUNTS"
+            android:targetClass="org.alfresco.mobile.android.application.activity.MainActivity"
+            android:targetPackage="org.opendataspace.android.app"/>
+    </PreferenceScreen>
+
+</PreferenceScreen>

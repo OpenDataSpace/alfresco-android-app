@@ -19,6 +19,7 @@ http://www.apache.org/licenses/LICENSE-2.0
 <resources>
 
     <string name="app_name">ODS</string>
+    <string name="app_full_name">Open DataSpace</string>
     <string name="app_name_beta">Béta</string>
     <string name="empty_accounts">Aucun compte disponible</string>
 
@@ -464,12 +465,12 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <!-- Multi Selection -->
     <plurals name="selected_document">
         <item quantity="zero">Aucun fichier</item>
-        <item quantity="one">1 fichier</item>
+        <item quantity="one">%1$s fichier</item>
         <item quantity="other">%1$s fichiers</item>
     </plurals>
     <plurals name="selected_folders">
         <item quantity="zero">aucun dossier</item>
-        <item quantity="one">1 dossier</item>
+        <item quantity="one">%1$s dossier</item>
         <item quantity="other">%1$s dossiers</item>
     </plurals>
 
@@ -502,37 +503,37 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
 
     <plurals name="sync_complete_description">
         <item quantity="zero">aucun contenu synchronisé</item>
-        <item quantity="one">1 fichier synchronisé</item>
+        <item quantity="one">%1$s fichier synchronisé</item>
         <item quantity="other">%1$s fichiers synchronisés</item>
     </plurals>
     <plurals name="download_complete_description">
         <item quantity="zero">aucun contenu téléchargé</item>
-        <item quantity="one">1 fichier disponible hors ligne</item>
+        <item quantity="one">%1$s fichier disponible hors ligne</item>
         <item quantity="other">%1$s fichiers disponibles hors ligne</item>
     </plurals>
     <plurals name="upload_complete_description">
         <item quantity="zero">aucun contenu ajouté.</item>
-        <item quantity="one">1 élément ajouté.</item>
+        <item quantity="one">%1$s élément ajouté.</item>
         <item quantity="other">%1$s éléments ajoutés.</item>
     </plurals>
     <plurals name="update_complete_description">
         <item quantity="zero">aucun contenu mis à jour.</item>
-        <item quantity="one">1 fichier mis à jour.</item>
+        <item quantity="one">%1$s fichier mis à jour.</item>
         <item quantity="other">%1$s fichiers mis à jour.</item>
     </plurals>
     <plurals name="batch_failed">
         <item quantity="zero">aucun échec de transfert.</item>
-        <item quantity="one">1 transfert échoué.</item>
+        <item quantity="one">%1$s transfert échoué.</item>
         <item quantity="other">%1$s transferts échoués.</item>
     </plurals>
     <plurals name="batch_in_progress">
         <item quantity="zero">aucun transfert en cours.</item>
-        <item quantity="one">1 transfert en cours.</item>
+        <item quantity="one">%1$s transfert en cours.</item>
         <item quantity="other">%1$s transferts en cours.</item>
     </plurals>
     <plurals name="download_in_progress">
         <item quantity="zero">aucun téléchargement en cours.</item>
-        <item quantity="one">1 téléchargement en cours.</item>
+        <item quantity="one">%1$s téléchargement en cours.</item>
         <item quantity="other">%1$s téléchargements en cours.</item>
     </plurals>
 
@@ -731,7 +732,7 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <!-- Multi Selection -->
     <plurals name="selected_task">
         <item quantity="zero">aucune tâche</item>
-        <item quantity="one">1 tâche</item>
+        <item quantity="one">%1$s tâche</item>
         <item quantity="other">%1$s tâches</item>
     </plurals>
 

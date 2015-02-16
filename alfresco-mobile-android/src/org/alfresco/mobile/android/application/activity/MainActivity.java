@@ -75,7 +75,6 @@ import org.alfresco.mobile.android.application.fragments.workflow.task.TasksFrag
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.intent.PublicIntent;
 import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.ReportManager;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.batch.capture.DeviceCapture;
 import org.alfresco.mobile.android.application.operations.batch.capture.DeviceCaptureHelper;
@@ -211,6 +210,11 @@ public class MainActivity extends BaseActivity
 
         // Display or not Left/central panel for middle tablet.
         DisplayUtils.switchSingleOrTwo(this, false);
+
+        if (IntentIntegrator.ACTION_DISLPAY_ACCOUNTS.equals(getIntent().getAction()))
+        {
+            displayAccounts();
+        }
     }
 
     @Override
@@ -333,6 +337,12 @@ public class MainActivity extends BaseActivity
                 }
                 return;
             }
+
+            if (IntentIntegrator.ACTION_DISLPAY_ACCOUNTS.equals(intent.getAction()))
+            {
+                displayAccounts();
+                return;
+            }
         }
         catch (Exception e)
         {
@@ -354,12 +364,12 @@ public class MainActivity extends BaseActivity
     // ///////////////////////////////////////////////////////////////////////////
     private void checkForCrashes()
     {
-        ReportManager.checkForCrashes(this);
+        //ReportManager.checkForCrashes(this);
     }
 
     private void checkForUpdates()
     {
-        ReportManager.checkForUpdates(this);
+        //ReportManager.checkForUpdates(this);
     }
 
     // ///////////////////////////////////////////////////////////////////////////

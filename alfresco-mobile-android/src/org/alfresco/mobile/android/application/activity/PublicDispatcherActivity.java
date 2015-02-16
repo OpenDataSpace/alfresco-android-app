@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -27,6 +27,7 @@ import org.opendataspace.android.app.fragments.OdsSelectFolderFragment;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
+import org.alfresco.mobile.android.application.accounts.fragment.AccountEditFragment;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountOAuthFragment;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
@@ -47,6 +48,7 @@ import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 
+import android.accounts.AccountAuthenticatorResponse;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
@@ -64,7 +66,7 @@ import android.view.WindowManager;
 
 /**
  * Activity responsible to manage public intent from 3rd party application. This activity is "open" to public Intent.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class PublicDispatcherActivity extends BaseActivity
@@ -82,6 +84,10 @@ public class PublicDispatcherActivity extends BaseActivity
     private PublicDispatcherActivityReceiver receiver;
 
     protected long requestedAccountId = -1;
+
+    private AccountAuthenticatorResponse mAccountAuthenticatorResponse = null;
+
+    private Bundle mResultBundle = null;
 
     // ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE
@@ -115,8 +121,17 @@ public class PublicDispatcherActivity extends BaseActivity
 
         setContentView(R.layout.app_left_panel);
 
+        mAccountAuthenticatorResponse = getIntent().getParcelableExtra(
+                android.accounts.AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
+
+        if (mAccountAuthenticatorResponse != null)
+        {
+            mAccountAuthenticatorResponse.onRequestContinued();
+        }
+
         String action = getIntent().getAction();
-        if ((Intent.ACTION_SEND.equals(action) || Intent.ACTION_SEND_MULTIPLE.equals(action)) && getFragment(UploadFormFragment.TAG) == null)
+        if ((Intent.ACTION_SEND.equals(action) || Intent.ACTION_SEND_MULTIPLE.equals(action))
+                && getFragment(UploadFormFragment.TAG) == null)
         {
             Fragment f = new UploadFormFragment();
             FragmentDisplayer.replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), UploadFormFragment.TAG,
@@ -136,7 +151,8 @@ public class PublicDispatcherActivity extends BaseActivity
         {
             if (getIntent().hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
             {
-                currentAccount = AccountManager.retrieveAccount(this, getIntent().getLongExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, 1));
+                currentAccount = AccountManager.retrieveAccount(this,
+                        getIntent().getLongExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, 1));
             }
 
             File f = Environment.getExternalStorageDirectory();
@@ -152,7 +168,15 @@ public class PublicDispatcherActivity extends BaseActivity
         if (IntentIntegrator.ACTION_PICK_FOLDER.equals(action))
         {
             Fragment f = new OdsSelectFolderFragment();
-            FragmentDisplayer.replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), OdsSelectFolderFragment.TAG,
+            FragmentDisplayer.replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this),
+                    OdsSelectFolderFragment.TAG, false, false);
+            return;
+        }
+
+        if (IntentIntegrator.ACTION_CREATE_ACCOUNT.equals(action))
+        {
+            Fragment f = new AccountEditFragment();
+            FragmentDisplayer.replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), AccountEditFragment.TAG,
                     false, false);
             return;
         }
@@ -294,6 +318,7 @@ public class PublicDispatcherActivity extends BaseActivity
     {
         this.uploadFiles = localFile;
     }
+
     // ////////////////////////////////////////////////////////
     // BROADCAST RECEIVER
     // ///////////////////////////////////////////////////////
@@ -309,7 +334,10 @@ public class PublicDispatcherActivity extends BaseActivity
             // During the session creation, display a waiting dialog.
             if (IntentIntegrator.ACTION_LOAD_ACCOUNT.equals(intent.getAction()))
             {
-                if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID)) { return; }
+                if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
+                {
+                    return;
+                }
                 requestedAccountId = intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID);
                 displayWaitingDialog();
                 return;
@@ -318,9 +346,15 @@ public class PublicDispatcherActivity extends BaseActivity
             // If the sesison is available, display the view associated (repository, sites, downloads, favorites).
             if (IntentIntegrator.ACTION_LOAD_ACCOUNT_COMPLETED.equals(intent.getAction()))
             {
-                if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID)) { return; }
+                if (!intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
+                {
+                    return;
+                }
                 long accountId = intent.getExtras().getLong(IntentIntegrator.EXTRA_ACCOUNT_ID);
-                if (requestedAccountId != -1 && requestedAccountId != accountId) { return; }
+                if (requestedAccountId != -1 && requestedAccountId != accountId)
+                {
+                    return;
+                }
                 requestedAccountId = -1;
 
                 setProgressBarIndeterminateVisibility(false);
@@ -372,5 +406,28 @@ public class PublicDispatcherActivity extends BaseActivity
                 return;
             }
         }
+    }
+
+    public final void setAccountAuthenticatorResult(Bundle result)
+    {
+        mResultBundle = result;
+    }
+
+    public void finish()
+    {
+        if (mAccountAuthenticatorResponse != null)
+        {
+            if (mResultBundle != null)
+            {
+                mAccountAuthenticatorResponse.onResult(mResultBundle);
+            }
+            else
+            {
+                mAccountAuthenticatorResponse.onError(android.accounts.AccountManager.ERROR_CODE_CANCELED, "canceled");
+            }
+            mAccountAuthenticatorResponse = null;
+        }
+
+        super.finish();
     }
 }

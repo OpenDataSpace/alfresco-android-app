@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -21,12 +21,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.account.OdsAccountAuthenticator;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
+import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
 import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
@@ -37,6 +39,7 @@ import org.alfresco.mobile.android.application.operations.batch.account.CreateAc
 import org.alfresco.mobile.android.application.operations.batch.node.favorite.FavoriteNodeRequest;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 
+import android.accounts.AccountManager;
 import android.app.DialogFragment;
 import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
@@ -203,13 +206,19 @@ public class AccountEditFragment extends DialogFragment
             .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
-            if (getActivity() instanceof MainActivity)
+            if (getActivity() instanceof MainActivity || isAuthenticator())
             {
                 OperationWaitingDialogFragment.newInstance(FavoriteNodeRequest.TYPE_ID, R.drawable.ic_onpremise,
                         getString(R.string.account), getString(R.string.account_verify), null, -1).show(
                                 getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
             }
         }
+    }
+
+    private boolean isAuthenticator()
+    {
+        return getActivity().getIntent().hasExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE)
+                && getActivity() instanceof PublicDispatcherActivity;
     }
 
     private void initForm()
@@ -354,6 +363,24 @@ public class AccountEditFragment extends DialogFragment
         }
     }
 
+    private void createAccount(long accountId)
+    {
+        PublicDispatcherActivity ac = (PublicDispatcherActivity) getActivity();
+        AccountManager am = AccountManager.get(ac);
+        android.accounts.Account acc = new android.accounts.Account(description, OdsAccountAuthenticator.ACCOUNT_TYPE);
+        Bundle bu = new Bundle();
+        bu.putLong(IntentIntegrator.EXTRA_ACCOUNT_ID, accountId);
+
+        if (am.addAccountExplicitly(acc, null, bu))
+        {
+            bu.putString(AccountManager.KEY_ACCOUNT_NAME, description);
+            bu.putString(AccountManager.KEY_ACCOUNT_TYPE, OdsAccountAuthenticator.ACCOUNT_TYPE);
+            ac.setAccountAuthenticatorResult(bu);
+        }
+
+        ac.finish();
+    }
+
     // ///////////////////////////////////////////////////////////////////////////
     // BROADCAST RECEIVER
     // ///////////////////////////////////////////////////////////////////////////
@@ -363,7 +390,7 @@ public class AccountEditFragment extends DialogFragment
         public void onReceive(Context context, Intent intent)
         {
             if (IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED.equals(intent.getAction())
-                    && getActivity() instanceof MainActivity)
+                    && (getActivity() instanceof MainActivity || isAuthenticator()))
             {
                 getActivity().getFragmentManager().popBackStack(AccountEditFragment.TAG,
                         FragmentManager.POP_BACK_STACK_INCLUSIVE);
@@ -374,11 +401,18 @@ public class AccountEditFragment extends DialogFragment
 
                     AccountsFragment frag = (AccountsFragment) getActivity().getFragmentManager().findFragmentByTag(
                             AccountsFragment.TAG);
+
                     if (frag != null)
                     {
                         frag.select(accountId);
                     }
+
                     ((BaseActivity) getActivity()).setCurrentAccount(accountId);
+
+                    if (isAuthenticator())
+                    {
+                        createAccount(accountId);
+                    }
                 }
             }
         }

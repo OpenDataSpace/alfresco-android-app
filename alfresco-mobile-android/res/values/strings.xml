@@ -18,6 +18,7 @@
 <resources>
 
     <string name="app_name">ODS</string>
+    <string name="app_full_name">Open DataSpace</string>
     <string name="app_name_beta">Beta</string>
     <string name="empty_accounts">No account available</string>
 
@@ -73,6 +74,10 @@
         <item id="0">Json</item>
         <item id="1">Atom</item>
     </string-array>
+
+    <!-- translate -->
+    <string name="account_edit">Manage Accounts</string>
+    <string name="account_edit_desc">Change credentials, delete, etc.</string>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 3 -->
     <string name="account_wizard_alldone_description">Your account is ready for you to use.</string>

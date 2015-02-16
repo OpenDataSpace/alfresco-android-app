@@ -18,9 +18,10 @@
 
 -->
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="org.opendataspace.android.app"
     android:versionCode="7"
-    android:versionName="1.4.1" xmlns:tools="http://schemas.android.com/tools">
+    android:versionName="1.4.1">
 
     <uses-sdk
         android:minSdkVersion="11"
@@ -29,6 +30,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.AUTHENTICATE_ACCOUNTS" />
 
     <application
         android:name="org.alfresco.mobile.android.application.AlfrescoApplication"
@@ -239,6 +241,20 @@
         <service
             android:name="org.alfresco.mobile.android.application.security.DataCleanerService"
             android:exported="false" />
+
+        <!-- Authentificator service -->
+        <service
+            android:name="org.opendataspace.android.app.account.OdsAuthenticatorService"
+            tools:ignore="ExportedService">
+            <intent-filter>
+                <action
+                    android:name="android.accounts.AccountAuthenticator"/>
+            </intent-filter>
+
+            <meta-data
+                android:name="android.accounts.AccountAuthenticator"
+                android:resource="@xml/authenticator"/>
+        </service>
 
         <!-- *************************************************************** -->
         <!-- EXTENSION : SAMSUNG -->
