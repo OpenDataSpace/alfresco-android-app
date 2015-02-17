@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -25,6 +25,7 @@ import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.account.OdsAccountAuthenticator;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
@@ -35,6 +36,7 @@ import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBat
 
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 
 public class CreateAccountThread extends AbstractBatchOperationThread<Account>
 {
@@ -90,6 +92,7 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
             oauthData = sHelper.getOAuthData();
             userPerson = sHelper.getUser();
             account = createAccount();
+            createSystemAccount(account);
             accountId = account.getId();
         }
         catch (Exception e)
@@ -170,6 +173,17 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
             String edition = session.getRepositoryInfo().getEdition();
             return (edition.equals(OnPremiseConstant.ALFRESCO_EDITION_ENTERPRISE));
         }
+    }
+
+    private void createSystemAccount(Account acc)
+    {
+        android.accounts.Account sysAcc = new android.accounts.Account(acc.getDescription(),
+                OdsAccountAuthenticator.ACCOUNT_TYPE);
+        android.accounts.AccountManager am = android.accounts.AccountManager.get(context);
+        Bundle bu = new Bundle();
+
+        bu.putString(IntentIntegrator.EXTRA_ACCOUNT_ID, String.valueOf(acc.getId()));
+        am.addAccountExplicitly(sysAcc, String.valueOf(acc.getId()), bu);
     }
 
     // ///////////////////////////////////////////////////////////////////////////

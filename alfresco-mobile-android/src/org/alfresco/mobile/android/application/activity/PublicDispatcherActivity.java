@@ -203,7 +203,7 @@ public class PublicDispatcherActivity extends BaseActivity
     @Override
     protected void onStart()
     {
-        getActionBar().setDisplayHomeAsUpEnabled(true);
+        getActionBar().setDisplayHomeAsUpEnabled(mAccountAuthenticatorResponse == null);
         if (receiver == null)
         {
             receiver = new PublicDispatcherActivityReceiver();

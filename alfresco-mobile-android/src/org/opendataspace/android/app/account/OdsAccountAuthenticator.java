@@ -2,6 +2,7 @@ package org.opendataspace.android.app.account;
 
 import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.accounts.AbstractAccountAuthenticator;
 import android.accounts.Account;
@@ -11,6 +12,7 @@ import android.accounts.NetworkErrorException;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.TextUtils;
 
 public class OdsAccountAuthenticator extends AbstractAccountAuthenticator
 {
@@ -41,17 +43,7 @@ public class OdsAccountAuthenticator extends AbstractAccountAuthenticator
     public Bundle confirmCredentials(AccountAuthenticatorResponse response, Account account, Bundle options)
             throws NetworkErrorException
     {
-        boolean verified = false;
-
-        if (options != null)
-        {
-            int id = options.getInt(IntentIntegrator.EXTRA_ACCOUNT_ID, -1);
-            verified = org.alfresco.mobile.android.application.accounts.AccountManager.retrieveAccount(context, id) != null;
-        }
-
-        final Bundle result = new Bundle();
-        result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, verified);
-        return result;
+        throw new UnsupportedOperationException();
     }
 
     @Override
@@ -87,5 +79,27 @@ public class OdsAccountAuthenticator extends AbstractAccountAuthenticator
             Bundle options) throws NetworkErrorException
     {
         throw new UnsupportedOperationException();
+    }
+
+    @Override
+    public Bundle getAccountRemovalAllowed(AccountAuthenticatorResponse response, Account account)
+            throws NetworkErrorException
+    {
+        boolean res = false;
+
+        try
+        {
+            AccountManager am = AccountManager.get(context);
+            String pwd = am.getPassword(account);
+            res = TextUtils.isEmpty(pwd);
+        }
+        catch (Exception ex)
+        {
+            OdsLog.ex("OdsAccountAuthenticator", ex);
+        }
+
+        final Bundle result = new Bundle();
+        result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, res);
+        return result;
     }
 }

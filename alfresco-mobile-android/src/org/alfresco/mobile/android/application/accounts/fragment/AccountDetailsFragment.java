@@ -626,6 +626,7 @@ public class AccountDetailsFragment extends BaseFragment
 
         //Delete Account
         getActivity().getContentResolver().delete(AccountManager.getUri(acc.getId()), null, null);
+        deleteSystemAccount(acc);
 
         LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
                 new Intent(IntentIntegrator.ACTION_DELETE_ACCOUNT_COMPLETED));
@@ -700,7 +701,17 @@ public class AccountDetailsFragment extends BaseFragment
         Bundle bu = new Bundle();
         bu.putLong(IntentIntegrator.EXTRA_ACCOUNT_ID, acc.getId());
         sysAcc = new android.accounts.Account(description, OdsAccountAuthenticator.ACCOUNT_TYPE);
-        mgr.addAccountExplicitly(sysAcc, null, bu);
+        mgr.addAccountExplicitly(sysAcc, String.valueOf(acc.getId()), bu);
+    }
+
+    private void deleteSystemAccount(Account acc)
+    {
+        android.accounts.Account sysAcc = new android.accounts.Account(acc.getDescription(),
+                OdsAccountAuthenticator.ACCOUNT_TYPE);
+        android.accounts.AccountManager mgr = android.accounts.AccountManager.get(getActivity());
+
+        mgr.clearPassword(sysAcc);
+        mgr.removeAccount(sysAcc, null, null);
     }
 
     // ///////////////////////////////////////////////////////////////////////////

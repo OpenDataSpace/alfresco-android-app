@@ -365,20 +365,15 @@ public class AccountEditFragment extends DialogFragment
 
     private void createAccount(long accountId)
     {
-        PublicDispatcherActivity ac = (PublicDispatcherActivity) getActivity();
-        AccountManager am = AccountManager.get(ac);
-        android.accounts.Account acc = new android.accounts.Account(description, OdsAccountAuthenticator.ACCOUNT_TYPE);
-        Bundle bu = new Bundle();
-        bu.putLong(IntentIntegrator.EXTRA_ACCOUNT_ID, accountId);
-
-        if (am.addAccountExplicitly(acc, null, bu))
+        if (isAuthenticator())
         {
+            Bundle bu = new Bundle();
+            bu.putLong(IntentIntegrator.EXTRA_ACCOUNT_ID, accountId);
             bu.putString(AccountManager.KEY_ACCOUNT_NAME, description);
             bu.putString(AccountManager.KEY_ACCOUNT_TYPE, OdsAccountAuthenticator.ACCOUNT_TYPE);
-            ac.setAccountAuthenticatorResult(bu);
+            ((PublicDispatcherActivity) getActivity()).setAccountAuthenticatorResult(bu);
+            getActivity().finish();
         }
-
-        ac.finish();
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -408,11 +403,7 @@ public class AccountEditFragment extends DialogFragment
                     }
 
                     ((BaseActivity) getActivity()).setCurrentAccount(accountId);
-
-                    if (isAuthenticator())
-                    {
-                        createAccount(accountId);
-                    }
+                    createAccount(accountId);
                 }
             }
         }
