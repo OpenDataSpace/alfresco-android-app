@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
 import org.alfresco.mobile.android.application.ApplicationManager;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.account.OdsAccountAuthenticator;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
@@ -46,7 +47,7 @@ import android.support.v4.content.LocalBroadcastManager;
 
 /**
  * Responsible to manage accounts.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public final class AccountManager
@@ -93,6 +94,7 @@ public final class AccountManager
         register();
         appManager = ApplicationManager.getInstance(context);
         getCount();
+        migrate();
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -106,20 +108,29 @@ public final class AccountManager
 
     public boolean hasAccount()
     {
-        if (accountsSize == null) { return false; }
+        if (accountsSize == null)
+        {
+            return false;
+        }
         return (accountsSize > 0);
     }
 
     public boolean hasMultipleAccount()
     {
-        if (accountsSize == null) { return false; }
+        if (accountsSize == null)
+        {
+            return false;
+        }
         return (accountsSize > 1);
     }
 
     public boolean isEmpty()
     {
         getCount();
-        if (accountsSize == null) { return true; }
+        if (accountsSize == null)
+        {
+            return true;
+        }
         return (accountsSize == 0);
     }
 
@@ -175,7 +186,6 @@ public final class AccountManager
         return null;
     }
 
-
     private static Account createAccountWithoutClose(Cursor c)
     {
         Account account = new Account(c.getInt(AccountSchema.COLUMN_ID_ID), c.getString(AccountSchema.COLUMN_NAME_ID),
@@ -183,8 +193,8 @@ public final class AccountManager
                 c.getString(AccountSchema.COLUMN_PASSWORD_ID), c.getString(AccountSchema.COLUMN_REPOSITORY_ID_ID),
                 c.getInt(AccountSchema.COLUMN_REPOSITORY_TYPE_ID), c.getString(AccountSchema.COLUMN_ACTIVATION_ID),
                 c.getString(AccountSchema.COLUMN_ACCESS_TOKEN_ID), c.getString(AccountSchema.COLUMN_REFRESH_TOKEN_ID),
-                c.getInt(AccountSchema.COLUMN_IS_PAID_ACCOUNT_ID), c.getInt(AccountSchema.COLUMN_PROTO_ID) == 1 ?
-                        Account.ProtocolType.ATOM : Account.ProtocolType.JSON);
+                c.getInt(AccountSchema.COLUMN_IS_PAID_ACCOUNT_ID),
+                c.getInt(AccountSchema.COLUMN_PROTO_ID) == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON);
         return account;
     }
 
@@ -195,8 +205,8 @@ public final class AccountManager
                 c.getString(AccountSchema.COLUMN_PASSWORD_ID), c.getString(AccountSchema.COLUMN_REPOSITORY_ID_ID),
                 c.getInt(AccountSchema.COLUMN_REPOSITORY_TYPE_ID), c.getString(AccountSchema.COLUMN_ACTIVATION_ID),
                 c.getString(AccountSchema.COLUMN_ACCESS_TOKEN_ID), c.getString(AccountSchema.COLUMN_REFRESH_TOKEN_ID),
-                c.getInt(AccountSchema.COLUMN_IS_PAID_ACCOUNT_ID), c.getInt(AccountSchema.COLUMN_PROTO_ID) == 1 ?
-                        Account.ProtocolType.ATOM : Account.ProtocolType.JSON);
+                c.getInt(AccountSchema.COLUMN_IS_PAID_ACCOUNT_ID),
+                c.getInt(AccountSchema.COLUMN_PROTO_ID) == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON);
         c.close();
         return account;
     }
@@ -210,7 +220,10 @@ public final class AccountManager
                 createContentValues(name, url, username, pass, workspace, type, activation, accessToken, refreshToken,
                         isPaidAccount, proto));
 
-        if (accountUri == null) { return null; }
+        if (accountUri == null)
+        {
+            return null;
+        }
 
         return AccountManager.retrieveAccount(context, Long.parseLong(accountUri.getLastPathSegment()));
     }
@@ -229,7 +242,8 @@ public final class AccountManager
     }
 
     public Account update(long accountId, String name, String url, String username, String pass, String workspace,
-            Integer type, String activation, String accessToken, String refreshToken, int isPaidAccount, Account.ProtocolType proto)
+            Integer type, String activation, String accessToken, String refreshToken, int isPaidAccount,
+            Account.ProtocolType proto)
     {
         return update(appContext, accountId, name, url, username, pass, workspace, type, activation, accessToken,
                 refreshToken, isPaidAccount, proto);
@@ -341,7 +355,10 @@ public final class AccountManager
             accountToLoad = account;
         }
 
-        if (accountToLoad == null) { return null; }
+        if (accountToLoad == null)
+        {
+            return null;
+        }
 
         if (accountToLoad.getActivation() != null)
         {
@@ -396,6 +413,31 @@ public final class AccountManager
         group.enqueue(new LoadSessionRequest().setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN)
                 .setNotificationTitle(currentAccount.getDescription()));
         BatchOperationManager.getInstance(appContext).enqueue(group);
+    }
+
+    private void migrate()
+    {
+        SharedPreferences settings = appContext.getSharedPreferences(AccountsPreferences.ACCOUNT_PREFS, 0);
+        int version = settings.getInt(AccountsPreferences.ACCOUNT_VERSION, 0);
+
+        if (version == AccountsPreferences.CURRENT_VERSION)
+        {
+            return;
+        }
+
+        for (Account cur : retrieveAccounts(appContext))
+        {
+            try
+            {
+                OdsAccountAuthenticator.createSystemAccount(cur, appContext);
+            }
+            catch (Exception ex)
+            {
+                OdsLog.ex(TAG, ex);
+            }
+        }
+
+        settings.edit().putInt(AccountsPreferences.ACCOUNT_VERSION, AccountsPreferences.CURRENT_VERSION).commit();
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -485,5 +527,4 @@ public final class AccountManager
             }
         }
     }
-
 }

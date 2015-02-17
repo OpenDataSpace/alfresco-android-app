@@ -102,4 +102,16 @@ public class OdsAccountAuthenticator extends AbstractAccountAuthenticator
         result.putBoolean(AccountManager.KEY_BOOLEAN_RESULT, res);
         return result;
     }
+
+    public static boolean createSystemAccount(org.alfresco.mobile.android.application.accounts.Account acc,
+            Context context)
+    {
+        android.accounts.Account sysAcc = new android.accounts.Account(acc.getDescription(),
+                OdsAccountAuthenticator.ACCOUNT_TYPE);
+        android.accounts.AccountManager am = android.accounts.AccountManager.get(context);
+        Bundle bu = new Bundle();
+
+        bu.putString(IntentIntegrator.EXTRA_ACCOUNT_ID, String.valueOf(acc.getId()));
+        return am.addAccountExplicitly(sysAcc, String.valueOf(acc.getId()), bu);
+    }
 }

@@ -36,7 +36,6 @@ import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBat
 
 import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
 
 public class CreateAccountThread extends AbstractBatchOperationThread<Account>
 {
@@ -92,7 +91,7 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
             oauthData = sHelper.getOAuthData();
             userPerson = sHelper.getUser();
             account = createAccount();
-            createSystemAccount(account);
+            OdsAccountAuthenticator.createSystemAccount(account, context);
             accountId = account.getId();
         }
         catch (Exception e)
@@ -173,17 +172,6 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
             String edition = session.getRepositoryInfo().getEdition();
             return (edition.equals(OnPremiseConstant.ALFRESCO_EDITION_ENTERPRISE));
         }
-    }
-
-    private void createSystemAccount(Account acc)
-    {
-        android.accounts.Account sysAcc = new android.accounts.Account(acc.getDescription(),
-                OdsAccountAuthenticator.ACCOUNT_TYPE);
-        android.accounts.AccountManager am = android.accounts.AccountManager.get(context);
-        Bundle bu = new Bundle();
-
-        bu.putString(IntentIntegrator.EXTRA_ACCOUNT_ID, String.valueOf(acc.getId()));
-        am.addAccountExplicitly(sysAcc, String.valueOf(acc.getId()), bu);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
