@@ -15,13 +15,11 @@ import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.Permissions;
-import org.alfresco.mobile.android.api.model.SearchLanguage;
 import org.alfresco.mobile.android.api.model.impl.ContentStreamImpl;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.services.impl.onpremise.OnPremiseDocumentFolderServiceImpl;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.impl.AbstractAlfrescoSessionImpl;
-import org.alfresco.mobile.android.api.utils.JsonUtils;
 import org.alfresco.mobile.android.api.utils.messages.Messagesl18n;
 import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.OperationContext;
@@ -158,34 +156,17 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
         {
             CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
                     .getInfo(OdsFileInfo.TYPE_FAVORITE, false);
-            ArrayList<String> ids = new ArrayList<String>();
 
             try
             {
                 while (it.hasNext())
                 {
-                    ids.add(it.next().getNodeId());
+                    ls.add((Document) getNodeByIdentifier(it.next().getNodeId()));
                 }
             }
             finally
             {
                 it.closeQuietly();
-            }
-
-            if (ids.isEmpty())
-            {
-                return ls;
-            }
-
-            StringBuilder builder = new StringBuilder("SELECT * FROM cmis:document WHERE cmis:objectId=");
-            JsonUtils.join(builder, " OR cmis:objectId=", ids.toArray());
-
-            List<Node> nodes = session.getServiceRegistry().getSearchService()
-                    .search(builder.toString(), SearchLanguage.CMIS);
-
-            for (Node node : nodes)
-            {
-                ls.add((Document) node);
             }
         }
         catch (SQLException ex)
@@ -205,34 +186,17 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
         {
             CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
                     .getInfo(OdsFileInfo.TYPE_FAVORITE, true);
-            ArrayList<String> ids = new ArrayList<String>();
 
             try
             {
                 while (it.hasNext())
                 {
-                    ids.add(it.next().getNodeId());
+                    ls.add((Folder) getNodeByIdentifier(it.next().getNodeId()));
                 }
             }
             finally
             {
                 it.closeQuietly();
-            }
-
-            if (ids.isEmpty())
-            {
-                return ls;
-            }
-
-            StringBuilder builder = new StringBuilder("SELECT * FROM cmis:document WHERE cmis:objectId=");
-            JsonUtils.join(builder, " OR cmis:objectId=", ids.toArray());
-
-            List<Node> nodes = session.getServiceRegistry().getSearchService()
-                    .search(builder.toString(), SearchLanguage.CMIS);
-
-            for (Node node : nodes)
-            {
-                ls.add((Folder) node);
             }
         }
         catch (SQLException ex)
@@ -246,41 +210,31 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
     @Override
     public List<Node> getFavoriteNodes()
     {
+        List<Node> ls = new ArrayList<Node>();
+
         try
         {
             CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
                     .getInfo(OdsFileInfo.TYPE_FAVORITE);
-            ArrayList<String> ids = new ArrayList<String>();
 
             try
             {
                 while (it.hasNext())
                 {
-                    ids.add(it.next().getNodeId());
+                    ls.add(getNodeByIdentifier(it.next().getNodeId()));
                 }
             }
             finally
             {
                 it.closeQuietly();
             }
-
-            if (ids.isEmpty())
-            {
-                return new ArrayList<Node>();
-            }
-
-            StringBuilder builder = new StringBuilder("SELECT * FROM cmis:document WHERE cmis:objectId=");
-            JsonUtils.join(builder, " OR cmis:objectId=", ids.toArray());
-
-            return session.getServiceRegistry().getSearchService()
-                    .search(builder.toString(), SearchLanguage.CMIS);
         }
         catch (SQLException ex)
         {
             convertException(ex);
         }
 
-        return new ArrayList<Node>();
+        return ls;
     }
 
     @Override
@@ -317,9 +271,10 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
                 info = new OdsFileInfo();
                 info.setNodeId(node.getIdentifier());
                 info.setFolderId(getParentFolder(node).getIdentifier());
+                info.setPath("");
             }
 
-            info.setType(info.getType() & OdsFileInfo.TYPE_FAVORITE);
+            info.setType(info.getType() | OdsFileInfo.TYPE_FAVORITE);
             dao.createOrUpdate(info);
         }
         catch (SQLException ex)

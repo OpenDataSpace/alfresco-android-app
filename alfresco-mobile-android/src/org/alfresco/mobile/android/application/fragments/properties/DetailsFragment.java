@@ -612,7 +612,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                 vRoot.findViewById(R.id.like_progress).setVisibility(View.GONE);
             }
         }
-
+        */
         // BUTTONS
         b = (ImageView) vRoot.findViewById(R.id.action_favorite);
         if (!isRestrictable)
@@ -635,7 +635,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             b.setVisibility(View.GONE);
             vRoot.findViewById(R.id.favorite_progress).setVisibility(View.GONE);
         }
-         */
+
         b = (ImageView) vRoot.findViewById(R.id.action_share);
         if (node.isDocument() && !isRestrictable)
         {
@@ -834,11 +834,11 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         b = (ImageView) vRoot.findViewById(R.id.like);
         vRoot.findViewById(R.id.like_progress).setVisibility(View.GONE);
         b.setVisibility(View.GONE);
-
+        */
         b = (ImageView) vRoot.findViewById(R.id.action_favorite);
         b.setImageResource(R.drawable.ic_favorite_dark);
         vRoot.findViewById(R.id.favorite_progress).setVisibility(View.GONE);
-         */
+
         if (DisplayUtils.hasCentralPane(getActivity()))
         {
             if (!isRestrictable && !AccessibilityHelper.isEnabled(getActivity()))
@@ -1178,7 +1178,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             GeneralPreferences.setDisplayActivateSync(getActivity(), true);
         }
 
-        //vRoot.findViewById(R.id.favorite_progress).setVisibility(View.VISIBLE);
+        vRoot.findViewById(R.id.favorite_progress).setVisibility(View.VISIBLE);
         if (parentNode != null && node != null)
         {
             OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
@@ -1686,7 +1686,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                             }
                             return;
                         }
-
+                        */
                         if (intent.getAction().equals(IntentIntegrator.ACTION_FAVORITE_COMPLETED))
                         {
                             View progressView = vRoot.findViewById(R.id.favorite_progress);
@@ -1708,7 +1708,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                             }
                             return;
                         }
-                         */
+
                         if (intent.getAction().equals(IntentIntegrator.ACTION_UPDATE_COMPLETED))
                         {
                             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);

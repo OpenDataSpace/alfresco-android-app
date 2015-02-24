@@ -454,6 +454,15 @@ public class MainActivity extends BaseActivity
         fragmentQueue = -1;
         switch (id)
         {
+        /*
+        case R.id.menu_browse_my_sites:
+            if (!checkSession(R.id.menu_browse_my_sites)) { return; }
+            frag = new BrowserSitesFragment();
+            frag.setSession(SessionUtils.getSession(this));
+            FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
+                    BrowserSitesFragment.TAG, true);
+            break;
+            */
         case R.id.menu_browse_root:
         {
             if (!checkSession(R.id.menu_browse_root) || getCurrentSession() == null)
@@ -535,6 +544,38 @@ public class MainActivity extends BaseActivity
             }
         }
             break;
+        /*
+        case R.id.menu_browse_userhome:
+        if (!checkSession(R.id.menu_browse_userhome)) { return; }
+        frag = ChildrenBrowserFragment.newInstance(NodeChildrenLoader.FOLDER_USER_HOMES);
+        frag.setSession(SessionUtils.getSession(this));
+        FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
+                ChildrenBrowserFragment.TAG, true);
+        break;
+        case R.id.menu_browse_activities:
+        if (!checkSession(R.id.menu_browse_activities)) { return; }
+        frag = ActivitiesFragment.newInstance();
+        FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
+                ActivitiesFragment.TAG, true);
+        break;
+        case R.id.menu_search:
+        if (!checkSession(R.id.menu_search)) { return; }
+        Fragment fr = SearchFragment.newInstance();
+        FragmentDisplayer.replaceFragment(this, fr, DisplayUtils.getLeftFragmentId(this), SearchFragment.TAG,
+                true);
+        break;
+        */
+        case R.id.menu_favorites:
+            Fragment syncFrag = FavoritesSyncFragment.newInstance(ListingModeFragment.MODE_LISTING);
+            FragmentDisplayer.replaceFragment(this, syncFrag, DisplayUtils.getLeftFragmentId(this),
+                    FavoritesSyncFragment.TAG, true);
+            break;
+        /*
+        case R.id.menu_workflow:
+        if (!checkSession(R.id.menu_workflow)) { return; }
+        TasksHelper.displayNavigationMode(this);
+        break;
+        */
         case R.id.menu_downloads:
             if (currentAccount == null)
             {

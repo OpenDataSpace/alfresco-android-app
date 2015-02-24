@@ -111,14 +111,14 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
 
         spinnerAccount = (Spinner) rootView.findViewById(R.id.accounts_spinner);
         spinnerAccount.setOnItemSelectedListener(this);
-        /*
+
         menuFavorites = (Button) rootView.findViewById(R.id.menu_favorites);
 
         if (SLIDING_TAG.equals(getTag()))
         {
             menuSlidingFavorites = (Button) rootView.findViewById(R.id.menu_favorites);
         }
-         */
+
         configurationManager = ApplicationManager.getInstance(getActivity()).getConfigurationManager();
         if (configurationManager != null
                 && configurationManager.getConfigurationState() == ConfigurationManager.STATE_HAS_CONFIGURATION)
@@ -308,7 +308,9 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
             /*
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_SITES, R.id.menu_browse_my_sites);
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_TASKS, R.id.menu_workflow);
+            */
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_FAVORITES, R.id.menu_favorites);
+            /*
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_SEARCH, R.id.menu_search);
              */
             hideOrDisplay(menuConfig, ConfigurationManager.MENU_LOCAL_FILES, R.id.menu_downloads);
@@ -342,7 +344,9 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         {
             rootView.findViewById(R.id.menu_workflow).setVisibility(View.VISIBLE);
         }
+        */
         rootView.findViewById(R.id.menu_favorites).setVisibility(View.VISIBLE);
+        /*
         rootView.findViewById(R.id.menu_search).setVisibility(View.VISIBLE);
          */
         rootView.findViewById(R.id.menu_downloads).setVisibility(View.VISIBLE);
