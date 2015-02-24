@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -20,26 +20,33 @@ package org.alfresco.mobile.android.application.preferences;
 import java.io.File;
 
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.account.OdsAccountAuthenticator;
 import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.fragments.favorites.FavoriteAlertDialogFragment;
+import org.alfresco.mobile.android.application.fragments.favorites.FavoriteAlertDialogFragment.OnFavoriteChangeListener;
 import org.alfresco.mobile.android.application.manager.StorageManager;
+import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
 import org.alfresco.mobile.android.application.security.DataProtectionUserDialogFragment;
+import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
+import android.content.ContentResolver;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
+import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
 /**
  * Manage global application preferences.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class GeneralPreferences extends PreferenceFragment
@@ -57,11 +64,13 @@ public class GeneralPreferences extends PreferenceFragment
 
     private static final String PRIVATE_FOLDERS_BUTTON = "privatefoldersbutton";
 
-    private static final String SYNCHRO_PREFIX = "SynchroEnable-";
+    //private static final String SYNCHRO_PREFIX = "SynchroEnable-";
 
     private static final String SYNCHRO_EVEYTHING_PREFIX = "SynchroEverythingEnable-";
 
-    private static final String SYNCHRO_WIFI_PREFIX = "SynchroWifiEnable-";
+    private static final String SYNCHRO_WIFI = "OdsSynchroWifi";
+
+    //private static final String SYNCHRO_WIFI_PREFIX = "SynchroWifiEnable-";
 
     private static final String SYNCHRO_DISPLAY_PREFIX = "SynchroDisplayEnable-";
 
@@ -77,7 +86,7 @@ public class GeneralPreferences extends PreferenceFragment
 
     public static final String ODS_SENDREPORT = "odssendreport";
 
-    //private Account account;
+    private Account account;
 
     // ///////////////////////////////////////////////////////////////////////////
     // LIFE CYCLE
@@ -172,9 +181,9 @@ public class GeneralPreferences extends PreferenceFragment
         tuneFeedbackPrefs(sharedPref);
 
         // FAVORITE SYNC
-        /*
         final CheckBoxPreference cpref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync));
         final CheckBoxPreference wifiPref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync_wifi));
+
         account = SessionUtils.getAccount(getActivity());
 
         if (account == null)
@@ -184,11 +193,11 @@ public class GeneralPreferences extends PreferenceFragment
             return;
         }
 
-        Boolean syncEnable = sharedPref.getBoolean(SYNCHRO_PREFIX + account.getId(), false);
+        Boolean syncEnable = hasActivateSync(getActivity(), account);
         cpref.setChecked(syncEnable);
         cpref.setTitle(String.format(getString(R.string.settings_favorite_sync), account.getDescription()));
 
-        Boolean syncWifiEnable = sharedPref.getBoolean(SYNCHRO_WIFI_PREFIX + account.getId(), true);
+        Boolean syncWifiEnable = !hasWifiOnlySync(getActivity(), account);
 
         if (wifiPref != null)
         {
@@ -209,8 +218,9 @@ public class GeneralPreferences extends PreferenceFragment
 
                 if (isSync)
                 {
-                    sharedPref.edit().putBoolean(SYNCHRO_PREFIX + account.getId(), isSync).commit();
-                    if (SynchroManager.getInstance(getActivity()).canSync(account))
+                    setActivateSync(getActivity(), isSync);
+
+                    if (account != null && SynchroManager.getInstance(getActivity()).canSync(account))
                     {
                         SynchroManager.getInstance(getActivity()).sync(account);
                     }
@@ -222,7 +232,7 @@ public class GeneralPreferences extends PreferenceFragment
                         @Override
                         public void onPositive()
                         {
-                            sharedPref.edit().putBoolean(SYNCHRO_PREFIX + account.getId(), false).commit();
+                            setActivateSync(getActivity(), false);
                             cpref.setChecked(false);
                             SynchroManager.getInstance(getActivity()).unsync(account);
                         }
@@ -230,7 +240,7 @@ public class GeneralPreferences extends PreferenceFragment
                         @Override
                         public void onNegative()
                         {
-                            sharedPref.edit().putBoolean(SYNCHRO_PREFIX + account.getId(), true).commit();
+                            setActivateSync(getActivity(), true);
                             cpref.setChecked(true);
                         }
                     };
@@ -262,14 +272,13 @@ public class GeneralPreferences extends PreferenceFragment
                     {
                         isWifiOnly = ((CheckBoxPreference) preference).isChecked();
                     }
-                    sharedPref.edit().putBoolean(SYNCHRO_WIFI_PREFIX + account.getId(), isWifiOnly).commit();
+                    setHasWifiOnlySync(getActivity(), isWifiOnly);
                     return false;
                 }
             });
         }
 
         getActivity().invalidateOptionsMenu();
-         */
     }
 
     private void tuneFeedbackPrefs(SharedPreferences sharedPref)
@@ -321,31 +330,33 @@ public class GeneralPreferences extends PreferenceFragment
     // ///////////////////////////////////////////////////////////////////////////
     public static boolean hasWifiOnlySync(Context context, Account account)
     {
-        if (account != null)
-        {
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            return sharedPref.getBoolean(SYNCHRO_WIFI_PREFIX + account.getId(), false);
-        }
-        return false;
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPref.getBoolean(SYNCHRO_WIFI, false);
+    }
+
+    public static void setHasWifiOnlySync(Context context, boolean isActive)
+    {
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        sharedPref.edit().putBoolean(SYNCHRO_WIFI, isActive).commit();
     }
 
     public static boolean hasActivateSync(Context context, Account account)
     {
         if (account != null)
         {
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            return sharedPref.getBoolean(SYNCHRO_PREFIX + account.getId(), false);
+            return ContentResolver.getIsSyncable(new android.accounts.Account(account.getDescription(),
+                    OdsAccountAuthenticator.ACCOUNT_TYPE), "org.opendataspace.android.app.provider.sync") > 0;
         }
         return false;
     }
 
     public static void setActivateSync(Activity activity, boolean isActive)
     {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
         if (SessionUtils.getAccount(activity) != null)
         {
-            final Account account = SessionUtils.getAccount(activity);
-            sharedPref.edit().putBoolean(SYNCHRO_PREFIX + account.getId(), isActive).commit();
+            ContentResolver.setIsSyncable(new android.accounts.Account(SessionUtils.getAccount(activity)
+                    .getDescription(), OdsAccountAuthenticator.ACCOUNT_TYPE),
+                    "org.opendataspace.android.app.provider.sync", isActive ? 1 : 0);
         }
     }
 
@@ -418,7 +429,8 @@ public class GeneralPreferences extends PreferenceFragment
         if (account != null)
         {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            return sharedPref.getFloat(SYNCHRO_FREE_SPACE_ALERT_PREFIX + account.getId(), SYNCHRO_FREE_SPACE_ALERT_LENGTH);
+            return sharedPref.getFloat(SYNCHRO_FREE_SPACE_ALERT_PREFIX + account.getId(),
+                    SYNCHRO_FREE_SPACE_ALERT_LENGTH);
         }
         return SYNCHRO_FREE_SPACE_ALERT_LENGTH;
     }

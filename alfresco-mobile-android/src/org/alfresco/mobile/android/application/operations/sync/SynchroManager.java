@@ -57,7 +57,6 @@ import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.alfresco.mobile.android.application.utils.CursorUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
-import org.opendataspace.android.app.sync.OdsSyncManager;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.BroadcastReceiver;
@@ -89,7 +88,7 @@ public class SynchroManager extends OperationManager
         {
             if (mInstance == null)
             {
-                mInstance = new OdsSyncManager(context.getApplicationContext());
+                mInstance = new SynchroManager(context.getApplicationContext());
                 context.startService(new Intent(context, SynchroService.class).putExtra("t", true));
             }
 

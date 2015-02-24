@@ -155,13 +155,18 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
         try
         {
             CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
-                    .getInfo(OdsFileInfo.TYPE_FAVORITE, false);
+                    .getInfo(OdsFileInfo.TYPE_FAVORITE);
 
             try
             {
                 while (it.hasNext())
                 {
-                    ls.add((Document) getNodeByIdentifier(it.next().getNodeId()));
+                    OdsFileInfo nfo = it.next();
+
+                    if ((nfo.getType() & OdsFileInfo.TYPE_DIRECTORY) == 0)
+                    {
+                        ls.add((Document) getNodeByIdentifier(nfo.getNodeId()));
+                    }
                 }
             }
             finally
@@ -185,13 +190,18 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
         try
         {
             CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
-                    .getInfo(OdsFileInfo.TYPE_FAVORITE, true);
+                    .getInfo(OdsFileInfo.TYPE_FAVORITE);
 
             try
             {
                 while (it.hasNext())
                 {
-                    ls.add((Folder) getNodeByIdentifier(it.next().getNodeId()));
+                    OdsFileInfo nfo = it.next();
+
+                    if ((nfo.getType() & OdsFileInfo.TYPE_DIRECTORY) != 0)
+                    {
+                        ls.add((Folder) getNodeByIdentifier(nfo.getNodeId()));
+                    }
                 }
             }
             finally
@@ -272,6 +282,11 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
                 info.setNodeId(node.getIdentifier());
                 info.setFolderId(getParentFolder(node).getIdentifier());
                 info.setPath("");
+
+                if (node.isFolder())
+                {
+                    info.setType(OdsFileInfo.TYPE_DIRECTORY);
+                }
             }
 
             info.setType(info.getType() | OdsFileInfo.TYPE_FAVORITE);
