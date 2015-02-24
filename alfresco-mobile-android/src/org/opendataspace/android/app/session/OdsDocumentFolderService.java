@@ -1,5 +1,7 @@
 package org.opendataspace.android.app.session;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -7,28 +9,35 @@ import java.util.Map;
 import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.alfresco.mobile.android.api.model.ContentStream;
+import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.PagingResult;
 import org.alfresco.mobile.android.api.model.Permissions;
+import org.alfresco.mobile.android.api.model.SearchLanguage;
 import org.alfresco.mobile.android.api.model.impl.ContentStreamImpl;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.services.impl.onpremise.OnPremiseDocumentFolderServiceImpl;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.impl.AbstractAlfrescoSessionImpl;
+import org.alfresco.mobile.android.api.utils.JsonUtils;
 import org.alfresco.mobile.android.api.utils.messages.Messagesl18n;
 import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.OperationContext;
 import org.apache.chemistry.opencmis.client.api.Rendition;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.opendataspace.android.app.data.OdsDataHelper;
+import org.opendataspace.android.app.data.OdsFileInfoDAO;
 import org.opendataspace.android.app.fileinfo.OdsFileInfo;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import com.j256.ormlite.dao.CloseableIterator;
 
 public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
 {
+    private static final String TAG = OdsDocumentFolderService.class.getSimpleName();
+
     public OdsDocumentFolderService(AlfrescoSession repositorySession)
     {
         super(repositorySession);
@@ -103,13 +112,20 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
         try
         {
             CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
-                    .getLinksByFolder(parentFolder.getIdentifier(), OdsFileInfo.TYPE_DOWNLOAD);
+                    .getInfoByFolder(parentFolder.getIdentifier(), OdsFileInfo.TYPE_DOWNLOAD);
             Map<String, OdsFileInfo> mp = new HashMap<String, OdsFileInfo>();
 
-            while (it.hasNext())
+            try
             {
-                OdsFileInfo nfo = it.next();
-                mp.put(nfo.getNodeId(), nfo);
+                while (it.hasNext())
+                {
+                    OdsFileInfo nfo = it.next();
+                    mp.put(nfo.getNodeId(), nfo);
+                }
+            }
+            finally
+            {
+                it.closeQuietly();
             }
 
             for (Node cur : res.getList())
@@ -124,7 +140,6 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
                 }
             }
 
-            it.closeQuietly();
         }
         catch (Exception ex)
         {
@@ -132,5 +147,214 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
         }
 
         return res;
+    }
+
+    @Override
+    public List<Document> getFavoriteDocuments()
+    {
+        List<Document> ls = new ArrayList<Document>();
+
+        try
+        {
+            CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
+                    .getInfo(OdsFileInfo.TYPE_FAVORITE, false);
+            ArrayList<String> ids = new ArrayList<String>();
+
+            try
+            {
+                while (it.hasNext())
+                {
+                    ids.add(it.next().getNodeId());
+                }
+            }
+            finally
+            {
+                it.closeQuietly();
+            }
+
+            if (ids.isEmpty())
+            {
+                return ls;
+            }
+
+            StringBuilder builder = new StringBuilder("SELECT * FROM cmis:document WHERE cmis:objectId=");
+            JsonUtils.join(builder, " OR cmis:objectId=", ids.toArray());
+
+            List<Node> nodes = session.getServiceRegistry().getSearchService()
+                    .search(builder.toString(), SearchLanguage.CMIS);
+
+            for (Node node : nodes)
+            {
+                ls.add((Document) node);
+            }
+        }
+        catch (SQLException ex)
+        {
+            convertException(ex);
+        }
+
+        return ls;
+    }
+
+    @Override
+    public List<Folder> getFavoriteFolders()
+    {
+        List<Folder> ls = new ArrayList<Folder>();
+
+        try
+        {
+            CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
+                    .getInfo(OdsFileInfo.TYPE_FAVORITE, true);
+            ArrayList<String> ids = new ArrayList<String>();
+
+            try
+            {
+                while (it.hasNext())
+                {
+                    ids.add(it.next().getNodeId());
+                }
+            }
+            finally
+            {
+                it.closeQuietly();
+            }
+
+            if (ids.isEmpty())
+            {
+                return ls;
+            }
+
+            StringBuilder builder = new StringBuilder("SELECT * FROM cmis:document WHERE cmis:objectId=");
+            JsonUtils.join(builder, " OR cmis:objectId=", ids.toArray());
+
+            List<Node> nodes = session.getServiceRegistry().getSearchService()
+                    .search(builder.toString(), SearchLanguage.CMIS);
+
+            for (Node node : nodes)
+            {
+                ls.add((Folder) node);
+            }
+        }
+        catch (SQLException ex)
+        {
+            convertException(ex);
+        }
+
+        return ls;
+    }
+
+    @Override
+    public List<Node> getFavoriteNodes()
+    {
+        try
+        {
+            CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
+                    .getInfo(OdsFileInfo.TYPE_FAVORITE);
+            ArrayList<String> ids = new ArrayList<String>();
+
+            try
+            {
+                while (it.hasNext())
+                {
+                    ids.add(it.next().getNodeId());
+                }
+            }
+            finally
+            {
+                it.closeQuietly();
+            }
+
+            if (ids.isEmpty())
+            {
+                return new ArrayList<Node>();
+            }
+
+            StringBuilder builder = new StringBuilder("SELECT * FROM cmis:document WHERE cmis:objectId=");
+            JsonUtils.join(builder, " OR cmis:objectId=", ids.toArray());
+
+            return session.getServiceRegistry().getSearchService()
+                    .search(builder.toString(), SearchLanguage.CMIS);
+        }
+        catch (SQLException ex)
+        {
+            convertException(ex);
+        }
+
+        return new ArrayList<Node>();
+    }
+
+    @Override
+    public boolean isFavorite(Node node)
+    {
+        try
+        {
+            OdsFileInfo info = OdsDataHelper.getHelper().getFileInfoDAO().queryForId(node.getIdentifier());
+            return info != null && ((info.getType() & OdsFileInfo.TYPE_FAVORITE) != 0);
+        }
+        catch (SQLException ex)
+        {
+            OdsLog.ex(TAG, ex);
+        }
+
+        return false;
+    }
+
+    @Override
+    public void addFavorite(Node node)
+    {
+        try
+        {
+            OdsFileInfoDAO dao = OdsDataHelper.getHelper().getFileInfoDAO();
+            OdsFileInfo info = dao.queryForId(node.getIdentifier());
+
+            if (info != null && ((info.getType() & OdsFileInfo.TYPE_FAVORITE) != 0))
+            {
+                return;
+            }
+
+            if (info == null)
+            {
+                info = new OdsFileInfo();
+                info.setNodeId(node.getIdentifier());
+                info.setFolderId(getParentFolder(node).getIdentifier());
+            }
+
+            info.setType(info.getType() & OdsFileInfo.TYPE_FAVORITE);
+            dao.createOrUpdate(info);
+        }
+        catch (SQLException ex)
+        {
+            convertException(ex);
+        }
+    }
+
+    @Override
+    public void removeFavorite(Node node)
+    {
+        try
+        {
+            OdsFileInfoDAO dao = OdsDataHelper.getHelper().getFileInfoDAO();
+            OdsFileInfo info = dao.queryForId(node.getIdentifier());
+
+            if (info == null || ((info.getType() & OdsFileInfo.TYPE_FAVORITE) == 0))
+            {
+                return;
+            }
+
+            info.setType(info.getType() & ~OdsFileInfo.TYPE_FAVORITE);
+
+            if (info.getType() == 0)
+            {
+                dao.delete(info);
+            }
+            else
+            {
+                dao.update(info);
+            }
+        }
+        catch (SQLException ex)
+        {
+            convertException(ex);
+        }
     }
 }

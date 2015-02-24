@@ -47,7 +47,7 @@ public class OdsDatabase extends OrmLiteSqliteOpenHelper
     {
         try
         {
-            if (newVer < 3)
+            if (newVer < 2)
             {
                 TableUtils.createTable(connectionSource, OdsFileInfo.class);
             }
