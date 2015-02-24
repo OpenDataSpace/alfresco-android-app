@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -57,6 +57,7 @@ import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.alfresco.mobile.android.application.utils.CursorUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.opendataspace.android.app.sync.OdsSyncManager;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import android.content.BroadcastReceiver;
@@ -73,7 +74,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.content.LocalBroadcastManager;
 
-public final class SynchroManager extends OperationManager
+public class SynchroManager extends OperationManager
 {
     private static final String TAG = SynchroManager.class.getName();
 
@@ -88,7 +89,7 @@ public final class SynchroManager extends OperationManager
         {
             if (mInstance == null)
             {
-                mInstance = new SynchroManager(context.getApplicationContext());
+                mInstance = new OdsSyncManager(context.getApplicationContext());
                 context.startService(new Intent(context, SynchroService.class).putExtra("t", true));
             }
 
@@ -96,7 +97,7 @@ public final class SynchroManager extends OperationManager
         }
     }
 
-    private SynchroManager(Context applicationContext)
+    protected SynchroManager(Context applicationContext)
     {
         super(applicationContext);
         mAppContext.registerReceiver(new NetworkReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
@@ -774,7 +775,7 @@ public final class SynchroManager extends OperationManager
 
     /**
      * Flag the activity time.
-     * 
+     *
      * @param context
      */
     public static void saveStartSyncPrepareTimestamp(Context context)
