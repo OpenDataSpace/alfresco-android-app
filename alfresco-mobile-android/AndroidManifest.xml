@@ -219,7 +219,7 @@
             android:authorities="org.opendataspace.android.app.provider.mimetypes"
             android:exported="false"
             android:syncable="true" />
-
+<!--
          <provider
             android:name="org.alfresco.mobile.android.application.storage.provider.StorageAccessDocumentsProvider"
             android:authorities="org.opendataspace.android.app.provider.documents"
@@ -231,7 +231,7 @@
                 <action android:name="android.content.action.DOCUMENTS_PROVIDER" />
             </intent-filter>
         </provider>
-
+-->
         <!-- *************************************************************** -->
         <!-- Internal : SERVICES -->
         <!-- *************************************************************** -->
