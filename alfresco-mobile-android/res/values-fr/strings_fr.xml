@@ -451,15 +451,11 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="settings_links_facebook">J\'aime DataSpace sur Facebook</string>
     <string name="settings_links_facebook_summary">J\'aime sur Facebook</string>
     <string name="settings_links_facebook_url">http://www.facebook.com/alfrescosoftware</string>
-    <string name="settings_favorite">Favoris</string>
+    <string name="settings_favorite">Synchronization</string>
     <string name="settings_favorite_sync">Activer la synchro pour \"%s\"</string>
     <string name="settings_favorite_sync_data">Utilisation des données</string>
     <string name="settings_favorite_sync_data_all">Utiliser les données cellulaires pour la synchro</string>
     <!-- translate --> <string name="settings_encryption">Encryption</string>
-    <!-- translate --> <string name="settings_autosync">Synchronisation</string>
-    <!-- translate --> <string name="settings_autosync_settings">Settings</string>
-    <!-- translate --> <string name="settings_autosync_settings_off">Synchronisation of images and videos is currently off</string>
-    <!-- translate --> <string name="settings_autosync_settings_on">Synchronisation of images and videos is currently on</string>
     <!-- translate --> <string name="settings_feedback">Feedback</string>
 
     <!-- Multi Selection -->

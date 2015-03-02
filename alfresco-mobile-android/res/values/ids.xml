@@ -46,6 +46,7 @@
     <string name="favorite_sync">favoriteSync</string>
     <string name="favorite_sync_wifi">favoriteSyncWifi</string>
     <string name="ods_logging">odslogging</string>
+    <string name="ods_sync_all">OdsSynchroAll</string>
 
     <!-- HELP -->
     <string name="help_path">Help/</string>

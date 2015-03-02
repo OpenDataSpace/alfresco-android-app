@@ -28,7 +28,6 @@ import org.alfresco.mobile.android.application.fragments.favorites.FavoriteAlert
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.sync.SynchroManager;
 import org.alfresco.mobile.android.application.security.DataProtectionUserDialogFragment;
-import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
@@ -40,7 +39,6 @@ import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
 import android.preference.Preference.OnPreferenceClickListener;
-import android.preference.PreferenceCategory;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
@@ -66,9 +64,11 @@ public class GeneralPreferences extends PreferenceFragment
 
     //private static final String SYNCHRO_PREFIX = "SynchroEnable-";
 
-    private static final String SYNCHRO_EVEYTHING_PREFIX = "SynchroEverythingEnable-";
+    //private static final String SYNCHRO_EVEYTHING_PREFIX = "SynchroEverythingEnable-";
 
     private static final String SYNCHRO_WIFI = "OdsSynchroWifi";
+    
+    private static final String SYNCHRO_EVERYTHING = "OdsSynchroAll";
 
     //private static final String SYNCHRO_WIFI_PREFIX = "SynchroWifiEnable-";
 
@@ -182,21 +182,21 @@ public class GeneralPreferences extends PreferenceFragment
 
         // FAVORITE SYNC
         final CheckBoxPreference cpref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync));
-        final CheckBoxPreference wifiPref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync_wifi));
+//        final CheckBoxPreference wifiPref = (CheckBoxPreference) findPreference(getString(R.string.favorite_sync_wifi));
 
         account = SessionUtils.getAccount(getActivity());
 
         if (account == null)
         {
             cpref.setSelectable(false);
-            wifiPref.setSelectable(false);
+//            wifiPref.setSelectable(false);
             return;
         }
 
         Boolean syncEnable = hasActivateSync(getActivity(), account);
         cpref.setChecked(syncEnable);
         cpref.setTitle(String.format(getString(R.string.settings_favorite_sync), account.getDescription()));
-
+/*
         Boolean syncWifiEnable = !hasWifiOnlySync(getActivity(), account);
 
         if (wifiPref != null)
@@ -204,7 +204,7 @@ public class GeneralPreferences extends PreferenceFragment
             wifiPref.setChecked(!syncWifiEnable);
             wifiPref.setSummary(R.string.settings_favorite_sync_data_all);
         }
-
+*/
         cpref.setOnPreferenceClickListener(new OnPreferenceClickListener()
         {
             @Override
@@ -252,7 +252,7 @@ public class GeneralPreferences extends PreferenceFragment
                 return false;
             }
         });
-
+/*
         // Check if 3G Present
         if (!ConnectivityUtils.hasMobileConnectivity(getActivity()) && wifiPref != null)
         {
@@ -277,7 +277,7 @@ public class GeneralPreferences extends PreferenceFragment
                 }
             });
         }
-
+*/
         getActivity().invalidateOptionsMenu();
     }
 
@@ -383,22 +383,14 @@ public class GeneralPreferences extends PreferenceFragment
 
     public static boolean canSyncEverything(Context context, Account account)
     {
-        if (account != null)
-        {
-            SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            return sharedPref.getBoolean(SYNCHRO_EVEYTHING_PREFIX + account.getId(), false);
-        }
-        return false;
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        return sharedPref.getBoolean(SYNCHRO_EVERYTHING, false);
     }
 
     public static void setSyncEverything(Activity activity, boolean isActive)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
-        if (SessionUtils.getAccount(activity) != null)
-        {
-            final Account account = SessionUtils.getAccount(activity);
-            sharedPref.edit().putBoolean(SYNCHRO_EVEYTHING_PREFIX + account.getId(), isActive).commit();
-        }
+        sharedPref.edit().putBoolean(SYNCHRO_EVERYTHING, isActive).commit();
     }
 
     // ///////////////////////////////////////////////////////////////////////////

@@ -215,6 +215,11 @@ public class MainActivity extends BaseActivity
         {
             displayAccounts();
         }
+        else if (IntentIntegrator.ACTION_DISPLAY_SETTINGS.equals(getIntent().getAction()))
+        {
+            displayPreferences();
+            return;
+        }
     }
 
     @Override
@@ -341,6 +346,12 @@ public class MainActivity extends BaseActivity
             if (IntentIntegrator.ACTION_DISLPAY_ACCOUNTS.equals(intent.getAction()))
             {
                 displayAccounts();
+                return;
+            }
+
+            if (IntentIntegrator.ACTION_DISPLAY_SETTINGS.equals(intent.getAction()))
+            {
+                displayPreferences();
                 return;
             }
         }

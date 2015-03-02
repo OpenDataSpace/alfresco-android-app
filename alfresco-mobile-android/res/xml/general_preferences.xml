@@ -39,7 +39,12 @@
             android:key="@string/favorite_sync_wifi"
             android:summary="@string/settings_favorite_sync_data_all"
             android:title="@string/settings_favorite_sync_data" />
-    </PreferenceCategory>
+        <CheckBoxPreference
+            android:dependency="@string/favorite_sync"
+            android:key="@string/ods_sync_all"
+            android:title="@string/settings_sync_all"
+            android:summary="@string/settings_sync_all_desc" />
+        </PreferenceCategory>
     <PreferenceCategory android:title="@string/settings_feedback" >
         <CheckBoxPreference
             android:key="@string/ods_logging"
