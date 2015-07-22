@@ -17,8 +17,6 @@ public class OdsFileInfo implements Serializable
     public final static String TYPE_FIELD = "type";
 
     public final static int TYPE_DOWNLOAD = 0x1;
-    public final static int TYPE_FAVORITE = 0x2;
-    public final static int TYPE_DIRECTORY = 0x4;
 
     @DatabaseField(id = true, columnName = NODE_ID_FIELD)
     private String nodeId;

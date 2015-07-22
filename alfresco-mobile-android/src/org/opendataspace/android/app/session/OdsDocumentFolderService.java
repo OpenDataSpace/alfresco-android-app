@@ -1,7 +1,5 @@
 package org.opendataspace.android.app.session;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -9,7 +7,6 @@ import java.util.Map;
 import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.alfresco.mobile.android.api.model.ContentStream;
-import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.model.Node;
@@ -26,16 +23,12 @@ import org.apache.chemistry.opencmis.client.api.OperationContext;
 import org.apache.chemistry.opencmis.client.api.Rendition;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.opendataspace.android.app.data.OdsDataHelper;
-import org.opendataspace.android.app.data.OdsFileInfoDAO;
 import org.opendataspace.android.app.fileinfo.OdsFileInfo;
-import org.opendataspace.android.ui.logging.OdsLog;
 
 import com.j256.ormlite.dao.CloseableIterator;
 
 public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
 {
-    private static final String TAG = OdsDocumentFolderService.class.getSimpleName();
-
     public OdsDocumentFolderService(AlfrescoSession repositorySession)
     {
         super(repositorySession);
@@ -110,20 +103,13 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
         try
         {
             CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
-                    .getInfoByFolder(parentFolder.getIdentifier(), OdsFileInfo.TYPE_DOWNLOAD);
+                    .getLinksByFolder(parentFolder.getIdentifier(), OdsFileInfo.TYPE_DOWNLOAD);
             Map<String, OdsFileInfo> mp = new HashMap<String, OdsFileInfo>();
 
-            try
+            while (it.hasNext())
             {
-                while (it.hasNext())
-                {
-                    OdsFileInfo nfo = it.next();
-                    mp.put(nfo.getNodeId(), nfo);
-                }
-            }
-            finally
-            {
-                it.closeQuietly();
+                OdsFileInfo nfo = it.next();
+                mp.put(nfo.getNodeId(), nfo);
             }
 
             for (Node cur : res.getList())
@@ -138,6 +124,7 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
                 }
             }
 
+            it.closeQuietly();
         }
         catch (Exception ex)
         {
@@ -145,186 +132,5 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
         }
 
         return res;
-    }
-
-    @Override
-    public List<Document> getFavoriteDocuments()
-    {
-        List<Document> ls = new ArrayList<Document>();
-
-        try
-        {
-            CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
-                    .getInfo(OdsFileInfo.TYPE_FAVORITE);
-
-            try
-            {
-                while (it.hasNext())
-                {
-                    OdsFileInfo nfo = it.next();
-
-                    if ((nfo.getType() & OdsFileInfo.TYPE_DIRECTORY) == 0)
-                    {
-                        ls.add((Document) getNodeByIdentifier(nfo.getNodeId()));
-                    }
-                }
-            }
-            finally
-            {
-                it.closeQuietly();
-            }
-        }
-        catch (SQLException ex)
-        {
-            convertException(ex);
-        }
-
-        return ls;
-    }
-
-    @Override
-    public List<Folder> getFavoriteFolders()
-    {
-        List<Folder> ls = new ArrayList<Folder>();
-
-        try
-        {
-            CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
-                    .getInfo(OdsFileInfo.TYPE_FAVORITE);
-
-            try
-            {
-                while (it.hasNext())
-                {
-                    OdsFileInfo nfo = it.next();
-
-                    if ((nfo.getType() & OdsFileInfo.TYPE_DIRECTORY) != 0)
-                    {
-                        ls.add((Folder) getNodeByIdentifier(nfo.getNodeId()));
-                    }
-                }
-            }
-            finally
-            {
-                it.closeQuietly();
-            }
-        }
-        catch (SQLException ex)
-        {
-            convertException(ex);
-        }
-
-        return ls;
-    }
-
-    @Override
-    public List<Node> getFavoriteNodes()
-    {
-        List<Node> ls = new ArrayList<Node>();
-
-        try
-        {
-            CloseableIterator<OdsFileInfo> it = OdsDataHelper.getHelper().getFileInfoDAO()
-                    .getInfo(OdsFileInfo.TYPE_FAVORITE);
-
-            try
-            {
-                while (it.hasNext())
-                {
-                    ls.add(getNodeByIdentifier(it.next().getNodeId()));
-                }
-            }
-            finally
-            {
-                it.closeQuietly();
-            }
-        }
-        catch (SQLException ex)
-        {
-            convertException(ex);
-        }
-
-        return ls;
-    }
-
-    @Override
-    public boolean isFavorite(Node node)
-    {
-        try
-        {
-            OdsFileInfo info = OdsDataHelper.getHelper().getFileInfoDAO().queryForId(node.getIdentifier());
-            return info != null && ((info.getType() & OdsFileInfo.TYPE_FAVORITE) != 0);
-        }
-        catch (SQLException ex)
-        {
-            OdsLog.ex(TAG, ex);
-        }
-
-        return false;
-    }
-
-    @Override
-    public void addFavorite(Node node)
-    {
-        try
-        {
-            OdsFileInfoDAO dao = OdsDataHelper.getHelper().getFileInfoDAO();
-            OdsFileInfo info = dao.queryForId(node.getIdentifier());
-
-            if (info != null && ((info.getType() & OdsFileInfo.TYPE_FAVORITE) != 0))
-            {
-                return;
-            }
-
-            if (info == null)
-            {
-                info = new OdsFileInfo();
-                info.setNodeId(node.getIdentifier());
-                info.setFolderId(getParentFolder(node).getIdentifier());
-                info.setPath("");
-
-                if (node.isFolder())
-                {
-                    info.setType(OdsFileInfo.TYPE_DIRECTORY);
-                }
-            }
-
-            info.setType(info.getType() | OdsFileInfo.TYPE_FAVORITE);
-            dao.createOrUpdate(info);
-        }
-        catch (SQLException ex)
-        {
-            convertException(ex);
-        }
-    }
-
-    @Override
-    public void removeFavorite(Node node)
-    {
-        try
-        {
-            OdsFileInfoDAO dao = OdsDataHelper.getHelper().getFileInfoDAO();
-            OdsFileInfo info = dao.queryForId(node.getIdentifier());
-
-            if (info == null || ((info.getType() & OdsFileInfo.TYPE_FAVORITE) == 0))
-            {
-                return;
-            }
-
-            info.setType(info.getType() & ~OdsFileInfo.TYPE_FAVORITE);
-
-            if (info.getType() == 0)
-            {
-                dao.delete(info);
-            }
-            else
-            {
-                dao.update(info);
-            }
-        }
-        catch (SQLException ex)
-        {
-            convertException(ex);
-        }
     }
 }

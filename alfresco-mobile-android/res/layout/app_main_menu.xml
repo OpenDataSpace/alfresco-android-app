@@ -88,13 +88,13 @@ limitations under the License.
                 style="?AlfrescoTheme.TextView.MenuItem"
                 android:drawableLeft="@drawable/ic_action_inbox_light"
                 android:text="@string/my_tasks" />
--->
+
             <Button
                 android:id="@+id/menu_favorites"
                 style="?AlfrescoTheme.TextView.MenuItem"
                 android:drawableLeft="@drawable/ic_favorite"
                 android:text="@string/menu_favorites" />
-<!--
+
             <Button
                 android:id="@+id/menu_search"
                 style="?AlfrescoTheme.TextView.MenuItem"
