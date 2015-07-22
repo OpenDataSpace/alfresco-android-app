@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,10 +17,34 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.properties;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.DialogFragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.ActivityNotFoundException;
+import android.content.BroadcastReceiver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.Loader;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TabHost;
+import android.widget.TabHost.OnTabChangeListener;
+import android.widget.TabHost.TabSpec;
+import android.widget.TextView;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.constants.ContentModel;
@@ -33,12 +57,6 @@ import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.alfresco.mobile.android.api.utils.NodeRefUtils;
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.fileinfo.OdsFileInfo;
-import org.opendataspace.android.app.fragments.OdsLinksFragment;
-import org.opendataspace.android.app.links.OdsLink;
-import org.opendataspace.android.app.session.OdsDocument;
-import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.exception.AlfrescoAppException;
@@ -87,43 +105,25 @@ import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.alfresco.mobile.android.ui.utils.Formatter;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.enums.Action;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fileinfo.OdsFileInfo;
+import org.opendataspace.android.app.fragments.OdsLinksFragment;
+import org.opendataspace.android.app.links.OdsLink;
+import org.opendataspace.android.app.session.OdsDocument;
+import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.DialogFragment;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.ActivityNotFoundException;
-import android.content.BroadcastReceiver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.Loader;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TabHost;
-import android.widget.TabHost.OnTabChangeListener;
-import android.widget.TabHost.TabSpec;
-import android.widget.TextView;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
 /**
  * Responsible to display details of a specific Node.
  *
  * @author Jean Marie Pascal
  */
-public class DetailsFragment extends MetadataFragment implements OnTabChangeListener,
-        LoaderCallbacks<LoaderResult<Node>>
+public class DetailsFragment extends MetadataFragment
+        implements OnTabChangeListener, LoaderCallbacks<LoaderResult<Node>>
 {
     private static final String ACTION_REFRESH = "org.alfresco.mobile.android.intent.ACTION_REFRESH";
 
@@ -256,8 +256,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
     @Override
     public void onResume()
     {
-        if (!DisplayUtils.hasCentralPane(getActivity()) && node != null && vRoot.findViewById(R.id.metadata) != null
-                && ((ViewGroup) vRoot.findViewById(R.id.metadata)).getChildCount() == 0)
+        if (!DisplayUtils.hasCentralPane(getActivity()) && node != null && vRoot.findViewById(R.id.metadata) != null &&
+                ((ViewGroup) vRoot.findViewById(R.id.metadata)).getChildCount() == 0)
         {
             // Detect if isRestrictable
             isRestrictable = node.hasAspect(ContentModel.ASPECT_RESTRICTABLE);
@@ -305,8 +305,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
         File tmpFile = null;
-        boolean isSynced = SynchroManager.getInstance(getActivity()).isSynced(SessionUtils.getAccount(getActivity()),
-                node);
+        boolean isSynced =
+                SynchroManager.getInstance(getActivity()).isSynced(SessionUtils.getAccount(getActivity()), node);
         boolean modified = false;
         Date d = null;
 
@@ -326,8 +326,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             if (isSynced)
             {
                 // We use the sync file stored locally
-                tmpFile = SynchroManager.getInstance(getActivity()).getSyncFile(SessionUtils.getAccount(getActivity()),
-                        node);
+                tmpFile = SynchroManager.getInstance(getActivity())
+                        .getSyncFile(SessionUtils.getAccount(getActivity()), node);
             }
             else
             {
@@ -358,17 +358,17 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                     }
 
                     cValues.put(SynchroSchema.COLUMN_STATUS, operationStatut);
-                    getActivity().getContentResolver().update(
-                            SynchroManager.getInstance(getActivity()).getUri(SessionUtils.getAccount(getActivity()),
-                                    node.getIdentifier()), cValues, null, null);
+                    getActivity().getContentResolver().update(SynchroManager.getInstance(getActivity())
+                                    .getUri(SessionUtils.getAccount(getActivity()), node.getIdentifier()), cValues,
+                            null, null);
                 }
 
                 // Encrypt sync file if necessary
                 StorageManager.manageFile(getActivity(), dlFile);
             }
-            else if (modified && alfSession != null
-                    && alfSession.getServiceRegistry().getDocumentFolderService().getPermissions(node) != null
-                    && alfSession.getServiceRegistry().getDocumentFolderService().getPermissions(node).canEdit())
+            else if (modified && alfSession != null &&
+                    alfSession.getServiceRegistry().getDocumentFolderService().getPermissions(node) != null &&
+                    alfSession.getServiceRegistry().getDocumentFolderService().getPermissions(node).canEdit())
             {
                 // File modified + Sync File
                 if (isSynced)
@@ -383,9 +383,9 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                     }
 
                     cValues.put(SynchroSchema.COLUMN_STATUS, operationStatut);
-                    getActivity().getContentResolver().update(
-                            SynchroManager.getInstance(getActivity()).getUri(SessionUtils.getAccount(getActivity()),
-                                    node.getIdentifier()), cValues, null, null);
+                    getActivity().getContentResolver().update(SynchroManager.getInstance(getActivity())
+                                    .getUri(SessionUtils.getAccount(getActivity()), node.getIdentifier()), cValues,
+                            null, null);
 
                     // Sync if it's possible.
                     if (SynchroManager.getInstance(getActivity()).canSync(SessionUtils.getAccount(getActivity())))
@@ -402,8 +402,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                     // We request the user if he wants to save back
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setTitle(R.string.save_back);
-                    builder.setMessage(String.format(getResources().getString(R.string.save_back_description),
-                            node.getName()));
+                    builder.setMessage(
+                            String.format(getResources().getString(R.string.save_back_description), node.getName()));
                     builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
                     {
                         @Override
@@ -453,8 +453,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                     // Error case : Unable to find the file path associated
                     // to user pick.
                     // Sample : Picasa image case
-                    ActionManager.actionDisplayError(DetailsFragment.this, new AlfrescoAppException(
-                            getString(R.string.error_unknown_filepath), true));
+                    ActionManager.actionDisplayError(DetailsFragment.this,
+                            new AlfrescoAppException(getString(R.string.error_unknown_filepath), true));
                 }
             }
             break;
@@ -519,8 +519,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         Integer generalPropertyTitle = null;
         tv = (TextView) vRoot.findViewById(R.id.description);
         List<String> filter = new ArrayList<String>();
-        if (node.getDescription() != null && node.getDescription().length() > 0
-                && vRoot.findViewById(R.id.description_group) != null)
+        if (node.getDescription() != null && node.getDescription().length() > 0 &&
+                vRoot.findViewById(R.id.description_group) != null)
         {
             vRoot.findViewById(R.id.description_group).setVisibility(View.VISIBLE);
             tv.setText(node.getDescription());
@@ -545,8 +545,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
 
         // BUTTONS
         ImageView b = (ImageView) vRoot.findViewById(R.id.action_openin);
-        if (node.isDocument() && ((DocumentImpl) node).hasAllowableAction(Action.CAN_GET_CONTENT_STREAM.value())
-                && ((Document) node).getContentStreamLength() > 0 && !isRestrictable)
+        if (node.isDocument() && ((DocumentImpl) node).hasAllowableAction(Action.CAN_GET_CONTENT_STREAM.value()) &&
+                ((Document) node).getContentStreamLength() > 0 && !isRestrictable)
         {
             b.setOnClickListener(new OnClickListener()
             {
@@ -737,21 +737,21 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         // Preview + Thumbnail
         if (vRoot.findViewById(R.id.icon) != null)
         {
-            ((ImageView) vRoot.findViewById(R.id.icon)).setImageResource(MimeTypeManager.getIcon(getActivity(),
-                    node.getName(), false));
+            ((ImageView) vRoot.findViewById(R.id.icon))
+                    .setImageResource(MimeTypeManager.getIcon(getActivity(), node.getName(), false));
         }
         if (vRoot.findViewById(R.id.preview) != null)
         {
-            ((ImageView) vRoot.findViewById(R.id.preview)).setImageResource(MimeTypeManager.getIcon(getActivity(),
-                    node.getName(), true));
+            ((ImageView) vRoot.findViewById(R.id.preview))
+                    .setImageResource(MimeTypeManager.getIcon(getActivity(), node.getName(), true));
         }
 
         // Description
         Integer generalPropertyTitle = null;
         tv = (TextView) vRoot.findViewById(R.id.description);
         List<String> filter = new ArrayList<String>();
-        if (node.getDescription() != null && node.getDescription().length() > 0
-                && vRoot.findViewById(R.id.description_group) != null)
+        if (node.getDescription() != null && node.getDescription().length() > 0 &&
+                vRoot.findViewById(R.id.description_group) != null)
         {
             vRoot.findViewById(R.id.description_group).setVisibility(View.VISIBLE);
             tv.setText(node.getDescription());
@@ -771,8 +771,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         {
             mTabHost.setup();
             mTabHost.setOnTabChangedListener(this);
-            if (refreshedNode.isDocument() && ConnectivityUtils.hasInternetAvailable(getActivity())
-                    && Boolean.parseBoolean((String) refreshedNode.getPropertyValue(PropertyIds.IS_LATEST_VERSION)))
+            if (refreshedNode.isDocument() && ConnectivityUtils.hasInternetAvailable(getActivity()) &&
+                    Boolean.parseBoolean((String) refreshedNode.getPropertyValue(PropertyIds.IS_LATEST_VERSION)))
             {
                 mTabHost.addTab(newTab(TAB_PREVIEW, R.string.preview, android.R.id.tabcontent));
             }
@@ -791,8 +791,9 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         {
             LayoutInflater inflater = (LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE);
             ViewGroup parent = (ViewGroup) vRoot.findViewById(R.id.metadata);
-            ViewGroup generalGroup = createAspectPanel(inflater, parent, node, ContentModel.ASPECT_GENERAL, false,
-                    generalPropertyTitle, filter);
+            ViewGroup generalGroup =
+                    createAspectPanel(inflater, parent, node, ContentModel.ASPECT_GENERAL, false, generalPropertyTitle,
+                            filter);
             addPathProperty(generalGroup, inflater);
         }
 
@@ -920,13 +921,10 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             File f = getDownloadFile(getActivity().getApplicationContext(), alfSession, acc);
             if (f != null)
             {
-                ActionManager
-                        .actionSendMailWithAttachment(
-                                this,
-                                f.getName(),
-                                getFragmentManager().findFragmentByTag(DetailsFragment.TAG).getActivity()
-                                        .getString(R.string.email_content), Uri.fromFile(f),
-                                PublicIntent.REQUESTCODE_DECRYPTED);
+                ActionManager.actionSendMailWithAttachment(this, f.getName(),
+                        getFragmentManager().findFragmentByTag(DetailsFragment.TAG).getActivity()
+                                .getString(R.string.email_content), Uri.fromFile(f),
+                        PublicIntent.REQUESTCODE_DECRYPTED);
 
                 return;
             }
@@ -953,9 +951,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                     File f = getDownloadFile(getActivity().getApplicationContext(), alfSession, acc);
                     if (f != null)
                     {
-                        ActionManager.actionSendMailWithAttachment(
-                                DetailsFragment.this,
-                                f.getName(),
+                        ActionManager.actionSendMailWithAttachment(DetailsFragment.this, f.getName(),
                                 getFragmentManager().findFragmentByTag(DetailsFragment.TAG).getActivity()
                                         .getString(R.string.email_content), Uri.fromFile(f),
                                 PublicIntent.REQUESTCODE_DECRYPTED);
@@ -1075,8 +1071,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                     @Override
                     public void onActivityNotFoundException(ActivityNotFoundException e)
                     {
-                        OpenAsDialogFragment.newInstance(syncFile).show(getActivity().getFragmentManager(),
-                                OpenAsDialogFragment.TAG);
+                        OpenAsDialogFragment.newInstance(syncFile)
+                                .show(getActivity().getFragmentManager(), OpenAsDialogFragment.TAG);
                     }
                 });
             }
@@ -1127,7 +1123,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
 
     public void update(File f)
     {
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new UpdateContentRequest(parentNode, (Document) node, new ContentFileProgressImpl(f)));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
     }
@@ -1145,9 +1142,10 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
     public void like(View v)
     {
         //vRoot.findViewById(R.id.like_progress).setVisibility(View.VISIBLE);
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
-        group.enqueue(new LikeNodeRequest(parentNode, node)
-                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        group.enqueue(
+                new LikeNodeRequest(parentNode, node).setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
     }
 
@@ -1181,8 +1179,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         vRoot.findViewById(R.id.favorite_progress).setVisibility(View.VISIBLE);
         if (parentNode != null && node != null)
         {
-            OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
-                    SessionUtils.getAccount(getActivity()));
+            OperationsRequestGroup group =
+                    new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
             group.enqueue(new FavoriteNodeRequest(parentNode, node)
                     .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
@@ -1207,7 +1205,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
 
     public void links()
     {
-        addLinks((Document) node, DisplayUtils.getMainPaneId(getActivity()), true);
+        addLinks(node, DisplayUtils.getMainPaneId(getActivity()), true);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -1240,7 +1238,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             }
 
             if (//((Document) node).isLatestVersion() &&
-            ((DocumentImpl) node).hasAllowableAction(Action.CAN_SET_CONTENT_STREAM.value()))
+                    ((DocumentImpl) node).hasAllowableAction(Action.CAN_SET_CONTENT_STREAM.value()))
             {
                 mi = menu.add(Menu.NONE, MenuActionItem.MENU_UPDATE, Menu.FIRST + MenuActionItem.MENU_UPDATE,
                         R.string.update);
@@ -1293,22 +1291,16 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
              */
 
-            if (node.isDocument())
-            {
-                mi = menu.add(Menu.NONE, MenuActionItem.MENU_LINKS, Menu.FIRST + MenuActionItem.MENU_LINKS,
-                        R.string.links);
-                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-            }
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_LINKS, Menu.FIRST + MenuActionItem.MENU_LINKS,
+                    node.isDocument() ? R.string.dllinks : R.string.uplinks);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         }
         else
         {
-            if (node.isDocument())
-            {
-                mi = menu.add(Menu.NONE, MenuActionItem.MENU_CREATE_LINK, Menu.FIRST + MenuActionItem.MENU_CREATE_LINK,
-                        R.string.links_add);
-                mi.setIcon(R.drawable.ic_add_link);
-                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-            }
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_CREATE_LINK, Menu.FIRST + MenuActionItem.MENU_CREATE_LINK,
+                    R.string.links_add);
+            mi.setIcon(R.drawable.ic_add_link);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         }
     }
 
@@ -1398,7 +1390,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
             mTabHost.addTab(newTab(TAB_PREVIEW, R.string.preview, android.R.id.tabcontent));
         }
         mTabHost.addTab(newTab(TAB_METADATA, R.string.metadata, android.R.id.tabcontent));
-        mTabHost.addTab(newTab(TAB_LINKS, R.string.links, android.R.id.tabcontent));
+        mTabHost.addTab(
+                newTab(TAB_LINKS, node.isDocument() ? R.string.uplinks : R.string.dllinks, android.R.id.tabcontent));
         /*
         if (node.isDocument())
         {
@@ -1458,7 +1451,7 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         else if (TAB_LINKS.equals(tabId) && node.isDocument())
         {
             tabSelected = 2;
-            addLinks((Document) node);
+            addLinks(node);
         }
     }
 
@@ -1474,8 +1467,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
     {
         replacementPreviewFragment = PreviewFragment.newInstance(n);
         replacementPreviewFragment.setSession(alfSession);
-        FragmentDisplayer.replaceFragment(getActivity(), replacementPreviewFragment, layoutId, PreviewFragment.TAG,
-                backstack);
+        FragmentDisplayer
+                .replaceFragment(getActivity(), replacementPreviewFragment, layoutId, PreviewFragment.TAG, backstack);
     }
 
     public void addComments(Node n, int layoutId, boolean backstack)
@@ -1522,14 +1515,14 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
         addTags(d, android.R.id.tabcontent, false);
     }
 
-    public void addLinks(Document d, int layoutId, boolean backstack)
+    public void addLinks(Node d, int layoutId, boolean backstack)
     {
-        BaseFragment frag = OdsLinksFragment.newInstance(d);
+        BaseFragment frag = OdsLinksFragment.newInstance(d, d.isFolder());
         frag.setSession(alfSession);
         FragmentDisplayer.replaceFragment(getActivity(), frag, layoutId, OdsLinksFragment.TAG, backstack);
     }
 
-    public void addLinks(Document node)
+    public void addLinks(Node node)
     {
         addLinks(node, android.R.id.tabcontent, false);
     }
@@ -1567,14 +1560,14 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
 
             if (intent.getExtras() != null)
             {
-                DetailsFragment detailsFragment = (DetailsFragment) getFragmentManager().findFragmentByTag(
-                        DetailsFragment.TAG);
+                DetailsFragment detailsFragment =
+                        (DetailsFragment) getFragmentManager().findFragmentByTag(DetailsFragment.TAG);
                 if (detailsFragment != null && getActivity() instanceof MainActivity)
                 {
 
-                    if (DataProtectionManager.getInstance(getActivity()).isEncryptionEnable()
-                            && (IntentIntegrator.ACTION_DECRYPT_COMPLETED.equals(intent.getAction()) || IntentIntegrator.ACTION_ENCRYPT_COMPLETED
-                                    .equals(intent.getAction())))
+                    if (DataProtectionManager.getInstance(getActivity()).isEncryptionEnable() &&
+                            (IntentIntegrator.ACTION_DECRYPT_COMPLETED.equals(intent.getAction()) ||
+                                    IntentIntegrator.ACTION_ENCRYPT_COMPLETED.equals(intent.getAction())))
                     {
                         Bundle b = intent.getExtras().getParcelable(IntentIntegrator.EXTRA_DATA);
                         if (b == null)
@@ -1634,10 +1627,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                     {
                         _node = (Node) b.getParcelable(IntentIntegrator.EXTRA_NODE);
                     }
-                    if (n != null
-                            && _node != null
-                            && NodeRefUtils.getCleanIdentifier(n.getIdentifier()).equals(
-                                    NodeRefUtils.getCleanIdentifier(_node.getIdentifier())))
+                    if (n != null && _node != null && NodeRefUtils.getCleanIdentifier(n.getIdentifier())
+                            .equals(NodeRefUtils.getCleanIdentifier(_node.getIdentifier())))
                     {
                         if (intent.getAction().equals(IntentIntegrator.ACTION_DELETE_COMPLETED))
                         {
@@ -1656,8 +1647,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                                     f.remove(_node);
                                 }
 
-                                getFragmentManager().popBackStack(DetailsFragment.TAG,
-                                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                getFragmentManager()
+                                        .popBackStack(DetailsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                             }
                             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
                             return;
@@ -1695,14 +1686,14 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                             {
                                 progressView.setVisibility(View.GONE);
                             }
-                            Boolean isFavorite = (b.getString(IntentIntegrator.EXTRA_FAVORITE) != null) ? Boolean
-                                    .parseBoolean(b.getString(IntentIntegrator.EXTRA_FAVORITE)) : null;
+                            Boolean isFavorite = (b.getString(IntentIntegrator.EXTRA_FAVORITE) != null) ?
+                                    Boolean.parseBoolean(b.getString(IntentIntegrator.EXTRA_FAVORITE)) : null;
                             if (isFavorite != null)
                             {
                                 int drawable = isFavorite ? R.drawable.ic_favorite_dark : R.drawable.ic_unfavorite_dark;
                                 imageView.setImageDrawable(context.getResources().getDrawable(drawable));
-                                AccessibilityHelper.addContentDescription(imageView, isFavorite ? R.string.unfavorite
-                                        : R.string.favorite);
+                                AccessibilityHelper.addContentDescription(imageView,
+                                        isFavorite ? R.string.unfavorite : R.string.favorite);
                                 AccessibilityHelper.notifyActionCompleted(context,
                                         isFavorite ? R.string.favorite_completed : R.string.unfavorite_completed);
                             }
@@ -1719,27 +1710,26 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
                             if (!DisplayUtils.hasCentralPane(getActivity()))
                             {
                                 backstack = true;
-                                getFragmentManager().popBackStack(DetailsFragment.TAG,
-                                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                getFragmentManager()
+                                        .popBackStack(DetailsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                             }
-                            else if (((ChildrenBrowserFragment) getFragmentManager().findFragmentByTag(
-                                    ChildrenBrowserFragment.TAG)) != null)
+                            else if (((ChildrenBrowserFragment) getFragmentManager()
+                                    .findFragmentByTag(ChildrenBrowserFragment.TAG)) != null)
                             {
-                                ((ChildrenBrowserFragment) getFragmentManager().findFragmentByTag(
-                                        ChildrenBrowserFragment.TAG)).select(updatedNode);
+                                ((ChildrenBrowserFragment) getFragmentManager()
+                                        .findFragmentByTag(ChildrenBrowserFragment.TAG)).select(updatedNode);
                             }
-                            else if (((FavoritesSyncFragment) getFragmentManager().findFragmentByTag(
-                                    FavoritesSyncFragment.TAG)) != null)
+                            else if (((FavoritesSyncFragment) getFragmentManager()
+                                    .findFragmentByTag(FavoritesSyncFragment.TAG)) != null)
                             {
-                                ((FavoritesSyncFragment) getFragmentManager().findFragmentByTag(
-                                        FavoritesSyncFragment.TAG)).select(updatedNode);
+                                ((FavoritesSyncFragment) getFragmentManager()
+                                        .findFragmentByTag(FavoritesSyncFragment.TAG)).select(updatedNode);
                             }
                             Folder pFolder = (Folder) b.getParcelable(IntentIntegrator.EXTRA_FOLDER);
 
                             ((MainActivity) getActivity()).addPropertiesFragment(updatedNode, pFolder, backstack);
 
-                            MessengerManager.showToast(
-                                    getActivity(),
+                            MessengerManager.showToast(getActivity(),
                                     String.format(getResources().getString(R.string.update_sucess),
                                             updatedNode.getName()));
 
@@ -1753,6 +1743,8 @@ public class DetailsFragment extends MetadataFragment implements OnTabChangeList
 
     public void createLink()
     {
-        OdsLinksFragment.editLink(node, new OdsLink(), getFragmentManager());
+        OdsLink link = new OdsLink();
+        link.setType((node != null && node.isDocument()) ? OdsLink.Type.DOWNLOAD : OdsLink.Type.UPLOAD);
+        OdsLinksFragment.editLink(node, link, getFragmentManager());
     }
 }

@@ -1,7 +1,24 @@
 package org.opendataspace.android.app.fragments;
 
-import java.util.ArrayList;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.app.FragmentTransaction;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.Loader;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ListView;
 
+import com.j256.ormlite.dao.CloseableIterator;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.model.Node;
@@ -21,31 +38,14 @@ import org.opendataspace.android.app.links.OdsLinksLoader;
 import org.opendataspace.android.app.operations.OdsUpdateLinkContext;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import com.j256.ormlite.dao.CloseableIterator;
+import java.util.ArrayList;
 
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.app.FragmentTransaction;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.Loader;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ListView;
-
-public class OdsLinksFragment extends BaseListFragment implements
-        LoaderCallbacks<LoaderResult<CloseableIterator<OdsLink>>>, RefreshFragment
+public class OdsLinksFragment extends BaseListFragment
+        implements LoaderCallbacks<LoaderResult<CloseableIterator<OdsLink>>>, RefreshFragment
 {
     public static final String TAG = "OdsLinksFragment";
     public static final String ARGUMENT_NODE = "node";
+    public static final String ARGUMENT_FOLDER = "folder";
 
     private class LinksReceiver extends BroadcastReceiver
     {
@@ -63,8 +63,8 @@ public class OdsLinksFragment extends BaseListFragment implements
             {
                 Bundle b = intent.getExtras().getParcelable(IntentIntegrator.EXTRA_DATA);
 
-                if (b != null
-                        && b.getSerializable(IntentIntegrator.EXTRA_CONFIGURATION) instanceof OdsUpdateLinkContext)
+                if (b != null &&
+                        b.getSerializable(IntentIntegrator.EXTRA_CONFIGURATION) instanceof OdsUpdateLinkContext)
                 {
                     refresh();
                 }
@@ -74,18 +74,20 @@ public class OdsLinksFragment extends BaseListFragment implements
 
     private Node node;
     private LinksReceiver receiver;
+    private boolean isFolder;
 
-    public static Bundle createBundleArgs(Node node)
+    public static Bundle createBundleArgs(Node node, boolean isFolder)
     {
         Bundle args = new Bundle();
         args.putSerializable(ARGUMENT_NODE, node);
+        args.putBoolean(ARGUMENT_FOLDER, isFolder);
         return args;
     }
 
-    public static BaseFragment newInstance(Node n)
+    public static BaseFragment newInstance(Node n, boolean isFolder)
     {
         OdsLinksFragment bf = new OdsLinksFragment();
-        Bundle b = createBundleArgs(n);
+        Bundle b = createBundleArgs(n, isFolder);
         bf.setArguments(b);
         return bf;
     }
@@ -95,6 +97,7 @@ public class OdsLinksFragment extends BaseListFragment implements
         loaderId = OdsLinksLoader.ID;
         emptyListMessageId = R.string.empty_links;
         callback = this;
+        isFolder = false;
     }
 
     @Override
@@ -106,9 +109,19 @@ public class OdsLinksFragment extends BaseListFragment implements
         super.onActivityCreated(savedInstanceState);
         setRetainInstance(true);
 
-        if (getArguments() != null && getArguments().containsKey(ARGUMENT_NODE))
+        Bundle arg = getArguments();
+
+        if (arg != null)
         {
-            node = bundle.getParcelable(ARGUMENT_NODE);
+            if (arg.containsKey(ARGUMENT_NODE))
+            {
+                node = arg.getParcelable(ARGUMENT_NODE);
+            }
+
+            if (arg.containsKey(ARGUMENT_FOLDER))
+            {
+                isFolder = arg.getBoolean(ARGUMENT_FOLDER);
+            }
         }
     }
 
@@ -117,7 +130,8 @@ public class OdsLinksFragment extends BaseListFragment implements
     {
         if (!DisplayUtils.hasCentralPane(getActivity()))
         {
-            UIUtils.displayTitle(getActivity(), getString(R.string.document_links_header));
+            UIUtils.displayTitle(getActivity(),
+                    getString(isFolder ? R.string.document_uplinks_header : R.string.document_dllinks_header));
         }
 
         super.onResume();
@@ -180,7 +194,7 @@ public class OdsLinksFragment extends BaseListFragment implements
         // Case Init & case Reload
         bundle = (ba == null) ? getArguments() : ba;
 
-        ListingContext lc = null, lcorigin = null;
+        ListingContext lc = null, lcorigin;
 
         if (bundle != null)
         {
@@ -191,14 +205,15 @@ public class OdsLinksFragment extends BaseListFragment implements
         }
 
         calculateSkipCount(lc);
-        OdsLinksLoader loader = new OdsLinksLoader(getActivity(), alfSession, node);
+        OdsLinksLoader loader = new OdsLinksLoader(getActivity(), alfSession, node,
+                isFolder ? OdsLink.Type.UPLOAD : OdsLink.Type.DOWNLOAD);
         loader.setListingContext(lc);
         return loader;
     }
 
     @Override
     public void onLoadFinished(Loader<LoaderResult<CloseableIterator<OdsLink>>> loader,
-            LoaderResult<CloseableIterator<OdsLink>> results)
+                               LoaderResult<CloseableIterator<OdsLink>> results)
     {
         if (checkException(results))
         {
@@ -206,7 +221,7 @@ public class OdsLinksFragment extends BaseListFragment implements
         }
         else
         {
-            adapter = new OdsLinksAdapter(this, R.layout.sdk_list_row, new ArrayList<OdsLink>());
+            adapter = new OdsLinksAdapter(this, R.layout.sdk_list_row, new ArrayList<OdsLink>(), isFolder);
 
             while (results.getData().hasNext())
             {
@@ -249,7 +264,10 @@ public class OdsLinksFragment extends BaseListFragment implements
     @Override
     public void onListItemClick(ListView l, View v, int position, long id)
     {
-        //editLink(node, (OdsLink) l.getItemAtPosition(position), getFragmentManager());
+        if (isFolder)
+        {
+            editLink(node, (OdsLink) l.getItemAtPosition(position), getFragmentManager());
+        }
     }
 
     public Node getNode()

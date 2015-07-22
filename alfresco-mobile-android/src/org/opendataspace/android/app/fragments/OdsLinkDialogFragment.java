@@ -1,8 +1,26 @@
 package org.opendataspace.android.app.fragments;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+import android.app.DatePickerDialog;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.Context;
+import android.content.res.Configuration;
+import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextUtils;
+import android.text.TextWatcher;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
@@ -16,40 +34,21 @@ import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
 
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.Context;
-import android.content.res.Configuration;
-import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup.LayoutParams;
-import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
-import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.TextView;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 
 public class OdsLinkDialogFragment extends BaseFragment
 {
     public static final String TAG = "OdsLinkDialogFragment";
 
-    public static final String ARGUMENT_NODE = "node";
     public static final String ARGUMENT_LINK = "link";
 
     private EditText tvn, tve, tvp, tvm;
     private TextView dpe;
 
-    private static abstract class DatePickerFragment extends DialogFragment implements
-            DatePickerDialog.OnDateSetListener
+    private static abstract class DatePickerFragment extends DialogFragment
+            implements DatePickerDialog.OnDateSetListener
     {
     }
 
@@ -96,16 +95,15 @@ public class OdsLinkDialogFragment extends BaseFragment
 
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.ods_link, container, false);
 
-        int width = (int) Math
-                .round(UIUtils.getScreenDimension(getActivity())[0]
-                        * (Float.parseFloat(getResources().getString(android.R.dimen.dialog_min_width_major).replace(
-                                "%", "")) * 0.01));
+        int width = (int) Math.round(UIUtils.getScreenDimension(getActivity())[0] *
+                (Float.parseFloat(getResources().getString(android.R.dimen.dialog_min_width_major).replace("%", "")) *
+                        0.01));
         v.setLayoutParams(new LayoutParams(width, LayoutParams.MATCH_PARENT));
 
         final OdsLink lnk = (OdsLink) getArguments().getSerializable(ARGUMENT_LINK);
         final Calendar exp = lnk.getExpires();
-        final Button bcreate = UIUtils.initValidation(v, TextUtils.isEmpty(lnk.getObjectId()) ? R.string.create
-                : R.string.update);
+        final Button bcreate =
+                UIUtils.initValidation(v, TextUtils.isEmpty(lnk.getObjectId()) ? R.string.create : R.string.update);
 
         tvn = (EditText) v.findViewById(R.id.link_name);
         tve = (EditText) v.findViewById(R.id.link_email);
@@ -134,9 +132,10 @@ public class OdsLinkDialogFragment extends BaseFragment
                 DialogFragment newFragment = new DatePickerFragment()
                 {
                     @Override
-                    public Dialog onCreateDialog(Bundle savedInstanceState) {
-                        return new DatePickerDialog(getActivity(), this, exp.get(Calendar.YEAR), exp
-                                .get(Calendar.MONDAY) + 1, exp.get(Calendar.DATE));
+                    public Dialog onCreateDialog(Bundle savedInstanceState)
+                    {
+                        return new DatePickerDialog(getActivity(), this, exp.get(Calendar.YEAR),
+                                exp.get(Calendar.MONDAY) + 1, exp.get(Calendar.DATE));
                     }
 
                     @Override
@@ -178,19 +177,20 @@ public class OdsLinkDialogFragment extends BaseFragment
                     return;
                 }
 
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm =
+                        (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(tvn.getWindowToken(), 0);
 
-                OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils
-                        .getAccount(getActivity()));
-                group.enqueue(new OdsUpdateLinkRequest(lnk)
-                        .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+                OperationsRequestGroup group =
+                        new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+                group.enqueue(
+                        new OdsUpdateLinkRequest(lnk).setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
                 BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
-                OperationWaitingDialogFragment.newInstance(OdsUpdateLinkRequest.TYPE_ID, R.drawable.ic_add,
-                        getString(R.string.links_add), null, null, 0).show(getActivity().getFragmentManager(),
-                        OperationWaitingDialogFragment.TAG);
+                OperationWaitingDialogFragment
+                        .newInstance(OdsUpdateLinkRequest.TYPE_ID, R.drawable.ic_add, getString(R.string.links_add),
+                                null, null, 0)
+                        .show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
 
                 dismiss();
             }

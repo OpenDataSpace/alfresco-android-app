@@ -1,20 +1,20 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (C) 2005-2013 Alfresco Software Limited.
-  
+
   This file is part of Alfresco Mobile for Android.
-  
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
     http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.-->
+  limitations under the License.
+-->
 <resources>
 
     <string name="app_name">ODS</string>
@@ -201,15 +201,17 @@
     <string name="details">Details</string>
     <string name="metadata">Properties</string>
     <string name="preview">Preview</string>
-    
+
     <!-- LINKS -->
     <!-- translate all -->
-    <string name="links">Links</string> 
+    <string name="dllinks">Download Links</string>
+    <string name="uplinks">Upload Links</string>
     <string name="links_add">Add Link</string>
     <string name="links_edit">Edit Link</string>
     <string name="links_remove">Remove Link</string>
     <string name="empty_links">No links found</string>
-    <string name="document_links_header">Links</string>
+    <string name="document_dllinks_header">Download Links</string>
+    <string name="document_uplinks_header">Upload Links</string>
     <string name="link_name">Subject:</string>
     <string name="link_email">Email:</string>
     <string name="link_password">Password:</string>
@@ -290,9 +292,9 @@
     <string name="sdknumber_version">SDK: </string>
     <string name="about_description">
 <![CDATA[
-<p>DataSpace enables safe access to your corporate documents on the go.</p> 
+<p>DataSpace enables safe access to your corporate documents on the go.</p>
 
-<p>DataSpace connects to your DataSpace repository using your DataSpace log-in credentials (over HTTP or HTTPS), and manages user access based on their permissions.</p> 
+<p>DataSpace connects to your DataSpace repository using your DataSpace log-in credentials (over HTTP or HTTPS), and manages user access based on their permissions.</p>
 ]]>
     </string>
     <string name="about_ods">
@@ -846,7 +848,6 @@
     <string name="picker_attachments">Select attachments</string>
     <string name="action_remove_approvers">Remove one approver</string>
     <string name="action_add_approvers">Add one approver</string>
-
 
 
     <!-- PROCESS NAME -->

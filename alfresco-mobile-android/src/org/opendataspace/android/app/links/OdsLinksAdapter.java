@@ -1,6 +1,16 @@
 package org.opendataspace.android.app.links;
 
-import java.util.List;
+import android.app.AlertDialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.DialogInterface;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 
 import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
@@ -14,28 +24,20 @@ import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.fragments.OdsLinksFragment;
 import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
 
-import android.app.AlertDialog;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.DialogInterface;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnMenuItemClickListener;
+import java.util.List;
 
 public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder> implements OnMenuItemClickListener
 {
     private OdsLinksFragment fr;
     private OdsLink menuCtx;
+    private boolean isFolder;
 
-    public OdsLinksAdapter(OdsLinksFragment fr, int textViewResourceId, List<OdsLink> objects)
+    public OdsLinksAdapter(OdsLinksFragment fr, int textViewResourceId, List<OdsLink> objects, boolean isFolder)
     {
         super(fr.getActivity(), textViewResourceId, objects);
         this.vhClassName = GenericViewHolder.class.getCanonicalName();
         this.fr = fr;
+        this.isFolder = isFolder;
     }
 
     @Override
@@ -49,7 +51,7 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
     protected void updateIcon(GenericViewHolder vh, OdsLink item)
     {
         vh.icon.setImageDrawable(getContext().getResources().getDrawable(R.drawable.ic_site_flatten));
-        UIUtils.setBackground(((View) vh.choose),
+        UIUtils.setBackground(vh.choose,
                 getContext().getResources().getDrawable(R.drawable.quickcontact_badge_overlay_light));
 
         vh.choose.setVisibility(View.VISIBLE);
@@ -68,15 +70,15 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
                         R.string.link_copy_url);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
-                mi = popup.getMenu().add(Menu.NONE, MenuActionItem.MENU_EDIT, Menu.FIRST + MenuActionItem.MENU_EDIT,
-                        R.string.edit);
+                mi = popup.getMenu()
+                        .add(Menu.NONE, MenuActionItem.MENU_EDIT, Menu.FIRST + MenuActionItem.MENU_EDIT, R.string.edit);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-                mi.setEnabled(false);
+                mi.setEnabled(isFolder);
 
-                mi = popup.getMenu().add(Menu.NONE, MenuActionItem.MENU_DELETE,
-                        Menu.FIRST + MenuActionItem.MENU_DELETE, R.string.delete);
+                mi = popup.getMenu().add(Menu.NONE, MenuActionItem.MENU_DELETE, Menu.FIRST + MenuActionItem.MENU_DELETE,
+                        R.string.delete);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-                mi.setEnabled(false);
+                mi.setEnabled(isFolder);
 
                 popup.setOnMenuItemClickListener(OdsLinksAdapter.this);
                 popup.show();
@@ -115,15 +117,15 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
 
     private void copyLink()
     {
-        final ClipboardManager clipboard = (ClipboardManager) fr.getActivity().getSystemService(
-                Context.CLIPBOARD_SERVICE);
+        final ClipboardManager clipboard =
+                (ClipboardManager) fr.getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
 
         clipboard.setPrimaryClip(ClipData.newPlainText("url", menuCtx.getUrl()));
     }
 
     private void edit(OdsLink link)
     {
-        //OdsLinksFragment.editLink(((OdsLinksFragment) fr).getNode(), link, fr.getActivity().getFragmentManager());
+        OdsLinksFragment.editLink(fr.getNode(), link, fr.getActivity().getFragmentManager());
     }
 
     private void delete(final OdsLink link)
@@ -136,12 +138,12 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
         {
             public void onClick(DialogInterface dialog, int item)
             {
-                OperationsRequestGroup group = new OperationsRequestGroup(fr.getActivity(), SessionUtils.getAccount(fr
-                        .getActivity()));
+                OperationsRequestGroup group =
+                        new OperationsRequestGroup(fr.getActivity(), SessionUtils.getAccount(fr.getActivity()));
 
                 link.setNodeId(null);
-                group.enqueue(new OdsUpdateLinkRequest(link)
-                        .setNotificationVisibility(OperationRequest.VISIBILITY_TOAST));
+                group.enqueue(
+                        new OdsUpdateLinkRequest(link).setNotificationVisibility(OperationRequest.VISIBILITY_TOAST));
 
                 BatchOperationManager.getInstance(fr.getActivity()).enqueue(group);
                 dialog.dismiss();
