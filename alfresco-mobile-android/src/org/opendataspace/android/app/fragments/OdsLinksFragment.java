@@ -18,7 +18,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
-import com.j256.ormlite.dao.CloseableIterator;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.ListingContext;
 import org.alfresco.mobile.android.api.model.Node;
@@ -39,9 +38,10 @@ import org.opendataspace.android.app.operations.OdsUpdateLinkContext;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class OdsLinksFragment extends BaseListFragment
-        implements LoaderCallbacks<LoaderResult<CloseableIterator<OdsLink>>>, RefreshFragment
+        implements LoaderCallbacks<LoaderResult<List<OdsLink>>>, RefreshFragment
 {
     public static final String TAG = "OdsLinksFragment";
     public static final String ARGUMENT_NODE = "node";
@@ -184,7 +184,7 @@ public class OdsLinksFragment extends BaseListFragment
     }
 
     @Override
-    public Loader<LoaderResult<CloseableIterator<OdsLink>>> onCreateLoader(int id, Bundle ba)
+    public Loader<LoaderResult<List<OdsLink>>> onCreateLoader(int id, Bundle ba)
     {
         if (!hasmore)
         {
@@ -212,8 +212,7 @@ public class OdsLinksFragment extends BaseListFragment
     }
 
     @Override
-    public void onLoadFinished(Loader<LoaderResult<CloseableIterator<OdsLink>>> loader,
-                               LoaderResult<CloseableIterator<OdsLink>> results)
+    public void onLoadFinished(Loader<LoaderResult<List<OdsLink>>> loader, LoaderResult<List<OdsLink>> results)
     {
         if (checkException(results))
         {
@@ -223,19 +222,18 @@ public class OdsLinksFragment extends BaseListFragment
         {
             adapter = new OdsLinksAdapter(this, R.layout.sdk_list_row, new ArrayList<OdsLink>(), isFolder);
 
-            while (results.getData().hasNext())
+            for (OdsLink cur : results.getData())
             {
-                ((OdsLinksAdapter) adapter).add(results.getData().next());
+                ((OdsLinksAdapter) adapter).add(cur);
             }
 
             lv.setAdapter(adapter);
-            results.getData().closeQuietly();
             setListShown(true);
         }
     }
 
     @Override
-    public void onLoaderReset(Loader<LoaderResult<CloseableIterator<OdsLink>>> loader)
+    public void onLoaderReset(Loader<LoaderResult<List<OdsLink>>> loader)
     {
         // nothing
     }

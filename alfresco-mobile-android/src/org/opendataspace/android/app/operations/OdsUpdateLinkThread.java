@@ -1,10 +1,9 @@
 package org.opendataspace.android.app.operations;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+import android.text.TextUtils;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
@@ -19,15 +18,18 @@ import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.runtime.ObjectIdImpl;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.SecondaryTypeIds;
+import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;
 import org.opendataspace.android.app.data.OdsDataHelper;
 import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.app.session.OdsFolder;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
-import android.text.TextUtils;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
 
 public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateLinkContext>
 {
@@ -54,52 +56,97 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
             super.doInBackground();
 
             Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
+            boolean isDownload = link.getType() == OdsLink.Type.DOWNLOAD;
+            boolean hasObjectId = !TextUtils.isEmpty(link.getObjectId());
+            boolean hasNodeId = !TextUtils.isEmpty(link.getNodeId());
 
-            if (!TextUtils.isEmpty(link.getObjectId()))
+            if (!hasNodeId || (isDownload && hasObjectId))
             {
                 cmisSession.delete(new ObjectIdImpl(link.getObjectId()));
                 link.setObjectId(null);
+                hasObjectId = false;
             }
 
-            if (!TextUtils.isEmpty(link.getNodeId()))
+            if (hasNodeId)
             {
-                final Map<String, Object> properties = new HashMap<String, Object>();
-
-                properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:item");
-                properties.put(PropertyIds.EXPIRATION_DATE, link.getExpires());
-                properties.put("gds:objectIds", Arrays.asList(link.getNodeId()));
-                properties.put("gds:subject", link.getName());
-                properties.put("gds:message", link.getMessage());
-                properties.put("gds:comment", "");
-                properties.put("gds:emailAddress", link.getEmail());
-                properties.put(PropertyIds.SECONDARY_OBJECT_TYPE_IDS,
-                        Arrays.asList(SecondaryTypeIds.CLIENT_MANAGED_RETENTION, "gds:downloadLink"));
-
-                if (!TextUtils.isEmpty(link.getPassword()))
+                if (!hasObjectId)
                 {
-                    MessageDigest digest = MessageDigest.getInstance("SHA-256");
-                    byte[] hash = digest.digest(link.getPassword().getBytes("UTF-8"));
-                    properties.put("gds:password", new BigInteger(1, hash).toString(16));
+                    final Map<String, Object> properties = new HashMap<String, Object>();
+                    properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:item");
+                    properties.put(PropertyIds.EXPIRATION_DATE, link.getExpires());
+                    properties.put("gds:subject", link.getName());
+                    properties.put("gds:message", link.getMessage());
+                    properties.put("gds:emailAddress", link.getEmail());
+
+                    if (isDownload)
+                    {
+                        properties.put("gds:objectIds", Collections.singletonList(link.getNodeId()));
+                        properties.put(PropertyIds.SECONDARY_OBJECT_TYPE_IDS,
+                                Arrays.asList(SecondaryTypeIds.CLIENT_MANAGED_RETENTION, "gds:downloadLink"));
+                    }
+                    else
+                    {
+                        properties.put(PropertyIds.SECONDARY_OBJECT_TYPE_IDS,
+                                Arrays.asList(SecondaryTypeIds.CLIENT_MANAGED_RETENTION, "gds:uploadLink"));
+                    }
+
+                    if (!TextUtils.isEmpty(link.getPassword()))
+                    {
+                        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                        byte[] hash = digest.digest(link.getPassword().getBytes("UTF-8"));
+                        properties.put("gds:password", new BigInteger(1, hash).toString(16));
+                    }
+
+                    DocumentFolderService svc = session.getServiceRegistry().getDocumentFolderService();
+                    OdsFolder folder = (OdsFolder) svc.getParentFolder(svc.getNodeByIdentifier(link.getNodeId()));
+                    final ObjectId id = cmisSession.createItem(properties, folder.getCmisObject());
+                    final Item item = (Item) cmisSession.getObject(id);
+                    final Property<String> property = item.getProperty("gds:url");
+
+                    if (!isDownload)
+                    {
+                        final Map<String, Object> rel = new HashMap<String, Object>();
+                        rel.put(PropertyIds.OBJECT_TYPE_ID, BaseTypeId.CMIS_RELATIONSHIP.value());
+                        rel.put(PropertyIds.SOURCE_ID, item.getId());
+                        rel.put(PropertyIds.TARGET_ID, link.getNodeId());
+                        cmisSession.createRelationship(rel);
+                    }
+
+                    link.setUrl(property.getFirstValue());
+                    link.setObjectId(item.getId());
                 }
+                else
+                {
+                    final Map<String, Object> properties = new HashMap<String, Object>();
+                    properties.put(PropertyIds.EXPIRATION_DATE, link.getExpires());
+                    properties.put("gds:subject", link.getName());
+                    properties.put("gds:message", link.getMessage());
+                    properties.put("gds:emailAddress", link.getEmail());
 
-                DocumentFolderService svc = session.getServiceRegistry().getDocumentFolderService();
-                OdsFolder folder = (OdsFolder) svc.getParentFolder(svc.getNodeByIdentifier(link.getNodeId()));
-                final ObjectId id = cmisSession.createItem(properties, folder.getCmisObject());
-                final Item item = (Item) cmisSession.getObject(id);
-                final Property<String> property = item.getProperty("gds:url");
+                    if (!TextUtils.isEmpty(link.getPassword()))
+                    {
+                        MessageDigest digest = MessageDigest.getInstance("SHA-256");
+                        byte[] hash = digest.digest(link.getPassword().getBytes("UTF-8"));
+                        properties.put("gds:password", new BigInteger(1, hash).toString(16));
+                    }
 
-                link.setUrl(property.getFirstValue());
-                link.setObjectId(item.getId());
+                    final Item item = (Item) cmisSession.getObject(link.getObjectId());
+                    item.updateProperties(properties);
+                }
             }
 
-            OdsDataHelper.getHelper().getLinkDAO().process(link);
+            if (isDownload)
+            {
+                OdsDataHelper.getHelper().getLinkDAO().process(link);
+            }
+
             ctx = new OdsUpdateLinkContext();
             result.setData(ctx);
         }
-        catch (Exception e)
+        catch (Exception ex)
         {
-            OdsLog.exw(TAG, e);
-            result.setException(e);
+            OdsLog.exw(TAG, ex);
+            result.setException(ex);
         }
 
         return result;

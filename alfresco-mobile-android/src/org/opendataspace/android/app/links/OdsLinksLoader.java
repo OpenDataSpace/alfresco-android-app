@@ -7,9 +7,23 @@ import org.alfresco.mobile.android.api.asynchronous.AbstractPagingLoader;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.impl.AbstractAlfrescoSessionImpl;
+import org.apache.chemistry.opencmis.client.api.CmisObject;
+import org.apache.chemistry.opencmis.client.api.FileableCmisObject;
+import org.apache.chemistry.opencmis.client.api.Folder;
+import org.apache.chemistry.opencmis.client.api.OperationContext;
+import org.apache.chemistry.opencmis.client.api.Relationship;
+import org.apache.chemistry.opencmis.client.api.Session;
+import org.apache.chemistry.opencmis.client.api.Tree;
+import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.opendataspace.android.app.data.OdsDataHelper;
+import org.opendataspace.android.app.session.OdsFolder;
 
-public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<CloseableIterator<OdsLink>>>
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLink>>>
 {
     public static final int ID = OdsLinksLoader.class.hashCode();
 
@@ -25,21 +39,74 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<CloseableI
     }
 
     @Override
-    public LoaderResult<CloseableIterator<OdsLink>> loadInBackground()
+    public LoaderResult<List<OdsLink>> loadInBackground()
     {
-        LoaderResult<CloseableIterator<OdsLink>> result = new LoaderResult<CloseableIterator<OdsLink>>();
-        CloseableIterator<OdsLink> it = null;
+        LoaderResult<List<OdsLink>> result = new LoaderResult<List<OdsLink>>();
+        List<OdsLink> data = new ArrayList<OdsLink>();
 
-        try
+        if (type == OdsLink.Type.DOWNLOAD)
         {
-            it = OdsDataHelper.getHelper().getLinkDAO().getLinksByNode(node.getIdentifier(), type);
+            CloseableIterator<OdsLink> it = null;
+
+            try
+            {
+                it = OdsDataHelper.getHelper().getLinkDAO().getLinksByNode(node.getIdentifier(), type);
+
+                while (it.hasNext())
+                {
+                    data.add(it.nextThrow());
+                }
+            }
+            catch (Exception ex)
+            {
+                result.setException(ex);
+            }
+            finally
+            {
+                if (it != null)
+                {
+                    it.closeQuietly();
+                }
+            }
         }
-        catch (Exception e)
+        else
         {
-            result.setException(e);
+            Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
+            OdsFolder ods = (OdsFolder) node;
+            Folder folder = (Folder) ods.getCmisObject();
+
+            final OperationContext context = cmisSession.createOperationContext();
+            context.setFilterString(PropertyIds.SOURCE_ID);
+            context.setIncludeAllowableActions(false);
+            context.setIncludePathSegments(false);
+            List<Tree<FileableCmisObject>> ls = folder.getFolderTree(1, context);
+
+            for (final Tree<FileableCmisObject> tree : ls)
+            {
+                final FileableCmisObject uploadFolder = tree.getItem();
+                final List<Relationship> relationships = uploadFolder.getRelationships();
+
+                if (relationships != null)
+                {
+                    for (final Relationship relationship : relationships)
+                    {
+                        final CmisObject uploadLink = relationship.getSource();
+                        OdsLink link = new OdsLink();
+                        link.setType(OdsLink.Type.UPLOAD);
+                        link.setEmail((String) uploadLink.getPropertyValue("gds:emailAddress"));
+                        link.setExpires((Calendar) uploadLink.getPropertyValue(PropertyIds.EXPIRATION_DATE));
+                        link.setMessage((String) uploadLink.getPropertyValue("gds:message"));
+                        link.setName((String) uploadLink.getPropertyValue("gds:subject"));
+                        link.setNodeId(node.getIdentifier());
+                        link.setObjectId(uploadLink.getId());
+                        link.setUrl((String) uploadLink.getPropertyValue("gds:url"));
+                        data.add(link);
+                    }
+                }
+            }
         }
 
-        result.setData(it);
+        result.setData(data);
         return result;
     }
 }
