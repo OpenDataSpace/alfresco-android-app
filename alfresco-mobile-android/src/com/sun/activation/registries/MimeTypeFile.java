@@ -51,7 +51,7 @@ import java.util.StringTokenizer;
 
 @SuppressWarnings("WeakerAccess")
 public class MimeTypeFile {
-    private final Hashtable<String, MimeTypeEntry> type_hash = new Hashtable<>();
+    private final Hashtable<String, MimeTypeEntry> type_hash = new Hashtable<String, MimeTypeEntry>();
 
     /**
      * The construtor that takes a filename as an argument.

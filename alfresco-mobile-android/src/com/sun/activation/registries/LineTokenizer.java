@@ -7,12 +7,12 @@ class LineTokenizer {
     private int currentPosition;
     private final int maxPosition;
     private final String str;
-    private final Vector<String> stack = new Vector<>();
+    private final Vector<String> stack = new Vector<String>();
     private static final String singles = "=";    // single character tokens
 
     /**
      * Constructs a tokenizer for the specified string.
-     * <p>
+     * <p/>
      *
      * @param str a string to be parsed.
      */

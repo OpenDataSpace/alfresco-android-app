@@ -61,66 +61,92 @@ class SecuritySupport {
     }
 
     public static ClassLoader getContextClassLoader() {
-        return AccessController
-                .doPrivileged((PrivilegedAction<ClassLoader>) () -> Thread.currentThread().getContextClassLoader());
+        return AccessController.doPrivileged(new PrivilegedAction<ClassLoader>() {
+
+            @Override
+            public ClassLoader run() {
+                return Thread.currentThread().getContextClassLoader();
+            }
+        });
     }
 
     public static InputStream getResourceAsStream(final Class c, final String name) throws IOException {
         try {
-            return AccessController
-                    .doPrivileged((PrivilegedExceptionAction<InputStream>) () -> c.getResourceAsStream(name));
+            return AccessController.doPrivileged(new PrivilegedExceptionAction<InputStream>() {
+
+                @Override
+                public InputStream run() throws Exception {
+                    return c.getResourceAsStream(name);
+                }
+            });
         } catch (PrivilegedActionException e) {
             throw (IOException) e.getException();
         }
     }
 
     public static URL[] getResources(final ClassLoader cl, final String name) {
-        return AccessController.doPrivileged((PrivilegedAction<URL[]>) () -> {
-            URL[] ret = null;
-            try {
-                List<URL> v = new ArrayList<>();
-                Enumeration<URL> e = cl.getResources(name);
-                while (e != null && e.hasMoreElements()) {
-                    URL url = e.nextElement();
-                    if (url != null) {
-                        v.add(url);
+        return AccessController.doPrivileged(new PrivilegedAction<URL[]>() {
+
+            @Override
+            public URL[] run() {
+                URL[] ret = null;
+                try {
+                    List<URL> v = new ArrayList<URL>();
+                    Enumeration<URL> e = cl.getResources(name);
+                    while (e != null && e.hasMoreElements()) {
+                        URL url = e.nextElement();
+                        if (url != null) {
+                            v.add(url);
+                        }
                     }
+                    if (v.size() > 0) {
+                        ret = new URL[v.size()];
+                        ret = v.toArray(ret);
+                    }
+                } catch (IOException ignored) {
+                } catch (SecurityException ignored) {
                 }
-                if (v.size() > 0) {
-                    ret = new URL[v.size()];
-                    ret = v.toArray(ret);
-                }
-            } catch (IOException | SecurityException ignored) {
+                return ret;
             }
-            return ret;
         });
     }
 
     public static URL[] getSystemResources(final String name) {
-        return AccessController.doPrivileged((PrivilegedAction<URL[]>) () -> {
-            URL[] ret = null;
-            try {
-                List<URL> v = new ArrayList<>();
-                Enumeration<URL> e = ClassLoader.getSystemResources(name);
-                while (e != null && e.hasMoreElements()) {
-                    URL url = e.nextElement();
-                    if (url != null) {
-                        v.add(url);
+        return AccessController.doPrivileged(new PrivilegedAction<URL[]>() {
+
+            @Override
+            public URL[] run() {
+                URL[] ret = null;
+                try {
+                    List<URL> v = new ArrayList<URL>();
+                    Enumeration<URL> e = ClassLoader.getSystemResources(name);
+                    while (e != null && e.hasMoreElements()) {
+                        URL url = e.nextElement();
+                        if (url != null) {
+                            v.add(url);
+                        }
                     }
+                    if (v.size() > 0) {
+                        ret = new URL[v.size()];
+                        ret = v.toArray(ret);
+                    }
+                } catch (IOException ignored) {
+                } catch (SecurityException ignored) {
                 }
-                if (v.size() > 0) {
-                    ret = new URL[v.size()];
-                    ret = v.toArray(ret);
-                }
-            } catch (IOException | SecurityException ignored) {
+                return ret;
             }
-            return ret;
         });
     }
 
     public static InputStream openStream(final URL url) throws IOException {
         try {
-            return AccessController.doPrivileged((PrivilegedExceptionAction<InputStream>) url::openStream);
+            return AccessController.doPrivileged(new PrivilegedExceptionAction<InputStream>() {
+
+                @Override
+                public InputStream run() throws Exception {
+                    return url.openStream();
+                }
+            });
         } catch (PrivilegedActionException e) {
             throw (IOException) e.getException();
         }

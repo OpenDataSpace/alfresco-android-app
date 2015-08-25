@@ -40,7 +40,7 @@
 
 package com.sun.activation.registries;
 
-import org.opendataspace.android.app.beta.BuildConfig;
+import org.opendataspace.android.app.BuildConfig;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
