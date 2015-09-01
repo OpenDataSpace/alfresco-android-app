@@ -105,10 +105,6 @@ public class OdsLinksFragment extends BaseListFragment
     {
         alfSession = SessionUtils.getSession(getActivity());
         SessionUtils.checkSession(getActivity(), alfSession);
-
-        super.onActivityCreated(savedInstanceState);
-        setRetainInstance(true);
-
         Bundle arg = getArguments();
 
         if (arg != null)
@@ -123,6 +119,9 @@ public class OdsLinksFragment extends BaseListFragment
                 isFolder = arg.getBoolean(ARGUMENT_FOLDER);
             }
         }
+
+        super.onActivityCreated(savedInstanceState);
+        setRetainInstance(true);
     }
 
     @Override

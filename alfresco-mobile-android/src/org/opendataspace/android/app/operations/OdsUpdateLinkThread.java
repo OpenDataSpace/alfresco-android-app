@@ -11,6 +11,7 @@ import org.alfresco.mobile.android.api.session.impl.AbstractAlfrescoSessionImpl;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
+import org.apache.chemistry.opencmis.client.api.CmisObject;
 import org.apache.chemistry.opencmis.client.api.Item;
 import org.apache.chemistry.opencmis.client.api.ObjectId;
 import org.apache.chemistry.opencmis.client.api.Property;
@@ -87,7 +88,7 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                     else
                     {
                         properties.put(PropertyIds.SECONDARY_OBJECT_TYPE_IDS,
-                                Arrays.asList(SecondaryTypeIds.CLIENT_MANAGED_RETENTION, "gds:uploadLink"));
+                                Collections.singletonList("gds:uploadLink"));
                     }
 
                     if (!TextUtils.isEmpty(link.getPassword()))
@@ -100,7 +101,7 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                     DocumentFolderService svc = session.getServiceRegistry().getDocumentFolderService();
                     OdsFolder folder = (OdsFolder) svc.getParentFolder(svc.getNodeByIdentifier(link.getNodeId()));
                     final ObjectId id = cmisSession.createItem(properties, folder.getCmisObject());
-                    final Item item = (Item) cmisSession.getObject(id);
+                    final CmisObject item = cmisSession.getObject(id);
                     final Property<String> property = item.getProperty("gds:url");
 
                     if (!isDownload)

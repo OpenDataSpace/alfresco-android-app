@@ -1,15 +1,5 @@
 package org.alfresco.mobile.android.application.fragments.properties;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.mobile.android.api.model.Node;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.fragments.RefreshFragment;
-import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.os.Bundle;
@@ -20,6 +10,16 @@ import android.support.v4.view.ViewPager.OnPageChangeListener;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.application.fragments.RefreshFragment;
+import org.alfresco.mobile.android.application.fragments.browser.ChildrenBrowserFragment;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.opendataspace.android.app.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class PreviewGallery extends BaseFragment implements RefreshFragment
 {
@@ -62,6 +62,7 @@ public class PreviewGallery extends BaseFragment implements RefreshFragment
     // //////////////////////////////////////////////////////////////////////
     // LIFE CYCLE
     // //////////////////////////////////////////////////////////////////////
+    @SuppressWarnings("deprecation")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -93,6 +94,7 @@ public class PreviewGallery extends BaseFragment implements RefreshFragment
             frag.unselect();
             frag.highLight(nodes.get(0));
         }
+
         viewPager.setOnPageChangeListener(new OnPageChangeListener()
         {
 

@@ -13,9 +13,11 @@ import org.apache.chemistry.opencmis.client.api.FileableCmisObject;
 import org.apache.chemistry.opencmis.client.api.Folder;
 import org.apache.chemistry.opencmis.client.api.OperationContext;
 import org.apache.chemistry.opencmis.client.api.Relationship;
+import org.apache.chemistry.opencmis.client.api.SecondaryType;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.Tree;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.apache.chemistry.opencmis.commons.enums.IncludeRelationships;
 import org.opendataspace.android.app.data.OdsDataHelper;
 import org.opendataspace.android.app.session.OdsFolder;
 
@@ -79,34 +81,62 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
             context.setFilterString(PropertyIds.SOURCE_ID);
             context.setIncludeAllowableActions(false);
             context.setIncludePathSegments(false);
-            List<Tree<FileableCmisObject>> ls = folder.getFolderTree(1, context);
+            context.setIncludeRelationships(IncludeRelationships.TARGET);
 
-            for (final Tree<FileableCmisObject> tree : ls)
-            {
-                final FileableCmisObject uploadFolder = tree.getItem();
-                final List<Relationship> relationships = uploadFolder.getRelationships();
-
-                if (relationships != null)
-                {
-                    for (final Relationship relationship : relationships)
-                    {
-                        final CmisObject uploadLink = relationship.getSource();
-                        OdsLink link = new OdsLink();
-                        link.setType(OdsLink.Type.UPLOAD);
-                        link.setEmail((String) uploadLink.getPropertyValue("gds:emailAddress"));
-                        link.setExpires((Calendar) uploadLink.getPropertyValue(PropertyIds.EXPIRATION_DATE));
-                        link.setMessage((String) uploadLink.getPropertyValue("gds:message"));
-                        link.setName((String) uploadLink.getPropertyValue("gds:subject"));
-                        link.setNodeId(node.getIdentifier());
-                        link.setObjectId(uploadLink.getId());
-                        link.setUrl((String) uploadLink.getPropertyValue("gds:url"));
-                        data.add(link);
-                    }
-                }
-            }
+            recFindLinks(data, folder.getFolderTree(-1, context));
         }
 
         result.setData(data);
         return result;
+    }
+
+    private void recFindLinks(List<OdsLink> data, List<Tree<FileableCmisObject>> ls)
+    {
+        if (ls == null)
+        {
+            return;
+        }
+
+        for (final Tree<FileableCmisObject> tree : ls)
+        {
+            final FileableCmisObject uploadFolder = tree.getItem();
+            final List<Relationship> relationships = uploadFolder.getRelationships();
+
+            if (relationships != null)
+            {
+                for (final Relationship relationship : relationships)
+                {
+                    final CmisObject uploadLink = relationship.getSource();
+                    boolean found = false;
+
+                    for (final SecondaryType secondaryType : uploadLink.getSecondaryTypes())
+                    {
+                        if ("gds:uploadLink".equals(secondaryType.getId()))
+                        {
+                            found = true;
+                            break;
+                        }
+                    }
+
+                    if (!found)
+                    {
+                        continue;
+                    }
+
+                    OdsLink link = new OdsLink();
+                    link.setType(OdsLink.Type.UPLOAD);
+                    link.setEmail((String) uploadLink.getPropertyValue("gds:emailAddress"));
+                    link.setExpires((Calendar) uploadLink.getPropertyValue(PropertyIds.EXPIRATION_DATE));
+                    link.setMessage((String) uploadLink.getPropertyValue("gds:message"));
+                    link.setName((String) uploadLink.getPropertyValue("gds:subject"));
+                    link.setNodeId(node.getIdentifier());
+                    link.setObjectId(uploadLink.getId());
+                    link.setUrl((String) uploadLink.getPropertyValue("gds:url"));
+                    data.add(link);
+                }
+            }
+
+            recFindLinks(data, tree.getChildren());
+        }
     }
 }

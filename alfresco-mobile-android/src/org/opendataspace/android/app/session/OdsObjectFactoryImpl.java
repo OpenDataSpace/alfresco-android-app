@@ -1,16 +1,5 @@
 package org.opendataspace.android.app.session;
 
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
-
 import org.alfresco.cmis.client.impl.AlfrescoObjectFactoryImpl;
 import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.client.api.Property;
@@ -32,6 +21,17 @@ import org.apache.chemistry.opencmis.commons.enums.Cardinality;
 import org.apache.chemistry.opencmis.commons.enums.Updatability;
 import org.apache.chemistry.opencmis.commons.spi.BindingsObjectFactory;
 
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
 {
     private static final long serialVersionUID = 1L;
@@ -46,7 +46,7 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
 
     @SuppressWarnings("unchecked")
     public Properties convertProperties(Map<String, ?> properties, ObjectType type,
-            Collection<SecondaryType> secondaryTypes, Set<Updatability> updatabilityFilter)
+                                        Collection<SecondaryType> secondaryTypes, Set<Updatability> updatabilityFilter)
     {
         // check input
         if (properties == null)
@@ -65,7 +65,7 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
 
             if (typeId != "cmis:item")
             {
-                return super.convertProperties(properties, type, secondaryTypes, updatabilityFilter);
+                return super.convertProperties(properties, null, secondaryTypes, updatabilityFilter);
             }
 
             type = session.getTypeDefinition(typeId.toString());
@@ -82,15 +82,16 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
             {
                 if (!(secondaryTypeId instanceof String))
                 {
-                    throw new IllegalArgumentException("Secondary types property contains an invalid entry: "
-                            + secondaryTypeId);
+                    throw new IllegalArgumentException(
+                            "Secondary types property contains an invalid entry: " + secondaryTypeId);
                 }
 
                 ObjectType secondaryType = session.getTypeDefinition(secondaryTypeId.toString());
                 if (!(secondaryType instanceof SecondaryType))
                 {
                     throw new IllegalArgumentException(
-                            "Secondary types property contains a type that is not a secondary type: " + secondaryTypeId);
+                            "Secondary types property contains a type that is not a secondary type: " +
+                                    secondaryTypeId);
                 }
 
                 allSecondaryTypes.add((SecondaryType) secondaryType);
@@ -108,7 +109,9 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
         {
             for (SecondaryType tp : allSecondaryTypes)
             {
-                if (tp.getId().equals("gds:downloadLink"))
+                final String id = tp.getId();
+
+                if (id.equals("gds:downloadLink") || id.equals("gds:uploadLink"))
                 {
                     found = true;
                     break;
@@ -149,13 +152,13 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
             // get the property definition
             PropertyDefinition<?> definition = type.getPropertyDefinitions().get(id);
 
-            if (definition == null && allSecondaryTypes != null)
+            if (definition == null)
             {
                 for (SecondaryType secondaryType : allSecondaryTypes)
                 {
                     if (secondaryType != null && secondaryType.getPropertyDefinitions() != null)
                     {
-                        definition = (PropertyDefinition<?>) secondaryType.getPropertyDefinitions().get(id);
+                        definition = secondaryType.getPropertyDefinitions().get(id);
                         if (definition != null)
                         {
                             break;
@@ -166,8 +169,8 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
 
             if (definition == null)
             {
-                throw new IllegalArgumentException("Property '" + id
-                        + "' is not valid for this type or one of the secondary types!");
+                throw new IllegalArgumentException(
+                        "Property '" + id + "' is not valid for this type or one of the secondary types!");
             }
 
             // check updatability
@@ -184,7 +187,8 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
             if (value == null)
             {
                 values = null;
-            } else if (value instanceof List<?>)
+            }
+            else if (value instanceof List<?>)
             {
                 if (definition.getCardinality() != Cardinality.MULTI)
                 {
@@ -204,7 +208,8 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
                     if (valueClazz == null)
                     {
                         valueClazz = o.getClass();
-                    } else
+                    }
+                    else
                     {
                         if (!valueClazz.isInstance(o))
                         {
@@ -212,7 +217,8 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
                         }
                     }
                 }
-            } else
+            }
+            else
             {
                 if (definition.getCardinality() != Cardinality.SINGLE)
                 {
@@ -230,59 +236,73 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
                 if (firstValue == null)
                 {
                     propertyData = bof.createPropertyStringData(id, (List<String>) null);
-                } else if (firstValue instanceof String)
+                }
+                else if (firstValue instanceof String)
                 {
                     propertyData = bof.createPropertyStringData(id, (List<String>) values);
-                } else
+                }
+                else
                 {
                     throwWrongTypeError(firstValue, "string", String.class, id);
                 }
-            } else if (definition instanceof PropertyIdDefinition)
+            }
+            else if (definition instanceof PropertyIdDefinition)
             {
                 if (firstValue == null)
                 {
                     propertyData = bof.createPropertyIdData(id, (List<String>) null);
-                } else if (firstValue instanceof String)
+                }
+                else if (firstValue instanceof String)
                 {
                     propertyData = bof.createPropertyIdData(id, (List<String>) values);
-                } else
+                }
+                else
                 {
                     throwWrongTypeError(firstValue, "string", String.class, id);
                 }
-            } else if (definition instanceof PropertyHtmlDefinition)
+            }
+            else if (definition instanceof PropertyHtmlDefinition)
             {
                 if (firstValue == null)
                 {
                     propertyData = bof.createPropertyHtmlData(id, (List<String>) values);
-                } else if (firstValue instanceof String)
+                }
+                else if (firstValue instanceof String)
                 {
                     propertyData = bof.createPropertyHtmlData(id, (List<String>) values);
-                } else
+                }
+                else
                 {
                     throwWrongTypeError(firstValue, "html", String.class, id);
                 }
-            } else if (definition instanceof PropertyUriDefinition)
+            }
+            else if (definition instanceof PropertyUriDefinition)
             {
                 if (firstValue == null)
                 {
                     propertyData = bof.createPropertyUriData(id, (List<String>) null);
-                } else if (firstValue instanceof String)
+                }
+                else if (firstValue instanceof String)
                 {
                     propertyData = bof.createPropertyUriData(id, (List<String>) values);
-                } else
+                }
+                else
                 {
                     throwWrongTypeError(firstValue, "uri", String.class, id);
                 }
-            } else if (definition instanceof PropertyIntegerDefinition)
+            }
+            else if (definition instanceof PropertyIntegerDefinition)
             {
                 if (firstValue == null)
                 {
                     propertyData = bof.createPropertyIntegerData(id, (List<BigInteger>) null);
-                } else if (firstValue instanceof BigInteger)
+                }
+                else if (firstValue instanceof BigInteger)
                 {
                     propertyData = bof.createPropertyIntegerData(id, (List<BigInteger>) values);
-                } else if ((firstValue instanceof Byte) || (firstValue instanceof Short)
-                        || (firstValue instanceof Integer) || (firstValue instanceof Long))
+                }
+                else if ((firstValue instanceof Byte) || (firstValue instanceof Short) ||
+                        (firstValue instanceof Integer) || (firstValue instanceof Long))
                 {
                     // we accept all kinds of integers
                     List<BigInteger> list = new ArrayList<BigInteger>(values.size());
@@ -292,33 +312,40 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
                     }
 
                     propertyData = bof.createPropertyIntegerData(id, list);
-                } else
+                }
+                else
                 {
                     throwWrongTypeError(firstValue, "integer", BigInteger.class, id);
                 }
-            } else if (definition instanceof PropertyBooleanDefinition)
+            }
+            else if (definition instanceof PropertyBooleanDefinition)
             {
                 if (firstValue == null)
                 {
                     propertyData = bof.createPropertyBooleanData(id, (List<Boolean>) null);
-                } else if (firstValue instanceof Boolean)
+                }
+                else if (firstValue instanceof Boolean)
                 {
                     propertyData = bof.createPropertyBooleanData(id, (List<Boolean>) values);
-                } else
+                }
+                else
                 {
                     throwWrongTypeError(firstValue, "boolean", Boolean.class, id);
                 }
-            } else if (definition instanceof PropertyDecimalDefinition)
+            }
+            else if (definition instanceof PropertyDecimalDefinition)
             {
                 if (firstValue == null)
                 {
                     propertyData = bof.createPropertyDecimalData(id, (List<BigDecimal>) null);
-                } else if (firstValue instanceof BigDecimal)
+                }
+                else if (firstValue instanceof BigDecimal)
                 {
                     propertyData = bof.createPropertyDecimalData(id, (List<BigDecimal>) values);
-                } else if ((firstValue instanceof Float) || (firstValue instanceof Double)
-                        || (firstValue instanceof Byte) || (firstValue instanceof Short)
-                        || (firstValue instanceof Integer) || (firstValue instanceof Long))
+                }
+                else if ((firstValue instanceof Float) || (firstValue instanceof Double) ||
+                        (firstValue instanceof Byte) || (firstValue instanceof Short) ||
+                        (firstValue instanceof Integer) || (firstValue instanceof Long))
                 {
                     // we accept all kinds of integers
                     // as well as floats and doubles
@@ -329,19 +356,23 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
                     }
 
                     propertyData = bof.createPropertyDecimalData(id, list);
-                } else
+                }
+                else
                 {
                     throwWrongTypeError(firstValue, "decimal", BigDecimal.class, id);
                 }
-            } else if (definition instanceof PropertyDateTimeDefinition)
+            }
+            else if (definition instanceof PropertyDateTimeDefinition)
             {
                 if (firstValue == null)
                 {
                     propertyData = bof.createPropertyDateTimeData(id, (List<GregorianCalendar>) null);
-                } else if (firstValue instanceof GregorianCalendar)
+                }
+                else if (firstValue instanceof GregorianCalendar)
                 {
                     propertyData = bof.createPropertyDateTimeData(id, (List<GregorianCalendar>) values);
-                } else if (firstValue instanceof Date)
+                }
+                else if (firstValue instanceof Date)
                 {
                     List<GregorianCalendar> list = new ArrayList<GregorianCalendar>(values.size());
                     for (Object d : values)
@@ -351,7 +382,8 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
                         list.add(cal);
                     }
                     propertyData = bof.createPropertyDateTimeData(id, list);
-                } else
+                }
+                else
                 {
                     throwWrongTypeError(firstValue, "datetime", GregorianCalendar.class, id);
                 }
@@ -375,19 +407,22 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
         if (clazz.equals(BigInteger.class))
         {
             expectedTypes = "<BigInteger, Byte, Short, Integer, Long>";
-        } else if (clazz.equals(BigDecimal.class))
+        }
+        else if (clazz.equals(BigDecimal.class))
         {
             expectedTypes = "<BigDecimal, Double, Float, Byte, Short, Integer, Long>";
-        } else if (clazz.equals(GregorianCalendar.class))
+        }
+        else if (clazz.equals(GregorianCalendar.class))
         {
             expectedTypes = "<java.util.GregorianCalendar, java.util.Date>";
-        } else
+        }
+        else
         {
             expectedTypes = clazz.getName();
         }
 
-        String message = "Property '" + id + "' is a " + type + " property. Expected type '" + expectedTypes
-                + "' but received a '" + obj.getClass().getName() + "' property.";
+        String message = "Property '" + id + "' is a " + type + " property. Expected type '" + expectedTypes +
+                "' but received a '" + obj.getClass().getName() + "' property.";
 
         throw new IllegalArgumentException(message);
     }
