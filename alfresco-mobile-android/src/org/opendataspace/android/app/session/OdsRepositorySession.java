@@ -1,12 +1,5 @@
 package org.opendataspace.android.app.session;
 
-import java.io.Serializable;
-import java.lang.ref.WeakReference;
-import java.net.URL;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.alfresco.mobile.android.api.exceptions.AlfrescoSessionException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.alfresco.mobile.android.api.model.impl.FolderImpl;
@@ -26,6 +19,13 @@ import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisPermissionDeniedException;
+
+import java.io.Serializable;
+import java.lang.ref.WeakReference;
+import java.net.URL;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class OdsRepositorySession extends RepositorySessionImpl
 {
@@ -50,18 +50,18 @@ public class OdsRepositorySession extends RepositorySessionImpl
     }
 
     public static RepositorySession connect(String url, String username, String password,
-            Map<String, Serializable> parameters)
+                                            Map<String, Serializable> parameters)
     {
         if (url == null || url.isEmpty())
         {
-            throw new IllegalArgumentException(String.format(
-                    Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "url"));
+            throw new IllegalArgumentException(
+                    String.format(Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "url"));
         }
 
         if (username == null || username.isEmpty())
         {
-            throw new IllegalArgumentException(String.format(
-                    Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "username"));
+            throw new IllegalArgumentException(
+                    String.format(Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "username"));
         }
 
         return new OdsRepositorySession(url, username, password, parameters);
@@ -70,24 +70,27 @@ public class OdsRepositorySession extends RepositorySessionImpl
     @SuppressWarnings("deprecation")
     @Override
     protected Session createSession(SessionFactory sessionFactory, AuthenticationProvider authenticator,
-            Map<String, String> param)
+                                    Map<String, String> param)
     {
         try
         {
             if (param.get(SessionParameter.REPOSITORY_ID) != null)
             {
                 return super.createSession(sessionFactory, authenticator, param);
-            } else
+            }
+            else
             {
-                repos = ((SessionFactoryImpl) sessionFactory).getRepositories(param, null,
-                        new PassthruAuthenticationProviderImpl(authenticator), null);
+                repos = ((SessionFactoryImpl) sessionFactory)
+                        .getRepositories(param, null, new PassthruAuthenticationProviderImpl(authenticator), null);
                 Session ses = findSession();
                 return ses != null ? ses : super.createSession(sessionFactory, authenticator, param);
             }
-        } catch (CmisPermissionDeniedException e)
+        }
+        catch (CmisPermissionDeniedException e)
         {
             throw new AlfrescoSessionException(ErrorCodeRegistry.SESSION_UNAUTHORIZED, e);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             throw new AlfrescoSessionException(ErrorCodeRegistry.SESSION_GENERIC, e);
         }
@@ -101,16 +104,19 @@ public class OdsRepositorySession extends RepositorySessionImpl
             if (param.get(SessionParameter.REPOSITORY_ID) != null)
             {
                 return super.createSession(sessionFactory, param);
-            } else
+            }
+            else
             {
                 repos = sessionFactory.getRepositories(param);
                 Session ses = findSession();
                 return ses != null ? ses : super.createSession(sessionFactory, param);
             }
-        } catch (CmisPermissionDeniedException e)
+        }
+        catch (CmisPermissionDeniedException e)
         {
             throw new AlfrescoSessionException(ErrorCodeRegistry.SESSION_UNAUTHORIZED, e);
-        } catch (Exception e)
+        }
+        catch (Exception e)
         {
             throw new AlfrescoSessionException(ErrorCodeRegistry.SESSION_GENERIC, e);
         }
@@ -127,10 +133,12 @@ public class OdsRepositorySession extends RepositorySessionImpl
             if (name.equals("my"))
             {
                 ses = cur.createSession();
-            } else if (name.equals("shared"))
+            }
+            else if (name.equals("shared"))
             {
                 shared = create(cur.createSession(), this);
-            } else if (name.equals("global"))
+            }
+            else if (name.equals("global"))
             {
                 global = create(cur.createSession(), this);
             }
@@ -210,7 +218,8 @@ public class OdsRepositorySession extends RepositorySessionImpl
             {
                 url += isJsonProto(settings) ? OdsRepositorySession.BINDING_JSON : OnPremiseUrlRegistry.BINDING_CMIS;
             }
-        } catch (Exception ex)
+        }
+        catch (Exception ex)
         {
             // nothing
         }
@@ -225,12 +234,10 @@ public class OdsRepositorySession extends RepositorySessionImpl
         tmpSettings.put(SessionParameter.CONNECT_TIMEOUT, "20000");
         tmpSettings.put(SessionParameter.READ_TIMEOUT, "300000");
         tmpSettings.put(AlfrescoSession.HTTP_CHUNK_TRANSFERT, "true");
-        tmpSettings.put(SessionParameter.AUTHENTICATION_PROVIDER_CLASS,
-                "org.opendataspace.android.app.session.OdsAuthProviderImpl");
-        tmpSettings.put(AlfrescoSession.ONPREMISE_SERVICES_CLASSNAME,
-                "org.opendataspace.android.app.session.OdsServiceRegistry");
-        tmpSettings.put(SessionParameter.OBJECT_FACTORY_CLASS,
-                "org.opendataspace.android.app.session.OdsObjectFactoryImpl");
+        tmpSettings.put(SessionParameter.AUTHENTICATION_PROVIDER_CLASS, OdsAuthProviderImpl.class.getCanonicalName());
+        tmpSettings.put(AlfrescoSession.ONPREMISE_SERVICES_CLASSNAME, OdsServiceRegistry.class.getCanonicalName());
+        tmpSettings.put(SessionParameter.OBJECT_FACTORY_CLASS, OdsObjectFactoryImpl.class.getCanonicalName());
+        tmpSettings.put(SessionParameter.TYPE_DEFINITION_CACHE_CLASS, OdsTypeDefinitionCache.class.getCanonicalName());
 
         super.initSettings(url, username, password, tmpSettings);
     }
@@ -239,7 +246,8 @@ public class OdsRepositorySession extends RepositorySessionImpl
     protected Map<String, String> retrieveSessionParameters()
     {
         Map<String, String> res = super.retrieveSessionParameters();
-        res.put(SessionParameter.OBJECT_FACTORY_CLASS, "org.opendataspace.android.app.session.OdsObjectFactoryImpl");
+        res.put(SessionParameter.OBJECT_FACTORY_CLASS, OdsObjectFactoryImpl.class.getCanonicalName());
+        res.put(SessionParameter.TYPE_DEFINITION_CACHE_CLASS, OdsTypeDefinitionCache.class.getCanonicalName());
         return res;
     }
 

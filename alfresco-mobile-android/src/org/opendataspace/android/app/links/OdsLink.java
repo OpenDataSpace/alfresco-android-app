@@ -122,7 +122,10 @@ public class OdsLink implements Serializable
 
     public void setExpires(Calendar expires)
     {
-        this.expires = expires.getTime();
+        if (expires != null)
+        {
+            this.expires = expires.getTime();
+        }
     }
 
     public boolean isValid()

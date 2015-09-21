@@ -30,14 +30,12 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
 {
     private OdsLinksFragment fr;
     private OdsLink menuCtx;
-    private boolean isFolder;
 
-    public OdsLinksAdapter(OdsLinksFragment fr, int textViewResourceId, List<OdsLink> objects, boolean isFolder)
+    public OdsLinksAdapter(OdsLinksFragment fr, int textViewResourceId, List<OdsLink> objects)
     {
         super(fr.getActivity(), textViewResourceId, objects);
         this.vhClassName = GenericViewHolder.class.getCanonicalName();
         this.fr = fr;
-        this.isFolder = isFolder;
     }
 
     @Override
@@ -58,7 +56,6 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
         vh.choose.setTag(R.id.link_action, item);
         vh.choose.setOnClickListener(new OnClickListener()
         {
-
             @Override
             public void onClick(View v)
             {
@@ -73,12 +70,10 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
                 mi = popup.getMenu()
                         .add(Menu.NONE, MenuActionItem.MENU_EDIT, Menu.FIRST + MenuActionItem.MENU_EDIT, R.string.edit);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-                mi.setEnabled(isFolder);
 
                 mi = popup.getMenu().add(Menu.NONE, MenuActionItem.MENU_DELETE, Menu.FIRST + MenuActionItem.MENU_DELETE,
                         R.string.delete);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-                mi.setEnabled(isFolder);
 
                 popup.setOnMenuItemClickListener(OdsLinksAdapter.this);
                 popup.show();

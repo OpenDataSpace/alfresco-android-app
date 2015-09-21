@@ -18,16 +18,14 @@ import org.apache.chemistry.opencmis.client.api.Property;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.runtime.ObjectIdImpl;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
-import org.apache.chemistry.opencmis.commons.SecondaryTypeIds;
 import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;
-import org.opendataspace.android.app.data.OdsDataHelper;
 import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.app.session.OdsFolder;
+import org.opendataspace.android.app.session.OdsTypeDefinitionCache;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -73,23 +71,16 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                 if (!hasObjectId)
                 {
                     final Map<String, Object> properties = new HashMap<String, Object>();
-                    properties.put(PropertyIds.OBJECT_TYPE_ID, "cmis:item");
+                    properties.put(PropertyIds.OBJECT_TYPE_ID, BaseTypeId.CMIS_ITEM);
                     properties.put(PropertyIds.EXPIRATION_DATE, link.getExpires());
-                    properties.put("gds:subject", link.getName());
-                    properties.put("gds:message", link.getMessage());
-                    properties.put("gds:emailAddress", link.getEmail());
-
-                    if (isDownload)
-                    {
-                        properties.put("gds:objectIds", Collections.singletonList(link.getNodeId()));
-                        properties.put(PropertyIds.SECONDARY_OBJECT_TYPE_IDS,
-                                Arrays.asList(SecondaryTypeIds.CLIENT_MANAGED_RETENTION, "gds:downloadLink"));
-                    }
-                    else
-                    {
-                        properties.put(PropertyIds.SECONDARY_OBJECT_TYPE_IDS,
-                                Collections.singletonList("gds:uploadLink"));
-                    }
+                    properties.put(OdsTypeDefinitionCache.SUBJECT_PROP_ID, link.getName());
+                    properties.put(OdsTypeDefinitionCache.MESSAGE_PROP_ID, link.getMessage());
+                    properties.put(OdsTypeDefinitionCache.EMAIL_PROP_ID, link.getEmail());
+                    properties.put(PropertyIds.SECONDARY_OBJECT_TYPE_IDS,
+                            Collections.singletonList(OdsTypeDefinitionCache.LINK_TYPE_ID));
+                    properties.put(OdsTypeDefinitionCache.LTYPE_PROP_ID,
+                            isDownload ? OdsTypeDefinitionCache.LINK_TYPE_DOWNLAOD :
+                                    OdsTypeDefinitionCache.LINK_TYPE_UPLOAD);
 
                     if (!TextUtils.isEmpty(link.getPassword()))
                     {
@@ -102,16 +93,13 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                     OdsFolder folder = (OdsFolder) svc.getParentFolder(svc.getNodeByIdentifier(link.getNodeId()));
                     final ObjectId id = cmisSession.createItem(properties, folder.getCmisObject());
                     final CmisObject item = cmisSession.getObject(id);
-                    final Property<String> property = item.getProperty("gds:url");
+                    final Property<String> property = item.getProperty(OdsTypeDefinitionCache.URL_PROP_ID);
 
-                    if (!isDownload)
-                    {
-                        final Map<String, Object> rel = new HashMap<String, Object>();
-                        rel.put(PropertyIds.OBJECT_TYPE_ID, BaseTypeId.CMIS_RELATIONSHIP.value());
-                        rel.put(PropertyIds.SOURCE_ID, item.getId());
-                        rel.put(PropertyIds.TARGET_ID, link.getNodeId());
-                        cmisSession.createRelationship(rel);
-                    }
+                    final Map<String, Object> rel = new HashMap<String, Object>();
+                    rel.put(PropertyIds.OBJECT_TYPE_ID, BaseTypeId.CMIS_RELATIONSHIP.value());
+                    rel.put(PropertyIds.SOURCE_ID, item.getId());
+                    rel.put(PropertyIds.TARGET_ID, link.getNodeId());
+                    cmisSession.createRelationship(rel);
 
                     link.setUrl(property.getFirstValue());
                     link.setObjectId(item.getId());
@@ -120,9 +108,9 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                 {
                     final Map<String, Object> properties = new HashMap<String, Object>();
                     properties.put(PropertyIds.EXPIRATION_DATE, link.getExpires());
-                    properties.put("gds:subject", link.getName());
-                    properties.put("gds:message", link.getMessage());
-                    properties.put("gds:emailAddress", link.getEmail());
+                    properties.put(OdsTypeDefinitionCache.SUBJECT_PROP_ID, link.getName());
+                    properties.put(OdsTypeDefinitionCache.MESSAGE_PROP_ID, link.getMessage());
+                    properties.put(OdsTypeDefinitionCache.EMAIL_PROP_ID, link.getEmail());
 
                     if (!TextUtils.isEmpty(link.getPassword()))
                     {
@@ -134,11 +122,6 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                     final Item item = (Item) cmisSession.getObject(link.getObjectId());
                     item.updateProperties(properties);
                 }
-            }
-
-            if (isDownload)
-            {
-                OdsDataHelper.getHelper().getLinkDAO().process(link);
             }
 
             ctx = new OdsUpdateLinkContext();

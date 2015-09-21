@@ -111,7 +111,9 @@ public class OdsObjectFactoryImpl extends AlfrescoObjectFactoryImpl
             {
                 final String id = tp.getId();
 
-                if (id.equals("gds:downloadLink") || id.equals("gds:uploadLink"))
+                if (id.equals(OdsTypeDefinitionCache.LINK_TYPE_DOWNLAOD) ||
+                        id.equals(OdsTypeDefinitionCache.LINK_TYPE_UPLOAD) ||
+                        id.equals(OdsTypeDefinitionCache.LINK_TYPE_ID))
                 {
                     found = true;
                     break;

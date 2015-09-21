@@ -219,7 +219,7 @@ public class OdsLinksFragment extends BaseListFragment
         }
         else
         {
-            adapter = new OdsLinksAdapter(this, R.layout.sdk_list_row, new ArrayList<OdsLink>(), isFolder);
+            adapter = new OdsLinksAdapter(this, R.layout.sdk_list_row, new ArrayList<OdsLink>());
 
             for (OdsLink cur : results.getData())
             {
@@ -261,10 +261,7 @@ public class OdsLinksFragment extends BaseListFragment
     @Override
     public void onListItemClick(ListView l, View v, int position, long id)
     {
-        if (isFolder)
-        {
-            editLink(node, (OdsLink) l.getItemAtPosition(position), getFragmentManager());
-        }
+        editLink(node, (OdsLink) l.getItemAtPosition(position), getFragmentManager());
     }
 
     public Node getNode()

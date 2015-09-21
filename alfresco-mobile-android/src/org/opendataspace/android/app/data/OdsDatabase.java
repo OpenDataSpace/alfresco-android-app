@@ -7,7 +7,6 @@ import com.j256.ormlite.android.apptools.OrmLiteSqliteOpenHelper;
 import com.j256.ormlite.support.ConnectionSource;
 import com.j256.ormlite.table.TableUtils;
 import org.opendataspace.android.app.fileinfo.OdsFileInfo;
-import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import java.sql.SQLException;
@@ -19,7 +18,6 @@ public class OdsDatabase extends OrmLiteSqliteOpenHelper
 
     private static final int DATABASE_VERSION = 3;
 
-    private OdsLinkDAO links;
     private OdsFileInfoDAO files;
 
     public OdsDatabase(Context context)
@@ -32,7 +30,6 @@ public class OdsDatabase extends OrmLiteSqliteOpenHelper
     {
         try
         {
-            TableUtils.createTable(connectionSource, OdsLink.class);
             TableUtils.createTable(connectionSource, OdsFileInfo.class);
         }
         catch (Exception ex)
@@ -47,14 +44,6 @@ public class OdsDatabase extends OrmLiteSqliteOpenHelper
         try
         {
             TableUtils.createTableIfNotExists(connectionSource, OdsFileInfo.class);
-
-            if (newVer <= 3)
-            {
-                getLinkDAO().executeRaw("ALTER TABLE links ADD COLUMN type INTEGER;");
-                getLinkDAO().executeRaw("CREATE INDEX links_type_idx ON links (type);");
-                getLinkDAO().executeRaw("CREATE INDEX links_nodeid_idx ON links (nodeid);");
-                getLinkDAO().executeRaw("UPDATE links SET type = 0;");
-            }
         }
         catch (Exception ex)
         {
@@ -66,17 +55,7 @@ public class OdsDatabase extends OrmLiteSqliteOpenHelper
     public void close()
     {
         super.close();
-        links = null;
-    }
-
-    public OdsLinkDAO getLinkDAO() throws SQLException
-    {
-        if (links == null)
-        {
-            links = new OdsLinkDAO(getConnectionSource(), OdsLink.class);
-        }
-
-        return links;
+        files = null;
     }
 
     public OdsFileInfoDAO getFileInfoDAO() throws SQLException

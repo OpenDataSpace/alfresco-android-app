@@ -2,10 +2,10 @@ package org.opendataspace.android.app.links;
 
 import android.content.Context;
 
-import com.j256.ormlite.dao.CloseableIterator;
 import org.alfresco.mobile.android.api.asynchronous.AbstractPagingLoader;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.impl.AbstractAlfrescoSessionImpl;
 import org.apache.chemistry.opencmis.client.api.CmisObject;
@@ -18,8 +18,9 @@ import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.Tree;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.enums.IncludeRelationships;
-import org.opendataspace.android.app.data.OdsDataHelper;
 import org.opendataspace.android.app.session.OdsFolder;
+import org.opendataspace.android.app.session.OdsTypeDefinitionCache;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -46,51 +47,28 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
         LoaderResult<List<OdsLink>> result = new LoaderResult<List<OdsLink>>();
         List<OdsLink> data = new ArrayList<OdsLink>();
 
-        if (type == OdsLink.Type.DOWNLOAD)
+        Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
+        DocumentFolderService svc = session.getServiceRegistry().getDocumentFolderService();
+        OdsFolder ods = (OdsFolder) svc.getParentFolder(svc.getNodeByIdentifier(node.getIdentifier()));
+        Folder folder = (Folder) ods.getCmisObject();
+
+        final OperationContext context = cmisSession.createOperationContext();
+        context.setIncludeRelationships(IncludeRelationships.TARGET);
+
+        try
         {
-            CloseableIterator<OdsLink> it = null;
-
-            try
-            {
-                it = OdsDataHelper.getHelper().getLinkDAO().getLinksByNode(node.getIdentifier(), type);
-
-                while (it.hasNext())
-                {
-                    data.add(it.nextThrow());
-                }
-            }
-            catch (Exception ex)
-            {
-                result.setException(ex);
-            }
-            finally
-            {
-                if (it != null)
-                {
-                    it.closeQuietly();
-                }
-            }
+            recFindLinks(data, folder.getFolderTree(1, context), cmisSession);
         }
-        else
+        catch (Exception ex)
         {
-            Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
-            OdsFolder ods = (OdsFolder) node;
-            Folder folder = (Folder) ods.getCmisObject();
-
-            final OperationContext context = cmisSession.createOperationContext();
-            context.setFilterString(PropertyIds.SOURCE_ID);
-            context.setIncludeAllowableActions(false);
-            context.setIncludePathSegments(false);
-            context.setIncludeRelationships(IncludeRelationships.TARGET);
-
-            recFindLinks(data, folder.getFolderTree(-1, context));
+            OdsLog.exw("OdsLinksLoader", ex);
         }
 
         result.setData(data);
         return result;
     }
 
-    private void recFindLinks(List<OdsLink> data, List<Tree<FileableCmisObject>> ls)
+    private void recFindLinks(List<OdsLink> data, List<Tree<FileableCmisObject>> ls, Session cmisSession)
     {
         if (ls == null)
         {
@@ -106,12 +84,17 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
             {
                 for (final Relationship relationship : relationships)
                 {
-                    final CmisObject uploadLink = relationship.getSource();
+                    CmisObject cmo = relationship.getSource();
                     boolean found = false;
 
-                    for (final SecondaryType secondaryType : uploadLink.getSecondaryTypes())
+                    if (cmo == null || cmo.getSecondaryTypes() == null)
                     {
-                        if ("gds:uploadLink".equals(secondaryType.getId()))
+                        continue;
+                    }
+
+                    for (final SecondaryType secondaryType : cmo.getSecondaryTypes())
+                    {
+                        if (OdsTypeDefinitionCache.LINK_TYPE_ID.equals(secondaryType.getId()))
                         {
                             found = true;
                             break;
@@ -123,20 +106,30 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
                         continue;
                     }
 
-                    OdsLink link = new OdsLink();
-                    link.setType(OdsLink.Type.UPLOAD);
-                    link.setEmail((String) uploadLink.getPropertyValue("gds:emailAddress"));
-                    link.setExpires((Calendar) uploadLink.getPropertyValue(PropertyIds.EXPIRATION_DATE));
-                    link.setMessage((String) uploadLink.getPropertyValue("gds:message"));
-                    link.setName((String) uploadLink.getPropertyValue("gds:subject"));
-                    link.setNodeId(node.getIdentifier());
-                    link.setObjectId(uploadLink.getId());
-                    link.setUrl((String) uploadLink.getPropertyValue("gds:url"));
-                    data.add(link);
+                    String ltype = cmo.getPropertyValue(OdsTypeDefinitionCache.LTYPE_PROP_ID);
+
+                    if ((OdsTypeDefinitionCache.LINK_TYPE_UPLOAD.equals(ltype) && type == OdsLink.Type.UPLOAD) ||
+                            (OdsTypeDefinitionCache.LINK_TYPE_DOWNLAOD.equals(ltype) && type == OdsLink.Type.DOWNLOAD))
+                    {
+                        OdsLink link = new OdsLink();
+                        link.setType(type);
+                        link.setEmail((String) cmo.getPropertyValue(OdsTypeDefinitionCache.EMAIL_PROP_ID));
+                        link.setExpires((Calendar) cmo.getPropertyValue(PropertyIds.EXPIRATION_DATE));
+                        link.setMessage((String) cmo.getPropertyValue(OdsTypeDefinitionCache.MESSAGE_PROP_ID));
+                        link.setName((String) cmo.getPropertyValue(OdsTypeDefinitionCache.SUBJECT_PROP_ID));
+                        link.setNodeId(node.getIdentifier());
+                        link.setObjectId(cmo.getId());
+                        link.setUrl((String) cmo.getPropertyValue(OdsTypeDefinitionCache.URL_PROP_ID));
+
+                        if (link.isValid())
+                        {
+                            data.add(link);
+                        }
+                    }
                 }
             }
 
-            recFindLinks(data, tree.getChildren());
+            recFindLinks(data, tree.getChildren(), cmisSession);
         }
     }
 }
