@@ -1,34 +1,21 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *  
- *  This file is part of Alfresco Mobile for Android.
- *  
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *  
- *  http://www.apache.org/licenses/LICENSE-2.0
- *  
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * This file is part of Alfresco Mobile for Android.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.fileexplorer;
-
-import java.io.File;
-
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.file.create.CreateDirectoryRequest;
-import org.alfresco.mobile.android.application.operations.batch.file.update.RenameRequest;
-import org.alfresco.mobile.android.application.utils.IOUtils;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
 
 import android.app.DialogFragment;
 import android.content.Context;
@@ -46,6 +33,19 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
+import org.alfresco.mobile.android.application.operations.OperationRequest;
+import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
+import org.alfresco.mobile.android.application.operations.batch.file.create.CreateDirectoryRequest;
+import org.alfresco.mobile.android.application.operations.batch.file.update.RenameRequest;
+import org.alfresco.mobile.android.application.utils.IOUtils;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
+
+import java.io.File;
 
 public class FileNameDialogFragment extends DialogFragment
 {
@@ -131,11 +131,7 @@ public class FileNameDialogFragment extends DialogFragment
         getDialog().requestWindowFeature(Window.FEATURE_LEFT_ICON);
 
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.app_create_document, container, false);
-
-        int width = (int) Math
-                .round(UIUtils.getScreenDimension(getActivity())[0]
-                        * (Float.parseFloat(getResources().getString(android.R.dimen.dialog_min_width_major).replace(
-                                "%", "")) * 0.01));
+        int width = (int) Math.round(UIUtils.getScreenDimension(getActivity())[0] * 0.8);
         v.setLayoutParams(new LayoutParams(width, LayoutParams.MATCH_PARENT));
 
         final EditText textName = ((EditText) v.findViewById(R.id.document_name));
@@ -191,31 +187,32 @@ public class FileNameDialogFragment extends DialogFragment
         {
             public void onClick(View v)
             {
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm =
+                        (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(textName.getWindowToken(), 0);
 
-                OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils
-                        .getAccount(getActivity()));
+                OperationsRequestGroup group =
+                        new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
                 if (fileToRename != null)
                 {
                     group.enqueue(new RenameRequest(fileToRename, textName.getText().toString().trim())
                             .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
-                    
-                    OperationWaitingDialogFragment.newInstance(CreateDirectoryRequest.TYPE_ID,
-                            R.drawable.ic_edit, getString(R.string.action_rename), null, null, 0).show(
-                            getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+
+                    OperationWaitingDialogFragment.newInstance(CreateDirectoryRequest.TYPE_ID, R.drawable.ic_edit,
+                            getString(R.string.action_rename), null, null, 0)
+                            .show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
                 }
                 else
                 {
-                    group.enqueue(new CreateDirectoryRequest((File) getArguments().get(ARGUMENT_FOLDER), textName
-                            .getText().toString().trim()).setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
-                    
-                    OperationWaitingDialogFragment.newInstance(CreateDirectoryRequest.TYPE_ID,
-                            R.drawable.ic_add_folder, getString(R.string.folder_create), null, null, 0).show(
-                            getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+                    group.enqueue(new CreateDirectoryRequest((File) getArguments().get(ARGUMENT_FOLDER),
+                            textName.getText().toString().trim())
+                            .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+
+                    OperationWaitingDialogFragment.newInstance(CreateDirectoryRequest.TYPE_ID, R.drawable.ic_add_folder,
+                            getString(R.string.folder_create), null, null, 0)
+                            .show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
                 }
-                
+
                 BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
                 dismiss();

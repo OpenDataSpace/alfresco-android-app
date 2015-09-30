@@ -94,10 +94,7 @@ public class OdsLinkDialogFragment extends BaseFragment
         getDialog().requestWindowFeature(Window.FEATURE_LEFT_ICON);
 
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.ods_link, container, false);
-
-        int width = (int) Math.round(UIUtils.getScreenDimension(getActivity())[0] *
-                (Float.parseFloat(getResources().getString(android.R.dimen.dialog_min_width_major).replace("%", "")) *
-                        0.01));
+        int width = (int) Math.round(UIUtils.getScreenDimension(getActivity())[0] * 0.8);
         v.setLayoutParams(new LayoutParams(width, LayoutParams.MATCH_PARENT));
 
         final OdsLink lnk = (OdsLink) getArguments().getSerializable(ARGUMENT_LINK);
@@ -135,7 +132,7 @@ public class OdsLinkDialogFragment extends BaseFragment
                     public Dialog onCreateDialog(Bundle savedInstanceState)
                     {
                         return new DatePickerDialog(getActivity(), this, exp.get(Calendar.YEAR),
-                                exp.get(Calendar.MONDAY) + 1, exp.get(Calendar.DATE));
+                                exp.get(Calendar.MONTH) + 1, exp.get(Calendar.DATE));
                     }
 
                     @Override

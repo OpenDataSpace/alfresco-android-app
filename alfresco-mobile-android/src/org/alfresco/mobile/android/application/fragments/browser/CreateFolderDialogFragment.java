@@ -1,32 +1,21 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *
+ * <p/>
  * This file is part of the Alfresco Mobile SDK.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.browser;
-
-import org.alfresco.mobile.android.api.model.Folder;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.node.create.CreateFolderRequest;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 
 import android.content.Context;
 import android.content.res.Configuration;
@@ -43,6 +32,17 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
+
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
+import org.alfresco.mobile.android.application.operations.OperationRequest;
+import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
+import org.alfresco.mobile.android.application.operations.batch.node.create.CreateFolderRequest;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.opendataspace.android.app.R;
 
 public abstract class CreateFolderDialogFragment extends BaseFragment
 {
@@ -77,11 +77,7 @@ public abstract class CreateFolderDialogFragment extends BaseFragment
         getDialog().requestWindowFeature(Window.FEATURE_LEFT_ICON);
 
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.sdk_create_folder, container, false);
-
-        int width = (int) Math
-                .round(UIUtils.getScreenDimension(getActivity())[0]
-                        * (Float.parseFloat(getResources().getString(android.R.dimen.dialog_min_width_major).replace(
-                                "%", "")) * 0.01));
+        int width = (int) Math.round(UIUtils.getScreenDimension(getActivity())[0] * 0.8);
         v.setLayoutParams(new LayoutParams(width, LayoutParams.MATCH_PARENT));
 
         final EditText tv = (EditText) v.findViewById(R.id.folder_name);
@@ -100,16 +96,16 @@ public abstract class CreateFolderDialogFragment extends BaseFragment
         {
             public void onClick(View v)
             {
-                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-                        Context.INPUT_METHOD_SERVICE);
+                InputMethodManager imm =
+                        (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
                 imm.hideSoftInputFromWindow(tv.getWindowToken(), 0);
 
                 Folder folder = (Folder) getArguments().get(ARGUMENT_FOLDER);
 
                 if (folder != null)
                 {
-                    OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils
-                            .getAccount(getActivity()));
+                    OperationsRequestGroup group =
+                            new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
                     group.enqueue(new CreateFolderRequest(folder, tv.getText().toString().trim())
                             .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
                     BatchOperationManager.getInstance(getActivity()).enqueue(group);

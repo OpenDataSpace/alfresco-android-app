@@ -1,12 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="fill_parent"
-    android:layout_height="wrap_content"
-    android:stretchColumns="1"
-    android:padding="6dp">
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:stretchColumns="1"
+             android:padding="6dp">
 
     <TableRow
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_width="match_parent">
 
         <TextView
             android:layout_width="fill_parent"
@@ -22,7 +23,8 @@
     </TableRow>
 
     <TableRow
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_width="match_parent">
 
         <TextView
             android:layout_width="fill_parent"
@@ -39,7 +41,8 @@
     </TableRow>
 
     <TableRow
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_width="match_parent">
 
         <TextView
             android:layout_width="fill_parent"
@@ -55,7 +58,8 @@
     </TableRow>
 
     <TableRow
-        android:gravity="center">
+        android:gravity="center"
+        android:layout_width="match_parent">
 
         <TextView
             android:layout_width="fill_parent"
@@ -70,23 +74,19 @@
             android:inputType="text|textPassword"/>
     </TableRow>
 
-    <TableRow
-        android:gravity="center">
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/link_message"/>
 
-        <TextView
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/link_message"/>
-
-        <EditText
-            android:id="@+id/link_message"
-            android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="3dip"
-            android:inputType="text|textMultiLine"
-            android:minLines="3"
-            android:singleLine="false"/>
-    </TableRow>
+    <EditText
+        android:id="@+id/link_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="3dip"
+        android:inputType="text|textMultiLine"
+        android:minLines="3"
+        android:singleLine="false"/>
 
     <View
         android:layout_width="fill_parent"

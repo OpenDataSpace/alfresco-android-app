@@ -22,10 +22,12 @@ import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;
 import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.app.session.OdsFolder;
 import org.opendataspace.android.app.session.OdsTypeDefinition;
+import org.opendataspace.android.app.utils.OdsStringUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import java.math.BigInteger;
 import java.security.MessageDigest;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
@@ -75,12 +77,12 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                     properties.put(PropertyIds.EXPIRATION_DATE, link.getExpires());
                     properties.put(OdsTypeDefinition.SUBJECT_PROP_ID, link.getName());
                     properties.put(OdsTypeDefinition.MESSAGE_PROP_ID, link.getMessage());
-                    properties.put(OdsTypeDefinition.EMAIL_PROP_ID, Collections.singletonList(link.getEmail()));
+                    properties.put(OdsTypeDefinition.EMAIL_PROP_ID,
+                            Arrays.asList(OdsStringUtils.splitString(link.getEmail(), ",")));
                     properties.put(PropertyIds.SECONDARY_OBJECT_TYPE_IDS,
                             Collections.singletonList(OdsTypeDefinition.LINK_TYPE_ID));
                     properties.put(OdsTypeDefinition.LTYPE_PROP_ID,
-                            isDownload ? OdsTypeDefinition.LINK_TYPE_DOWNLAOD :
-                                    OdsTypeDefinition.LINK_TYPE_UPLOAD);
+                            isDownload ? OdsTypeDefinition.LINK_TYPE_DOWNLAOD : OdsTypeDefinition.LINK_TYPE_UPLOAD);
 
                     if (!TextUtils.isEmpty(link.getPassword()))
                     {
