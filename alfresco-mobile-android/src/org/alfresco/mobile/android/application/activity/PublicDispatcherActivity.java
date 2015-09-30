@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,24 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.activity;
 
-import java.io.File;
-import java.util.List;
+import android.accounts.AccountAuthenticatorResponse;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.Bundle;
+import android.os.Environment;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.RepositorySession;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.fragments.OdsSelectFolderFragment;
-import org.opendataspace.android.app.session.OdsRepositorySession;
-import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountEditFragment;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountOAuthFragment;
@@ -47,22 +56,13 @@ import org.alfresco.mobile.android.application.security.PassCodeActivity;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.fragments.OdsSelectFolderFragment;
+import org.opendataspace.android.app.session.OdsRepositorySession;
+import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.accounts.AccountAuthenticatorResponse;
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.Bundle;
-import android.os.Environment;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.Window;
-import android.view.WindowManager;
+import java.io.File;
+import java.util.List;
 
 /**
  * Activity responsible to manage public intent from 3rd party application. This activity is "open" to public Intent.
@@ -73,10 +73,14 @@ public class PublicDispatcherActivity extends BaseActivity
 {
     private static final String TAG = PublicDispatcherActivity.class.getName();
 
-    /** Define the type of importFolder. */
+    /**
+     * Define the type of importFolder.
+     */
     private int uploadFolder;
 
-    /** Define the local file to upload */
+    /**
+     * Define the local file to upload
+     */
     private List<File> uploadFiles;
 
     private boolean activateCheckPasscode = false;
@@ -92,7 +96,10 @@ public class PublicDispatcherActivity extends BaseActivity
     // ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE
     // ///////////////////////////////////////////////////////////////////////////
-    /** Called when the activity is first created. */
+
+    /**
+     * Called when the activity is first created.
+     */
     @Override
     public void onCreate(Bundle savedInstanceState)
     {
@@ -110,19 +117,16 @@ public class PublicDispatcherActivity extends BaseActivity
         int width = values[0];
 
         params.height = (int) Math.round(height * 0.9);
-        params.width = (int) Math
-                .round(width
-                        * (Float.parseFloat(getResources().getString(android.R.dimen.dialog_min_width_minor).replace(
-                                "%", "")) * 0.01));
+        params.width = (int) Math.round(width * 0.8);
 
         params.alpha = 1.0f;
         params.dimAmount = 0.5f;
-        getWindow().setAttributes((android.view.WindowManager.LayoutParams) params);
+        getWindow().setAttributes(params);
 
         setContentView(R.layout.app_left_panel);
 
-        mAccountAuthenticatorResponse = getIntent().getParcelableExtra(
-                android.accounts.AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
+        mAccountAuthenticatorResponse =
+                getIntent().getParcelableExtra(android.accounts.AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE);
 
         if (mAccountAuthenticatorResponse != null)
         {
@@ -130,20 +134,22 @@ public class PublicDispatcherActivity extends BaseActivity
         }
 
         String action = getIntent().getAction();
-        if ((Intent.ACTION_SEND.equals(action) || Intent.ACTION_SEND_MULTIPLE.equals(action))
-                && getFragment(UploadFormFragment.TAG) == null)
+        if ((Intent.ACTION_SEND.equals(action) || Intent.ACTION_SEND_MULTIPLE.equals(action)) &&
+                getFragment(UploadFormFragment.TAG) == null)
         {
             Fragment f = new UploadFormFragment();
-            FragmentDisplayer.replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), UploadFormFragment.TAG,
-                    false, false);
+            FragmentDisplayer
+                    .replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), UploadFormFragment.TAG, false,
+                            false);
             return;
         }
 
         if (IntentIntegrator.ACTION_SYNCHRO_DISPLAY.equals(action))
         {
             Fragment f = FavoritesSyncFragment.newInstance(FavoritesSyncFragment.MODE_PROGRESS);
-            FragmentDisplayer.replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), OperationsFragment.TAG,
-                    false, false);
+            FragmentDisplayer
+                    .replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), OperationsFragment.TAG, false,
+                            false);
             return;
         }
 
@@ -151,8 +157,8 @@ public class PublicDispatcherActivity extends BaseActivity
         {
             if (getIntent().hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
             {
-                currentAccount = AccountManager.retrieveAccount(this,
-                        getIntent().getLongExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, 1));
+                currentAccount = AccountManager
+                        .retrieveAccount(this, getIntent().getLongExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, 1));
             }
 
             File f = Environment.getExternalStorageDirectory();
@@ -160,24 +166,27 @@ public class PublicDispatcherActivity extends BaseActivity
             {
                 f = (File) getIntent().getExtras().getSerializable(IntentIntegrator.EXTRA_FOLDER);
                 Fragment fragment = FileExplorerFragment.newInstance(f, ListingModeFragment.MODE_PICK, true, 1);
-                FragmentDisplayer.replaceFragment(this, fragment, DisplayUtils.getLeftFragmentId(this),
-                        FileExplorerFragment.TAG, false, false);
+                FragmentDisplayer
+                        .replaceFragment(this, fragment, DisplayUtils.getLeftFragmentId(this), FileExplorerFragment.TAG,
+                                false, false);
             }
         }
 
         if (IntentIntegrator.ACTION_PICK_FOLDER.equals(action))
         {
             Fragment f = new OdsSelectFolderFragment();
-            FragmentDisplayer.replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this),
-                    OdsSelectFolderFragment.TAG, false, false);
+            FragmentDisplayer
+                    .replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), OdsSelectFolderFragment.TAG, false,
+                            false);
             return;
         }
 
         if (IntentIntegrator.ACTION_CREATE_ACCOUNT.equals(action))
         {
             Fragment f = new AccountEditFragment();
-            FragmentDisplayer.replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), AccountEditFragment.TAG,
-                    false, false);
+            FragmentDisplayer
+                    .replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), AccountEditFragment.TAG, false,
+                            false);
             return;
         }
     }
@@ -371,8 +380,8 @@ public class PublicDispatcherActivity extends BaseActivity
                 // Remove OAuthFragment if one
                 if (getFragment(AccountOAuthFragment.TAG) != null)
                 {
-                    getFragmentManager().popBackStack(AccountOAuthFragment.TAG,
-                            FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                    getFragmentManager()
+                            .popBackStack(AccountOAuthFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                 }
 
                 removeWaitingDialog();
