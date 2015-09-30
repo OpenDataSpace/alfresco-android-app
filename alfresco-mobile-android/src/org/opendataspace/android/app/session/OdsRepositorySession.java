@@ -237,7 +237,6 @@ public class OdsRepositorySession extends RepositorySessionImpl
         tmpSettings.put(SessionParameter.AUTHENTICATION_PROVIDER_CLASS, OdsAuthProviderImpl.class.getCanonicalName());
         tmpSettings.put(AlfrescoSession.ONPREMISE_SERVICES_CLASSNAME, OdsServiceRegistry.class.getCanonicalName());
         tmpSettings.put(SessionParameter.OBJECT_FACTORY_CLASS, OdsObjectFactoryImpl.class.getCanonicalName());
-        tmpSettings.put(SessionParameter.TYPE_DEFINITION_CACHE_CLASS, OdsTypeDefinitionCache.class.getCanonicalName());
 
         super.initSettings(url, username, password, tmpSettings);
     }
@@ -247,7 +246,6 @@ public class OdsRepositorySession extends RepositorySessionImpl
     {
         Map<String, String> res = super.retrieveSessionParameters();
         res.put(SessionParameter.OBJECT_FACTORY_CLASS, OdsObjectFactoryImpl.class.getCanonicalName());
-        res.put(SessionParameter.TYPE_DEFINITION_CACHE_CLASS, OdsTypeDefinitionCache.class.getCanonicalName());
         return res;
     }
 

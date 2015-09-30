@@ -19,7 +19,7 @@ import org.apache.chemistry.opencmis.client.api.Tree;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.enums.IncludeRelationships;
 import org.opendataspace.android.app.session.OdsFolder;
-import org.opendataspace.android.app.session.OdsTypeDefinitionCache;
+import org.opendataspace.android.app.session.OdsTypeDefinition;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import java.util.ArrayList;
@@ -84,7 +84,17 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
             {
                 for (final Relationship relationship : relationships)
                 {
-                    CmisObject cmo = relationship.getSource();
+                    CmisObject cmo;
+                    try
+                    {
+                        cmo = relationship.getSource();
+                    }
+                    catch (Exception ex)
+                    {
+                        OdsLog.exw("OdsLinksLoader", ex);
+                        continue;
+                    }
+
                     boolean found = false;
 
                     if (cmo == null || cmo.getSecondaryTypes() == null)
@@ -94,7 +104,7 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
 
                     for (final SecondaryType secondaryType : cmo.getSecondaryTypes())
                     {
-                        if (OdsTypeDefinitionCache.LINK_TYPE_ID.equals(secondaryType.getId()))
+                        if (OdsTypeDefinition.LINK_TYPE_ID.equals(secondaryType.getId()))
                         {
                             found = true;
                             break;
@@ -106,20 +116,20 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
                         continue;
                     }
 
-                    String ltype = cmo.getPropertyValue(OdsTypeDefinitionCache.LTYPE_PROP_ID);
+                    String ltype = cmo.getPropertyValue(OdsTypeDefinition.LTYPE_PROP_ID);
 
-                    if ((OdsTypeDefinitionCache.LINK_TYPE_UPLOAD.equals(ltype) && type == OdsLink.Type.UPLOAD) ||
-                            (OdsTypeDefinitionCache.LINK_TYPE_DOWNLAOD.equals(ltype) && type == OdsLink.Type.DOWNLOAD))
+                    if ((OdsTypeDefinition.LINK_TYPE_UPLOAD.equals(ltype) && type == OdsLink.Type.UPLOAD) ||
+                            (OdsTypeDefinition.LINK_TYPE_DOWNLAOD.equals(ltype) && type == OdsLink.Type.DOWNLOAD))
                     {
                         OdsLink link = new OdsLink();
                         link.setType(type);
-                        link.setEmail((String) cmo.getPropertyValue(OdsTypeDefinitionCache.EMAIL_PROP_ID));
+                        link.setEmail((String) cmo.getPropertyValue(OdsTypeDefinition.EMAIL_PROP_ID));
                         link.setExpires((Calendar) cmo.getPropertyValue(PropertyIds.EXPIRATION_DATE));
-                        link.setMessage((String) cmo.getPropertyValue(OdsTypeDefinitionCache.MESSAGE_PROP_ID));
-                        link.setName((String) cmo.getPropertyValue(OdsTypeDefinitionCache.SUBJECT_PROP_ID));
+                        link.setMessage((String) cmo.getPropertyValue(OdsTypeDefinition.MESSAGE_PROP_ID));
+                        link.setName((String) cmo.getPropertyValue(OdsTypeDefinition.SUBJECT_PROP_ID));
                         link.setNodeId(node.getIdentifier());
                         link.setObjectId(cmo.getId());
-                        link.setUrl((String) cmo.getPropertyValue(OdsTypeDefinitionCache.URL_PROP_ID));
+                        link.setUrl((String) cmo.getPropertyValue(OdsTypeDefinition.URL_PROP_ID));
 
                         if (link.isValid())
                         {
