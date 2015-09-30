@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,19 +17,11 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.preferences;
 
-import java.io.File;
-
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.ui.logging.OdsLog;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.security.DataProtectionUserDialogFragment;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
-
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.Preference;
@@ -37,9 +29,19 @@ import android.preference.Preference.OnPreferenceClickListener;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 
+import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.manager.StorageManager;
+import org.alfresco.mobile.android.application.security.DataProtectionUserDialogFragment;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
+
+import java.io.File;
+
 /**
  * Manage global application preferences.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class GeneralPreferences extends PreferenceFragment
@@ -115,8 +117,8 @@ public class GeneralPreferences extends PreferenceFragment
         {
             privateFoldersPref.setSelectable(true);
             privateFoldersPref.setEnabled(true);
-            privateFoldersPref.setSummary(sharedPref.getBoolean(PRIVATE_FOLDERS, false) ? R.string.data_protection_on
-                    : R.string.data_protection_off);
+            privateFoldersPref.setSummary(sharedPref.getBoolean(PRIVATE_FOLDERS, false) ? R.string.data_protection_on :
+                    R.string.data_protection_off);
         }
 
         privateFoldersPref.setOnPreferenceClickListener(new OnPreferenceClickListener()
@@ -127,8 +129,8 @@ public class GeneralPreferences extends PreferenceFragment
                 final File folder = StorageManager.getPrivateFolder(getActivity(), "", null);
                 if (folder != null)
                 {
-                    DataProtectionUserDialogFragment.newInstance(false).show(getActivity().getFragmentManager(),
-                            DataProtectionUserDialogFragment.TAG);
+                    DataProtectionUserDialogFragment.newInstance(false)
+                            .show(getActivity().getFragmentManager(), DataProtectionUserDialogFragment.TAG);
                 }
                 else
                 {
@@ -303,6 +305,26 @@ public class GeneralPreferences extends PreferenceFragment
                 return false;
             }
         });
+
+        findPreference("rate").setOnPreferenceClickListener(new OnPreferenceClickListener()
+        {
+            @Override
+            public boolean onPreferenceClick(Preference preference)
+            {
+                try
+                {
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse(getString(R.string.settings_rating_url)));
+                    startActivity(intent);
+                }
+                catch (Exception ex)
+                {
+                    OdsLog.exw(TAG, ex);
+                }
+
+                return false;
+            }
+        });
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -312,8 +334,8 @@ public class GeneralPreferences extends PreferenceFragment
     {
         Preference privateFoldersPref = findPreference(PRIVATE_FOLDERS_BUTTON);
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
-        privateFoldersPref.setSummary(sharedPref.getBoolean(PRIVATE_FOLDERS, false) ? R.string.data_protection_on
-                : R.string.data_protection_off);
+        privateFoldersPref.setSummary(sharedPref.getBoolean(PRIVATE_FOLDERS, false) ? R.string.data_protection_on :
+                R.string.data_protection_off);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -418,7 +440,8 @@ public class GeneralPreferences extends PreferenceFragment
         if (account != null)
         {
             SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
-            return sharedPref.getFloat(SYNCHRO_FREE_SPACE_ALERT_PREFIX + account.getId(), SYNCHRO_FREE_SPACE_ALERT_LENGTH);
+            return sharedPref
+                    .getFloat(SYNCHRO_FREE_SPACE_ALERT_PREFIX + account.getId(), SYNCHRO_FREE_SPACE_ALERT_LENGTH);
         }
         return SYNCHRO_FREE_SPACE_ALERT_LENGTH;
     }
