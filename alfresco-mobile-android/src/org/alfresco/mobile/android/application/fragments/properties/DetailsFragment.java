@@ -275,7 +275,6 @@ public class DetailsFragment extends MetadataFragment
         intentFilter.addAction(IntentIntegrator.ACTION_DELETE_COMPLETED);
         intentFilter.addAction(IntentIntegrator.ACTION_LIKE_COMPLETED);
         intentFilter.addAction(IntentIntegrator.ACTION_FAVORITE_COMPLETED);
-        intentFilter.addAction(IntentIntegrator.ACTION_UPDATE_COMPLETED);
         intentFilter.addAction(IntentIntegrator.ACTION_DECRYPT_COMPLETED);
         intentFilter.addAction(IntentIntegrator.ACTION_ENCRYPT_COMPLETED);
         intentFilter.addAction(ACTION_REFRESH);
@@ -1639,17 +1638,18 @@ public class DetailsFragment extends MetadataFragment
                             }
                             else
                             {
-                                ChildrenBrowserFragment f = (ChildrenBrowserFragment) getFragmentManager()
-                                        .findFragmentByTag(ChildrenBrowserFragment.TAG);
-
-                                if (f != null)
-                                {
-                                    f.remove(_node);
-                                }
-
                                 getFragmentManager()
                                         .popBackStack(DetailsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                             }
+
+                            ChildrenBrowserFragment f = (ChildrenBrowserFragment) getFragmentManager()
+                                    .findFragmentByTag(ChildrenBrowserFragment.TAG);
+
+                            if (f != null)
+                            {
+                                f.remove(_node);
+                            }
+
                             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
                             return;
                         }
@@ -1727,7 +1727,7 @@ public class DetailsFragment extends MetadataFragment
                                 ((FavoritesSyncFragment) getFragmentManager()
                                         .findFragmentByTag(FavoritesSyncFragment.TAG)).select(updatedNode);
                             }
-                            
+
                             Folder pFolder = (Folder) b.getParcelable(IntentIntegrator.EXTRA_FOLDER);
 
                             ((MainActivity) getActivity()).addPropertiesFragment(updatedNode, pFolder, backstack);
