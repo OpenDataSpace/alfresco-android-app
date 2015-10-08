@@ -1713,18 +1713,21 @@ public class DetailsFragment extends MetadataFragment
                                 getFragmentManager()
                                         .popBackStack(DetailsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                             }
-                            else if (((ChildrenBrowserFragment) getFragmentManager()
+
+                            if (((ChildrenBrowserFragment) getFragmentManager()
                                     .findFragmentByTag(ChildrenBrowserFragment.TAG)) != null)
                             {
                                 ((ChildrenBrowserFragment) getFragmentManager()
-                                        .findFragmentByTag(ChildrenBrowserFragment.TAG)).select(updatedNode);
+                                        .findFragmentByTag(ChildrenBrowserFragment.TAG)).replace(updatedNode);
                             }
-                            else if (((FavoritesSyncFragment) getFragmentManager()
+
+                            if (((FavoritesSyncFragment) getFragmentManager()
                                     .findFragmentByTag(FavoritesSyncFragment.TAG)) != null)
                             {
                                 ((FavoritesSyncFragment) getFragmentManager()
                                         .findFragmentByTag(FavoritesSyncFragment.TAG)).select(updatedNode);
                             }
+                            
                             Folder pFolder = (Folder) b.getParcelable(IntentIntegrator.EXTRA_FOLDER);
 
                             ((MainActivity) getActivity()).addPropertiesFragment(updatedNode, pFolder, backstack);

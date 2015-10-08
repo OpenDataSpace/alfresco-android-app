@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,13 +17,31 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.browser;
 
-import java.io.File;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import android.app.ActionBar;
+import android.app.ActionBar.OnNavigationListener;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.BroadcastReceiver;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.Loader;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.SubMenu;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.GridView;
+import android.widget.SpinnerAdapter;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.asynchronous.NodeChildrenLoader;
@@ -79,31 +97,13 @@ import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
 import org.opendataspace.android.app.session.OdsPermissions;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.app.ActionBar;
-import android.app.ActionBar.OnNavigationListener;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.BroadcastReceiver;
-import android.content.ClipData;
-import android.content.ClipboardManager;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.Loader;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
-import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.SubMenu;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.GridView;
-import android.widget.SpinnerAdapter;
+import java.io.File;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Display a dialogFragment to retrieve information about the content of a
@@ -123,7 +123,9 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     private long lastModifiedDate;
 
-    /** By default, the fragment is in Listing mode. */
+    /**
+     * By default, the fragment is in Listing mode.
+     */
     private int mode = MODE_LISTING;
 
     private Button validationButton;
@@ -206,12 +208,12 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     private static ChildrenBrowserFragment newInstance(Folder parentFolder, String pathFolder, Site site)
     {
-        return newInstance(parentFolder, pathFolder, site, pathFolder != null
-                || parentFolder instanceof CloudFolderImpl);
+        return newInstance(parentFolder, pathFolder, site,
+                pathFolder != null || parentFolder instanceof CloudFolderImpl);
     }
 
     private static ChildrenBrowserFragment newInstance(Folder parentFolder, String pathFolder, Site site,
-            boolean isShortcut)
+                                                       boolean isShortcut)
     {
         ChildrenBrowserFragment bf = new ChildrenBrowserFragment();
         ListingContext lc = new ListingContext();
@@ -245,8 +247,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         // In case of Import mode, we disable thumbnails.
         if (getActivity() instanceof PublicDispatcherActivity)
         {
-            mode = IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()) ? MODE_FOLDERS
-                    : MODE_IMPORT;
+            mode = IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()) ? MODE_FOLDERS :
+                    MODE_IMPORT;
             setActivateThumbnail(false);
         }
         else if (getActivity() instanceof PrivateDialogActivity)
@@ -270,8 +272,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
             validationButton = (Button) v.findViewById(R.id.action_validation);
 
-            if (getActivity() instanceof PublicDispatcherActivity
-                    && IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()))
+            if (getActivity() instanceof PublicDispatcherActivity &&
+                    IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()))
             {
                 validationButton.setText(R.string.action_select);
             }
@@ -309,8 +311,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         int titleId = R.string.app_name;
         if (getActivity() instanceof PublicDispatcherActivity)
         {
-            mode = IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()) ? MODE_FOLDERS
-                    : MODE_IMPORT;
+            mode = IntentIntegrator.ACTION_PICK_FOLDER.equals(getActivity().getIntent().getAction()) ? MODE_FOLDERS :
+                    MODE_IMPORT;
             titleId = R.string.import_document_title;
             checkValidationButton();
         }
@@ -366,7 +368,6 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             intentFilter.addAction(IntentIntegrator.ACTION_DELETE_COMPLETED);
             intentFilter.addAction(IntentIntegrator.ACTION_UPLOAD_STARTED);
             intentFilter.addAction(IntentIntegrator.ACTION_CREATE_FOLDER_COMPLETED);
-            intentFilter.addAction(IntentIntegrator.ACTION_UPDATE_COMPLETED);
             intentFilter.addAction(IntentIntegrator.ACTION_FAVORITE_COMPLETED);
             intentFilter.addAction(IntentIntegrator.ACTION_DOWNLOAD_COMPLETED);
             intentFilter.addAction(IntentIntegrator.ACTION_MOVE_NODES_COMPLETED);
@@ -422,8 +423,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
             List<String> listFolder = getPath(pathValue, fromSite);
 
-            SpinnerAdapter adapter = new PathAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item,
-                    listFolder);
+            SpinnerAdapter adapter =
+                    new PathAdapter(getActivity(), android.R.layout.simple_spinner_dropdown_item, listFolder);
 
             OnNavigationListener mOnNavigationListener = new OnNavigationListener()
             {
@@ -482,7 +483,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         String[] path = pathValue != null ? pathValue.split("/") : new String[] {};
         if (path.length == 0)
         {
-            path = new String[] { "/" };
+            path = new String[] {"/"};
         }
 
         String tmpPath = "";
@@ -616,9 +617,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         boolean b = true;
         if (n instanceof NodePlaceHolder)
         {
-            getActivity().startActivity(
-                    new Intent(IntentIntegrator.ACTION_DISPLAY_OPERATIONS).putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID,
-                            SessionUtils.getAccount(getActivity()).getId()));
+            getActivity().startActivity(new Intent(IntentIntegrator.ACTION_DISPLAY_OPERATIONS)
+                    .putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, SessionUtils.getAccount(getActivity()).getId()));
             b = false;
         }
         else
@@ -632,7 +632,9 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             }
         }
         return b;
-    };
+    }
+
+    ;
 
     private boolean startSelection(Node item)
     {
@@ -664,7 +666,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     // LOADERS
     // //////////////////////////////////////////////////////////////////////
     @Override
-    public void onLoadFinished(Loader<LoaderResult<PagingResult<Node>>> loader, LoaderResult<PagingResult<Node>> results)
+    public void onLoadFinished(Loader<LoaderResult<PagingResult<Node>>> loader,
+                               LoaderResult<PagingResult<Node>> results)
     {
         if (getActivity() instanceof MainActivity && ((MainActivity) getActivity()).getCurrentNode() != null)
         {
@@ -681,13 +684,15 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         if (mode == MODE_PICK && adapter == null)
         {
             selectedMapItems = fragmentPick.retrieveDocumentSelection();
-            adapter = new ProgressNodeAdapter(getActivity(), BaseCursorGridAdapterHelper.getDisplayItemLayout(
-                    getActivity(), gv, displayMode), parentFolder, new ArrayList<Node>(0), selectedMapItems);
+            adapter = new ProgressNodeAdapter(getActivity(),
+                    BaseCursorGridAdapterHelper.getDisplayItemLayout(getActivity(), gv, displayMode), parentFolder,
+                    new ArrayList<Node>(0), selectedMapItems);
         }
         else if (adapter == null)
         {
-            adapter = new ProgressNodeAdapter(getActivity(), BaseCursorGridAdapterHelper.getDisplayItemLayout(
-                    getActivity(), gv, displayMode), parentFolder, new ArrayList<Node>(0), selectedItems, mode);
+            adapter = new ProgressNodeAdapter(getActivity(),
+                    BaseCursorGridAdapterHelper.getDisplayItemLayout(getActivity(), gv, displayMode), parentFolder,
+                    new ArrayList<Node>(0), selectedItems, mode);
         }
 
         if (results.hasException())
@@ -741,8 +746,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                     // Error case : Unable to find the file path associated
                     // to user pick.
                     // Sample : Picasa image case
-                    ActionManager.actionDisplayError(this, new AlfrescoAppException(
-                            getString(R.string.error_unknown_filepath), true));
+                    ActionManager.actionDisplayError(this,
+                            new AlfrescoAppException(getString(R.string.error_unknown_filepath), true));
                 }
             }
             else if (data != null && data.getExtras() != null && data.getExtras().containsKey(Intent.EXTRA_STREAM))
@@ -755,17 +760,17 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                 }
                 createFiles(files);
             }
-        break;
+            break;
         default:
-        break;
+            break;
         }
     }
 
     public void createFile(File f)
     {
         // Create and show the dialog.
-        AddContentDialogFragment newFragment = AddContentDialogFragment.newInstance(importFolder, f,
-                (createFile != null));
+        AddContentDialogFragment newFragment =
+                AddContentDialogFragment.newInstance(importFolder, f, (createFile != null));
         newFragment.show(getActivity().getFragmentManager(), AddContentDialogFragment.TAG);
         tmpFile = null;
         createFile = null;
@@ -780,8 +785,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         }
         else
         {
-            OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
-                    SessionUtils.getAccount(getActivity()));
+            OperationsRequestGroup group =
+                    new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
             for (File file : files)
             {
                 group.enqueue(new CreateDocumentRequest(importFolder.getIdentifier(), file.getName(),
@@ -856,13 +861,13 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         }
         else if (getActivity() instanceof PublicDispatcherActivity)
         {
-            Permissions permission = alfSession.getServiceRegistry().getDocumentFolderService()
-                    .getPermissions(parentFolder);
+            Permissions permission =
+                    alfSession.getServiceRegistry().getDocumentFolderService().getPermissions(parentFolder);
 
             if (permission.canAddChildren())
             {
-                MenuItem mi = menu.add(Menu.NONE, MenuActionItem.MENU_CREATE_FOLDER, Menu.FIRST
-                        + MenuActionItem.MENU_CREATE_FOLDER, R.string.folder_create);
+                MenuItem mi = menu.add(Menu.NONE, MenuActionItem.MENU_CREATE_FOLDER,
+                        Menu.FIRST + MenuActionItem.MENU_CREATE_FOLDER, R.string.folder_create);
                 mi.setIcon(R.drawable.ic_add_folder);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
             }
@@ -925,28 +930,28 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
         if (!actionMode && canCreateFile)
         {
-            SubMenu createMenu = menu.addSubMenu(Menu.NONE, MenuActionItem.MENU_DEVICE_CAPTURE, Menu.FIRST
-                    + MenuActionItem.MENU_DEVICE_CAPTURE, R.string.add_menu);
+            SubMenu createMenu = menu.addSubMenu(Menu.NONE, MenuActionItem.MENU_DEVICE_CAPTURE,
+                    Menu.FIRST + MenuActionItem.MENU_DEVICE_CAPTURE, R.string.add_menu);
             createMenu.setIcon(android.R.drawable.ic_menu_add);
             createMenu.getItem().setShowAsAction(MenuItem.SHOW_AS_ACTION_ALWAYS);
 
             createMenu.add(Menu.NONE, MenuActionItem.MENU_UPLOAD, Menu.FIRST + MenuActionItem.MENU_UPLOAD,
                     R.string.upload_title);
 
-            createMenu.add(Menu.NONE, MenuActionItem.MENU_CREATE_DOCUMENT, Menu.FIRST
-                    + MenuActionItem.MENU_CREATE_DOCUMENT, R.string.create_document);
+            createMenu.add(Menu.NONE, MenuActionItem.MENU_CREATE_DOCUMENT,
+                    Menu.FIRST + MenuActionItem.MENU_CREATE_DOCUMENT, R.string.create_document);
 
-            createMenu.add(Menu.NONE, MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_PHOTO, Menu.FIRST
-                    + MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_PHOTO, R.string.take_photo);
+            createMenu.add(Menu.NONE, MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_PHOTO,
+                    Menu.FIRST + MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_PHOTO, R.string.take_photo);
 
             if (AndroidVersion.isICSOrAbove())
             {
-                createMenu.add(Menu.NONE, MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_VIDEO, Menu.FIRST
-                        + MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_VIDEO, R.string.make_video);
+                createMenu.add(Menu.NONE, MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_VIDEO,
+                        Menu.FIRST + MenuActionItem.MENU_DEVICE_CAPTURE_CAMERA_VIDEO, R.string.make_video);
             }
 
-            createMenu.add(Menu.NONE, MenuActionItem.MENU_DEVICE_CAPTURE_MIC_AUDIO, Menu.FIRST
-                    + MenuActionItem.MENU_DEVICE_CAPTURE_MIC_AUDIO, R.string.record_audio);
+            createMenu.add(Menu.NONE, MenuActionItem.MENU_DEVICE_CAPTURE_MIC_AUDIO,
+                    Menu.FIRST + MenuActionItem.MENU_DEVICE_CAPTURE_MIC_AUDIO, R.string.record_audio);
 
         }
 
@@ -985,8 +990,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         {
             ClipboardManager clipboard = (ClipboardManager) ctx.getSystemService(Context.CLIPBOARD_SERVICE);
 
-            if (clipboard.hasPrimaryClip()
-                    && clipboard.getPrimaryClipDescription().hasMimeType(MimeTypeManager.MIME_NODE_LIST))
+            if (clipboard.hasPrimaryClip() &&
+                    clipboard.getPrimaryClipDescription().hasMimeType(MimeTypeManager.MIME_NODE_LIST))
             {
                 mi = menu.add(Menu.NONE, MenuActionItem.MENU_PASTE, Menu.FIRST + MenuActionItem.MENU_PASTE,
                         R.string.paste_files);
@@ -1012,7 +1017,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     /**
      * Remove a site object inside the listing without requesting an HTTP call.
      *
-     * @param site : site to remove
+     * @param node : site to remove
      */
     public void remove(Node node)
     {
@@ -1103,8 +1108,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             data.put("isCopy", isCopy);
             data.put("srcId", parentFolder.getIdentifier());
 
-            ClipData cd = new ClipData("ods nodes", new String[] { MimeTypeManager.MIME_NODE_LIST }, new ClipData.Item(
-                    data.toString()));
+            ClipData cd = new ClipData("ods nodes", new String[] {MimeTypeManager.MIME_NODE_LIST},
+                    new ClipData.Item(data.toString()));
             ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
             clipboard.setPrimaryClip(cd);
         }
@@ -1125,23 +1130,23 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         {
             ClipboardManager clipboard = (ClipboardManager) getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
 
-            if (!clipboard.hasPrimaryClip()
-                    || !clipboard.getPrimaryClipDescription().hasMimeType(MimeTypeManager.MIME_NODE_LIST)
-                    || clipboard.getPrimaryClip().getItemCount() != 1)
+            if (!clipboard.hasPrimaryClip() ||
+                    !clipboard.getPrimaryClipDescription().hasMimeType(MimeTypeManager.MIME_NODE_LIST) ||
+                    clipboard.getPrimaryClip().getItemCount() != 1)
             {
                 return;
             }
 
-            JSONObject jso = new JSONObject(clipboard.getPrimaryClip().getItemAt(0).coerceToText(getActivity())
-                    .toString());
+            JSONObject jso =
+                    new JSONObject(clipboard.getPrimaryClip().getItemAt(0).coerceToText(getActivity()).toString());
 
             JSONArray list = jso.optJSONArray("nodes");
             long accId = jso.optLong("account", -1);
             boolean isCopy = jso.optBoolean("isCopy", true);
             String srcId = jso.optString("src", "");
 
-            if (list == null || SessionUtils.getAccount(getActivity()).getId() != accId
-                    || srcId.equals(parentFolder.getIdentifier()))
+            if (list == null || SessionUtils.getAccount(getActivity()).getId() != accId ||
+                    srcId.equals(parentFolder.getIdentifier()))
             {
                 return;
             }
@@ -1170,8 +1175,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                 return;
             }
 
-            OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
-                    SessionUtils.getAccount(getActivity()));
+            OperationsRequestGroup group =
+                    new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
             group.enqueue(new OdsMoveNodesRequest(ids, parentFolder.getIdentifier(), srcId, !isCopy)
                     .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
@@ -1184,6 +1189,12 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         {
             OdsLog.ex(TAG, ex);
         }
+    }
+
+    public void replace(Node node)
+    {
+        remove(node);
+        ((ProgressNodeAdapter) adapter).replaceNode(node);
     }
 
     // //////////////////////////////////////////////////////////////////////
@@ -1297,9 +1308,9 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             folderParameter = parentFolder;
         }
 
-        FragmentDisplayer.replaceFragment(getActivity(),
-                SearchFragment.newInstance(folderParameter, currentSiteParameter), fragmentPlaceId, SearchFragment.TAG,
-                true);
+        FragmentDisplayer
+                .replaceFragment(getActivity(), SearchFragment.newInstance(folderParameter, currentSiteParameter),
+                        fragmentPlaceId, SearchFragment.TAG, true);
     }
 
     public void setCreateFile(File newFile)
@@ -1330,8 +1341,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         {
             if (parentFolder != null)
             {
-                Permissions permission = alfSession.getServiceRegistry().getDocumentFolderService()
-                        .getPermissions(parentFolder);
+                Permissions permission =
+                        alfSession.getServiceRegistry().getDocumentFolderService().getPermissions(parentFolder);
                 enable = permission.canAddChildren();
             }
             validationButton.setEnabled(enable);
@@ -1359,7 +1370,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         {
             return false;
         }
-        return (getArguments().get(PARAM_IS_SHORTCUT) instanceof Boolean) ? (Boolean) getArguments().get(
-                PARAM_IS_SHORTCUT) : false;
+        return (getArguments().get(PARAM_IS_SHORTCUT) instanceof Boolean) ?
+                (Boolean) getArguments().get(PARAM_IS_SHORTCUT) : false;
     }
 }
