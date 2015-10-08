@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,18 +17,18 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.actions;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import android.app.Activity;
+import android.app.Fragment;
+import android.view.ActionMode;
+import android.view.Menu;
 
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.view.ActionMode;
-import android.view.Menu;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public abstract class AbstractActions<T> implements ActionMode.Callback
 {
@@ -115,7 +115,10 @@ public abstract class AbstractActions<T> implements ActionMode.Callback
 
     protected void addNode(T n)
     {
-        if (n == null) { return; }
+        if (n == null)
+        {
+            return;
+        }
 
         if (!selectedItems.contains(n))
         {
@@ -149,18 +152,24 @@ public abstract class AbstractActions<T> implements ActionMode.Callback
         if (activity != null && node != null && SessionUtils.getAccount(activity) != null)
         {
             File folder = StorageManager.getDownloadFolder(activity, SessionUtils.getAccount(activity));
-            if (folder != null) { return new File(folder, node.getName()); }
+            if (folder != null)
+            {
+                return new File(folder, node.getName());
+            }
         }
 
         return null;
     }
-    
+
     public static File getTempFile(final Activity activity, final Node node)
     {
         if (activity != null && node != null && SessionUtils.getAccount(activity) != null)
         {
             File folder = StorageManager.getTempFolder(activity, SessionUtils.getAccount(activity));
-            if (folder != null) { return new File(folder, node.getName()); }
+            if (folder != null)
+            {
+                return new File(folder, node.getName());
+            }
         }
 
         return null;

@@ -1,33 +1,43 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *
- *  This file is part of Alfresco Mobile for Android.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * This file is part of Alfresco Mobile for Android.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.browser;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.LoaderManager;
+import android.content.CursorLoader;
+import android.content.Loader;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnDismissListener;
+import android.widget.PopupMenu.OnMenuItemClickListener;
+import android.widget.ProgressBar;
 
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.Permissions;
 import org.alfresco.mobile.android.api.model.impl.publicapi.PublicAPIPropertyIds;
-import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
 import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
@@ -50,29 +60,19 @@ import org.alfresco.mobile.android.application.utils.CursorUtils;
 import org.alfresco.mobile.android.application.utils.ProgressViewHolder;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.LoaderManager;
-import android.content.CursorLoader;
-import android.content.Loader;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnDismissListener;
-import android.widget.PopupMenu.OnMenuItemClickListener;
-import android.widget.ProgressBar;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @since 1.2
  * @author Jean Marie Pascal
  */
-public class ProgressNodeAdapter extends NodeAdapter implements LoaderManager.LoaderCallbacks<Cursor>,
-OnMenuItemClickListener
+public class ProgressNodeAdapter extends NodeAdapter
+        implements LoaderManager.LoaderCallbacks<Cursor>, OnMenuItemClickListener
 {
     private static final int LOADER_OPERATION_ID = 1;
 
@@ -91,7 +91,7 @@ OnMenuItemClickListener
     private boolean isSyncFolder;
 
     public ProgressNodeAdapter(Activity context, int textViewResourceId, Node parentNode, List<Node> listItems,
-            List<Node> selectedItems, int mode)
+                               List<Node> selectedItems, int mode)
     {
         super(context, textViewResourceId, listItems, selectedItems, mode);
         vhClassName = ProgressViewHolder.class.getCanonicalName();
@@ -110,7 +110,7 @@ OnMenuItemClickListener
     }
 
     public ProgressNodeAdapter(Activity context, int textViewResourceId, Node parentNode, List<Node> listItems,
-            Map<String, Document> selectedItems)
+                               Map<String, Document> selectedItems)
     {
         super(context, textViewResourceId, listItems, selectedItems);
         vhClassName = ProgressViewHolder.class.getCanonicalName();
@@ -158,7 +158,8 @@ OnMenuItemClickListener
 
                     if (percentage == MAX_PROGRESS)
                     {
-                        if ((Integer) item.getPropertyValue(PublicAPIPropertyIds.REQUEST_TYPE) == DownloadRequest.TYPE_ID)
+                        if ((Integer) item.getPropertyValue(PublicAPIPropertyIds.REQUEST_TYPE) ==
+                                DownloadRequest.TYPE_ID)
                         {
                             progressView.setVisibility(View.GONE);
                             super.updateTopText(vh, item);
@@ -300,9 +301,18 @@ OnMenuItemClickListener
         {
             vh.icon.setImageDrawable(context.getResources().getDrawable(R.drawable.mime_256_folder));
 
-            if (mode == ListingModeFragment.MODE_IMPORT) { return; }
-            if (mode == ListingModeFragment.MODE_PICK) { return; }
-            if (mode == ListingModeFragment.MODE_FOLDERS) { return; }
+            if (mode == ListingModeFragment.MODE_IMPORT)
+            {
+                return;
+            }
+            if (mode == ListingModeFragment.MODE_PICK)
+            {
+                return;
+            }
+            if (mode == ListingModeFragment.MODE_FOLDERS)
+            {
+                return;
+            }
 
             UIUtils.setBackground(((View) vh.choose),
                     context.getResources().getDrawable(R.drawable.quickcontact_badge_overlay_light));
@@ -354,16 +364,17 @@ OnMenuItemClickListener
     {
         if (id == LOADER_OPERATION_ID)
         {
-            return new CursorLoader(context, BatchOperationContentProvider.CONTENT_URI,
-                    BatchOperationSchema.COLUMN_ALL, BatchOperationSchema.COLUMN_PARENT_ID + "=\""
-                            + parentNode.getIdentifier() + "\" AND " + BatchOperationSchema.COLUMN_REQUEST_TYPE
-                            + " IN(" + CreateDocumentRequest.TYPE_ID + " , " + DownloadRequest.TYPE_ID + " , "
-                            + UpdateContentRequest.TYPE_ID + ")", null, null);
+            return new CursorLoader(context, BatchOperationContentProvider.CONTENT_URI, BatchOperationSchema.COLUMN_ALL,
+                    BatchOperationSchema.COLUMN_PARENT_ID + "=\"" + parentNode.getIdentifier() + "\" AND " +
+                            BatchOperationSchema.COLUMN_REQUEST_TYPE + " IN(" + CreateDocumentRequest.TYPE_ID + " , " +
+                            DownloadRequest.TYPE_ID + " , " + UpdateContentRequest.TYPE_ID + ")", null, null);
         }
-        else if (id == LOADER_SYNC_ID) { return new CursorLoader(context, SynchroProvider.CONTENT_URI,
-                SynchroSchema.COLUMN_ALL, SynchroSchema.COLUMN_PARENT_ID + " =\"" + parentNode.getIdentifier()
-                + "\" AND " + SynchroSchema.COLUMN_STATUS + " NOT IN (" + SyncOperation.STATUS_HIDDEN + ")",
-                null, null); }
+        else if (id == LOADER_SYNC_ID)
+        {
+            return new CursorLoader(context, SynchroProvider.CONTENT_URI, SynchroSchema.COLUMN_ALL,
+                    SynchroSchema.COLUMN_PARENT_ID + " =\"" + parentNode.getIdentifier() + "\" AND " +
+                            SynchroSchema.COLUMN_STATUS + " NOT IN (" + SyncOperation.STATUS_HIDDEN + ")", null, null);
+        }
         return null;
     }
 
@@ -414,8 +425,7 @@ OnMenuItemClickListener
                     break;
                 case Operation.STATUS_SUCCESSFUL:
                     // Update node if not present
-                    if (type != DownloadRequest.TYPE_ID && hasNode(name)
-                    && getNode(name) instanceof NodePlaceHolder)
+                    if (type != DownloadRequest.TYPE_ID && hasNode(name) && getNode(name) instanceof NodePlaceHolder)
                     {
                         notifyDataSetChanged();
                     }
@@ -453,8 +463,8 @@ OnMenuItemClickListener
     {
         MenuItem mi;
 
-        Permissions permission = SessionUtils.getSession(context).getServiceRegistry().getDocumentFolderService()
-                .getPermissions(node);
+        Permissions permission =
+                SessionUtils.getSession(context).getServiceRegistry().getDocumentFolderService().getPermissions(node);
 
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_DETAILS, Menu.FIRST + MenuActionItem.MENU_DETAILS,
                 R.string.action_view_properties);
@@ -476,8 +486,12 @@ OnMenuItemClickListener
 
         if (node.isFolder())
         {
-            mi = menu.add(Menu.NONE, MenuActionItem.MENU_CUT, Menu.FIRST + MenuActionItem.MENU_CUT, R.string.cut_files);
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            if (permission.canDelete())
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_CUT, Menu.FIRST + MenuActionItem.MENU_CUT,
+                        R.string.cut_files);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            }
 
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_COPY, Menu.FIRST + MenuActionItem.MENU_COPY,
                     R.string.copy_files);
@@ -567,8 +581,8 @@ OnMenuItemClickListener
         isSyncFolder = false;
         try
         {
-            parentCursorId = SynchroManager.getCursorForId(context, SessionUtils.getAccount(getContext()),
-                    parentNode.getIdentifier());
+            parentCursorId = SynchroManager
+                    .getCursorForId(context, SessionUtils.getAccount(getContext()), parentNode.getIdentifier());
             if (parentCursorId.getCount() == 1 && parentCursorId.moveToFirst())
             {
                 isSyncFolder = true;
@@ -593,5 +607,4 @@ OnMenuItemClickListener
             vh.iconBottomRight.setImageResource(imageResource);
         }
     }
-
 }

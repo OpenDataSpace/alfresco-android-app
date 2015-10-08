@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,13 +17,21 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.actions;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.os.Parcelable;
+import android.view.ActionMode;
+import android.view.Menu;
+import android.view.MenuItem;
 
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.activity.PrivateDialogActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -47,16 +55,9 @@ import org.alfresco.mobile.android.application.operations.batch.utils.NodePlaceH
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.opendataspace.android.app.R;
 
-import android.app.Activity;
-import android.app.AlertDialog;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Parcelable;
-import android.view.ActionMode;
-import android.view.Menu;
-import android.view.MenuItem;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 public class NodeActions extends AbstractActions<Node>
 {
@@ -134,8 +135,14 @@ public class NodeActions extends AbstractActions<Node>
     protected void addNode(Node n)
     {
         super.addNode(n);
-        if (n == null) { return; }
-        if (n instanceof NodePlaceHolder) { return; }
+        if (n == null)
+        {
+            return;
+        }
+        if (n instanceof NodePlaceHolder)
+        {
+            return;
+        }
         if (n.isDocument())
         {
             selectedDocument.add((Document) n);
@@ -223,12 +230,28 @@ public class NodeActions extends AbstractActions<Node>
         }
         */
 
-        mi = menu.add(Menu.NONE, MenuActionItem.MENU_DELETE, Menu.FIRST + MenuActionItem.MENU_DELETE, R.string.delete);
-        mi.setIcon(R.drawable.ic_delete);
-        mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        boolean canDelete = true;
+        DocumentFolderService svc = SessionUtils.getSession(activity).getServiceRegistry().getDocumentFolderService();
 
-        mi = menu.add(Menu.NONE, MenuActionItem.MENU_CUT, Menu.FIRST + MenuActionItem.MENU_CUT, R.string.cut_files);
-        mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        for (Node cur : selectedItems)
+        {
+            if (!svc.getPermissions(cur).canDelete())
+            {
+                canDelete = false;
+                break;
+            }
+        }
+
+        if (canDelete)
+        {
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_DELETE, Menu.FIRST + MenuActionItem.MENU_DELETE,
+                    R.string.delete);
+            mi.setIcon(R.drawable.ic_delete);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_CUT, Menu.FIRST + MenuActionItem.MENU_CUT, R.string.cut_files);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        }
 
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_COPY, Menu.FIRST + MenuActionItem.MENU_COPY, R.string.copy_files);
         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
@@ -328,7 +351,7 @@ public class NodeActions extends AbstractActions<Node>
         for (Node node : selectedItems)
         {
             group.enqueue(new FavoriteNodeRequest(parentFolder, node, doFavorite, true)
-            .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+                    .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
         }
 
         BatchOperationManager.getInstance(activity).enqueue(group);
@@ -342,9 +365,10 @@ public class NodeActions extends AbstractActions<Node>
                 titleId = R.string.favorite;
                 iconId = R.drawable.ic_favorite_dark;
             }
-            OperationWaitingDialogFragment.newInstance(FavoriteNodeRequest.TYPE_ID, iconId,
-                    fragment.getString(titleId), null, parentFolder, selectedItems.size()).show(
-                            fragment.getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+            OperationWaitingDialogFragment
+                    .newInstance(FavoriteNodeRequest.TYPE_ID, iconId, fragment.getString(titleId), null, parentFolder,
+                            selectedItems.size())
+                    .show(fragment.getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
         }
     }
 
@@ -354,7 +378,7 @@ public class NodeActions extends AbstractActions<Node>
         for (Node node : selectedItems)
         {
             group.enqueue(new LikeNodeRequest(parentFolder, node, doLike)
-            .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+                    .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
         }
         BatchOperationManager.getInstance(activity).enqueue(group);
 
@@ -367,9 +391,10 @@ public class NodeActions extends AbstractActions<Node>
                 titleId = R.string.like;
                 iconId = R.drawable.ic_like;
             }
-            OperationWaitingDialogFragment.newInstance(LikeNodeRequest.TYPE_ID, iconId, fragment.getString(titleId),
-                    null, parentFolder, selectedItems.size()).show(fragment.getActivity().getFragmentManager(),
-                            OperationWaitingDialogFragment.TAG);
+            OperationWaitingDialogFragment
+                    .newInstance(LikeNodeRequest.TYPE_ID, iconId, fragment.getString(titleId), null, parentFolder,
+                            selectedItems.size())
+                    .show(fragment.getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
         }
     }
 
@@ -379,8 +404,8 @@ public class NodeActions extends AbstractActions<Node>
         File folder = StorageManager.getDownloadFolder(activity, SessionUtils.getAccount(activity));
         if (folder != null && new File(folder, doc.getName()).exists())
         {
-            ResolveNamingConflictFragment.newInstance(parentFolder, doc).show(activity.getFragmentManager(),
-                    ResolveNamingConflictFragment.TAG);
+            ResolveNamingConflictFragment.newInstance(parentFolder, doc)
+                    .show(activity.getFragmentManager(), ResolveNamingConflictFragment.TAG);
         }
         else
         {
@@ -448,8 +473,9 @@ public class NodeActions extends AbstractActions<Node>
         {
             nodeDescription = nodes.get(0).getName();
         }
-        String description = String.format(
-                activity.getResources().getQuantityString(R.plurals.delete_items, nodes.size()), nodeDescription);
+        String description =
+                String.format(activity.getResources().getQuantityString(R.plurals.delete_items, nodes.size()),
+                        nodeDescription);
         builder.setMessage(description);
         builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
         {
@@ -461,21 +487,21 @@ public class NodeActions extends AbstractActions<Node>
                 if (nodes.size() == 1)
                 {
                     group.enqueue(new DeleteNodeRequest(parent, nodes.get(0))
-                    .setNotificationVisibility(OperationRequest.VISIBILITY_TOAST));
+                            .setNotificationVisibility(OperationRequest.VISIBILITY_TOAST));
                 }
                 else
                 {
                     for (Node node : nodes)
                     {
                         group.enqueue(new DeleteNodeRequest(parent, node)
-                        .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+                                .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
                     }
 
                     if (f instanceof ChildrenBrowserFragment)
                     {
                         OperationWaitingDialogFragment.newInstance(DeleteNodeRequest.TYPE_ID, R.drawable.ic_delete,
-                                f.getString(R.string.delete), null, parent, nodes.size()).show(
-                                        f.getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+                                f.getString(R.string.delete), null, parent, nodes.size())
+                                .show(f.getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
                     }
                 }
 

@@ -19,11 +19,11 @@ public class OdsPermissions extends PermissionsImpl
 
     public boolean canCreateFolder()
     {
-        return nd != null ? nd.hasAllowableAction(Action.CAN_CREATE_FOLDER) : false;
+        return nd != null && nd.hasAllowableAction(Action.CAN_CREATE_FOLDER);
     }
 
     public boolean canCreateFile()
     {
-        return nd != null ? nd.hasAllowableAction(Action.CAN_CREATE_DOCUMENT) : false;
+        return nd != null && nd.hasAllowableAction(Action.CAN_CREATE_DOCUMENT);
     }
 }
