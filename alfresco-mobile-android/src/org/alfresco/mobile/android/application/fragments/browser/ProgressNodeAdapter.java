@@ -68,8 +68,8 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * @since 1.2
  * @author Jean Marie Pascal
+ * @since 1.2
  */
 public class ProgressNodeAdapter extends NodeAdapter
         implements LoaderManager.LoaderCallbacks<Cursor>, OnMenuItemClickListener
@@ -493,9 +493,12 @@ public class ProgressNodeAdapter extends NodeAdapter
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
             }
 
-            mi = menu.add(Menu.NONE, MenuActionItem.MENU_COPY, Menu.FIRST + MenuActionItem.MENU_COPY,
-                    R.string.copy_files);
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            if (permission.canEdit())
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_COPY, Menu.FIRST + MenuActionItem.MENU_COPY,
+                        R.string.copy_files);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            }
         }
     }
 

@@ -31,6 +31,7 @@ import android.view.MenuItem;
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.Permissions;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.activity.PrivateDialogActivity;
@@ -231,13 +232,25 @@ public class NodeActions extends AbstractActions<Node>
         */
 
         boolean canDelete = true;
+        boolean canEdit = true;
         DocumentFolderService svc = SessionUtils.getSession(activity).getServiceRegistry().getDocumentFolderService();
 
         for (Node cur : selectedItems)
         {
-            if (!svc.getPermissions(cur).canDelete())
+            Permissions permissions = svc.getPermissions(cur);
+
+            if (!permissions.canDelete())
             {
                 canDelete = false;
+            }
+
+            if (!permissions.canEdit())
+            {
+                canEdit = false;
+            }
+
+            if (!canDelete && !canEdit)
+            {
                 break;
             }
         }
@@ -253,8 +266,12 @@ public class NodeActions extends AbstractActions<Node>
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         }
 
-        mi = menu.add(Menu.NONE, MenuActionItem.MENU_COPY, Menu.FIRST + MenuActionItem.MENU_COPY, R.string.copy_files);
-        mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        if (canEdit)
+        {
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_COPY, Menu.FIRST + MenuActionItem.MENU_COPY,
+                    R.string.copy_files);
+            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+        }
 
         mi = menu.add(Menu.NONE, MenuActionItem.MENU_SELECT_ALL, Menu.FIRST + MenuActionItem.MENU_SELECT_ALL,
                 R.string.select_all);
