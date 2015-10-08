@@ -61,8 +61,16 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
             boolean hasObjectId = !TextUtils.isEmpty(link.getObjectId());
             boolean hasNodeId = !TextUtils.isEmpty(link.getNodeId());
 
-            if (!hasNodeId || (isDownload && hasObjectId))
+            if (!hasNodeId && hasObjectId)
             {
+                String relId = link.getRelationId();
+
+                if (!TextUtils.isEmpty(relId))
+                {
+                    cmisSession.delete(new ObjectIdImpl(link.getRelationId()));
+                    link.setRelationId(null);
+                }
+
                 cmisSession.delete(new ObjectIdImpl(link.getObjectId()));
                 link.setObjectId(null);
                 hasObjectId = false;
@@ -101,10 +109,11 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                     rel.put(PropertyIds.OBJECT_TYPE_ID, BaseTypeId.CMIS_RELATIONSHIP.value());
                     rel.put(PropertyIds.SOURCE_ID, item.getId());
                     rel.put(PropertyIds.TARGET_ID, link.getNodeId());
-                    cmisSession.createRelationship(rel);
+                    ObjectId relId = cmisSession.createRelationship(rel);
 
                     link.setUrl(property.getFirstValue());
                     link.setObjectId(item.getId());
+                    link.setRelationId(relId.getId());
                 }
                 else
                 {

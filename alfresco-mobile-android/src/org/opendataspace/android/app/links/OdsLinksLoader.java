@@ -72,6 +72,7 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
         for (final Relationship relationship : relationships)
         {
             CmisObject cmo;
+
             try
             {
                 cmo = relationship.getSource();
@@ -118,6 +119,7 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
                 link.setNodeId(node.getIdentifier());
                 link.setObjectId(cmo.getId());
                 link.setUrl((String) cmo.getPropertyValue(OdsTypeDefinition.URL_PROP_ID));
+                link.setRelationId(relationship.getId());
 
                 if (link.isValid())
                 {
