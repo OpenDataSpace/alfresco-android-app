@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,38 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.upload;
 
-import java.io.BufferedWriter;
-import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
-import java.io.Writer;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.session.OdsRepositorySession;
-import org.opendataspace.android.ui.logging.OdsLog;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.accounts.AccountSchema;
-import org.alfresco.mobile.android.application.accounts.fragment.AccountCursorAdapter;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
-import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
-import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
-import org.alfresco.mobile.android.application.exception.AlfrescoAppException;
-import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerAdapter;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
-
+import android.annotation.SuppressLint;
 import android.app.Fragment;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.ClipData;
@@ -72,6 +41,39 @@ import android.widget.CursorAdapter;
 import android.widget.ListView;
 import android.widget.Spinner;
 
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.application.ApplicationManager;
+import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.accounts.AccountManager;
+import org.alfresco.mobile.android.application.accounts.AccountSchema;
+import org.alfresco.mobile.android.application.accounts.fragment.AccountCursorAdapter;
+import org.alfresco.mobile.android.application.activity.BaseActivity;
+import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
+import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
+import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
+import org.alfresco.mobile.android.application.exception.AlfrescoAppException;
+import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplorerAdapter;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.manager.ActionManager;
+import org.alfresco.mobile.android.application.manager.StorageManager;
+import org.alfresco.mobile.android.application.security.DataProtectionManager;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsRepositorySession;
+import org.opendataspace.android.ui.logging.OdsLog;
+
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.Writer;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
+
 /**
  * Display the form to choose account and import folder.
  *
@@ -94,7 +96,9 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
 
     private int importFolderIndex;
 
-    /** Principal ListView of the fragment */
+    /**
+     * Principal ListView of the fragment
+     */
     protected ListView lv;
 
     protected ArrayAdapter<?> adapter;
@@ -165,6 +169,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
         getLoaderManager().initLoader(0, null, this);
     }
 
+    @SuppressLint("NewApi")
     @Override
     public void onStart()
     {
@@ -185,9 +190,10 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                 if (AndroidVersion.isJBOrAbove())
                 {
                     ClipData clipdata = intent.getClipData();
+
                     if (clipdata != null && clipdata.getItemCount() > 1)
                     {
-                        Item item = null;
+                        Item item;
                         for (int i = 0; i < clipdata.getItemCount(); i++)
                         {
                             item = clipdata.getItemAt(i);
@@ -220,17 +226,15 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                 {
                     if (intent.getExtras() != null && intent.getExtras().get(Intent.EXTRA_STREAM) instanceof ArrayList)
                     {
-                        @SuppressWarnings("unchecked")
-                        List<Object> attachments = (ArrayList<Object>) intent.getExtras().get(Intent.EXTRA_STREAM);
+                        @SuppressWarnings("unchecked") List<Object> attachments =
+                                (ArrayList<Object>) intent.getExtras().get(Intent.EXTRA_STREAM);
                         for (Object object : attachments)
                         {
                             if (object instanceof Uri)
                             {
                                 Uri uri = (Uri) object;
-                                if (uri != null)
-                                {
-                                    retrieveIntentInfo(uri);
-                                }
+                                retrieveIntentInfo(uri);
+
                                 if (!files.contains(file))
                                 {
                                     files.add(file);
@@ -252,8 +256,8 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                 if (AndroidVersion.isJBOrAbove() && (!Intent.ACTION_SEND.equals(action) || type == null))
                 {
                     ClipData clipdata = intent.getClipData();
-                    if (clipdata != null && clipdata.getItemCount() == 1 && clipdata.getItemAt(0) != null
-                            && (clipdata.getItemAt(0).getText() != null || clipdata.getItemAt(0).getUri() != null))
+                    if (clipdata != null && clipdata.getItemCount() == 1 && clipdata.getItemAt(0) != null &&
+                            (clipdata.getItemAt(0).getText() != null || clipdata.getItemAt(0).getUri() != null))
                     {
                         Item item = clipdata.getItemAt(0);
                         Uri uri = item.getUri();
@@ -263,10 +267,10 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                         }
                         else
                         {
-                            String timeStamp = new SimpleDateFormat("yyyyddMM_HHmmss").format(new Date());
+                            String timeStamp = new SimpleDateFormat("yyyyddMM_HHmmss", Locale.US).format(new Date());
                             File localParentFolder = StorageManager.getCacheDir(getActivity(), "AlfrescoMobile/import");
                             File f = createFile(localParentFolder, timeStamp + ".txt", item.getText().toString());
-                            if (f.exists())
+                            if (f != null && f.exists())
                             {
                                 retrieveIntentInfo(Uri.fromFile(f));
                             }
@@ -276,7 +280,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
 
                 if (file == null && Intent.ACTION_SEND.equals(action) && type != null)
                 {
-                    Uri uri = (Uri) intent.getParcelableExtra(Intent.EXTRA_STREAM);
+                    Uri uri = intent.getParcelableExtra(Intent.EXTRA_STREAM);
                     retrieveIntentInfo(uri);
                 }
                 else if (action == null && intent.getData() != null)
@@ -289,7 +293,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                     getActivity().finish();
                     return;
                 }
-                if (!files.contains(file))
+                if (files != null && !files.contains(file))
                 {
                     files.add(file);
                 }
@@ -345,7 +349,8 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
     public Loader<Cursor> onCreateLoader(int id, Bundle args)
     {
         return new CursorLoader(getActivity(), AccountManager.CONTENT_URI, AccountManager.COLUMN_ALL,
-                AccountSchema.COLUMN_ACTIVATION + " IS NULL OR " + AccountSchema.COLUMN_ACTIVATION + "= ''", null, null);
+                AccountSchema.COLUMN_ACTIVATION + " IS NULL OR " + AccountSchema.COLUMN_ACTIVATION + "= ''", null,
+                null);
     }
 
     public void onLoadFinished(Loader<Cursor> arg0, Cursor cursor)
@@ -407,15 +412,20 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
 
     private void retrieveIntentInfo(Uri uri)
     {
-        if (uri == null) { throw new AlfrescoAppException(getString(R.string.import_unsupported_intent), true); }
+        if (uri == null)
+        {
+            throw new AlfrescoAppException(getString(R.string.import_unsupported_intent), true);
+        }
 
         String tmpPath = ActionManager.getPath(getActivity(), uri);
         if (tmpPath != null)
         {
             file = new File(tmpPath);
 
-            if (file == null || !file.exists()) { throw new AlfrescoAppException(
-                    getString(R.string.error_unknown_filepath), true); }
+            if (!file.exists())
+            {
+                throw new AlfrescoAppException(getString(R.string.error_unknown_filepath), true);
+            }
             fileName = file.getName();
 
             if (getActivity() instanceof PublicDispatcherActivity)
@@ -443,7 +453,9 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
             long accountId = selectedAccountCursor.getLong(AccountSchema.COLUMN_ID_ID);
             ses = ApplicationManager.getInstance(getActivity()).getSession(accountId);
             type = selectedAccountCursor.getInt(AccountSchema.COLUMN_REPOSITORY_TYPE_ID);
-        } else {
+        }
+        else
+        {
             ses = ApplicationManager.getInstance(getActivity()).getCurrentSession();
         }
 
@@ -515,6 +527,11 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                 ((PublicDispatcherActivity) getActivity()).setUploadFolder(folderImportId);
             }
 
+            if (tmpAccount == null)
+            {
+                return;
+            }
+
             AlfrescoSession session = ApplicationManager.getInstance(getActivity()).getSession(tmpAccount.getId());
 
             // Try to use Session used by the application
@@ -523,43 +540,50 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                 ((BaseActivity) getActivity()).setCurrentAccount(tmpAccount);
                 ((BaseActivity) getActivity()).setRenditionManager(null);
                 LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
-                        new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT_COMPLETED).putExtra(
-                                IntentIntegrator.EXTRA_ACCOUNT_ID, tmpAccount.getId()));
+                        new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT_COMPLETED)
+                                .putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, tmpAccount.getId()));
                 return;
             }
 
             // Session is not used by the application so create one.
             ActionManager.loadAccount(getActivity(), tmpAccount);
 
-                break;
-            case R.string.menu_downloads:
-                if (files.size() == 1)
-                {
-                    UploadLocalDialogFragment fr = UploadLocalDialogFragment.newInstance(tmpAccount, file);
-                    fr.show(getActivity().getFragmentManager(), UploadLocalDialogFragment.TAG);
-                }
-                else
-                {
-                    File folderStorage = StorageManager.getDownloadFolder(getActivity(), tmpAccount);
-                    DataProtectionManager.getInstance(getActivity()).copyAndEncrypt(tmpAccount, files, folderStorage);
-                    getActivity().finish();
-                }
-                break;
-            default:
-                break;
+            break;
+        case R.string.menu_downloads:
+            if (files.size() == 1)
+            {
+                UploadLocalDialogFragment fr = UploadLocalDialogFragment.newInstance(tmpAccount, file);
+                fr.show(getActivity().getFragmentManager(), UploadLocalDialogFragment.TAG);
+            }
+            else
+            {
+                File folderStorage = StorageManager.getDownloadFolder(getActivity(), tmpAccount);
+                DataProtectionManager.getInstance(getActivity()).copyAndEncrypt(tmpAccount, files, folderStorage);
+                getActivity().finish();
+            }
+            break;
+        default:
+            break;
         }
     }
 
     private File createFile(File localParentFolder, String filename, String data)
     {
         File outputFile = null;
-        Writer writer = null;
+        Writer writer;
         try
         {
+            boolean res = true;
             if (!localParentFolder.isDirectory())
             {
-                localParentFolder.mkdir();
+                res = localParentFolder.mkdir();
             }
+
+            if (!res)
+            {
+                return null;
+            }
+
             outputFile = new File(localParentFolder, filename);
             writer = new BufferedWriter(new FileWriter(outputFile));
             writer.write(data);

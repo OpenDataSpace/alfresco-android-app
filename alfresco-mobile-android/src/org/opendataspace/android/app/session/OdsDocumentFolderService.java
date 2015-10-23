@@ -1,9 +1,6 @@
 package org.opendataspace.android.app.session;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
+import com.j256.ormlite.dao.CloseableIterator;
 import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.alfresco.mobile.android.api.model.ContentStream;
@@ -25,7 +22,9 @@ import org.apache.chemistry.opencmis.client.api.Session;
 import org.opendataspace.android.app.data.OdsDataHelper;
 import org.opendataspace.android.app.fileinfo.OdsFileInfo;
 
-import com.j256.ormlite.dao.CloseableIterator;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
 {
@@ -41,8 +40,8 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
         {
             Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
             OperationContext context = cmisSession.createOperationContext();
-            context.setRenditionFilterString(type == DocumentFolderService.RENDITION_PREVIEW ? "image/*"
-                    : "cmis:thumbnail");
+            context.setRenditionFilterString(
+                    type == DocumentFolderService.RENDITION_PREVIEW ? "image/*" : "cmis:thumbnail");
 
             CmisObject targetDocument = cmisSession.getObject(identifier, context);
             List<Rendition> renditions = targetDocument.getRenditions();
@@ -79,8 +78,8 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
     {
         if (isObjectNull(object))
         {
-            throw new IllegalArgumentException(String.format(
-                    Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "object"));
+            throw new IllegalArgumentException(
+                    String.format(Messagesl18n.getString("ErrorCodeRegistry.GENERAL_INVALID_ARG_NULL"), "object"));
         }
 
         switch (object.getBaseTypeId())

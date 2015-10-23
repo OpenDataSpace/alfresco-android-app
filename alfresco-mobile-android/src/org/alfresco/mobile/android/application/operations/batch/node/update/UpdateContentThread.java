@@ -1,14 +1,14 @@
 /**
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,25 +17,19 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.node.update;
 
-import org.alfresco.cmis.client.AlfrescoDocument;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
+
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.session.impl.AbstractAlfrescoSessionImpl;
-import org.alfresco.mobile.android.api.utils.IOUtils;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
 import org.alfresco.mobile.android.application.operations.batch.node.AbstractUpThread;
 import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.apache.chemistry.opencmis.client.api.ObjectId;
-import org.apache.chemistry.opencmis.client.api.Session;
-import org.apache.chemistry.opencmis.commons.data.ContentStream;
 import org.opendataspace.android.app.security.OdsEncryptionUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
-
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 
 public class UpdateContentThread extends AbstractUpThread
 {
@@ -76,76 +70,15 @@ public class UpdateContentThread extends AbstractUpThread
 
             if (contentFile != null)
             {
-                if (!StorageManager.isTempFile(context, contentFile.getFile())
-                        && DataProtectionManager.getInstance(context).isEncrypted(contentFile.getFile().getPath()))
+                if (!StorageManager.isTempFile(context, contentFile.getFile()) &&
+                        DataProtectionManager.getInstance(context).isEncrypted(contentFile.getFile().getPath()))
                 {
                     //Decrypt now !
                     OdsEncryptionUtils.decryptFile(context, contentFile.getFile().getPath());
                 }
 
-                Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
-                AlfrescoDocument cmisDoc = (AlfrescoDocument) cmisSession.getObject(originalDocument.getIdentifier());
-
-                String idpwc = cmisDoc.getVersionSeriesCheckedOutId();
-
-                try
-                {
-                    if (idpwc == null)
-                    {
-                        idpwc = cmisDoc.checkOut().getId();
-                    }
-                }
-                catch (Exception e)
-                {
-                    /*
-                    Log.e(TAG, Log.getStackTraceString(e));
-                    if (idpwc == null)
-                    {
-                        try
-                        {
-                            idpwc = cmisDoc.checkOut().getId();
-                        }
-                        catch (Exception ee)
-                        {
-                            Log.e(TAG, Log.getStackTraceString(ee));
-                            throw ee;
-                        }
-                    }
-                     */
-                }
-
-                org.apache.chemistry.opencmis.client.api.Document cmisDocpwc = null;
-
-                if (idpwc != null)
-                {
-                    try
-                    {
-                        cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
-                    }
-                    catch (Exception e)
-                    {
-                        OdsLog.ex(TAG, e);
-                        cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
-                    }
-                }
-
-                ContentStream c = cmisSession.getObjectFactory().createContentStream(contentFile.getFileName(),
-                        contentFile.getLength(), contentFile.getMimeType(),
-                        IOUtils.getContentFileInputStream(contentFile));
-
-                if (cmisDocpwc != null)
-                {
-                    ObjectId iddoc = cmisDocpwc.checkIn(false, null, c, "");
-                    cmisDoc = (AlfrescoDocument) cmisSession.getObject(iddoc);
-                    cmisDoc = (AlfrescoDocument) cmisDoc.getObjectOfLatestVersion(false);
-                }
-                else
-                {
-                    cmisDoc.setContentStream(c, true, true);
-                }
-
-                updatedDocument = (Document) session.getServiceRegistry().getDocumentFolderService()
-                        .getNodeByIdentifier(cmisDoc.getId());
+                updatedDocument = session.getServiceRegistry().getDocumentFolderService()
+                        .updateContent(originalDocument, contentFile);
 
                 // Encrypt if necessary / Delete otherwise
                 StorageManager.manageFile(context, contentFile.getFile());
