@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,13 +17,16 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.node.create;
 
-import java.io.File;
-import java.io.Serializable;
-import java.util.List;
-import java.util.Map;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.services.DocumentFolderService;
+import org.alfresco.mobile.android.api.services.impl.AbstractDocumentFolderServiceImpl;
+import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.Operation;
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
@@ -34,10 +37,10 @@ import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.opendataspace.android.app.security.OdsEncryptionUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
+import java.io.File;
+import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 public class CreateDocumentThread extends AbstractUpThread
 {
@@ -116,10 +119,20 @@ public class CreateDocumentThread extends AbstractUpThread
 
             if (parentFolder != null)
             {
-
                 // CREATE CONTENT
-                doc = session.getServiceRegistry().getDocumentFolderService()
-                        .createDocument(parentFolder, finalDocumentName, properties, contentFile);
+                DocumentFolderService ds = session.getServiceRegistry().getDocumentFolderService();
+
+                if (ds instanceof AbstractDocumentFolderServiceImpl &&
+                        acc.getProtocolType() == Account.ProtocolType.ATOM)
+                {
+                    AbstractDocumentFolderServiceImpl ads = (AbstractDocumentFolderServiceImpl) ds;
+                    doc = ads.createDocument(parentFolder, finalDocumentName, properties, contentFile, null, null,
+                            512 * 1024);
+                }
+                else
+                {
+                    doc = ds.createDocument(parentFolder, finalDocumentName, properties, contentFile);
+                }
 
                 if (tags != null && !tags.isEmpty())
                 {
@@ -171,7 +184,10 @@ public class CreateDocumentThread extends AbstractUpThread
         {
             Document tmpDoc = (Document) session.getServiceRegistry().getDocumentFolderService()
                     .getChildByPath(parentFolder, documentPath);
-            if (tmpDoc != null) { return true; }
+            if (tmpDoc != null)
+            {
+                return true;
+            }
         }
         catch (Exception e)
         {

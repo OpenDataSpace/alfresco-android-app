@@ -23,6 +23,9 @@ import android.os.Bundle;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.services.DocumentFolderService;
+import org.alfresco.mobile.android.api.services.impl.AbstractDocumentFolderServiceImpl;
+import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationRequestImpl;
@@ -65,8 +68,8 @@ public class UpdateContentThread extends AbstractUpThread
         {
             result = super.doInBackground();
 
-            originalDocument = (Document) session.getServiceRegistry().getDocumentFolderService()
-                    .getNodeByIdentifier(originalIdentifier);
+            DocumentFolderService ds = session.getServiceRegistry().getDocumentFolderService();
+            originalDocument = (Document) ds.getNodeByIdentifier(originalIdentifier);
 
             if (contentFile != null)
             {
@@ -76,9 +79,17 @@ public class UpdateContentThread extends AbstractUpThread
                     //Decrypt now !
                     OdsEncryptionUtils.decryptFile(context, contentFile.getFile().getPath());
                 }
-
-                updatedDocument = session.getServiceRegistry().getDocumentFolderService()
-                        .updateContent(originalDocument, contentFile);
+                
+                if (ds instanceof AbstractDocumentFolderServiceImpl &&
+                        acc.getProtocolType() == Account.ProtocolType.ATOM)
+                {
+                    AbstractDocumentFolderServiceImpl ads = (AbstractDocumentFolderServiceImpl) ds;
+                    updatedDocument = ads.updateContent(originalDocument, contentFile, 512 * 1024);
+                }
+                else
+                {
+                    updatedDocument = ds.updateContent(originalDocument, contentFile);
+                }
 
                 // Encrypt if necessary / Delete otherwise
                 StorageManager.manageFile(context, contentFile.getFile());
