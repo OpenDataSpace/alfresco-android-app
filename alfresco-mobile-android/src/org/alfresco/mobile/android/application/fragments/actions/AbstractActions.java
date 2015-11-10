@@ -57,6 +57,7 @@ public abstract class AbstractActions<T> implements ActionMode.Callback
     @Override
     public boolean onCreateActionMode(ActionMode mode, Menu menu)
     {
+        this.mode = mode;
         mode.setTitle(createTitle());
         return true;
     }
