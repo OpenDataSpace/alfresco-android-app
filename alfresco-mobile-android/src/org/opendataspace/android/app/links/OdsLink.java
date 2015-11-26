@@ -110,7 +110,7 @@ public class OdsLink implements Serializable
 
     public boolean isValid()
     {
-        return !TextUtils.isEmpty(name) && !TextUtils.isEmpty(message) && !TextUtils.isEmpty(email) && expires != null;
+        return !TextUtils.isEmpty(name) && !TextUtils.isEmpty(message) && expires != null;
     }
 
     public String getNodeId()

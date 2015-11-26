@@ -121,7 +121,8 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
                     properties.put(PropertyIds.EXPIRATION_DATE, link.getExpires());
                     properties.put(OdsTypeDefinition.SUBJECT_PROP_ID, link.getName());
                     properties.put(OdsTypeDefinition.MESSAGE_PROP_ID, link.getMessage());
-                    properties.put(OdsTypeDefinition.EMAIL_PROP_ID, link.getEmail());
+                    properties.put(OdsTypeDefinition.EMAIL_PROP_ID,
+                            Arrays.asList(OdsStringUtils.splitString(link.getEmail(), ",")));
 
                     if (!TextUtils.isEmpty(link.getPassword()))
                     {
