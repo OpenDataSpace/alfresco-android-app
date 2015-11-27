@@ -37,7 +37,6 @@ import org.opendataspace.android.app.links.OdsLinksLoader;
 import org.opendataspace.android.app.operations.OdsUpdateLinkContext;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class OdsLinksFragment extends BaseListFragment
@@ -46,6 +45,7 @@ public class OdsLinksFragment extends BaseListFragment
     public static final String TAG = "OdsLinksFragment";
     public static final String ARGUMENT_NODE = "node";
     public static final String ARGUMENT_FOLDER = "folder";
+    public static final String ARGUMENT_CANEDIT = "canEdit";
 
     private class LinksReceiver extends BroadcastReceiver
     {
@@ -75,19 +75,21 @@ public class OdsLinksFragment extends BaseListFragment
     private Node node;
     private LinksReceiver receiver;
     private boolean isFolder;
+    private boolean canEdit;
 
-    public static Bundle createBundleArgs(Node node, boolean isFolder)
+    public static Bundle createBundleArgs(Node node, boolean isFolder, boolean canEdit)
     {
         Bundle args = new Bundle();
         args.putSerializable(ARGUMENT_NODE, node);
         args.putBoolean(ARGUMENT_FOLDER, isFolder);
+        args.putBoolean(ARGUMENT_CANEDIT, canEdit);
         return args;
     }
 
-    public static BaseFragment newInstance(Node n, boolean isFolder)
+    public static BaseFragment newInstance(Node n, boolean isFolder, boolean canEdit)
     {
         OdsLinksFragment bf = new OdsLinksFragment();
-        Bundle b = createBundleArgs(n, isFolder);
+        Bundle b = createBundleArgs(n, isFolder, canEdit);
         bf.setArguments(b);
         return bf;
     }
@@ -98,6 +100,7 @@ public class OdsLinksFragment extends BaseListFragment
         emptyListMessageId = R.string.empty_links;
         callback = this;
         isFolder = false;
+        canEdit = true;
     }
 
     @Override
@@ -117,6 +120,11 @@ public class OdsLinksFragment extends BaseListFragment
             if (arg.containsKey(ARGUMENT_FOLDER))
             {
                 isFolder = arg.getBoolean(ARGUMENT_FOLDER);
+            }
+
+            if (arg.containsKey(ARGUMENT_CANEDIT))
+            {
+                canEdit = arg.getBoolean(ARGUMENT_CANEDIT);
             }
         }
 
@@ -219,7 +227,7 @@ public class OdsLinksFragment extends BaseListFragment
         }
         else
         {
-            adapter = new OdsLinksAdapter(this, R.layout.sdk_list_row, new ArrayList<OdsLink>());
+            adapter = new OdsLinksAdapter(this, R.layout.sdk_list_row, canEdit);
 
             for (OdsLink cur : results.getData())
             {

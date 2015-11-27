@@ -11,4 +11,5 @@ public class OdsTypeDefinition
     public static String EMAIL_PROP_ID = "gds:emailAddress";
     public static String URL_PROP_ID = "gds:url";
     public static String LTYPE_PROP_ID = "gds:linkType";
+    public static String LEGACY_OBIDS_ID = "gds:objectIds";
 }

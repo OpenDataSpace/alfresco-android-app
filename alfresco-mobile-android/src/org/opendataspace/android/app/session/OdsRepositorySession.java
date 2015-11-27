@@ -12,6 +12,7 @@ import org.alfresco.mobile.android.api.session.impl.RepositorySessionImpl;
 import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
 import org.alfresco.mobile.android.api.utils.messages.Messagesl18n;
 import org.alfresco.mobile.android.application.accounts.Account;
+import org.apache.chemistry.opencmis.client.api.ObjectType;
 import org.apache.chemistry.opencmis.client.api.Repository;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.client.api.SessionFactory;
@@ -19,6 +20,7 @@ import org.apache.chemistry.opencmis.client.runtime.SessionFactoryImpl;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
 import org.apache.chemistry.opencmis.commons.enums.BindingType;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisPermissionDeniedException;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 import java.io.Serializable;
 import java.lang.ref.WeakReference;
@@ -33,11 +35,17 @@ public class OdsRepositorySession extends RepositorySessionImpl
 
     public static final String BINDING_JSON = "/cmis/browser";
 
+    public enum LinkCapablilty
+    {
+        UNKNOWN, ITEM, COMBINED
+    }
+
     private OdsRepositorySession shared;
     private OdsRepositorySession global;
     private OdsRepositorySession current;
     private WeakReference<OdsRepositorySession> parent;
     private List<Repository> repos;
+    private LinkCapablilty lcap = LinkCapablilty.UNKNOWN;
 
     private OdsRepositorySession()
     {
@@ -47,6 +55,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
     private OdsRepositorySession(String url, String username, String password, Map<String, Serializable> settings)
     {
         super(url, username, password, settings);
+        getLinkCapablilty();
     }
 
     public static RepositorySession connect(String url, String username, String password,
@@ -262,5 +271,38 @@ public class OdsRepositorySession extends RepositorySessionImpl
     public OdsRepositorySession getParent()
     {
         return parent != null ? parent.get() : null;
+    }
+
+    public LinkCapablilty getLinkCapablilty()
+    {
+        OdsRepositorySession ses = getParent();
+
+        if (ses != null)
+        {
+            return ses.getLinkCapablilty();
+        }
+
+        if (lcap != null && lcap != LinkCapablilty.UNKNOWN)
+        {
+            return lcap;
+        }
+
+        try
+        {
+            ObjectType type = getCmisSession().getTypeDefinition(OdsTypeDefinition.LINK_TYPE_ID);
+
+            if (type != null)
+            {
+                lcap = LinkCapablilty.COMBINED;
+                return lcap;
+            }
+        }
+        catch (Exception ex)
+        {
+            OdsLog.ex("getLinkCapablilty", ex);
+        }
+
+        lcap = LinkCapablilty.ITEM;
+        return lcap;
     }
 }

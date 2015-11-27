@@ -110,6 +110,7 @@ import org.opendataspace.android.app.fileinfo.OdsFileInfo;
 import org.opendataspace.android.app.fragments.OdsLinksFragment;
 import org.opendataspace.android.app.links.OdsLink;
 import org.opendataspace.android.app.session.OdsDocument;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import java.io.File;
@@ -1269,6 +1270,15 @@ public class DetailsFragment extends MetadataFragment
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
 
+        boolean hasLinks = false;
+
+        if (session instanceof OdsRepositorySession)
+        {
+            OdsRepositorySession.LinkCapablilty lcap = ((OdsRepositorySession) session).getLinkCapablilty();
+            hasLinks = node.isDocument() ? lcap != OdsRepositorySession.LinkCapablilty.UNKNOWN :
+                    lcap == OdsRepositorySession.LinkCapablilty.COMBINED;
+        }
+
         if (!DisplayUtils.hasCentralPane(activity))
         {
             /*
@@ -1293,6 +1303,7 @@ public class DetailsFragment extends MetadataFragment
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_LINKS, Menu.FIRST + MenuActionItem.MENU_LINKS,
                     node.isDocument() ? R.string.dllinks : R.string.uplinks);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            mi.setEnabled(hasLinks);
         }
         else
         {
@@ -1300,6 +1311,7 @@ public class DetailsFragment extends MetadataFragment
                     R.string.links_add);
             mi.setIcon(R.drawable.ic_add_link);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            mi.setEnabled(hasLinks);
         }
     }
 
@@ -1516,7 +1528,15 @@ public class DetailsFragment extends MetadataFragment
 
     public void addLinks(Node d, int layoutId, boolean backstack)
     {
-        BaseFragment frag = OdsLinksFragment.newInstance(d, d.isFolder());
+        boolean canEdit = false;
+
+        if (alfSession instanceof OdsRepositorySession)
+        {
+            canEdit = ((OdsRepositorySession) alfSession).getLinkCapablilty() ==
+                    OdsRepositorySession.LinkCapablilty.COMBINED;
+        }
+
+        BaseFragment frag = OdsLinksFragment.newInstance(d, d.isFolder(), canEdit);
         frag.setSession(alfSession);
         FragmentDisplayer.replaceFragment(getActivity(), frag, layoutId, OdsLinksFragment.TAG, backstack);
     }

@@ -2,27 +2,48 @@ package org.opendataspace.android.app.links;
 
 import android.text.TextUtils;
 
+import com.j256.ormlite.field.DataType;
+import com.j256.ormlite.field.DatabaseField;
+import com.j256.ormlite.table.DatabaseTable;
+
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Date;
 
+@DatabaseTable(tableName = "links")
 public class OdsLink implements Serializable
 {
     private static final long serialVersionUID = 1L;
+
+    public final static String NODE_ID_FIELD = "nodeid";
+    public final static String TYPE_FIELD = "type";
 
     public enum Type
     {
         DOWNLOAD, UPLOAD
     }
 
+    @SuppressWarnings("FieldCanBeLocal")
+    @DatabaseField(generatedId = true)
+    private long id = -1;
+    @DatabaseField
     private String name = "";
+    @DatabaseField
     private String url = "";
+    @DatabaseField
     private String message = "";
+    @DatabaseField
     private String email = "";
+    @DatabaseField
     private String password = "";
+    @DatabaseField
     private String objectId = "";
+    @DatabaseField
     private Date expires;
+    @DatabaseField(columnName = NODE_ID_FIELD, index = true)
     private String nodeId;
+    @DatabaseField(index = true, dataType = DataType.ENUM_INTEGER, unknownEnumName = "DOWNLOAD",
+            columnName = TYPE_FIELD)
     private Type type = Type.DOWNLOAD;
     private String relationId = "";
 
@@ -141,5 +162,10 @@ public class OdsLink implements Serializable
     public void setRelationId(String relationId)
     {
         this.relationId = relationId;
+    }
+
+    public long getId()
+    {
+        return id;
     }
 }

@@ -2,6 +2,7 @@ package org.opendataspace.android.app.links;
 
 import android.content.Context;
 
+import com.j256.ormlite.dao.CloseableIterator;
 import org.alfresco.mobile.android.api.asynchronous.AbstractPagingLoader;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.Node;
@@ -14,6 +15,8 @@ import org.apache.chemistry.opencmis.client.api.SecondaryType;
 import org.apache.chemistry.opencmis.client.api.Session;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.enums.IncludeRelationships;
+import org.opendataspace.android.app.data.OdsDataHelper;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.app.session.OdsTypeDefinition;
 import org.opendataspace.android.app.utils.OdsStringUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
@@ -40,10 +43,59 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
     @Override
     public LoaderResult<List<OdsLink>> loadInBackground()
     {
+        boolean hasRelations = false;
+
+        if (session instanceof OdsRepositorySession)
+        {
+            OdsRepositorySession ses = (OdsRepositorySession) session;
+            hasRelations = ses.getLinkCapablilty() == OdsRepositorySession.LinkCapablilty.COMBINED;
+        }
+
         LoaderResult<List<OdsLink>> result = new LoaderResult<List<OdsLink>>();
         List<OdsLink> data = new ArrayList<OdsLink>();
-        Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
 
+        if (hasRelations)
+        {
+            loadRelations(data);
+        }
+        else
+        {
+            loadLocal(data);
+        }
+
+        result.setData(data);
+        return result;
+    }
+
+    private void loadLocal(List<OdsLink> data)
+    {
+        CloseableIterator<OdsLink> it = null;
+
+        try
+        {
+            it = OdsDataHelper.getHelper().getLinkDAO().getLinksByNode(node.getIdentifier(), type);
+
+            while (it.hasNext())
+            {
+                data.add(it.nextThrow());
+            }
+        }
+        catch (Exception ex)
+        {
+            OdsLog.exw("OdsLinksLoader", ex);
+        }
+        finally
+        {
+            if (it != null)
+            {
+                it.closeQuietly();
+            }
+        }
+    }
+
+    private void loadRelations(List<OdsLink> data)
+    {
+        final Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
         final OperationContext context = cmisSession.createOperationContext();
         context.setIncludeAllowableActions(false);
         context.setIncludePathSegments(false);
@@ -57,9 +109,6 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
         {
             OdsLog.exw("OdsLinksLoader", ex);
         }
-
-        result.setData(data);
-        return result;
     }
 
     private void checkRelations(List<OdsLink> data, List<Relationship> relationships)

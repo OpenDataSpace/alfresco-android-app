@@ -24,18 +24,20 @@ import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.fragments.OdsLinksFragment;
 import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
 
-import java.util.List;
+import java.util.ArrayList;
 
 public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder> implements OnMenuItemClickListener
 {
-    private OdsLinksFragment fr;
+    private final OdsLinksFragment fr;
     private OdsLink menuCtx;
+    private final boolean canEdit;
 
-    public OdsLinksAdapter(OdsLinksFragment fr, int textViewResourceId, List<OdsLink> objects)
+    public OdsLinksAdapter(OdsLinksFragment fr, int textViewResourceId, boolean canEdit)
     {
-        super(fr.getActivity(), textViewResourceId, objects);
+        super(fr.getActivity(), textViewResourceId, new ArrayList<OdsLink>());
         this.vhClassName = GenericViewHolder.class.getCanonicalName();
         this.fr = fr;
+        this.canEdit = canEdit;
     }
 
     @Override
@@ -70,10 +72,12 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
                 mi = popup.getMenu()
                         .add(Menu.NONE, MenuActionItem.MENU_EDIT, Menu.FIRST + MenuActionItem.MENU_EDIT, R.string.edit);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                mi.setEnabled(canEdit);
 
                 mi = popup.getMenu().add(Menu.NONE, MenuActionItem.MENU_DELETE, Menu.FIRST + MenuActionItem.MENU_DELETE,
                         R.string.delete);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+                mi.setEnabled(canEdit);
 
                 popup.setOnMenuItemClickListener(OdsLinksAdapter.this);
                 popup.show();
@@ -120,7 +124,10 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
 
     private void edit(OdsLink link)
     {
-        OdsLinksFragment.editLink(fr.getNode(), link, fr.getActivity().getFragmentManager());
+        if (canEdit)
+        {
+            OdsLinksFragment.editLink(fr.getNode(), link, fr.getActivity().getFragmentManager());
+        }
     }
 
     private void delete(final OdsLink link)
