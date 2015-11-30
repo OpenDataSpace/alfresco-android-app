@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,28 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.accounts.fragment;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.account.OdsAccountAuthenticator;
-import org.opendataspace.android.app.session.OdsRepositorySession;
-import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
-import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.favorite.FavoriteNodeRequest;
-import org.alfresco.mobile.android.application.utils.UIUtils;
 
 import android.accounts.AccountManager;
 import android.app.DialogFragment;
@@ -63,14 +41,35 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.activity.BaseActivity;
+import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
+import org.alfresco.mobile.android.application.activity.MainActivity;
+import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
+import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
+import org.alfresco.mobile.android.application.operations.OperationRequest;
+import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
+import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountRequest;
+import org.alfresco.mobile.android.application.operations.batch.node.favorite.FavoriteNodeRequest;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.account.OdsAccountAuthenticator;
+import org.opendataspace.android.app.session.OdsRepositorySession;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 public class AccountEditFragment extends DialogFragment
 {
     public static final String TAG = "AccountEditFragment";
 
     private Button validate;
 
-    private String url = null, host = null, username = null, password = null, servicedocument = null,
-            description = null;
+    private String url = null, host = null, username = null, password = null, servicedocument = null, description =
+            null;
 
     private Account.ProtocolType proto = Account.ProtocolType.JSON;
 
@@ -120,14 +119,14 @@ public class AccountEditFragment extends DialogFragment
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                if (!sw.isChecked()
-                        && (portForm.getText().toString().isEmpty() || portForm.getText().toString().equals("443")))
+                if (!sw.isChecked() &&
+                        (portForm.getText().toString().isEmpty() || portForm.getText().toString().equals("443")))
                 {
                     portForm.setText("80");
                     AccessibilityHelper.addContentDescription(buttonView, R.string.account_https_off_hint);
                 }
-                else if (sw.isChecked()
-                        && (portForm.getText().toString().isEmpty() || portForm.getText().toString().equals("80")))
+                else if (sw.isChecked() &&
+                        (portForm.getText().toString().isEmpty() || portForm.getText().toString().equals("80")))
                 {
                     portForm.setText("443");
                     AccessibilityHelper.addContentDescription(buttonView, R.string.account_https_on_hint);
@@ -141,13 +140,18 @@ public class AccountEditFragment extends DialogFragment
         // Accessibility
         if (AccessibilityHelper.isEnabled(getActivity()))
         {
-            ((EditText)v.findViewById(R.id.repository_username)).setHint(getString(R.string.account_username_required_hint));
-            ((EditText)v.findViewById(R.id.repository_password)).setHint(getString(R.string.account_password_required_hint));
-            ((EditText)v.findViewById(R.id.repository_hostname)).setHint(getString(R.string.account_hostname_required_hint));
-            ((EditText)v.findViewById(R.id.repository_description)).setHint(getString(R.string.account_description_optional_hint));
+            ((EditText) v.findViewById(R.id.repository_username))
+                    .setHint(getString(R.string.account_username_required_hint));
+            ((EditText) v.findViewById(R.id.repository_password))
+                    .setHint(getString(R.string.account_password_required_hint));
+            ((EditText) v.findViewById(R.id.repository_hostname))
+                    .setHint(getString(R.string.account_hostname_required_hint));
+            ((EditText) v.findViewById(R.id.repository_description))
+                    .setHint(getString(R.string.account_description_optional_hint));
             sw.setContentDescription(getString(R.string.account_https_on_hint));
             portForm.setHint(getString(R.string.account_port_hint));
-            ((EditText)v.findViewById(R.id.repository_servicedocument)).setHint(getString(R.string.account_servicedocument_hint));
+            ((EditText) v.findViewById(R.id.repository_servicedocument))
+                    .setHint(getString(R.string.account_servicedocument_hint));
         }
 
         return v;
@@ -203,28 +207,29 @@ public class AccountEditFragment extends DialogFragment
             // Create Account + Session
             OperationsRequestGroup group = new OperationsRequestGroup(getActivity());
             group.enqueue(new CreateAccountRequest(url, username, password, description, proto)
-            .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+                    .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
             if (getActivity() instanceof MainActivity || isAuthenticator())
             {
-                OperationWaitingDialogFragment.newInstance(FavoriteNodeRequest.TYPE_ID, R.drawable.ic_onpremise,
-                        getString(R.string.account), getString(R.string.account_verify), null, -1).show(
-                                getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
+                OperationWaitingDialogFragment
+                        .newInstance(FavoriteNodeRequest.TYPE_ID, R.drawable.ic_onpremise, getString(R.string.account),
+                                getString(R.string.account_verify), null, -1)
+                        .show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
             }
         }
     }
 
     private boolean isAuthenticator()
     {
-        return getActivity().getIntent().hasExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE)
-                && getActivity() instanceof PublicDispatcherActivity;
+        return getActivity().getIntent().hasExtra(AccountManager.KEY_ACCOUNT_AUTHENTICATOR_RESPONSE) &&
+                getActivity() instanceof PublicDispatcherActivity;
     }
 
     private void initForm()
     {
-        int[] ids = new int[] { R.id.repository_username, R.id.repository_hostname, R.id.repository_password,
-                R.id.repository_port };
+        int[] ids = new int[] {R.id.repository_username, R.id.repository_hostname, R.id.repository_password,
+                R.id.repository_port};
         EditText formValue = null;
         for (int i = 0; i < ids.length; i++)
         {
@@ -334,7 +339,7 @@ public class AccountEditFragment extends DialogFragment
             if ("".equals(servicedocument))
             {
                 servicedocument = proto == Account.ProtocolType.JSON ? OdsRepositorySession.BINDING_JSON :
-                    OnPremiseUrlRegistry.BINDING_CMIS;
+                        OdsRepositorySession.BINDING_ATOM;
             }
 
             u = new URL(protocol, host, port, servicedocument);
@@ -384,18 +389,18 @@ public class AccountEditFragment extends DialogFragment
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            if (IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED.equals(intent.getAction())
-                    && (getActivity() instanceof MainActivity || isAuthenticator()))
+            if (IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED.equals(intent.getAction()) &&
+                    (getActivity() instanceof MainActivity || isAuthenticator()))
             {
-                getActivity().getFragmentManager().popBackStack(AccountEditFragment.TAG,
-                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getActivity().getFragmentManager()
+                        .popBackStack(AccountEditFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                 if (intent.getExtras() != null && intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
                 {
                     long accountId = intent.getLongExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, -1);
 
-                    AccountsFragment frag = (AccountsFragment) getActivity().getFragmentManager().findFragmentByTag(
-                            AccountsFragment.TAG);
+                    AccountsFragment frag = (AccountsFragment) getActivity().getFragmentManager()
+                            .findFragmentByTag(AccountsFragment.TAG);
 
                     if (frag != null)
                     {

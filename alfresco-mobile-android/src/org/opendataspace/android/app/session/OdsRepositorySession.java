@@ -9,7 +9,6 @@ import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.alfresco.mobile.android.api.session.authentication.AuthenticationProvider;
 import org.alfresco.mobile.android.api.session.authentication.impl.PassthruAuthenticationProviderImpl;
 import org.alfresco.mobile.android.api.session.impl.RepositorySessionImpl;
-import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
 import org.alfresco.mobile.android.api.utils.messages.Messagesl18n;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.apache.chemistry.opencmis.client.api.ObjectType;
@@ -34,6 +33,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
     public static final String PROTO_TYPE = "org.opendataspace.android.app.session.proto";
 
     public static final String BINDING_JSON = "/cmis/browser";
+    public static final String BINDING_ATOM = "/cmis/atom11";
 
     public enum LinkCapablilty
     {
@@ -225,7 +225,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
 
             if ("".equals(u.getPath()))
             {
-                url += isJsonProto(settings) ? OdsRepositorySession.BINDING_JSON : OnPremiseUrlRegistry.BINDING_CMIS;
+                url += isJsonProto(settings) ? OdsRepositorySession.BINDING_JSON : OdsRepositorySession.BINDING_ATOM;
             }
         }
         catch (Exception ex)

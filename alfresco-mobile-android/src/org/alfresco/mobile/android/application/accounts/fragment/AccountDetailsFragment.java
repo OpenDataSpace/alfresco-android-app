@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,34 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.accounts.fragment;
-
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.account.OdsAccountAuthenticator;
-import org.opendataspace.android.app.session.OdsRepositorySession;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-import org.alfresco.mobile.android.application.activity.BaseActivity;
-import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.sync.CleanSyncFavoriteRequest;
-import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.AlertDialog;
 import android.app.FragmentManager;
@@ -71,6 +43,34 @@ import android.widget.CompoundButton.OnCheckedChangeListener;
 import android.widget.EditText;
 import android.widget.Spinner;
 
+import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
+import org.alfresco.mobile.android.application.ApplicationManager;
+import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.accounts.AccountManager;
+import org.alfresco.mobile.android.application.activity.BaseActivity;
+import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
+import org.alfresco.mobile.android.application.fragments.DisplayUtils;
+import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
+import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
+import org.alfresco.mobile.android.application.manager.ActionManager;
+import org.alfresco.mobile.android.application.operations.OperationRequest;
+import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
+import org.alfresco.mobile.android.application.operations.batch.sync.CleanSyncFavoriteRequest;
+import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.account.OdsAccountAuthenticator;
+import org.opendataspace.android.app.session.OdsRepositorySession;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+
 /**
  * It's responsible to display the details of a specific account.
  *
@@ -83,8 +83,8 @@ public class AccountDetailsFragment extends BaseFragment
 
     public static final String ARGUMENT_ACCOUNT_ID = "accountID";
 
-    private String url = null, host = null, username = null, password = null, servicedocument = null,
-            description = null;
+    private String url = null, host = null, username = null, password = null, servicedocument = null, description =
+            null;
 
     private Account.ProtocolType proto = Account.ProtocolType.JSON;
 
@@ -122,7 +122,10 @@ public class AccountDetailsFragment extends BaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        if (container == null) { return null; }
+        if (container == null)
+        {
+            return null;
+        }
 
         acc = AccountManager.retrieveAccount(getActivity(), getArguments().getLong(ARGUMENT_ACCOUNT_ID));
 
@@ -192,8 +195,8 @@ public class AccountDetailsFragment extends BaseFragment
             v.findViewById(R.id.repository_username_group).setVisibility(View.GONE);
             v.findViewById(R.id.repository_password_group).setVisibility(View.GONE);
         }
-        else if (acc.getTypeId() == Account.TYPE_ALFRESCO_TEST_BASIC
-                || acc.getTypeId() == Account.TYPE_ALFRESCO_TEST_OAUTH)
+        else if (acc.getTypeId() == Account.TYPE_ALFRESCO_TEST_BASIC ||
+                acc.getTypeId() == Account.TYPE_ALFRESCO_TEST_OAUTH)
         {
             v.findViewById(R.id.repository_password_group).setVisibility(View.GONE);
         }
@@ -258,13 +261,13 @@ public class AccountDetailsFragment extends BaseFragment
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked)
             {
-                if (!sw.isChecked()
-                        && (portForm.getText().toString() == null || portForm.getText().toString().equals("443")))
+                if (!sw.isChecked() &&
+                        (portForm.getText().toString() == null || portForm.getText().toString().equals("443")))
                 {
                     portForm.setText("80");
                 }
-                else if (sw.isChecked()
-                        && (portForm.getText().toString() == null || portForm.getText().toString().equals("80")))
+                else if (sw.isChecked() &&
+                        (portForm.getText().toString() == null || portForm.getText().toString().equals("80")))
                 {
                     portForm.setText("443");
                 }
@@ -302,8 +305,9 @@ public class AccountDetailsFragment extends BaseFragment
                     if (proto == Account.ProtocolType.ATOM && (pathForm.getText().toString() == null ||
                             pathForm.getText().toString().equals(OdsRepositorySession.BINDING_JSON)))
                     {
-                        pathForm.setText(OnPremiseUrlRegistry.BINDING_CMIS);
-                    } else if (proto == Account.ProtocolType.JSON && (pathForm.getText().toString() == null ||
+                        pathForm.setText(OdsRepositorySession.BINDING_ATOM);
+                    }
+                    else if (proto == Account.ProtocolType.JSON && (pathForm.getText().toString() == null ||
                             pathForm.getText().toString().equals(OnPremiseUrlRegistry.BINDING_CMIS)))
                     {
                         pathForm.setText(OdsRepositorySession.BINDING_JSON);
@@ -322,13 +326,19 @@ public class AccountDetailsFragment extends BaseFragment
         // Accessibility
         if (AccessibilityHelper.isEnabled(getActivity()))
         {
-            ((EditText)v.findViewById(R.id.repository_username)).setHint(getString(R.string.account_username_required_hint));
-            ((EditText)v.findViewById(R.id.repository_password)).setHint(getString(R.string.account_password_required_hint));
-            ((EditText)v.findViewById(R.id.repository_hostname)).setHint(getString(R.string.account_hostname_required_hint));
-            ((EditText)v.findViewById(R.id.repository_description)).setHint(getString(R.string.account_description_optional_hint));
-            AccessibilityHelper.addContentDescription(sw, sw.isChecked() ? R.string.account_https_on_hint : R.string.account_https_off_hint);
+            ((EditText) v.findViewById(R.id.repository_username))
+                    .setHint(getString(R.string.account_username_required_hint));
+            ((EditText) v.findViewById(R.id.repository_password))
+                    .setHint(getString(R.string.account_password_required_hint));
+            ((EditText) v.findViewById(R.id.repository_hostname))
+                    .setHint(getString(R.string.account_hostname_required_hint));
+            ((EditText) v.findViewById(R.id.repository_description))
+                    .setHint(getString(R.string.account_description_optional_hint));
+            AccessibilityHelper.addContentDescription(sw,
+                    sw.isChecked() ? R.string.account_https_on_hint : R.string.account_https_off_hint);
             portForm.setHint(getString(R.string.account_port_hint));
-            ((EditText)v.findViewById(R.id.repository_servicedocument)).setHint(getString(R.string.account_servicedocument_hint));
+            ((EditText) v.findViewById(R.id.repository_servicedocument))
+                    .setHint(getString(R.string.account_servicedocument_hint));
         }
     }
 
@@ -399,7 +409,7 @@ public class AccountDetailsFragment extends BaseFragment
             if ("".equals(servicedocument))
             {
                 servicedocument = proto == Account.ProtocolType.JSON ? OdsRepositorySession.BINDING_JSON :
-                    OnPremiseUrlRegistry.BINDING_CMIS;
+                        OdsRepositorySession.BINDING_ATOM;
             }
 
             u = new URL(protocol, host, port, servicedocument);
@@ -418,8 +428,8 @@ public class AccountDetailsFragment extends BaseFragment
 
     private void initForm()
     {
-        int[] ids = new int[] { R.id.repository_username, R.id.repository_password, R.id.repository_hostname,
-                R.id.repository_servicedocument, R.id.repository_description, R.id.repository_port };
+        int[] ids = new int[] {R.id.repository_username, R.id.repository_password, R.id.repository_hostname,
+                R.id.repository_servicedocument, R.id.repository_description, R.id.repository_port};
         EditText formValue = null;
         for (int i = 0; i < ids.length; i++)
         {
@@ -430,8 +440,8 @@ public class AccountDetailsFragment extends BaseFragment
 
     private void removeFormWatcher()
     {
-        int[] ids = new int[] { R.id.repository_username, R.id.repository_password, R.id.repository_hostname,
-                R.id.repository_servicedocument, R.id.repository_description, R.id.repository_port };
+        int[] ids = new int[] {R.id.repository_username, R.id.repository_password, R.id.repository_hostname,
+                R.id.repository_servicedocument, R.id.repository_description, R.id.repository_port};
         EditText formValue = null;
         for (int i = 0; i < ids.length; i++)
         {
@@ -475,7 +485,8 @@ public class AccountDetailsFragment extends BaseFragment
 
     public void edit()
     {
-        if (isEditable){
+        if (isEditable)
+        {
             return;
         }
 
@@ -497,8 +508,8 @@ public class AccountDetailsFragment extends BaseFragment
                 renameSystemAccount(acc, description);
                 acc = AccountManager.update(getActivity(), getArguments().getLong(ARGUMENT_ACCOUNT_ID), description,
                         (url != null) ? url : acc.getUrl(), username, password, acc.getRepositoryId(),
-                                Integer.valueOf((int) acc.getTypeId()), null, acc.getAccessToken(), acc.getRefreshToken(),
-                                acc.getIsPaidAccount() ? 1 : 0, proto);
+                        Integer.valueOf((int) acc.getTypeId()), null, acc.getAccessToken(), acc.getRefreshToken(),
+                        acc.getIsPaidAccount() ? 1 : 0, proto);
 
                 initValues(vRoot);
                 vRoot.findViewById(R.id.browse_document).setVisibility(View.VISIBLE);
@@ -592,8 +603,8 @@ public class AccountDetailsFragment extends BaseFragment
          */
         {
             builder.setTitle(R.string.delete);
-            builder.setMessage(String.format(getResources().getQuantityString(R.plurals.delete_items, 1),
-                    acc.getDescription()));
+            builder.setMessage(
+                    String.format(getResources().getQuantityString(R.plurals.delete_items, 1), acc.getDescription()));
             builder.setPositiveButton(R.string.confirm, new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int item)
@@ -619,23 +630,27 @@ public class AccountDetailsFragment extends BaseFragment
     {
 
         //Remove all Sync
-        if (acc == null) { return; }
+        if (acc == null)
+        {
+            return;
+        }
         OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), acc);
-        group.enqueue(new CleanSyncFavoriteRequest(acc, true).setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+        group.enqueue(
+                new CleanSyncFavoriteRequest(acc, true).setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
         //Delete Account
         getActivity().getContentResolver().delete(AccountManager.getUri(acc.getId()), null, null);
         deleteSystemAccount(acc);
 
-        LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
-                new Intent(IntentIntegrator.ACTION_DELETE_ACCOUNT_COMPLETED));
+        LocalBroadcastManager.getInstance(getActivity())
+                .sendBroadcast(new Intent(IntentIntegrator.ACTION_DELETE_ACCOUNT_COMPLETED));
 
         // In case where currentAccount is the one deleted.
         ApplicationManager.getInstance(getActivity()).removeAccount(acc.getId());
 
-        if (SessionUtils.getAccount(getActivity()) != null
-                && SessionUtils.getAccount(getActivity()).getId() == acc.getId())
+        if (SessionUtils.getAccount(getActivity()) != null &&
+                SessionUtils.getAccount(getActivity()).getId() == acc.getId())
         {
             ((BaseActivity) getActivity()).setCurrentAccount(null);
             SharedPreferences settings = getActivity().getSharedPreferences(AccountsPreferences.ACCOUNT_PREFS, 0);
@@ -644,12 +659,12 @@ public class AccountDetailsFragment extends BaseFragment
             {
                 settings.edit().putLong(AccountsPreferences.ACCOUNT_DEFAULT, -1).commit();
             }
-            ((BaseActivity) getActivity()).setCurrentAccount(AccountManager.getInstance(getActivity())
-                    .getDefaultAccount());
+            ((BaseActivity) getActivity())
+                    .setCurrentAccount(AccountManager.getInstance(getActivity()).getDefaultAccount());
         }
 
-        Cursor cursor = getActivity().getContentResolver().query(AccountManager.CONTENT_URI, AccountManager.COLUMN_ALL,
-                null, null, null);
+        Cursor cursor = getActivity().getContentResolver()
+                .query(AccountManager.CONTENT_URI, AccountManager.COLUMN_ALL, null, null, null);
         if (cursor.getCount() > 0)
         {
             // Remove Details panel
@@ -692,8 +707,8 @@ public class AccountDetailsFragment extends BaseFragment
             return;
         }
 
-        android.accounts.Account sysAcc = new android.accounts.Account(acc.getDescription(),
-                OdsAccountAuthenticator.ACCOUNT_TYPE);
+        android.accounts.Account sysAcc =
+                new android.accounts.Account(acc.getDescription(), OdsAccountAuthenticator.ACCOUNT_TYPE);
         android.accounts.AccountManager mgr = android.accounts.AccountManager.get(getActivity());
 
         mgr.removeAccount(sysAcc, null, null);
@@ -706,8 +721,8 @@ public class AccountDetailsFragment extends BaseFragment
 
     private void deleteSystemAccount(Account acc)
     {
-        android.accounts.Account sysAcc = new android.accounts.Account(acc.getDescription(),
-                OdsAccountAuthenticator.ACCOUNT_TYPE);
+        android.accounts.Account sysAcc =
+                new android.accounts.Account(acc.getDescription(), OdsAccountAuthenticator.ACCOUNT_TYPE);
         android.accounts.AccountManager mgr = android.accounts.AccountManager.get(getActivity());
 
         mgr.clearPassword(sysAcc);
