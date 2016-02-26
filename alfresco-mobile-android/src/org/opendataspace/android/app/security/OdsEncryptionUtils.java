@@ -1,25 +1,9 @@
 package org.opendataspace.android.app.security;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.nio.charset.Charset;
-import java.security.GeneralSecurityException;
-import java.security.KeyStore;
-import java.util.ArrayList;
-import java.util.Arrays;
-
-import javax.crypto.Cipher;
-import javax.crypto.CipherInputStream;
-import javax.crypto.CipherOutputStream;
-import javax.crypto.SecretKey;
-import javax.crypto.SecretKeyFactory;
-import javax.crypto.spec.PBEKeySpec;
-import javax.crypto.spec.SecretKeySpec;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 
 import org.alfresco.mobile.android.api.utils.IOUtils;
 import org.alfresco.mobile.android.application.exception.AlfrescoAppException;
@@ -29,16 +13,36 @@ import org.alfresco.mobile.android.application.operations.sync.SynchroProvider;
 import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
+import javax.crypto.Cipher;
+import javax.crypto.CipherInputStream;
+import javax.crypto.CipherOutputStream;
+import javax.crypto.SecretKey;
+import javax.crypto.SecretKeyFactory;
+import javax.crypto.spec.IvParameterSpec;
+import javax.crypto.spec.PBEKeySpec;
+import javax.crypto.spec.SecretKeySpec;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.nio.charset.Charset;
+import java.security.KeyStore;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class OdsEncryptionUtils
 {
     private static final String TAG = OdsEncryptionUtils.class.getName();
 
-    private static final byte[] SALT = { 0x0A, 0x02, 0x13, 0x3C, 0x3B, 0x0F, 0x1A };
+    private static final byte[] SALT =
+            {0x52, 0x06, (byte) 0xdb, 0x40, (byte) 0x87, (byte) 0x86, (byte) 0xb8, (byte) 0xbf, (byte) 0x92};
+
+    private static final byte[] IV =
+            {0x1a, 0x38, (byte) 0xfa, 0x43, 0x3d, 0x5b, (byte) 0x9e, 0x19, 0x17, (byte) 0xef, (byte) 0x81, (byte) 0x8b,
+                    0x43, (byte) 0x97, 0x71, 0x36};
 
     private static final int COUNT = 10;
 
@@ -115,18 +119,12 @@ public class OdsEncryptionUtils
                 File dest = new File(newFilename != null ? newFilename : filename + ".utmp");
                 sourceStream = wrapCipherInputStream(new FileInputStream(source), getKey());
                 destStream = new FileOutputStream(dest);
-                int nBytes = 0;
-
+                int nBytes;
                 byte[] buffer = new byte[MAX_BUFFER_SIZE];
-
                 OdsLog.i(TAG, "Decrypting file " + filename);
 
-                while (size - copied > 0)
+                while (size > copied)
                 {
-                    if (size - copied < MAX_BUFFER_SIZE)
-                    {
-                        buffer = new byte[(int) (size - copied)];
-                    }
                     nBytes = sourceStream.read(buffer);
                     if (nBytes == -1)
                     {
@@ -134,7 +132,8 @@ public class OdsEncryptionUtils
                     }
                     else if (nBytes > 0)
                     {
-                        destStream.write(buffer);
+                        destStream.write(buffer, 0, nBytes);
+                        copied += nBytes;
                     }
                 }
 
@@ -193,50 +192,52 @@ public class OdsEncryptionUtils
             File f = new File(sourceFolder);
             File file[] = f.listFiles();
 
-            for (int i = 0; i < file.length; i++)
+            if (file != null)
             {
-                File sourceFile = file[i];
-                String destFilename = file[i].getPath() + DECRYPTION_EXTENSION;
-
-                if (!sourceFile.isHidden())
+                for (File sourceFile : file)
                 {
-                    if (sourceFile.isFile())
-                    {
-                        result = decryptFile(ctxt, sourceFile.getPath(), destFilename);
-                        if (result)
-                        {
-                            filesDecrypted.add(sourceFile.getPath());
-                        }
-                    }
-                    else
-                    {
-                        if (sourceFile.isDirectory() && recursive && !sourceFile.getName().equals(".")
-                                && !sourceFile.getName().equals(".."))
-                        {
-                            result = decryptFiles(ctxt, sourceFile.getPath(), recursive);
-                        }
-                    }
+                    String destFilename = sourceFile.getPath() + DECRYPTION_EXTENSION;
 
-                    if (!result)
+                    if (!sourceFile.isHidden())
                     {
-                        if (filesDecrypted != null)
+                        if (sourceFile.isFile())
                         {
-                            OdsLog.e(TAG, "Folder decryption failed for " + sourceFile.getName());
-
-                            // Remove the decrypted versions done so far.
-                            OdsLog.d(TAG, "Decryption rollback in progress...");
-                            for (int j = 0; j < filesDecrypted.size(); j++)
+                            result = decryptFile(ctxt, sourceFile.getPath(), destFilename);
+                            if (result)
                             {
-                                if (new File(filesDecrypted.get(j) + DECRYPTION_EXTENSION).delete())
-                                {
-                                    OdsLog.w(TAG, "Deleted decrypted version of " + filesDecrypted.get(j));
-                                }
+                                filesDecrypted.add(sourceFile.getPath());
                             }
-                            filesDecrypted.clear();
-                            filesDecrypted = null;
+                        }
+                        else
+                        {
+                            if (sourceFile.isDirectory() && recursive && !sourceFile.getName().equals(".") &&
+                                    !sourceFile.getName().equals(".."))
+                            {
+                                result = decryptFiles(ctxt, sourceFile.getPath(), recursive);
+                            }
                         }
 
-                        break;
+                        if (!result)
+                        {
+                            if (filesDecrypted != null)
+                            {
+                                OdsLog.e(TAG, "Folder decryption failed for " + sourceFile.getName());
+
+                                // Remove the decrypted versions done so far.
+                                OdsLog.d(TAG, "Decryption rollback in progress...");
+                                for (String aFilesDecrypted : filesDecrypted)
+                                {
+                                    if (new File(aFilesDecrypted + DECRYPTION_EXTENSION).delete())
+                                    {
+                                        OdsLog.w(TAG, "Deleted decrypted version of " + aFilesDecrypted);
+                                    }
+                                }
+                                filesDecrypted.clear();
+                                filesDecrypted = null;
+                            }
+
+                            break;
+                        }
                     }
                 }
             }
@@ -245,21 +246,21 @@ public class OdsEncryptionUtils
             {
                 // Whole folder decrypt succeeded. Move over to new decrypted
                 // versions.
-                File src = null, dest = null, tempSrc = null;
-                Uri uri = null;
+                File src, dest, tempSrc;
+                Uri uri;
                 Cursor favoriteCursor = null;
                 ContentValues cValues = null;
-                int statut = 0;
+                int statut;
 
-                for (int j = 0; j < filesDecrypted.size(); j++)
+                for (String aFilesDecrypted : filesDecrypted)
                 {
-                    src = new File(filesDecrypted.get(j));
-                    dest = new File(filesDecrypted.get(j) + DECRYPTION_EXTENSION);
+                    src = new File(aFilesDecrypted);
+                    dest = new File(aFilesDecrypted + DECRYPTION_EXTENSION);
 
                     //
                     // Two-stage delete for failsafe operation.
                     //
-                    tempSrc = new File(filesDecrypted.get(j) + ".mov");
+                    tempSrc = new File(aFilesDecrypted + ".mov");
                     if (src.renameTo(tempSrc))
                     {
                         // Put decrypted version in originals place.
@@ -276,19 +277,18 @@ public class OdsEncryptionUtils
                             {
                                 try
                                 {
-                                    favoriteCursor = ctxt.getContentResolver().query(
-                                            SynchroProvider.CONTENT_URI,
-                                            SynchroSchema.COLUMN_ALL,
-                                            SynchroSchema.COLUMN_LOCAL_URI + " LIKE '" + Uri.fromFile(src).toString()
-                                            + "%'", null, null);
+                                    favoriteCursor = ctxt.getContentResolver()
+                                            .query(SynchroProvider.CONTENT_URI, SynchroSchema.COLUMN_ALL,
+                                                    SynchroSchema.COLUMN_LOCAL_URI + " LIKE '" +
+                                                            Uri.fromFile(src).toString() + "%'", null, null);
 
                                     if (favoriteCursor.getCount() == 1 && favoriteCursor.moveToFirst())
                                     {
                                         statut = favoriteCursor.getInt(SynchroSchema.COLUMN_STATUS_ID);
                                         if (statut != SyncOperation.STATUS_MODIFIED)
                                         {
-                                            uri = Uri.parse(SynchroProvider.CONTENT_URI + "/"
-                                                    + favoriteCursor.getLong(SynchroSchema.COLUMN_ID_ID));
+                                            uri = Uri.parse(SynchroProvider.CONTENT_URI + "/" +
+                                                    favoriteCursor.getLong(SynchroSchema.COLUMN_ID_ID));
                                             if (cValues == null)
                                             {
                                                 cValues = new ContentValues();
@@ -299,7 +299,7 @@ public class OdsEncryptionUtils
                                         }
                                     }
                                 }
-                                catch (Exception e)
+                                catch (Exception ignored)
                                 {
                                 }
                                 finally
@@ -346,7 +346,8 @@ public class OdsEncryptionUtils
      * filename file to encrypt nuke whether to zero the original unencrypted
      * file before attempting its deletion, for additional security.
      */
-    public static boolean encryptFile(Context ctxt, String filename, String newFilename, boolean nuke) throws AlfrescoAppException
+    public static boolean encryptFile(Context ctxt, String filename, String newFilename, boolean nuke) throws
+            AlfrescoAppException
     {
         boolean ret = true;
         OutputStream destStream = null;
@@ -361,17 +362,12 @@ public class OdsEncryptionUtils
                 File dest = new File(newFilename != null ? newFilename : filename + ".etmp");
                 sourceStream = new FileInputStream(source);
                 destStream = wrapCipherOutputStream(new FileOutputStream(dest), getKey());
-                int nBytes = 0;
+                int nBytes;
                 byte buffer[] = new byte[MAX_BUFFER_SIZE];
-
                 OdsLog.i(TAG, "Encrypting file " + filename);
 
-                while (size - copied > 0)
+                while (size > copied)
                 {
-                    if (size - copied < MAX_BUFFER_SIZE)
-                    {
-                        buffer = new byte[(int) (size - copied)];
-                    }
                     nBytes = sourceStream.read(buffer);
                     if (nBytes == -1)
                     {
@@ -379,7 +375,8 @@ public class OdsEncryptionUtils
                     }
                     else if (nBytes > 0)
                     {
-                        destStream.write(buffer);
+                        destStream.write(buffer, 0, nBytes);
+                        copied += nBytes;
                     }
                 }
 
@@ -446,50 +443,52 @@ public class OdsEncryptionUtils
             File f = new File(sourceFolder);
             File file[] = f.listFiles();
 
-            for (int i = 0; i < file.length; i++)
+            if (file != null)
             {
-                File sourceFile = file[i];
-                String destFilename = file[i].getPath() + ENCRYPTION_EXTENSION;
-
-                if (!sourceFile.isHidden())
+                for (File sourceFile : file)
                 {
-                    if (sourceFile.isFile())
-                    {
-                        result = encryptFile(ctxt, sourceFile.getPath(), destFilename, true);
-                        if (result)
-                        {
-                            filesEncrypted.add(sourceFile.getPath());
-                        }
-                    }
-                    else
-                    {
-                        if (sourceFile.isDirectory() && recursive && !sourceFile.getName().equals(".")
-                                && !sourceFile.getName().equals(".."))
-                        {
-                            result = encryptFiles(ctxt, sourceFile.getPath(), recursive);
-                        }
-                    }
+                    String destFilename = sourceFile.getPath() + ENCRYPTION_EXTENSION;
 
-                    if (!result)
+                    if (!sourceFile.isHidden())
                     {
-                        if (filesEncrypted != null)
+                        if (sourceFile.isFile())
                         {
-                            OdsLog.e(TAG, "Folder encryption failed for " + sourceFile.getName());
-
-                            // Remove the encrypted versions done so far.
-                            OdsLog.i(TAG, "Encryption rollback in progress...");
-                            for (int j = 0; j < filesEncrypted.size(); j++)
+                            result = encryptFile(ctxt, sourceFile.getPath(), destFilename, true);
+                            if (result)
                             {
-                                if (new File(filesEncrypted.get(j) + ENCRYPTION_EXTENSION).delete())
-                                {
-                                    OdsLog.i(TAG, "Deleted encrypted version of " + filesEncrypted.get(j));
-                                }
+                                filesEncrypted.add(sourceFile.getPath());
                             }
-                            filesEncrypted.clear();
-                            filesEncrypted = null;
+                        }
+                        else
+                        {
+                            if (sourceFile.isDirectory() && recursive && !sourceFile.getName().equals(".") &&
+                                    !sourceFile.getName().equals(".."))
+                            {
+                                result = encryptFiles(ctxt, sourceFile.getPath(), recursive);
+                            }
                         }
 
-                        break;
+                        if (!result)
+                        {
+                            if (filesEncrypted != null)
+                            {
+                                OdsLog.e(TAG, "Folder encryption failed for " + sourceFile.getName());
+
+                                // Remove the encrypted versions done so far.
+                                OdsLog.i(TAG, "Encryption rollback in progress...");
+                                for (String aFilesEncrypted : filesEncrypted)
+                                {
+                                    if (new File(aFilesEncrypted + ENCRYPTION_EXTENSION).delete())
+                                    {
+                                        OdsLog.i(TAG, "Deleted encrypted version of " + aFilesEncrypted);
+                                    }
+                                }
+                                filesEncrypted.clear();
+                                filesEncrypted = null;
+                            }
+
+                            break;
+                        }
                     }
                 }
             }
@@ -499,15 +498,15 @@ public class OdsEncryptionUtils
                 // Whole folder encrypt succeeded. Move over to new encrypted
                 // versions.
 
-                for (int j = 0; j < filesEncrypted.size(); j++)
+                for (String aFilesEncrypted : filesEncrypted)
                 {
-                    File src = new File(filesEncrypted.get(j));
-                    File dest = new File(filesEncrypted.get(j) + ENCRYPTION_EXTENSION);
+                    File src = new File(aFilesEncrypted);
+                    File dest = new File(aFilesEncrypted + ENCRYPTION_EXTENSION);
 
                     //
                     // Two-stage delete for failsafe operation.
                     //
-                    File tempSrc = new File(filesEncrypted.get(j) + ".mov");
+                    File tempSrc = new File(aFilesEncrypted + ".mov");
                     if (src.renameTo(tempSrc))
                     {
                         // Put encrypted version in originals place.
@@ -518,7 +517,8 @@ public class OdsEncryptionUtils
                             {
                                 // At least rename it out of the way with a temp
                                 // extension, and nuke its content.
-                                OdsLog.w(TAG, "Could not delete original file. Nuking and renaming it " + tempSrc.getPath());
+                                OdsLog.w(TAG,
+                                        "Could not delete original file. Nuking and renaming it " + tempSrc.getPath());
                                 nukeFile(tempSrc, -1);
                             }
                         }
@@ -546,35 +546,55 @@ public class OdsEncryptionUtils
     // ///////////////////////////////////////////////////////////////////////////
     // INTERNALS
     // ///////////////////////////////////////////////////////////////////////////
+
+    private static Cipher getCipher(SecretKey key, int mode) throws Exception
+    {
+        Cipher pbeCipher = Cipher.getInstance(ALGORITHM);
+        pbeCipher.init(mode, key, new IvParameterSpec(IV));
+        return pbeCipher;
+    }
+
     private static InputStream testInputStream(InputStream streamIn, SecretKey key)
     {
         try
         {
-            Cipher pbeCipher = Cipher.getInstance(ALGORITHM);
-            pbeCipher.init(Cipher.DECRYPT_MODE, key);
+            if (key == null)
+            {
+                return null;
+            }
 
+            final Cipher pbeCipher = getCipher(key, Cipher.DECRYPT_MODE);
             int count = streamIn.read();
-            if (count <= 0 || count > 1024) { return null; }
+            if (count <= 0 || count > 1024)
+            {
+                return null;
+            }
 
             byte[] input = new byte[count];
-            streamIn.read(input);
-            pbeCipher.doFinal(input).toString().contains(Arrays.toString(REFERENCE_DATA));
+            if (streamIn.read(input) != count)
+            {
+                return null;
+            }
+
+            if (!Arrays.equals(pbeCipher.doFinal(input), REFERENCE_DATA))
+            {
+                return null;
+            }
 
             return new CipherInputStream(streamIn, pbeCipher);
         }
         catch (Exception ex)
         {
+            //OdsLog.ex(TAG, ex);
             // nothing
         }
 
         return null;
     }
 
-    public static OutputStream wrapCipherOutputStream(OutputStream streamOut, SecretKey key) throws IOException,
-    GeneralSecurityException
+    public static OutputStream wrapCipherOutputStream(OutputStream streamOut, SecretKey key) throws Exception
     {
-        Cipher pbeCipher = Cipher.getInstance(ALGORITHM);
-        pbeCipher.init(Cipher.ENCRYPT_MODE, key);
+        final Cipher pbeCipher = getCipher(key, Cipher.ENCRYPT_MODE);
 
         /*
          * Write predefined data first (see the reading code)
@@ -586,10 +606,9 @@ public class OdsEncryptionUtils
         return new CipherOutputStream(streamOut, pbeCipher);
     }
 
-    private static InputStream wrapCipherInputStream(InputStream streamIn, SecretKey key) throws IOException, GeneralSecurityException
+    private static InputStream wrapCipherInputStream(InputStream streamIn, SecretKey key) throws Exception
     {
-        Cipher pbeCipher = Cipher.getInstance(ALGORITHM);
-        pbeCipher.init(Cipher.DECRYPT_MODE, key);
+        final Cipher pbeCipher = getCipher(key, Cipher.DECRYPT_MODE);
 
         /*
          * Read a predefined data block. If the password is incorrect, we'll get
@@ -598,12 +617,18 @@ public class OdsEncryptionUtils
          * specific enough for a good error message.
          */
         int count = streamIn.read();
-        if (count <= 0 || count > 1024) { throw new IOException("Bad encrypted file"); }
+        if (count <= 0 || count > 1024)
+        {
+            throw new IOException("Bad encrypted file");
+        }
 
         byte[] input = new byte[count];
-        streamIn.read(input);
-        pbeCipher.doFinal(input);
+        if (count != streamIn.read(input))
+        {
+            throw new IOException("Bad encrypted file");
+        }
 
+        pbeCipher.doFinal(input);
         return new CipherInputStream(streamIn, pbeCipher);
     }
 
@@ -648,9 +673,11 @@ public class OdsEncryptionUtils
             }
 
             PBEKeySpec spec = new PBEKeySpec(password.toCharArray(), SALT, COUNT, KEY_LENGTH);
-            SecretKey key = new SecretKeySpec(SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1").generateSecret(spec).getEncoded(), "AES");
+            SecretKey key = new SecretKeySpec(
+                    SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1").generateSecret(spec).getEncoded(), "AES");
 
-            ks.setEntry(DEFAULT_ALIAS, new KeyStore.SecretKeyEntry(key), new KeyStore.PasswordProtection(password.toCharArray()));
+            ks.setEntry(DEFAULT_ALIAS, new KeyStore.SecretKeyEntry(key),
+                    new KeyStore.PasswordProtection(password.toCharArray()));
             saveKeyStore(ctx, ks);
             info = key;
             return true;
@@ -699,7 +726,7 @@ public class OdsEncryptionUtils
     {
         KeyStore ks = KeyStore.getInstance("BKS");
 
-        FileInputStream fis = null;
+        FileInputStream fis;
         try
         {
             fis = ctx.openFileInput(KEYSTORE_FILE);
