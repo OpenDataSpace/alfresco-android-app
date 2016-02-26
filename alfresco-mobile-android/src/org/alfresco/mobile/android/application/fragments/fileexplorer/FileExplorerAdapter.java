@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,19 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.fileexplorer;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnDismissListener;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 
-import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
@@ -41,24 +45,20 @@ import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
 import org.alfresco.mobile.android.ui.utils.Formatter;
+import org.opendataspace.android.app.R;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnDismissListener;
-import android.widget.PopupMenu.OnMenuItemClickListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Provides access to files and displays them as a view based on
  * GenericViewHolder.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolder> implements OnMenuItemClickListener
@@ -83,7 +83,7 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
     }
 
     public FileExplorerAdapter(Fragment fr, int textViewResourceId, int mode, List<File> listItems,
-            List<File> selectedItems)
+                               List<File> selectedItems)
     {
         super(fr.getActivity(), textViewResourceId, listItems);
         this.fragment = fr;
@@ -92,8 +92,8 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
         this.mode = mode;
         if (((BaseActivity) fr.getActivity()).getCurrentAccount() != null)
         {
-            File f = StorageManager.getDownloadFolder(fr.getActivity(),
-                    ((BaseActivity) fr.getActivity()).getCurrentAccount());
+            File f = StorageManager
+                    .getDownloadFolder(fr.getActivity(), ((BaseActivity) fr.getActivity()).getCurrentAccount());
             this.downloadPath = (f != null) ? f.getPath() : null;
         }
 
@@ -154,7 +154,8 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
     {
         if (item.isFile())
         {
-            vh.icon.setImageDrawable(getContext().getResources().getDrawable(MimeTypeManager.getIcon(getContext(), item.getName())));
+            vh.icon.setImageDrawable(
+                    getContext().getResources().getDrawable(MimeTypeManager.getIcon(getContext(), item.getName())));
             AccessibilityHelper.addContentDescription(vh.icon, R.string.mime_document);
         }
         else if (item.isDirectory())
@@ -163,8 +164,8 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
             AccessibilityHelper.addContentDescription(vh.icon, R.string.mime_folder);
         }
 
-        if (mode == FileExplorerFragment.MODE_LISTING && fragment.getActivity() instanceof MainActivity
-                && ((downloadPath != null && item.getPath().startsWith(downloadPath)) || (item.isFile())))
+        if (mode == FileExplorerFragment.MODE_LISTING && fragment.getActivity() instanceof MainActivity &&
+                ((downloadPath != null && item.getPath().startsWith(downloadPath)) || (item.isFile())))
         {
             UIUtils.setBackground(((View) vh.choose),
                     getContext().getResources().getDrawable(R.drawable.quickcontact_badge_overlay_light));
@@ -316,22 +317,23 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         }
 
-        if (DataProtectionManager.getInstance(getContext()).isEncryptionEnable())
+        final DataProtectionManager encman = DataProtectionManager.getInstance(getContext());
+
+        if (encman.isEncryptionEnable() && f.isFile())
         {
-            if (DataProtectionManager.getInstance(getContext()).isEncrypted(f.getPath()))
+            if (encman.isEncrypted(f.getPath()))
             {
                 mi = menu.add(Menu.NONE, MenuActionItem.MENU_DECRYPT, Menu.FIRST + MenuActionItem.MENU_DECRYPT,
                         R.string.decrypt_action);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
             }
-            else
+            else if (encman.isEncryptable(SessionUtils.getAccount(fragment.getActivity()), f))
             {
                 mi = menu.add(Menu.NONE, MenuActionItem.MENU_ENCRYPT, Menu.FIRST + MenuActionItem.MENU_ENCRYPT,
                         R.string.encrypt_action);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
             }
         }
-
     }
 
     @Override
@@ -340,33 +342,35 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
         boolean onMenuItemClick = true;
         switch (item.getItemId())
         {
-            case MenuActionItem.MENU_UPLOAD:
-                onMenuItemClick = true;
-                ActionManager.actionSendDocumentToAlfresco((Activity) getContext(), selectedOptionItems.get(0));
-                break;
-            case MenuActionItem.MENU_SHARE:
-                onMenuItemClick = true;
-                ActionManager.actionShareContent((Activity) getContext(), selectedOptionItems.get(0));
-                break;
-            case MenuActionItem.MENU_EDIT:
-                onMenuItemClick = true;
-                FileActions.edit(fragment, selectedOptionItems.get(0));
-                break;
-            case MenuActionItem.MENU_DELETE:
-                onMenuItemClick = true;
-                FileActions.delete(fragment, new ArrayList<File>(selectedOptionItems));
-                break;
-            case MenuActionItem.MENU_ENCRYPT:
-                onMenuItemClick = true;
-                DataProtectionManager.getInstance(getContext()).checkEncrypt(SessionUtils.getAccount(fragment.getActivity()), selectedOptionItems.get(0));
-                break;
-            case MenuActionItem.MENU_DECRYPT:
-                onMenuItemClick = true;
-                DataProtectionManager.getInstance(getContext()).checkDecrypt(SessionUtils.getAccount(fragment.getActivity()), selectedOptionItems.get(0));
-                break;
-            default:
-                onMenuItemClick = false;
-                break;
+        case MenuActionItem.MENU_UPLOAD:
+            onMenuItemClick = true;
+            ActionManager.actionSendDocumentToAlfresco((Activity) getContext(), selectedOptionItems.get(0));
+            break;
+        case MenuActionItem.MENU_SHARE:
+            onMenuItemClick = true;
+            ActionManager.actionShareContent((Activity) getContext(), selectedOptionItems.get(0));
+            break;
+        case MenuActionItem.MENU_EDIT:
+            onMenuItemClick = true;
+            FileActions.edit(fragment, selectedOptionItems.get(0));
+            break;
+        case MenuActionItem.MENU_DELETE:
+            onMenuItemClick = true;
+            FileActions.delete(fragment, new ArrayList<File>(selectedOptionItems));
+            break;
+        case MenuActionItem.MENU_ENCRYPT:
+            onMenuItemClick = true;
+            DataProtectionManager.getInstance(getContext())
+                    .checkEncrypt(SessionUtils.getAccount(fragment.getActivity()), selectedOptionItems.get(0));
+            break;
+        case MenuActionItem.MENU_DECRYPT:
+            onMenuItemClick = true;
+            DataProtectionManager.getInstance(getContext())
+                    .checkDecrypt(SessionUtils.getAccount(fragment.getActivity()), selectedOptionItems.get(0));
+            break;
+        default:
+            onMenuItemClick = false;
+            break;
         }
         selectedOptionItems.clear();
         return onMenuItemClick;
