@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,9 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.commons.utils;
-
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -28,9 +25,12 @@ import android.os.Build;
 import android.view.Display;
 import android.view.View;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 /**
  * Utility around UI Management.
- * 
+ *
  * @author Jean Marie Pascal
  */
 @TargetApi(Build.VERSION_CODES.JELLY_BEAN)
@@ -39,9 +39,6 @@ public class UIUtils
 
     /**
      * Set the background view with the drawable associated.
-     * 
-     * @param v
-     * @param background
      */
     @SuppressWarnings("deprecation")
     public static void setBackground(View v, Drawable background)
@@ -59,8 +56,8 @@ public class UIUtils
     @SuppressWarnings("deprecation")
     public static int[] getScreenDimension(Activity activity)
     {
-        int width = 0;
-        int height = 0;
+        int width;
+        int height;
 
         Display display = activity.getWindowManager().getDefaultDisplay();
         if (AndroidVersion.isHCMR2OrAbove())
@@ -76,11 +73,11 @@ public class UIUtils
             height = display.getHeight(); // deprecated
         }
 
-        return new int[] { width, height };
+        return new int[] {width, height};
     }
 
-    private static final Pattern NAME_PATTERN = Pattern
-            .compile("(.*[\"\\*\\\\>\\<\\?\\/\\:\\|]+.*)|(.*[\\.]?.*[\\.]+$)|(.*[ ]+$)");
+    private static final Pattern NAME_PATTERN =
+            Pattern.compile("(.*[\"\\*\\\\>\\<\\?\\/\\:\\|]+.*)|(.*[\\.]?.*[\\.]+$)|(.*[ ]+$)");
 
     public static boolean hasInvalidName(String name)
     {
