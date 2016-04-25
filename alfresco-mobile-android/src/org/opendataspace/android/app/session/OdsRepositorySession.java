@@ -43,6 +43,7 @@ public class OdsRepositorySession extends RepositorySessionImpl
     private OdsRepositorySession shared;
     private OdsRepositorySession global;
     private OdsRepositorySession current;
+    private OdsRepositorySession ext1, ext2;
     private WeakReference<OdsRepositorySession> parent;
     private List<Repository> repos;
     private LinkCapablilty lcap = LinkCapablilty.UNKNOWN;
@@ -151,6 +152,17 @@ public class OdsRepositorySession extends RepositorySessionImpl
             {
                 global = create(cur.createSession(), this);
             }
+            else if (!name.equals("config"))
+            {
+                if (ext1 == null)
+                {
+                    ext1 = create(cur.createSession(), this);
+                }
+                else if (ext2 == null)
+                {
+                    ext2 = create(cur.createSession(), this);
+                }
+            }
         }
 
         return ses;
@@ -170,6 +182,16 @@ public class OdsRepositorySession extends RepositorySessionImpl
     {
         Repository repo = findRepository("config");
         return repo != null ? create(repo.createSession(), this) : null;
+    }
+
+    public OdsRepositorySession getExt1Repo()
+    {
+        return ext1;
+    }
+
+    public OdsRepositorySession getExt2Repo()
+    {
+        return ext2;
     }
 
     private Repository findRepository(String name)
