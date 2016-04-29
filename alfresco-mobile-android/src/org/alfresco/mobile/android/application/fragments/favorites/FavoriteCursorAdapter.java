@@ -61,8 +61,8 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @since 1.2
  * @author Jean Marie Pascal
+ * @since 1.2
  */
 public class FavoriteCursorAdapter extends BaseCursorLoader<ProgressViewHolder> implements OnMenuItemClickListener
 {
@@ -259,7 +259,7 @@ public class FavoriteCursorAdapter extends BaseCursorLoader<ProgressViewHolder> 
 
                     if (AndroidVersion.isICSOrAbove())
                     {
-                        popup.setOnDismixssListener(new OnDismissListener()
+                        popup.setOnDismissListener(new OnDismissListener()
                         {
                             @Override
                             public void onDismiss(PopupMenu menu)
