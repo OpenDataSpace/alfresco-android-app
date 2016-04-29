@@ -140,7 +140,6 @@ public class PrivateDialogActivity extends BaseActivity
             FragmentDisplayer
                     .replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), CreateTaskTypePickerFragment.TAG,
                             false, false);
-            return;
         }
     }
 
@@ -154,9 +153,6 @@ public class PrivateDialogActivity extends BaseActivity
             if (resultCode == RESULT_CANCELED)
             {
                 finish();
-            }
-            else
-            {
             }
         }
     }
@@ -241,7 +237,6 @@ public class PrivateDialogActivity extends BaseActivity
                     ((GeneralPreferences) getFragment(GeneralPreferences.TAG)).refreshDataProtection();
                 }
 
-                return;
             }
         }
     }

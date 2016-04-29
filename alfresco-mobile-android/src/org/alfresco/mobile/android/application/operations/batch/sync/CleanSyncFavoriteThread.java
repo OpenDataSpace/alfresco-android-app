@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,9 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.sync;
 
-import java.io.File;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.application.manager.StorageManager;
@@ -31,9 +33,7 @@ import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
 import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
+import java.io.File;
 
 public class CleanSyncFavoriteThread extends AbstractBatchOperationThread<Void>
 {
@@ -77,23 +77,29 @@ public class CleanSyncFavoriteThread extends AbstractBatchOperationThread<Void>
             }
 
             // For each sync row, reset status
-            Cursor allFavoritesCursor = context.getContentResolver().query(SynchroProvider.CONTENT_URI,
-                    SynchroSchema.COLUMN_ALL, SynchroProvider.getAccountFilter(accountId), null, null);
+            Cursor allFavoritesCursor = context.getContentResolver()
+                    .query(SynchroProvider.CONTENT_URI, SynchroSchema.COLUMN_ALL,
+                            SynchroProvider.getAccountFilter(accountId), null, null);
             while (allFavoritesCursor.moveToNext())
             {
                 if (isDeletion)
                 {
                     // Update Sync Info
-                    context.getContentResolver().delete(SynchroManager.getUri(allFavoritesCursor.getLong(SynchroSchema.COLUMN_ID_ID)), null, null);
+                    context.getContentResolver()
+                            .delete(SynchroManager.getUri(allFavoritesCursor.getLong(SynchroSchema.COLUMN_ID_ID)), null,
+                                    null);
                 }
                 else
                 {
                     // Update Sync Info
                     ContentValues cValues = new ContentValues();
                     cValues.put(BatchOperationSchema.COLUMN_STATUS, SyncOperation.STATUS_PENDING);
-                    context.getContentResolver().update(SynchroManager.getUri(allFavoritesCursor.getLong(SynchroSchema.COLUMN_ID_ID)), cValues, null, null);
+                    context.getContentResolver()
+                            .update(SynchroManager.getUri(allFavoritesCursor.getLong(SynchroSchema.COLUMN_ID_ID)),
+                                    cValues, null, null);
                 }
             }
+            allFavoritesCursor.close();
         }
         catch (Exception e)
         {

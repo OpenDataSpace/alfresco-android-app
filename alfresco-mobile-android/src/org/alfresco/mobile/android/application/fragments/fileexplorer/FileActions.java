@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -45,7 +45,7 @@ import android.view.MenuItem;
 
 /**
  * Manage all local file actions like a sdcard file manager.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class FileActions implements ActionMode.Callback
@@ -53,17 +53,17 @@ public class FileActions implements ActionMode.Callback
 
     private List<File> selectedFiles = new ArrayList<File>();
 
-    private List<File> selectedFolder = new ArrayList<File>();
+    private final List<File> selectedFolder = new ArrayList<File>();
 
-    private List<File> selectedFile = new ArrayList<File>();
+    private final List<File> selectedFile = new ArrayList<File>();
 
     private onFinishModeListerner mListener;
 
     private ActionMode mode;
 
-    private Activity activity;
+    private final Activity activity;
 
-    private Fragment fragment;
+    private final Fragment fragment;
 
     public FileActions(Fragment f, List<File> files)
     {
@@ -168,7 +168,7 @@ public class FileActions implements ActionMode.Callback
                                 R.string.upload);
                         mi.setIcon(R.drawable.ic_upload);
                         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-                        
+
                         mi = menu.add(Menu.NONE, MenuActionItem.MENU_SHARE, Menu.FIRST + MenuActionItem.MENU_SHARE,
                                 R.string.share);
                         mi.setIcon(R.drawable.ic_share);

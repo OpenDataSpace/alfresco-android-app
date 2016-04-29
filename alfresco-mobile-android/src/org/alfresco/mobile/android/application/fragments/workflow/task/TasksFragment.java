@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,28 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.workflow.task;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.model.ListingFilter;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import org.alfresco.mobile.android.api.model.Task;
-import org.alfresco.mobile.android.api.services.WorkflowService;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.ui.logging.OdsLog;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.RefreshFragment;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
 
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.BroadcastReceiver;
@@ -52,8 +30,30 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-public class TasksFragment extends BaseListFragment implements LoaderCallbacks<LoaderResult<PagingResult<Task>>>,
-RefreshFragment
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.ListingContext;
+import org.alfresco.mobile.android.api.model.ListingFilter;
+import org.alfresco.mobile.android.api.model.PagingResult;
+import org.alfresco.mobile.android.api.model.Task;
+import org.alfresco.mobile.android.api.services.WorkflowService;
+import org.alfresco.mobile.android.application.activity.MainActivity;
+import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
+import org.alfresco.mobile.android.application.fragments.DisplayUtils;
+import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
+import org.alfresco.mobile.android.application.fragments.RefreshFragment;
+import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class TasksFragment extends BaseListFragment
+        implements LoaderCallbacks<LoaderResult<PagingResult<Task>>>, RefreshFragment
 {
     private static final String PARAM_MENUID = "menuId";
 
@@ -61,9 +61,7 @@ RefreshFragment
 
     public static final String TAG = TasksFragment.class.getName();
 
-    protected List<Task> selectedItems = new ArrayList<Task>(1);
-
-    private TasksFragmentReceiver receiver;
+    protected final List<Task> selectedItems = new ArrayList<Task>(1);
 
     private boolean loadFinished = false;
 
@@ -93,7 +91,7 @@ RefreshFragment
         b.putSerializable(PARAM_FILTER, f);
         bf.setArguments(b);
         return bf;
-    };
+    }
 
     public static TasksFragment newInstance(ListingFilter f, int menuId)
     {
@@ -103,7 +101,7 @@ RefreshFragment
         b.putInt(PARAM_MENUID, menuId);
         bf.setArguments(b);
         return bf;
-    };
+    }
 
     // ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE
@@ -135,10 +133,11 @@ RefreshFragment
         IntentFilter intentFilter = new IntentFilter(IntentIntegrator.ACTION_TASK_COMPLETED);
         intentFilter.addAction(IntentIntegrator.ACTION_START_PROCESS_COMPLETED);
         intentFilter.addAction(IntentIntegrator.ACTION_TASK_DELEGATE_COMPLETED);
-        receiver = new TasksFragmentReceiver();
+        TasksFragmentReceiver receiver = new TasksFragmentReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, intentFilter);
 
-        if (!loadFinished){
+        if (!loadFinished)
+        {
             setListShown(false);
         }
 
@@ -156,9 +155,9 @@ RefreshFragment
 
         bundle = (ba == null) ? getArguments() : ba;
 
-        ListingContext lc = null, lcorigin = null;
-        ListingFilter lf = null;
-        TasksLoader st = null;
+        ListingContext lc = null, lcorigin;
+        ListingFilter lf;
+        TasksLoader st;
         if (bundle != null)
         {
             lf = (ListingFilter) bundle.getSerializable(PARAM_FILTER);
@@ -168,7 +167,10 @@ RefreshFragment
             {
                 lc = new ListingContext();
             }
-            lc.setFilter(lf);
+            if (lc != null)
+            {
+                lc.setFilter(lf);
+            }
             loadState = bundle.getInt(LOAD_STATE);
             st = new TasksLoader(getActivity(), alfSession);
         }
@@ -284,18 +286,20 @@ RefreshFragment
         {
             OdsLog.d(TAG, intent.getAction());
 
-            if (getActivity() == null) { return; }
+            if (getActivity() == null)
+            {
+                return;
+            }
 
             if (intent.getExtras() != null)
             {
                 TasksFragment tasksFragment = (TasksFragment) getFragmentManager().findFragmentByTag(TasksFragment.TAG);
 
-                if (intent.getAction().equals(IntentIntegrator.ACTION_TASK_COMPLETED)
-                        || intent.getAction().equals(IntentIntegrator.ACTION_START_PROCESS_COMPLETED)
-                        || intent.getAction().equals(IntentIntegrator.ACTION_TASK_DELEGATE_COMPLETED))
+                if (intent.getAction().equals(IntentIntegrator.ACTION_TASK_COMPLETED) ||
+                        intent.getAction().equals(IntentIntegrator.ACTION_START_PROCESS_COMPLETED) ||
+                        intent.getAction().equals(IntentIntegrator.ACTION_TASK_DELEGATE_COMPLETED))
                 {
                     tasksFragment.refresh();
-                    return;
                 }
 
             }

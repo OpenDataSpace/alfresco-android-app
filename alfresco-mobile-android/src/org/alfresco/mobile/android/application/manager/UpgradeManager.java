@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -24,6 +24,7 @@ import org.alfresco.mobile.android.application.upgrade.UpgradeVersion110;
 import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.pm.PackageInfo;
@@ -37,9 +38,9 @@ public class UpgradeManager implements VersionNumber
 
     private static final String VERSION_NUMBER = "applicationVersionNumber";
 
-    private Context context;
+    private final Context context;
 
-    private SharedPreferences prefs;
+    private final SharedPreferences prefs;
 
     private int versionNumber;
 
@@ -57,7 +58,7 @@ public class UpgradeManager implements VersionNumber
 
         // Check if application has been updated
         checkVersionCode();
-        
+
         // Upgrade Manager
         if (canUpgrade())
         {
@@ -68,6 +69,7 @@ public class UpgradeManager implements VersionNumber
     // ///////////////////////////////////////////////////////////////////////////
     // CHECK UPGRADE
     // ///////////////////////////////////////////////////////////////////////////
+    @SuppressLint("CommitPrefEdits")
     private void checkVersionCode()
     {
         try
@@ -104,12 +106,13 @@ public class UpgradeManager implements VersionNumber
     // ///////////////////////////////////////////////////////////////////////////
     // UPGRADE PROCESS
     // ///////////////////////////////////////////////////////////////////////////
+    @SuppressLint("CommitPrefEdits")
     private void upgrade()
     {
         if (canUpgrade)
         {
             upgradeVersion110();
-            
+
             //Upgrade done. Save current state.
             prefs.edit().putInt(VERSION_NUMBER, currentVersionNumber).commit();
             versionNumber = currentVersionNumber;
@@ -130,6 +133,7 @@ public class UpgradeManager implements VersionNumber
     /**
      * If from 1.1.0 and before to 1.1.0 and after
      */
+    @SuppressLint("CommitPrefEdits")
     private void upgradeVersion110()
     {
         if (!prefs.getBoolean(UPGRADE_MIGRATION_FILES, false) && currentVersionNumber >= VERSION_1_1_0 && versionNumber < VERSION_1_1_0)
@@ -142,7 +146,7 @@ public class UpgradeManager implements VersionNumber
                 File oldDownloads = UpgradeVersion110.getOldDownloadFolder(context);
                 File newDownloads = StorageManager.getPrivateFolder(context, "", null);
 
-                if (IOUtils.isFolderEmpty(oldDownloads) == false)
+                if (!IOUtils.isFolderEmpty(oldDownloads))
                 {
                     if (oldDownloads != null && newDownloads != null)
                     {
@@ -159,7 +163,7 @@ public class UpgradeManager implements VersionNumber
             OdsLog.i(TAG, "[upgradeVersion110] : Completed");
         }
     }
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // UPGRADE TASK 1.2.0
     // ///////////////////////////////////////////////////////////////////////////

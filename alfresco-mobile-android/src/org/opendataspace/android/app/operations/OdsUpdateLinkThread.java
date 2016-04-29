@@ -39,7 +39,7 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
     private static final String TAG = "OdsUpdateLinkThread";
 
     private OdsUpdateLinkContext ctx;
-    private OdsLink link;
+    private final OdsLink link;
 
     public OdsUpdateLinkThread(Context context, OperationRequest request)
     {

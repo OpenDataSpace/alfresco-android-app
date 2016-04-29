@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,15 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.actions;
-
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.node.download.DownloadRequest;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -35,6 +26,15 @@ import android.os.Bundle;
 import android.text.Html;
 import android.view.Gravity;
 import android.widget.TextView;
+
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
+import org.alfresco.mobile.android.application.operations.batch.node.download.DownloadRequest;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.app.R;
 
 public class ResolveNamingConflictFragment extends DialogFragment
 {
@@ -89,20 +89,17 @@ public class ResolveNamingConflictFragment extends DialogFragment
                     }
                 });
 
-        if (negativeId != -1)
+        builder.setNegativeButton(negativeId, new DialogInterface.OnClickListener()
         {
-            builder.setNegativeButton(negativeId, new DialogInterface.OnClickListener()
+            public void onClick(DialogInterface dialog, int whichButton)
             {
-                public void onClick(DialogInterface dialog, int whichButton)
+                if (onFavoriteChangeListener != null)
                 {
-                    if (onFavoriteChangeListener != null)
-                    {
-                        onFavoriteChangeListener.onNegative();
-                    }
-                    dialog.dismiss();
+                    onFavoriteChangeListener.onNegative();
                 }
-            });
-        }
+                dialog.dismiss();
+            }
+        });
 
         return builder.create();
     }
@@ -129,7 +126,7 @@ public class ResolveNamingConflictFragment extends DialogFragment
         void onNegative();
     }
 
-    private OnNameChangeListener downloadListener = new OnNameChangeListener()
+    private final OnNameChangeListener downloadListener = new OnNameChangeListener()
     {
         @Override
         public void onPositive()
@@ -148,11 +145,11 @@ public class ResolveNamingConflictFragment extends DialogFragment
     // ///////////////////////////////////////////////////////////////////////////
     private void download()
     {
-        if (getArguments() != null && getArguments().containsKey(IntentIntegrator.EXTRA_DOCUMENT)
-                && getArguments().containsKey(IntentIntegrator.EXTRA_FOLDER))
+        if (getArguments() != null && getArguments().containsKey(IntentIntegrator.EXTRA_DOCUMENT) &&
+                getArguments().containsKey(IntentIntegrator.EXTRA_FOLDER))
         {
-            OperationsRequestGroup group = new OperationsRequestGroup(getActivity(),
-                    SessionUtils.getAccount(getActivity()));
+            OperationsRequestGroup group =
+                    new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
             group.enqueue(new DownloadRequest((Folder) getArguments().getParcelable(IntentIntegrator.EXTRA_FOLDER),
                     (Document) getArguments().getParcelable(IntentIntegrator.EXTRA_DOCUMENT), true));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);

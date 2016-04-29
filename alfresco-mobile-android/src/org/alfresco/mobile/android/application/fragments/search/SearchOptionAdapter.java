@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -46,7 +46,7 @@ public class SearchOptionAdapter extends ArrayAdapter<Integer>
 {
     private Integer item;
 
-    private Account account;
+    private final Account account;
 
     public SearchOptionAdapter(Activity context, int textViewResourceId, List<Integer> objects)
     {
@@ -54,6 +54,7 @@ public class SearchOptionAdapter extends ArrayAdapter<Integer>
         this.account = SessionUtils.getAccount(context);
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent)
     {
@@ -67,13 +68,14 @@ public class SearchOptionAdapter extends ArrayAdapter<Integer>
         if (item != null)
         {
             ((TextView) v.findViewById(R.id.bottomtext)).setText(ITEMS.get(item));
-            ((TextView) v.findViewById(R.id.toptext)).setVisibility(View.GONE);
-            ((ImageView) v.findViewById(R.id.icon)).setVisibility(View.VISIBLE);
+            v.findViewById(R.id.toptext).setVisibility(View.GONE);
+            v.findViewById(R.id.icon).setVisibility(View.VISIBLE);
             ((ImageView) v.findViewById(R.id.icon)).setImageResource(ITEMS_ICONS.get(item));
         }
         return v;
     }
 
+    @SuppressLint("InflateParams")
     @Override
     public View getView(int position, View convertView, ViewGroup parent)
     {
@@ -96,7 +98,7 @@ public class SearchOptionAdapter extends ArrayAdapter<Integer>
             }
 
             ((TextView) v.findViewById(R.id.bottomtext)).setText(ITEMS.get(getItem(position)));
-            ((ImageView) v.findViewById(R.id.icon)).setVisibility(View.GONE);
+            v.findViewById(R.id.icon).setVisibility(View.GONE);
         }
         return v;
     }

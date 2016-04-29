@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,57 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.workflow.task;
-
-import java.io.Serializable;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
-import org.alfresco.mobile.android.api.constants.WorkflowModel;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import org.alfresco.mobile.android.api.model.Person;
-import org.alfresco.mobile.android.api.model.Process;
-import org.alfresco.mobile.android.api.model.Task;
-import org.alfresco.mobile.android.api.model.impl.ProcessImpl;
-import org.alfresco.mobile.android.api.model.impl.TaskImpl;
-import org.alfresco.mobile.android.api.services.impl.publicapi.PublicAPIWorkflowServiceImpl;
-import org.alfresco.mobile.android.api.utils.WorkflowUtils;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.ui.logging.OdsLog;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
-import org.alfresco.mobile.android.application.fragments.person.PersonProfileFragment;
-import org.alfresco.mobile.android.application.fragments.person.PersonSearchFragment;
-import org.alfresco.mobile.android.application.fragments.person.onPickPersonFragment;
-import org.alfresco.mobile.android.application.fragments.workflow.ItemsLoader;
-import org.alfresco.mobile.android.application.fragments.workflow.ProcessDiagramFragment;
-import org.alfresco.mobile.android.application.fragments.workflow.process.ProcessTasksFragment;
-import org.alfresco.mobile.android.application.fragments.workflow.process.ProcessesAdapter;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.RenditionManager;
-import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.workflow.process.start.StartProcessRequest;
-import org.alfresco.mobile.android.application.operations.batch.workflow.task.complete.CompleteTaskRequest;
-import org.alfresco.mobile.android.application.operations.batch.workflow.task.delegate.ReassignTaskRequest;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.utils.Formatter;
 
 import android.app.FragmentManager;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -94,12 +43,62 @@ import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
+import org.alfresco.mobile.android.api.constants.WorkflowModel;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.PagingResult;
+import org.alfresco.mobile.android.api.model.Person;
+import org.alfresco.mobile.android.api.model.Process;
+import org.alfresco.mobile.android.api.model.Task;
+import org.alfresco.mobile.android.api.model.impl.ProcessImpl;
+import org.alfresco.mobile.android.api.model.impl.TaskImpl;
+import org.alfresco.mobile.android.api.services.impl.publicapi.PublicAPIWorkflowServiceImpl;
+import org.alfresco.mobile.android.api.utils.WorkflowUtils;
+import org.alfresco.mobile.android.application.ApplicationManager;
+import org.alfresco.mobile.android.application.activity.MainActivity;
+import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
+import org.alfresco.mobile.android.application.fragments.DisplayUtils;
+import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
+import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
+import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
+import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
+import org.alfresco.mobile.android.application.fragments.person.PersonProfileFragment;
+import org.alfresco.mobile.android.application.fragments.person.PersonSearchFragment;
+import org.alfresco.mobile.android.application.fragments.person.onPickPersonFragment;
+import org.alfresco.mobile.android.application.fragments.workflow.ItemsLoader;
+import org.alfresco.mobile.android.application.fragments.workflow.ProcessDiagramFragment;
+import org.alfresco.mobile.android.application.fragments.workflow.process.ProcessTasksFragment;
+import org.alfresco.mobile.android.application.fragments.workflow.process.ProcessesAdapter;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.manager.RenditionManager;
+import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
+import org.alfresco.mobile.android.application.operations.OperationRequest;
+import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
+import org.alfresco.mobile.android.application.operations.batch.workflow.process.start.StartProcessRequest;
+import org.alfresco.mobile.android.application.operations.batch.workflow.task.complete.CompleteTaskRequest;
+import org.alfresco.mobile.android.application.operations.batch.workflow.task.delegate.ReassignTaskRequest;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.utils.Formatter;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
+
+import java.io.Serializable;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * @since 1.3
  * @author Jean Marie Pascal
  */
-public class TaskDetailsFragment extends BaseFragment implements onPickPersonFragment,
-        LoaderCallbacks<LoaderResult<PagingResult<Document>>>
+public class TaskDetailsFragment extends BaseFragment
+        implements onPickPersonFragment, LoaderCallbacks<LoaderResult<PagingResult<Document>>>
 {
 
     public static final String TAG = TaskDetailsFragment.class.getName();
@@ -115,8 +114,6 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
     private Task currentTask;
 
     private Process currentProcess;
-
-    private TaskDetailsFragmentReceiver receiver;
 
     private EditText comment;
 
@@ -151,7 +148,7 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
         b.putSerializable(ARGUMENT_PROCESS, process);
         bf.setArguments(b);
         return bf;
-    };
+    }
 
     // ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE
@@ -166,11 +163,17 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
         SessionUtils.checkSession(getActivity(), alfSession);
         vRoot = inflater.inflate(R.layout.app_task_details, container, false);
 
-        if (alfSession == null) { return vRoot; }
+        if (alfSession == null)
+        {
+            return vRoot;
+        }
 
         currentTask = (Task) getArguments().get(ARGUMENT_TASK);
         currentProcess = (Process) getArguments().get(ARGUMENT_PROCESS);
-        if (currentTask == null && currentProcess == null) { return null; }
+        if (currentTask == null && currentProcess == null)
+        {
+            return null;
+        }
 
         // Init variable depending on object
         initVariables();
@@ -220,7 +223,7 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
         IntentFilter intentFilter = new IntentFilter(IntentIntegrator.ACTION_TASK_COMPLETED);
         intentFilter.addAction(IntentIntegrator.ACTION_TASK_DELEGATE_COMPLETED);
         intentFilter.addAction(ACTION_ATTACHMENTS_COMPLETED);
-        receiver = new TaskDetailsFragmentReceiver();
+        TaskDetailsFragmentReceiver receiver = new TaskDetailsFragmentReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, intentFilter);
     }
 
@@ -267,8 +270,8 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
         }
         else if (currentProcess != null)
         {
-            description = currentProcess.getDescription() != null ? currentProcess.getDescription()
-                    : getString(R.string.process_no_description);
+            description = currentProcess.getDescription() != null ? currentProcess.getDescription() :
+                    getString(R.string.process_no_description);
             priority = currentProcess.getPriority();
             endedAt = currentProcess.getEndedAt();
             initiator = (Person) ((ProcessImpl) currentProcess).getData().get(OnPremiseConstant.INITIATOR_VALUE);
@@ -294,8 +297,8 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
             View reject = vRoot.findViewById(R.id.action_reject);
             comment = (EditText) vRoot.findViewById(R.id.task_comment);
 
-            if (WorkflowModel.TASK_REVIEW.equals(currentTask.getKey())
-                    || WorkflowModel.TASK_ACTIVITI_REVIEW.equals(currentTask.getKey()))
+            if (WorkflowModel.TASK_REVIEW.equals(currentTask.getKey()) ||
+                    WorkflowModel.TASK_ACTIVITI_REVIEW.equals(currentTask.getKey()))
             {
                 isReviewTask = true;
                 reject.setVisibility(View.VISIBLE);
@@ -350,8 +353,8 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
             {
                 public void onClick(View v)
                 {
-                    PersonProfileFragment.newInstance(initiator.getIdentifier()).show(getFragmentManager(),
-                            PersonProfileFragment.TAG);
+                    PersonProfileFragment.newInstance(initiator.getIdentifier())
+                            .show(getFragmentManager(), PersonProfileFragment.TAG);
                 }
             });
 
@@ -375,17 +378,17 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
         int labelId = R.string.workflow_priority_medium;
         switch (priority)
         {
-            case WorkflowModel.PRIORITY_HIGH:
-                labelId = R.string.workflow_priority_high;
-                break;
-            case WorkflowModel.PRIORITY_MEDIUM:
-                labelId = R.string.workflow_priority_medium;
-                break;
-            case WorkflowModel.PRIORITY_LOW:
-                labelId = R.string.workflow_priority_low;
-                break;
-            default:
-                break;
+        case WorkflowModel.PRIORITY_HIGH:
+            labelId = R.string.workflow_priority_high;
+            break;
+        case WorkflowModel.PRIORITY_MEDIUM:
+            labelId = R.string.workflow_priority_medium;
+            break;
+        case WorkflowModel.PRIORITY_LOW:
+            labelId = R.string.workflow_priority_low;
+            break;
+        default:
+            break;
         }
         textValue.setText(labelId);
 
@@ -441,8 +444,8 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
         }
 
         LayoutInflater li = LayoutInflater.from(getActivity());
-        View vr = null;
-        TextView tv = null;
+        View vr;
+        TextView tv;
         for (Node node : items)
         {
             vr = li.inflate(R.layout.app_task_item_row, ll, false);
@@ -452,7 +455,8 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
             tv.setText(createContentBottomText(getActivity(), node));
             ll.addView(vr, new LayoutParams(LayoutParams.MATCH_PARENT, LayoutParams.WRAP_CONTENT));
             ImageView iv = (ImageView) vr.findViewById(R.id.icon);
-            renditionManager.display(iv, node, MimeTypeManager.getIcon(getActivity(), node.getName(), true), ScaleType.FIT_CENTER);
+            renditionManager.display(iv, node, MimeTypeManager.getIcon(getActivity(), node.getName(), true),
+                    ScaleType.FIT_CENTER);
             vr.setTag(node);
             vr.setOnClickListener(new OnClickListener()
             {
@@ -494,8 +498,8 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
             String outcome = (isApprove) ? WorkflowModel.TRANSITION_APPROVE : WorkflowModel.TRANSITION_REJECT;
             if (!(alfSession.getServiceRegistry().getWorkflowService() instanceof PublicAPIWorkflowServiceImpl))
             {
-                outcome = (task.getProcessDefinitionIdentifier().startsWith(WorkflowModel.KEY_PREFIX_ACTIVITI)) ? outcome
-                        : outcome.toLowerCase();
+                outcome = (task.getProcessDefinitionIdentifier().startsWith(WorkflowModel.KEY_PREFIX_ACTIVITI)) ?
+                        outcome : outcome.toLowerCase();
             }
             variables.put(WorkflowModel.PROP_REVIEW_OUTCOME, outcome);
         }
@@ -505,13 +509,14 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
             variables.put(WorkflowModel.PROP_COMMENT, comment.getText().toString());
         }
 
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new CompleteTaskRequest(task, variables).setNotificationTitle(task.getName())
                 .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
 
-        OperationWaitingDialogFragment.newInstance(CompleteTaskRequest.TYPE_ID, R.drawable.ic_validate,
-                getString(R.string.task_completing), null, null, 0).show(getActivity().getFragmentManager(),
-                OperationWaitingDialogFragment.TAG);
+        OperationWaitingDialogFragment
+                .newInstance(CompleteTaskRequest.TYPE_ID, R.drawable.ic_validate, getString(R.string.task_completing),
+                        null, null, 0).show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
 
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
     }
@@ -527,8 +532,8 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
 
         if (endedAt == null && processDefinitionKey.startsWith(WorkflowModel.KEY_PREFIX_ACTIVITI))
         {
-            mi = menu.add(Menu.NONE, MenuActionItem.MENU_PROCESS_DETAILS, Menu.FIRST
-                    + MenuActionItem.MENU_PROCESS_DETAILS, R.string.process_diagram);
+            mi = menu.add(Menu.NONE, MenuActionItem.MENU_PROCESS_DETAILS,
+                    Menu.FIRST + MenuActionItem.MENU_PROCESS_DETAILS, R.string.process_diagram);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         }
 
@@ -536,11 +541,14 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
                 R.string.tasks_history);
         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
 
-        if (currentTask == null || endedAt != null) { return; }
+        if (currentTask == null || endedAt != null)
+        {
+            return;
+        }
 
         // unclaim : I unassign myself (generally created by a pooled process)
-        if (currentTask.getAssigneeIdentifier() != null
-                && WorkflowModel.FAMILY_PROCESS_POOLED_REVIEW.contains(processDefinitionKey))
+        if (currentTask.getAssigneeIdentifier() != null &&
+                WorkflowModel.FAMILY_PROCESS_POOLED_REVIEW.contains(processDefinitionKey))
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_TASK_UNCLAIM, Menu.FIRST + MenuActionItem.MENU_TASK_UNCLAIM,
                     R.string.task_unclaim);
@@ -557,8 +565,8 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
         }
         // claim : I assign to me an unassigned task (created by a pooled
         // process)
-        else if (currentTask.getAssigneeIdentifier() == null
-                && WorkflowModel.FAMILY_PROCESS_POOLED_REVIEW.contains(processDefinitionKey))
+        else if (currentTask.getAssigneeIdentifier() == null &&
+                WorkflowModel.FAMILY_PROCESS_POOLED_REVIEW.contains(processDefinitionKey))
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_TASK_CLAIM, Menu.FIRST + MenuActionItem.MENU_TASK_CLAIM,
                     R.string.task_claim);
@@ -571,21 +579,22 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
     // ///////////////////////////////////////////////////////////////////////////
     public void reassign()
     {
-        PersonSearchFragment.newInstance(ListingModeFragment.MODE_PICK, TAG, true).show(
-                getActivity().getFragmentManager(), PersonSearchFragment.TAG);
+        PersonSearchFragment.newInstance(ListingModeFragment.MODE_PICK, TAG, true)
+                .show(getActivity().getFragmentManager(), PersonSearchFragment.TAG);
     }
 
     public void claim()
     {
         // Start claim
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new ReassignTaskRequest(currentTask, alfSession.getPersonIdentifier(), true)
-                .setNotificationTitle(currentTask.getName()).setNotificationVisibility(
-                        OperationRequest.VISIBILITY_DIALOG));
+                .setNotificationTitle(currentTask.getName())
+                .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
 
-        OperationWaitingDialogFragment.newInstance(StartProcessRequest.TYPE_ID, R.drawable.ic_reassign,
-                getString(R.string.task_reassign), null, null, 0).show(getActivity().getFragmentManager(),
-                OperationWaitingDialogFragment.TAG);
+        OperationWaitingDialogFragment
+                .newInstance(StartProcessRequest.TYPE_ID, R.drawable.ic_reassign, getString(R.string.task_reassign),
+                        null, null, 0).show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
 
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
     }
@@ -593,14 +602,15 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
     public void unclaim()
     {
         // Start unclaim
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new ReassignTaskRequest(currentTask, alfSession.getPersonIdentifier(), false)
-                .setNotificationTitle(currentTask.getName()).setNotificationVisibility(
-                        OperationRequest.VISIBILITY_DIALOG));
+                .setNotificationTitle(currentTask.getName())
+                .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
 
-        OperationWaitingDialogFragment.newInstance(StartProcessRequest.TYPE_ID, R.drawable.ic_reassign,
-                getString(R.string.task_reassign), null, null, 0).show(getActivity().getFragmentManager(),
-                OperationWaitingDialogFragment.TAG);
+        OperationWaitingDialogFragment
+                .newInstance(StartProcessRequest.TYPE_ID, R.drawable.ic_reassign, getString(R.string.task_reassign),
+                        null, null, 0).show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
 
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
     }
@@ -625,21 +635,17 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
     @Override
     public void onSelect(Map<String, Person> mapPerson)
     {
-        Person delegatePerson = null;
-        for (Entry<String, Person> assignee : mapPerson.entrySet())
-        {
-            delegatePerson = assignee.getValue();
-            break;
-        }
+        Person delegatePerson = mapPerson.isEmpty() ? null : mapPerson.entrySet().iterator().next().getValue();
 
         // Start reassign
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new ReassignTaskRequest(currentTask, delegatePerson).setNotificationTitle(currentTask.getName())
                 .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
 
-        OperationWaitingDialogFragment.newInstance(StartProcessRequest.TYPE_ID, R.drawable.ic_reassign,
-                getString(R.string.task_reassign), null, null, 0).show(getActivity().getFragmentManager(),
-                OperationWaitingDialogFragment.TAG);
+        OperationWaitingDialogFragment
+                .newInstance(StartProcessRequest.TYPE_ID, R.drawable.ic_reassign, getString(R.string.task_reassign),
+                        null, null, 0).show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
 
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
     }
@@ -673,7 +679,7 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
 
     @Override
     public void onLoadFinished(Loader<LoaderResult<PagingResult<Document>>> arg0,
-            LoaderResult<PagingResult<Document>> results)
+                               LoaderResult<PagingResult<Document>> results)
     {
         if (results.hasException())
         {
@@ -706,7 +712,10 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
         {
             OdsLog.d(TAG, intent.getAction());
 
-            if (getActivity() == null) { return; }
+            if (getActivity() == null)
+            {
+                return;
+            }
 
             if (ACTION_ATTACHMENTS_COMPLETED.equals(intent.getAction()))
             {
@@ -716,18 +725,24 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
 
             if (intent.getExtras() != null)
             {
-                TaskDetailsFragment detailsFragment = (TaskDetailsFragment) getFragmentManager().findFragmentByTag(
-                        TaskDetailsFragment.TAG);
+                TaskDetailsFragment detailsFragment =
+                        (TaskDetailsFragment) getFragmentManager().findFragmentByTag(TaskDetailsFragment.TAG);
 
                 Bundle b = intent.getExtras().getParcelable(IntentIntegrator.EXTRA_DATA);
-                if (b == null) { return; }
+                if (b == null)
+                {
+                    return;
+                }
                 Task _task = (Task) b.getSerializable(IntentIntegrator.EXTRA_TASK);
                 Task task = (Task) detailsFragment.getArguments().get(TaskDetailsFragment.ARGUMENT_TASK);
-                if (task == null || _task == null) { return; }
+                if (task == null || _task == null)
+                {
+                    return;
+                }
 
-                if ((intent.getAction().equals(IntentIntegrator.ACTION_TASK_COMPLETED) || intent.getAction().equals(
-                        IntentIntegrator.ACTION_TASK_DELEGATE_COMPLETED))
-                        && _task.getIdentifier().equals(task.getIdentifier()))
+                if ((intent.getAction().equals(IntentIntegrator.ACTION_TASK_COMPLETED) ||
+                        intent.getAction().equals(IntentIntegrator.ACTION_TASK_DELEGATE_COMPLETED)) &&
+                        _task.getIdentifier().equals(task.getIdentifier()))
                 {
                     if (DisplayUtils.hasCentralPane(getActivity()))
                     {
@@ -735,11 +750,10 @@ public class TaskDetailsFragment extends BaseFragment implements onPickPersonFra
                     }
                     else
                     {
-                        getFragmentManager().popBackStack(TaskDetailsFragment.TAG,
-                                FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                        getFragmentManager()
+                                .popBackStack(TaskDetailsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                     }
                     LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
-                    return;
                 }
 
             }

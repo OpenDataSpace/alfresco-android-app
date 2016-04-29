@@ -26,7 +26,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.os.Environment;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -161,10 +160,9 @@ public class PublicDispatcherActivity extends BaseActivity
                         .retrieveAccount(this, getIntent().getLongExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, 1));
             }
 
-            File f = Environment.getExternalStorageDirectory();
             if (getIntent().hasExtra(IntentIntegrator.EXTRA_FOLDER))
             {
-                f = (File) getIntent().getExtras().getSerializable(IntentIntegrator.EXTRA_FOLDER);
+                File f = (File) getIntent().getExtras().getSerializable(IntentIntegrator.EXTRA_FOLDER);
                 Fragment fragment = FileExplorerFragment.newInstance(f, ListingModeFragment.MODE_PICK, true, 1);
                 FragmentDisplayer
                         .replaceFragment(this, fragment, DisplayUtils.getLeftFragmentId(this), FileExplorerFragment.TAG,
@@ -187,7 +185,6 @@ public class PublicDispatcherActivity extends BaseActivity
             FragmentDisplayer
                     .replaceFragment(this, f, DisplayUtils.getLeftFragmentId(this), AccountEditFragment.TAG, false,
                             false);
-            return;
         }
     }
 
@@ -387,7 +384,7 @@ public class PublicDispatcherActivity extends BaseActivity
                 removeWaitingDialog();
 
                 // Upload process : Display the view where the user wants to upload files.
-                BaseFragment frag = null;
+                BaseFragment frag;
                 if (getCurrentSession() != null && uploadFolder == R.string.menu_browse_sites)
                 {
                     frag = BrowserSitesFragment.newInstance();
@@ -412,7 +409,6 @@ public class PublicDispatcherActivity extends BaseActivity
                 {
                     addNavigationFragment(((OdsRepositorySession) getCurrentSession()).getGlobal().getRootFolder());
                 }
-                return;
             }
         }
     }

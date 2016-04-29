@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ *
  *  This file is part of Alfresco Mobile for Android.
- *  
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -32,7 +32,7 @@ import android.content.Intent;
 
 public abstract class AbstractOperationThread<T> extends Thread implements Operation<T>
 {
-    protected Context context;
+    protected final Context context;
 
     protected AlfrescoSession session;
 
@@ -42,8 +42,8 @@ public abstract class AbstractOperationThread<T> extends Thread implements Opera
 
     protected OperationCallBack<T> listener;
 
-    protected AbstractOperationRequestImpl request;
-    
+    protected final AbstractOperationRequestImpl request;
+
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     // ///////////////////////////////////////////////////////////////////////////
@@ -54,7 +54,7 @@ public abstract class AbstractOperationThread<T> extends Thread implements Opera
         this.request = (AbstractOperationRequestImpl) request;
         this.accountId = this.request.getAccountId();
     }
- 
+
     // ///////////////////////////////////////////////////////////////////////////
     // LIFE CYCLE
     // ///////////////////////////////////////////////////////////////////////////
@@ -64,40 +64,40 @@ public abstract class AbstractOperationThread<T> extends Thread implements Opera
         LoaderResult<T> result = doInBackground();
         onPostExecute(result);
     }
-    
+
     protected void onPreExecute()
     {
         saveStatus(Operation.STATUS_RUNNING);
     }
-    
+
     protected abstract LoaderResult<T> doInBackground();
-    
+
     protected void onPostExecute(LoaderResult<T> result)
     {
         //Must be implemented in subclass
     }
-    
+
     protected void onCancelled(LoaderResult<T> result)
     {
         saveStatus(Operation.STATUS_CANCEL);
     }
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // PUBLIC
     // ///////////////////////////////////////////////////////////////////////////
-    
+
     @Override
     public Intent getStartBroadCastIntent()
     {
         return null;
     }
-    
+
     @Override
     public Intent getCompleteBroadCastIntent()
     {
         return null;
     }
-    
+
     public void executeGroupCallback(OperationsGroupResult result)
     {
         if (listener instanceof OperationsGroupCallBack)
@@ -105,7 +105,7 @@ public abstract class AbstractOperationThread<T> extends Thread implements Opera
             ((OperationsGroupCallBack) listener).onPostExecution(result);
         }
     }
-    
+
     public OperationRequest getOperationRequest()
     {
         return request;
@@ -116,7 +116,7 @@ public abstract class AbstractOperationThread<T> extends Thread implements Opera
         return request.getNotificationUri().getLastPathSegment();
     }
 
-    
+
     public void setOperationCallBack(OperationCallBack<T> listener)
     {
         this.listener = listener;
@@ -132,12 +132,12 @@ public abstract class AbstractOperationThread<T> extends Thread implements Opera
                     null, null);
         }
     }
-    
+
     public AlfrescoSession getSession()
     {
         return session;
     }
-    
+
     protected AlfrescoSession requestSession()
     {
         if (ApplicationManager.getInstance(context).hasSession(accountId))
@@ -153,5 +153,5 @@ public abstract class AbstractOperationThread<T> extends Thread implements Opera
         }
     }
 
-    
+
 }

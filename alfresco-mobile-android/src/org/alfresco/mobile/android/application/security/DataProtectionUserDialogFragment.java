@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,11 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.security;
-
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
-import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
 
 import android.app.AlertDialog;
 import android.app.AlertDialog.Builder;
@@ -34,6 +29,11 @@ import android.text.Html;
 import android.view.Gravity;
 import android.widget.TextView;
 
+import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
+import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.app.R;
+
 public class DataProtectionUserDialogFragment extends DialogFragment
 {
     public static final String TAG = DataProtectionUserDialogFragment.class.getName();
@@ -41,8 +41,6 @@ public class DataProtectionUserDialogFragment extends DialogFragment
     private static final String PARAM_FIRST_TIME = "firstTime";
 
     private onDataProtectionListener onDataProtectionListener;
-
-    private SharedPreferences prefs;
 
     private boolean firstTime = false;
 
@@ -75,14 +73,14 @@ public class DataProtectionUserDialogFragment extends DialogFragment
             firstTime = getArguments().getBoolean(PARAM_FIRST_TIME);
         }
 
-        prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
+        SharedPreferences prefs = PreferenceManager.getDefaultSharedPreferences(getActivity());
         checked = prefs.getBoolean(GeneralPreferences.PRIVATE_FOLDERS, false);
 
         // Messages informations
         int titleId = R.string.data_protection;
         int iconId = R.drawable.ic_alfresco_logo;
-        int messageId = (firstTime) ? R.string.data_protection_blurb : (checked ? R.string.unprotect_question
-                : R.string.protect_question);
+        int messageId = (firstTime) ? R.string.data_protection_blurb :
+                (checked ? R.string.unprotect_question : R.string.protect_question);
         int positiveId = android.R.string.yes;
         int negativeId = android.R.string.no;
         onDataProtectionListener = dataProtectionListener;
@@ -103,20 +101,17 @@ public class DataProtectionUserDialogFragment extends DialogFragment
                     }
                 });
 
-        if (negativeId != -1)
+        builder.setNegativeButton(negativeId, new DialogInterface.OnClickListener()
         {
-            builder.setNegativeButton(negativeId, new DialogInterface.OnClickListener()
+            public void onClick(DialogInterface dialog, int whichButton)
             {
-                public void onClick(DialogInterface dialog, int whichButton)
+                if (onDataProtectionListener != null)
                 {
-                    if (onDataProtectionListener != null)
-                    {
-                        onDataProtectionListener.onNegative();
-                    }
-                    dialog.dismiss();
+                    onDataProtectionListener.onNegative();
                 }
-            });
-        }
+                dialog.dismiss();
+            }
+        });
 
         return builder.create();
     }
@@ -143,16 +138,16 @@ public class DataProtectionUserDialogFragment extends DialogFragment
         void onNegative();
     }
 
-    private onDataProtectionListener dataProtectionListener = new onDataProtectionListener()
+    private final onDataProtectionListener dataProtectionListener = new onDataProtectionListener()
     {
         @Override
         public void onPositive()
         {
-            if (firstTime)
-            {
-                //prefs.edit().putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, true).commit();
-                //prefs.edit().putBoolean(GeneralPreferences.HAS_ACCESSED_PAID_SERVICES, true).commit();
-            }
+//            if (firstTime)
+//            {
+//                prefs.edit().putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, true).commit();
+//                prefs.edit().putBoolean(GeneralPreferences.HAS_ACCESSED_PAID_SERVICES, true).commit();
+//            }
 
             if (checked)
             {
@@ -160,8 +155,8 @@ public class DataProtectionUserDialogFragment extends DialogFragment
                 // Display Dialog
                 if (getFragmentManager().findFragmentByTag(WaitingDialogFragment.TAG) == null)
                 {
-                    WaitingDialogFragment dialog = WaitingDialogFragment.newInstance(R.string.data_protection,
-                            R.string.decryption_title, false);
+                    WaitingDialogFragment dialog = WaitingDialogFragment
+                            .newInstance(R.string.data_protection, R.string.decryption_title, false);
                     dialog.show(getActivity().getFragmentManager(), WaitingDialogFragment.TAG);
                 }
 
@@ -177,11 +172,11 @@ public class DataProtectionUserDialogFragment extends DialogFragment
         @Override
         public void onNegative()
         {
-            if (firstTime)
-            {
-                //prefs.edit().putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, true).commit();
-                //prefs.edit().putBoolean(GeneralPreferences.HAS_ACCESSED_PAID_SERVICES, true).commit();
-            }
+//            if (firstTime)
+//            {
+//                prefs.edit().putBoolean(GeneralPreferences.ENCRYPTION_USER_INTERACTION, true).commit();
+//                prefs.edit().putBoolean(GeneralPreferences.HAS_ACCESSED_PAID_SERVICES, true).commit();
+//            }
         }
     };
 }

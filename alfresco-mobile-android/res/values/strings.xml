@@ -923,5 +923,20 @@
     <string name="advanced_search_hint">Advanced Search Button</string>
     <string name="add_menu">Add to this folder</string>
 
+    <!-- Other -->
+    <string name="passcode_1">1</string>
+    <string name="passcode_2">2</string>
+    <string name="passcode_3">3</string>
+    <string name="passcode_4">4</string>
+    <string name="passcode_5">5</string>
+    <string name="passcode_6">6</string>
+    <string name="passcode_7">7</string>
+    <string name="passcode_8">8</string>
+    <string name="passcode_9">9</string>
+    <string name="passcode_0">0</string>
+    <string name="task_review">Review this task</string>
+    <string name="task_documents">Documents</string>
+    <string name="default_path">/</string>
+    <string name="add_your_comment">Add your comment</string>
 
 </resources>

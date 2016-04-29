@@ -17,6 +17,7 @@ import org.alfresco.mobile.android.application.preferences.GeneralPreferences;
 import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.opendataspace.android.app.security.OdsEncryptionUtils;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.content.ActivityNotFoundException;
@@ -59,7 +60,7 @@ public class DataProtectionManager implements VersionNumber
                 mInstance = new DataProtectionManager(context.getApplicationContext());
             }
 
-            return (DataProtectionManager) mInstance;
+            return mInstance;
         }
     }
 
@@ -80,7 +81,7 @@ public class DataProtectionManager implements VersionNumber
         if (account == null) { return; }
         OperationsRequestGroup group = new OperationsRequestGroup(mAppContext, account);
 
-        File destinationFile = null;
+        File destinationFile;
         for (File sourceFile : sourceFiles)
         {
             destinationFile = new File(folderStorage, sourceFile.getName());
@@ -207,6 +208,7 @@ public class DataProtectionManager implements VersionNumber
     // ////////////////////////////////////////////////////
     // Broadcast Receiver
     // ////////////////////////////////////////////////////
+    @SuppressLint("CommitPrefEdits")
     private static Intent createActionIntent(Activity activity, int intentAction, File f)
     {
         Intent intentI = null;
@@ -241,7 +243,7 @@ public class DataProtectionManager implements VersionNumber
             activity.startActivityForResult(createActionIntent(activity, intentAction, f),
                     PublicIntent.REQUESTCODE_DECRYPTED);
         }
-        catch (ActivityNotFoundException e)
+        catch (ActivityNotFoundException ignored)
         {
 
         }
@@ -255,7 +257,7 @@ public class DataProtectionManager implements VersionNumber
             fragment.startActivityForResult(createActionIntent(fragment.getActivity(), intentAction, f),
                     PublicIntent.REQUESTCODE_DECRYPTED);
         }
-        catch (ActivityNotFoundException e)
+        catch (ActivityNotFoundException ignored)
         {
 
         }

@@ -1,13 +1,12 @@
 package org.opendataspace.android.app.session;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import org.alfresco.mobile.android.api.session.authentication.impl.PassthruAuthenticationProviderImpl;
 import org.apache.chemistry.opencmis.client.bindings.spi.BindingSession;
 import org.apache.chemistry.opencmis.client.bindings.spi.cookies.CmisCookieManager;
 import org.apache.chemistry.opencmis.commons.SessionParameter;
+
+import java.util.List;
+import java.util.Map;
 
 public class OdsAuthProviderImpl extends PassthruAuthenticationProviderImpl
 {
@@ -26,11 +25,6 @@ public class OdsAuthProviderImpl extends PassthruAuthenticationProviderImpl
             Map<String, List<String>> cookies = cookieManager.get(url, result);
             if (!cookies.isEmpty())
             {
-                if (result == null)
-                {
-                    result = new HashMap<String, List<String>> ();
-                }
-
                 result.putAll(cookies);
             }
         }
@@ -66,14 +60,10 @@ public class OdsAuthProviderImpl extends PassthruAuthenticationProviderImpl
 
         if (value instanceof Boolean)
         {
-            return ((Boolean) value).booleanValue();
+            return (Boolean) value;
         }
 
-        if (value instanceof String)
-        {
-            return Boolean.parseBoolean((String) value);
-        }
+        return value instanceof String && Boolean.parseBoolean((String) value);
 
-        return false;
     }
 }

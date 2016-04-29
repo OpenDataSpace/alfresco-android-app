@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,20 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.fileexplorer;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.List;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.PopupMenu.OnDismissListener;
+import android.widget.PopupMenu.OnMenuItemClickListener;
 
-import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
@@ -41,37 +46,33 @@ import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
 import org.alfresco.mobile.android.ui.utils.Formatter;
+import org.opendataspace.android.app.R;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.LinearLayout;
-import android.widget.PopupMenu;
-import android.widget.PopupMenu.OnDismissListener;
-import android.widget.PopupMenu.OnMenuItemClickListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * Provides access to files and displays them as a view based on
  * GenericViewHolder.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolder> implements OnMenuItemClickListener
 {
-    private List<File> originalFiles;
+    private final List<File> originalFiles;
 
-    private List<File> selectedItems;
+    private final List<File> selectedItems;
 
-    private List<File> selectedOptionItems = new ArrayList<File>();
+    private final List<File> selectedOptionItems = new ArrayList<File>();
 
-    private Fragment fragment;
+    private final Fragment fragment;
 
-    private HashMap<String, File> nodeNameIndexer = new HashMap<String, File>();
+    private final HashMap<String, File> nodeNameIndexer = new HashMap<String, File>();
 
     private int mode = ListingModeFragment.MODE_LISTING;
 
@@ -83,7 +84,7 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
     }
 
     public FileExplorerAdapter(Fragment fr, int textViewResourceId, int mode, List<File> listItems,
-            List<File> selectedItems)
+                               List<File> selectedItems)
     {
         super(fr.getActivity(), textViewResourceId, listItems);
         this.fragment = fr;
@@ -92,8 +93,8 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
         this.mode = mode;
         if (((BaseActivity) fr.getActivity()).getCurrentAccount() != null)
         {
-            File f = StorageManager.getDownloadFolder(fr.getActivity(),
-                    ((BaseActivity) fr.getActivity()).getCurrentAccount());
+            File f = StorageManager
+                    .getDownloadFolder(fr.getActivity(), ((BaseActivity) fr.getActivity()).getCurrentAccount());
             this.downloadPath = (f != null) ? f.getPath() : null;
         }
 
@@ -140,7 +141,7 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
 
     private String createContentBottomText(Context context, File file)
     {
-        String s = "";
+        String s;
         s = formatDate(context, new Date(file.lastModified()));
         if (file.isFile())
         {
@@ -154,7 +155,8 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
     {
         if (item.isFile())
         {
-            vh.icon.setImageDrawable(getContext().getResources().getDrawable(MimeTypeManager.getIcon(getContext(), item.getName())));
+            vh.icon.setImageDrawable(
+                    getContext().getResources().getDrawable(MimeTypeManager.getIcon(getContext(), item.getName())));
             AccessibilityHelper.addContentDescription(vh.icon, R.string.mime_document);
         }
         else if (item.isDirectory())
@@ -163,10 +165,10 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
             AccessibilityHelper.addContentDescription(vh.icon, R.string.mime_folder);
         }
 
-        if (mode == FileExplorerFragment.MODE_LISTING && fragment.getActivity() instanceof MainActivity
-                && ((downloadPath != null && item.getPath().startsWith(downloadPath)) || (item.isFile())))
+        if (mode == FileExplorerFragment.MODE_LISTING && fragment.getActivity() instanceof MainActivity &&
+                ((downloadPath != null && item.getPath().startsWith(downloadPath)) || (item.isFile())))
         {
-            UIUtils.setBackground(((View) vh.choose),
+            UIUtils.setBackground(vh.choose,
                     getContext().getResources().getDrawable(R.drawable.quickcontact_badge_overlay_light));
 
             vh.choose.setVisibility(View.VISIBLE);
@@ -175,6 +177,7 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
             {
 
                 @Override
+                @SuppressLint("NewApi")
                 public void onClick(View v)
                 {
                     File item = (File) v.getTag(R.id.node_action);
@@ -202,7 +205,7 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
         }
         else
         {
-            UIUtils.setBackground(((View) vh.choose), null);
+            UIUtils.setBackground(vh.choose, null);
         }
     }
 
@@ -230,12 +233,12 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
     @Override
     public void addAll(Collection<? extends File> collection)
     {
-        File objects[] = (File[]) collection.toArray(new File[0]);
+        File objects[] = collection.toArray(new File[collection.size()]);
 
-        int size = objects.length;
-        for (int i = 0; i < size; i++)
+        //int size = objects.length;
+        for (File object : objects)
         {
-            add(objects[i]);
+            add(object);
         }
     }
 
@@ -252,7 +255,7 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
             originalFiles.add(file);
         }
 
-        originalFiles.removeAll(Collections.singleton(null));
+        originalFiles.removeAll(Collections.<File>singleton(null));
         Collections.sort(originalFiles, new FileComparator(true));
 
         List<File> tmpFile = new ArrayList<File>(originalFiles);
@@ -337,36 +340,38 @@ public class FileExplorerAdapter extends BaseListAdapter<File, ProgressViewHolde
     @Override
     public boolean onMenuItemClick(MenuItem item)
     {
-        boolean onMenuItemClick = true;
+        boolean onMenuItemClick;
         switch (item.getItemId())
         {
-            case MenuActionItem.MENU_UPLOAD:
-                onMenuItemClick = true;
-                ActionManager.actionSendDocumentToAlfresco((Activity) getContext(), selectedOptionItems.get(0));
-                break;
-            case MenuActionItem.MENU_SHARE:
-                onMenuItemClick = true;
-                ActionManager.actionShareContent((Activity) getContext(), selectedOptionItems.get(0));
-                break;
-            case MenuActionItem.MENU_EDIT:
-                onMenuItemClick = true;
-                FileActions.edit(fragment, selectedOptionItems.get(0));
-                break;
-            case MenuActionItem.MENU_DELETE:
-                onMenuItemClick = true;
-                FileActions.delete(fragment, new ArrayList<File>(selectedOptionItems));
-                break;
-            case MenuActionItem.MENU_ENCRYPT:
-                onMenuItemClick = true;
-                DataProtectionManager.getInstance(getContext()).checkEncrypt(SessionUtils.getAccount(fragment.getActivity()), selectedOptionItems.get(0));
-                break;
-            case MenuActionItem.MENU_DECRYPT:
-                onMenuItemClick = true;
-                DataProtectionManager.getInstance(getContext()).checkDecrypt(SessionUtils.getAccount(fragment.getActivity()), selectedOptionItems.get(0));
-                break;
-            default:
-                onMenuItemClick = false;
-                break;
+        case MenuActionItem.MENU_UPLOAD:
+            onMenuItemClick = true;
+            ActionManager.actionSendDocumentToAlfresco((Activity) getContext(), selectedOptionItems.get(0));
+            break;
+        case MenuActionItem.MENU_SHARE:
+            onMenuItemClick = true;
+            ActionManager.actionShareContent((Activity) getContext(), selectedOptionItems.get(0));
+            break;
+        case MenuActionItem.MENU_EDIT:
+            onMenuItemClick = true;
+            FileActions.edit(fragment, selectedOptionItems.get(0));
+            break;
+        case MenuActionItem.MENU_DELETE:
+            onMenuItemClick = true;
+            FileActions.delete(fragment, new ArrayList<File>(selectedOptionItems));
+            break;
+        case MenuActionItem.MENU_ENCRYPT:
+            onMenuItemClick = true;
+            DataProtectionManager.getInstance(getContext())
+                    .checkEncrypt(SessionUtils.getAccount(fragment.getActivity()), selectedOptionItems.get(0));
+            break;
+        case MenuActionItem.MENU_DECRYPT:
+            onMenuItemClick = true;
+            DataProtectionManager.getInstance(getContext())
+                    .checkDecrypt(SessionUtils.getAccount(fragment.getActivity()), selectedOptionItems.get(0));
+            break;
+        default:
+            onMenuItemClick = false;
+            break;
         }
         selectedOptionItems.clear();
         return onMenuItemClick;

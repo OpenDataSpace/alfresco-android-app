@@ -25,7 +25,7 @@ public class OdsLink implements Serializable
 
     @SuppressWarnings("FieldCanBeLocal")
     @DatabaseField(generatedId = true)
-    private long id = -1;
+    private final long id = -1;
     @DatabaseField
     private String name = "";
     @DatabaseField

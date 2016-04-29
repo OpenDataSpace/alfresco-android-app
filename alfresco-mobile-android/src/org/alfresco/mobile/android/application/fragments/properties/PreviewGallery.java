@@ -28,9 +28,7 @@ public class PreviewGallery extends BaseFragment implements RefreshFragment
 
     public static final String ARGUMENT_NODE = "node";
 
-    private List<Node> nodes = new ArrayList<Node>();
-
-    private Node node;
+    private final List<Node> nodes = new ArrayList<Node>();
 
     private ChildrenBrowserFragment frag;
 
@@ -55,8 +53,7 @@ public class PreviewGallery extends BaseFragment implements RefreshFragment
 
     public static BaseFragment newInstance()
     {
-        PreviewGallery pg = new PreviewGallery();
-        return pg;
+        return new PreviewGallery();
     }
 
     // //////////////////////////////////////////////////////////////////////
@@ -76,6 +73,7 @@ public class PreviewGallery extends BaseFragment implements RefreshFragment
         viewPager = (ViewPager) v.findViewById(R.id.view_pager);
         refresh();
 
+        Node node;
         if (getArguments() != null && getArguments().containsKey(ARGUMENT_NODE))
         {
             node = (Node) getArguments().get(ARGUMENT_NODE);
@@ -160,7 +158,7 @@ public class PreviewGallery extends BaseFragment implements RefreshFragment
 
 class DepthPageTransformer implements ViewPager.PageTransformer
 {
-    private static float MIN_SCALE = 0.75f;
+    private static final float MIN_SCALE = 0.75f;
 
     public void transformPage(View view, float position)
     {

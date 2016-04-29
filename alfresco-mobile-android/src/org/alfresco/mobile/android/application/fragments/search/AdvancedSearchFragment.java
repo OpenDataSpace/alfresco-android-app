@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,20 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.search;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.TimeZone;
+import android.app.Activity;
+import android.os.Bundle;
+import android.text.TextUtils;
+import android.text.format.DateFormat;
+import android.util.TypedValue;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Person;
@@ -47,24 +52,20 @@ import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.opendataspace.android.app.R;
 
-import android.app.Activity;
-import android.os.Bundle;
-import android.text.TextUtils;
-import android.text.format.DateFormat;
-import android.util.TypedValue;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.Spinner;
-import android.widget.TextView;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.TimeZone;
 
 /**
- * @since 1.4
  * @author Jean Marie Pascal
+ * @since 1.4
  */
 public class AdvancedSearchFragment extends BaseFragment implements onPickPersonFragment, onPickDateFragment
 {
@@ -80,7 +81,7 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
 
     private static final String PARAM_FOLDER = "parentFolder";
 
-    private Map<String, Person> assignees = new HashMap<String, Person>(1);
+    private final Map<String, Person> assignees = new HashMap<String, Person>(1);
 
     private Button modifiedByButton;
 
@@ -265,8 +266,8 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
         modificationDateTo = (Button) rootView.findViewById(R.id.metadata_modification_date_to);
         if (modificationDateToValue != null)
         {
-            modificationDateTo.setText(DateFormat.getDateFormat(getActivity())
-                    .format(modificationDateToValue.getTime()));
+            modificationDateTo
+                    .setText(DateFormat.getDateFormat(getActivity()).format(modificationDateToValue.getTime()));
         }
         modificationDateTo.setOnClickListener(new OnClickListener()
         {
@@ -290,8 +291,8 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
         modificationDateFrom = (Button) rootView.findViewById(R.id.metadata_modification_date_from);
         if (modificationDateFromValue != null)
         {
-            modificationDateFrom.setText(DateFormat.getDateFormat(getActivity()).format(
-                    modificationDateFromValue.getTime()));
+            modificationDateFrom
+                    .setText(DateFormat.getDateFormat(getActivity()).format(modificationDateFromValue.getTime()));
         }
         modificationDateFrom.setOnClickListener(new OnClickListener()
         {
@@ -366,8 +367,8 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
         {
             AccessibilityHelper.addHint(rootView.findViewById(R.id.metadata_prop_name), R.string.metadata_prop_name);
             AccessibilityHelper.addHint(rootView.findViewById(R.id.metadata_prop_title), R.string.metadata_prop_title);
-            AccessibilityHelper.addHint(rootView.findViewById(R.id.metadata_prop_description),
-                    R.string.metadata_prop_description);
+            AccessibilityHelper
+                    .addHint(rootView.findViewById(R.id.metadata_prop_description), R.string.metadata_prop_description);
         }
     }
 
@@ -405,12 +406,17 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
         }
 
         // Save history or update
-        HistorySearchManager.createHistorySearch(getActivity(), SessionUtils.getAccount(getActivity()).getId(),
-                searchKey, 1, description, statement, new Date().getTime());
+        HistorySearchManager
+                .createHistorySearch(getActivity(), SessionUtils.getAccount(getActivity()).getId(), searchKey, 1,
+                        description, statement, new Date().getTime());
 
-        frag.setSession(alfSession);
-        FragmentDisplayer.replaceFragment(getActivity(), frag, DisplayUtils.getLeftFragmentId(getActivity()), tag,
-                true, true);
+        if (frag != null)
+        {
+            frag.setSession(alfSession);
+            FragmentDisplayer
+                    .replaceFragment(getActivity(), frag, DisplayUtils.getLeftFragmentId(getActivity()), tag, true,
+                            true);
+        }
     }
 
     private String createQuery()
@@ -424,19 +430,28 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
         {
         case HistorySearch.TYPE_PERSON:
             String location = editLocation.getText().toString();
-            if (isEmpty(name, title, description, location)) { return null; }
+            if (isEmpty(name, title, description, location))
+            {
+                return null;
+            }
             return QueryHelper.createPersonSearchQuery(name, title, description, location);
         case HistorySearch.TYPE_FOLDER:
-            if (isEmpty(name, title, description, null, modifiedId, modificationDateFromValue,
-                    modificationDateToValue)) { return null; }
+            if (isEmpty(name, title, description, null, modifiedId, modificationDateFromValue, modificationDateToValue))
+            {
+                return null;
+            }
             return QueryHelper.createQuery(false, name, title, description, -1, modifiedId, modificationDateFromValue,
                     modificationDateToValue, tmpParentFolder);
         case HistorySearch.TYPE_DOCUMENT:
             Integer mimetype = (Integer) spinnerMimeType.getSelectedItem();
             if (isEmpty(name, title, description, mimetype, modifiedId, modificationDateFromValue,
-                    modificationDateToValue)) { return null; }
-            return QueryHelper.createQuery(true, name, title, description, mimetype, modifiedId,
-                    modificationDateFromValue, modificationDateToValue, tmpParentFolder);
+                    modificationDateToValue))
+            {
+                return null;
+            }
+            return QueryHelper
+                    .createQuery(true, name, title, description, mimetype, modifiedId, modificationDateFromValue,
+                            modificationDateToValue, tmpParentFolder);
         default:
             break;
         }
@@ -444,29 +459,17 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
     }
 
     private boolean isEmpty(String name, String title, String description, Integer mimetype, String modifiedId,
-            GregorianCalendar modificationDateFromValue, GregorianCalendar modificationDateToValue)
+                            GregorianCalendar modificationDateFromValue, GregorianCalendar modificationDateToValue)
     {
-        if (TextUtils.isEmpty(name) && TextUtils.isEmpty(title) && TextUtils.isEmpty(description)
-                && TextUtils.isEmpty(modifiedId) && modificationDateFromValue == null
-                && modificationDateToValue == null)
-        {
-            if (mimetype == null || mimetype == R.string.mimetype_unknown)
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-        return false;
+        return TextUtils.isEmpty(name) && TextUtils.isEmpty(title) && TextUtils.isEmpty(description) &&
+                TextUtils.isEmpty(modifiedId) && modificationDateFromValue == null && modificationDateToValue == null &&
+                (mimetype == null || mimetype == R.string.mimetype_unknown);
     }
 
     private boolean isEmpty(String name, String title, String description, String location)
     {
-        if (TextUtils.isEmpty(name) && TextUtils.isEmpty(title) && TextUtils.isEmpty(description)
-                && TextUtils.isEmpty(location)) { return true; }
-        return false;
+        return TextUtils.isEmpty(name) && TextUtils.isEmpty(title) && TextUtils.isEmpty(description) &&
+                TextUtils.isEmpty(location);
     }
 
     private String createDescriptionQuery()
@@ -523,7 +526,10 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
 
     private static void addParameter(StringBuilder builder, String key, String value)
     {
-        if (TextUtils.isEmpty(value)) { return; }
+        if (TextUtils.isEmpty(value))
+        {
+            return;
+        }
         if (builder.length() != 0)
         {
             builder.append(", ");
@@ -544,14 +550,17 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
 
     private static void addParameter(StringBuilder builder, String key, GregorianCalendar calendar)
     {
-        if (calendar == null) { return; }
+        if (calendar == null)
+        {
+            return;
+        }
         if (builder.length() != 0)
         {
             builder.append(", ");
         }
         builder.append(key);
         builder.append(":");
-        builder.append(new SimpleDateFormat("yyyy-MM-dd").format(calendar.getTime()));
+        builder.append(new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault()).format(calendar.getTime()));
     }
 
     private void clear()
@@ -590,7 +599,10 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
     @Override
     public void onSelect(Map<String, Person> p)
     {
-        if (p == null) { return; }
+        if (p == null)
+        {
+            return;
+        }
         // Only one modifier
         assignees.putAll(p);
         for (Entry<String, Person> entry : assignees.entrySet())
@@ -617,14 +629,14 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
         case DATE_FROM:
             modificationDateFromValue = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
             modificationDateFromValue.setTime(gregorianCalendar.getTime());
-            modificationDateFrom.setText(DateFormat.getDateFormat(getActivity()).format(
-                    modificationDateFromValue.getTime()));
+            modificationDateFrom
+                    .setText(DateFormat.getDateFormat(getActivity()).format(modificationDateFromValue.getTime()));
             break;
         case DATE_TO:
             modificationDateToValue = new GregorianCalendar(TimeZone.getTimeZone("GMT"));
             modificationDateToValue.setTime(gregorianCalendar.getTime());
-            modificationDateTo.setText(DateFormat.getDateFormat(getActivity()).format(
-                    modificationDateToValue.getTime()));
+            modificationDateTo
+                    .setText(DateFormat.getDateFormat(getActivity()).format(modificationDateToValue.getTime()));
             break;
         default:
             break;
@@ -636,14 +648,14 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
     // ///////////////////////////////////////////////////////////////////////////
     public class MimetypeAdapter extends BaseListAdapter<Integer, SimpleViewHolder>
     {
-        private int px;
+        private final int px;
 
         public MimetypeAdapter(Activity context)
         {
             super(context, R.layout.app_header_row, MIMETYPE_GROUPS);
             this.vhClassName = SimpleViewHolder.class.getCanonicalName();
-            px = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getContext().getResources()
-                    .getDisplayMetrics());
+            px = (int) TypedValue
+                    .applyDimension(TypedValue.COMPLEX_UNIT_DIP, 48, getContext().getResources().getDisplayMetrics());
         }
 
         @Override
@@ -673,8 +685,9 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
     }
 
     private static final List<Integer> MIMETYPE_GROUPS = new ArrayList<Integer>(10)
-            {
+    {
         private static final long serialVersionUID = 1L;
+
         {
             add(R.string.mimetype_unknown);
             add(R.string.mimetype_documents);
@@ -685,6 +698,6 @@ public class AdvancedSearchFragment extends BaseFragment implements onPickPerson
             add(R.string.mimetype_videos);
             add(R.string.mimetype_music);
         }
-            };
+    };
 
 }

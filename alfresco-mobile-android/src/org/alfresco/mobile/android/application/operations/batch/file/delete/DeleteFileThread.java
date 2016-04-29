@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -91,15 +91,16 @@ public class DeleteFileThread extends FileOperationThread<Void>
         {
             File[] files = path.listFiles();
             if (files == null) { return true; }
-            for (int i = 0; i < files.length; i++)
+            for (File file1 : files)
             {
-                if (files[i].isDirectory())
+                if (file1.isDirectory())
                 {
-                    deleteDirectory(files[i]);
+                    deleteDirectory(file1);
                 }
                 else
                 {
-                    files[i].delete();
+                    //noinspection ResultOfMethodCallIgnored
+                    file1.delete();
                 }
             }
         }

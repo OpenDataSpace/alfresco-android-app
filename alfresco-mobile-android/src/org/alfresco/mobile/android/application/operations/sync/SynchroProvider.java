@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ *
  *  This file is part of Alfresco Mobile for Android.
- *  
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -55,7 +55,7 @@ public class SynchroProvider extends ContentProvider implements AlfrescoContentP
     public static final String CONTENT_TYPE = ContentResolver.CURSOR_DIR_BASE_TYPE + "/syncs";
 
     public static final String CONTENT_ITEM_TYPE = ContentResolver.CURSOR_ITEM_BASE_TYPE + "/sync";
-    
+
     public static final int FLAG_FAVORITE = 1;
 
     private static final UriMatcher URI_MATCHER = new UriMatcher(UriMatcher.NO_MATCH);
@@ -77,7 +77,7 @@ public class SynchroProvider extends ContentProvider implements AlfrescoContentP
     {
         int uriType = URI_MATCHER.match(uri);
         SQLiteDatabase db = databaseManager.getWriteDb();
-        int rowsDeleted = 0;
+        int rowsDeleted;
         switch (uriType)
         {
             case SYNC:
@@ -113,7 +113,7 @@ public class SynchroProvider extends ContentProvider implements AlfrescoContentP
     {
         int uriType = URI_MATCHER.match(uri);
         SQLiteDatabase db = databaseManager.getWriteDb();
-        long id = 0;
+        long id;
 
         switch (uriType)
         {
@@ -167,7 +167,7 @@ public class SynchroProvider extends ContentProvider implements AlfrescoContentP
     {
         int uriType = URI_MATCHER.match(uri);
         SQLiteDatabase sqlDB = databaseManager.getWriteDb();
-        int rowsUpdated = 0;
+        int rowsUpdated;
         switch (uriType)
         {
             case SYNC:
@@ -209,7 +209,7 @@ public class SynchroProvider extends ContentProvider implements AlfrescoContentP
     {
         return SynchroSchema.COLUMN_ACCOUNT_ID + " == " + acc.getId();
     }
-    
+
     public static String getAccountFilter(long accId)
     {
         return SynchroSchema.COLUMN_ACCOUNT_ID + " == " + accId;

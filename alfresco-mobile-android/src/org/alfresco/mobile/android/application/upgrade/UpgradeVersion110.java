@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,26 +17,28 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.upgrade;
 
-import java.io.File;
+import android.content.Context;
+import android.os.Environment;
 
 import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.content.Context;
-import android.os.Environment;
+import java.io.File;
 
 public final class UpgradeVersion110
 {
 
-    private UpgradeVersion110(){
+    private UpgradeVersion110()
+    {
     }
 
     private static final String TAG = UpgradeVersion110.class.getName();
 
     public static void transferFilesBackground(final String sourceFolder, final String destFolder,
-            final String additionalFolder, final boolean move, final boolean recursive)
+                                               final String additionalFolder, final boolean move,
+                                               final boolean recursive)
     {
         new Thread()
         {
@@ -50,7 +52,7 @@ public final class UpgradeVersion110
     }
 
     public static boolean transferFilesUnderNewStructure(String sourceFolder, String destFolder,
-            String additionalFolder, boolean move, boolean recursive)
+                                                         String additionalFolder, boolean move, boolean recursive)
     {
         boolean result = true;
 
@@ -59,10 +61,9 @@ public final class UpgradeVersion110
             File f = new File(sourceFolder);
             File file[] = f.listFiles();
 
-            for (int i = 0; i < file.length; i++)
+            for (File sourceFile : file)
             {
-                File sourceFile = file[i];
-                File destFile = new File(destFolder + File.separator + file[i].getName());
+                File destFile = new File(destFolder + File.separator + sourceFile.getName());
 
                 if (!sourceFile.isHidden())
                 {
@@ -71,43 +72,42 @@ public final class UpgradeVersion110
                         if (additionalFolder != null && additionalFolder.length() > 0)
                         {
                             destFile = IOUtils.createFolder(destFile.getParentFile(), additionalFolder);
-                            destFile = new File(destFile, file[i].getName());
+                            destFile = new File(destFile, sourceFile.getName());
                         }
 
                         result = IOUtils.copyFile(sourceFile.getPath(), destFile.getPath());
                     }
                     else
                     {
-                        if (sourceFile.isDirectory() && recursive && !sourceFile.getName().equals(".")
-                                && !sourceFile.getName().equals(".."))
+                        if (sourceFile.isDirectory() && recursive && !sourceFile.getName().equals(".") &&
+                                !sourceFile.getName().equals(".."))
                         {
                             result = transferFilesUnderNewStructure(sourceFile.getPath(), destFile.getPath(),
-                                    additionalFolder, move, recursive);
+                                    additionalFolder, move, true);
                         }
                     }
 
                     if (!result)
                     {
                         OdsLog.e(TAG, "File copy failed for " + sourceFile.getName());
-                        break;
                     }
+                    break;
+                }
 
-                    if (move)
-                    {
-                        sourceFile.delete();
-                    }
+                if (move)
+                {
+                    //noinspection ResultOfMethodCallIgnored,ResultOfMethodCallIgnored
+                    sourceFile.delete();
                 }
             }
-
-            return result;
         }
         catch (Exception e)
         {
             OdsLog.e("Alfresco", "Error during file transfer: " + e.getMessage());
             OdsLog.exw(TAG, e);
-
-            return false;
         }
+
+        return result;
     }
 
     /*
@@ -124,13 +124,9 @@ public final class UpgradeVersion110
                 folder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
             }
 
-            folder = IOUtils
-                    .createFolder(
-                            folder,
-                            context.getResources()
-                            .getText(
-                                    context.getPackageManager().getPackageInfo(context.getPackageName(), 0).applicationInfo.labelRes)
-                                    .toString());
+            folder = IOUtils.createFolder(folder, context.getResources().getText(
+                    context.getPackageManager().getPackageInfo(context.getPackageName(), 0).applicationInfo.labelRes)
+                    .toString());
         }
         catch (Exception e)
         {

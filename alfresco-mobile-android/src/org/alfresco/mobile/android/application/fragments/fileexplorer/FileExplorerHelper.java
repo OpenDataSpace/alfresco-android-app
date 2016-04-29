@@ -11,6 +11,7 @@ import org.alfresco.mobile.android.application.intent.PublicIntent;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
@@ -37,6 +38,7 @@ public final class FileExplorerHelper
 
         OnNavigationListener mOnNavigationListener = new OnNavigationListener()
         {
+            @SuppressLint("CommitPrefEdits")
             @Override
             public boolean onNavigationItemSelected(int itemPosition, long itemId)
             {
@@ -113,7 +115,6 @@ public final class FileExplorerHelper
 
         };
         activity.getActionBar().setListNavigationCallbacks(adapter, mOnNavigationListener);
-        int currentSelection = menuId;
-        activity.getActionBar().setSelectedNavigationItem(currentSelection);
+        activity.getActionBar().setSelectedNavigationItem(menuId);
     }
 }

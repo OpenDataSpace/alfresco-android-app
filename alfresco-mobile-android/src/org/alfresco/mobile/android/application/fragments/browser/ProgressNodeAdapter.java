@@ -17,6 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.browser;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.LoaderManager;
@@ -82,13 +83,11 @@ public class ProgressNodeAdapter extends NodeAdapter
 
     protected Node parentNode;
 
-    private List<Node> selectedOptionItems = new ArrayList<Node>();
+    private final List<Node> selectedOptionItems = new ArrayList<Node>();
 
     private Map<String, FavoriteInfo> favoriteInfos;
 
     private boolean hasFavorite = false;
-
-    private boolean isSyncFolder;
 
     public ProgressNodeAdapter(Activity context, int textViewResourceId, Node parentNode, List<Node> listItems,
                                List<Node> selectedItems, int mode)
@@ -252,7 +251,7 @@ public class ProgressNodeAdapter extends NodeAdapter
         if (item instanceof NodePlaceHolder)
         {
             vh.bottomText.setEnabled(false);
-            int status = (Integer) item.getPropertyValue(PublicAPIPropertyIds.REQUEST_STATUS);
+            int status = item.getPropertyValue(PublicAPIPropertyIds.REQUEST_STATUS);
             if (status == Operation.STATUS_PAUSED || status == Operation.STATUS_PENDING)
             {
                 vh.bottomText.setVisibility(View.VISIBLE);
@@ -289,7 +288,7 @@ public class ProgressNodeAdapter extends NodeAdapter
     {
         if (item instanceof NodePlaceHolder)
         {
-            UIUtils.setBackground(((View) vh.icon), null);
+            UIUtils.setBackground(vh.icon, null);
             vh.icon.setImageResource(MimeTypeManager.getIcon(context, item.getName()));
         }
         else
@@ -314,7 +313,7 @@ public class ProgressNodeAdapter extends NodeAdapter
                 return;
             }
 
-            UIUtils.setBackground(((View) vh.choose),
+            UIUtils.setBackground(vh.choose,
                     context.getResources().getDrawable(R.drawable.quickcontact_badge_overlay_light));
 
             vh.choose.setVisibility(View.VISIBLE);
@@ -324,6 +323,7 @@ public class ProgressNodeAdapter extends NodeAdapter
             vh.choose.setOnClickListener(new OnClickListener()
             {
 
+                @SuppressLint("NewApi")
                 @Override
                 public void onClick(View v)
                 {
@@ -352,7 +352,7 @@ public class ProgressNodeAdapter extends NodeAdapter
         }
         else
         {
-            UIUtils.setBackground(((View) vh.choose), null);
+            UIUtils.setBackground(vh.choose, null);
         }
     }
 
@@ -505,7 +505,7 @@ public class ProgressNodeAdapter extends NodeAdapter
     @Override
     public boolean onMenuItemClick(MenuItem item)
     {
-        boolean onMenuItemClick = true;
+        boolean onMenuItemClick;
         switch (item.getItemId())
         {
         case MenuActionItem.MENU_DETAILS:
@@ -516,12 +516,12 @@ public class ProgressNodeAdapter extends NodeAdapter
             break;
         case MenuActionItem.MENU_EDIT:
             onMenuItemClick = true;
-            NodeActions.edit((Activity) context, (Folder) parentNode, selectedOptionItems.get(0));
+            NodeActions.edit(context, (Folder) parentNode, selectedOptionItems.get(0));
             break;
         case MenuActionItem.MENU_DELETE_FOLDER:
             onMenuItemClick = true;
-            Fragment fr = ((Activity) context).getFragmentManager().findFragmentByTag(ChildrenBrowserFragment.TAG);
-            NodeActions.delete((Activity) context, fr, selectedOptionItems.get(0));
+            Fragment fr = context.getFragmentManager().findFragmentByTag(ChildrenBrowserFragment.TAG);
+            NodeActions.delete(context, fr, selectedOptionItems.get(0));
             break;
         case MenuActionItem.MENU_COPY:
             onMenuItemClick = true;
@@ -541,7 +541,7 @@ public class ProgressNodeAdapter extends NodeAdapter
 
     private void copyFolder(boolean isCopy)
     {
-        ChildrenBrowserFragment fr = (ChildrenBrowserFragment) ((Activity) context).getFragmentManager()
+        ChildrenBrowserFragment fr = (ChildrenBrowserFragment) context.getFragmentManager()
                 .findFragmentByTag(ChildrenBrowserFragment.TAG);
         List<Node> ls = new ArrayList<Node>();
         ls.add(selectedOptionItems.get(0));
@@ -561,13 +561,13 @@ public class ProgressNodeAdapter extends NodeAdapter
     @SuppressWarnings("unused")
     private static class FavoriteInfo
     {
-        long id;
+        final long id;
 
-        String nodeIdentifier;
+        final String nodeIdentifier;
 
-        int status;
+        final int status;
 
-        boolean isFavorite;
+        final boolean isFavorite;
 
         public FavoriteInfo(Cursor favoriteCursor)
         {
@@ -581,7 +581,7 @@ public class ProgressNodeAdapter extends NodeAdapter
     public boolean hasParentFavorite()
     {
         Cursor parentCursorId = null;
-        isSyncFolder = false;
+        boolean isSyncFolder = false;
         try
         {
             parentCursorId = SynchroManager

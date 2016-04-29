@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,20 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.create;
 
-import static org.alfresco.mobile.android.application.fragments.create.DocumentTypesDialogFragment.PARAM_DOCUMENT_TYPE;
-
-import java.io.File;
-import java.io.Serializable;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
-
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.commons.data.DocumentTypeRecord;
-import org.alfresco.mobile.android.application.manager.ActionManager;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
@@ -43,6 +30,7 @@ import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
@@ -50,15 +38,31 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import org.alfresco.mobile.android.application.commons.data.DocumentTypeRecord;
+import org.alfresco.mobile.android.application.manager.ActionManager;
+import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
+import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.opendataspace.android.app.R;
+
+import java.io.File;
+import java.io.Serializable;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
+import static org.alfresco.mobile.android.application.fragments.create.DocumentTypesDialogFragment.PARAM_DOCUMENT_TYPE;
+
 /**
  * This Fragment is responsible to display the list of editors able to create the document type selected previously. <br/>
  * This fragment works "like" the "createChooser" Android Intent method.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class EditorsDialogFragment extends DialogFragment
 {
-    /** Public Fragment TAG. */
+    /**
+     * Public Fragment TAG.
+     */
     public static final String TAG = "FileTypePropertiesDialogFragment";
 
     /**
@@ -82,7 +86,7 @@ public class EditorsDialogFragment extends DialogFragment
         int title = R.string.create_document_editor_title;
 
         LayoutInflater inflater = LayoutInflater.from(getActivity());
-        final View v = inflater.inflate(R.layout.sdk_list, null);
+        @SuppressLint("InflateParams") final View v = inflater.inflate(R.layout.sdk_list, null);
         ListView lv = (ListView) v.findViewById(R.id.listView);
 
         final DocumentTypeRecord documentType = (DocumentTypeRecord) getArguments().get(PARAM_DOCUMENT_TYPE);
@@ -91,7 +95,9 @@ public class EditorsDialogFragment extends DialogFragment
         // 'eventually' edit a document.
         // ACTION_EDIT doesn't work
         Intent intent = new Intent(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File("/sdcard/test"+documentType.extension)), documentType.mimetype);
+        intent.setDataAndType(
+                Uri.fromFile(new File(Environment.getExternalStorageDirectory() + "/test" + documentType.extension)),
+                documentType.mimetype);
         //intent.setDataAndType(Uri.fromFile(new File("/storage/sdcard0/Android/data/org.alfresco.mobile.android.application/files/ec2-176-34-173-67.eu-west-1.compute.amazonaws.com-admin/Download/yyy.spd")), documentType.mimetype)
         final PackageManager mgr = getActivity().getPackageManager();
         List<ResolveInfo> list = mgr.queryIntentActivities(intent, 0);
@@ -200,9 +206,9 @@ public class EditorsDialogFragment extends DialogFragment
     {
         private static final long serialVersionUID = 1L;
 
-        private boolean asc;
+        private final boolean asc;
 
-        private Context context;
+        private final Context context;
 
         public EditorComparator(Context c, boolean asc)
         {
@@ -213,9 +219,12 @@ public class EditorsDialogFragment extends DialogFragment
 
         public int compare(ResolveInfo infoA, ResolveInfo infoB)
         {
-            if (infoA == null || infoB == null) { return 0; }
+            if (infoA == null || infoB == null)
+            {
+                return 0;
+            }
 
-            int b = 0;
+            int b;
             b = getLabelString(context, infoA).compareToIgnoreCase(getLabelString(context, infoB));
             if (asc)
             {

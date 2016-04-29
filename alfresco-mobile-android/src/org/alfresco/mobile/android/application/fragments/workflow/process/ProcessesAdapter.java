@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,18 +17,6 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.workflow.process;
 
-import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.alfresco.mobile.android.api.constants.WorkflowModel;
-import org.alfresco.mobile.android.api.model.Process;
-import org.alfresco.mobile.android.api.model.impl.ProcessImpl;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
-
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
@@ -36,19 +24,32 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.alfresco.mobile.android.api.constants.WorkflowModel;
+import org.alfresco.mobile.android.api.model.Process;
+import org.alfresco.mobile.android.api.model.impl.ProcessImpl;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
+import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.opendataspace.android.app.R;
+
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+
 /**
  * @author Jean Marie Pascal
  */
 public class ProcessesAdapter extends BaseListAdapter<Process, GenericViewHolder>
 {
-    private GregorianCalendar calendar = new GregorianCalendar();
+    private final GregorianCalendar calendar = new GregorianCalendar();
 
-    private List<Process> selectedItems;
+    private final List<Process> selectedItems;
 
-    protected Context context;
+    protected final Context context;
 
     public ProcessesAdapter(Activity context, int textViewResourceId, List<Process> listItems,
-            List<Process> selectedItems)
+                            List<Process> selectedItems)
     {
         super(context, textViewResourceId, listItems);
         this.context = context;
@@ -58,17 +59,18 @@ public class ProcessesAdapter extends BaseListAdapter<Process, GenericViewHolder
     @Override
     protected void updateTopText(GenericViewHolder vh, Process item)
     {
-        vh.topText.setText(item.getDescription() != null ? item.getDescription() : context
-                .getString(R.string.process_no_description));
+        vh.topText.setText(item.getDescription() != null ? item.getDescription() :
+                context.getString(R.string.process_no_description));
     }
 
     @Override
     protected void updateBottomText(GenericViewHolder vh, Process item)
     {
-        StringBuilder bottomText = new StringBuilder(item.getName() != null ? item.getName() : getName(context, item.getKey()));
+        StringBuilder bottomText =
+                new StringBuilder(item.getName() != null ? item.getName() : getName(context, item.getKey()));
 
-        if (item.getEndedAt() == null && ((ProcessImpl) item).getDueAt() != null
-                && ((ProcessImpl) item).getDueAt().before(calendar))
+        if (item.getEndedAt() == null && ((ProcessImpl) item).getDueAt() != null &&
+                ((ProcessImpl) item).getDueAt().before(calendar))
         {
             if (bottomText.length() > 0)
             {
@@ -76,7 +78,7 @@ public class ProcessesAdapter extends BaseListAdapter<Process, GenericViewHolder
             }
             bottomText.append("<b>");
             bottomText.append("<font color='#9F000F'>");
-            SimpleDateFormat formatter = new SimpleDateFormat("dd MMM");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd MMM", Locale.getDefault());
             bottomText.append(formatter.format(((ProcessImpl) item).getDueAt().getTime()));
             bottomText.append("</font>");
             bottomText.append("</b>");
@@ -112,21 +114,21 @@ public class ProcessesAdapter extends BaseListAdapter<Process, GenericViewHolder
 
     public static int getPriorityIconId(int priority)
     {
-        int iconId = R.drawable.ic_priority_medium;
+        int iconId;
         switch (priority)
         {
-            case 3:
-                iconId = R.drawable.ic_priority_low;
-                break;
-            case 2:
-                iconId = R.drawable.ic_priority_medium;
-                break;
-            case 1:
-                iconId = R.drawable.ic_priority_high;
-                break;
-            default:
-                iconId = R.drawable.ic_workflow;
-                break;
+        case 3:
+            iconId = R.drawable.ic_priority_low;
+            break;
+        case 2:
+            iconId = R.drawable.ic_priority_medium;
+            break;
+        case 1:
+            iconId = R.drawable.ic_priority_high;
+            break;
+        default:
+            iconId = R.drawable.ic_workflow;
+            break;
         }
         return iconId;
     }

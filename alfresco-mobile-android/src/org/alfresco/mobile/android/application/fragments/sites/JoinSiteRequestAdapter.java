@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,12 +34,12 @@ import android.widget.TextView;
 
 /**
  * Responsible to display the list of Site;
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class JoinSiteRequestAdapter extends BaseListAdapter<Site, GenericViewHolder>
 {
-    private Fragment fragment;
+    private final Fragment fragment;
 
     public JoinSiteRequestAdapter(Fragment fr, int textViewResourceId, List<Site> objects)
     {
@@ -83,13 +83,13 @@ public class JoinSiteRequestAdapter extends BaseListAdapter<Site, GenericViewHol
 
 final class GenericViewHolder extends ViewHolder
 {
-    public TextView topText;
+    public final TextView topText;
 
-    public TextView bottomText;
+    public final TextView bottomText;
 
-    public ImageView icon;
+    public final ImageView icon;
 
-    public Button cancel_request;
+    public final Button cancel_request;
 
     public GenericViewHolder(View v)
     {

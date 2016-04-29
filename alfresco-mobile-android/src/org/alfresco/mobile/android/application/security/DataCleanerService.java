@@ -14,7 +14,7 @@ public class DataCleanerService extends Service
 {
     private static final String TAG = DataCleanerService.class.getName();
 
-    private Stack<Intent> intents = new Stack<Intent>();
+    private final Stack<Intent> intents = new Stack<Intent>();
 
     @Override
     public IBinder onBind(Intent intent)
@@ -41,7 +41,7 @@ public class DataCleanerService extends Service
         try
         {
             Intent intent = intents.pop();
-            if (intent.getAction() == IntentIntegrator.ACTION_CLEAN_SHARE_FILE)
+            if (intent.getAction().equals(IntentIntegrator.ACTION_CLEAN_SHARE_FILE))
             {
                 deleteShareFile(intent.getExtras().getString(IntentIntegrator.EXTRA_FILE_PATH));
             }
@@ -68,10 +68,10 @@ public class DataCleanerService extends Service
             File removeFile = new File(filePath);
             if (removeFile.exists())
             {
+                //noinspection ResultOfMethodCallIgnored
                 removeFile.delete();
             }
         }
         stopSelf();
-        return;
     }
 }

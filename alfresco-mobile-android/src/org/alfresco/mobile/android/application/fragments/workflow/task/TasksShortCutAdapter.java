@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -36,7 +36,7 @@ import android.widget.TextView;
 
 public class TasksShortCutAdapter extends BaseListAdapter<Integer, SimpleViewHolder>
 {
-    private Account account;
+    private final Account account;
 
     public TasksShortCutAdapter(Activity context)
     {
@@ -67,11 +67,10 @@ public class TasksShortCutAdapter extends BaseListAdapter<Integer, SimpleViewHol
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent)
     {
-        View v = super.getView(position, convertView, parent);
-        
-        return v;
+
+        return super.getView(position, convertView, parent);
     }
-    
+
     public View getView(int position, View convertView, ViewGroup parent)
     {
         View v = super.getView(position, convertView, parent);
@@ -95,7 +94,7 @@ public class TasksShortCutAdapter extends BaseListAdapter<Integer, SimpleViewHol
     public static final int FILTER_OVERDUE = 5;
     public static final int FILTER_ASSIGNED = 6;
     public static final int FILTER_CUSTOM = 7;
-    
+
     private static final List<Integer> SHORTCUTS = new ArrayList<Integer>(10)
     {
         private static final long serialVersionUID = 1L;

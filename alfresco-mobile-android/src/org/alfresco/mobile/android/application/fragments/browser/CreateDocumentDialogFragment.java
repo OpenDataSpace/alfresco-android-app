@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of the Alfresco Mobile SDK.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -68,7 +68,7 @@ import android.widget.TextView;
  * display the upload UI component. When user click on upload button, it creates
  * an UploadFragment (UI less) responsible to maintain callback methods. The
  * UploadFragment may disappear to support batch upload/download.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public abstract class CreateDocumentDialogFragment extends BaseFragment
@@ -83,19 +83,15 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
 
     //private EditText editTags;
 
-    private List<Tag> selectedTags = new ArrayList<Tag>();
+    private final List<Tag> selectedTags = new ArrayList<Tag>();
 
     private CreateDocumentReceiver receiver;
-
-    private String recommandedName = null;
 
     private String originalName = null;
 
     private ContentFile contentFile;
 
     private EditText tv;
-
-    private String originalId = "";
 
     // //////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -145,6 +141,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
                 // dialog.
                 if (StorageManager.isTempFile(getActivity(), uploadFile))
                 {
+                    //noinspection ResultOfMethodCallIgnored
                     uploadFile.delete();
                 }
 
@@ -304,8 +301,9 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
 
         OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
 
-        if (originalId != "" && documentName == originalName)
+        if (documentName.equals(originalName))
         {
+            String originalId = "";
             group.enqueue(new UpdateContentRequest(parentFolder.getIdentifier(), originalId, documentName, f));
         }
         else
@@ -329,11 +327,11 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
     {
         String s = ""; // editTags.getText().toString();
         String[] listValues = s.split(",");
-        for (int i = 0; i < listValues.length; i++)
+        for (String listValue : listValues)
         {
-            if (listValues[i] != null && !listValues[i].isEmpty())
+            if (listValue != null && !listValue.isEmpty())
             {
-                selectedTags.add(new TagImpl(listValues[i].trim()));
+                selectedTags.add(new TagImpl(listValue.trim()));
             }
         }
     }
@@ -360,7 +358,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
                     && intent.getAction().equals(IntentIntegrator.ACTION_RETRIEVE_NAME_COMPLETED))
             {
                 Bundle b = intent.getExtras().getParcelable(IntentIntegrator.EXTRA_DATA);
-                recommandedName = b.getString(IntentIntegrator.EXTRA_DOCUMENT_NAME);
+                String recommandedName = b.getString(IntentIntegrator.EXTRA_DOCUMENT_NAME);
                 if (!recommandedName.equals(originalName))
                 {
                     tv.setError(context.getString(R.string.create_document_filename_error));

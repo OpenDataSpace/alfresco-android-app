@@ -110,20 +110,19 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
     private Account createAccount()
     {
         int type;
-        boolean isPaidAccount = false;
-        Account acc = null;
+        boolean isPaidAccount;
+        Account acc;
 
         if (oauthData == null)
         {
             // Non OAuth login
-            type = Integer.valueOf(Account.TYPE_ALFRESCO_CMIS);
             if (session instanceof OdsRepositorySession)
             {
-                type = Integer.valueOf(Account.TYPE_ODS_CMIS);
+                type = Account.TYPE_ODS_CMIS;
             }
             else if (session instanceof CloudSession && !session.getBaseUrl().startsWith(OAuthConstant.PUBLIC_API_HOSTNAME))
             {
-                type = Integer.valueOf(Account.TYPE_ALFRESCO_TEST_BASIC);
+                type = Account.TYPE_ALFRESCO_TEST_BASIC;
             }
             else
             {
@@ -143,10 +142,10 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
         else
         {
             // OAuth login
-            type = Integer.valueOf(Account.TYPE_ALFRESCO_CLOUD);
+            type = Account.TYPE_ALFRESCO_CLOUD;
             if (session instanceof CloudSession && !session.getBaseUrl().startsWith(OAuthConstant.PUBLIC_API_HOSTNAME))
             {
-                type = Integer.valueOf(Account.TYPE_ALFRESCO_TEST_OAUTH);
+                type = Account.TYPE_ALFRESCO_TEST_OAUTH;
             }
 
             isPaidAccount = isPaid(type, session);

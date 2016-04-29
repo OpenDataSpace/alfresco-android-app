@@ -29,8 +29,8 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
 {
     public static final int ID = OdsLinksLoader.class.hashCode();
 
-    private Node node;
-    private OdsLink.Type type;
+    private final Node node;
+    private final OdsLink.Type type;
 
     public OdsLinksLoader(Context context, AlfrescoSession session, Node node, OdsLink.Type type)
     {

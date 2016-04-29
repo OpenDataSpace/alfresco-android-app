@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,6 +29,7 @@ import org.alfresco.mobile.android.application.fragments.fileexplorer.FileExplor
 import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.SharedPreferences.Editor;
@@ -39,9 +40,9 @@ public class DataCleaner extends AsyncTask<String, Integer, Boolean>
 {
     private static final String TAG = "DataCleaner";
 
-    private List<File> listingFiles = new ArrayList<File>();
+    private final List<File> listingFiles = new ArrayList<File>();
 
-    private Activity activity;
+    private final Activity activity;
 
     public DataCleaner(Activity activity)
     {
@@ -49,6 +50,7 @@ public class DataCleaner extends AsyncTask<String, Integer, Boolean>
         this.activity = activity;
     }
 
+    @SuppressLint("CommitPrefEdits")
     @Override
     protected Boolean doInBackground(String... params)
     {
@@ -92,6 +94,7 @@ public class DataCleaner extends AsyncTask<String, Integer, Boolean>
                     }
                     else
                     {
+                        //noinspection ResultOfMethodCallIgnored
                         file.delete();
                     }
                 }
@@ -122,21 +125,26 @@ public class DataCleaner extends AsyncTask<String, Integer, Boolean>
         File childFile;
         if (files != null)
         {
-            for (int x = 0; x < files.length; x++)
+            for (File file1 : files)
             {
-                childFile = files[x];
+                childFile = file1;
                 if (childFile.isDirectory())
                 {
-                    if (!recursiveDelete(childFile)) { return false; }
+                    if (!recursiveDelete(childFile))
+                    {
+                        return false;
+                    }
                 }
                 else
                 {
-                    if (!childFile.delete()) { return false; }
+                    if (!childFile.delete())
+                    {
+                        return false;
+                    }
                 }
             }
         }
-        if (!file.delete()) { return false; }
+        return file.delete();
 
-        return true;
     }
 }

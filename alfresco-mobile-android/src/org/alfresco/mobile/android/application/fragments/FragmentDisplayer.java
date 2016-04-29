@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,13 +17,13 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments;
 
-import java.util.Stack;
-
-import org.opendataspace.android.app.R;
-
 import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentTransaction;
+
+import org.opendataspace.android.app.R;
+
+import java.util.Stack;
 
 public final class FragmentDisplayer
 {
@@ -52,8 +52,8 @@ public final class FragmentDisplayer
             {
                 FragmentTransaction t2 = a.getFragmentManager().beginTransaction();
 
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2
-                        && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2 &&
+                        android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
                 {
                     t2.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
@@ -152,8 +152,8 @@ public final class FragmentDisplayer
             if (fr != null && fr.isAdded())
             {
                 FragmentTransaction t2 = a.getFragmentManager().beginTransaction();
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2
-                        && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2 &&
+                        android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
                 {
                     t2.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
@@ -188,7 +188,7 @@ public final class FragmentDisplayer
     }
 
     public static void replaceFragment(Activity a, Fragment f, Integer viewId, String tag, boolean backStack,
-            boolean hasAnimation)
+                                       boolean hasAnimation)
     {
         if (f == null)
         {
@@ -199,16 +199,18 @@ public final class FragmentDisplayer
             try
             {
                 FragmentTransaction t2 = a.getFragmentManager().beginTransaction();
-                if (hasAnimation && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2
-                        && android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+                if (hasAnimation && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB_MR2 &&
+                        android.os.Build.VERSION.SDK_INT < android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
                 {
                     t2.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left);
                 }
-                else if (hasAnimation
-                        && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+                else if (hasAnimation)
                 {
-                    t2.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left,
-                            R.anim.slide_out_right);
+                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+                    {
+                        t2.setCustomAnimations(R.anim.slide_in_right, R.anim.slide_out_left, R.anim.slide_in_left,
+                                R.anim.slide_out_right);
+                    }
                 }
                 t2.replace(viewId, f, tag);
                 if (backStack)

@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -34,6 +34,7 @@ import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Fragment;
 import android.database.Cursor;
@@ -55,17 +56,17 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
  */
 public class LibraryCursorAdapter extends BaseCursorLoader<GenericViewHolder> implements OnMenuItemClickListener
 {
-    private List<File> selectedItems;
+    private final List<File> selectedItems;
 
-    private List<File> selectedOptionItems = new ArrayList<File>();
+    private final List<File> selectedOptionItems = new ArrayList<File>();
 
-    private Fragment fragment;
+    private final Fragment fragment;
 
     private final String sdcardPath;
 
     private final String downloadPath;
 
-    private int mediaTypeId;
+    private final int mediaTypeId;
 
     private int mode = ListingModeFragment.MODE_LISTING;
 
@@ -160,7 +161,7 @@ public class LibraryCursorAdapter extends BaseCursorLoader<GenericViewHolder> im
 
         if (mode == FileExplorerFragment.MODE_LISTING && fragment.getActivity() instanceof MainActivity)
         {
-            UIUtils.setBackground(((View) vh.choose),
+            UIUtils.setBackground(vh.choose,
                     context.getResources().getDrawable(R.drawable.quickcontact_badge_overlay_light));
 
             vh.choose.setVisibility(View.VISIBLE);
@@ -169,6 +170,7 @@ public class LibraryCursorAdapter extends BaseCursorLoader<GenericViewHolder> im
             {
 
                 @Override
+                @SuppressLint("NewApi")
                 public void onClick(View v)
                 {
                     File item = (File) v.getTag(R.id.node_action);
@@ -196,7 +198,7 @@ public class LibraryCursorAdapter extends BaseCursorLoader<GenericViewHolder> im
         }
         else
         {
-            UIUtils.setBackground(((View) vh.choose), null);
+            UIUtils.setBackground(vh.choose, null);
         }
     }
 
@@ -211,7 +213,7 @@ public class LibraryCursorAdapter extends BaseCursorLoader<GenericViewHolder> im
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_SHARE, Menu.FIRST + MenuActionItem.MENU_SHARE, R.string.share);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-            
+
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_UPLOAD, Menu.FIRST + MenuActionItem.MENU_UPLOAD,
                     R.string.upload);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
@@ -229,7 +231,7 @@ public class LibraryCursorAdapter extends BaseCursorLoader<GenericViewHolder> im
     @Override
     public boolean onMenuItemClick(MenuItem item)
     {
-        boolean onMenuItemClick = true;
+        boolean onMenuItemClick;
         switch (item.getItemId())
         {
             case MenuActionItem.MENU_UPLOAD:

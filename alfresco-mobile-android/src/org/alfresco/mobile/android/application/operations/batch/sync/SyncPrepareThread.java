@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -41,13 +41,9 @@ public class SyncPrepareThread extends NodeOperationThread<Void>
 
     private int mode = SyncPrepareRequest.MODE_DOCUMENTS;
 
-    private OperationsRequestGroup group;
-
-    private long syncScanningTimeStamp;
-
     private Cursor localSyncCursor;
 
-    private SynchroManager syncManager;
+    private final SynchroManager syncManager;
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -85,10 +81,11 @@ public class SyncPrepareThread extends NodeOperationThread<Void>
 
             // Timestamp the scan process
             SynchroManager.saveStartSyncPrepareTimestamp(context);
-            syncScanningTimeStamp = new GregorianCalendar(TimeZone.getTimeZone("GMT")).getTimeInMillis();
+            long syncScanningTimeStamp = new GregorianCalendar(TimeZone.getTimeZone("GMT")).getTimeInMillis();
 
             // DISPATCHER
             // Depending on what we want to achieve we use the associated helper
+            OperationsRequestGroup group;
             if (syncManager.hasActivateSync(acc))
             {
                 if (syncManager.canSyncEverything(acc))
@@ -130,7 +127,6 @@ public class SyncPrepareThread extends NodeOperationThread<Void>
                 // ERROR Case
                 // Scan raised an error ==> alert the user
                 case SyncScanInfo.RESULT_ERROR_NOT_ENOUGH_STORAGE:
-                    group = null;
                     break;
                 default:
                     break;

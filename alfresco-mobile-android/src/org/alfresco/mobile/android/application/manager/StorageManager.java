@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,9 +17,10 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.manager;
 
-import java.io.File;
-import java.net.MalformedURLException;
-import java.net.URL;
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.os.Environment;
+import android.os.StatFs;
 
 import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
@@ -32,9 +33,9 @@ import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.content.Context;
-import android.os.Environment;
-import android.os.StatFs;
+import java.io.File;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class StorageManager extends org.alfresco.mobile.android.ui.manager.StorageManager
 {
@@ -102,7 +103,10 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
 
     public static File getSynchroFile(Context context, Account acc, Document doc)
     {
-        if (context != null && doc != null) { return getSynchroFile(context, acc, doc.getName(), doc.getIdentifier()); }
+        if (context != null && doc != null)
+        {
+            return getSynchroFile(context, acc, doc.getName(), doc.getIdentifier());
+        }
         return null;
     }
 
@@ -112,6 +116,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
         {
             File synchroFolder = StorageManager.getSynchroFolder(context, acc);
             File uuidFolder = new File(synchroFolder, NodeRefUtils.getNodeIdentifier(nodeIdentifier));
+            //noinspection ResultOfMethodCallIgnored
             uuidFolder.mkdirs();
             return new File(uuidFolder, documentName);
         }
@@ -126,7 +131,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
     /**
      * Returns a specific file/folder inside the private area of the
      * application.
-     * 
+     *
      * @param context : Android context.
      * @param filePath : extended Path relative to the private folder.
      * @return the file object. This file might be exist.
@@ -178,11 +183,11 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
             {
                 folder = context.getExternalFilesDir(null);
 
-                if (acc != null && acc.getUrl() != null && acc.getUrl().length() > 0 && acc.getUsername() != null
-                        && acc.getUsername().length() > 0)
+                if (acc != null && acc.getUrl() != null && acc.getUrl().length() > 0 && acc.getUsername() != null &&
+                        acc.getUsername().length() > 0)
                 {
-                    folder = IOUtils.createFolder(folder, getAccountFolder(acc.getUrl(), acc.getUsername())
-                            + File.separator + requestedFolder);
+                    folder = IOUtils.createFolder(folder,
+                            getAccountFolder(acc.getUrl(), acc.getUsername()) + File.separator + requestedFolder);
                 }
                 else
                 {
@@ -211,8 +216,8 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
 
                 if (url != null && url.length() > 0 && username != null && username.length() > 0)
                 {
-                    folder = IOUtils.createFolder(folder, getAccountFolder(url, username)
-                            + File.separator + requestedFolder);
+                    folder = IOUtils.createFolder(folder,
+                            getAccountFolder(url, username) + File.separator + requestedFolder);
                 }
                 else
                 {
@@ -248,7 +253,10 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
     // ///////////////////////////////////////////////////////////////////////////
     public static boolean isTempFile(Context c, File file)
     {
-        if (SessionUtils.getAccount(c) == null) { return true; }
+        if (SessionUtils.getAccount(c) == null)
+        {
+            return true;
+        }
         File tempFolder = StorageManager.getTempFolder(c, SessionUtils.getAccount(c));
 
         return (tempFolder != null && file.getParent().compareTo(tempFolder.getPath()) == 0);
@@ -256,7 +264,10 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
 
     public static boolean isSyncFile(Context c, File file)
     {
-        if (SessionUtils.getAccount(c) == null) { return true; }
+        if (SessionUtils.getAccount(c) == null)
+        {
+            return true;
+        }
         File tempFolder = StorageManager.getSynchroFolder(c, SessionUtils.getAccount(c));
 
         return (tempFolder != null && file.getParentFile().getParent().compareTo(tempFolder.getPath()) == 0);
@@ -267,8 +278,8 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
         File tempFolder = c.getExternalFilesDir(null);
         String path = file.getPath();
         String[] pathS = path.split("/");
-        return (tempFolder != null && file.getPath().startsWith(tempFolder.getPath()) && pathS[pathS.length - 3]
-                .contains(SYNCHRO_DIRECTORY));
+        return (tempFolder != null && file.getPath().startsWith(tempFolder.getPath()) &&
+                pathS[pathS.length - 3].contains(SYNCHRO_DIRECTORY));
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -278,6 +289,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
     {
         if (isTempFile(c, file))
         {
+            //noinspection ResultOfMethodCallIgnored
             file.delete();
             return;
         }
@@ -292,6 +304,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
     // STORAGE SPACE
     // ///////////////////////////////////////////////////////////////////////////
     @SuppressWarnings("deprecation")
+    @SuppressLint("NewApi")
     public static float getAvailableBytesByPath(File f)
     {
         StatFs stat = new StatFs(f.getPath());
@@ -305,6 +318,7 @@ public class StorageManager extends org.alfresco.mobile.android.ui.manager.Stora
         }
     }
 
+    @SuppressLint("NewApi")
     @SuppressWarnings("deprecation")
     public static float getTotalBytesByPath(File f)
     {

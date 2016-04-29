@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,16 +17,6 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.workflow.task;
 
-import java.text.SimpleDateFormat;
-import java.util.GregorianCalendar;
-import java.util.List;
-
-import org.alfresco.mobile.android.api.model.Task;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
-
 import android.app.Activity;
 import android.content.Context;
 import android.text.Html;
@@ -34,16 +24,27 @@ import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import org.alfresco.mobile.android.api.model.Task;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
+import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.opendataspace.android.app.R;
+
+import java.text.SimpleDateFormat;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
+
 /**
  * @author Jean Marie Pascal
  */
 public class TasksAdapter extends BaseListAdapter<Task, GenericViewHolder>
 {
-    private GregorianCalendar calendar = new GregorianCalendar();
+    private final GregorianCalendar calendar = new GregorianCalendar();
 
-    private List<Task> selectedItems;
+    private final List<Task> selectedItems;
 
-    protected Context context;
+    protected final Context context;
 
     public TasksAdapter(Activity context, int textViewResourceId, List<Task> listItems, List<Task> selectedItems)
     {
@@ -62,18 +63,18 @@ public class TasksAdapter extends BaseListAdapter<Task, GenericViewHolder>
     protected void updateBottomText(GenericViewHolder vh, Task item)
     {
         StringBuilder bottomText = new StringBuilder(item.getName());
-        
+
         if (item.getEndedAt() == null && item.getDueAt() != null && item.getDueAt().before(calendar))
         {
             bottomText.append(" - ");
             bottomText.append("<b>");
             bottomText.append("<font color='#9F000F'>");
-            SimpleDateFormat formatter = new SimpleDateFormat("dd MMM");
+            SimpleDateFormat formatter = new SimpleDateFormat("dd MMM", Locale.getDefault());
             bottomText.append(formatter.format(item.getDueAt().getTime()));
             bottomText.append("</font>");
             bottomText.append("</b>");
         }
-        
+
         if (item.getAssigneeIdentifier() == null)
         {
             bottomText.append(" - ");
@@ -81,7 +82,7 @@ public class TasksAdapter extends BaseListAdapter<Task, GenericViewHolder>
             bottomText.append(getContext().getString(R.string.tasks_assignee_unassigned));
             bottomText.append("</b>");
         }
-        
+
         vh.bottomText.setText(Html.fromHtml(bottomText.toString()), TextView.BufferType.SPANNABLE);
 
         if (selectedItems != null && selectedItems.contains(item))
@@ -101,23 +102,24 @@ public class TasksAdapter extends BaseListAdapter<Task, GenericViewHolder>
         vh.icon.setImageDrawable(getContext().getResources().getDrawable(getPriorityIconId(item.getPriority())));
         vh.choose.setVisibility(View.GONE);
     }
-    
-    public static int getPriorityIconId(int priority){
-        int iconId = R.drawable.ic_priority_medium;
+
+    public static int getPriorityIconId(int priority)
+    {
+        int iconId;
         switch (priority)
         {
-            case 3:
-                iconId = R.drawable.ic_priority_low;
-                break;
-            case 2:
-                iconId = R.drawable.ic_priority_medium;
-                break;
-            case 1:
-                iconId = R.drawable.ic_priority_high;
-                break;
-            default:
-                iconId = R.drawable.ic_workflow;
-                break;
+        case 3:
+            iconId = R.drawable.ic_priority_low;
+            break;
+        case 2:
+            iconId = R.drawable.ic_priority_medium;
+            break;
+        case 1:
+            iconId = R.drawable.ic_priority_high;
+            break;
+        default:
+            iconId = R.drawable.ic_workflow;
+            break;
         }
         return iconId;
     }

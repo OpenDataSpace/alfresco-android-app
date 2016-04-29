@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -86,6 +86,7 @@ public class CreateDocumentCallback extends AbstractBatchOperationCallback<Docum
         super.onPostExecute(task, results);
         if (task instanceof CreateDocumentThread && ((CreateDocumentThread) task).isCreation())
         {
+            //noinspection ResultOfMethodCallIgnored
             ((AbstractUpThread) task).getContentFile().getFile().delete();
         }
     }
@@ -126,9 +127,9 @@ public class CreateDocumentCallback extends AbstractBatchOperationCallback<Docum
                     ContentValues cValues = new ContentValues();
                     cValues.put(BatchOperationSchema.COLUMN_LOCAL_URI, dlFile.getPath());
                     context.getContentResolver().update(
-                            ((CreateDocumentThread) task).getOperationRequest().getNotificationUri(), cValues, null,
+                            task.getOperationRequest().getNotificationUri(), cValues, null,
                             null);
-                   ((CreateDocumentRequest)((CreateDocumentThread) task).getOperationRequest()).setContentFile(dlFile);
+                   ((CreateDocumentRequest) task.getOperationRequest()).setContentFile(dlFile);
                 }
             }
         }

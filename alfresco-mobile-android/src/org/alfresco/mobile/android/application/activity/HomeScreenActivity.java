@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,14 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.activity;
-
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.ui.logging.OdsLog;
-import org.alfresco.mobile.android.application.accounts.fragment.AccountEditFragment;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.utils.UIUtils;
 
 import android.app.Activity;
 import android.content.BroadcastReceiver;
@@ -33,9 +25,17 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.view.View;
 
+import org.alfresco.mobile.android.application.accounts.fragment.AccountEditFragment;
+import org.alfresco.mobile.android.application.fragments.DisplayUtils;
+import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
+
 /**
  * Displays a wizard for the first account creation.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class HomeScreenActivity extends BaseActivity
@@ -45,6 +45,7 @@ public class HomeScreenActivity extends BaseActivity
     // ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE
     // ///////////////////////////////////////////////////////////////////////////
+
     /** Called when the activity is first created. */
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -55,8 +56,9 @@ public class HomeScreenActivity extends BaseActivity
         if (getFragmentManager().findFragmentByTag(HomeScreenFragment.TAG) == null)
         {
             HomeScreenFragment newFragment = new HomeScreenFragment();
-            FragmentDisplayer.replaceFragment(this, newFragment, DisplayUtils.getLeftFragmentId(this),
-                    HomeScreenFragment.TAG, false, false);
+            FragmentDisplayer
+                    .replaceFragment(this, newFragment, DisplayUtils.getLeftFragmentId(this), HomeScreenFragment.TAG,
+                            false, false);
         }
     }
 
@@ -78,10 +80,13 @@ public class HomeScreenActivity extends BaseActivity
     {
         super.onNewIntent(intent);
 
-        if (intent.getAction() == null || intent.getData() == null || !Intent.ACTION_VIEW.equals(intent.getAction())) { return; }
+        if (intent.getAction() == null || intent.getData() == null || !Intent.ACTION_VIEW.equals(intent.getAction()))
+        {
+            return;
+        }
 
-        if (IntentIntegrator.ALFRESCO_SCHEME_SHORT.equals(intent.getData().getScheme())
-                && IntentIntegrator.HELP_GUIDE.equals(intent.getData().getHost()))
+        if (IntentIntegrator.ALFRESCO_SCHEME_SHORT.equals(intent.getData().getScheme()) &&
+                IntentIntegrator.HELP_GUIDE.equals(intent.getData().getHost()))
         {
             UIUtils.displayHelp(this);
         }
@@ -93,8 +98,9 @@ public class HomeScreenActivity extends BaseActivity
     public void launch(View v)
     {
         AccountEditFragment newFragment = new AccountEditFragment();
-        FragmentDisplayer.replaceFragment(this, newFragment, DisplayUtils.getLeftFragmentId(this),
-                AccountEditFragment.TAG, false);
+        FragmentDisplayer
+                .replaceFragment(this, newFragment, DisplayUtils.getLeftFragmentId(this), AccountEditFragment.TAG,
+                        false);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -125,9 +131,7 @@ public class HomeScreenActivity extends BaseActivity
                 i.putExtras(intent.getExtras());
                 activity.startActivity(i);
                 activity.finish();
-                return;
             }
-            return;
         }
     }
 }

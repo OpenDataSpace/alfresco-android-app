@@ -1,27 +1,29 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
- *  This file is part of Alfresco Mobile for Android.
- *  
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *  
- *  http://www.apache.org/licenses/LICENSE-2.0
- *  
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * This file is part of Alfresco Mobile for Android.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.sync;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.Operation;
@@ -41,21 +43,17 @@ import org.alfresco.mobile.android.application.operations.sync.node.update.SyncU
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class SynchroService<T> extends Service
 {
     private SynchroManager syncManager;
 
-    private Map<String, Operation<T>> operations = new HashMap<String, Operation<T>>();
+    private final Map<String, Operation<T>> operations = new HashMap<String, Operation<T>>();
 
-    private Set<String> lastOperation = new HashSet<String>();
+    //private final Set<String> lastOperation = new HashSet<String>();
 
     @Override
     public IBinder onBind(Intent intent)
@@ -99,7 +97,7 @@ public class SynchroService<T> extends Service
         executeOperation();
     }
 
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({"unchecked"})
     private void executeOperation()
     {
         if (syncManager == null || getBaseContext() == null)
@@ -108,8 +106,12 @@ public class SynchroService<T> extends Service
             return;
         }
 
-        OperationsGroupInfo requestInfo = (OperationsGroupInfo) syncManager.next();
-        if (requestInfo == null) { stopSelf(); return;}
+        OperationsGroupInfo requestInfo = syncManager.next();
+        if (requestInfo == null)
+        {
+            stopSelf();
+            return;
+        }
 
         AbstractSyncOperationRequestImpl request = (AbstractSyncOperationRequestImpl) requestInfo.request;
         int totalItems = requestInfo.totalRequests;
@@ -122,23 +124,23 @@ public class SynchroService<T> extends Service
         int parallelOperation = 1;
         switch (request.getTypeId())
         {
-            case SyncDownloadRequest.TYPE_ID:
-                task = (Operation<T>) new SyncDownloadThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new SyncDownloadCallBack(getBaseContext(), totalItems, pendingRequest);
-                parallelOperation = 2;
-                break;
-            case SyncDeleteRequest.TYPE_ID:
-                task = (Operation<T>) new SyncDeleteThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new SyncDeleteCallback(getBaseContext(), totalItems, pendingRequest);
-                parallelOperation = 2;
-                break;
-            case SyncUpdateRequest.TYPE_ID:
-                task = (Operation<T>) new SyncUpdateThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new SyncUpdateCallback(getBaseContext(), totalItems, pendingRequest);
-                parallelOperation = 2;
-                break;
-            default:
-                break;
+        case SyncDownloadRequest.TYPE_ID:
+            task = (Operation<T>) new SyncDownloadThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new SyncDownloadCallBack(getBaseContext(), totalItems, pendingRequest);
+            parallelOperation = 2;
+            break;
+        case SyncDeleteRequest.TYPE_ID:
+            task = (Operation<T>) new SyncDeleteThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new SyncDeleteCallback(getBaseContext(), totalItems, pendingRequest);
+            parallelOperation = 2;
+            break;
+        case SyncUpdateRequest.TYPE_ID:
+            task = (Operation<T>) new SyncUpdateThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new SyncUpdateCallback(getBaseContext(), totalItems, pendingRequest);
+            parallelOperation = 2;
+            break;
+        default:
+            break;
         }
 
         if (callback != null)
@@ -148,21 +150,25 @@ public class SynchroService<T> extends Service
 
         if (ConnectivityUtils.hasInternetAvailable(getBaseContext()))
         {
-            if (pendingRequest == 0)
+            if (task != null)
             {
-                lastOperation.add(task.getOperationId());
-            }
-            operations.put(task.getOperationId(), task);
+//                if (pendingRequest == 0)
+//                {
+//                    lastOperation.add(task.getOperationId());
+//                }
+                operations.put(task.getOperationId(), task);
 
-            if (operations.size() < parallelOperation && requestInfo.pendingRequests > 0)
-            {
-                executeOperation();
+
+                if (operations.size() < parallelOperation && requestInfo.pendingRequests > 0)
+                {
+                    executeOperation();
+                }
+                ((Thread) task).start();
             }
-            ((Thread) task).start();
         }
         else
         {
-            syncManager.pause(Integer.parseInt(request.getNotificationUri().getLastPathSegment().toString()));
+            syncManager.pause(Integer.parseInt(request.getNotificationUri().getLastPathSegment()));
             executeOperation();
         }
     }
@@ -184,8 +190,8 @@ public class SynchroService<T> extends Service
             }
 
             // FORCE STOP
-            if (IntentIntegrator.ACTION_SYNCHROS_STOP.equals(intent.getAction())
-                    || IntentIntegrator.ACTION_SYNCHROS_CANCEL.equals(intent.getAction()))
+            if (IntentIntegrator.ACTION_SYNCHROS_STOP.equals(intent.getAction()) ||
+                    IntentIntegrator.ACTION_SYNCHROS_CANCEL.equals(intent.getAction()))
             {
                 for (Entry<String, Operation<T>> operation : operations.entrySet())
                 {
@@ -195,7 +201,10 @@ public class SynchroService<T> extends Service
                 return;
             }
 
-            if (intent.getExtras() == null) { return; }
+            if (intent.getExtras() == null)
+            {
+                return;
+            }
 
             String operationId = (String) intent.getExtras().get(SynchroManager.EXTRA_SYNCHRO_ID);
 
@@ -216,8 +225,8 @@ public class SynchroService<T> extends Service
             {
                 if (syncManager.isLastOperation(operationId) && operations.get(operationId) != null)
                 {
-                    ((AbstractSyncOperationThread) operations.get(operationId)).executeGroupCallback(syncManager
-                            .getResult(operationId));
+                    ((AbstractSyncOperationThread) operations.get(operationId))
+                            .executeGroupCallback(syncManager.getResult(operationId));
                 }
                 operations.remove(operationId);
                 executeOperation();

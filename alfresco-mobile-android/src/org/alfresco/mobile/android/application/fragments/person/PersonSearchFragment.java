@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,28 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.person;
-
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import org.alfresco.mobile.android.api.model.Person;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.application.fragments.search.AdvancedSearchFragment;
-import org.alfresco.mobile.android.application.fragments.workflow.task.TaskDetailsFragment;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
@@ -57,12 +35,34 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.PagingResult;
+import org.alfresco.mobile.android.api.model.Person;
+import org.alfresco.mobile.android.application.activity.MainActivity;
+import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
+import org.alfresco.mobile.android.application.fragments.DisplayUtils;
+import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
+import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
+import org.alfresco.mobile.android.application.fragments.search.AdvancedSearchFragment;
+import org.alfresco.mobile.android.application.fragments.workflow.task.TaskDetailsFragment;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * @since 1.3
  * @author Jean Marie Pascal
  */
-public class PersonSearchFragment extends BaseListFragment implements
-        LoaderCallbacks<LoaderResult<PagingResult<Person>>>, ListingModeFragment
+public class PersonSearchFragment extends BaseListFragment
+        implements LoaderCallbacks<LoaderResult<PagingResult<Person>>>, ListingModeFragment
 {
 
     public static final String TAG = PersonSearchFragment.class.getName();
@@ -76,8 +76,6 @@ public class PersonSearchFragment extends BaseListFragment implements
     private View vRoot;
 
     private int mode = MODE_LISTING;
-
-    private String pickFragmentTag;
 
     private onPickPersonFragment fragmentPick;
 
@@ -101,8 +99,7 @@ public class PersonSearchFragment extends BaseListFragment implements
 
     public static PersonSearchFragment newInstance()
     {
-        PersonSearchFragment bf = new PersonSearchFragment();
-        return bf;
+        return new PersonSearchFragment();
     }
 
     public static BaseFragment newInstance(String keywords, String description)
@@ -148,7 +145,7 @@ public class PersonSearchFragment extends BaseListFragment implements
             title = getArguments().getString(PARAM_TITLE);
             mode = getArguments().getInt(PARAM_MODE);
             singleChoice = getArguments().getBoolean(PARAM_SINGLE_CHOICE);
-            pickFragmentTag = getArguments().getString(PARAM_FRAGMENT_TAG);
+            String pickFragmentTag = getArguments().getString(PARAM_FRAGMENT_TAG);
             fragmentPick = ((onPickPersonFragment) getFragmentManager().findFragmentByTag(pickFragmentTag));
             if (fragmentPick != null)
             {
@@ -158,7 +155,10 @@ public class PersonSearchFragment extends BaseListFragment implements
 
         // Create View
         vRoot = inflater.inflate(R.layout.app_pick_person, container, false);
-        if (alfSession == null) { return vRoot; }
+        if (alfSession == null)
+        {
+            return vRoot;
+        }
 
         // Init list
         init(vRoot, R.string.person_not_found);
@@ -181,9 +181,9 @@ public class PersonSearchFragment extends BaseListFragment implements
                 @Override
                 public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
                 {
-                    if (event != null
-                            && (event.getAction() == KeyEvent.ACTION_DOWN)
-                            && ((actionId == EditorInfo.IME_ACTION_SEARCH) || (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)))
+                    if (event != null && (event.getAction() == KeyEvent.ACTION_DOWN) &&
+                            ((actionId == EditorInfo.IME_ACTION_SEARCH) ||
+                                    (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)))
                     {
                         if (searchForm.getText().length() > 0)
                         {
@@ -271,7 +271,7 @@ public class PersonSearchFragment extends BaseListFragment implements
             }
             else if (keywords != null)
             {
-                UIUtils.displayTitle(getActivity(),String.format(getString(R.string.search_title), keywords));
+                UIUtils.displayTitle(getActivity(), String.format(getString(R.string.search_title), keywords));
             }
 
         }
@@ -312,7 +312,7 @@ public class PersonSearchFragment extends BaseListFragment implements
 
     @Override
     public void onLoadFinished(Loader<LoaderResult<PagingResult<Person>>> arg0,
-            LoaderResult<PagingResult<Person>> results)
+                               LoaderResult<PagingResult<Person>> results)
     {
         if (adapter == null)
         {
@@ -369,10 +369,6 @@ public class PersonSearchFragment extends BaseListFragment implements
         {
             l.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE);
         }
-        else if (mode == MODE_PICK && !singleChoice)
-        {
-            l.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
-        }
         else if (mode == MODE_LISTING && DisplayUtils.hasCentralPane(getActivity()))
         {
             l.setChoiceMode(ListView.CHOICE_MODE_SINGLE);
@@ -428,9 +424,9 @@ public class PersonSearchFragment extends BaseListFragment implements
     protected void updatePickButton()
     {
         validation.setEnabled(!selectedItems.isEmpty());
-        validation.setText(String.format(
-                MessageFormat.format(getString(R.string.picker_assign_person), selectedItems.size()),
-                selectedItems.size()));
+        validation.setText(
+                String.format(MessageFormat.format(getString(R.string.picker_assign_person), selectedItems.size()),
+                        selectedItems.size()));
     }
 
     // ///////////////////////////////////////////////////////////////////////////

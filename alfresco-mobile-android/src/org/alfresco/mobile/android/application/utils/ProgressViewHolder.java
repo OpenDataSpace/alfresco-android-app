@@ -10,13 +10,13 @@ import android.widget.ProgressBar;
 
 public final class ProgressViewHolder extends GenericViewHolder
 {
-    public ProgressBar progress;
+    public final ProgressBar progress;
 
-    public ImageView iconTopRight;
+    public final ImageView iconTopRight;
 
-    public ImageView iconBottomRight;
+    public final ImageView iconBottomRight;
 
-    public ImageView favoriteIcon;
+    public final ImageView favoriteIcon;
 
     public LinearLayout bg;
 

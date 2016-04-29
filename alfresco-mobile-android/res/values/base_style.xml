@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!--
   Copyright (C) 2005-2014 Alfresco Software Limited.
-  
+
   This file is part of Alfresco Mobile for Android.
-  
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
     http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
   See the License for the specific language governing permissions and
-  limitations under the License.
+  limitations under the License.
+
 -->
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
 
@@ -57,11 +58,11 @@
     <attr name="AlfrescoTheme.PasscodeInput" format="reference" />
     <attr name="AlfrescoTheme.Progress" format="reference" />
     <attr name="AlfrescoTheme.Progress.Horizontal" format="reference" />
-    
+
     <!-- =============================================================== -->
     <!-- THEME -->
     <!-- =============================================================== -->
-    <style name="AlfrescoBaseTheme" parent="android:Theme.Holo.Light"></style>
+    <style name="AlfrescoBaseTheme" parent="android:Theme.Holo.Light"/>
 
     <style name="AlfrescoHoloTheme" parent="AlfrescoBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
@@ -124,7 +125,7 @@
         <item name="android:background">@drawable/ab_stacked_transparent_light_holo</item>
     </style>
 
-    <style name="AlfrescoHoloTheme.ActionBar" parent="AlfrescoBaseTheme.ActionBar"></style>
+    <style name="AlfrescoHoloTheme.ActionBar" parent="AlfrescoBaseTheme.ActionBar"/>
 
     <style name="AlfrescoHoloTheme.ActionBar.Primary">
         <item name="android:background">@null</item>
@@ -195,7 +196,7 @@
         <item name="android:layout_width">wrap_content</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
-    
+
     <style name="AlfrescoHoloTheme.Progress.Horizontal" parent="@android:style/Widget.Holo.Light.ProgressBar.Horizontal">
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_marginLeft">@dimen/browse_margin</item>
@@ -316,7 +317,7 @@
         <item name="android:textColor">@android:color/secondary_text_light</item>
     </style>
 
-    <style name="AlfrescoBaseTheme.TextView.SectionHeader"></style>
+    <style name="AlfrescoBaseTheme.TextView.SectionHeader"/>
 
     <style name="AlfrescoHoloTheme.TextView.SectionHeader" parent="AlfrescoBaseTheme.TextView.SectionHeader">
         <item name="android:paddingLeft">5dip</item>

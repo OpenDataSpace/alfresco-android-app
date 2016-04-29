@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,11 +42,7 @@ public class TaskFilterFragment extends BaseFragment
 {
     public static final String TAG = TaskFilterFragment.class.getName();
 
-    private ExpandableListView expandableList;
-
     private TaskFilterExpandableAdapter expListAdapter;
-
-    private Button validate;
 
     private Map<Integer, Integer> selectedItems;
 
@@ -65,13 +61,13 @@ public class TaskFilterFragment extends BaseFragment
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
         setRetainInstance(true);
-        
+
         View rootView = inflater.inflate(R.layout.app_task_filters, container, false);
 
         alfSession = SessionUtils.getSession(getActivity());
         SessionUtils.checkSession(getActivity(), alfSession);
 
-        expandableList = (ExpandableListView) rootView.findViewById(R.id.filters_list);
+        ExpandableListView expandableList = (ExpandableListView) rootView.findViewById(R.id.filters_list);
         expandableList.setGroupIndicator(null);
         expListAdapter = new TaskFilterExpandableAdapter(getActivity(), selectedItems);
         expandableList.setAdapter(expListAdapter);
@@ -79,14 +75,15 @@ public class TaskFilterFragment extends BaseFragment
         expandableList.setOnChildClickListener(new OnChildClickListener()
         {
             @Override
-            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id)
+            public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition,
+                                        long id)
             {
-                expListAdapter.select(v,  groupPosition,  childPosition);
+                expListAdapter.select(v, groupPosition, childPosition);
                 return false;
             }
         });
-        
-        validate = UIUtils.initValidation(rootView, R.string.task_filter_view, true);
+
+        Button validate = UIUtils.initValidation(rootView, R.string.task_filter_view, true);
         validate.setOnClickListener(new OnClickListener()
         {
             @Override
@@ -95,7 +92,7 @@ public class TaskFilterFragment extends BaseFragment
                 createFilter();
             }
         });
-        
+
 
         return rootView;
     }
@@ -106,11 +103,11 @@ public class TaskFilterFragment extends BaseFragment
         UIUtils.displayTitle(getActivity(), getString(R.string.my_tasks));
         super.onResume();
     }
-    
-    
+
+
     private void createFilter(){
         ListingFilter f = new ListingFilter();
-        
+
         selectedItems = expListAdapter.getSelectedItems();
         for (Integer value : selectedItems.values())
         {

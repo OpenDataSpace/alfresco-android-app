@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -35,6 +35,7 @@ import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 import org.alfresco.mobile.android.ui.manager.PropertyManager;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 
+import android.annotation.SuppressLint;
 import android.graphics.Paint;
 import android.os.Bundle;
 import android.text.format.DateFormat;
@@ -139,7 +140,7 @@ public class MetadataFragment extends BaseFragment
         grouprootview = (ViewGroup) grouprootview.findViewById(R.id.metadata);
 
         // Description
-        Integer generalPropertyTitle = null;
+        Integer generalPropertyTitle;
         TextView tv = (TextView) v.findViewById(R.id.description);
         List<String> filter = new ArrayList<String>();
         if (node.getDescription() != null && node.getDescription().length() > 0)
@@ -181,7 +182,7 @@ public class MetadataFragment extends BaseFragment
     protected View addPropertyLine(ViewGroup generalGroup, LayoutInflater inflater, Node node, int propertyLabel,
             String propertyId, OnClickListener listener, boolean isUnderline)
     {
-        View vr = inflater.inflate(R.layout.sdk_property_row, null);
+        @SuppressLint("InflateParams") View vr = inflater.inflate(R.layout.sdk_property_row, null);
         TextView tv = (TextView) vr.findViewById(R.id.propertyName);
         tv.setText(propertyLabel);
         tv = (TextView) vr.findViewById(R.id.propertyValue);
@@ -220,16 +221,17 @@ public class MetadataFragment extends BaseFragment
         }
     }
 
+    @SuppressLint("InflateParams")
     protected ViewGroup createAspectPanel(LayoutInflater inflater, ViewGroup parentview, Node node, String aspect,
             boolean check, Integer overrideAspectTitle, List<String> filters)
     {
         ViewGroup groupview = null;
         if (!check || node.hasAspect(aspect))
         {
-            View v = null;
-            TextView tv = null;
+            View v;
+            TextView tv;
 
-            ViewGroup grouprootview = (ViewGroup) inflater.inflate(R.layout.sdk_property_title, null);
+            @SuppressLint("InflateParams") ViewGroup grouprootview = (ViewGroup) inflater.inflate(R.layout.sdk_property_title, null);
             tv = (TextView) grouprootview.findViewById(R.id.title);
             if (overrideAspectTitle == null)
             {

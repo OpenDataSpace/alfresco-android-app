@@ -108,7 +108,7 @@ public abstract class AbstractUpThread extends AbstractBatchOperationThread<Docu
 
     private int initSegment()
     {
-        int segment = 1;
+        int segment;
 
         // 100kb
         if (totalLength < 102400)

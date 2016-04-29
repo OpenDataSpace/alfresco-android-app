@@ -1,25 +1,30 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
- *  This file is part of Alfresco Mobile for Android.
- *  
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *  
- *  http://www.apache.org/licenses/LICENSE-2.0
- *  
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * This file is part of Alfresco Mobile for Android.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch;
 
-import java.util.HashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import android.content.BroadcastReceiver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.database.Cursor;
+import android.net.ConnectivityManager;
+import android.net.Uri;
 
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.Operation;
@@ -47,14 +52,9 @@ import org.alfresco.mobile.android.application.operations.batch.sync.SyncPrepare
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.content.BroadcastReceiver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.database.Cursor;
-import android.net.ConnectivityManager;
-import android.net.Uri;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class BatchOperationManager extends OperationManager
 {
@@ -75,7 +75,7 @@ public class BatchOperationManager extends OperationManager
                 context.startService(new Intent(context, BatchOperationService.class).putExtra("t", true));
             }
 
-            return (BatchOperationManager) mInstance;
+            return mInstance;
         }
     }
 
@@ -90,11 +90,11 @@ public class BatchOperationManager extends OperationManager
     // ////////////////////////////////////////////////////
     public void enqueue(OperationsRequestGroup group)
     {
-        Uri notificationUri = null;
+        Uri notificationUri;
         OperationsGroupRecord groupRecord = new OperationsGroupRecord(group.getRequests().size());
         for (OperationRequest request : group.getRequests())
         {
-            if (((AbstractBatchOperationRequestImpl) request).getNotificationUri() == null)
+            if (request.getNotificationUri() == null)
             {
                 notificationUri = mAppContext.getContentResolver().insert(BatchOperationContentProvider.CONTENT_URI,
                         ((AbstractBatchOperationRequestImpl) request).createContentValues(Operation.STATUS_PENDING));
@@ -112,78 +112,77 @@ public class BatchOperationManager extends OperationManager
 
         Map<String, OperationsRequestGroup> groups = new HashMap<String, OperationsRequestGroup>(ids.length);
 
-        OperationsRequestGroup group = null;
+        OperationsRequestGroup group;
         Cursor cursor = null;
-        Uri uri = null;
+        Uri uri;
         AbstractBatchOperationRequestImpl request = null;
 
-        for (int i = 0; i < ids.length; i++)
+        for (long id : ids)
         {
-            uri = getUri(ids[i]);
+            uri = getUri(id);
             cursor = mAppContext.getContentResolver().query(uri, BatchOperationSchema.COLUMN_ALL, null, null, null);
             cursor.moveToFirst();
             int requestId = cursor.getInt(BatchOperationSchema.COLUMN_REQUEST_TYPE_ID);
             switch (requestId)
             {
-                case DownloadRequest.TYPE_ID:
-                    request = new DownloadRequest(cursor);
-                    break;
-                case CreateDocumentRequest.TYPE_ID:
-                    request = new CreateDocumentRequest(cursor);
-                    break;
-                case UpdateContentRequest.TYPE_ID:
-                    request = new UpdateContentRequest(cursor);
-                    break;
-                case DeleteNodeRequest.TYPE_ID:
-                    request = new DeleteNodeRequest(cursor);
-                    break;
-                case LikeNodeRequest.TYPE_ID:
-                    request = new LikeNodeRequest(cursor);
-                    break;
-                case FavoriteNodeRequest.TYPE_ID:
-                    request = new FavoriteNodeRequest(cursor);
-                    break;
-                case CreateFolderRequest.TYPE_ID:
-                    request = new CreateFolderRequest(cursor);
-                    break;
-                case LoadSessionRequest.TYPE_ID:
-                    request = new LoadSessionRequest(cursor);
-                    break;
-                case CreateAccountRequest.TYPE_ID:
-                    // request = new CreateAccountRequest(cursor);
-                    break;
-                case UpdatePropertiesRequest.TYPE_ID:
-                    request = new UpdatePropertiesRequest(cursor);
-                    break;
-                case DeleteFileRequest.TYPE_ID:
-                    request = new DeleteFileRequest(cursor);
-                    break;
-                case CreateDirectoryRequest.TYPE_ID:
-                    request = new CreateDirectoryRequest(cursor);
-                    break;
-                case RenameRequest.TYPE_ID:
-                    request = new RenameRequest(cursor);
-                    break;
-                case SyncPrepareRequest.TYPE_ID:
-                    request = new SyncPrepareRequest(cursor);
-                    break;
-                case CleanSyncFavoriteRequest.TYPE_ID:
-                    // request = new UnSyncFavoriteRequest(cursor);
-                    break;
-                case RetrieveDocumentNameRequest.TYPE_ID:
-                    request = new RetrieveDocumentNameRequest(cursor);
-                    break;
-                default:
-                    break;
+            case DownloadRequest.TYPE_ID:
+                request = new DownloadRequest(cursor);
+                break;
+            case CreateDocumentRequest.TYPE_ID:
+                request = new CreateDocumentRequest(cursor);
+                break;
+            case UpdateContentRequest.TYPE_ID:
+                request = new UpdateContentRequest(cursor);
+                break;
+            case DeleteNodeRequest.TYPE_ID:
+                request = new DeleteNodeRequest(cursor);
+                break;
+            case LikeNodeRequest.TYPE_ID:
+                request = new LikeNodeRequest(cursor);
+                break;
+            case FavoriteNodeRequest.TYPE_ID:
+                request = new FavoriteNodeRequest(cursor);
+                break;
+            case CreateFolderRequest.TYPE_ID:
+                request = new CreateFolderRequest(cursor);
+                break;
+            case LoadSessionRequest.TYPE_ID:
+                request = new LoadSessionRequest(cursor);
+                break;
+            case CreateAccountRequest.TYPE_ID:
+                // request = new CreateAccountRequest(cursor);
+                break;
+            case UpdatePropertiesRequest.TYPE_ID:
+                request = new UpdatePropertiesRequest(cursor);
+                break;
+            case DeleteFileRequest.TYPE_ID:
+                request = new DeleteFileRequest(cursor);
+                break;
+            case CreateDirectoryRequest.TYPE_ID:
+                request = new CreateDirectoryRequest(cursor);
+                break;
+            case RenameRequest.TYPE_ID:
+                request = new RenameRequest(cursor);
+                break;
+            case SyncPrepareRequest.TYPE_ID:
+                request = new SyncPrepareRequest(cursor);
+                break;
+            case CleanSyncFavoriteRequest.TYPE_ID:
+                // request = new UnSyncFavoriteRequest(cursor);
+                break;
+            case RetrieveDocumentNameRequest.TYPE_ID:
+                request = new RetrieveDocumentNameRequest(cursor);
+                break;
+            default:
+                break;
             }
 
             if (request != null)
             {
-                ((AbstractBatchOperationRequestImpl) request).setNotificationUri(uri);
+                request.setNotificationUri(uri);
 
-                mAppContext.getContentResolver().update(uri,
-                        ((AbstractBatchOperationRequestImpl) request).createContentValues(Operation.STATUS_PENDING),
-                        null, null);
+                mAppContext.getContentResolver()
+                        .update(uri, request.createContentValues(Operation.STATUS_PENDING), null, null);
 
                 if (groups.containsKey(request.getAccountId() + "***" + request.getNetworkId()))
                 {
@@ -198,7 +197,7 @@ public class BatchOperationManager extends OperationManager
             }
             else
             {
-                OdsLog.d(TAG, "Unable to retry for" + ids[i]);
+                OdsLog.d(TAG, "Unable to retry for" + id);
             }
         }
 
@@ -214,7 +213,7 @@ public class BatchOperationManager extends OperationManager
 
     public void retry(long id)
     {
-        retry(new long[] { id });
+        retry(new long[] {id});
     }
 
     // ////////////////////////////////////////////////////
@@ -222,7 +221,7 @@ public class BatchOperationManager extends OperationManager
     // ////////////////////////////////////////////////////
     private static Uri getNotificationUri(OperationRequest operationRequest)
     {
-        return ((AbstractBatchOperationRequestImpl) operationRequest).getNotificationUri();
+        return operationRequest.getNotificationUri();
     }
 
     // ////////////////////////////////////////////////////
@@ -254,16 +253,15 @@ public class BatchOperationManager extends OperationManager
         {
             if (IntentIntegrator.ACTION_OPERATIONS_CANCEL.equals(intent.getAction()))
             {
-                OperationsGroupRecord group = null;
-                for (int i = 0; i < operationsGroups.size(); i++)
+                OperationsGroupRecord group;
+                for (OperationsGroupRecord operationsGroup : operationsGroups)
                 {
-                    group = operationsGroups.get(i);
+                    group = operationsGroup;
                     for (Entry<String, OperationRequest> requestEntry : group.runningRequest.entrySet())
                     {
                         try
                         {
-                            context.getContentResolver().update(
-                                    getNotificationUri(requestEntry.getValue()),
+                            context.getContentResolver().update(getNotificationUri(requestEntry.getValue()),
                                     ((AbstractBatchOperationRequestImpl) requestEntry.getValue())
                                             .createContentValues(Operation.STATUS_CANCEL), null, null);
                         }
@@ -279,8 +277,7 @@ public class BatchOperationManager extends OperationManager
                     {
                         try
                         {
-                            context.getContentResolver().update(
-                                    getNotificationUri(requestEntry.getValue()),
+                            context.getContentResolver().update(getNotificationUri(requestEntry.getValue()),
                                     ((AbstractBatchOperationRequestImpl) requestEntry.getValue())
                                             .createContentValues(Operation.STATUS_CANCEL), null, null);
                         }
@@ -298,17 +295,16 @@ public class BatchOperationManager extends OperationManager
 
             if (IntentIntegrator.ACTION_OPERATIONS_STOP.equals(intent.getAction()))
             {
-                OperationsGroupRecord group = null;
-                for (int i = 0; i < operationsGroups.size(); i++)
+                OperationsGroupRecord group;
+                for (OperationsGroupRecord operationsGroup : operationsGroups)
                 {
-                    group = operationsGroups.get(i);
+                    group = operationsGroup;
                     for (Entry<String, OperationRequest> requestEntry : group.runningRequest.entrySet())
                     {
                         try
                         {
-                            context.getContentResolver().delete(
-                                    ((AbstractBatchOperationRequestImpl) requestEntry.getValue()).getNotificationUri(),
-                                    null, null);
+                            context.getContentResolver()
+                                    .delete(requestEntry.getValue().getNotificationUri(), null, null);
                         }
                         catch (Exception e)
                         {
@@ -322,9 +318,8 @@ public class BatchOperationManager extends OperationManager
                     {
                         try
                         {
-                            context.getContentResolver().delete(
-                                    ((AbstractBatchOperationRequestImpl) requestEntry.getValue()).getNotificationUri(),
-                                    null, null);
+                            context.getContentResolver()
+                                    .delete(requestEntry.getValue().getNotificationUri(), null, null);
                         }
                         catch (Exception e)
                         {
@@ -337,16 +332,17 @@ public class BatchOperationManager extends OperationManager
 
                     for (OperationRequest operationRequest : group.completeRequest)
                     {
-                        context.getContentResolver()
-                                .delete(((AbstractBatchOperationRequestImpl) operationRequest).getNotificationUri(),
-                                        null, null);
+                        context.getContentResolver().delete(operationRequest.getNotificationUri(), null, null);
                     }
 
                 }
                 return;
             }
 
-            if (intent.getExtras() == null) { return; }
+            if (intent.getExtras() == null)
+            {
+                return;
+            }
 
             String operationId = (String) intent.getExtras().get(EXTRA_OPERATION_ID);
 
@@ -355,22 +351,22 @@ public class BatchOperationManager extends OperationManager
             // ADD
             if (operationId != null && IntentIntegrator.ACTION_OPERATION_COMPLETED.equals(intent.getAction()))
             {
-                int operationStatus = (int) intent.getExtras().getInt(EXTRA_OPERATION_RESULT);
+                int operationStatus = intent.getExtras().getInt(EXTRA_OPERATION_RESULT);
                 if (currentGroup.runningRequest.containsKey(operationId))
                 {
                     OperationRequest op = currentGroup.runningRequest.remove(operationId);
                     switch (operationStatus)
                     {
-                        case Operation.STATUS_SUCCESSFUL:
-                            currentGroup.completeRequest.add(op);
-                            break;
-                        case Operation.STATUS_PAUSED:
-                        case Operation.STATUS_CANCEL:
-                        case Operation.STATUS_FAILED:
-                            currentGroup.failedRequest.add(op);
-                            break;
-                        default:
-                            break;
+                    case Operation.STATUS_SUCCESSFUL:
+                        currentGroup.completeRequest.add(op);
+                        break;
+                    case Operation.STATUS_PAUSED:
+                    case Operation.STATUS_CANCEL:
+                    case Operation.STATUS_FAILED:
+                        currentGroup.failedRequest.add(op);
+                        break;
+                    default:
+                        break;
                     }
                 }
                 return;
@@ -379,20 +375,27 @@ public class BatchOperationManager extends OperationManager
             // STOP & DISPATCH
             if (operationId != null && IntentIntegrator.ACTION_OPERATION_STOP.equals(intent.getAction()))
             {
-                if (currentGroup != null && currentGroup.runningRequest != null && currentGroup.runningRequest.containsKey(operationId))
+                if (currentGroup != null && currentGroup.runningRequest.containsKey(operationId))
                 {
                     request = currentGroup.runningRequest.remove(operationId);
                 }
-                else if (currentGroup != null && currentGroup.index != null && currentGroup.index.containsKey(operationId))
+                else if (currentGroup != null && currentGroup.index.containsKey(operationId))
                 {
                     request = currentGroup.index.remove(operationId);
                 }
 
-                if (request == null){ return; }
+                if (request == null)
+                {
+                    return;
+                }
                 context.getContentResolver().update(getNotificationUri(request),
                         ((AbstractBatchOperationRequestImpl) request).createContentValues(Operation.STATUS_CANCEL),
                         null, null);
-                currentGroup.failedRequest.add(request);
+
+                if (currentGroup != null)
+                {
+                    currentGroup.failedRequest.add(request);
+                }
                 return;
             }
 
@@ -417,8 +420,7 @@ public class BatchOperationManager extends OperationManager
                 {
                     operationsGroups.remove(currentGroup);
                 }
-                
-                return;
+
             }
         }
     }
@@ -434,12 +436,15 @@ public class BatchOperationManager extends OperationManager
                 if (ConnectivityUtils.isWifiAvailable(context))
                 {
                     // BATCH OPERATIONS
-                    String[] projection = { BatchOperationSchema.COLUMN_ID };
+                    String[] projection = {BatchOperationSchema.COLUMN_ID};
                     String selection = BatchOperationSchema.COLUMN_STATUS + "=" + Operation.STATUS_PAUSED;
-                    cursor = context.getContentResolver().query(BatchOperationContentProvider.CONTENT_URI, projection,
-                            selection, null, null);
+                    cursor = context.getContentResolver()
+                            .query(BatchOperationContentProvider.CONTENT_URI, projection, selection, null, null);
 
-                    if (cursor.getCount() == 0) { return; }
+                    if (cursor.getCount() == 0)
+                    {
+                        return;
+                    }
                     long[] ids = new long[cursor.getCount()];
                     int i = 0;
                     while (cursor.moveToNext())

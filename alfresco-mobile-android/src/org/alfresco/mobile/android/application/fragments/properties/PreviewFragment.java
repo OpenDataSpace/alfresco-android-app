@@ -21,7 +21,6 @@ import java.io.File;
 import java.util.Date;
 
 import org.alfresco.mobile.android.api.constants.ContentModel;
-import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.impl.NodeImpl;
 import org.alfresco.mobile.android.application.ApplicationManager;
@@ -66,8 +65,6 @@ public class PreviewFragment extends BaseFragment
     private Node node;
 
     protected boolean isRestrictable = false;
-
-    private RenditionManager renditionManager;
 
     public File getTempFile()
     {
@@ -114,8 +111,8 @@ public class PreviewFragment extends BaseFragment
         // Detect if isRestrictable
         isRestrictable = node.hasAspect(ContentModel.ASPECT_RESTRICTABLE);
 
-        renditionManager = ApplicationManager.getInstance(getActivity()).getRenditionManager(
-                getActivity());
+        RenditionManager renditionManager =
+                ApplicationManager.getInstance(getActivity()).getRenditionManager(getActivity());
 
         ImageView preview = (ImageView) v.findViewById(R.id.preview);
         int iconId = R.drawable.mime_folder;
@@ -127,7 +124,7 @@ public class PreviewFragment extends BaseFragment
             {
                 //((ImageViewTouch)preview).setScaleEnabled(false);
                 //((ImageViewTouch)preview).setDoubleTapEnabled(false);
-                renditionManager.preview((ImageView) preview, node, iconId, DisplayUtils.getWidth(getActivity()));
+                renditionManager.preview(preview, node, iconId, DisplayUtils.getWidth(getActivity()));
             }
         }
         else if (node.isDocument() && node instanceof NodeSyncPlaceHolder)
@@ -195,7 +192,7 @@ public class PreviewFragment extends BaseFragment
         else
         {
             // Other case
-            b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, (Document) node);
+            b.putParcelable(DownloadDialogFragment.ARGUMENT_DOCUMENT, node);
             b.putInt(DownloadDialogFragment.ARGUMENT_ACTION, DownloadDialogFragment.ACTION_OPEN);
             DialogFragment frag = new DownloadDialogFragment();
             frag.setArguments(b);

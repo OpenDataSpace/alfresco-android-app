@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -66,7 +66,7 @@ import android.widget.ListView;
 /**
  * LocalFileBrowserFragment is responsible to display the content of Download
  * Folder.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class FileExplorerFragment extends AbstractFileExplorerFragment
@@ -200,6 +200,7 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
             }
             else
             {
+                //noinspection ResultOfMethodCallIgnored
                 createFile.delete();
             }
         }
@@ -241,6 +242,7 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
                 }
                 else
                 {
+                    //noinspection ResultOfMethodCallIgnored
                     createFile.delete();
                 }
             }
@@ -366,7 +368,7 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
     private boolean isListing()
     {
         Bundle b = getArguments();
-        return b != null ? b.getInt(PARAM_MODE, MODE_LISTING) == MODE_LISTING : true;
+        return b == null || b.getInt(PARAM_MODE, MODE_LISTING) == MODE_LISTING;
     }
 
     public boolean onItemLongClick(ListView l, View v, int position, long id)
@@ -394,7 +396,7 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
         adapter.notifyDataSetChanged();
 
         return true;
-    };
+    }
 
     // //////////////////////////////////////////////////////////////////////
     // MENU
@@ -460,8 +462,7 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
 
     /**
      * Remove a site object inside the listing without requesting an HTTP call.
-     * 
-     * @param site : site to remove
+     *
      */
     public void remove(File file)
     {
@@ -561,7 +562,7 @@ public class FileExplorerFragment extends AbstractFileExplorerFragment
 
         private void refreshList()
         {
-            if (adapter != null && ((FileExplorerAdapter) adapter).getCount() >= 1)
+            if (adapter != null && adapter.getCount() >= 1)
             {
                 lv.setVisibility(View.VISIBLE);
                 ev.setVisibility(View.GONE);

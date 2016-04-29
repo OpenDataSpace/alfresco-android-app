@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,18 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.security;
 
-import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ACTIVATED_AT;
-import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ATTEMPT;
-import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_MAX_ATTEMPT;
-
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.security.OdsEncryptionUtils;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
-import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.DialogFragment;
 import android.content.Context;
@@ -49,10 +38,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.alfresco.mobile.android.application.activity.MainActivity;
+import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
+import org.alfresco.mobile.android.application.preferences.PasscodePreferences;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.security.OdsEncryptionUtils;
+
+import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ACTIVATED_AT;
+import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_ATTEMPT;
+import static org.alfresco.mobile.android.application.preferences.PasscodePreferences.KEY_PASSCODE_MAX_ATTEMPT;
+
 /**
  * This Fragment is responsible to prompt pin code form. It allows user to use
  * the app.<br/>
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class PassCodeDialogFragment extends DialogFragment
@@ -82,9 +83,9 @@ public class PassCodeDialogFragment extends DialogFragment
 
     private EditText focusValue;
 
-    private int[] passcode = new int[PASSCODE_LENGTH];
+    private final int[] passcode = new int[PASSCODE_LENGTH];
 
-    private int[] confirmPasscode = new int[PASSCODE_LENGTH];
+    private final int[] confirmPasscode = new int[PASSCODE_LENGTH];
 
     private boolean needConfirmation = false;
 
@@ -163,20 +164,21 @@ public class PassCodeDialogFragment extends DialogFragment
 
         focusValue = value1;
 
-        int[] ids = new int[] { R.id.keyboard_0, R.id.keyboard_1, R.id.keyboard_2, R.id.keyboard_3, R.id.keyboard_4,
-                R.id.keyboard_5, R.id.keyboard_6, R.id.keyboard_7, R.id.keyboard_8, R.id.keyboard_9, R.id.keyboard_back };
+        int[] ids = new int[] {R.id.keyboard_0, R.id.keyboard_1, R.id.keyboard_2, R.id.keyboard_3, R.id.keyboard_4,
+                R.id.keyboard_5, R.id.keyboard_6, R.id.keyboard_7, R.id.keyboard_8, R.id.keyboard_9,
+                R.id.keyboard_back};
 
-        Button key = null;
-        for (int i = 0; i < ids.length; i++)
+        Button key;
+        for (int id : ids)
         {
-            key = (Button) v.findViewById(ids[i]);
+            key = (Button) v.findViewById(id);
             key.setOnClickListener(keyboardClickListener);
         }
 
         return v;
     }
 
-    private OnClickListener keyboardClickListener = new OnClickListener()
+    private final OnClickListener keyboardClickListener = new OnClickListener()
     {
 
         @Override
@@ -263,6 +265,7 @@ public class PassCodeDialogFragment extends DialogFragment
         }
     }
 
+    @SuppressLint("CommitPrefEdits")
     private void validate()
     {
         int mode = getArguments().getInt(PARAM_MODE);
@@ -301,6 +304,7 @@ public class PassCodeDialogFragment extends DialogFragment
         }
     }
 
+    @SuppressLint("CommitPrefEdits")
     private void create()
     {
         if (!needConfirmation)
@@ -310,7 +314,7 @@ public class PassCodeDialogFragment extends DialogFragment
             errorMessage.setVisibility(View.GONE);
             needConfirmation = true;
         }
-        else if (needConfirmation && getUserPassCode(true) != null)
+        else if (getUserPassCode(true) != null)
         {
             if (!OdsEncryptionUtils.generateKey(getActivity(), getUserPassCode(true)))
             {
@@ -331,15 +335,16 @@ public class PassCodeDialogFragment extends DialogFragment
             errorMessage.setVisibility(View.GONE);
             if (getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG) != null)
             {
-                ((PasscodePreferences) getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG)).refresh();
+                ((PasscodePreferences) getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG))
+                        .refresh();
             }
             else
             {
                 // Display Dialog
                 if (getFragmentManager().findFragmentByTag(WaitingDialogFragment.TAG) == null)
                 {
-                    WaitingDialogFragment dialog = WaitingDialogFragment.newInstance(R.string.data_protection,
-                            R.string.encryption_title, false);
+                    WaitingDialogFragment dialog = WaitingDialogFragment
+                            .newInstance(R.string.data_protection, R.string.encryption_title, false);
                     dialog.show(getActivity().getFragmentManager(), WaitingDialogFragment.TAG);
                 }
 
@@ -356,6 +361,7 @@ public class PassCodeDialogFragment extends DialogFragment
         }
     }
 
+    @SuppressLint("CommitPrefEdits")
     private void delete()
     {
         if (OdsEncryptionUtils.checkKey(getActivity(), getUserPassCode(false)))
@@ -380,7 +386,7 @@ public class PassCodeDialogFragment extends DialogFragment
             if (getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG) != null)
             {
                 ((PasscodePreferences) getActivity().getFragmentManager().findFragmentByTag(PasscodePreferences.TAG))
-                .refresh();
+                        .refresh();
             }
         }
         else
@@ -426,6 +432,7 @@ public class PassCodeDialogFragment extends DialogFragment
         return false;
     }
 
+    @SuppressLint("CommitPrefEdits")
     private void checkAttempts()
     {
         int attempts = sharedPref.getInt(KEY_PASSCODE_ATTEMPT, 1);
@@ -479,7 +486,7 @@ public class PassCodeDialogFragment extends DialogFragment
         value1.requestFocus();
     }
 
-    private OnFocusChangeListener listener = new OnFocusChangeListener()
+    private final OnFocusChangeListener listener = new OnFocusChangeListener()
     {
         @Override
         public void onFocusChange(View v, boolean hasFocus)
@@ -547,9 +554,8 @@ public class PassCodeDialogFragment extends DialogFragment
         }
         if (getDialog() != null)
         {
-            getActivity().getWindow().setSoftInputMode(
-                    WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE
-                    | WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+            getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE |
+                            WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
             InputMethodManager mgr = (InputMethodManager) getActivity().getSystemService(Context.INPUT_METHOD_SERVICE);
             mgr.hideSoftInputFromWindow(focusValue.getWindowToken(), 0);
         }

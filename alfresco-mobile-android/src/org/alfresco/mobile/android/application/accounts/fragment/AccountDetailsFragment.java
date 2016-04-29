@@ -17,6 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.accounts.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.FragmentManager;
 import android.content.DialogInterface;
@@ -83,14 +84,12 @@ public class AccountDetailsFragment extends BaseFragment
 
     public static final String ARGUMENT_ACCOUNT_ID = "accountID";
 
-    private String url = null, host = null, username = null, password = null, servicedocument = null, description =
-            null;
+    private String url = null;
+    private String username = null;
+    private String password = null;
+    private String description = null;
 
     private Account.ProtocolType proto = Account.ProtocolType.JSON;
-
-    private boolean https = false;
-
-    private int port;
 
     private Account acc;
 
@@ -129,7 +128,7 @@ public class AccountDetailsFragment extends BaseFragment
 
         acc = AccountManager.retrieveAccount(getActivity(), getArguments().getLong(ARGUMENT_ACCOUNT_ID));
 
-        if (acc.getActivation() == null)
+        if (acc != null && acc.getActivation() == null)
         {
             vRoot = inflater.inflate(R.layout.app_account_details, container, false);
             initValues(vRoot);
@@ -173,7 +172,7 @@ public class AccountDetailsFragment extends BaseFragment
     // ///////////////////////////////////////////////////////////////////////////
     private void initValues(final View v)
     {
-        URL tmprUrl = null;
+        URL tmprUrl;
         try
         {
             tmprUrl = new URL(acc.getUrl());
@@ -274,7 +273,7 @@ public class AccountDetailsFragment extends BaseFragment
             }
         });
 
-        formValue = (EditText) portForm;
+        formValue = portForm;
         if (tmprUrl.getPort() != -1)
         {
             formValue.setText(tmprUrl.getPort() + "");
@@ -346,6 +345,7 @@ public class AccountDetailsFragment extends BaseFragment
     {
         // Check values
         EditText formValue = (EditText) vRoot.findViewById(R.id.repository_hostname);
+        String host;
         if (formValue != null && formValue.getText() != null && formValue.getText().length() > 0)
         {
             host = formValue.getText().toString();
@@ -385,10 +385,11 @@ public class AccountDetailsFragment extends BaseFragment
         }
 
         CheckBox sw = (CheckBox) vRoot.findViewById(R.id.repository_https);
-        https = sw.isChecked();
+        boolean https = sw.isChecked();
         String protocol = https ? "https" : "http";
 
         formValue = (EditText) vRoot.findViewById(R.id.repository_port);
+        int port;
         if (formValue.getText().length() > 0)
         {
             port = Integer.parseInt(formValue.getText().toString());
@@ -402,8 +403,8 @@ public class AccountDetailsFragment extends BaseFragment
         proto = spin.getSelectedItemId() == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON;
 
         formValue = (EditText) vRoot.findViewById(R.id.repository_servicedocument);
-        servicedocument = formValue.getText().toString();
-        URL u = null;
+        String servicedocument = formValue.getText().toString();
+        URL u;
         try
         {
             if ("".equals(servicedocument))
@@ -430,10 +431,10 @@ public class AccountDetailsFragment extends BaseFragment
     {
         int[] ids = new int[] {R.id.repository_username, R.id.repository_password, R.id.repository_hostname,
                 R.id.repository_servicedocument, R.id.repository_description, R.id.repository_port};
-        EditText formValue = null;
-        for (int i = 0; i < ids.length; i++)
+        EditText formValue;
+        for (int id : ids)
         {
-            formValue = (EditText) vRoot.findViewById(ids[i]);
+            formValue = (EditText) vRoot.findViewById(id);
             formValue.addTextChangedListener(watcher);
         }
     }
@@ -442,15 +443,15 @@ public class AccountDetailsFragment extends BaseFragment
     {
         int[] ids = new int[] {R.id.repository_username, R.id.repository_password, R.id.repository_hostname,
                 R.id.repository_servicedocument, R.id.repository_description, R.id.repository_port};
-        EditText formValue = null;
-        for (int i = 0; i < ids.length; i++)
+        EditText formValue;
+        for (int id : ids)
         {
-            formValue = (EditText) vRoot.findViewById(ids[i]);
+            formValue = (EditText) vRoot.findViewById(id);
             formValue.removeTextChangedListener(watcher);
         }
     }
 
-    private TextWatcher watcher = new TextWatcher()
+    private final TextWatcher watcher = new TextWatcher()
     {
 
         @Override
@@ -507,9 +508,8 @@ public class AccountDetailsFragment extends BaseFragment
                 retrieveFormValues();
                 renameSystemAccount(acc, description);
                 acc = AccountManager.update(getActivity(), getArguments().getLong(ARGUMENT_ACCOUNT_ID), description,
-                        (url != null) ? url : acc.getUrl(), username, password, acc.getRepositoryId(),
-                        Integer.valueOf((int) acc.getTypeId()), null, acc.getAccessToken(), acc.getRefreshToken(),
-                        acc.getIsPaidAccount() ? 1 : 0, proto);
+                        (url != null) ? url : acc.getUrl(), username, password, acc.getRepositoryId(), acc.getTypeId(),
+                        null, acc.getAccessToken(), acc.getRefreshToken(), acc.getIsPaidAccount() ? 1 : 0, proto);
 
                 initValues(vRoot);
                 vRoot.findViewById(R.id.browse_document).setVisibility(View.VISIBLE);
@@ -626,6 +626,7 @@ public class AccountDetailsFragment extends BaseFragment
     }
 
     // TODO move to mainActivity + broadcast !
+    @SuppressLint("CommitPrefEdits")
     private void deleteAccount()
     {
 

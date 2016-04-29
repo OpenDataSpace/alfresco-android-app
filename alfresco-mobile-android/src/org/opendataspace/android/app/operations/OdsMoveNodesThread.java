@@ -84,7 +84,7 @@ public class OdsMoveNodesThread extends AbstractBatchOperationThread<Boolean>
     {
         try
         {
-            boolean res = true;
+            boolean res;
 
             if (node.isDocument())
             {

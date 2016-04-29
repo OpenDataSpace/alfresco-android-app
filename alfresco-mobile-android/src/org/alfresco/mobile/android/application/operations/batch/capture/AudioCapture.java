@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,25 +17,24 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.capture;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.utils.IOUtils;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.ui.logging.OdsLog;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
-
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.net.Uri;
 import android.provider.MediaStore;
+
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.utils.IOUtils;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class AudioCapture extends DeviceCapture
 {
@@ -91,37 +90,30 @@ public class AudioCapture extends DeviceCapture
     {
         Uri savedUri = data.getData();
 
-        try
+        File folder = parentFolder;
+        if (folder != null)
         {
-            File folder = parentFolder;
-            if (folder != null)
+            String filePath = getAudioFilePathFromUri(savedUri);
+            String fileType = getAudioFileTypeFromUri(savedUri);
+            String newFilePath =
+                    folder.getPath() + "/" + createFilename("AUDIO", filePath.substring(filePath.lastIndexOf(".") + 1));
+
+            copyFile(filePath, newFilePath);
+
+            parentActivity.getContentResolver().delete(savedUri, null, null);
+            //noinspection ResultOfMethodCallIgnored
+            (new File(filePath)).delete();
+
+            payload = new File(newFilePath);
+
+            if (!fileType.isEmpty())
             {
-                String filePath = getAudioFilePathFromUri(savedUri);
-                String fileType = getAudioFileTypeFromUri(savedUri);
-                String newFilePath = folder.getPath() + "/"
-                        + createFilename("AUDIO", filePath.substring(filePath.lastIndexOf(".") + 1));
-
-                copyFile(filePath, newFilePath);
-
-                parentActivity.getContentResolver().delete(savedUri, null, null);
-                (new File(filePath)).delete();
-
-                payload = new File(newFilePath);
-
-                if (!fileType.isEmpty())
-                {
-                    mimeType = fileType;
-                }
-            }
-            else
-            {
-                MessengerManager.showLongToast(parentActivity, parentActivity.getString(R.string.sdinaccessible));
+                mimeType = fileType;
             }
         }
-        catch (IOException e)
+        else
         {
-            MessengerManager.showLongToast(context, context.getString(R.string.cannot_capture));
-            OdsLog.exw(TAG, e);
+            MessengerManager.showLongToast(parentActivity, parentActivity.getString(R.string.sdinaccessible));
         }
     }
 
@@ -132,8 +124,9 @@ public class AudioCapture extends DeviceCapture
         {
             cursor.moveToFirst();
             int index = cursor.getColumnIndex(MediaStore.Audio.AudioColumns.DATA);
-
-            return (index != -1 ? cursor.getString(index) : "");
+            String res = (index != -1 ? cursor.getString(index) : "");
+            cursor.close();
+            return res;
         }
         else
         {
@@ -148,7 +141,9 @@ public class AudioCapture extends DeviceCapture
         {
             cursor.moveToFirst();
             int index = cursor.getColumnIndex(MediaStore.Audio.AudioColumns.MIME_TYPE);
-            return (index != -1 ? cursor.getString(index) : "");
+            String res = (index != -1 ? cursor.getString(index) : "");
+            cursor.close();
+            return res;
         }
         else
         {
@@ -156,7 +151,7 @@ public class AudioCapture extends DeviceCapture
         }
     }
 
-    private void copyFile(String fileName, String newFileName) throws IOException
+    private void copyFile(String fileName, String newFileName)
     {
         InputStream in = null;
         OutputStream out = null;
@@ -173,7 +168,7 @@ public class AudioCapture extends DeviceCapture
                 out.write(buf, 0, len);
             }
         }
-        catch (Exception e)
+        catch (Exception ignored)
         {
 
         }

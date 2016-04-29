@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,9 +17,22 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.accounts.fragment;
 
+import android.annotation.SuppressLint;
+import android.app.FragmentManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.Bitmap;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.Window;
+import android.webkit.WebView;
+
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
@@ -36,20 +49,8 @@ import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.alfresco.mobile.android.ui.oauth.OAuthFragment;
 import org.alfresco.mobile.android.ui.oauth.listener.OnOAuthAccessTokenListener;
-
-import android.app.FragmentManager;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.Bitmap;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.webkit.WebView;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 
 public class AccountOAuthFragment extends OAuthFragment
 {
@@ -80,6 +81,7 @@ public class AccountOAuthFragment extends OAuthFragment
     {
     }
 
+    @SuppressLint("ValidFragment")
     public AccountOAuthFragment(String oauthUrl, String apikey, String apiSecret)
     {
         super(oauthUrl, apikey, apiSecret);
@@ -107,7 +109,7 @@ public class AccountOAuthFragment extends OAuthFragment
             }
         }
 
-        AccountOAuthFragment oauthFragment = null;
+        AccountOAuthFragment oauthFragment;
         if (oauthUrl == null || oauthUrl.isEmpty())
         {
             oauthFragment = new AccountOAuthFragment();
@@ -132,7 +134,8 @@ public class AccountOAuthFragment extends OAuthFragment
         }
         else
         {
-            UIUtils.displayTitle(getActivity(), R.string.account_wizard_step2_title, !(getActivity() instanceof HomeScreenActivity));
+            UIUtils.displayTitle(getActivity(), R.string.account_wizard_step2_title,
+                    !(getActivity() instanceof HomeScreenActivity));
         }
 
         final View v = super.onCreateView(inflater, container, savedInstanceState);
@@ -166,13 +169,14 @@ public class AccountOAuthFragment extends OAuthFragment
                     operationId = LoadSessionRequest.TYPE_ID;
                     intentId = IntentIntegrator.ACTION_LOAD_ACCOUNT_COMPLETED;
                 }
-                
+
                 if (getFragmentManager().findFragmentByTag(OperationWaitingDialogFragment.TAG) == null)
                 {
                     // Create Account + Session
-                    OperationWaitingDialogFragment.newInstance(intentId, operationId, R.drawable.ic_cloud,
-                            getString(R.string.wait_title), getString(R.string.wait_message), null, 0).show(
-                                    getFragmentManager(), OperationWaitingDialogFragment.TAG);
+                    OperationWaitingDialogFragment
+                            .newInstance(intentId, operationId, R.drawable.ic_cloud, getString(R.string.wait_title),
+                                    getString(R.string.wait_message), null, 0)
+                            .show(getFragmentManager(), OperationWaitingDialogFragment.TAG);
                 }
             }
 
@@ -250,19 +254,20 @@ public class AccountOAuthFragment extends OAuthFragment
         if (getArguments().containsKey(PARAM_ACCOUNT))
         {
             ActionManager
-            .loadAccount(getActivity(), (Account) getArguments().getSerializable(PARAM_ACCOUNT), oauthData);
+                    .loadAccount(getActivity(), (Account) getArguments().getSerializable(PARAM_ACCOUNT), oauthData);
         }
         else
         {
             ActionManager.createAccount(getActivity(), (CreateAccountRequest) new CreateAccountRequest(oauthData)
-            .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+                    .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
         }
     }
 
-    private void resetRequest(){
+    private void resetRequest()
+    {
         AccountOAuthFragment newFragment = AccountOAuthFragment.newInstance();
-        FragmentDisplayer.replaceFragment(getActivity(), newFragment,
-                DisplayUtils.getMainPaneId(getActivity()), AccountOAuthFragment.TAG, true);
+        FragmentDisplayer.replaceFragment(getActivity(), newFragment, DisplayUtils.getMainPaneId(getActivity()),
+                AccountOAuthFragment.TAG, true);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -273,18 +278,18 @@ public class AccountOAuthFragment extends OAuthFragment
         @Override
         public void onReceive(Context context, Intent intent)
         {
-            if (IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED.equals(intent.getAction())
-                    && getActivity() instanceof MainActivity)
+            if (IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED.equals(intent.getAction()) &&
+                    getActivity() instanceof MainActivity)
             {
-                getActivity().getFragmentManager().popBackStack(AccountTypesFragment.TAG,
-                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                getActivity().getFragmentManager()
+                        .popBackStack(AccountTypesFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
 
                 if (intent.getExtras() != null && intent.hasExtra(IntentIntegrator.EXTRA_ACCOUNT_ID))
                 {
                     long accountId = intent.getLongExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, -1);
 
-                    AccountsFragment frag = (AccountsFragment) getActivity().getFragmentManager().findFragmentByTag(
-                            AccountsFragment.TAG);
+                    AccountsFragment frag = (AccountsFragment) getActivity().getFragmentManager()
+                            .findFragmentByTag(AccountsFragment.TAG);
                     if (frag != null)
                     {
                         frag.select(accountId);
@@ -293,8 +298,8 @@ public class AccountOAuthFragment extends OAuthFragment
                 }
             }
 
-            if (IntentIntegrator.ACTION_CREATE_ACCOUNT_CLOUD_ERROR.equals(intent.getAction())
-                    && getActivity() instanceof MainActivity)
+            if (IntentIntegrator.ACTION_CREATE_ACCOUNT_CLOUD_ERROR.equals(intent.getAction()) &&
+                    getActivity() instanceof MainActivity)
             {
                 getActivity().getFragmentManager().popBackStack();
                 resetRequest();

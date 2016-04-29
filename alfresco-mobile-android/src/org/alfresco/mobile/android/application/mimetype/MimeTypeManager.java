@@ -43,7 +43,7 @@ public final class MimeTypeManager
 
     public static final String[] COLUMN_ALL = MimeTypeSchema.COLUMN_ALL;
 
-    public static String MIME_NODE_LIST = "ods/nodes";
+    public static final String MIME_NODE_LIST = "ods/nodes";
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTOR
@@ -224,11 +224,10 @@ public final class MimeTypeManager
 
     private static MimeType createMimeType(Cursor c)
     {
-        MimeType account = new MimeType(c.getLong(MimeTypeSchema.COLUMN_ID_ID),
+        return new MimeType(c.getLong(MimeTypeSchema.COLUMN_ID_ID),
                 c.getString(MimeTypeSchema.COLUMN_EXTENSION_ID), c.getString(MimeTypeSchema.COLUMN_TYPE_ID),
                 c.getString(MimeTypeSchema.COLUMN_SUBTYPE_ID), c.getString(MimeTypeSchema.COLUMN_DESCRIPTION_ID),
                 c.getString(MimeTypeSchema.COLUMN_SMALL_ICON_ID), c.getString(MimeTypeSchema.COLUMN_LARGE_ICON_ID));
-        return account;
     }
 
     public static MimeType createMimeType(Context context, String extension, String type, String subtype,
@@ -281,15 +280,13 @@ public final class MimeTypeManager
 
     public boolean hasMimeTypes()
     {
-        if (mimetypeSize == null) { return false; }
-        return (mimetypeSize > 0);
+        return mimetypeSize != null && (mimetypeSize > 0);
     }
 
     public boolean isEmpty()
     {
         getCount();
-        if (mimetypeSize == null) { return true; }
-        return (mimetypeSize == 0);
+        return mimetypeSize == null || (mimetypeSize == 0);
     }
 
     public MimeType update(long id, String extension, String type, String subtype, String description,

@@ -73,7 +73,7 @@ public abstract class GridNavigationFragment extends BaseGridFragment implements
 
     private Boolean activateThumbnail = Boolean.FALSE;
 
-    protected List<Node> selectedItems = new ArrayList<Node>(1);
+    protected final List<Node> selectedItems = new ArrayList<Node>(1);
 
     public GridNavigationFragment()
     {
@@ -131,7 +131,7 @@ public abstract class GridNavigationFragment extends BaseGridFragment implements
         // Case Init & case Reload
         bundle = (ba == null) ? getArguments() : ba;
 
-        ListingContext lc = null, lcorigin = null;
+        ListingContext lc = null, lcorigin;
 
         if (bundle != null)
         {

@@ -64,9 +64,9 @@ public class NodeActions extends AbstractActions<Node>
 {
     public static final String TAG = "NodeActions";
 
-    private List<Folder> selectedFolder = new ArrayList<Folder>();
+    private final List<Folder> selectedFolder = new ArrayList<Folder>();
 
-    private List<Document> selectedDocument = new ArrayList<Document>();
+    private final List<Document> selectedDocument = new ArrayList<Document>();
 
     private Folder parentFolder;
 
@@ -160,11 +160,13 @@ public class NodeActions extends AbstractActions<Node>
         super.removeNode(n);
         if (n.isDocument())
         {
-            selectedDocument.remove(n);
+            final Document doc = (Document) n;
+            selectedDocument.remove(doc);
         }
         else
         {
-            selectedFolder.remove(n);
+            final Folder f = (Folder) n;
+            selectedFolder.remove(f);
         }
     }
 

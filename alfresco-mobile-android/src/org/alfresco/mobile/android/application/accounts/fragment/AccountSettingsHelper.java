@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -72,7 +72,7 @@ public class AccountSettingsHelper
 
     private static final String ALFRESCO_CLOUD_URL = "http://my.alfresco.com";
 
-    private Context context;
+    private final Context context;
 
     private String baseUrl;
 
@@ -124,7 +124,7 @@ public class AccountSettingsHelper
 
     public static Bundle getOAuthSettings()
     {
-        Bundle b = null;
+        Bundle b;
         // Check Properties available inside the device
         if (ENABLE_CONFIG_FILE)
         {
@@ -170,14 +170,14 @@ public class AccountSettingsHelper
 
     private void prepareData()
     {
-        switch ((int) acc.getTypeId())
+        switch (acc.getTypeId())
         {
         case Account.TYPE_ALFRESCO_TEST_OAUTH:
             isCloud = true;
             String apikey = null,
                     apisecret = null;
             File f = new File(APP_CONFIG_PATH);
-            if (f.exists() && ENABLE_CONFIG_FILE)
+            if (f.exists())
             {
                 Properties prop = new Properties();
                 InputStream is = null;
@@ -254,7 +254,7 @@ public class AccountSettingsHelper
             if (ENABLE_CONFIG_FILE)
             {
                 File f = new File(APP_CONFIG_PATH);
-                if (f.exists() && ENABLE_CONFIG_FILE)
+                if (f.exists())
                 {
                     Properties prop = new Properties();
                     InputStream is = null;

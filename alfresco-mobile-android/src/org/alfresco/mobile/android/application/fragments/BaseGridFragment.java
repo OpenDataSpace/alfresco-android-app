@@ -1,28 +1,19 @@
 /*******************************************************************************
- * 
  * This file is part of the Alfresco Mobile SDK.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments;
-
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.fragments.browser.ProgressNodeAdapter;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -39,6 +30,14 @@ import android.widget.ArrayAdapter;
 import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.ListingContext;
+import org.alfresco.mobile.android.api.model.PagingResult;
+import org.alfresco.mobile.android.application.fragments.browser.ProgressNodeAdapter;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
 
 @TargetApi(11)
 public abstract class BaseGridFragment extends BaseFragment implements GridFragment
@@ -104,7 +103,7 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
 
     protected boolean initLoader = true;
 
-    protected boolean checkSession = true;
+    protected final boolean checkSession = true;
 
     // /////////////////////////////////////////////////////////////
     // CONSTRUCTOR
@@ -123,7 +122,10 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        if (container == null) { return null; }
+        if (container == null)
+        {
+            return null;
+        }
         View v = inflater.inflate(R.layout.sdk_grid, container, false);
 
         init(v, emptyListMessageId);
@@ -153,7 +155,6 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
             MessengerManager.showToast(getActivity(), R.string.empty_session);
             setListShown(true);
             gv.setEmptyView(ev);
-            return;
         }
     }
 
@@ -164,7 +165,7 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
 
     /**
      * Control whether the list is being displayed.
-     * 
+     *
      * @param shown : If true, the list view is shown; if false, the progress
      *            indicator. The initial value is true.
      */
@@ -258,8 +259,8 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
             {
                 savePosition();
-                if (firstVisibleItem + visibleItemCount == totalItemCount && loadState == LOAD_VISIBLE
-                        && !isLockVisibleLoader)
+                if (firstVisibleItem + visibleItemCount == totalItemCount && loadState == LOAD_VISIBLE &&
+                        !isLockVisibleLoader)
                 {
                     loadMore();
                     isLockVisibleLoader = Boolean.TRUE;
@@ -299,8 +300,8 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
             maxItems = lc.getMaxItems();
             if (hasmore)
             {
-                skipCount = (adapter != null) ? (((ArrayAdapter<Object>) adapter)).getCount() : lc.getSkipCount()
-                        + lc.getMaxItems();
+                skipCount = (adapter != null) ? (((ArrayAdapter<Object>) adapter)).getCount() :
+                        lc.getSkipCount() + lc.getMaxItems();
             }
             lc.setSkipCount(skipCount);
         }
@@ -335,7 +336,10 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
         skipCount = 0;
         adapter = null;
         gv.invalidateViews();
-        if (getArguments() == null) { return; }
+        if (getArguments() == null)
+        {
+            return;
+        }
         getLoaderManager().restartLoader(loaderId, getArguments(), callback);
         getLoaderManager().getLoader(loaderId).forceLoad();
     }
@@ -347,7 +351,7 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
 
     /**
      * Override this method to handle an exception coming back from the server.
-     * 
+     *
      * @param e : exception raised by the client API.
      */
     public void onLoaderException(Exception e)
@@ -374,7 +378,7 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
             }
             else
             {
-                if (!isDataPresent(data))
+                if (data != null && !isDataPresent(data))
                 {
                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB)
                     {
@@ -422,15 +426,8 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
     private boolean isDataPresent(PagingResult<?> data)
     {
         ArrayAdapter<Object> arrayAdapter = ((ArrayAdapter<Object>) adapter);
-        if (arrayAdapter.isEmpty())
-        {
-            return false;
-        }
-        else
-        {
-            return !(data.getList() != null && !data.getList().contains(
-                    arrayAdapter.getItem(arrayAdapter.getCount() - 1)));
-        }
+        return !arrayAdapter.isEmpty() && !(data.getList() != null &&
+                !data.getList().contains(arrayAdapter.getItem(arrayAdapter.getCount() - 1)));
     }
 
     public void refreshListView()
@@ -449,41 +446,41 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
 
         switch (loadState)
         {
-            case LOAD_MANUAL:
-                isFullLoad = Boolean.FALSE;
-                if (!hasmore)
-                {
-                    isFullLoad = Boolean.TRUE;
-                }
-                break;
-            case LOAD_AUTO:
-                if (hasmore)
-                {
-                    loadMore = Boolean.TRUE;
-                    isFullLoad = Boolean.FALSE;
-                }
-                else
-                {
-                    loadMore = Boolean.FALSE;
-                    isFullLoad = Boolean.TRUE;
-                }
-                break;
-            case LOAD_NONE:
+        case LOAD_MANUAL:
+            isFullLoad = Boolean.FALSE;
+            if (!hasmore)
+            {
                 isFullLoad = Boolean.TRUE;
-                break;
-            case LOAD_VISIBLE:
+            }
+            break;
+        case LOAD_AUTO:
+            if (hasmore)
+            {
+                loadMore = Boolean.TRUE;
                 isFullLoad = Boolean.FALSE;
-                if (!hasmore)
-                {
-                    isFullLoad = Boolean.TRUE;
-                }
-                else
-                {
-                    isLockVisibleLoader = Boolean.FALSE;
-                }
-                break;
-            default:
-                break;
+            }
+            else
+            {
+                loadMore = Boolean.FALSE;
+                isFullLoad = Boolean.TRUE;
+            }
+            break;
+        case LOAD_NONE:
+            isFullLoad = Boolean.TRUE;
+            break;
+        case LOAD_VISIBLE:
+            isFullLoad = Boolean.FALSE;
+            if (!hasmore)
+            {
+                isFullLoad = Boolean.TRUE;
+            }
+            else
+            {
+                isLockVisibleLoader = Boolean.FALSE;
+            }
+            break;
+        default:
+            break;
         }
         return loadMore;
     }
@@ -511,7 +508,10 @@ public abstract class BaseGridFragment extends BaseFragment implements GridFragm
 
     protected static ListingContext copyListing(ListingContext lco)
     {
-        if (lco == null) { return null; }
+        if (lco == null)
+        {
+            return null;
+        }
         ListingContext lci = new ListingContext();
         lci.setIsSortAscending(lco.isSortAscending());
         lci.setMaxItems(lco.getMaxItems());

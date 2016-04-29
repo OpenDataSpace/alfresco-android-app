@@ -1,30 +1,24 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of the Alfresco Mobile SDK.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.sync.utils;
 
-import java.util.ArrayList;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import org.alfresco.mobile.android.api.constants.ContentModel;
 import org.alfresco.mobile.android.api.model.Node;
@@ -36,8 +30,14 @@ import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.enums.Action;
 import org.apache.chemistry.opencmis.commons.enums.BaseTypeId;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.util.ArrayList;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Set;
 
 /**
  * @author Jean Marie Pascal
@@ -74,7 +74,8 @@ public class NodeSyncPlaceHolder implements Node
         properties = new HashMap<String, Property>(props.size());
         for (Entry<String, String> entry : props.entrySet())
         {
-            if (entry.getKey().equals(PropertyIds.LAST_MODIFICATION_DATE) || entry.getKey().equals(PropertyIds.CREATION_DATE))
+            if (entry.getKey().equals(PropertyIds.LAST_MODIFICATION_DATE) ||
+                    entry.getKey().equals(PropertyIds.CREATION_DATE))
             {
                 GregorianCalendar calendar = new GregorianCalendar();
                 calendar.setTimeInMillis(Long.parseLong(entry.getValue()));
@@ -89,6 +90,7 @@ public class NodeSyncPlaceHolder implements Node
     // ////////////////////////////////////////////////////
     // Shortcut and common methods
     // ////////////////////////////////////////////////////
+
     /** {@inheritDoc} */
     public String getIdentifier()
     {
@@ -131,11 +133,15 @@ public class NodeSyncPlaceHolder implements Node
                 return ((String) getPropertyValue(PropertyIds.OBJECT_TYPE_ID)).replaceFirst(
                         AbstractDocumentFolderServiceImpl.CMISPREFIX_FOLDER, "");
             }
-            else */ if (BaseTypeId.CMIS_DOCUMENT.value().equals(getPropertyValue(PropertyIds.OBJECT_TYPE_ID)))
+            else */
+            if (BaseTypeId.CMIS_DOCUMENT.value().equals(getPropertyValue(PropertyIds.OBJECT_TYPE_ID)))
             {
                 return ContentModel.TYPE_CONTENT;
             }
-            else if (BaseTypeId.CMIS_FOLDER.value().equals(getPropertyValue(PropertyIds.OBJECT_TYPE_ID))) { return ContentModel.TYPE_FOLDER; }
+            else if (BaseTypeId.CMIS_FOLDER.value().equals(getPropertyValue(PropertyIds.OBJECT_TYPE_ID)))
+            {
+                return ContentModel.TYPE_FOLDER;
+            }
             return getPropertyValue(PropertyIds.OBJECT_TYPE_ID);
         }
         else
@@ -183,7 +189,10 @@ public class NodeSyncPlaceHolder implements Node
     /** {@inheritDoc} */
     public Map<String, Property> getProperties()
     {
-        if (properties != null) { return properties; }
+        if (properties != null)
+        {
+            return properties;
+        }
         return null;
     }
 
@@ -191,7 +200,11 @@ public class NodeSyncPlaceHolder implements Node
     @SuppressWarnings("unchecked")
     public <T> T getPropertyValue(String name)
     {
-        if (getProp(name) != null) { return (T) getProp(name).getValue(); }
+        final Property prop = getProp(name);
+        if (prop != null)
+        {
+            return (T) prop.getValue();
+        }
         return null;
     }
 
@@ -202,7 +215,7 @@ public class NodeSyncPlaceHolder implements Node
      * "Parcel object" into generic object.<br>
      * After configuration change, node is restore with simple data object like
      * a list of properties<br>
-     * 
+     *
      * @return Property object.
      */
     private Property getProp(String name)
@@ -225,14 +238,7 @@ public class NodeSyncPlaceHolder implements Node
         {
             tmpAspectName = AbstractDocumentFolderServiceImpl.CMISPREFIX_ASPECTS + aspectName;
         }
-        if (aspects != null)
-        {
-            return aspects.contains(tmpAspectName);
-        }
-        else
-        {
-            return false;
-        }
+        return aspects != null && aspects.contains(tmpAspectName);
     }
 
     /** {@inheritDoc} */
@@ -266,6 +272,7 @@ public class NodeSyncPlaceHolder implements Node
     // ////////////////////////////////////////////////////
     // PERMISSION
     // ////////////////////////////////////////////////////
+
     /**
      * @param action : cmis type of action like move, delete, create...
      * @return Returns true if the specific action is allowable
@@ -273,14 +280,7 @@ public class NodeSyncPlaceHolder implements Node
      */
     public boolean hasAllowableAction(Action action)
     {
-        if (allowableActions != null)
-        {
-            return allowableActions.contains(action.value());
-        }
-        else
-        {
-            return false;
-        }
+        return allowableActions != null && allowableActions.contains(action.value());
     }
 
     /**
@@ -290,14 +290,7 @@ public class NodeSyncPlaceHolder implements Node
      */
     public boolean hasAllowableAction(String action)
     {
-        if (allowableActions != null)
-        {
-            return allowableActions.contains(action);
-        }
-        else
-        {
-            return false;
-        }
+        return allowableActions != null && allowableActions.contains(action);
     }
 
     /**
@@ -320,8 +313,10 @@ public class NodeSyncPlaceHolder implements Node
 
     public String getPath()
     {
-        if (getProperty(PropertyIds.PATH) != null && getProperty(PropertyIds.PATH).getValue() != null) { return getProperty(
-                PropertyIds.PATH).getValue().toString(); }
+        if (getProperty(PropertyIds.PATH) != null && getProperty(PropertyIds.PATH).getValue() != null)
+        {
+            return getProperty(PropertyIds.PATH).getValue().toString();
+        }
         return null;
     }
 
@@ -370,7 +365,7 @@ public class NodeSyncPlaceHolder implements Node
      * This method is similar as "deserialization" in java world.
      */
     public static final Parcelable.Creator<NodeSyncPlaceHolder> CREATOR = new Parcelable.Creator<NodeSyncPlaceHolder>()
-            {
+    {
         public NodeSyncPlaceHolder createFromParcel(Parcel in)
         {
             return new NodeSyncPlaceHolder(in);
@@ -380,23 +375,23 @@ public class NodeSyncPlaceHolder implements Node
         {
             return new NodeSyncPlaceHolder[size];
         }
-            };
+    };
 
-            /**
-             * Constructor of a Node object depending of a Parcel object previously
-             * created by writeToParcel method.
-             * 
-             * @param o the Parcel object
-             */
-            public NodeSyncPlaceHolder(Parcel o)
-            {
-                this.identifier = o.readString();
-                this.properties = new HashMap<String, Property>();
-                o.readMap(this.properties, getClass().getClassLoader());
-                this.aspects = new ArrayList<String>();
-                o.readList(this.aspects, getClass().getClassLoader());
-                this.allowableActions = new ArrayList<String>();
-                o.readList(this.allowableActions, getClass().getClassLoader());
-                this.hasAllProperties = Boolean.parseBoolean(o.readString());
-            }
+    /**
+     * Constructor of a Node object depending of a Parcel object previously
+     * created by writeToParcel method.
+     *
+     * @param o the Parcel object
+     */
+    public NodeSyncPlaceHolder(Parcel o)
+    {
+        this.identifier = o.readString();
+        this.properties = new HashMap<String, Property>();
+        o.readMap(this.properties, getClass().getClassLoader());
+        this.aspects = new ArrayList<String>();
+        o.readList(this.aspects, getClass().getClassLoader());
+        this.allowableActions = new ArrayList<String>();
+        o.readList(this.allowableActions, getClass().getClassLoader());
+        this.hasAllProperties = Boolean.parseBoolean(o.readString());
+    }
 }

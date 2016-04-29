@@ -1,43 +1,21 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of the Alfresco Mobile SDK.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.activities;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import org.alfresco.mobile.android.api.constants.CloudConstant;
-import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
-import org.alfresco.mobile.android.api.model.ActivityEntry;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.fragments.person.PersonProfileFragment;
-import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
-import org.alfresco.mobile.android.application.manager.RenditionManager;
-import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
-import org.alfresco.mobile.android.ui.utils.ViewHolder;
 
 import android.annotation.TargetApi;
 import android.app.Fragment;
@@ -52,25 +30,47 @@ import android.widget.LinearLayout;
 import android.widget.PopupMenu.OnMenuItemClickListener;
 import android.widget.TextView;
 
+import org.alfresco.mobile.android.api.constants.CloudConstant;
+import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
+import org.alfresco.mobile.android.api.model.ActivityEntry;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.application.ApplicationManager;
+import org.alfresco.mobile.android.application.activity.MainActivity;
+import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
+import org.alfresco.mobile.android.application.fragments.person.PersonProfileFragment;
+import org.alfresco.mobile.android.application.manager.AccessibilityHelper;
+import org.alfresco.mobile.android.application.manager.RenditionManager;
+import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
+import org.alfresco.mobile.android.ui.utils.ViewHolder;
+import org.opendataspace.android.app.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+
 /**
  * Provides access to activity entries and displays them as a view based on
  * GenericViewHolder.
- * 
+ *
  * @author Jean Marie Pascal
  */
-public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, GenericViewHolder> implements
-        OnMenuItemClickListener
+public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, GenericViewHolder>
+        implements OnMenuItemClickListener
 {
-    private List<ActivityEntry> selectedItems;
+    private final List<ActivityEntry> selectedItems;
 
-    private RenditionManager renditionManager;
+    private final RenditionManager renditionManager;
 
-    private List<ActivityEntry> selectedOptionItems = new ArrayList<ActivityEntry>();
+    private final List<ActivityEntry> selectedOptionItems = new ArrayList<ActivityEntry>();
 
-    private Fragment fr;
+    private final Fragment fr;
 
     public ActivityEventAdapter(Fragment fr, AlfrescoSession session, int textViewResourceId,
-            List<ActivityEntry> listItems, List<ActivityEntry> selectedItems)
+                                List<ActivityEntry> listItems, List<ActivityEntry> selectedItems)
     {
         super(fr.getActivity(), textViewResourceId, listItems);
         this.vhClassName = GenericViewHolder.class.getCanonicalName();
@@ -98,8 +98,8 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
 
         if (selectedItems != null && selectedItems.contains(item))
         {
-            UIUtils.setBackground(((LinearLayout) vh.icon.getParent().getParent().getParent()), getContext()
-                    .getResources().getDrawable(R.drawable.list_longpressed_holo));
+            UIUtils.setBackground(((LinearLayout) vh.icon.getParent().getParent().getParent()),
+                    getContext().getResources().getDrawable(R.drawable.list_longpressed_holo));
         }
         else
         {
@@ -120,8 +120,8 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
             public void onClick(View v)
             {
                 ActivityEntry item = (ActivityEntry) v.getTag(R.id.entry_action);
-                PersonProfileFragment.newInstance(item.getCreatedBy()).show(fr.getActivity().getFragmentManager(),
-                        PersonProfileFragment.TAG);
+                PersonProfileFragment.newInstance(item.getCreatedBy())
+                        .show(fr.getActivity().getFragmentManager(), PersonProfileFragment.TAG);
             }
         });
     }
@@ -137,7 +137,7 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
     private void getCreatorAvatar(GenericViewHolder vh, ActivityEntry item)
     {
         String type = item.getType();
-        String tmp = null;
+        String tmp;
 
         if (type.startsWith(PREFIX_FILE))
         {
@@ -207,8 +207,7 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
 
         if (entry.getCreatedBy() != null)
         {
-            menu.add(Menu.NONE, MenuActionItem.MENU_ACTIVITY_PROFILE,
-                    Menu.FIRST + MenuActionItem.MENU_ACTIVITY_PROFILE,
+            menu.add(Menu.NONE, MenuActionItem.MENU_ACTIVITY_PROFILE, Menu.FIRST + MenuActionItem.MENU_ACTIVITY_PROFILE,
                     String.format(getContext().getString(R.string.activity_profile), entry.getCreatedBy()));
         }
     }
@@ -216,20 +215,20 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
     @Override
     public boolean onMenuItemClick(MenuItem item)
     {
-        boolean onMenuItemClick = true;
+        boolean onMenuItemClick;
         switch (item.getItemId())
         {
-            case MenuActionItem.MENU_ACTIVITY_SITE:
-                ((MainActivity) fr.getActivity()).addNavigationFragment(selectedOptionItems.get(0).getSiteShortName());
-                onMenuItemClick = true;
-                break;
-            case MenuActionItem.MENU_ACTIVITY_PROFILE:
-                ((MainActivity) fr.getActivity()).addPersonProfileFragment(selectedOptionItems.get(0).getCreatedBy());
-                onMenuItemClick = true;
-                break;
-            default:
-                onMenuItemClick = false;
-                break;
+        case MenuActionItem.MENU_ACTIVITY_SITE:
+            ((MainActivity) fr.getActivity()).addNavigationFragment(selectedOptionItems.get(0).getSiteShortName());
+            onMenuItemClick = true;
+            break;
+        case MenuActionItem.MENU_ACTIVITY_PROFILE:
+            ((MainActivity) fr.getActivity()).addPersonProfileFragment(selectedOptionItems.get(0).getCreatedBy());
+            onMenuItemClick = true;
+            break;
+        default:
+            onMenuItemClick = false;
+            break;
         }
         selectedOptionItems.clear();
         return onMenuItemClick;
@@ -303,14 +302,14 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
 
             if (s.contains(PARAM_CUSTOM))
             {
-                s = s.replace(PARAM_CUSTOM, getData(item, OnPremiseConstant.ROLE_VALUE));
-                username = getData(item, OnPremiseConstant.MEMEBERFIRSTNAME_VALUE) + " "
-                        + getData(item, OnPremiseConstant.MEMBERLASTNAME_VALUE);
+                //s = s.replace(PARAM_CUSTOM, getData(item, OnPremiseConstant.ROLE_VALUE));
+                username = getData(item, OnPremiseConstant.MEMEBERFIRSTNAME_VALUE) + " " +
+                        getData(item, OnPremiseConstant.MEMBERLASTNAME_VALUE);
             }
             else
             {
-                username = getData(item, OnPremiseConstant.FIRSTNAME_VALUE) + " "
-                        + getData(item, OnPremiseConstant.LASTNAME_VALUE);
+                username = getData(item, OnPremiseConstant.FIRSTNAME_VALUE) + " " +
+                        getData(item, OnPremiseConstant.LASTNAME_VALUE);
             }
         }
         return username;
@@ -326,13 +325,14 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
             if (s.contains(PARAM_CUSTOM))
             {
                 s = s.replace(PARAM_CUSTOM, getData(item, OnPremiseConstant.ROLE_VALUE));
-                s = s.replace(PARAM_USER_PROFILE, "<b>" + getData(item, OnPremiseConstant.MEMEBERFIRSTNAME_VALUE) + " "
-                        + getData(item, OnPremiseConstant.MEMBERLASTNAME_VALUE) + "</b>");
+                s = s.replace(PARAM_USER_PROFILE,
+                        "<b>" + getData(item, OnPremiseConstant.MEMEBERFIRSTNAME_VALUE) + " " +
+                                getData(item, OnPremiseConstant.MEMBERLASTNAME_VALUE) + "</b>");
             }
             else
             {
-                s = s.replace(PARAM_USER_PROFILE, "<b>" + getData(item, OnPremiseConstant.FIRSTNAME_VALUE) + " "
-                        + getData(item, OnPremiseConstant.LASTNAME_VALUE) + "</b>");
+                s = s.replace(PARAM_USER_PROFILE, "<b>" + getData(item, OnPremiseConstant.FIRSTNAME_VALUE) + " " +
+                        getData(item, OnPremiseConstant.LASTNAME_VALUE) + "</b>");
             }
 
             if (s.contains(PARAM_TITLE))
@@ -352,8 +352,8 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
 
             if (s.contains(PARAM_SUBSCRIBER))
             {
-                s = s.replace(PARAM_SUBSCRIBER, "<b>" + getData(item, OnPremiseConstant.USERFIRSTNAME_VALUE) + " "
-                        + getData(item, OnPremiseConstant.USERLASTNAME_VALUE) + "</b>");
+                s = s.replace(PARAM_SUBSCRIBER, "<b>" + getData(item, OnPremiseConstant.USERFIRSTNAME_VALUE) + " " +
+                        getData(item, OnPremiseConstant.USERLASTNAME_VALUE) + "</b>");
             }
         }
         return s;
@@ -362,7 +362,10 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
     private String getData(ActivityEntry entry, String key)
     {
         String value = "";
-        if (entry == null) { return value; }
+        if (entry == null)
+        {
+            return value;
+        }
 
         value = entry.getData(key);
         if (value == null)
@@ -433,13 +436,13 @@ public class ActivityEventAdapter extends BaseListAdapter<ActivityEntry, Generic
 
 final class GenericViewHolder extends ViewHolder
 {
-    public TextView topText;
+    public final TextView topText;
 
-    public TextView bottomText;
+    public final TextView bottomText;
 
-    public ImageView icon;
+    public final ImageView icon;
 
-    public TextView content;
+    public final TextView content;
 
     public GenericViewHolder(View v)
     {

@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,21 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.search;
-
-import java.util.Date;
-
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Site;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.application.fragments.BaseCursorListFragment;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.person.PersonSearchFragment;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
-import org.apache.chemistry.opencmis.commons.PropertyIds;
-import org.opendataspace.android.app.R;
 
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
@@ -55,6 +40,21 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Site;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.application.fragments.BaseCursorListFragment;
+import org.alfresco.mobile.android.application.fragments.DisplayUtils;
+import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
+import org.alfresco.mobile.android.application.fragments.person.PersonSearchFragment;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.opendataspace.android.app.R;
+
+import java.util.Date;
+
 /**
  * @since 1.4
  * @author Jean Marie Pascal
@@ -67,11 +67,7 @@ public class SearchFragment extends BaseCursorListFragment
 
     private static final String PARAM_FOLDER = "parentFolder";
 
-    private View rootView;
-
     private AlfrescoSession alfSession;
-
-    private CursorLoader loader;
 
     private int optionPosition = 0;
 
@@ -80,8 +76,6 @@ public class SearchFragment extends BaseCursorListFragment
     private EditText searchForm;
 
     private int searchKey = HistorySearch.TYPE_DOCUMENT;
-
-    private BaseFragment frag;
 
     private SearchOptionAdapter optionAdapter;
 
@@ -123,7 +117,7 @@ public class SearchFragment extends BaseCursorListFragment
     {
         setRetainInstance(true);
 
-        rootView = inflater.inflate(R.layout.app_search_history, container, false);
+        View rootView = inflater.inflate(R.layout.app_search_history, container, false);
         init(rootView, emptyListMessageId);
 
         alfSession = SessionUtils.getSession(getActivity());
@@ -154,9 +148,8 @@ public class SearchFragment extends BaseCursorListFragment
             @Override
             public boolean onEditorAction(TextView v, int actionId, KeyEvent event)
             {
-                if (event != null
-                        && (event.getAction() == KeyEvent.ACTION_DOWN)
-                        && ((actionId == EditorInfo.IME_ACTION_SEARCH) || (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)))
+                if (event != null && (event.getAction() == KeyEvent.ACTION_DOWN) &&
+                        ((actionId == EditorInfo.IME_ACTION_SEARCH) || (event.getKeyCode() == KeyEvent.KEYCODE_ENTER)))
                 {
                     if (searchForm.getText().length() > 0)
                     {
@@ -256,7 +249,7 @@ public class SearchFragment extends BaseCursorListFragment
         StringBuilder pathBuilder = new StringBuilder();
         if (tmpParentFolder != null)
         {
-            String pathValue = (String) tmpParentFolder.getPropertyValue(PropertyIds.PATH);
+            String pathValue = tmpParentFolder.getPropertyValue(PropertyIds.PATH);
             if (site != null)
             {
                 String[] path = pathValue.split("/");
@@ -291,24 +284,24 @@ public class SearchFragment extends BaseCursorListFragment
     public void search(String keywords, HistorySearch search)
     {
         // History search so we use the query
+        BaseFragment frag;
         if (search != null && search.getAdvanced() == 1)
         {
 
             switch (searchKey)
             {
-                case HistorySearch.TYPE_PERSON:
-                    frag = PersonSearchFragment.newInstance(search.getQuery(), search.getDescription());
-                    frag.setSession(alfSession);
-                    FragmentDisplayer.replaceFragment(getActivity(), frag,
-                            DisplayUtils.getLeftFragmentId(getActivity()), PersonSearchFragment.TAG, true, true);
-                    break;
-                default:
-                    frag = DocumentFolderSearchFragment.newInstance(search.getQuery(), search.getDescription());
-                    frag.setSession(alfSession);
-                    FragmentDisplayer
-                            .replaceFragment(getActivity(), frag, DisplayUtils.getLeftFragmentId(getActivity()),
-                                    DocumentFolderSearchFragment.TAG, true, true);
-                    break;
+            case HistorySearch.TYPE_PERSON:
+                frag = PersonSearchFragment.newInstance(search.getQuery(), search.getDescription());
+                frag.setSession(alfSession);
+                FragmentDisplayer.replaceFragment(getActivity(), frag, DisplayUtils.getLeftFragmentId(getActivity()),
+                        PersonSearchFragment.TAG, true, true);
+                break;
+            default:
+                frag = DocumentFolderSearchFragment.newInstance(search.getQuery(), search.getDescription());
+                frag.setSession(alfSession);
+                FragmentDisplayer.replaceFragment(getActivity(), frag, DisplayUtils.getLeftFragmentId(getActivity()),
+                        DocumentFolderSearchFragment.TAG, true, true);
+                break;
             }
 
             // Update
@@ -343,8 +336,9 @@ public class SearchFragment extends BaseCursorListFragment
         // Save history or update
         if (search == null)
         {
-            HistorySearchManager.createHistorySearch(getActivity(), SessionUtils.getAccount(getActivity()).getId(),
-                    searchKey, 0, getQueryDescription(keywords, tmpParentFolder, site), keywords, new Date().getTime());
+            HistorySearchManager
+                    .createHistorySearch(getActivity(), SessionUtils.getAccount(getActivity()).getId(), searchKey, 0,
+                            getQueryDescription(keywords, tmpParentFolder, site), keywords, new Date().getTime());
         }
         else
         {
@@ -364,9 +358,8 @@ public class SearchFragment extends BaseCursorListFragment
         if (folder != null)
         {
             //If Site Documentlibrary we display the site name instead of folder name
-            if (site != null
-                    && String.format(DOCUMENT_LIBRARY_PATTERN, site.getIdentifier()).equalsIgnoreCase(
-                            (String) folder.getPropertyValue(PropertyIds.PATH)))
+            if (site != null && String.format(DOCUMENT_LIBRARY_PATTERN, site.getIdentifier())
+                    .equalsIgnoreCase((String) folder.getPropertyValue(PropertyIds.PATH)))
             {
                 addParameter(builder, "in", site.getTitle());
             }
@@ -382,7 +375,10 @@ public class SearchFragment extends BaseCursorListFragment
 
     private static void addParameter(StringBuilder builder, String key, String value)
     {
-        if (TextUtils.isEmpty(value)) { return; }
+        if (TextUtils.isEmpty(value))
+        {
+            return;
+        }
         if (builder.length() != 0)
         {
             builder.append(" ");
@@ -434,11 +430,10 @@ public class SearchFragment extends BaseCursorListFragment
     public Loader<Cursor> onCreateLoader(int id, Bundle args)
     {
         setListShown(false);
-        loader = new CursorLoader(getActivity(), HistorySearchManager.CONTENT_URI, HistorySearchManager.COLUMN_ALL,
+
+        return new CursorLoader(getActivity(), HistorySearchManager.CONTENT_URI, HistorySearchManager.COLUMN_ALL,
                 HistorySearchSchema.COLUMN_TYPE + " = " + searchKey, null,
                 HistorySearchSchema.COLUMN_LAST_REQUEST_TIMESTAMP + " DESC " + " LIMIT 20");
-
-        return loader;
     }
 
     @Override

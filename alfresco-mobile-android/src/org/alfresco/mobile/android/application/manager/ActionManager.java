@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,25 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.manager;
-
-import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.ui.logging.OdsLog;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
-import org.alfresco.mobile.android.application.commons.extensions.SamsungManager;
-import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
-import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountRequest;
-import org.alfresco.mobile.android.application.security.DataProtectionManager;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 import android.app.Activity;
 import android.app.Fragment;
@@ -48,6 +29,25 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Html;
+
+import org.alfresco.mobile.android.api.session.authentication.OAuthData;
+import org.alfresco.mobile.android.application.ApplicationManager;
+import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
+import org.alfresco.mobile.android.application.commons.extensions.SamsungManager;
+import org.alfresco.mobile.android.application.fragments.WaitingDialogFragment;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
+import org.alfresco.mobile.android.application.operations.batch.account.CreateAccountRequest;
+import org.alfresco.mobile.android.application.security.DataProtectionManager;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
+
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author Jean Marie Pascal
@@ -63,11 +63,11 @@ public class ActionManager extends org.alfresco.mobile.android.ui.manager.Action
             String mimeType = MimeTypeManager.getMIMEType(fr.getActivity(), myFile.getName());
             if (DataProtectionManager.getInstance(fr.getActivity()).isEncrypted(myFile.getPath()))
             {
-                WaitingDialogFragment dialog = WaitingDialogFragment.newInstance(R.string.data_protection,
-                        R.string.decryption_title, true);
+                WaitingDialogFragment dialog =
+                        WaitingDialogFragment.newInstance(R.string.data_protection, R.string.decryption_title, true);
                 dialog.show(fr.getActivity().getFragmentManager(), WaitingDialogFragment.TAG);
-                DataProtectionManager.getInstance(fr.getActivity()).decrypt(SessionUtils.getAccount(fr.getActivity()),
-                        myFile, DataProtectionManager.ACTION_COPY);
+                DataProtectionManager.getInstance(fr.getActivity())
+                        .decrypt(SessionUtils.getAccount(fr.getActivity()), myFile, DataProtectionManager.ACTION_COPY);
             }
             else
             {
@@ -83,33 +83,30 @@ public class ActionManager extends org.alfresco.mobile.android.ui.manager.Action
     // ///////////////////////////////////////////////////////////////////////////
     // ACTION VIEW
     // ///////////////////////////////////////////////////////////////////////////
+
     /**
      * Open a local file with a 3rd party application. Manage automatically with
      * Data Protection.
-     * 
-     * @param fr
-     * @param myFile
-     * @param listener
      */
     public static void actionView(Fragment fr, File myFile, ActionManagerListener listener)
     {
         try
         {
             String mimeType = MimeTypeManager.getMIMEType(fr.getActivity(), myFile.getName());
-            if (ApplicationManager.getSamsungManager(fr.getActivity()) != null
-                    && ApplicationManager.getSamsungManager(fr.getActivity()).hasPenEnable()
-                    && (mimeType == null || mimeType.equals("application/octet-stream"))
-                    && MimeTypeManager.getExtension(myFile.getName()).equals(SamsungManager.SAMSUNG_NOTE_EXTENSION_SPD))
+            if (ApplicationManager.getSamsungManager(fr.getActivity()) != null &&
+                    ApplicationManager.getSamsungManager(fr.getActivity()).hasPenEnable() &&
+                    (mimeType == null || mimeType.equals("application/octet-stream")) &&
+                    MimeTypeManager.getExtension(myFile.getName()).equals(SamsungManager.SAMSUNG_NOTE_EXTENSION_SPD))
             {
                 mimeType = SamsungManager.SAMSUNG_NOTE_MIMETYPE;
             }
             if (DataProtectionManager.getInstance(fr.getActivity()).isEncrypted(myFile.getPath()))
             {
-                WaitingDialogFragment dialog = WaitingDialogFragment.newInstance(R.string.data_protection,
-                        R.string.decryption_title, true);
+                WaitingDialogFragment dialog =
+                        WaitingDialogFragment.newInstance(R.string.data_protection, R.string.decryption_title, true);
                 dialog.show(fr.getActivity().getFragmentManager(), WaitingDialogFragment.TAG);
-                DataProtectionManager.getInstance(fr.getActivity()).decrypt(SessionUtils.getAccount(fr.getActivity()),
-                        myFile, DataProtectionManager.ACTION_VIEW);
+                DataProtectionManager.getInstance(fr.getActivity())
+                        .decrypt(SessionUtils.getAccount(fr.getActivity()), myFile, DataProtectionManager.ACTION_VIEW);
             }
             else
             {
@@ -186,10 +183,11 @@ public class ActionManager extends org.alfresco.mobile.android.ui.manager.Action
     // ///////////////////////////////////////////////////////////////////////////
     // PLAY STORE
     // ///////////////////////////////////////////////////////////////////////////
+
     /**
      * Open Play Store application or its web version if no play store
      * available.
-     * 
+     *
      * @param c : Android Context
      */
     public static void actionDisplayPlayStore(Context c)
@@ -226,21 +224,14 @@ public class ActionManager extends org.alfresco.mobile.android.ui.manager.Action
     {
         try
         {
-            String mimeType = MimeTypeManager.getMIMEType(activity, myFile.getName());
-            if (ApplicationManager.getSamsungManager(activity) != null
-                    && ApplicationManager.getSamsungManager(activity).hasPenEnable()
-                    && (mimeType == null || mimeType.equals("application/octet-stream"))
-                    && MimeTypeManager.getExtension(myFile.getName()).equals(SamsungManager.SAMSUNG_NOTE_EXTENSION_SPD))
-            {
-                mimeType = SamsungManager.SAMSUNG_NOTE_MIMETYPE;
-            }
+            //String mimeType = MimeTypeManager.getMIMEType(activity, myFile.getName());
             if (DataProtectionManager.getInstance(activity).isEncrypted(myFile.getPath()))
             {
-                WaitingDialogFragment dialog = WaitingDialogFragment.newInstance(R.string.data_protection,
-                        R.string.decryption_title, true);
+                WaitingDialogFragment dialog =
+                        WaitingDialogFragment.newInstance(R.string.data_protection, R.string.decryption_title, true);
                 dialog.show(activity.getFragmentManager(), WaitingDialogFragment.TAG);
-                DataProtectionManager.getInstance(activity).decrypt(SessionUtils.getAccount(activity),
-                        myFile, DataProtectionManager.ACTION_SEND);
+                DataProtectionManager.getInstance(activity)
+                        .decrypt(SessionUtils.getAccount(activity), myFile, DataProtectionManager.ACTION_SEND);
             }
             else
             {
@@ -284,7 +275,7 @@ public class ActionManager extends org.alfresco.mobile.android.ui.manager.Action
     }
 
     public static boolean actionSendMailWithAttachment(Fragment fr, String subject, String content, Uri attachment,
-            int requestCode)
+                                                       int requestCode)
     {
         try
         {
@@ -323,8 +314,8 @@ public class ActionManager extends org.alfresco.mobile.android.ui.manager.Action
         {
             if (DataProtectionManager.getInstance(activity).isEncryptable(SessionUtils.getAccount(activity), file))
             {
-                DataProtectionManager.getInstance(activity).decrypt(SessionUtils.getAccount(activity), file,
-                        DataProtectionManager.ACTION_SEND_ALFRESCO);
+                DataProtectionManager.getInstance(activity)
+                        .decrypt(SessionUtils.getAccount(activity), file, DataProtectionManager.ACTION_SEND_ALFRESCO);
             }
             else
             {
@@ -364,8 +355,8 @@ public class ActionManager extends org.alfresco.mobile.android.ui.manager.Action
         {
             if (DataProtectionManager.getInstance(activity).isEncrypted(myFile.getPath()))
             {
-                DataProtectionManager.getInstance(activity).decrypt(SessionUtils.getAccount(activity), myFile,
-                        DataProtectionManager.ACTION_SEND);
+                DataProtectionManager.getInstance(activity)
+                        .decrypt(SessionUtils.getAccount(activity), myFile, DataProtectionManager.ACTION_SEND);
             }
             else
             {
@@ -441,10 +432,9 @@ public class ActionManager extends org.alfresco.mobile.android.ui.manager.Action
     // ///////////////////////////////////////////////////////////////////////////
     // PICK FILE
     // ///////////////////////////////////////////////////////////////////////////
+
     /**
      * Allow to pick file with other apps.
-     * 
-     * @return Activity for Result.
      */
     public static void actionPickFile(Fragment f, int requestCode)
     {

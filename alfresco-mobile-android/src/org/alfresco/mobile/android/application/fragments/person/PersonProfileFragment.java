@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -72,8 +72,6 @@ OnMenuItemClickListener
     private View vRoot;
 
     private Person person;
-
-    private UpdateReceiver receiver;
 
     private RenditionManager renditionManager;
 
@@ -162,7 +160,7 @@ OnMenuItemClickListener
         getActivity().invalidateOptionsMenu();
         super.onResume();
         IntentFilter intentFilter = new IntentFilter(ACTION_PERSON_REFRESH);
-        receiver = new UpdateReceiver();
+        UpdateReceiver receiver = new UpdateReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, intentFilter);
     }
 
@@ -222,7 +220,7 @@ OnMenuItemClickListener
 
     private void getMenu(Menu menu, int mode)
     {
-        MenuItem mi = null;
+        MenuItem mi;
         switch (mode)
         {
         case MODE_CALL:
@@ -295,7 +293,7 @@ OnMenuItemClickListener
     @Override
     public boolean onMenuItemClick(MenuItem item)
     {
-        boolean onMenuItemClick = true;
+        boolean onMenuItemClick;
         switch (item.getItemId())
         {
         case MenuActionItem.MENU_CHAT:
@@ -355,8 +353,8 @@ OnMenuItemClickListener
 
     private void display()
     {
-        TextView tv = null;
-        ImageView bIm = null;
+        TextView tv;
+        ImageView bIm;
 
         // HEADER
         tv = (TextView) vRoot.findViewById(R.id.name);
@@ -553,7 +551,7 @@ OnMenuItemClickListener
     {
         displayOrHide(viewId, value, groupId, false);
     }
-    
+
     private void displayOrHide(int viewId, String value, int groupId, boolean isCompany)
     {
         // Summary
@@ -605,7 +603,7 @@ OnMenuItemClickListener
                     + ")";
             a.startActivity(new Intent(android.content.Intent.ACTION_VIEW, Uri.parse(uri)));
         }
-        catch (ActivityNotFoundException e)
+        catch (ActivityNotFoundException ignored)
         {
 
         }
@@ -673,7 +671,7 @@ OnMenuItemClickListener
             {
                 c.startActivity(Intent.createChooser(intent, c.getString(R.string.contact_add)));
             }
-            catch (ActivityNotFoundException e)
+            catch (ActivityNotFoundException ignored)
             {
 
             }
@@ -701,7 +699,7 @@ OnMenuItemClickListener
         {
             a.startActivity(Intent.createChooser(emailIntent, "Select email application."));
         }
-        catch (ActivityNotFoundException e)
+        catch (ActivityNotFoundException ignored)
         {
 
         }
@@ -713,7 +711,7 @@ OnMenuItemClickListener
         {
             a.startActivity(new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + number)));
         }
-        catch (ActivityNotFoundException e)
+        catch (ActivityNotFoundException ignored)
         {
 
         }
@@ -728,7 +726,7 @@ OnMenuItemClickListener
         {
             a.startActivity(intent);
         }
-        catch (ActivityNotFoundException e)
+        catch (ActivityNotFoundException ignored)
         {
 
         }
@@ -745,7 +743,7 @@ OnMenuItemClickListener
         {
             a.startActivity(Intent.createChooser(sendIntent, "Select SMS application."));
         }
-        catch (ActivityNotFoundException e)
+        catch (ActivityNotFoundException ignored)
         {
 
         }
@@ -798,7 +796,6 @@ OnMenuItemClickListener
         // handler can go away...)
         myContext.startActivity(myIntent);
 
-        return;
     }
 
     /**
@@ -831,11 +828,10 @@ OnMenuItemClickListener
             myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             myContext.startActivity(myIntent);
         }
-        catch (ActivityNotFoundException e)
+        catch (ActivityNotFoundException ignored)
         {
 
         }
-        return;
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -853,7 +849,6 @@ OnMenuItemClickListener
             if (intent.getAction().equals(ACTION_PERSON_REFRESH))
             {
                 refresh();
-                return;
             }
         }
     }

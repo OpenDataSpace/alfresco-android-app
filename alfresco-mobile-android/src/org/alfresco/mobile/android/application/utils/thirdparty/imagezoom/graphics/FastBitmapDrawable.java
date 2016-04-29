@@ -20,8 +20,9 @@ import android.graphics.drawable.Drawable;
 public class FastBitmapDrawable extends Drawable implements IBitmapDrawable {
 
 	protected Bitmap mBitmap;
-	protected Paint mPaint;
-	protected int mIntrinsicWidth, mIntrinsicHeight;
+	protected final Paint mPaint;
+	protected final int mIntrinsicWidth;
+	protected final int mIntrinsicHeight;
 
 	public FastBitmapDrawable( Bitmap b ) {
 		mBitmap = b;
@@ -36,11 +37,11 @@ public class FastBitmapDrawable extends Drawable implements IBitmapDrawable {
 		mPaint.setDither( true );
 		mPaint.setFilterBitmap( true );
 	}
-	
+
 	public void setBitmap( Bitmap bitmap ) {
 		mBitmap = bitmap;
 	}
-	
+
 	public FastBitmapDrawable( Resources res, InputStream is ){
 		this(BitmapFactory.decodeStream(is));
 	}
@@ -86,7 +87,7 @@ public class FastBitmapDrawable extends Drawable implements IBitmapDrawable {
 	public int getMinimumHeight() {
 		return mIntrinsicHeight;
 	}
-	
+
 	public void setAntiAlias( boolean value ){
 		mPaint.setAntiAlias( value );
 		invalidateSelf();
@@ -96,7 +97,7 @@ public class FastBitmapDrawable extends Drawable implements IBitmapDrawable {
 	public Bitmap getBitmap() {
 		return mBitmap;
 	}
-	
+
 	public Paint getPaint() {
 		return mPaint;
 	}

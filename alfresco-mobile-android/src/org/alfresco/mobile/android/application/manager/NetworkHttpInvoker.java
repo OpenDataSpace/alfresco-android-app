@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -37,12 +37,11 @@ public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.
 {
     private static final String TAG = "NetworkHttpInvoker";
 
-    private OkHttpClient httpClient;
-    private OkUrlFactory factory;
+    private final OkUrlFactory factory;
 
     public NetworkHttpInvoker()
     {
-        httpClient = NetworkSingleton.getInstance().getHttpClient();
+        OkHttpClient httpClient = NetworkSingleton.getInstance().getHttpClient();
         factory = new OkUrlFactory(httpClient);
     }
 
@@ -82,7 +81,7 @@ public class NetworkHttpInvoker extends org.alfresco.mobile.android.api.network.
                 scon.setSSLSocketFactory(sc.getSocketFactory());
                 scon.setHostnameVerifier(hostVerifier);
             } catch (final Exception ex) {
-                OdsLog.ex(TAG, ex);;
+                OdsLog.ex(TAG, ex);
             }
         }
 

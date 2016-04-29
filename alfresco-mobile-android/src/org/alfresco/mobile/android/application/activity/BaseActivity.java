@@ -1,33 +1,37 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *
- *  This file is part of Alfresco Mobile for Android.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * This file is part of Alfresco Mobile for Android.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.activity;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.graphics.drawable.Drawable;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Site;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.config.OdsConfigManager;
-import org.opendataspace.android.app.session.OdsRepositorySession;
-import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
@@ -44,17 +48,13 @@ import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.config.OdsConfigManager;
+import org.opendataspace.android.app.session.OdsRepositorySession;
+import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Base class for all activities.
@@ -73,9 +73,9 @@ public abstract class BaseActivity extends Activity
 
     protected BroadcastReceiver utilsReceiver;
 
-    protected List<BroadcastReceiver> receivers = new ArrayList<BroadcastReceiver>(2);
+    protected final List<BroadcastReceiver> receivers = new ArrayList<BroadcastReceiver>(2);
 
-    protected List<BroadcastReceiver> publicReceivers = new ArrayList<BroadcastReceiver>(2);
+    protected final List<BroadcastReceiver> publicReceivers = new ArrayList<BroadcastReceiver>(2);
 
     protected Account currentAccount;
 
@@ -184,8 +184,8 @@ public abstract class BaseActivity extends Activity
 
     protected boolean isVisible(String tag)
     {
-        return getFragmentManager().findFragmentByTag(tag) != null
-                && getFragmentManager().findFragmentByTag(tag).isAdded();
+        return getFragmentManager().findFragmentByTag(tag) != null &&
+                getFragmentManager().findFragmentByTag(tag).isAdded();
     }
 
     public void displayWaitingDialog()
@@ -233,7 +233,7 @@ public abstract class BaseActivity extends Activity
 
         if (ses instanceof OdsRepositorySession)
         {
-            OdsRepositorySession ods = (OdsRepositorySession) ses;
+            OdsRepositorySession ods;
             ods = ((OdsRepositorySession) ses).getCurrent();
 
             if (ods != null)
@@ -268,54 +268,75 @@ public abstract class BaseActivity extends Activity
     // ///////////////////////////////////////////////////////////////////////////
     public void addBrowserFragment(String path)
     {
-        if (path == null) { return; }
+        if (path == null)
+        {
+            return;
+        }
 
         ChildrenBrowserFragment mFragment = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
-        if (mFragment != null && path.equals(mFragment.getParent().getPropertyValue(PropertyIds.PATH))) { return; }
+        if (mFragment != null && path.equals(mFragment.getParent().getPropertyValue(PropertyIds.PATH)))
+        {
+            return;
+        }
 
         BaseFragment frag = ChildrenBrowserFragment.newInstance(path);
         frag.setSession(SessionUtils.getSession(this));
-        FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
-                ChildrenBrowserFragment.TAG, true);
+        FragmentDisplayer
+                .replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this), ChildrenBrowserFragment.TAG, true);
     }
 
     public void addNavigationFragment(Folder f)
     {
-        if (f == null) { return; }
+        if (f == null)
+        {
+            return;
+        }
 
         ChildrenBrowserFragment mFragment = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
-        if (mFragment != null && f.getIdentifier().equals(mFragment.getParent().getIdentifier())) { return; }
+        if (mFragment != null && f.getIdentifier().equals(mFragment.getParent().getIdentifier()))
+        {
+            return;
+        }
 
         BaseFragment frag = ChildrenBrowserFragment.newInstance(f);
         frag.setSession(SessionUtils.getSession(this));
-        FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
-                ChildrenBrowserFragment.TAG, true);
+        FragmentDisplayer
+                .replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this), ChildrenBrowserFragment.TAG, true);
     }
 
     public void addNavigationFragment(Folder f, boolean isShortcut)
     {
-        if (f == null) { return; }
+        if (f == null)
+        {
+            return;
+        }
 
         ChildrenBrowserFragment mFragment = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
-        if (mFragment != null && f.getIdentifier().equals(mFragment.getParent().getIdentifier())) { return; }
+        if (mFragment != null && f.getIdentifier().equals(mFragment.getParent().getIdentifier()))
+        {
+            return;
+        }
 
         BaseFragment frag = ChildrenBrowserFragment.newInstance(f, isShortcut);
         frag.setSession(SessionUtils.getSession(this));
-        FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
-                ChildrenBrowserFragment.TAG, true);
+        FragmentDisplayer
+                .replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this), ChildrenBrowserFragment.TAG, true);
     }
 
     public void addNavigationFragment(String folderIdentifier)
     {
         BaseFragment frag = ChildrenBrowserFragment.newInstanceById(folderIdentifier);
         frag.setSession(SessionUtils.getSession(this));
-        FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
-                ChildrenBrowserFragment.TAG, true);
+        FragmentDisplayer
+                .replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this), ChildrenBrowserFragment.TAG, true);
     }
 
     public void addNavigationFragment(Site site, Folder f)
     {
-        if (f == null) { return; }
+        if (f == null)
+        {
+            return;
+        }
         if (site == null)
         {
             addNavigationFragment(f);
@@ -323,13 +344,16 @@ public abstract class BaseActivity extends Activity
         }
 
         ChildrenBrowserFragment mFragment = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
-        if (mFragment != null && mFragment.getParent() != null
-                && f.getIdentifier().equals(mFragment.getParent().getIdentifier())) { return; }
+        if (mFragment != null && mFragment.getParent() != null &&
+                f.getIdentifier().equals(mFragment.getParent().getIdentifier()))
+        {
+            return;
+        }
 
         BaseFragment frag = ChildrenBrowserFragment.newInstance(site, f);
         frag.setSession(SessionUtils.getSession(this));
-        FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
-                ChildrenBrowserFragment.TAG, true);
+        FragmentDisplayer
+                .replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this), ChildrenBrowserFragment.TAG, true);
     }
 
     public void addNavigationFragment(Site site, Folder f, boolean isShortcut)
@@ -340,7 +364,10 @@ public abstract class BaseActivity extends Activity
         }
         else
         {
-            if (f == null) { return; }
+            if (f == null)
+            {
+                return;
+            }
             if (site == null)
             {
                 addNavigationFragment(f);
@@ -348,13 +375,17 @@ public abstract class BaseActivity extends Activity
             }
 
             ChildrenBrowserFragment mFragment = (ChildrenBrowserFragment) getFragment(ChildrenBrowserFragment.TAG);
-            if (mFragment != null && mFragment.getParent() != null
-                    && f.getIdentifier().equals(mFragment.getParent().getIdentifier())) { return; }
+            if (mFragment != null && mFragment.getParent() != null &&
+                    f.getIdentifier().equals(mFragment.getParent().getIdentifier()))
+            {
+                return;
+            }
 
-            BaseFragment frag = ChildrenBrowserFragment.newInstance(site, f, isShortcut);
+            BaseFragment frag = ChildrenBrowserFragment.newInstance(site, f, true);
             frag.setSession(SessionUtils.getSession(this));
-            FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
-                    ChildrenBrowserFragment.TAG, true);
+            FragmentDisplayer
+                    .replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this), ChildrenBrowserFragment.TAG,
+                            true);
         }
     }
 
@@ -362,19 +393,17 @@ public abstract class BaseActivity extends Activity
     {
         BaseFragment frag = ChildrenBrowserFragment.newInstance(s);
         frag.setSession(SessionUtils.getSession(this));
-        FragmentDisplayer.replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this),
-                ChildrenBrowserFragment.TAG, true);
+        FragmentDisplayer
+                .replaceFragment(this, frag, DisplayUtils.getLeftFragmentId(this), ChildrenBrowserFragment.TAG, true);
     }
 
     // ////////////////////////////////////////////////////////
     // BROADCAST RECEIVER
     // ///////////////////////////////////////////////////////
+
     /**
      * Register a broadcast receiver to this specific activity. If used this
      * methods is responsible to unregister the receiver during on stop().
-     *
-     * @param receiver
-     * @param filter
      */
     public void registerPrivateReceiver(BroadcastReceiver receiver, IntentFilter filter)
     {
@@ -408,17 +437,23 @@ public abstract class BaseActivity extends Activity
         {
             Activity activity = BaseActivity.this;
 
-            if (activity.isFinishing() || activity.isChangingConfigurations()) { return; }
+            if (activity.isFinishing() || activity.isChangingConfigurations())
+            {
+                return;
+            }
 
             //
             if (IntentIntegrator.ACTION_DISPLAY_DIALOG.equals(intent.getAction()))
             {
                 removeWaitingDialog();
 
-                try {
-                    SimpleAlertDialogFragment.newInstance(intent.getExtras()).show(activity.getFragmentManager(),
-                            SimpleAlertDialogFragment.TAG);
-                } catch (Exception ex) {
+                try
+                {
+                    SimpleAlertDialogFragment.newInstance(intent.getExtras())
+                            .show(activity.getFragmentManager(), SimpleAlertDialogFragment.TAG);
+                }
+                catch (Exception ex)
+                {
                     OdsLog.ex("UtilsReceiver", ex);
                 }
                 return;
@@ -446,7 +481,6 @@ public abstract class BaseActivity extends Activity
             if (IntentIntegrator.ACTION_CONFIGURATION_BRAND.equals(intent.getAction()))
             {
                 rebrand();
-                return;
             }
         }
     }

@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,10 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.properties;
 
-import java.io.Serializable;
-import java.io.UnsupportedEncodingException;
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.net.URLDecoder;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import android.app.Activity;
+import android.database.Cursor;
+import android.net.Uri;
+import android.text.TextUtils;
 
 import org.alfresco.mobile.android.api.asynchronous.AbstractBaseLoader;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
@@ -46,10 +41,15 @@ import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.app.Activity;
-import android.database.Cursor;
-import android.net.Uri;
-import android.text.TextUtils;
+import java.io.Serializable;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLDecoder;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides an asynchronous loader to retrieve a node (document and/or folder).
@@ -58,13 +58,15 @@ import android.text.TextUtils;
  * <li>an identifier</li>
  * <li>a Folder path</li>
  * </ul>
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
 {
 
-    /** Unique NodeChildrenLoader identifier. */
+    /**
+     * Unique NodeChildrenLoader identifier.
+     */
     public static final int ID = NodeLoader.class.hashCode();
 
     private static final String MY_ALFRESCO_HOSTNAME = "my.alfresco.com";
@@ -77,13 +79,14 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
 
     private Folder parentFolder;
 
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     private List<Account> accounts;
 
-    private String uri;
+    private final String uri;
 
     private Account selectAccount;
 
-    private Account acc;
+    private final Account acc;
 
     public NodeLoader(Activity context, Account acc, AlfrescoSession session, String nodeIdentifier)
     {
@@ -101,8 +104,10 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
         String identifier = uri;
         try
         {
-            if (!ConnectivityUtils.hasInternetAvailable(getContext())) { throw new AlfrescoServiceException(
-                    "No Network"); }
+            if (!ConnectivityUtils.hasInternetAvailable(getContext()))
+            {
+                throw new AlfrescoServiceException("No Network");
+            }
 
             if (session == null)
             {
@@ -138,8 +143,8 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
             {
                 // Retrieve Sync Cursor for the specified node
                 Uri localUri = syncManager.getUri(acc, identifier);
-                Cursor syncCursor = getContext().getContentResolver().query(localUri, SynchroSchema.COLUMN_ALL, null,
-                        null, null);
+                Cursor syncCursor =
+                        getContext().getContentResolver().query(localUri, SynchroSchema.COLUMN_ALL, null, null, null);
                 if (syncCursor.getCount() == 1 && syncCursor.moveToFirst())
                 {
                     // syncCursor.getString(BatchOperationSchema.COLUMN_PROPERTIES_ID)
@@ -173,7 +178,10 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
         {
             identifier = NodeRefUtils.getVersionIdentifier(identifier);
         }
-        if (identifier == null) { throw new AlfrescoServiceException("Unable to find a correct identifier : " + tmpurl); }
+        if (identifier == null)
+        {
+            throw new AlfrescoServiceException("Unable to find a correct identifier : " + tmpurl);
+        }
         return identifier;
     }
 
@@ -188,12 +196,15 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
         }
         else
         {
-            session = OdsRepositorySession.connect(settingsHelper.getBaseUrl(), settingsHelper.getUsername(),
-                    settingsHelper.getPassword(), settings);
+            session = OdsRepositorySession
+                    .connect(settingsHelper.getBaseUrl(), settingsHelper.getUsername(), settingsHelper.getPassword(),
+                            settings);
         }
 
-        if (session == null) { throw new AlfrescoServiceException("Unable to connect to the appropriate server : "
-                + tmpurl); }
+        if (session == null)
+        {
+            throw new AlfrescoServiceException("Unable to connect to the appropriate server : " + tmpurl);
+        }
     }
 
     private void findAccount(URL searchedURL) throws MalformedURLException
@@ -206,7 +217,7 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
 
         List<Account> matchAccount = new ArrayList<Account>();
         boolean match = false;
-        URL accountUrl = null;
+        URL accountUrl;
         for (Account account : accounts)
         {
             accountUrl = new URL(account.getUrl());
@@ -236,7 +247,10 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
             }
         }
 
-        if (!match) { throw new AlfrescoServiceException("No account match this url : " + tmpurl); }
+        if (!match)
+        {
+            throw new AlfrescoServiceException("No account match this url : " + tmpurl);
+        }
     }
 
     private URL findUrl(String text)
@@ -251,11 +265,14 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
                 url = new URL(item);
                 break;
             }
-            catch (Exception e)
+            catch (Exception ignored)
             {
             }
         }
-        if (url == null) { throw new AlfrescoServiceException("This information is not a valid url"); }
+        if (url == null)
+        {
+            throw new AlfrescoServiceException("This information is not a valid url");
+        }
         return url;
     }
 
@@ -281,6 +298,7 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
     private static final String NODE_ID = "id=";
 
     private static final List<String> PATTERNS = new ArrayList<String>(2);
+
     static
     {
         PATTERNS.add(NODEREF);
@@ -289,7 +307,7 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
 
     public static String getIdentifier(String url)
     {
-        String identifier = null, tmp = null;
+        String identifier, tmp;
         tmp = url.toLowerCase();
         for (String pattern : PATTERNS)
         {
@@ -302,9 +320,18 @@ public class NodeLoader extends AbstractBaseLoader<LoaderResult<Node>>
                     identifier = TextUtils.substring(identifier, 0, identifier.indexOf("&"));
                 }
 
-                if (NodeRefUtils.isNodeRef(identifier)) { return identifier; }
-                if (NodeRefUtils.isVersionIdentifier(identifier)) { return identifier; }
-                if (NodeRefUtils.isIdentifier(identifier)) { return identifier; }
+                if (NodeRefUtils.isNodeRef(identifier))
+                {
+                    return identifier;
+                }
+                if (NodeRefUtils.isVersionIdentifier(identifier))
+                {
+                    return identifier;
+                }
+                if (NodeRefUtils.isIdentifier(identifier))
+                {
+                    return identifier;
+                }
             }
         }
         return null;

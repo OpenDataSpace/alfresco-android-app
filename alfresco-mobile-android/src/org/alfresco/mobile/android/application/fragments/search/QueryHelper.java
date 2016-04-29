@@ -1,31 +1,34 @@
 package org.alfresco.mobile.android.application.fragments.search;
 
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import android.text.TextUtils;
+import android.util.Log;
 
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.application.mimetype.MimeType;
 import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.opendataspace.android.app.R;
 
-import android.text.TextUtils;
-import android.util.Log;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+import java.util.Locale;
 
 /**
- * @since 1.4
  * @author Jean Marie Pascal
+ * @since 1.4
  */
 public class QueryHelper
 {
 
-    private static final String QUERY_DOCUMENT_TITLED = "SELECT d.* FROM cmis:document as d JOIN cm:titled as t ON d.cmis:objectId = t.cmis:objectId WHERE ";
+    private static final String QUERY_DOCUMENT_TITLED =
+            "SELECT d.* FROM cmis:document as d JOIN cm:titled as t ON d.cmis:objectId = t.cmis:objectId WHERE ";
 
     private static final String QUERY_DOCUMENT = "SELECT * FROM cmis:document WHERE ";
 
-    private static final String QUERY_FOLDER_TITLED = "SELECT d.* FROM cmis:folder as d JOIN cm:titled as t ON d.cmis:objectId = t.cmis:objectId WHERE ";
+    private static final String QUERY_FOLDER_TITLED =
+            "SELECT d.* FROM cmis:folder as d JOIN cm:titled as t ON d.cmis:objectId = t.cmis:objectId WHERE ";
 
     private static final String QUERY_FOLDER = "SELECT * FROM cmis:folder WHERE ";
 
@@ -43,8 +46,8 @@ public class QueryHelper
     // QUERY
     // ///////////////////////////////////////////////////////////////////////////
     public static String createQuery(boolean isSearchDocument, String name, String title, String description,
-            int mimetype, String modifiedById, GregorianCalendar modificationFrom, GregorianCalendar modificationTo,
-            Folder parentFolder)
+                                     int mimetype, String modifiedById, GregorianCalendar modificationFrom,
+                                     GregorianCalendar modificationTo, Folder parentFolder)
     {
         // Detect if cm:titled is applied
         StringBuilder queryBuilder;
@@ -132,51 +135,63 @@ public class QueryHelper
     // ///////////////////////////////////////////////////////////////////////////
     public static String formatFirst(GregorianCalendar calendar)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return dateFormat.format(calendar.getTime()).concat("T00:00:00.000Z");
     }
 
     public static String formatLast(GregorianCalendar calendar)
     {
-        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
         return dateFormat.format(calendar.getTime()).concat("T23:59:59.999Z");
     }
 
     private static void addParenFolderParameter(StringBuilder builder, Folder value)
     {
-        if (value == null) { return; }
+        if (value == null)
+        {
+            return;
+        }
         if (builder.length() != 0)
         {
             builder.append(" AND ");
         }
-        builder.append(" IN_TREE('" + value.getIdentifier() + "')");
+        builder.append(" IN_TREE('").append(value.getIdentifier()).append("')");
     }
 
     private static void addParameter(StringBuilder builder, String key, String operator, String value)
     {
-        if (TextUtils.isEmpty(value)) { return; }
+        if (TextUtils.isEmpty(value))
+        {
+            return;
+        }
         if (builder.length() != 0)
         {
             builder.append(" AND ");
         }
         builder.append(key);
         builder.append(operator);
-        builder.append("'" + value + "'");
+        builder.append("'").append(value).append("'");
     }
 
     private static void addContainsParameter(StringBuilder builder, String key, String value)
     {
-        if (TextUtils.isEmpty(value)) { return; }
+        if (TextUtils.isEmpty(value))
+        {
+            return;
+        }
         if (builder.length() != 0)
         {
             builder.append(" AND ");
         }
-        builder.append("CONTAINS('~" + key + ":\\\'" + value + "\\\'')");
+        builder.append("CONTAINS('~").append(key).append(":\\\'").append(value).append("\\\'')");
     }
 
     private static void addDateParameter(StringBuilder builder, String key, String operator, String value)
     {
-        if (TextUtils.isEmpty(value)) { return; }
+        if (TextUtils.isEmpty(value))
+        {
+            return;
+        }
         if (builder.length() != 0)
         {
             builder.append(" AND ");
@@ -185,32 +200,38 @@ public class QueryHelper
         builder.append(" ");
         builder.append(operator);
         builder.append(" TIMESTAMP ");
-        builder.append("'" + value + "'");
+        builder.append("'").append(value).append("'");
     }
 
     private static void addAspectContainsParameter(StringBuilder builder, String key, String value)
     {
-        if (TextUtils.isEmpty(value)) { return; }
+        if (TextUtils.isEmpty(value))
+        {
+            return;
+        }
         if (builder.length() != 0)
         {
             builder.append(" AND ");
         }
-        builder.append("CONTAINS(t, '~" + key + ":\\\'" + value + "\\\'')");
+        builder.append("CONTAINS(t, '~").append(key).append(":\\\'").append(value).append("\\\'')");
     }
 
     private static void addPersonParameter(StringBuilder builder, String key, String value)
     {
-        if (TextUtils.isEmpty(value)) { return; }
+        if (TextUtils.isEmpty(value))
+        {
+            return;
+        }
         if (builder.length() != 0)
         {
             builder.append(" ");
         }
         String[] values = value.split(" ");
-        for (int i = 0; i < values.length; i++)
+        for (String value1 : values)
         {
             builder.append(key);
             builder.append(":");
-            builder.append(values[i]);
+            builder.append(value1);
             builder.append(" ");
         }
     }
@@ -248,7 +269,10 @@ public class QueryHelper
             break;
         }
 
-        if (types == null) { return; }
+        if (types == null)
+        {
+            return;
+        }
         StringBuilder sb = new StringBuilder();
         for (MimeType mimeType : types)
         {
@@ -281,7 +305,7 @@ public class QueryHelper
     private static List<MimeType> createDocumentsList()
     {
         return new ArrayList<MimeType>()
-                {
+        {
             private static final long serialVersionUID = 1L;
 
             {
@@ -303,14 +327,15 @@ public class QueryHelper
                 add(new MimeType(MimeType.TYPE_APPLICATION, "wordperfect"));
                 add(new MimeType(MimeType.TYPE_APPLICATION, "x-mswrite"));
             }
-                };
-    };
+        };
+    }
 
     private static List<MimeType> createAudioList()
     {
         return new ArrayList<MimeType>()
-                {
+        {
             private static final long serialVersionUID = 1L;
+
             {
                 add(new MimeType(MimeType.TYPE_AUDIO, "x-aiff"));
                 add(new MimeType(MimeType.TYPE_AUDIO, "vnd.adobe.soundbooth"));
@@ -327,13 +352,13 @@ public class QueryHelper
                 add(new MimeType(MimeType.TYPE_AUDIO, "webm"));
                 add(new MimeType(MimeType.TYPE_AUDIO, "x-ms-wma"));
             }
-                };
-    };
+        };
+    }
 
     private static List<MimeType> createImageList()
     {
         return new ArrayList<MimeType>()
-                {
+        {
             private static final long serialVersionUID = 1L;
 
             {
@@ -380,13 +405,13 @@ public class QueryHelper
                 add(new MimeType(MimeType.TYPE_IMAGE, "x-xpixmap"));
                 add(new MimeType(MimeType.TYPE_IMAGE, "x-xwindowdump"));
             }
-                };
-    };
+        };
+    }
 
     private static List<MimeType> createPresentationsList()
     {
         return new ArrayList<MimeType>()
-                {
+        {
             private static final long serialVersionUID = 1L;
 
             {
@@ -394,7 +419,8 @@ public class QueryHelper
                 add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.oasis.opendocument.presentation"));
                 add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.oasis.opendocument.presentation-template"));
                 add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.ms-powerpoint.template.macroenabled.12"));
-                add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.openxmlformats-officedocument.presentationml.template"));
+                add(new MimeType(MimeType.TYPE_APPLICATION,
+                        "vnd.openxmlformats-officedocument.presentationml.template"));
                 add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.ms-powerpoint.slideshow.macroenabled.12"));
                 add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.ms-powerpoint"));
                 add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.ms-powerpoint.presentation.macroenabled.12"));
@@ -407,13 +433,13 @@ public class QueryHelper
                 add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.sun.xml.impress.template"));
                 add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.sun.xml.impress"));
             }
-                };
-    };
+        };
+    }
 
     private static List<MimeType> createSpreadsheetsList()
     {
         return new ArrayList<MimeType>()
-                {
+        {
             private static final long serialVersionUID = 1L;
 
             {
@@ -428,15 +454,16 @@ public class QueryHelper
                 add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.ms-excel.sheet.macroenabled.12"));
                 add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.openxmlformats-officedocument.spreadsheetml.sheet"));
                 add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.ms-excel.template.macroenabled.12"));
-                add(new MimeType(MimeType.TYPE_APPLICATION, "vnd.openxmlformats-officedocument.spreadsheetml.template"));
+                add(new MimeType(MimeType.TYPE_APPLICATION,
+                        "vnd.openxmlformats-officedocument.spreadsheetml.template"));
             }
-                };
-    };
+        };
+    }
 
     private static List<MimeType> createTextList()
     {
         return new ArrayList<MimeType>()
-                {
+        {
             private static final long serialVersionUID = 1L;
 
             {
@@ -448,13 +475,13 @@ public class QueryHelper
                 add(new MimeType(MimeType.TYPE_TEXT, "richtext"));
                 add(new MimeType(MimeType.TYPE_TEXT, "tab-separated-values"));
             }
-                };
-    };
+        };
+    }
 
     private static List<MimeType> createVideoList()
     {
         return new ArrayList<MimeType>()
-                {
+        {
             private static final long serialVersionUID = 1L;
 
             {
@@ -470,6 +497,6 @@ public class QueryHelper
                 add(new MimeType(MimeType.TYPE_VIDEO, "mpeg2"));
                 add(new MimeType(MimeType.TYPE_VIDEO, "mp4"));
             }
-                };
+        };
     }
 }

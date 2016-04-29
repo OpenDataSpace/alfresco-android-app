@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ *
  *  This file is part of Alfresco Mobile for Android.
- *  
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +38,7 @@ public class CreateDocumentRequest extends AbstractUpRequest
 
     private boolean isCreation;
 
-    private List<String> tags;
+    private final List<String> tags;
 
     public static final int TYPE_ID = 20;
 
@@ -105,12 +105,11 @@ public class CreateDocumentRequest extends AbstractUpRequest
             tmpProperties.remove(key);
         }
 
-        Map<String, Serializable> finalProperties = new HashMap<String, Serializable>(tmpProperties);
-        this.properties = finalProperties;
+        this.properties = new HashMap<String, Serializable>(tmpProperties);
         this.tags = tags;
         save();
     }
-    
+
     private void save(){
         persistentProperties = new HashMap<String, Serializable>();
         if (properties != null)
@@ -151,7 +150,7 @@ public class CreateDocumentRequest extends AbstractUpRequest
     {
         return tags;
     }
-    
+
     // ////////////////////////////////////////////////////
     // SETTERS
     // ////////////////////////////////////////////////////
@@ -164,7 +163,7 @@ public class CreateDocumentRequest extends AbstractUpRequest
             persistentProperties.put(ContentModel.PROP_NAME, name);
         }
     }
-    
+
     public void setContentFile(File f)
     {
         ContentFile contentFile = new ContentFileProgressImpl(f);

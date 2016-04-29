@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (C) 2005-2013 Alfresco Software Limited.
-  
+
   This file is part of Alfresco Mobile for Android.
-  
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
     http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,7 +37,7 @@
     <item name="create_folder" type="id"/>
 
     <!-- Account -->
-    <string name="account_service_document"></string>
+    <string name="account_service_document"/>
 
     <!-- Settings -->
     <string name="passcode_enable_key">TurnPasscodeKey</string>
@@ -55,6 +54,6 @@
     <string name="bamboo_buildnumber">${bamboo.buildNumber}</string>
 
     <!-- Cloud Share URL -->
-    <string name="cloud_share_url" formatted="false">"https://my.alfresco.com/share/%s/page/site/%s/document-details?nodeRef=workspace://SpacesStore/%s</string>
+    <string name="cloud_share_url">https://my.alfresco.com/share/%1$s/page/site/%2$s/document-details?nodeRef=workspace://SpacesStore/%3$s</string>
 
 </resources>

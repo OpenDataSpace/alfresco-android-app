@@ -1,28 +1,29 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *
- *  This file is part of Alfresco Mobile for Android.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * This file is part of Alfresco Mobile for Android.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch;
 
-import java.io.File;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
+import android.app.Service;
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.os.IBinder;
+import android.support.v4.content.LocalBroadcastManager;
 
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.Operation;
@@ -105,21 +106,18 @@ import org.opendataspace.android.app.operations.OdsUpdateLinkRequest;
 import org.opendataspace.android.app.operations.OdsUpdateLinkThread;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.app.Service;
-import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.os.IBinder;
-import android.support.v4.content.LocalBroadcastManager;
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
 
 public class BatchOperationService<T> extends Service
 {
     private BatchOperationManager batchManager;
 
-    private Map<String, Operation<T>> operations = new HashMap<String, Operation<T>>();
+    private final Map<String, Operation<T>> operations = new HashMap<String, Operation<T>>();
 
-    private Set<String> lastOperation = new HashSet<String>();
+    //private final Set<String> lastOperation = new HashSet<String>();
 
     private int parallelOperation;
 
@@ -165,7 +163,7 @@ public class BatchOperationService<T> extends Service
         executeOperation();
     }
 
-    @SuppressWarnings({ "unchecked" })
+    @SuppressWarnings({"unchecked"})
     private void executeOperation()
     {
         if (batchManager == null || getBaseContext() == null)
@@ -174,7 +172,7 @@ public class BatchOperationService<T> extends Service
             return;
         }
 
-        OperationsGroupInfo requestInfo = (OperationsGroupInfo) batchManager.next();
+        OperationsGroupInfo requestInfo = batchManager.next();
         if (requestInfo == null)
         {
             stopSelf();
@@ -192,119 +190,111 @@ public class BatchOperationService<T> extends Service
         parallelOperation = 1;
         switch (request.getTypeId())
         {
-            case DownloadRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new DownloadThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new DownloadCallBack(getBaseContext(), totalItems, pendingRequest);
-                parallelOperation = 4;
-                break;
-            case CreateDocumentRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new CreateDocumentThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new CreateDocumentCallback(getBaseContext(), totalItems,
-                        pendingRequest);
-                parallelOperation = 4;
-                break;
-            case UpdateContentRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new UpdateContentThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new UpdateContentCallback(getBaseContext(), totalItems,
-                        pendingRequest);
-                break;
-            case DeleteNodeRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new DeleteNodeThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new DeleteNodeCallback(getBaseContext(), totalItems, pendingRequest);
-                parallelOperation = 4;
-                break;
-            case LikeNodeRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new LikeNodeThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new LikeNodeCallback(getBaseContext(), totalItems, pendingRequest);
-                parallelOperation = 4;
-                break;
-            case FavoriteNodeRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new FavoriteNodeThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new FavoriteNodeCallback(getBaseContext(), totalItems, pendingRequest);
-                parallelOperation = 1;
-                break;
-            case CreateFolderRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new CreateFolderThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new CreateFolderCallBack(getBaseContext(), totalItems, pendingRequest);
-                break;
-            case LoadSessionRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new LoadSessionThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new LoadSessionCallBack(getBaseContext(), totalItems, pendingRequest);
-                break;
-            case CreateAccountRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new CreateAccountThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new CreateAccountCallBack(getBaseContext(), totalItems,
-                        pendingRequest);
-                break;
-            case UpdatePropertiesRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new UpdatePropertiesThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new UpdatePropertiesCallback(getBaseContext(), totalItems,
-                        pendingRequest);
-                break;
-            case DeleteFileRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new DeleteFileThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new DeleteFileCallback(getBaseContext(), totalItems, pendingRequest);
-                break;
-            case CreateDirectoryRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new CreateDirectoryThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new CreateDirectoryCallBack(getBaseContext(), totalItems,
-                        pendingRequest);
-                break;
-            case RenameRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new RenameThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new RenameCallback(getBaseContext(), totalItems, pendingRequest);
-                break;
-            case SyncPrepareRequest.TYPE_ID:
-                parallelOperation = 1;
-                task = (AbstractBatchOperationThread<T>) new SyncPrepareThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new SyncCallBack(getBaseContext(), totalItems, pendingRequest);
-                break;
-            case CleanSyncFavoriteRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new CleanSyncFavoriteThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new SyncCallBack(getBaseContext(), totalItems, pendingRequest);
-                break;
-            case RetrieveDocumentNameRequest.TYPE_ID:
-                task = (AbstractBatchOperationThread<T>) new RetrieveDocumentNameThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new RetrieveDocumentNameCallBack(getBaseContext(), totalItems,
-                        pendingRequest);
-                break;
-            case StartProcessRequest.TYPE_ID:
-                parallelOperation = 1;
-                task = (AbstractBatchOperationThread<T>) new StartProcessThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new StartProcessCallback(getBaseContext(), totalItems,
-                        pendingRequest);
-                break;
-            case CompleteTaskRequest.TYPE_ID:
-                parallelOperation = 1;
-                task = (AbstractBatchOperationThread<T>) new CompleteTaskThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new CompleteTaskCallback(getBaseContext(), totalItems,
-                        pendingRequest);
-                break;
-            case ReassignTaskRequest.TYPE_ID:
-                parallelOperation = 1;
-                task = (AbstractBatchOperationThread<T>) new ReassignTaskThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new ReassignTaskCallback(getBaseContext(), totalItems,
-                        pendingRequest);
-                break;
-            case DataProtectionRequest.TYPE_ID:
-                parallelOperation = 2;
-                if (new File(((DataProtectionRequest) request).getFilePath()).isDirectory())
-                {
-                    task = (AbstractBatchOperationThread<T>) new FolderProtectionThread(getBaseContext(), request);
-                }
-                else
-                {
-                    task = (AbstractBatchOperationThread<T>) new FileProtectionThread(getBaseContext(), request);
-                }
-                callback = (OperationCallBack<T>) new DataProtectionCallback(getBaseContext(), totalItems,
-                        pendingRequest);
-                break;
-            case ConfigurationOperationRequest.TYPE_ID:
-                parallelOperation = 1;
-                task = (AbstractBatchOperationThread<T>) new ConfigurationOperationThread(getBaseContext(), request);
-                callback = (OperationCallBack<T>) new ConfigurationOperationCallBack(getBaseContext(), totalItems,
-                        pendingRequest);
-                break;
+        case DownloadRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new DownloadThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new DownloadCallBack(getBaseContext(), totalItems, pendingRequest);
+            parallelOperation = 4;
+            break;
+        case CreateDocumentRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new CreateDocumentThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new CreateDocumentCallback(getBaseContext(), totalItems, pendingRequest);
+            parallelOperation = 4;
+            break;
+        case UpdateContentRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new UpdateContentThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new UpdateContentCallback(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case DeleteNodeRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new DeleteNodeThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new DeleteNodeCallback(getBaseContext(), totalItems, pendingRequest);
+            parallelOperation = 4;
+            break;
+        case LikeNodeRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new LikeNodeThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new LikeNodeCallback(getBaseContext(), totalItems, pendingRequest);
+            parallelOperation = 4;
+            break;
+        case FavoriteNodeRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new FavoriteNodeThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new FavoriteNodeCallback(getBaseContext(), totalItems, pendingRequest);
+            parallelOperation = 1;
+            break;
+        case CreateFolderRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new CreateFolderThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new CreateFolderCallBack(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case LoadSessionRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new LoadSessionThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new LoadSessionCallBack(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case CreateAccountRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new CreateAccountThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new CreateAccountCallBack(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case UpdatePropertiesRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new UpdatePropertiesThread(getBaseContext(), request);
+            callback =
+                    (OperationCallBack<T>) new UpdatePropertiesCallback(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case DeleteFileRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new DeleteFileThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new DeleteFileCallback(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case CreateDirectoryRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new CreateDirectoryThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new CreateDirectoryCallBack(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case RenameRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new RenameThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new RenameCallback(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case SyncPrepareRequest.TYPE_ID:
+            parallelOperation = 1;
+            task = (AbstractBatchOperationThread<T>) new SyncPrepareThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new SyncCallBack(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case CleanSyncFavoriteRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new CleanSyncFavoriteThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new SyncCallBack(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case RetrieveDocumentNameRequest.TYPE_ID:
+            task = (AbstractBatchOperationThread<T>) new RetrieveDocumentNameThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new RetrieveDocumentNameCallBack(getBaseContext(), totalItems,
+                    pendingRequest);
+            break;
+        case StartProcessRequest.TYPE_ID:
+            parallelOperation = 1;
+            task = (AbstractBatchOperationThread<T>) new StartProcessThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new StartProcessCallback(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case CompleteTaskRequest.TYPE_ID:
+            parallelOperation = 1;
+            task = (AbstractBatchOperationThread<T>) new CompleteTaskThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new CompleteTaskCallback(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case ReassignTaskRequest.TYPE_ID:
+            parallelOperation = 1;
+            task = (AbstractBatchOperationThread<T>) new ReassignTaskThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new ReassignTaskCallback(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case DataProtectionRequest.TYPE_ID:
+            parallelOperation = 2;
+            if (new File(((DataProtectionRequest) request).getFilePath()).isDirectory())
+            {
+                task = (AbstractBatchOperationThread<T>) new FolderProtectionThread(getBaseContext(), request);
+            }
+            else
+            {
+                task = (AbstractBatchOperationThread<T>) new FileProtectionThread(getBaseContext(), request);
+            }
+            callback = (OperationCallBack<T>) new DataProtectionCallback(getBaseContext(), totalItems, pendingRequest);
+            break;
+        case ConfigurationOperationRequest.TYPE_ID:
+            parallelOperation = 1;
+            task = (AbstractBatchOperationThread<T>) new ConfigurationOperationThread(getBaseContext(), request);
+            callback = (OperationCallBack<T>) new ConfigurationOperationCallBack(getBaseContext(), totalItems,
+                    pendingRequest);
+            break;
         case OdsConfigRequest.TYPE_ID:
             parallelOperation = 1;
             task = (AbstractBatchOperationThread<T>) new OdsConfigThread(getBaseContext(), request);
@@ -330,24 +320,24 @@ public class BatchOperationService<T> extends Service
             task.setOperationCallBack(callback);
         }
 
-        if ((task.requireNetwork() && ConnectivityUtils.hasInternetAvailable(getBaseContext()))
-                || !task.requireNetwork())
+        if (task != null && ((task.requireNetwork() && ConnectivityUtils.hasInternetAvailable(getBaseContext())) ||
+                !task.requireNetwork()))
         {
-            if (pendingRequest == 0)
-            {
-                lastOperation.add(task.getOperationId());
-            }
+//            if (pendingRequest == 0)
+//            {
+//                lastOperation.add(task.getOperationId());
+//            }
             operations.put(task.getOperationId(), task);
 
             if (operations.size() < parallelOperation && requestInfo.pendingRequests > 0)
             {
                 executeOperation();
             }
-            ((Thread) task).start();
+            task.start();
         }
         else
         {
-            batchManager.pause(Integer.parseInt(request.getNotificationUri().getLastPathSegment().toString()));
+            batchManager.pause(Integer.parseInt(request.getNotificationUri().getLastPathSegment()));
             executeOperation();
         }
     }
@@ -371,8 +361,8 @@ public class BatchOperationService<T> extends Service
             }
 
             // FORCE STOP
-            if (IntentIntegrator.ACTION_OPERATIONS_STOP.equals(intent.getAction())
-                    || IntentIntegrator.ACTION_OPERATIONS_CANCEL.equals(intent.getAction()))
+            if (IntentIntegrator.ACTION_OPERATIONS_STOP.equals(intent.getAction()) ||
+                    IntentIntegrator.ACTION_OPERATIONS_CANCEL.equals(intent.getAction()))
             {
                 for (Entry<String, Operation<T>> operation : operations.entrySet())
                 {
@@ -382,7 +372,10 @@ public class BatchOperationService<T> extends Service
                 return;
             }
 
-            if (intent.getExtras() == null) { return; }
+            if (intent.getExtras() == null)
+            {
+                return;
+            }
 
             String operationId = (String) intent.getExtras().get(BatchOperationManager.EXTRA_OPERATION_ID);
 
@@ -404,8 +397,8 @@ public class BatchOperationService<T> extends Service
                 if (batchManager.isLastOperation(operationId) && operations.get(operationId) != null)
                 {
                     //OperationsGroupRecord group = batchManager.getOperationGroup(operationId);
-                    ((AbstractBatchOperationThread<?>) operations.get(operationId)).executeGroupCallback(batchManager
-                            .getResult(operationId));
+                    ((AbstractBatchOperationThread<?>) operations.get(operationId))
+                            .executeGroupCallback(batchManager.getResult(operationId));
                 }
                 operations.remove(operationId);
                 executeOperation();

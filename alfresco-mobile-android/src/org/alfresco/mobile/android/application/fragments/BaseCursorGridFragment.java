@@ -1,27 +1,21 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
- *  This file is part of Alfresco Mobile for Android.
- * 
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * This file is part of Alfresco Mobile for Android.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments;
-
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
-import org.opendataspace.android.app.R;
 
 import android.annotation.TargetApi;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -41,12 +35,17 @@ import android.widget.GridView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.ListingContext;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
+import org.opendataspace.android.app.R;
+
 @TargetApi(11)
 /**
  * @since 1.4
  * @author Jean Marie Pascal
- */
-public abstract class BaseCursorGridFragment extends BaseFragment implements LoaderCallbacks<Cursor>
+ */ public abstract class BaseCursorGridFragment extends BaseFragment implements LoaderCallbacks<Cursor>
 {
 
     /** Principal ListView of the fragment */
@@ -93,7 +92,7 @@ public abstract class BaseCursorGridFragment extends BaseFragment implements Loa
 
     public static final int LOAD_VISIBLE = 3;
 
-    protected int loadState = LOAD_AUTO;
+    protected final int loadState = LOAD_AUTO;
 
     protected Bundle bundle;
 
@@ -128,7 +127,10 @@ public abstract class BaseCursorGridFragment extends BaseFragment implements Loa
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        if (container == null) { return null; }
+        if (container == null)
+        {
+            return null;
+        }
         View v = inflater.inflate(R.layout.sdk_grid, container, false);
 
         init(v, emptyListMessageId);
@@ -154,7 +156,6 @@ public abstract class BaseCursorGridFragment extends BaseFragment implements Loa
             MessengerManager.showToast(getActivity(), R.string.empty_session);
             setListShown(true);
             gv.setEmptyView(ev);
-            return;
         }
     }
 
@@ -165,7 +166,7 @@ public abstract class BaseCursorGridFragment extends BaseFragment implements Loa
 
     /**
      * Control whether the list is being displayed.
-     * 
+     *
      * @param shown : If true, the list view is shown; if false, the progress
      *            indicator. The initial value is true.
      */
@@ -259,11 +260,6 @@ public abstract class BaseCursorGridFragment extends BaseFragment implements Loa
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount)
             {
                 savePosition();
-                if (firstVisibleItem + visibleItemCount == totalItemCount && loadState == LOAD_VISIBLE
-                        && !isLockVisibleLoader)
-                {
-                    isLockVisibleLoader = Boolean.TRUE;
-                }
             }
         });
     }
@@ -280,7 +276,7 @@ public abstract class BaseCursorGridFragment extends BaseFragment implements Loa
 
     protected void continueLoading(int loaderId, LoaderCallbacks<?> callback)
     {
-        if (!isFullLoad && loadState == LOAD_AUTO)
+        if (!isFullLoad)
         {
             getLoaderManager().initLoader(loaderId, getArguments(), callback);
             if (getLoaderManager().getLoader(loaderId) != null)
@@ -298,8 +294,7 @@ public abstract class BaseCursorGridFragment extends BaseFragment implements Loa
             maxItems = lc.getMaxItems();
             if (hasmore)
             {
-                skipCount = (adapter != null) ? adapter.getCount() : lc.getSkipCount()
-                        + lc.getMaxItems();
+                skipCount = (adapter != null) ? adapter.getCount() : lc.getSkipCount() + lc.getMaxItems();
             }
             lc.setSkipCount(skipCount);
         }
@@ -330,7 +325,10 @@ public abstract class BaseCursorGridFragment extends BaseFragment implements Loa
         skipCount = 0;
         adapter = null;
         gv.invalidateViews();
-        if (getArguments() == null) { return; }
+        if (getArguments() == null)
+        {
+            return;
+        }
         getLoaderManager().restartLoader(loaderId, getArguments(), callback);
         getLoaderManager().getLoader(loaderId).forceLoad();
     }
@@ -342,7 +340,7 @@ public abstract class BaseCursorGridFragment extends BaseFragment implements Loa
 
     /**
      * Override this method to handle an exception coming back from the server.
-     * 
+     *
      * @param e : exception raised by the client API.
      */
     public void onLoaderException(Exception e)
@@ -375,7 +373,10 @@ public abstract class BaseCursorGridFragment extends BaseFragment implements Loa
 
     protected static ListingContext copyListing(ListingContext lco)
     {
-        if (lco == null) { return null; }
+        if (lco == null)
+        {
+            return null;
+        }
         ListingContext lci = new ListingContext();
         lci.setIsSortAscending(lco.isSortAscending());
         lci.setMaxItems(lco.getMaxItems());

@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,11 +17,12 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.preferences;
 
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.accounts.AccountManager;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
+
+import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.accounts.AccountManager;
 
 /**
  * Manage application preferences associated to accounts objects.
@@ -30,14 +31,15 @@ import android.content.SharedPreferences;
  */
 public final class AccountsPreferences
 {
-    private AccountsPreferences(){
+    private AccountsPreferences()
+    {
     }
 
     public static final String ACCOUNT_PREFS = "org.alfresco.mobile.android.account.preferences";
 
     public static final String ACCOUNT_DEFAULT = "org.alfresco.mobile.android.account.preferences.default";
     public static final String ACCOUNT_VERSION = "org.alfresco.mobile.android.account.preferences.version";
-    public static int CURRENT_VERSION = 1;
+    public static final int CURRENT_VERSION = 1;
 
     public static Account getDefaultAccount(Context context)
     {
@@ -54,12 +56,16 @@ public final class AccountsPreferences
             if (acc == null)
             {
                 acc = AccountManager.retrieveFirstAccount(context);
-                setDefaultAccount(context, acc.getId());
+                if (acc != null)
+                {
+                    setDefaultAccount(context, acc.getId());
+                }
             }
             return acc;
         }
     }
 
+    @SuppressLint("CommitPrefEdits")
     public static void setDefaultAccount(Context context, long id)
     {
         SharedPreferences settings = context.getSharedPreferences(ACCOUNT_PREFS, 0);

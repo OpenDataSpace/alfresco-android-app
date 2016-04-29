@@ -1,40 +1,23 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *
- *  This file is part of Alfresco Mobile for Android.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * This file is part of Alfresco Mobile for Android.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.accounts;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.account.OdsAccountAuthenticator;
-import org.opendataspace.android.ui.logging.OdsLog;
-import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.account.LoadSessionRequest;
-import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
-import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
-
+import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.ContentValues;
 import android.content.Context;
@@ -44,6 +27,24 @@ import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.net.Uri;
 import android.support.v4.content.LocalBroadcastManager;
+
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.authentication.OAuthData;
+import org.alfresco.mobile.android.application.ApplicationManager;
+import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.operations.OperationRequest;
+import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
+import org.alfresco.mobile.android.application.operations.batch.account.LoadSessionRequest;
+import org.alfresco.mobile.android.application.preferences.AccountsPreferences;
+import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.account.OdsAccountAuthenticator;
+import org.opendataspace.android.ui.logging.OdsLog;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Responsible to manage accounts.
@@ -64,9 +65,9 @@ public final class AccountManager
 
     private AccountManagerReceiver receiver;
 
-    private ApplicationManager appManager;
+    private final ApplicationManager appManager;
 
-    private LocalBroadcastManager broadManager;
+    private final LocalBroadcastManager broadManager;
 
     public static final Uri CONTENT_URI = AccountProvider.CONTENT_URI;
 
@@ -108,30 +109,18 @@ public final class AccountManager
 
     public boolean hasAccount()
     {
-        if (accountsSize == null)
-        {
-            return false;
-        }
-        return (accountsSize > 0);
+        return accountsSize != null && (accountsSize > 0);
     }
 
     public boolean hasMultipleAccount()
     {
-        if (accountsSize == null)
-        {
-            return false;
-        }
-        return (accountsSize > 1);
+        return accountsSize != null && (accountsSize > 1);
     }
 
     public boolean isEmpty()
     {
         getCount();
-        if (accountsSize == null)
-        {
-            return true;
-        }
-        return (accountsSize == 0);
+        return accountsSize == null || (accountsSize == 0);
     }
 
     public Account getDefaultAccount()
@@ -188,14 +177,13 @@ public final class AccountManager
 
     private static Account createAccountWithoutClose(Cursor c)
     {
-        Account account = new Account(c.getInt(AccountSchema.COLUMN_ID_ID), c.getString(AccountSchema.COLUMN_NAME_ID),
+        return new Account(c.getInt(AccountSchema.COLUMN_ID_ID), c.getString(AccountSchema.COLUMN_NAME_ID),
                 c.getString(AccountSchema.COLUMN_URL_ID), c.getString(AccountSchema.COLUMN_USERNAME_ID),
                 c.getString(AccountSchema.COLUMN_PASSWORD_ID), c.getString(AccountSchema.COLUMN_REPOSITORY_ID_ID),
                 c.getInt(AccountSchema.COLUMN_REPOSITORY_TYPE_ID), c.getString(AccountSchema.COLUMN_ACTIVATION_ID),
                 c.getString(AccountSchema.COLUMN_ACCESS_TOKEN_ID), c.getString(AccountSchema.COLUMN_REFRESH_TOKEN_ID),
                 c.getInt(AccountSchema.COLUMN_IS_PAID_ACCOUNT_ID),
                 c.getInt(AccountSchema.COLUMN_PROTO_ID) == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON);
-        return account;
     }
 
     public static Account createAccount(Cursor c)
@@ -212,11 +200,10 @@ public final class AccountManager
     }
 
     public static Account createAccount(Context context, String name, String url, String username, String pass,
-            String workspace, Integer type, String activation, String accessToken, String refreshToken,
-            int isPaidAccount, Account.ProtocolType proto)
+                                        String workspace, Integer type, String activation, String accessToken,
+                                        String refreshToken, int isPaidAccount, Account.ProtocolType proto)
     {
-        Uri accountUri = context.getContentResolver().insert(
-                AccountProvider.CONTENT_URI,
+        Uri accountUri = context.getContentResolver().insert(AccountProvider.CONTENT_URI,
                 createContentValues(name, url, username, pass, workspace, type, activation, accessToken, refreshToken,
                         isPaidAccount, proto));
 
@@ -242,19 +229,18 @@ public final class AccountManager
     }
 
     public Account update(long accountId, String name, String url, String username, String pass, String workspace,
-            Integer type, String activation, String accessToken, String refreshToken, int isPaidAccount,
-            Account.ProtocolType proto)
+                          Integer type, String activation, String accessToken, String refreshToken, int isPaidAccount,
+                          Account.ProtocolType proto)
     {
         return update(appContext, accountId, name, url, username, pass, workspace, type, activation, accessToken,
                 refreshToken, isPaidAccount, proto);
     }
 
-    public static Account update(Context context, long accountId, String name, String url, String username,
-            String pass, String workspace, Integer type, String activation, String accessToken, String refreshToken,
-            int isPaidAccount, Account.ProtocolType proto)
+    public static Account update(Context context, long accountId, String name, String url, String username, String pass,
+                                 String workspace, Integer type, String activation, String accessToken,
+                                 String refreshToken, int isPaidAccount, Account.ProtocolType proto)
     {
-        context.getContentResolver().update(
-                getUri(accountId),
+        context.getContentResolver().update(getUri(accountId),
                 createContentValues(name, url, username, pass, workspace, type, activation, accessToken, refreshToken,
                         isPaidAccount, proto), null, null);
 
@@ -303,8 +289,9 @@ public final class AccountManager
     }
 
     private static ContentValues createContentValues(String name, String url, String username, String pass,
-            String workspace, Integer type, String activation, String accessToken, String refreshToken,
-            int isPaidAccount, Account.ProtocolType proto)
+                                                     String workspace, Integer type, String activation,
+                                                     String accessToken, String refreshToken, int isPaidAccount,
+                                                     Account.ProtocolType proto)
     {
         ContentValues updateValues = new ContentValues();
 
@@ -371,11 +358,11 @@ public final class AccountManager
         {
             session = appManager.getSession(accountToLoad.getId());
 
-            broadManager.sendBroadcast(new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT_COMPLETED).putExtra(
-                    IntentIntegrator.EXTRA_ACCOUNT_ID, accountToLoad.getId()));
+            broadManager.sendBroadcast(new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT_COMPLETED)
+                    .putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, accountToLoad.getId()));
         }
-        else if (appManager.getCurrentAccount() == null
-                || accountToLoad.getId() != appManager.getCurrentAccount().getId())
+        else if (appManager.getCurrentAccount() == null ||
+                accountToLoad.getId() != appManager.getCurrentAccount().getId())
         {
             // Create the session for the specific account
             createSession(accountToLoad);
@@ -415,6 +402,7 @@ public final class AccountManager
         BatchOperationManager.getInstance(appContext).enqueue(group);
     }
 
+    @SuppressLint("CommitPrefEdits")
     private void migrate()
     {
         SharedPreferences settings = appContext.getSharedPreferences(AccountsPreferences.ACCOUNT_PREFS, 0);
@@ -445,8 +433,8 @@ public final class AccountManager
     // ///////////////////////////////////////////////////////////////////////////
     private void getCount()
     {
-        Cursor cursor = appContext.getContentResolver()
-                .query(AccountProvider.CONTENT_URI, COLUMN_ALL, null, null, null);
+        Cursor cursor =
+                appContext.getContentResolver().query(AccountProvider.CONTENT_URI, COLUMN_ALL, null, null, null);
         if (cursor != null)
         {
             accountsSize = cursor.getCount();
@@ -479,15 +467,15 @@ public final class AccountManager
                 if (intent.hasExtra(IntentIntegrator.EXTRA_CREATE_REQUEST))
                 {
                     OperationsRequestGroup group = new OperationsRequestGroup(appContext);
-                    group.enqueue((OperationRequest) intent.getExtras().getSerializable(
-                            IntentIntegrator.EXTRA_CREATE_REQUEST));
+                    group.enqueue((OperationRequest) intent.getExtras()
+                            .getSerializable(IntentIntegrator.EXTRA_CREATE_REQUEST));
                     BatchOperationManager.getInstance(appContext).enqueue(group);
                 }
                 return;
             }
 
-            if (IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED.equals(intent.getAction())
-                    || IntentIntegrator.ACTION_DELETE_ACCOUNT_COMPLETED.equals(intent.getAction()))
+            if (IntentIntegrator.ACTION_CREATE_ACCOUNT_COMPLETED.equals(intent.getAction()) ||
+                    IntentIntegrator.ACTION_DELETE_ACCOUNT_COMPLETED.equals(intent.getAction()))
             {
                 getCount();
                 return;
@@ -515,7 +503,7 @@ public final class AccountManager
 
             if (IntentIntegrator.ACTION_RELOAD_ACCOUNT.equals(intent.getAction()))
             {
-                if (intent.hasExtra(IntentIntegrator.EXTRA_NETWORK_ID))
+                if (intent.hasExtra(IntentIntegrator.EXTRA_NETWORK_ID) && acc != null)
                 {
                     ContentValues values = createContentValues(acc);
                     values.put(AccountSchema.COLUMN_REPOSITORY_ID,
@@ -523,7 +511,6 @@ public final class AccountManager
                     appContext.getContentResolver().update(getUri(acc.getId()), values, null, null);
                 }
                 createSession(acc);
-                return;
             }
         }
     }

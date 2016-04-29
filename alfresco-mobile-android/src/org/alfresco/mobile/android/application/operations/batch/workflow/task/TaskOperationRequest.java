@@ -17,9 +17,9 @@ public class TaskOperationRequest extends AbstractBatchOperationRequestImpl
     private static final long serialVersionUID = 1L;
 
     protected Task task;
-    
-    protected String taskIdentifier;
-    
+
+    protected final String taskIdentifier;
+
     protected Map<String, Serializable> persistentProperties;
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -29,7 +29,7 @@ public class TaskOperationRequest extends AbstractBatchOperationRequestImpl
     {
         this.taskIdentifier = taskIdentifier;
     }
-    
+
     public TaskOperationRequest(Task task)
     {
         this.task = task;
@@ -48,7 +48,7 @@ public class TaskOperationRequest extends AbstractBatchOperationRequestImpl
     {
         return task;
     }
-    
+
     public String getTaskIdentifier()
     {
         return taskIdentifier;
@@ -73,7 +73,7 @@ public class TaskOperationRequest extends AbstractBatchOperationRequestImpl
         }
         return cValues;
     }
-    
+
     protected Map<String, String> retrievePropertiesMap(Cursor cursor)
     {
         // PROPERTIES

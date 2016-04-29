@@ -3,7 +3,7 @@ package org.alfresco.mobile.android.application.utils.thirdparty.split;
 /*
  *  Android Split Pane Layout.
  *  https://github.com/MobiDevelop/android-split-pane-layout
- *  
+ *
  *  Copyright (C) 2012 Justin Shapcott
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
@@ -59,13 +59,13 @@ public class SplitPaneLayout extends ViewGroup
 
     private Drawable mSplitterDraggingDrawable;
 
-    private Rect mSplitterRect = new Rect();
+    private final Rect mSplitterRect = new Rect();
 
     private int lastX;
 
     private int lastY;
 
-    private Rect temp = new Rect();
+    private final Rect temp = new Rect();
 
     private boolean isDragging = false;
 
@@ -277,7 +277,7 @@ public class SplitPaneLayout extends ViewGroup
                             }
                             case ORIENTATION_VERTICAL:
                             {
-                                temp.offset(0, (int) (y - lastY));
+                                temp.offset(0, y - lastY);
                                 break;
                             }
                         }
@@ -374,7 +374,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Gets the current drawable used for the splitter.
-     * 
+     *
      * @return the drawable used for the splitter
      */
     public Drawable getSplitterDrawable()
@@ -384,7 +384,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Sets the drawable used for the splitter.
-     * 
+     *
      * @param splitterDrawable the desired orientation of the layout
      */
     public void setSplitterDrawable(Drawable splitterDrawable)
@@ -398,7 +398,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Gets the current drawable used for the splitter dragging overlay.
-     * 
+     *
      * @return the drawable used for the splitter
      */
     public Drawable getSplitterDraggingDrawable()
@@ -408,8 +408,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Sets the drawable used for the splitter dragging overlay.
-     * 
-     * @param splitterDrawable the desired orientation of the layout
+     *
      */
     public void setSplitterDraggingDrawable(Drawable splitterDraggingDrawable)
     {
@@ -422,7 +421,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Gets the current orientation of the layout.
-     * 
+     *
      * @return the orientation of the layout
      */
     public int getOrientation()
@@ -432,7 +431,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Sets the orientation of the layout.
-     * 
+     *
      * @param orientation the desired orientation of the layout
      */
     public void setOrientation(int orientation)
@@ -449,7 +448,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Gets the current size of the splitter in pixels.
-     * 
+     *
      * @return the size of the splitter
      */
     public int getSplitterSize()
@@ -459,7 +458,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Sets the current size of the splitter in pixels.
-     * 
+     *
      * @param splitterSize the desired size of the splitter
      */
     public void setSplitterSize(int splitterSize)
@@ -473,7 +472,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Gets whether the splitter is movable by the user.
-     * 
+     *
      * @return whether the splitter is movable
      */
     public boolean isSplitterMovable()
@@ -483,7 +482,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Sets whether the splitter is movable by the user.
-     * 
+     *
      * @param splitterMovable whether the splitter is movable
      */
     public void setSplitterMovable(boolean splitterMovable)
@@ -493,7 +492,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Gets the current position of the splitter in pixels.
-     * 
+     *
      * @return the position of the splitter
      */
     public int getSplitterPosition()
@@ -503,7 +502,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Sets the current position of the splitter in pixels.
-     * 
+     *
      * @param position the desired position of the splitter
      */
     public void setSplitterPosition(int position)
@@ -519,7 +518,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Gets the current position of the splitter as a percent.
-     * 
+     *
      * @return the position of the splitter
      */
     public float getSplitterPositionPercent()
@@ -529,7 +528,7 @@ public class SplitPaneLayout extends ViewGroup
 
     /**
      * Sets the current position of the splitter as a percentage of the layout.
-     * 
+     *
      * @param position the desired position of the splitter
      */
     public void setSplitterPositionPercent(float position)

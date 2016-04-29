@@ -1,31 +1,41 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
- *  This file is part of Alfresco Mobile for Android.
- * 
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * This file is part of Alfresco Mobile for Android.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.favorites;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
+import android.app.Fragment;
+import android.content.BroadcastReceiver;
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.CursorLoader;
+import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.Loader;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.GridView;
 
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.utils.NodeRefUtils;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.activity.BaseActivity;
 import org.alfresco.mobile.android.application.activity.MainActivity;
@@ -52,26 +62,16 @@ import org.alfresco.mobile.android.application.security.DataProtectionManager;
 import org.alfresco.mobile.android.application.utils.ConnectivityUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.app.Fragment;
-import android.content.BroadcastReceiver;
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.Loader;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
-import android.widget.GridView;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
 
-public class FavoritesSyncFragment extends BaseCursorGridFragment implements RefreshFragment, ListingModeFragment,
-GridFragment
+public class FavoritesSyncFragment extends BaseCursorGridFragment
+        implements RefreshFragment, ListingModeFragment, GridFragment
 {
     public static final String TAG = FavoritesSyncFragment.class.getName();
 
@@ -79,7 +79,7 @@ GridFragment
 
     private static final String PARAM_FOLDER_NAME = "FolderName";
 
-    protected List<String> selectedItems = new ArrayList<String>(1);
+    protected final List<String> selectedItems = new ArrayList<String>(1);
 
     private NodeIdActions nActions;
 
@@ -171,14 +171,7 @@ GridFragment
             LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, intentFilter);
         }
 
-        if (getMode() != MODE_PROGRESS)
-        {
-            hasSynchroActive = GeneralPreferences.hasActivateSync(getActivity(), acc);
-        }
-        else
-        {
-            hasSynchroActive = true;
-        }
+        hasSynchroActive = getMode() == MODE_PROGRESS || GeneralPreferences.hasActivateSync(getActivity(), acc);
 
         int titleId = R.string.menu_favorites;
         if (hasSynchroActive)
@@ -220,22 +213,28 @@ GridFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        if (requestCode != PublicIntent.REQUESTCODE_SAVE_BACK && requestCode != PublicIntent.REQUESTCODE_DECRYPTED) { return; }
+        if (requestCode != PublicIntent.REQUESTCODE_SAVE_BACK && requestCode != PublicIntent.REQUESTCODE_DECRYPTED)
+        {
+            return;
+        }
 
         final File dlFile = localFile;
 
-        if (dlFile == null) { return; }
+        if (dlFile == null)
+        {
+            return;
+        }
 
         long datetime = dlFile.lastModified();
         Date d = new Date(datetime);
-        boolean modified = false;
+        boolean modified;
         final Uri lUri = favoriteUri;
 
         switch (requestCode)
         {
         case PublicIntent.REQUESTCODE_SAVE_BACK:
 
-            modified = (d != null && downloadDateTime != null) ? d.after(downloadDateTime) : false;
+            modified = (downloadDateTime != null) && d.after(downloadDateTime);
 
             if (modified)
             {
@@ -253,7 +252,7 @@ GridFragment
             break;
         case PublicIntent.REQUESTCODE_DECRYPTED:
 
-            modified = (d != null && decryptDateTime != null) ? d.after(decryptDateTime) : false;
+            modified = (decryptDateTime != null) && d.after(decryptDateTime);
             if (modified)
             {
                 // If modified by user, we flag the uri
@@ -320,7 +319,7 @@ GridFragment
 
         if (getFolderId() != null)
         {
-            selection.append(SynchroSchema.COLUMN_PARENT_ID + " == '" + getFolderId() + "'");
+            selection.append(SynchroSchema.COLUMN_PARENT_ID + " == '").append(getFolderId()).append("'");
         }
         else
         {
@@ -393,8 +392,9 @@ GridFragment
                 {
                     // GO TO Local subfolder
                     Fragment syncFrag = FavoritesSyncFragment.newInstance(getMode(), nodeId, documentName);
-                    FragmentDisplayer.replaceFragment(getActivity(), syncFrag,
-                            DisplayUtils.getLeftFragmentId(getActivity()), FavoritesSyncFragment.TAG, true);
+                    FragmentDisplayer
+                            .replaceFragment(getActivity(), syncFrag, DisplayUtils.getLeftFragmentId(getActivity()),
+                                    FavoritesSyncFragment.TAG, true);
                 }
                 else
                 {
@@ -413,7 +413,10 @@ GridFragment
 
     public boolean onItemLongClick(GridView l, View v, int position, long id)
     {
-        if (nActions != null) { return false; }
+        if (nActions != null)
+        {
+            return false;
+        }
 
         Cursor cursor = (Cursor) l.getItemAtPosition(position);
         String documentId = cursor.getString(SynchroSchema.COLUMN_NODE_ID_ID);
@@ -439,7 +442,7 @@ GridFragment
         adapter.notifyDataSetChanged();
 
         return true;
-    };
+    }
 
     public int getMode()
     {
@@ -487,8 +490,8 @@ GridFragment
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
 
-        mi = menu.add(Menu.NONE, MenuActionItem.MENU_REFRESH, MenuActionItem.MENU_SYNC_WARNING
-                + MenuActionItem.MENU_REFRESH, R.string.refresh);
+        mi = menu.add(Menu.NONE, MenuActionItem.MENU_REFRESH,
+                MenuActionItem.MENU_SYNC_WARNING + MenuActionItem.MENU_REFRESH, R.string.refresh);
         mi.setIcon(R.drawable.ic_refresh);
         mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
     }
@@ -517,7 +520,6 @@ GridFragment
         if (info != null && info.hasWarning())
         {
             SyncErrorDialogFragment.newInstance().show(getActivity().getFragmentManager(), SyncErrorDialogFragment.TAG);
-            return;
         }
     }
 
@@ -536,9 +538,13 @@ GridFragment
         {
             OdsLog.d(TAG, intent.getAction());
 
-            if (intent.getAction() == null) { return; }
+            if (intent.getAction() == null)
+            {
+                return;
+            }
 
-            if (mi != null && getActivity() != null && intent.getAction().equals(IntentIntegrator.ACTION_SYNC_SCAN_COMPLETED))
+            if (mi != null && getActivity() != null &&
+                    intent.getAction().equals(IntentIntegrator.ACTION_SYNC_SCAN_COMPLETED))
             {
                 // Hide spinning wheel
                 mi.setActionView(null);
@@ -547,36 +553,42 @@ GridFragment
 
                 if (info.hasWarning())
                 {
-                    SyncErrorDialogFragment.newInstance().show(getActivity().getFragmentManager(),
-                            SyncErrorDialogFragment.TAG);
+                    SyncErrorDialogFragment.newInstance()
+                            .show(getActivity().getFragmentManager(), SyncErrorDialogFragment.TAG);
                     return;
                 }
             }
 
-            if (acc == null) { return; }
+            if (acc == null)
+            {
+                return;
+            }
 
             if (intent.getAction().equals(IntentIntegrator.ACTION_UPDATE_COMPLETED))
             {
                 Bundle b = intent.getExtras().getParcelable(IntentIntegrator.EXTRA_DATA);
-                Node updatedNode = (Node) b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
-                if (updatedNode == null) { return; }
+                Node updatedNode = b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
+                if (updatedNode == null)
+                {
+                    return;
+                }
 
-                Cursor favoriteCursor = context.getContentResolver().query(
-                        SynchroProvider.CONTENT_URI,
-                        SynchroSchema.COLUMN_ALL,
-                        SynchroProvider.getAccountFilter(acc) + " AND " + SynchroSchema.COLUMN_NODE_ID + " LIKE '"
-                                + NodeRefUtils.getCleanIdentifier(updatedNode.getIdentifier()) + "%'", null, null);
+                Cursor favoriteCursor = context.getContentResolver()
+                        .query(SynchroProvider.CONTENT_URI, SynchroSchema.COLUMN_ALL,
+                                SynchroProvider.getAccountFilter(acc) + " AND " + SynchroSchema.COLUMN_NODE_ID +
+                                        " LIKE '" + NodeRefUtils.getCleanIdentifier(updatedNode.getIdentifier()) + "%'",
+                                null, null);
                 boolean hasFavorite = (favoriteCursor.getCount() == 1);
                 if (hasFavorite && !hasSynchroActive)
                 {
                     favoriteCursor.moveToFirst();
                     ContentValues cValues = new ContentValues();
                     cValues.put(SynchroSchema.COLUMN_NODE_ID, updatedNode.getIdentifier());
-                    cValues.put(SynchroSchema.COLUMN_SERVER_MODIFICATION_TIMESTAMP, updatedNode.getModifiedAt()
-                            .getTimeInMillis());
-                    context.getContentResolver().update(
-                            SynchroManager.getUri(favoriteCursor.getLong(SynchroSchema.COLUMN_ID_ID)), cValues, null,
-                            null);
+                    cValues.put(SynchroSchema.COLUMN_SERVER_MODIFICATION_TIMESTAMP,
+                            updatedNode.getModifiedAt().getTimeInMillis());
+                    context.getContentResolver()
+                            .update(SynchroManager.getUri(favoriteCursor.getLong(SynchroSchema.COLUMN_ID_ID)), cValues,
+                                    null, null);
                 }
                 favoriteCursor.close();
             }

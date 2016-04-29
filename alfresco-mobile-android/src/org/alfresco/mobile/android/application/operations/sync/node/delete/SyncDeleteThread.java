@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -114,11 +114,12 @@ public class SyncDeleteThread extends SyncNodeOperationThread<Void>
                     // No local modification
                     // Delete them
                     IOUtils.deleteContents(dlFile.getParentFile());
+                    //noinspection ResultOfMethodCallIgnored
                     dlFile.getParentFile().delete();
                     context.getContentResolver().delete(
                             SynchroManager.getUri(cursor.getLong(cursor.getColumnIndex(SynchroSchema.COLUMN_ID))),
                             null, null);
-                    
+
                     /* Update Parent Folder if present
                     //Parent Identifier
                     String parentIdentifier = cursor.getString(SynchroSchema.COLUMN_PARENT_ID_ID);
@@ -175,7 +176,7 @@ public class SyncDeleteThread extends SyncNodeOperationThread<Void>
             cValues.put(BatchOperationSchema.COLUMN_STATUS, SyncOperation.STATUS_FAILED);
             context.getContentResolver().update(SynchroManager.getUri(favoriteId), cValues, null, null);
         }
-        
+
         //Data Protection if necessary
         StorageManager.manageFile(context, newLocalFile);
 
@@ -184,12 +185,8 @@ public class SyncDeleteThread extends SyncNodeOperationThread<Void>
 
     private boolean hasLocalModification()
     {
-        if (DataProtectionManager.getInstance(context).isEncryptionEnable())
-        {
-            if (SyncOperation.STATUS_MODIFIED == cursor.getInt(SynchroSchema.COLUMN_STATUS_ID)) { return true; }
-            return false;
-        }
-        return true;
+        return !DataProtectionManager.getInstance(context).isEncryptionEnable() ||
+                SyncOperation.STATUS_MODIFIED == cursor.getInt(SynchroSchema.COLUMN_STATUS_ID);
     }
 
     // ///////////////////////////////////////////////////////////////////////////

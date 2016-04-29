@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,24 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.properties;
-
-import java.io.Serializable;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.alfresco.mobile.android.api.constants.ContentModel;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Node;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.node.update.UpdatePropertiesRequest;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.documentfolder.actions.UpdateNodeDialogFragment;
-import org.alfresco.mobile.android.ui.utils.Formatter;
 
 import android.os.Bundle;
 import android.text.Editable;
@@ -46,6 +28,24 @@ import android.view.Window;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+
+import org.alfresco.mobile.android.api.constants.ContentModel;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.application.operations.OperationRequest;
+import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
+import org.alfresco.mobile.android.application.operations.batch.node.update.UpdatePropertiesRequest;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.documentfolder.actions.UpdateNodeDialogFragment;
+import org.alfresco.mobile.android.ui.utils.Formatter;
+import org.opendataspace.android.app.R;
+
+import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 public class UpdateDialogFragment extends UpdateNodeDialogFragment
 {
@@ -92,7 +92,10 @@ public class UpdateDialogFragment extends UpdateNodeDialogFragment
         getDialog().requestWindowFeature(Window.FEATURE_LEFT_ICON);
 
         View v = inflater.inflate(R.layout.sdk_create_content_props, container, false);
-        if (alfSession == null) { return v; }
+        if (alfSession == null)
+        {
+            return v;
+        }
 
         final EditText tv = (EditText) v.findViewById(R.id.content_name);
         //final EditText desc = (EditText) v.findViewById(R.id.content_description);
@@ -163,12 +166,11 @@ public class UpdateDialogFragment extends UpdateNodeDialogFragment
             tsize.setVisibility(View.GONE);
         }
 
-        final EditText textName = ((EditText) v.findViewById(R.id.content_name));
         final Button validate = (Button) v.findViewById(R.id.validate_action);
 
         // This Listener is responsible to enable or not the validate button and
         // error message.
-        textName.addTextChangedListener(new TextWatcher()
+        tv.addTextChangedListener(new TextWatcher()
         {
             public void afterTextChanged(Editable s)
             {
@@ -177,18 +179,18 @@ public class UpdateDialogFragment extends UpdateNodeDialogFragment
                     validate.setEnabled(true);
                     if (UIUtils.hasInvalidName(s.toString().trim()))
                     {
-                        textName.setError(getString(R.string.filename_error_character));
+                        tv.setError(getString(R.string.filename_error_character));
                         validate.setEnabled(false);
                     }
                     else
                     {
-                        textName.setError(null);
+                        tv.setError(null);
                     }
                 }
                 else
                 {
                     validate.setEnabled(false);
-                    textName.setError(null);
+                    tv.setError(null);
                 }
             }
 
@@ -225,7 +227,8 @@ public class UpdateDialogFragment extends UpdateNodeDialogFragment
             props.put(ContentModel.PROP_DESCRIPTION, desc.getText().toString());
         }
 
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new UpdatePropertiesRequest(folder, node, props).setNotificationTitle(node.getName())
                 .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);

@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ *
  *  This file is part of Alfresco Mobile for Android.
- *  
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,7 +42,7 @@ public class NodePlaceHolder implements Node
     private static final String PROGRESS = "progress";
 
     /** Map of properties available for this Node. */
-    private Map<String, Property> properties;
+    private final Map<String, Property> properties;
 
     public NodePlaceHolder(String name, int type, int status)
     {
@@ -65,7 +65,7 @@ public class NodePlaceHolder implements Node
         if (getPropertyValue(SIZEINBYTES) == null) { return (long) -1; }
         return (Long) getPropertyValue(SIZEINBYTES);
     }
-    
+
     public NodePlaceHolder setProgress(long progress){
         properties.put(PROGRESS, new PropertyImpl(progress));
         return this;

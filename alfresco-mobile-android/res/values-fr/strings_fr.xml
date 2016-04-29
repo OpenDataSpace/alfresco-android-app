@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2005-2013 Alfresco Software Limited.
-  
+
   This file is part of DataSpace Mobile for Android.
-  
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
 http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -69,7 +68,8 @@ http://www.apache.org/licenses/LICENSE-2.0
     <string name="account_validate_hint">Enregistrez vos informations de compte</string>
     <string name="account_validate_disable_hint">Veuillez compléter les champs nom d\'utilisateur, mot de passe et nom de l\'hôte.</string>
     <string name="account_validate_disable_url_hint">Les valeurs de nom d\'hôte et d\'URL du service semblent incorrectes. Veuillez vérifier les paramètres de votre compte.</string>
-    <!-- translate --> <string name="account_proto">Protocol</string>
+    <!-- translate -->
+    <string name="account_proto">Protocol</string>
 
     <string-array name="account_proto_array">
         <item id="0">Json</item>
@@ -417,7 +417,8 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="passcode_timeout_10min">10 minutes</string>
     <string name="passcode_timeout_30min">30 minutes</string>
     <string name="passcode_timeout_60min">1 heure</string>
-    <!-- translate --> <string name="passcode_error_unknown">Encryption engine failure.</string>
+    <!-- translate -->
+    <string name="passcode_error_unknown">Encryption engine failure.</string>
 
     <string-array name="passcode_timeout_entries">
         <item>@string/passcode_timeout_1min</item>
@@ -455,21 +456,25 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="settings_favorite_sync">Activer la synchro pour \"%s\"</string>
     <string name="settings_favorite_sync_data">Utilisation des données</string>
     <string name="settings_favorite_sync_data_all">Utiliser les données cellulaires pour la synchro</string>
-    <!-- translate --> <string name="settings_encryption">Encryption</string>
-    <!-- translate --> <string name="settings_autosync">Synchronisation</string>
-    <!-- translate --> <string name="settings_autosync_settings">Settings</string>
-    <!-- translate --> <string name="settings_autosync_settings_off">Synchronisation of images and videos is currently off</string>
-    <!-- translate --> <string name="settings_autosync_settings_on">Synchronisation of images and videos is currently on</string>
-    <!-- translate --> <string name="settings_feedback">Feedback</string>
+    <!-- translate -->
+    <string name="settings_encryption">Encryption</string>
+    <!-- translate -->
+    <string name="settings_autosync">Synchronisation</string>
+    <!-- translate -->
+    <string name="settings_autosync_settings">Settings</string>
+    <!-- translate -->
+    <string name="settings_autosync_settings_off">Synchronisation of images and videos is currently off</string>
+    <!-- translate -->
+    <string name="settings_autosync_settings_on">Synchronisation of images and videos is currently on</string>
+    <!-- translate -->
+    <string name="settings_feedback">Feedback</string>
 
     <!-- Multi Selection -->
     <plurals name="selected_document">
-        <item quantity="zero">Aucun fichier</item>
         <item quantity="one">%1$s fichier</item>
         <item quantity="other">%1$s fichiers</item>
     </plurals>
     <plurals name="selected_folders">
-        <item quantity="zero">aucun dossier</item>
         <item quantity="one">%1$s dossier</item>
         <item quantity="other">%1$s dossiers</item>
     </plurals>
@@ -502,37 +507,30 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="download_await">En attente pour télécharger&#8230;</string>
 
     <plurals name="sync_complete_description">
-        <item quantity="zero">aucun contenu synchronisé</item>
         <item quantity="one">%1$s fichier synchronisé</item>
         <item quantity="other">%1$s fichiers synchronisés</item>
     </plurals>
     <plurals name="download_complete_description">
-        <item quantity="zero">aucun contenu téléchargé</item>
         <item quantity="one">%1$s fichier disponible hors ligne</item>
         <item quantity="other">%1$s fichiers disponibles hors ligne</item>
     </plurals>
     <plurals name="upload_complete_description">
-        <item quantity="zero">aucun contenu ajouté.</item>
         <item quantity="one">%1$s élément ajouté.</item>
         <item quantity="other">%1$s éléments ajoutés.</item>
     </plurals>
     <plurals name="update_complete_description">
-        <item quantity="zero">aucun contenu mis à jour.</item>
         <item quantity="one">%1$s fichier mis à jour.</item>
         <item quantity="other">%1$s fichiers mis à jour.</item>
     </plurals>
     <plurals name="batch_failed">
-        <item quantity="zero">aucun échec de transfert.</item>
         <item quantity="one">%1$s transfert échoué.</item>
         <item quantity="other">%1$s transferts échoués.</item>
     </plurals>
     <plurals name="batch_in_progress">
-        <item quantity="zero">aucun transfert en cours.</item>
         <item quantity="one">%1$s transfert en cours.</item>
         <item quantity="other">%1$s transferts en cours.</item>
     </plurals>
     <plurals name="download_in_progress">
-        <item quantity="zero">aucun téléchargement en cours.</item>
         <item quantity="one">%1$s téléchargement en cours.</item>
         <item quantity="other">%1$s téléchargements en cours.</item>
     </plurals>
@@ -641,7 +639,7 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="file_editor_save">Enregistrer</string>
     <string name="file_editor_discard">Ignorer</string>
     <string name="file_editor_save_confirmation">Le fichier a été enregistré.</string>
-    <string name="file_editor_loading">Veuillez patienter...</string>
+    <string name="file_editor_loading">Veuillez patienter…</string>
     <string name="file_editor_encoding">Encodage</string>
     <string name="file_editor_text_size">Taille du texte</string>
     <string name="file_editor_speech_to_text">Reconnaissance vocale</string>
@@ -731,7 +729,6 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
 
     <!-- Multi Selection -->
     <plurals name="selected_task">
-        <item quantity="zero">aucune tâche</item>
         <item quantity="one">%1$s tâche</item>
         <item quantity="other">%1$s tâches</item>
     </plurals>
@@ -819,7 +816,6 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="picker_attachments">Sélectionner les éléments attachés</string>
     <string name="action_remove_approvers">Supprimer un approbateur</string>
     <string name="action_add_approvers">Ajouter un approbateur</string>
-
 
 
     <!-- PROCESS NAME -->

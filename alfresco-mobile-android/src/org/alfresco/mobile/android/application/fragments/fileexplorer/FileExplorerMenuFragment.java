@@ -52,7 +52,7 @@ public class FileExplorerMenuFragment extends BaseFragment
         UIUtils.displayTitle(getActivity(), getString(R.string.menu_local_files));
         super.onResume();
     }
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // UTILS
     // ///////////////////////////////////////////////////////////////////////////
@@ -81,7 +81,7 @@ public class FileExplorerMenuFragment extends BaseFragment
         }
     };
 
-    private OnClickListener menuClickListener = new OnClickListener()
+    private final OnClickListener menuClickListener = new OnClickListener()
     {
         @Override
         public void onClick(View v)

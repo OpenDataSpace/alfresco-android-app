@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,15 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.database;
 
+import android.content.Context;
+import android.database.sqlite.SQLiteDatabase;
+import android.database.sqlite.SQLiteOpenHelper;
+
 import org.alfresco.mobile.android.application.accounts.AccountSchema;
 import org.alfresco.mobile.android.application.fragments.search.HistorySearchSchema;
 import org.alfresco.mobile.android.application.mimetype.MimeTypeSchema;
 import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
 import org.alfresco.mobile.android.application.operations.sync.SynchroSchema;
-
-import android.content.Context;
-import android.database.sqlite.SQLiteDatabase;
-import android.database.sqlite.SQLiteOpenHelper;
 
 /**
  * @author Jean Marie Pascal
@@ -57,6 +57,7 @@ public class DatabaseManager implements DatabaseVersionNumber
         {
             sqliteDb = dbHelper.getWritableDatabase();
         }
+        //noinspection StatementWithEmptyBody
         while (sqliteDb.isDbLockedByCurrentThread() || sqliteDb.isDbLockedByOtherThreads())
         {
             // db is locked, keep looping
@@ -74,7 +75,7 @@ public class DatabaseManager implements DatabaseVersionNumber
 
     private static class GenericDbHelper extends SQLiteOpenHelper
     {
-        private Context ctx;
+        private final Context ctx;
 
         GenericDbHelper(Context ctx)
         {

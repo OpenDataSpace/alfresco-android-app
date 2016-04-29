@@ -107,7 +107,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
 
     protected int selectedPosition;
 
-    protected List<File> files = new ArrayList<File>();
+    protected final List<File> files = new ArrayList<File>();
 
     private Spinner spinnerDoc;
 
@@ -215,7 +215,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                                 }
                             }
                             */
-                            if (!files.contains(file))
+                            if (files != null && !files.contains(file))
                             {
                                 files.add(file);
                             }
@@ -235,7 +235,7 @@ public class UploadFormFragment extends Fragment implements LoaderCallbacks<Curs
                                 Uri uri = (Uri) object;
                                 retrieveIntentInfo(uri);
 
-                                if (!files.contains(file))
+                                if (files != null && !files.contains(file))
                                 {
                                     files.add(file);
                                 }

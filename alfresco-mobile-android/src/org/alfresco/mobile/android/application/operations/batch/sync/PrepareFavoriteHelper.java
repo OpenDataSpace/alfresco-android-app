@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,7 +51,6 @@ public class PrepareFavoriteHelper extends PrepareBaseHelper
         cValues.put(SynchroSchema.COLUMN_NODE_ID, doc.getIdentifier());
         cValues.put(SynchroSchema.COLUMN_SERVER_MODIFICATION_TIMESTAMP, doc.getModifiedAt().getTimeInMillis());
         context.getContentResolver().update(localUri, cValues, null, null);
-        return;
     }
 
     protected void rename(Document doc, File localFile, Uri localUri)
@@ -64,7 +63,6 @@ public class PrepareFavoriteHelper extends PrepareBaseHelper
 
     protected void prepareUpdate(Document doc, Cursor cursorId, File localFile, Uri localUri)
     {
-        return;
     }
 
     protected void prepareDelete(String id, Cursor cursorId)
@@ -72,6 +70,5 @@ public class PrepareFavoriteHelper extends PrepareBaseHelper
         // If Favorite listing simply delete the entry.
         context.getContentResolver().delete(SynchroManager.getUri(cursorId.getLong(SynchroSchema.COLUMN_ID_ID)), null,
                 null);
-        return;
     }
 }

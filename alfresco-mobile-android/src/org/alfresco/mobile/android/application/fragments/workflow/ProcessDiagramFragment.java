@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -38,12 +38,6 @@ public class ProcessDiagramFragment extends BaseFragment
     public static final String TAG = ProcessDiagramFragment.class.getName();
 
     public static final String ARGUMENT_PROCESSID = "processId";
-
-    private String processId;
-
-    private ImageView preview;
-
-    private RenditionManager renditionManager;
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS & HELPERS
@@ -85,14 +79,14 @@ public class ProcessDiagramFragment extends BaseFragment
         View v = inflater.inflate(R.layout.app_process_preview, container, false);
         if (alfSession == null) { return v; }
 
-        processId = getArguments().getString(ARGUMENT_PROCESSID);
+        String processId = getArguments().getString(ARGUMENT_PROCESSID);
         if (processId == null || processId.isEmpty()) { return null; }
-        preview = (ImageView) v.findViewById(R.id.preview);
+        ImageView preview = (ImageView) v.findViewById(R.id.preview);
         int iconId = R.drawable.ic_px;
 
-        renditionManager = ApplicationManager.getInstance(getActivity()).getRenditionManager(
-                getActivity());
-        renditionManager.displayDiagram((ImageView) preview, iconId, processId);
+        RenditionManager renditionManager =
+                ApplicationManager.getInstance(getActivity()).getRenditionManager(getActivity());
+        renditionManager.displayDiagram(preview, iconId, processId);
         return v;
     }
 

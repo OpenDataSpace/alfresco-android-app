@@ -142,8 +142,6 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     private Map<String, Document> selectedMapItems = new HashMap<String, Document>(0);
 
-    private int displayMode = BaseCursorGridAdapterHelper.DISPLAY_GRID;
-
     // //////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     // //////////////////////////////////////////////////////////////////////
@@ -235,11 +233,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         setRetainInstance(true);
         alfSession = SessionUtils.getSession(getActivity());
         SessionUtils.checkSession(getActivity(), alfSession);
-        if (alfSession == null)
-        {
-
-        }
-        else if (RepositoryVersionHelper.isAlfrescoProduct(alfSession))
+        if (alfSession != null && RepositoryVersionHelper.isAlfrescoProduct(alfSession))
         {
             setActivateThumbnail(true);
         }
@@ -263,7 +257,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        View v = null;
+        View v;
         // In case of Import mode, we wrap the listing with buttons.
         if (getActivity() instanceof PublicDispatcherActivity || getActivity() instanceof PrivateDialogActivity)
         {
@@ -486,7 +480,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             path = new String[] {"/"};
         }
 
-        String tmpPath = "";
+        String tmpPath;
 
         List<String> listFolder = new ArrayList<String>(path.length);
         for (int i = path.length - 1; i > -1; i--)
@@ -614,7 +608,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         }
 
         Node n = (Node) l.getItemAtPosition(position);
-        boolean b = true;
+        boolean b;
         if (n instanceof NodePlaceHolder)
         {
             getActivity().startActivity(new Intent(IntentIntegrator.ACTION_DISPLAY_OPERATIONS)
@@ -633,8 +627,6 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         }
         return b;
     }
-
-    ;
 
     private boolean startSelection(Node item)
     {
@@ -681,6 +673,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             importFolder = parentFolder;
         }
 
+        int displayMode = BaseCursorGridAdapterHelper.DISPLAY_GRID;
         if (mode == MODE_PICK && adapter == null)
         {
             selectedMapItems = fragmentPick.retrieveDocumentSelection();
@@ -897,7 +890,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         {
             return;
         }
-        Permissions permission = null;
+        Permissions permission;
         try
         {
             permission = session.getServiceRegistry().getDocumentFolderService().getPermissions(parentFolder);
@@ -1053,7 +1046,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     public List<Node> getNodes()
     {
-        if (((ProgressNodeAdapter) adapter) != null)
+        if (adapter != null)
         {
             return ((ProgressNodeAdapter) adapter).getNodes();
         }
@@ -1066,7 +1059,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
     @SuppressWarnings("unused")
     private boolean hasDocument()
     {
-        if (((ProgressNodeAdapter) adapter) != null)
+        if (adapter != null)
         {
             for (Node node : ((ProgressNodeAdapter) adapter).getNodes())
             {
@@ -1157,11 +1150,6 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             {
                 JSONObject cur = list.optJSONObject(n);
 
-                if (jso == null)
-                {
-                    continue;
-                }
-
                 String id = cur.optString("nodeId");
 
                 if (!TextUtils.isEmpty(id))
@@ -1242,7 +1230,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_UPLOAD_COMPLETED))
                     {
-                        Node node = (Node) b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
+                        Node node = b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
                         ((ProgressNodeAdapter) adapter).replaceNode(node);
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_UPDATE_COMPLETED))
@@ -1256,12 +1244,12 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                             remove((Node) b.getParcelable(IntentIntegrator.EXTRA_NODE));
                         }
 
-                        Node updatedNode = (Node) b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
+                        Node updatedNode = b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
                         ((ProgressNodeAdapter) adapter).replaceNode(updatedNode);
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_CREATE_FOLDER_COMPLETED))
                     {
-                        Node node = (Node) b.getParcelable(IntentIntegrator.EXTRA_CREATED_FOLDER);
+                        Node node = b.getParcelable(IntentIntegrator.EXTRA_CREATED_FOLDER);
                         ((ProgressNodeAdapter) adapter).replaceNode(node);
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_FAVORITE_COMPLETED))
@@ -1270,7 +1258,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_DOWNLOAD_COMPLETED))
                     {
-                        Node node = (Node) b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
+                        Node node = b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
                         ((ProgressNodeAdapter) adapter).replaceNode(node);
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_MOVE_NODES_COMPLETED))
@@ -1287,7 +1275,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
         private void refreshList()
         {
-            if (!((ProgressNodeAdapter) adapter).isEmpty())
+            if (!adapter.isEmpty())
             {
                 gv.setVisibility(View.VISIBLE);
                 ev.setVisibility(View.GONE);
@@ -1366,11 +1354,8 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
 
     public boolean isShortcut()
     {
-        if (getArguments() == null || !getArguments().containsKey(PARAM_IS_SHORTCUT))
-        {
-            return false;
-        }
-        return (getArguments().get(PARAM_IS_SHORTCUT) instanceof Boolean) ?
-                (Boolean) getArguments().get(PARAM_IS_SHORTCUT) : false;
+        return !(getArguments() == null || !getArguments().containsKey(PARAM_IS_SHORTCUT)) &&
+                ((getArguments().get(PARAM_IS_SHORTCUT) instanceof Boolean) ?
+                        (Boolean) getArguments().get(PARAM_IS_SHORTCUT) : false);
     }
 }

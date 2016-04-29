@@ -1,7 +1,22 @@
 package org.opendataspace.android.app.fragments;
 
-import java.util.ArrayList;
-import java.util.List;
+import android.app.Fragment;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.CursorLoader;
+import android.content.Intent;
+import android.content.Loader;
+import android.database.Cursor;
+import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemSelectedListener;
+import android.widget.Button;
+import android.widget.CursorAdapter;
+import android.widget.Spinner;
 
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.ApplicationManager;
@@ -19,23 +34,8 @@ import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 
-import android.app.Fragment;
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.CursorLoader;
-import android.content.Intent;
-import android.content.Loader;
-import android.database.Cursor;
-import android.os.Bundle;
-import android.support.v4.content.LocalBroadcastManager;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.view.View.OnClickListener;
-import android.widget.AdapterView;
-import android.widget.Button;
-import android.widget.CursorAdapter;
-import android.widget.Spinner;
-import android.widget.AdapterView.OnItemSelectedListener;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OdsSelectFolderFragment extends Fragment implements LoaderCallbacks<Cursor>
 {
@@ -147,7 +147,8 @@ public class OdsSelectFolderFragment extends Fragment implements LoaderCallbacks
     public Loader<Cursor> onCreateLoader(int arg0, Bundle arg1)
     {
         return new CursorLoader(getActivity(), AccountManager.CONTENT_URI, AccountManager.COLUMN_ALL,
-                AccountSchema.COLUMN_ACTIVATION + " IS NULL OR " + AccountSchema.COLUMN_ACTIVATION + "= ''", null, null);
+                AccountSchema.COLUMN_ACTIVATION + " IS NULL OR " + AccountSchema.COLUMN_ACTIVATION + "= ''", null,
+                null);
     }
 
     @Override
@@ -199,7 +200,9 @@ public class OdsSelectFolderFragment extends Fragment implements LoaderCallbacks
             long accountId = selectedAccountCursor.getLong(AccountSchema.COLUMN_ID_ID);
             ses = ApplicationManager.getInstance(getActivity()).getSession(accountId);
             type = selectedAccountCursor.getInt(AccountSchema.COLUMN_REPOSITORY_TYPE_ID);
-        } else {
+        }
+        else
+        {
             ses = ApplicationManager.getInstance(getActivity()).getCurrentSession();
         }
 
@@ -207,7 +210,7 @@ public class OdsSelectFolderFragment extends Fragment implements LoaderCallbacks
 
         Spinner spinner = (Spinner) rootView.findViewById(R.id.import_folder_spinner);
         UploadFolderAdapter upLoadadapter = new UploadFolderAdapter(getActivity(), R.layout.sdk_list_row,
-                isOds  ? ODS_IMPORT_FOLDER_LIST : IMPORT_FOLDER_LIST);
+                isOds ? ODS_IMPORT_FOLDER_LIST : IMPORT_FOLDER_LIST);
         spinner.setAdapter(upLoadadapter);
         spinner.setOnItemSelectedListener(new OnItemSelectedListener()
         {
@@ -270,7 +273,9 @@ public class OdsSelectFolderFragment extends Fragment implements LoaderCallbacks
                 ((PublicDispatcherActivity) getActivity()).setUploadFolder(folderImportId);
             }
 
-            AlfrescoSession session = ApplicationManager.getInstance(getActivity()).getSession(tmpAccount.getId());
+            AlfrescoSession session =
+                    tmpAccount != null ? ApplicationManager.getInstance(getActivity()).getSession(tmpAccount.getId()) :
+                            null;
 
             // Try to use Session used by the application
             if (session != null)
@@ -278,8 +283,8 @@ public class OdsSelectFolderFragment extends Fragment implements LoaderCallbacks
                 ((BaseActivity) getActivity()).setCurrentAccount(tmpAccount);
                 ((BaseActivity) getActivity()).setRenditionManager(null);
                 LocalBroadcastManager.getInstance(getActivity()).sendBroadcast(
-                        new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT_COMPLETED).putExtra(
-                                IntentIntegrator.EXTRA_ACCOUNT_ID, tmpAccount.getId()));
+                        new Intent(IntentIntegrator.ACTION_LOAD_ACCOUNT_COMPLETED)
+                                .putExtra(IntentIntegrator.EXTRA_ACCOUNT_ID, tmpAccount.getId()));
                 return;
             }
 

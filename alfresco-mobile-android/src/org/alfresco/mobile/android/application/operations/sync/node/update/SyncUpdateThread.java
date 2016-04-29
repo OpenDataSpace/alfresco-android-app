@@ -1,14 +1,14 @@
 /**
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,6 +16,11 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.sync.node.update;
+
+import android.content.ContentValues;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import org.alfresco.cmis.client.AlfrescoDocument;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
@@ -33,11 +38,6 @@ import org.apache.chemistry.opencmis.commons.PropertyIds;
 import org.apache.chemistry.opencmis.commons.data.ContentStream;
 import org.opendataspace.android.app.security.OdsEncryptionUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
-
-import android.content.ContentValues;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 
 public class SyncUpdateThread extends AbstractSyncUpThread
 {
@@ -88,21 +88,18 @@ public class SyncUpdateThread extends AbstractSyncUpThread
                 catch (Exception e)
                 {
                     OdsLog.ex(TAG, e);
-                    if (idpwc == null)
+                    try
                     {
-                        try
-                        {
-                            idpwc = cmisDoc.checkOut().getId();
-                        }
-                        catch (Exception ee)
-                        {
-                            OdsLog.ex(TAG, ee);
-                            throw ee;
-                        }
+                        idpwc = cmisDoc.checkOut().getId();
+                    }
+                    catch (Exception ee)
+                    {
+                        OdsLog.ex(TAG, ee);
+                        throw ee;
                     }
                 }
 
-                org.apache.chemistry.opencmis.client.api.Document cmisDocpwc = null;
+                org.apache.chemistry.opencmis.client.api.Document cmisDocpwc;
                 try
                 {
                     cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
@@ -113,9 +110,9 @@ public class SyncUpdateThread extends AbstractSyncUpThread
                     cmisDocpwc = (org.apache.chemistry.opencmis.client.api.Document) cmisSession.getObject(idpwc);
                 }
 
-                ContentStream c = cmisSession.getObjectFactory().createContentStream(contentFile.getFileName(),
-                        contentFile.getLength(), contentFile.getMimeType(),
-                        IOUtils.getContentFileInputStream(contentFile));
+                ContentStream c = cmisSession.getObjectFactory()
+                        .createContentStream(contentFile.getFileName(), contentFile.getLength(),
+                                contentFile.getMimeType(), IOUtils.getContentFileInputStream(contentFile));
 
                 ObjectId iddoc = cmisDocpwc.checkIn(false, null, c, "");
                 cmisDoc = (AlfrescoDocument) cmisSession.getObject(iddoc);
@@ -159,8 +156,8 @@ public class SyncUpdateThread extends AbstractSyncUpThread
                 // Update Sync Info
                 ContentValues cValues = new ContentValues();
                 cValues.put(SynchroSchema.COLUMN_NODE_ID, result.getData().getIdentifier());
-                cValues.put(SynchroSchema.COLUMN_SERVER_MODIFICATION_TIMESTAMP, result.getData().getModifiedAt()
-                        .getTimeInMillis());
+                cValues.put(SynchroSchema.COLUMN_SERVER_MODIFICATION_TIMESTAMP,
+                        result.getData().getModifiedAt().getTimeInMillis());
                 cValues.put(SynchroSchema.COLUMN_LOCAL_MODIFICATION_TIMESTAMP, contentFile.getFile().lastModified());
                 cValues.put(SynchroSchema.COLUMN_CONTENT_URI,
                         (String) result.getData().getProperty(PropertyIds.CONTENT_STREAM_ID).getValue());

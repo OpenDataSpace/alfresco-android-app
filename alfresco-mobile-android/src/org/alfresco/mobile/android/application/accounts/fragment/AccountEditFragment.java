@@ -68,12 +68,13 @@ public class AccountEditFragment extends DialogFragment
 
     private Button validate;
 
-    private String url = null, host = null, username = null, password = null, servicedocument = null, description =
+    private String url = null;
+    private String username = null;
+    private String password = null;
+    private String description =
             null;
 
     private Account.ProtocolType proto = Account.ProtocolType.JSON;
-
-    private int port;
 
     private AccountsReceiver receiver;
 
@@ -230,10 +231,10 @@ public class AccountEditFragment extends DialogFragment
     {
         int[] ids = new int[] {R.id.repository_username, R.id.repository_hostname, R.id.repository_password,
                 R.id.repository_port};
-        EditText formValue = null;
-        for (int i = 0; i < ids.length; i++)
+        EditText formValue;
+        for (int id : ids)
         {
-            formValue = (EditText) findViewByIdInternal(ids[i]);
+            formValue = (EditText) findViewByIdInternal(id);
             formValue.addTextChangedListener(watcher);
         }
 
@@ -241,7 +242,7 @@ public class AccountEditFragment extends DialogFragment
         spin.setSelection(proto == Account.ProtocolType.JSON ? 0 : 1);
     }
 
-    private TextWatcher watcher = new TextWatcher()
+    private final TextWatcher watcher = new TextWatcher()
     {
 
         @Override
@@ -299,6 +300,7 @@ public class AccountEditFragment extends DialogFragment
         }
 
         formValue = (EditText) findViewByIdInternal(R.id.repository_hostname);
+        String host;
         if (formValue != null && formValue.getText() != null && formValue.getText().length() > 0)
         {
             host = formValue.getText().toString();
@@ -319,6 +321,7 @@ public class AccountEditFragment extends DialogFragment
         String protocol = https ? "https" : "http";
 
         formValue = (EditText) findViewByIdInternal(R.id.repository_port);
+        int port;
         if (formValue.getText().length() > 0)
         {
             port = Integer.parseInt(formValue.getText().toString());
@@ -332,8 +335,8 @@ public class AccountEditFragment extends DialogFragment
         proto = spin.getSelectedItemId() == 1 ? Account.ProtocolType.ATOM : Account.ProtocolType.JSON;
 
         formValue = (EditText) findViewByIdInternal(R.id.repository_servicedocument);
-        servicedocument = formValue.getText().toString();
-        URL u = null;
+        String servicedocument = formValue.getText().toString();
+        URL u;
         try
         {
             if ("".equals(servicedocument))

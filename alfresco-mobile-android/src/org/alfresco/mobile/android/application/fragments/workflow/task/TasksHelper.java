@@ -7,6 +7,7 @@ import org.alfresco.mobile.android.application.fragments.DisplayUtils;
 import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
 import org.alfresco.mobile.android.application.fragments.workflow.process.ProcessesFragment;
 
+import android.annotation.SuppressLint;
 import android.app.ActionBar;
 import android.app.ActionBar.OnNavigationListener;
 import android.app.Activity;
@@ -44,6 +45,7 @@ public final class TasksHelper
 
         OnNavigationListener mOnNavigationListener = new OnNavigationListener()
         {
+            @SuppressLint("CommitPrefEdits")
             @Override
             public boolean onNavigationItemSelected(int itemPosition, long itemId)
             {
@@ -110,7 +112,6 @@ public final class TasksHelper
             }
         };
         activity.getActionBar().setListNavigationCallbacks(adapter, mOnNavigationListener);
-        int currentSelection = menuId;
-        activity.getActionBar().setSelectedNavigationItem(currentSelection);
+        activity.getActionBar().setSelectedNavigationItem(menuId);
     }
 }

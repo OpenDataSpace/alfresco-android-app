@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -51,7 +51,7 @@ public class CreateFolderRequest extends NodeOperationRequest
 
         properties = new HashMap<String, Serializable>(2);
         properties.put(PropertyIds.OBJECT_TYPE_ID, BaseTypeId.CMIS_FOLDER.value());
-        
+
         persistentProperties = new HashMap<String, Serializable>();
         persistentProperties.put(ContentModel.PROP_NAME, folderName);
         persistentProperties.putAll(properties);
@@ -73,8 +73,7 @@ public class CreateFolderRequest extends NodeOperationRequest
         {
             this.folderName = tmpProperties.remove(ContentModel.PROP_NAME);
         }
-        Map<String, Serializable> finalProperties = new HashMap<String, Serializable>(tmpProperties);
-        this.properties = finalProperties;
+        this.properties = new HashMap<String, Serializable>(tmpProperties);
     }
 
     // ///////////////////////////////////////////////////////////////////////////

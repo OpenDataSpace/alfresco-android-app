@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,26 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.workflow.process;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.constants.WorkflowModel;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import org.alfresco.mobile.android.api.model.ProcessDefinition;
-import org.alfresco.mobile.android.api.model.impl.PagingResultImpl;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.fragments.workflow.CreateTaskFragment;
-import org.alfresco.mobile.android.application.fragments.workflow.ProcessDefinitionLoader;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
 
 import android.app.Fragment;
 import android.app.LoaderManager.LoaderCallbacks;
@@ -46,13 +26,31 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
 
-public class ProcessesDefinitionFragment extends BaseListFragment implements
-        LoaderCallbacks<LoaderResult<PagingResult<ProcessDefinition>>>
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.constants.WorkflowModel;
+import org.alfresco.mobile.android.api.model.ListingContext;
+import org.alfresco.mobile.android.api.model.PagingResult;
+import org.alfresco.mobile.android.api.model.ProcessDefinition;
+import org.alfresco.mobile.android.api.model.impl.PagingResultImpl;
+import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
+import org.alfresco.mobile.android.application.fragments.DisplayUtils;
+import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
+import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
+import org.alfresco.mobile.android.application.fragments.workflow.CreateTaskFragment;
+import org.alfresco.mobile.android.application.fragments.workflow.ProcessDefinitionLoader;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
+import org.opendataspace.android.app.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class ProcessesDefinitionFragment extends BaseListFragment
+        implements LoaderCallbacks<LoaderResult<PagingResult<ProcessDefinition>>>
 {
 
     public static final String TAG = ProcessesDefinitionFragment.class.getName();
-
-    private boolean filterEnabled = true;
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS & HELPERS
@@ -68,8 +66,7 @@ public class ProcessesDefinitionFragment extends BaseListFragment implements
 
     public static ProcessesDefinitionFragment newInstance()
     {
-        ProcessesDefinitionFragment bf = new ProcessesDefinitionFragment();
-        return bf;
+        return new ProcessesDefinitionFragment();
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -102,8 +99,8 @@ public class ProcessesDefinitionFragment extends BaseListFragment implements
 
         bundle = (ba == null) ? getArguments() : ba;
 
-        ListingContext lc = null, lcorigin = null;
-        ProcessDefinitionLoader st = null;
+        ListingContext lc = null, lcorigin;
+        ProcessDefinitionLoader st;
         if (bundle != null)
         {
             lcorigin = (ListingContext) bundle.getSerializable(ARGUMENT_LISTING);
@@ -122,7 +119,7 @@ public class ProcessesDefinitionFragment extends BaseListFragment implements
 
     @Override
     public void onLoadFinished(Loader<LoaderResult<PagingResult<ProcessDefinition>>> arg0,
-            LoaderResult<PagingResult<ProcessDefinition>> results)
+                               LoaderResult<PagingResult<ProcessDefinition>> results)
     {
         if (adapter == null)
         {
@@ -135,14 +132,7 @@ public class ProcessesDefinitionFragment extends BaseListFragment implements
         }
         else
         {
-            if (filterEnabled)
-            {
-                displayPagingData(filter(results.getData()), loaderId, callback);
-            }
-            else
-            {
-                displayPagingData(results.getData(), loaderId, callback);
-            }
+            displayPagingData(filter(results.getData()), loaderId, callback);
         }
         setListShown(true);
     }
@@ -152,7 +142,7 @@ public class ProcessesDefinitionFragment extends BaseListFragment implements
     {
         // Nothing special
     }
-    
+
     @Override
     public void onLoaderException(Exception e)
     {
@@ -165,8 +155,8 @@ public class ProcessesDefinitionFragment extends BaseListFragment implements
         List<ProcessDefinition> definitions = new ArrayList<ProcessDefinition>(processDefinitions.getTotalItems());
         for (ProcessDefinition processDef : processDefinitions.getList())
         {
-            if (WorkflowModel.FAMILY_PROCESS_ADHOC.contains(processDef.getKey())
-                    || WorkflowModel.FAMILY_PROCESS_PARALLEL_REVIEW.contains(processDef.getKey()))
+            if (WorkflowModel.FAMILY_PROCESS_ADHOC.contains(processDef.getKey()) ||
+                    WorkflowModel.FAMILY_PROCESS_PARALLEL_REVIEW.contains(processDef.getKey()))
             {
                 definitions.add(processDef);
             }

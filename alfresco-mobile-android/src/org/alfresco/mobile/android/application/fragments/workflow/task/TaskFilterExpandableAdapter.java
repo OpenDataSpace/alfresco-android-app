@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,16 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.workflow.task;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
-import org.alfresco.mobile.android.ui.utils.ViewHolder;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,10 +26,21 @@ import android.widget.BaseExpandableListAdapter;
 import android.widget.CheckBox;
 import android.widget.TextView;
 
+import org.alfresco.mobile.android.ui.utils.GenericViewHolder;
+import org.alfresco.mobile.android.ui.utils.ViewHolder;
+import org.opendataspace.android.app.R;
+
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
 public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
 {
-    LayoutInflater inflater;
+    final LayoutInflater inflater;
 
+    @SuppressLint("UseSparseArrays")
     private Map<Integer, Integer> selectedItems = new HashMap<Integer, Integer>(4);
 
     public TaskFilterExpandableAdapter(Activity context, Map<Integer, Integer> selectedItems)
@@ -68,11 +70,12 @@ public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
         return groupPosition;
     }
 
+    @SuppressLint("InflateParams")
     public View getGroupView(int groupPosition, boolean isExpanded, View convertView, ViewGroup parent)
     {
         Integer itemGroup = (Integer) getGroup(groupPosition);
 
-        GenericViewHolder vh = null;
+        GenericViewHolder vh;
         if (convertView == null)
         {
             convertView = inflater.inflate(R.layout.sdk_list_row, null);
@@ -82,26 +85,26 @@ public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
 
         vh = (GenericViewHolder) convertView.getTag();
         vh.topText.setText(itemGroup);
-        vh.choose.setImageResource(isExpanded ? R.drawable.expander_close_holo_light
-                : R.drawable.expander_open_holo_light);
+        vh.choose.setImageResource(
+                isExpanded ? R.drawable.expander_close_holo_light : R.drawable.expander_open_holo_light);
 
         int iconId = -1;
         switch (itemGroup)
         {
-            case R.string.tasks_status:
-                iconId = R.drawable.ic_validate;
-                break;
-            case R.string.tasks_due:
-                iconId = R.drawable.ic_calendar_pick;
-                break;
-            case R.string.tasks_priority:
-                iconId = R.drawable.ic_priority_medium;
-                break;
-            case R.string.tasks_assignee:
-                iconId = R.drawable.ic_person;
-                break;
-            default:
-                break;
+        case R.string.tasks_status:
+            iconId = R.drawable.ic_validate;
+            break;
+        case R.string.tasks_due:
+            iconId = R.drawable.ic_calendar_pick;
+            break;
+        case R.string.tasks_priority:
+            iconId = R.drawable.ic_priority_medium;
+            break;
+        case R.string.tasks_assignee:
+            iconId = R.drawable.ic_person;
+            break;
+        default:
+            break;
         }
         vh.icon.setImageResource(iconId);
 
@@ -130,12 +133,13 @@ public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
         return childPosition;
     }
 
+    @SuppressLint("InflateParams")
     public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView,
-            ViewGroup parent)
+                             ViewGroup parent)
     {
         final Integer item = (Integer) getChild(groupPosition, childPosition);
 
-        CheckBoxViewHolder vh = null;
+        CheckBoxViewHolder vh;
         if (convertView == null)
         {
             convertView = inflater.inflate(R.layout.app_list_checkbox_row, null);
@@ -146,7 +150,7 @@ public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
         vh = (CheckBoxViewHolder) convertView.getTag();
         vh.topText.setText(item);
         vh.bottomText.setVisibility(View.GONE);
-        if (selectedItems.get(FAMILY.get(groupPosition)) == item)
+        if (selectedItems.get(FAMILY.get(groupPosition)).equals(item))
         {
             vh.checkBox.setChecked(true);
         }
@@ -205,6 +209,7 @@ public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
     private static final List<Integer> FAMILY_DUE_DATE = new ArrayList<Integer>(5)
     {
         private static final long serialVersionUID = 1L;
+
         {
             add(R.string.tasks_due_today);
             add(R.string.tasks_due_tomorrow);
@@ -217,6 +222,7 @@ public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
     private static final List<Integer> FAMILY_TASKS = new ArrayList<Integer>(2)
     {
         private static final long serialVersionUID = 1L;
+
         {
             add(R.string.tasks_active);
             add(R.string.tasks_completed);
@@ -226,6 +232,7 @@ public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
     private static final List<Integer> FAMILY_ASSIGNEE = new ArrayList<Integer>(2)
     {
         private static final long serialVersionUID = 1L;
+
         {
             add(R.string.tasks_assignee_me);
             add(R.string.tasks_assignee_unassigned);
@@ -236,6 +243,7 @@ public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
     private static final List<Integer> FAMILY_PRIORITY = new ArrayList<Integer>(3)
     {
         private static final long serialVersionUID = 1L;
+
         {
             add(R.string.tasks_priority_low);
             add(R.string.tasks_priority_medium);
@@ -246,6 +254,7 @@ public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
     private static final List<Integer> FAMILY = new ArrayList<Integer>(4)
     {
         private static final long serialVersionUID = 1L;
+
         {
             add(R.string.tasks_status);
             add(R.string.tasks_due);
@@ -257,6 +266,7 @@ public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
     private static final Map<Integer, List<Integer>> FAMILY_LIST = new LinkedHashMap<Integer, List<Integer>>(4)
     {
         private static final long serialVersionUID = 1L;
+
         {
             put(R.string.tasks_status, FAMILY_TASKS);
             put(R.string.tasks_due, FAMILY_DUE_DATE);
@@ -270,11 +280,11 @@ public class TaskFilterExpandableAdapter extends BaseExpandableListAdapter
     // ///////////////////////////////////////////////////////////////////////////
     private static class CheckBoxViewHolder extends ViewHolder
     {
-        public TextView topText;
+        public final TextView topText;
 
-        public TextView bottomText;
+        public final TextView bottomText;
 
-        public CheckBox checkBox;
+        public final CheckBox checkBox;
 
         public CheckBoxViewHolder(View v)
         {

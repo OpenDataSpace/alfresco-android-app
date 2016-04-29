@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -28,6 +28,7 @@ import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
 import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.Fragment;
@@ -47,10 +48,10 @@ public abstract class AbstractFileExplorerFragment extends BaseListFragment impl
 
     public static final String ARGUMENT_FOLDERPATH = "folderPath";
 
-    protected List<File> selectedItems = new ArrayList<File>(1);
+    protected final List<File> selectedItems = new ArrayList<File>(1);
 
     private int titleId;
-    
+
     public AbstractFileExplorerFragment()
     {
         loaderId = FileExplorerLoader.ID;
@@ -84,7 +85,7 @@ public abstract class AbstractFileExplorerFragment extends BaseListFragment impl
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
         LayoutInflater inflater = LayoutInflater.from(getActivity());
-        View v = inflater.inflate(R.layout.sdk_list, null);
+        @SuppressLint("InflateParams") View v = inflater.inflate(R.layout.sdk_list, null);
 
         init(v, emptyListMessageId);
 
@@ -115,7 +116,7 @@ public abstract class AbstractFileExplorerFragment extends BaseListFragment impl
         // Case Init & case Reload
         bundle = (ba == null) ? getArguments() : ba;
 
-        ListingContext lc = null, lcorigin = null;
+        ListingContext lc = null, lcorigin;
         File f = null;
         String path = null;
 
@@ -170,7 +171,7 @@ public abstract class AbstractFileExplorerFragment extends BaseListFragment impl
     {
         refresh(loaderId, callback);
     }
-    
+
     protected Fragment getFragment(String tag)
     {
         return getActivity().getFragmentManager().findFragmentByTag(tag);

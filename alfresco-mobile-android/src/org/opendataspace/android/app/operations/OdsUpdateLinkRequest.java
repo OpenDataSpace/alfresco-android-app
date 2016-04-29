@@ -8,7 +8,7 @@ public class OdsUpdateLinkRequest extends AbstractBatchOperationRequestImpl
     private static final long serialVersionUID = 1L;
     public static final int TYPE_ID = 6601;
 
-    private OdsLink link;
+    private final OdsLink link;
 
     public OdsUpdateLinkRequest(OdsLink link)
     {

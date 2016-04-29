@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  *  This file is part of Alfresco Mobile for Android.
- * 
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- * 
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,7 +49,7 @@ public class LibraryFragment extends BaseCursorListFragment implements ListingMo
 {
     public static final String TAG = LibraryFragment.class.getName();
 
-    protected List<File> selectedItems = new ArrayList<File>();
+    protected final List<File> selectedItems = new ArrayList<File>();
 
     private int mediaTypeId;
 
@@ -244,7 +244,7 @@ public class LibraryFragment extends BaseCursorListFragment implements ListingMo
         adapter.notifyDataSetChanged();
 
         return true;
-    };
+    }
 
     // ///////////////////////////////////////////////////////////////////////////
     // LISTING MODE
@@ -285,7 +285,7 @@ public class LibraryFragment extends BaseCursorListFragment implements ListingMo
                 argumentsList.add(Integer.toString(mediaTypeId));
                 if (mediaTypeId == 0)
                 {
-                    String mimeType = null;
+                    String mimeType;
                     selection.append(" AND " + MediaStore.Files.FileColumns.MIME_TYPE + " IN (");
                     for (String extension : OFFICE_EXTENSION)
                     {

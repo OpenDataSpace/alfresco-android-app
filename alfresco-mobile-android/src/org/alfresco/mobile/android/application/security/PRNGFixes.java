@@ -31,27 +31,32 @@ import java.security.Security;
 
 /**
  * Fixes for the output of the default PRNG having low entropy.
- *
+ * <p/>
  * The fixes need to be applied via {@link #apply()} before any use of Java
  * Cryptography Architecture primitives. A good place to invoke them is in the
  * application's {@code onCreate}.
  */
-public final class PRNGFixes {
+public final class PRNGFixes
+{
 
     private static final int VERSION_CODE_JELLY_BEAN = 16;
     private static final int VERSION_CODE_JELLY_BEAN_MR2 = 18;
-    private static final byte[] BUILD_FINGERPRINT_AND_DEVICE_SERIAL =
-            getBuildFingerprintAndDeviceSerial();
+    private static final byte[] BUILD_FINGERPRINT_AND_DEVICE_SERIAL = getBuildFingerprintAndDeviceSerial();
 
-    /** Hidden constructor to prevent instantiation. */
-    private PRNGFixes() {}
+    /**
+     * Hidden constructor to prevent instantiation.
+     */
+    private PRNGFixes()
+    {
+    }
 
     /**
      * Applies all fixes.
      *
      * @throws SecurityException if a fix is needed but could not be applied.
      */
-    public static void apply() {
+    public static void apply()
+    {
         applyOpenSSLFix();
         installLinuxPRNGSecureRandom();
     }
@@ -62,30 +67,31 @@ public final class PRNGFixes {
      *
      * @throws SecurityException if the fix is needed but could not be applied.
      */
-    private static void applyOpenSSLFix() throws SecurityException {
-        if ((Build.VERSION.SDK_INT < VERSION_CODE_JELLY_BEAN)
-                || (Build.VERSION.SDK_INT > VERSION_CODE_JELLY_BEAN_MR2)) {
+    private static void applyOpenSSLFix() throws SecurityException
+    {
+        if ((Build.VERSION.SDK_INT < VERSION_CODE_JELLY_BEAN) || (Build.VERSION.SDK_INT > VERSION_CODE_JELLY_BEAN_MR2))
+        {
             // No need to apply the fix
             return;
         }
 
-        try {
+        try
+        {
             // Mix in the device- and invocation-specific seed.
-            Class.forName("org.apache.harmony.xnet.provider.jsse.NativeCrypto")
-            .getMethod("RAND_seed", byte[].class)
-            .invoke(null, generateSeed());
+            //noinspection PrimitiveArrayArgumentToVariableArgMethod
+            Class.forName("org.apache.harmony.xnet.provider.jsse.NativeCrypto").getMethod("RAND_seed", byte[].class)
+                    .invoke(null, generateSeed());
 
             // Mix output of Linux PRNG into OpenSSL's PRNG
-            int bytesRead = (Integer) Class.forName(
-                    "org.apache.harmony.xnet.provider.jsse.NativeCrypto")
-                    .getMethod("RAND_load_file", String.class, long.class)
-                    .invoke(null, "/dev/urandom", 1024);
-            if (bytesRead != 1024) {
-                throw new IOException(
-                        "Unexpected number of bytes read from Linux PRNG: "
-                                + bytesRead);
+            int bytesRead = (Integer) Class.forName("org.apache.harmony.xnet.provider.jsse.NativeCrypto")
+                    .getMethod("RAND_load_file", String.class, long.class).invoke(null, "/dev/urandom", 1024);
+            if (bytesRead != 1024)
+            {
+                throw new IOException("Unexpected number of bytes read from Linux PRNG: " + bytesRead);
             }
-        } catch (Exception e) {
+        }
+        catch (Exception e)
+        {
             throw new SecurityException("Failed to seed OpenSSL PRNG", e);
         }
     }
@@ -97,21 +103,20 @@ public final class PRNGFixes {
      *
      * @throws SecurityException if the fix is needed but could not be applied.
      */
-    private static void installLinuxPRNGSecureRandom()
-            throws SecurityException {
-        if (Build.VERSION.SDK_INT > VERSION_CODE_JELLY_BEAN_MR2) {
+    private static void installLinuxPRNGSecureRandom() throws SecurityException
+    {
+        if (Build.VERSION.SDK_INT > VERSION_CODE_JELLY_BEAN_MR2)
+        {
             // No need to apply the fix
             return;
         }
 
         // Install a Linux PRNG-based SecureRandom implementation as the
         // default, if not yet installed.
-        Provider[] secureRandomProviders =
-                Security.getProviders("SecureRandom.SHA1PRNG");
-        if ((secureRandomProviders == null)
-                || (secureRandomProviders.length < 1)
-                || (!LinuxPRNGSecureRandomProvider.class.equals(
-                        secureRandomProviders[0].getClass()))) {
+        Provider[] secureRandomProviders = Security.getProviders("SecureRandom.SHA1PRNG");
+        if ((secureRandomProviders == null) || (secureRandomProviders.length < 1) ||
+                (!LinuxPRNGSecureRandomProvider.class.equals(secureRandomProviders[0].getClass())))
+        {
             Security.insertProviderAt(new LinuxPRNGSecureRandomProvider(), 1);
         }
 
@@ -119,24 +124,25 @@ public final class PRNGFixes {
         // SecureRandom.getInstance("SHA1PRNG") return a SecureRandom backed
         // by the Linux PRNG-based SecureRandom implementation.
         SecureRandom rng1 = new SecureRandom();
-        if (!LinuxPRNGSecureRandomProvider.class.equals(
-                rng1.getProvider().getClass())) {
+        if (!LinuxPRNGSecureRandomProvider.class.equals(rng1.getProvider().getClass()))
+        {
             throw new SecurityException(
-                    "new SecureRandom() backed by wrong Provider: "
-                            + rng1.getProvider().getClass());
+                    "new SecureRandom() backed by wrong Provider: " + rng1.getProvider().getClass());
         }
 
         SecureRandom rng2;
-        try {
+        try
+        {
             rng2 = SecureRandom.getInstance("SHA1PRNG");
-        } catch (NoSuchAlgorithmException e) {
+        }
+        catch (NoSuchAlgorithmException e)
+        {
             throw new SecurityException("SHA1PRNG not available", e);
         }
-        if (!LinuxPRNGSecureRandomProvider.class.equals(
-                rng2.getProvider().getClass())) {
-            throw new SecurityException(
-                    "SecureRandom.getInstance(\"SHA1PRNG\") backed by wrong"
-                            + " Provider: " + rng2.getProvider().getClass());
+        if (!LinuxPRNGSecureRandomProvider.class.equals(rng2.getProvider().getClass()))
+        {
+            throw new SecurityException("SecureRandom.getInstance(\"SHA1PRNG\") backed by wrong" + " Provider: " +
+                    rng2.getProvider().getClass());
         }
     }
 
@@ -144,15 +150,14 @@ public final class PRNGFixes {
      * {@code Provider} of {@code SecureRandom} engines which pass through
      * all requests to the Linux PRNG.
      */
-    private static class LinuxPRNGSecureRandomProvider extends Provider {
+    private static class LinuxPRNGSecureRandomProvider extends Provider
+    {
 
         private static final long serialVersionUID = 1L;
 
-        public LinuxPRNGSecureRandomProvider() {
-            super("LinuxPRNG",
-                    1.0,
-                    "A Linux-specific random number provider that uses"
-                            + " /dev/urandom");
+        public LinuxPRNGSecureRandomProvider()
+        {
+            super("LinuxPRNG", 1.0, "A Linux-specific random number provider that uses" + " /dev/urandom");
             // Although /dev/urandom is not a SHA-1 PRNG, some apps
             // explicitly request a SHA1PRNG SecureRandom and we thus need to
             // prevent them from getting the default implementation whose output
@@ -166,7 +171,8 @@ public final class PRNGFixes {
      * {@link SecureRandomSpi} which passes all requests to the Linux PRNG
      * ({@code /dev/urandom}).
      */
-    public static class LinuxPRNGSecureRandom extends SecureRandomSpi {
+    public static class LinuxPRNGSecureRandom extends SecureRandomSpi
+    {
 
         /*
          * IMPLEMENTATION NOTE: Requests to generate bytes and to mix in a seed
@@ -189,16 +195,12 @@ public final class PRNGFixes {
         /**
          * Input stream for reading from Linux PRNG or {@code null} if not yet
          * opened.
-         *
-         * @GuardedBy("sLock")
          */
         private static DataInputStream sUrandomIn;
 
         /**
          * Output stream for writing to Linux PRNG or {@code null} if not yet
          * opened.
-         *
-         * @GuardedBy("sLock")
          */
         private static OutputStream sUrandomOut;
 
@@ -210,74 +212,95 @@ public final class PRNGFixes {
         private boolean mSeeded;
 
         @Override
-        protected void engineSetSeed(byte[] bytes) {
-            try {
+        protected void engineSetSeed(byte[] bytes)
+        {
+            try
+            {
                 OutputStream out;
-                synchronized (sLock) {
+                synchronized (sLock)
+                {
                     out = getUrandomOutputStream();
                 }
                 out.write(bytes);
                 out.flush();
-            } catch (IOException e) {
+            }
+            catch (IOException e)
+            {
                 // On a small fraction of devices /dev/urandom is not writable.
                 // Log and ignore.
-                Log.w(PRNGFixes.class.getSimpleName(),
-                        "Failed to mix seed into " + URANDOM_FILE);
-            } finally {
+                Log.w(PRNGFixes.class.getSimpleName(), "Failed to mix seed into " + URANDOM_FILE);
+            }
+            finally
+            {
                 mSeeded = true;
             }
         }
 
         @Override
-        protected void engineNextBytes(byte[] bytes) {
-            if (!mSeeded) {
+        protected void engineNextBytes(byte[] bytes)
+        {
+            if (!mSeeded)
+            {
                 // Mix in the device- and invocation-specific seed.
                 engineSetSeed(generateSeed());
             }
 
-            try {
+            try
+            {
                 DataInputStream in;
-                synchronized (sLock) {
+                synchronized (sLock)
+                {
                     in = getUrandomInputStream();
                 }
-                synchronized (in) {
+                //noinspection SynchronizationOnLocalVariableOrMethodParameter
+                synchronized (in)
+                {
                     in.readFully(bytes);
                 }
-            } catch (IOException e) {
-                throw new SecurityException(
-                        "Failed to read from " + URANDOM_FILE, e);
+            }
+            catch (IOException e)
+            {
+                throw new SecurityException("Failed to read from " + URANDOM_FILE, e);
             }
         }
 
         @Override
-        protected byte[] engineGenerateSeed(int size) {
+        protected byte[] engineGenerateSeed(int size)
+        {
             byte[] seed = new byte[size];
             engineNextBytes(seed);
             return seed;
         }
 
-        private DataInputStream getUrandomInputStream() {
-            synchronized (sLock) {
-                if (sUrandomIn == null) {
+        private DataInputStream getUrandomInputStream()
+        {
+            synchronized (sLock)
+            {
+                if (sUrandomIn == null)
+                {
                     // NOTE: Consider inserting a BufferedInputStream between
                     // DataInputStream and FileInputStream if you need higher
                     // PRNG output performance and can live with future PRNG
                     // output being pulled into this process prematurely.
-                    try {
-                        sUrandomIn = new DataInputStream(
-                                new FileInputStream(URANDOM_FILE));
-                    } catch (IOException e) {
-                        throw new SecurityException("Failed to open "
-                                + URANDOM_FILE + " for reading", e);
+                    try
+                    {
+                        sUrandomIn = new DataInputStream(new FileInputStream(URANDOM_FILE));
+                    }
+                    catch (IOException e)
+                    {
+                        throw new SecurityException("Failed to open " + URANDOM_FILE + " for reading", e);
                     }
                 }
                 return sUrandomIn;
             }
         }
 
-        private OutputStream getUrandomOutputStream() throws IOException {
-            synchronized (sLock) {
-                if (sUrandomOut == null) {
+        private OutputStream getUrandomOutputStream() throws IOException
+        {
+            synchronized (sLock)
+            {
+                if (sUrandomOut == null)
+                {
                     sUrandomOut = new FileOutputStream(URANDOM_FILE);
                 }
                 return sUrandomOut;
@@ -289,11 +312,12 @@ public final class PRNGFixes {
      * Generates a device- and invocation-specific seed to be mixed into the
      * Linux PRNG.
      */
-    private static byte[] generateSeed() {
-        try {
+    private static byte[] generateSeed()
+    {
+        try
+        {
             ByteArrayOutputStream seedBuffer = new ByteArrayOutputStream();
-            DataOutputStream seedBufferOut =
-                    new DataOutputStream(seedBuffer);
+            DataOutputStream seedBufferOut = new DataOutputStream(seedBuffer);
             seedBufferOut.writeLong(System.currentTimeMillis());
             seedBufferOut.writeLong(System.nanoTime());
             seedBufferOut.writeInt(Process.myPid());
@@ -301,7 +325,9 @@ public final class PRNGFixes {
             seedBufferOut.write(BUILD_FINGERPRINT_AND_DEVICE_SERIAL);
             seedBufferOut.close();
             return seedBuffer.toByteArray();
-        } catch (IOException e) {
+        }
+        catch (IOException e)
+        {
             throw new SecurityException("Failed to generate seed", e);
         }
     }
@@ -311,29 +337,39 @@ public final class PRNGFixes {
      *
      * @return serial number or {@code null} if not available.
      */
-    private static String getDeviceSerialNumber() {
+    private static String getDeviceSerialNumber()
+    {
         // We're using the Reflection API because Build.SERIAL is only available
         // since API Level 9 (Gingerbread, Android 2.3).
-        try {
+        try
+        {
             return (String) Build.class.getField("SERIAL").get(null);
-        } catch (Exception ignored) {
+        }
+        catch (Exception ignored)
+        {
             return null;
         }
     }
 
-    private static byte[] getBuildFingerprintAndDeviceSerial() {
+    private static byte[] getBuildFingerprintAndDeviceSerial()
+    {
         StringBuilder result = new StringBuilder();
         String fingerprint = Build.FINGERPRINT;
-        if (fingerprint != null) {
+        if (fingerprint != null)
+        {
             result.append(fingerprint);
         }
         String serial = getDeviceSerialNumber();
-        if (serial != null) {
+        if (serial != null)
+        {
             result.append(serial);
         }
-        try {
+        try
+        {
             return result.toString().getBytes("UTF-8");
-        } catch (UnsupportedEncodingException e) {
+        }
+        catch (UnsupportedEncodingException e)
+        {
             throw new RuntimeException("UTF-8 encoding not supported");
         }
     }

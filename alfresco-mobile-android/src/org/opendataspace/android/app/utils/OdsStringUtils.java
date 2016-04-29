@@ -8,7 +8,7 @@ public class OdsStringUtils
 {
     public static String join(Collection var0, String var1)
     {
-        StringBuffer var2 = new StringBuffer();
+        StringBuilder var2 = new StringBuilder();
 
         for (Iterator var3 = var0.iterator(); var3.hasNext(); var2.append((String) var3.next()))
         {

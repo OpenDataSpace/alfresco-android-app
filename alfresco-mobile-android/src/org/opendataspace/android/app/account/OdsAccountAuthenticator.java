@@ -18,7 +18,7 @@ public class OdsAccountAuthenticator extends AbstractAccountAuthenticator
 {
     public static final String ACCOUNT_TYPE = "app.android.opendataspace.org";
 
-    private Context context;
+    private final Context context;
 
     public OdsAccountAuthenticator(Context context)
     {

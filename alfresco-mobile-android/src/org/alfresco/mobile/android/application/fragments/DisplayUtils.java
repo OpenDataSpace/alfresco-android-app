@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,16 +17,16 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments;
 
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.utils.thirdparty.split.SplitPaneLayout;
-
 import android.app.Activity;
 import android.content.res.Resources;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
+
+import org.alfresco.mobile.android.application.activity.MainActivity;
+import org.alfresco.mobile.android.application.utils.thirdparty.split.SplitPaneLayout;
+import org.opendataspace.android.app.R;
 
 public abstract class DisplayUtils
 {
@@ -69,7 +69,10 @@ public abstract class DisplayUtils
 
     public static int getMainPaneId(Activity a)
     {
-        if (hasCentralPane(a)) { return getCentralFragmentId(a); }
+        if (hasCentralPane(a))
+        {
+            return getCentralFragmentId(a);
+        }
         return getLeftFragmentId(a);
     }
 
@@ -88,7 +91,10 @@ public abstract class DisplayUtils
 
     public static View getMainPane(Activity a)
     {
-        if (hasCentralPane(a)) { return getCentralPane(a); }
+        if (hasCentralPane(a))
+        {
+            return getCentralPane(a);
+        }
         return getLeftPane(a);
     }
 
@@ -108,42 +114,41 @@ public abstract class DisplayUtils
     // ///////////////////////////////////////////
     // SHOW / HIDE 2 OR SINGLE PANE
     // ///////////////////////////////////////////
+
     /**
      * Utility method to display or not the central panel in 7" configuration.<br/>
      * Portrait mode is single panel instead of landscape is 2 panels.
-     * 
+     *
      * @param activity :
-     * @param isNull : Indicate if there's already a fragment in the central
-     *            panel.
+     * @param isNull   : Indicate if there's already a fragment in the central
+     *                 panel.
      */
     public static void switchSingleOrTwo(Activity activity, boolean isNull)
     {
-        if (activity.getResources().getBoolean(R.bool.tablet_middle) && hasCentralPane(activity))
-        {
-            /*
-             * Fragment fr =
-             * activity.getFragmentManager().findFragmentById(DisplayUtils
-             * .getCentralFragmentId(activity)); SplitPaneLayout split =
-             * (SplitPaneLayout) activity.findViewById(R.id.master_pane); if
-             * ((fr != null && !isNull) || (fr == null && isNull)) {
-             * //split.setSplitterPosition
-             * (getDPI(activity.getResources().getDisplayMetrics(), 48));
-             * //split.getChildAt(0).setVisibility(View.GONE);
-             * //split.getChildAt(1).setVisibility(View.VISIBLE);
-             * split.setSplitterPositionPercent(0f);
-             * //DisplayUtils.getLeftPane(activity).setVisibility(View.GONE);
-             * //DisplayUtils
-             * .getCentralPane(activity).setVisibility(View.VISIBLE); } else if
-             * ((fr == null && !isNull) || (fr != null && isNull)) {
-             * //split.setSplitterPositionPercent(33f);
-             * //split.getChildAt(0).setVisibility(View.VISIBLE);
-             * //split.getChildAt(1).setVisibility(View.GONE);
-             * split.setSplitterPositionPercent(100f);
-             * //DisplayUtils.getLeftPane(activity).setVisibility(View.VISIBLE);
-             * //DisplayUtils.getCentralPane(activity).setVisibility(View.GONE);
-             * }
-             */
-        }
+//        if (activity.getResources().getBoolean(R.bool.tablet_middle) && hasCentralPane(activity))
+//        {
+//            Fragment fr = activity.getFragmentManager().findFragmentById(DisplayUtils.getCentralFragmentId(activity));
+//            SplitPaneLayout split = (SplitPaneLayout) activity.findViewById(R.id.master_pane);
+//            if ((fr != null && !isNull) || (fr == null && isNull))
+//            {
+//                //split.setSplitterPosition
+//                (getDPI(activity.getResources().getDisplayMetrics(), 48));
+//                //split.getChildAt(0).setVisibility(View.GONE);
+//                //split.getChildAt(1).setVisibility(View.VISIBLE);
+//                split.setSplitterPositionPercent(0f);
+//                //DisplayUtils.getLeftPane(activity).setVisibility(View.GONE);
+//                //DisplayUtils.getCentralPane(activity).setVisibility(View.VISIBLE);
+//            }
+//            else if ((fr == null && !isNull) || (fr != null && isNull))
+//            {
+//                //split.setSplitterPositionPercent(33f);
+//                //split.getChildAt(0).setVisibility(View.VISIBLE);
+//                //split.getChildAt(1).setVisibility(View.GONE);
+//                split.setSplitterPositionPercent(100f);
+//                //DisplayUtils.getLeftPane(activity).setVisibility(View.VISIBLE);
+//                //DisplayUtils.getCentralPane(activity).setVisibility(View.GONE);
+//            }
+//        }
     }
 
     // ///////////////////////////////////////////
@@ -160,7 +165,7 @@ public abstract class DisplayUtils
 
         Resources res = context.getResources();
 
-        int coeff = 150;
+        int coeff;
         if (width < 320)
         {
             coeff = res.getInteger(R.integer.width_320);
@@ -197,10 +202,9 @@ public abstract class DisplayUtils
     // ///////////////////////////////////////////
     // SPLITTER BAR
     // ///////////////////////////////////////////
+
     /**
      * Returns in dp
-     * @param context
-     * @return
      */
     public static int getSplitterWidth(MainActivity context)
     {
@@ -210,7 +214,8 @@ public abstract class DisplayUtils
         float density = context.getResources().getDisplayMetrics().density;
 
         SplitPaneLayout split = (SplitPaneLayout) context.findViewById(R.id.master_pane);
-        return (split != null) ?  Math.round(split.getSplitterPosition() / density)  :  Math.round(outMetrics.widthPixels / density);
+        return (split != null) ? Math.round(split.getSplitterPosition() / density) :
+                Math.round(outMetrics.widthPixels / density);
     }
 
     public static int getScreenWidth(Activity context)
@@ -220,8 +225,7 @@ public abstract class DisplayUtils
         display.getMetrics(outMetrics);
 
         float density = context.getResources().getDisplayMetrics().density;
-        int width = Math.round(outMetrics.widthPixels / density);
 
-        return width;
+        return Math.round(outMetrics.widthPixels / density);
     }
 }

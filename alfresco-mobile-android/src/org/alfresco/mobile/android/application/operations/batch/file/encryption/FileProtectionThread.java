@@ -1,25 +1,27 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
- *  This file is part of Alfresco Mobile for Android.
- * 
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * This file is part of Alfresco Mobile for Android.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.file.encryption;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.Calendar;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
@@ -32,11 +34,9 @@ import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.opendataspace.android.app.security.OdsEncryptionUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.app.AlarmManager;
-import android.app.PendingIntent;
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
+import java.io.File;
+import java.io.IOException;
+import java.util.Calendar;
 
 public class FileProtectionThread extends FileOperationThread<Void>
 {
@@ -82,7 +82,8 @@ public class FileProtectionThread extends FileOperationThread<Void>
             // executes its own action
             // That's why we copy the file to a dedicated folder
             // and run an alarm to delete it after X minutes
-            if (intentAction == DataProtectionManager.ACTION_SEND || intentAction == DataProtectionManager.ACTION_SEND_ALFRESCO)
+            if (intentAction == DataProtectionManager.ACTION_SEND ||
+                    intentAction == DataProtectionManager.ACTION_SEND_ALFRESCO)
             {
                 File folder = StorageManager.getShareFolder(context, acc);
                 copiedFile = new File(folder, file.getName());
@@ -106,7 +107,10 @@ public class FileProtectionThread extends FileOperationThread<Void>
             {
                 IOUtils.copyFile(file.getPath(), copiedFile.getPath());
                 tmpFile = copiedFile;
-                if (intentAction == DataProtectionManager.ACTION_COPY) { return result; }
+                if (intentAction == DataProtectionManager.ACTION_COPY)
+                {
+                    return result;
+                }
             }
 
             if (tmpFile.isFile())
@@ -124,9 +128,8 @@ public class FileProtectionThread extends FileOperationThread<Void>
         }
         catch (IOException e)
         {
-            if (e.getMessage().contains("last block incomplete in decryption")){
-                //Do Nothing.
-            } else {
+            if (!e.getMessage().contains("last block incomplete in decryption"))
+            {
                 OdsLog.ex(TAG, e);
                 result.setException(e);
             }

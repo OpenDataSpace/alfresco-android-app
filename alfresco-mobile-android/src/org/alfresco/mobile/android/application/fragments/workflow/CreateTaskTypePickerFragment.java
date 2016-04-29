@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,8 +61,6 @@ public class CreateTaskTypePickerFragment extends BaseFragment implements
 
     public static final String TAG = CreateTaskTypePickerFragment.class.getName();
 
-    private View vRoot;
-
     private ProcessDefinition todo;
 
     private ProcessDefinition review;
@@ -102,14 +100,14 @@ public class CreateTaskTypePickerFragment extends BaseFragment implements
         container.setVisibility(View.VISIBLE);
         alfSession = SessionUtils.getSession(getActivity());
         SessionUtils.checkSession(getActivity(), alfSession);
-        vRoot = inflater.inflate(R.layout.app_task_create, container, false);
+        View vRoot = inflater.inflate(R.layout.app_task_create, container, false);
 
         lv = (LinearLayout) vRoot.findViewById(R.id.create_task_group);
         pb = (ProgressBar) vRoot.findViewById(R.id.progressbar);
         ev = vRoot.findViewById(R.id.empty);
         TextView evt = (TextView) vRoot.findViewById(R.id.empty_text);
         evt.setText(R.string.error_general);
-        
+
         // BUTTONS
         Button b = (Button) vRoot.findViewById(R.id.task_todo);
         b.setOnClickListener(new OnClickListener()
@@ -228,7 +226,6 @@ public class CreateTaskTypePickerFragment extends BaseFragment implements
             if (WorkflowModel.FAMILY_PROCESS_PARALLEL_REVIEW.contains(processDef.getKey()))
             {
                 review = processDef;
-                continue;
             }
         }
     }
@@ -263,7 +260,7 @@ public class CreateTaskTypePickerFragment extends BaseFragment implements
     private void displayEmptyView()
     {
         if (ev == null || lv == null || pb == null) { return; }
-        
+
         ev.setVisibility(View.VISIBLE);
         lv.setVisibility(View.GONE);
         pb.setVisibility(View.GONE);
@@ -284,7 +281,6 @@ public class CreateTaskTypePickerFragment extends BaseFragment implements
             if (intent.getAction().equals(ACTION_REVIEW))
             {
                 createTask(review);
-                return;
             }
 
         }

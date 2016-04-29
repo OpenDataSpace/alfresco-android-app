@@ -1,11 +1,8 @@
 package org.opendataspace.android.app.operations;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.ContentStream;
@@ -19,9 +16,12 @@ import org.opendataspace.android.app.config.OdsConfigManager;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigContext>
 {
@@ -65,46 +65,49 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
                 svc = config.getServiceRegistry().getDocumentFolderService();
             }
 
-            for (String cur : OdsConfigManager.FILES)
+            if (svc != null)
             {
-                try
+                for (String cur : OdsConfigManager.FILES)
                 {
-                    Document doc = (Document) svc.getChildByPath(config.getRootFolder(),
-                            "branding/android/res/drawable-xxhdpi/" + cur);
-
-                    if (doc == null)
+                    try
                     {
-                        doc = (Document) svc.getChildByPath(config.getRootFolder(),
-                                "branding/android/res/drawable-xhdpi/" + cur);
-                    }
+                        Document doc = (Document) svc
+                                .getChildByPath(config.getRootFolder(), "branding/android/res/drawable-xxhdpi/" + cur);
 
-                    if (doc == null)
-                    {
-                        doc = (Document) svc.getChildByPath(config.getRootFolder(), "branding/android/res/drawable/"
-                                + cur);
-                    }
-
-                    if (doc != null)
-                    {
-                        File f = OdsConfigManager.getBrandingFile(context, cur, acc);
-
-                        if (f == null || f.exists() && f.length() == doc.getContentStreamLength())
+                        if (doc == null)
                         {
-                            continue;
+                            doc = (Document) svc.getChildByPath(config.getRootFolder(),
+                                    "branding/android/res/drawable-xhdpi/" + cur);
                         }
 
-                        ContentStream contentStream = svc.getContentStream(doc);
-                        copyFile(contentStream.getInputStream(), contentStream.getLength(), f);
-                    }
-                }
-                catch (Exception ex)
-                {
-                    // nothing
-                }
+                        if (doc == null)
+                        {
+                            doc = (Document) svc
+                                    .getChildByPath(config.getRootFolder(), "branding/android/res/drawable/" + cur);
+                        }
 
-                ctx = new OdsConfigContext();
-                ctx.setUpdated(true);
-                result.setData(ctx);
+                        if (doc != null)
+                        {
+                            File f = OdsConfigManager.getBrandingFile(context, cur, acc);
+
+                            if (f == null || f.exists() && f.length() == doc.getContentStreamLength())
+                            {
+                                continue;
+                            }
+
+                            ContentStream contentStream = svc.getContentStream(doc);
+                            copyFile(contentStream.getInputStream(), contentStream.getLength(), f);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        // nothing
+                    }
+
+                    ctx = new OdsConfigContext();
+                    ctx.setUpdated(true);
+                    result.setData(ctx);
+                }
             }
         }
         catch (Exception e)
@@ -112,6 +115,7 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
             OdsLog.exw(TAG, e);
             result.setException(e);
         }
+
         return result;
     }
 

@@ -122,7 +122,7 @@ public class ResolveSyncConflictFragment extends DialogFragment
                         dialog.dismiss();
                     }
                 });
-        
+
         if (negativeId != -1){
             builder.setNegativeButton(negativeId, new DialogInterface.OnClickListener()
             {
@@ -162,7 +162,7 @@ public class ResolveSyncConflictFragment extends DialogFragment
         void onNegative(Cursor cursor);
     }
 
-    private OnChangeListener unfavoriteListener = new OnChangeListener()
+    private final OnChangeListener unfavoriteListener = new OnChangeListener()
     {
         @Override
         public void onPositive(Cursor cursor)
@@ -177,7 +177,7 @@ public class ResolveSyncConflictFragment extends DialogFragment
         }
     };
 
-    private OnChangeListener deletedFavoriteListener = new OnChangeListener()
+    private final OnChangeListener deletedFavoriteListener = new OnChangeListener()
     {
         @Override
         public void onPositive(Cursor cursor)
@@ -190,8 +190,8 @@ public class ResolveSyncConflictFragment extends DialogFragment
             //Do Nothing
         }
     };
-    
-    private OnChangeListener overrideListener = new OnChangeListener()
+
+    private final OnChangeListener overrideListener = new OnChangeListener()
     {
         @Override
         public void onPositive(Cursor cursor)
@@ -228,7 +228,7 @@ public class ResolveSyncConflictFragment extends DialogFragment
 
         c.close();
     }
-    
+
     private void update(Cursor c)
     {
 
@@ -266,7 +266,7 @@ public class ResolveSyncConflictFragment extends DialogFragment
         File parentFolder = StorageManager.getDownloadFolder(getActivity(), SessionUtils.getAccount(getActivity()));
         File newLocalFile = new File(parentFolder, c.getString(SynchroSchema.COLUMN_TITLE_ID));
         newLocalFile = IOUtils.createFile(newLocalFile);
-        
+
         // Move to "Download"
         cValues.clear();
         if (localFile.renameTo(newLocalFile))
@@ -278,7 +278,7 @@ public class ResolveSyncConflictFragment extends DialogFragment
             cValues.put(BatchOperationSchema.COLUMN_STATUS, SyncOperation.STATUS_FAILED);
             getActivity().getContentResolver().update(SynchroManager.getUri(favoriteId), cValues, null, null);
         }
-        
+
         // Encrypt file if necessary
         StorageManager.manageFile(getActivity(), newLocalFile);
 

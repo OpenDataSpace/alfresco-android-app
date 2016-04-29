@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -42,11 +42,10 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
 /**
  * This Fragment is responsible to prompt user for file name during import.<br/>
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class UploadLocalDialogFragment extends DialogFragment
@@ -87,7 +86,7 @@ public class UploadLocalDialogFragment extends DialogFragment
         LayoutInflater inflater = LayoutInflater.from(getActivity());
         final View v = inflater.inflate(R.layout.app_create_document, (ViewGroup) this.getView());
 
-        ((TextView) v.findViewById(R.id.document_extension)).setVisibility(View.GONE);
+        v.findViewById(R.id.document_extension).setVisibility(View.GONE);
 
         final EditText textName = ((EditText) v.findViewById(R.id.document_name));
         final Button validate = UIUtils.initValidation(v, R.string.create);

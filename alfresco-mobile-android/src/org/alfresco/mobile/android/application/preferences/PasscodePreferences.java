@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,16 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.preferences;
-
-import java.text.MessageFormat;
-import java.util.Date;
-
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.security.OdsEncryptionUtils;
-import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.security.PassCodeActivity;
-import org.alfresco.mobile.android.application.security.PassCodeDialogFragment;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -44,9 +34,19 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import org.alfresco.mobile.android.application.activity.HomeScreenActivity;
+import org.alfresco.mobile.android.application.activity.MainActivity;
+import org.alfresco.mobile.android.application.security.PassCodeActivity;
+import org.alfresco.mobile.android.application.security.PassCodeDialogFragment;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.security.OdsEncryptionUtils;
+
+import java.text.MessageFormat;
+import java.util.Date;
+
 /**
  * Manage application preferences associated to Passcode feature.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public class PasscodePreferences extends PreferenceFragment
@@ -105,7 +105,7 @@ public class PasscodePreferences extends PreferenceFragment
         super.onResume();
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         passcodeEnable = sharedPref.getBoolean(GeneralPreferences.PRIVATE_FOLDERS, false);
-        boolean maxAttemptActivated = (sharedPref.getInt(KEY_PASSCODE_MAX_ATTEMPT, 0) == 0) ? false : true;
+        boolean maxAttemptActivated = (sharedPref.getInt(KEY_PASSCODE_MAX_ATTEMPT, 0) != 0);
         long timeout = Long.parseLong(sharedPref.getString(KEY_PASSCODE_TIMEOUT, "300000"));
 
         // ENABLE PASSCODE
@@ -129,7 +129,7 @@ public class PasscodePreferences extends PreferenceFragment
                     valueHasChanged = false;
                     return true;
                 }
-                PassCodeDialogFragment f = null;
+                PassCodeDialogFragment f;
                 if (passcodeEnable)
                 {
                     f = PassCodeDialogFragment.disable();
@@ -163,6 +163,7 @@ public class PasscodePreferences extends PreferenceFragment
         pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
         {
 
+            @SuppressLint("CommitPrefEdits")
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue)
             {
@@ -182,17 +183,19 @@ public class PasscodePreferences extends PreferenceFragment
         pref = findPreference(getString(R.string.passcode_timeout));
         int minutes = Math.round(timeout / ONE_MINUTE);
         pref.setSummary(String.format(getString(R.string.passcode_timeout_summary), minutes + ""));
-        pref.setSummary(String.format(MessageFormat.format(getString(R.string.passcode_timeout_summary), minutes),
-                minutes));
+        pref.setSummary(
+                String.format(MessageFormat.format(getString(R.string.passcode_timeout_summary), minutes), minutes));
         pref.setOnPreferenceChangeListener(new OnPreferenceChangeListener()
         {
+            @SuppressLint("CommitPrefEdits")
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue)
             {
                 sharedPref.edit().putString(KEY_PASSCODE_TIMEOUT, (String) newValue).commit();
                 int minutes = Math.round(Long.parseLong((String) newValue) / ONE_MINUTE);
-                preference.setSummary(String.format(
-                        MessageFormat.format(getString(R.string.passcode_timeout_summary), minutes), minutes));
+                preference.setSummary(
+                        String.format(MessageFormat.format(getString(R.string.passcode_timeout_summary), minutes),
+                                minutes));
                 return true;
             }
         });
@@ -215,7 +218,7 @@ public class PasscodePreferences extends PreferenceFragment
         sharedPref = PreferenceManager.getDefaultSharedPreferences(getActivity());
         passcodeEnable = sharedPref.getBoolean(GeneralPreferences.PRIVATE_FOLDERS, false);
 
-        Preference pref = (Preference) findPreference(getString(R.string.passcode_enable_key));
+        Preference pref = findPreference(getString(R.string.passcode_enable_key));
         // Depending on Android version we use different component.
         // Checkbox for A < 14 and Switch for A > 14
         if (pref instanceof CheckBoxPreference)
@@ -231,16 +234,21 @@ public class PasscodePreferences extends PreferenceFragment
     /**
      * Utility method to flag when the application has been activated for the
      * last time. This time is used to check passcode timeout.
-     * 
-     * @param context
      */
     public static void updateLastActivityDisplay(Context context)
     {
-        if (context instanceof HomeScreenActivity || context instanceof PassCodeActivity) { return; }
-        if (context instanceof MainActivity && !((MainActivity) context).hasActivateCheckPasscode()) { return; }
+        if (context instanceof HomeScreenActivity || context instanceof PassCodeActivity)
+        {
+            return;
+        }
+        if (context instanceof MainActivity && !((MainActivity) context).hasActivateCheckPasscode())
+        {
+            return;
+        }
         updateLastActivity(context);
     }
 
+    @SuppressLint("CommitPrefEdits")
     public static void updateLastActivity(Context context)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -251,18 +259,23 @@ public class PasscodePreferences extends PreferenceFragment
 
     /**
      * Determines if the application has passcode feature enable
-     * 
-     * @param context
+     *
      * @return true if the passcode must be prompt.
      */
     public static boolean hasPasscodeEnable(Context context)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
         boolean passcodeActivated = sharedPref.getBoolean(GeneralPreferences.PRIVATE_FOLDERS, false);
-        if (!passcodeActivated) { return false; }
+        if (!passcodeActivated)
+        {
+            return false;
+        }
 
         long activationTime = sharedPref.getLong(KEY_PASSCODE_ACTIVATED_AT, DEFAULT_ACTIVATION_TIME);
-        if (activationTime == DEFAULT_ACTIVATION_TIME) { return false; }
+        if (activationTime == DEFAULT_ACTIVATION_TIME)
+        {
+            return false;
+        }
 
         long durationTime = Long.parseLong(sharedPref.getString(KEY_PASSCODE_TIMEOUT, DEFAULT_TIMEOUT));
         long now = new Date().getTime();

@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -106,14 +106,7 @@ public class TextEditorActivity extends BaseActivity implements LoaderCallbacks<
         Intent intent = new Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH);
         intent.putExtra(RecognizerIntent.EXTRA_LANGUAGE_MODEL, Locale.getDefault());
         List<ResolveInfo> list = getPackageManager().queryIntentActivities(intent, 0);
-        if (list.isEmpty())
-        {
-            hasTextToSpeech = false;
-        }
-        else
-        {
-            hasTextToSpeech = true;
-        }
+        hasTextToSpeech = !list.isEmpty();
 
         String action = getIntent().getAction();
         if (Intent.ACTION_VIEW.equals(action))
@@ -153,7 +146,6 @@ public class TextEditorActivity extends BaseActivity implements LoaderCallbacks<
                 MessengerManager.showLongToast(this, getString(R.string.file_editor_error_open));
                 finish();
             }
-            return;
         }
     }
 
@@ -480,9 +472,7 @@ public class TextEditorActivity extends BaseActivity implements LoaderCallbacks<
             charset = Charset.forName(ba.getString(PARAM_CHARSET));
         }
 
-        Loader<LoaderResult<String>> loader = new TextEditorLoader(this, file, charset);
-
-        return loader;
+        return new TextEditorLoader(this, file, charset);
     }
 
     @Override

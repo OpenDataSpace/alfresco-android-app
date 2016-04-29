@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,43 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.workflow;
-
-import java.io.Serializable;
-import java.text.MessageFormat;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.alfresco.mobile.android.api.constants.WorkflowModel;
-import org.alfresco.mobile.android.api.model.Document;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.model.Person;
-import org.alfresco.mobile.android.api.model.ProcessDefinition;
-import org.alfresco.mobile.android.api.session.impl.RepositorySessionImpl;
-import org.alfresco.mobile.android.api.utils.DateUtils;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.ui.logging.OdsLog;
-import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
-import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
-import org.alfresco.mobile.android.application.fragments.browser.onPickDocumentFragment;
-import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
-import org.alfresco.mobile.android.application.fragments.person.PersonSearchFragment;
-import org.alfresco.mobile.android.application.fragments.person.onPickPersonFragment;
-import org.alfresco.mobile.android.application.fragments.workflow.DatePickerFragment.onPickDateFragment;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.workflow.process.start.StartProcessRequest;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 
 import android.app.FragmentManager;
 import android.content.BroadcastReceiver;
@@ -78,8 +41,45 @@ import android.widget.ImageButton;
 import android.widget.Switch;
 import android.widget.ToggleButton;
 
-public class CreateTaskFragment extends BaseFragment implements onPickPersonFragment, onPickDocumentFragment,
-        onPickDateFragment
+import org.alfresco.mobile.android.api.constants.WorkflowModel;
+import org.alfresco.mobile.android.api.model.Document;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.Person;
+import org.alfresco.mobile.android.api.model.ProcessDefinition;
+import org.alfresco.mobile.android.api.session.impl.RepositorySessionImpl;
+import org.alfresco.mobile.android.api.utils.DateUtils;
+import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
+import org.alfresco.mobile.android.application.fragments.DisplayUtils;
+import org.alfresco.mobile.android.application.fragments.FragmentDisplayer;
+import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
+import org.alfresco.mobile.android.application.fragments.browser.onPickDocumentFragment;
+import org.alfresco.mobile.android.application.fragments.operations.OperationWaitingDialogFragment;
+import org.alfresco.mobile.android.application.fragments.person.PersonSearchFragment;
+import org.alfresco.mobile.android.application.fragments.person.onPickPersonFragment;
+import org.alfresco.mobile.android.application.fragments.workflow.DatePickerFragment.onPickDateFragment;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
+import org.alfresco.mobile.android.application.operations.OperationRequest;
+import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
+import org.alfresco.mobile.android.application.operations.batch.workflow.process.start.StartProcessRequest;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
+
+import java.io.Serializable;
+import java.text.MessageFormat;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+public class CreateTaskFragment extends BaseFragment
+        implements onPickPersonFragment, onPickDocumentFragment, onPickDateFragment
 {
     public static final String TAG = CreateTaskFragment.class.getName();
 
@@ -91,9 +91,9 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
 
     private GregorianCalendar dueAt;
 
-    private Map<String, Person> assignees = new HashMap<String, Person>(1);
+    private final Map<String, Person> assignees = new HashMap<String, Person>(1);
 
-    private Map<String, Document> items = new HashMap<String, Document>(1);
+    private final Map<String, Document> items = new HashMap<String, Document>(1);
 
     private int approvers = 0;
 
@@ -114,8 +114,6 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
     private ImageButton removeApprover;
 
     private ImageButton addApprover;
-
-    private StartProcessReceiver receiver;
 
     private Button assigneesButton;
 
@@ -153,14 +151,18 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
+        final Bundle args = getArguments();
         // Retrieve parameters
-        if (getArguments() == null && !getArguments().containsKey(PARAM_PROCESS_DEFINITION)) { return null; }
+        if (args == null || !args.containsKey(PARAM_PROCESS_DEFINITION))
+        {
+            return null;
+        }
         processDefinition = (ProcessDefinition) getArguments().getSerializable(PARAM_PROCESS_DEFINITION);
 
-        if (getArguments() != null && getArguments().containsKey(IntentIntegrator.EXTRA_DOCUMENTS))
+        if (args.containsKey(IntentIntegrator.EXTRA_DOCUMENTS))
         {
-            @SuppressWarnings("unchecked")
-            List<Document> docs = (List<Document>) getArguments().get(IntentIntegrator.EXTRA_DOCUMENTS);
+            @SuppressWarnings("unchecked") List<Document> docs =
+                    (List<Document>) getArguments().get(IntentIntegrator.EXTRA_DOCUMENTS);
             for (Document document : docs)
             {
                 items.put(document.getIdentifier(), document);
@@ -172,7 +174,10 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
         alfSession = SessionUtils.getSession(getActivity());
         SessionUtils.checkSession(getActivity(), alfSession);
         vRoot = inflater.inflate(R.layout.app_start_process, container, false);
-        if (alfSession == null) { return vRoot; }
+        if (alfSession == null)
+        {
+            return vRoot;
+        }
 
         // DESCRIPTION
         titleTask = (EditText) vRoot.findViewById(R.id.process_title);
@@ -237,8 +242,8 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
             @Override
             public void onClick(View v)
             {
-                CreateTaskPickerFragment.newInstance(CreateTaskPickerFragment.MODE_PERSON).show(getFragmentManager(),
-                        CreateTaskPickerFragment.TAG);
+                CreateTaskPickerFragment.newInstance(CreateTaskPickerFragment.MODE_PERSON)
+                        .show(getFragmentManager(), CreateTaskPickerFragment.TAG);
             }
         });
         assigneesButton.setText(MessageFormat.format(getString(R.string.task_assignees_plurals), assignees.size()));
@@ -302,11 +307,12 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
             @Override
             public void onClick(View v)
             {
-                CreateTaskPickerFragment.newInstance(CreateTaskPickerFragment.MODE_DOCUMENT).show(getFragmentManager(),
-                        CreateTaskPickerFragment.TAG);
+                CreateTaskPickerFragment.newInstance(CreateTaskPickerFragment.MODE_DOCUMENT)
+                        .show(getFragmentManager(), CreateTaskPickerFragment.TAG);
             }
         });
-        attachmentsButton.setText(MessageFormat.format(getString(R.string.task_attachments_plurals), items.size()));
+        attachmentsButton.setText(
+                MessageFormat.format(getString(R.string.task_attachments_plurals), items != null ? items.size() : 0));
 
         // PRIORITY
         bM = (ToggleButton) vRoot.findViewById(R.id.action_priority_medium);
@@ -332,11 +338,11 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
         // Email Notification
         if (AndroidVersion.isICSOrAbove())
         {
-            emailNotification = (Switch) vRoot.findViewById(R.id.action_send_notification);
+            emailNotification = vRoot.findViewById(R.id.action_send_notification);
         }
         else
         {
-            emailNotification = (CheckBox) vRoot.findViewById(R.id.action_send_notification);
+            emailNotification = vRoot.findViewById(R.id.action_send_notification);
         }
 
         return vRoot;
@@ -360,7 +366,7 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
             UIUtils.displayTitle(getActivity(), R.string.task_create);
         }
         IntentFilter intentFilter = new IntentFilter(IntentIntegrator.ACTION_START_PROCESS_COMPLETED);
-        receiver = new StartProcessReceiver();
+        StartProcessReceiver receiver = new StartProcessReceiver();
         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(receiver, intentFilter);
 
         super.onResume();
@@ -380,10 +386,10 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
     {
         if (alfSession instanceof RepositorySessionImpl && ((RepositorySessionImpl) alfSession).hasPublicAPI())
         {
-            gregorianCalendar.set(Calendar.HOUR_OF_DAY, 00);
-            gregorianCalendar.set(Calendar.MINUTE, 00);
-            gregorianCalendar.set(Calendar.SECOND, 00);
-            gregorianCalendar.set(Calendar.MILLISECOND, 000);
+            gregorianCalendar.set(Calendar.HOUR_OF_DAY, 0);
+            gregorianCalendar.set(Calendar.MINUTE, 0);
+            gregorianCalendar.set(Calendar.SECOND, 0);
+            gregorianCalendar.set(Calendar.MILLISECOND, 0);
         }
         else
         {
@@ -429,13 +435,15 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
         List<Document> attachments = new ArrayList<Document>(items.values());
 
         // Start an adhoc process with no items
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
-        group.enqueue(new StartProcessRequest(processDefinition, people, variables, attachments).setNotificationTitle(
-                titleTask.getText().toString()).setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        group.enqueue(new StartProcessRequest(processDefinition, people, variables, attachments)
+                .setNotificationTitle(titleTask.getText().toString())
+                .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
 
         OperationWaitingDialogFragment.newInstance(StartProcessRequest.TYPE_ID, R.drawable.ic_action_inbox,
-                getString(R.string.process_starting), null, null, 0).show(getActivity().getFragmentManager(),
-                OperationWaitingDialogFragment.TAG);
+                getString(R.string.process_starting), null, null, 0)
+                .show(getActivity().getFragmentManager(), OperationWaitingDialogFragment.TAG);
 
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
     }
@@ -461,36 +469,36 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
         return (approvalValue / assignees.size()) * 100;
     }
 
-    private OnTouchListener priorityClickListener = new OnTouchListener()
+    private final OnTouchListener priorityClickListener = new OnTouchListener()
     {
         @Override
         public boolean onTouch(View v, MotionEvent event)
         {
             switch (v.getId())
             {
-                case R.id.action_priority_low:
-                    priority = WorkflowModel.PRIORITY_LOW;
-                    bM.setChecked(false);
-                    bM.setTextColor(Color.BLACK);
-                    bH.setChecked(false);
-                    bH.setTextColor(Color.BLACK);
-                    break;
-                case R.id.action_priority_medium:
-                    priority = WorkflowModel.PRIORITY_MEDIUM;
-                    bL.setChecked(false);
-                    bL.setTextColor(Color.BLACK);
-                    bH.setChecked(false);
-                    bH.setTextColor(Color.BLACK);
-                    break;
-                case R.id.action_priority_high:
-                    priority = WorkflowModel.PRIORITY_HIGH;
-                    bL.setChecked(false);
-                    bL.setTextColor(Color.BLACK);
-                    bM.setChecked(false);
-                    bM.setTextColor(Color.BLACK);
-                    break;
-                default:
-                    break;
+            case R.id.action_priority_low:
+                priority = WorkflowModel.PRIORITY_LOW;
+                bM.setChecked(false);
+                bM.setTextColor(Color.BLACK);
+                bH.setChecked(false);
+                bH.setTextColor(Color.BLACK);
+                break;
+            case R.id.action_priority_medium:
+                priority = WorkflowModel.PRIORITY_MEDIUM;
+                bL.setChecked(false);
+                bL.setTextColor(Color.BLACK);
+                bH.setChecked(false);
+                bH.setTextColor(Color.BLACK);
+                break;
+            case R.id.action_priority_high:
+                priority = WorkflowModel.PRIORITY_HIGH;
+                bL.setChecked(false);
+                bL.setTextColor(Color.BLACK);
+                bM.setChecked(false);
+                bM.setTextColor(Color.BLACK);
+                break;
+            default:
+                break;
             }
             ToggleButton b = (ToggleButton) v;
             b.setChecked(true);
@@ -503,32 +511,32 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
     {
         switch (priority)
         {
-            case WorkflowModel.PRIORITY_HIGH:
-                bL.setChecked(false);
-                bL.setTextColor(Color.BLACK);
-                bM.setChecked(false);
-                bM.setTextColor(Color.BLACK);
-                bH.setChecked(true);
-                bH.setTextColor(Color.WHITE);
-                break;
-            case WorkflowModel.PRIORITY_LOW:
-                bM.setChecked(false);
-                bM.setTextColor(Color.BLACK);
-                bH.setChecked(false);
-                bH.setTextColor(Color.BLACK);
-                bL.setChecked(true);
-                bL.setTextColor(Color.WHITE);
-                break;
-            case WorkflowModel.PRIORITY_MEDIUM:
-                bL.setChecked(false);
-                bL.setTextColor(Color.BLACK);
-                bH.setChecked(false);
-                bH.setTextColor(Color.BLACK);
-                bM.setChecked(true);
-                bM.setTextColor(Color.WHITE);
-                break;
-            default:
-                break;
+        case WorkflowModel.PRIORITY_HIGH:
+            bL.setChecked(false);
+            bL.setTextColor(Color.BLACK);
+            bM.setChecked(false);
+            bM.setTextColor(Color.BLACK);
+            bH.setChecked(true);
+            bH.setTextColor(Color.WHITE);
+            break;
+        case WorkflowModel.PRIORITY_LOW:
+            bM.setChecked(false);
+            bM.setTextColor(Color.BLACK);
+            bH.setChecked(false);
+            bH.setTextColor(Color.BLACK);
+            bL.setChecked(true);
+            bL.setTextColor(Color.WHITE);
+            break;
+        case WorkflowModel.PRIORITY_MEDIUM:
+            bL.setChecked(false);
+            bL.setTextColor(Color.BLACK);
+            bH.setChecked(false);
+            bH.setTextColor(Color.BLACK);
+            bM.setChecked(true);
+            bM.setTextColor(Color.WHITE);
+            break;
+        default:
+            break;
         }
     }
 
@@ -555,8 +563,9 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
             removeApprover.setEnabled(true);
         }
 
-        approversEditText.setHint(String.format(
-                MessageFormat.format(getString(R.string.process_approvers_plurals), assignees.size()), approvers));
+        approversEditText.setHint(
+                String.format(MessageFormat.format(getString(R.string.process_approvers_plurals), assignees.size()),
+                        approvers));
     }
 
     private void updateAssignees()
@@ -589,11 +598,12 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
 
     private void updateDocuments()
     {
-        attachmentsButton.setText(String.format(
-                MessageFormat.format(getString(R.string.task_attachments_plurals), items.size()), items.size()));
+        attachmentsButton.setText(
+                String.format(MessageFormat.format(getString(R.string.task_attachments_plurals), items.size()),
+                        items.size()));
     }
 
-    private TextWatcher watcher = new TextWatcher()
+    private final TextWatcher watcher = new TextWatcher()
     {
         public void afterTextChanged(Editable s)
         {
@@ -637,7 +647,10 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
     @Override
     public void onSelect(Map<String, Person> p)
     {
-        if (p == null) { return; }
+        if (p == null)
+        {
+            return;
+        }
         assignees.putAll(p);
 
         // Update assignees
@@ -656,7 +669,10 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
     @Override
     public void onSelectDocument(List<Document> p)
     {
-        if (p == null) { return; }
+        if (p == null)
+        {
+            return;
+        }
         items.clear();
         for (Node node : p)
         {
@@ -665,8 +681,8 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
 
         // Update documents
         updateDocuments();
-        getActivity().getFragmentManager().popBackStackImmediate(CreateTaskDocumentPickerFragment.TAG,
-                FragmentManager.POP_BACK_STACK_INCLUSIVE);
+        getActivity().getFragmentManager()
+                .popBackStackImmediate(CreateTaskDocumentPickerFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
     }
 
     @Override
@@ -686,14 +702,16 @@ public class CreateTaskFragment extends BaseFragment implements onPickPersonFrag
         {
             OdsLog.d(TAG, intent.getAction());
 
-            if (getActivity() == null) { return; }
+            if (getActivity() == null)
+            {
+                return;
+            }
 
             if (intent.getExtras() != null)
             {
                 if (intent.getAction().equals(IntentIntegrator.ACTION_START_PROCESS_COMPLETED))
                 {
                     getActivity().finish();
-                    return;
                 }
             }
         }

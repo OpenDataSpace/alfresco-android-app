@@ -21,7 +21,7 @@ public class OdsNodeComparator extends NodeComparator
         {
             boolean fa = nodeA.isFolder();
             boolean fb = nodeB.isFolder();
-            int b = 0;
+            int b;
 
             if (fa != fb)
             {

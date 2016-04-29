@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?><!--suppress XmlUnboundNsPrefix -->
+<lint>
+    <issue id="IconMissingDensityFolder" severity="ignore"/>
+    <issue id="MissingTranslation" severity="ignore"/>
+    <issue id="UnusedResources" severity="ignore"/>
+    <issue id="IconLocation" severity="ignore"/>
+    <issue id="IconDuplicates" severity="ignore"/>
+    <issue id="IconDensities" severity="ignore"/>
+</lint>

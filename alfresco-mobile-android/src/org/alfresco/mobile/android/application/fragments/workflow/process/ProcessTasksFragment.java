@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -16,23 +16,6 @@
  * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.workflow.process;
-
-import java.util.ArrayList;
-import java.util.List;
-
-import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
-import org.alfresco.mobile.android.api.model.ListingContext;
-import org.alfresco.mobile.android.api.model.ListingFilter;
-import org.alfresco.mobile.android.api.model.PagingResult;
-import org.alfresco.mobile.android.api.model.Task;
-import org.alfresco.mobile.android.api.services.WorkflowService;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.activity.MainActivity;
-import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
-import org.alfresco.mobile.android.application.fragments.DisplayUtils;
-import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
 
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Loader;
@@ -46,6 +29,23 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.ListView;
 
+import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
+import org.alfresco.mobile.android.api.model.ListingContext;
+import org.alfresco.mobile.android.api.model.ListingFilter;
+import org.alfresco.mobile.android.api.model.PagingResult;
+import org.alfresco.mobile.android.api.model.Task;
+import org.alfresco.mobile.android.api.services.WorkflowService;
+import org.alfresco.mobile.android.application.activity.MainActivity;
+import org.alfresco.mobile.android.application.exception.CloudExceptionUtils;
+import org.alfresco.mobile.android.application.fragments.DisplayUtils;
+import org.alfresco.mobile.android.application.fragments.menu.MenuActionItem;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseListFragment;
+import org.opendataspace.android.app.R;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class ProcessTasksFragment extends BaseListFragment implements LoaderCallbacks<LoaderResult<PagingResult<Task>>>
 {
 
@@ -53,7 +53,7 @@ public class ProcessTasksFragment extends BaseListFragment implements LoaderCall
 
     public static final String TAG = ProcessTasksFragment.class.getName();
 
-    protected List<Task> selectedItems = new ArrayList<Task>(1);
+    protected final List<Task> selectedItems = new ArrayList<Task>(1);
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS & HELPERS
@@ -69,8 +69,7 @@ public class ProcessTasksFragment extends BaseListFragment implements LoaderCall
 
     public static ProcessTasksFragment newInstance()
     {
-        ProcessTasksFragment bf = new ProcessTasksFragment();
-        return bf;
+        return new ProcessTasksFragment();
     }
 
     public static ProcessTasksFragment newInstance(String processIdentifier)
@@ -80,7 +79,7 @@ public class ProcessTasksFragment extends BaseListFragment implements LoaderCall
         b.putSerializable(PARAM_PROCESS, processIdentifier);
         bf.setArguments(b);
         return bf;
-    };
+    }
 
     // ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE
@@ -107,7 +106,10 @@ public class ProcessTasksFragment extends BaseListFragment implements LoaderCall
             v = inflater.inflate(R.layout.sdk_list, container, false);
             init(v, emptyListMessageId);
         }
-        v.setBackgroundColor(Color.WHITE);
+        if (v != null)
+        {
+            v.setBackgroundColor(Color.WHITE);
+        }
         return v;
     }
 
@@ -142,8 +144,8 @@ public class ProcessTasksFragment extends BaseListFragment implements LoaderCall
 
         bundle = (ba == null) ? getArguments() : ba;
 
-        ListingContext lc = null, lcorigin = null;
-        ProcessTasksLoader st = null;
+        ListingContext lc = null, lcorigin;
+        ProcessTasksLoader st;
         ListingFilter lf = new ListingFilter();
         lf.addFilter(WorkflowService.FILTER_KEY_STATUS, WorkflowService.FILTER_STATUS_ANY);
         lf.addFilter(WorkflowService.FILTER_KEY_ASSIGNEE, WorkflowService.FILTER_NO_ASSIGNEE);
@@ -192,7 +194,7 @@ public class ProcessTasksFragment extends BaseListFragment implements LoaderCall
     {
         // Nothing special
     }
-    
+
     @Override
     public void onLoaderException(Exception e)
     {

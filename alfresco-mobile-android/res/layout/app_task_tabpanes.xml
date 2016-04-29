@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (C) 2005-2014 Alfresco Software Limited.
-  
+
   This file is part of Alfresco Mobile for Android.
-  
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
     http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,17 +16,18 @@
   limitations under the License.
 -->
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    style="?AlfrescoTheme.Background.White"
-    android:gravity="center"
-    android:orientation="vertical"
-    android:visibility="visible" >
+             xmlns:tools="http://schemas.android.com/tools"
+             style="?AlfrescoTheme.Background.White"
+             android:gravity="center"
+             android:orientation="vertical"
+             android:visibility="visible">
 
     <LinearLayout
         android:id="@+id/properties_details"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_marginTop="5dip"
-        android:orientation="vertical" >
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/group_summary"
@@ -35,14 +35,15 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/properties_details_padding"
             android:layout_marginRight="@dimen/properties_details_padding"
-            android:orientation="vertical" >
+            android:orientation="vertical">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="fill_parent"
                 android:layout_margin="4dip"
                 android:baselineAligned="false"
-                android:orientation="horizontal" >
+                android:orientation="horizontal"
+                tools:ignore="UselessParent">
 
                 <LinearLayout
                     android:layout_width="0dip"
@@ -50,23 +51,29 @@
                     android:layout_gravity="center"
                     android:layout_weight="1"
                     android:orientation="vertical"
-                    android:paddingLeft="4dip" >
+                    android:paddingLeft="4dip"
+                    android:paddingStart="4dip"
+                    tools:ignore="RtlSymmetry">
 
                     <TextView
                         android:id="@+id/title"
                         style="?AlfrescoTheme.TextView.ListItem.Primary"
-                        android:layout_gravity="left"
+                        android:layout_gravity="start"
                         android:layout_margin="0dp"
                         android:paddingLeft="0dip"
+                        android:paddingStart="0dip"
                         android:paddingRight="@dimen/properties_details_padding"
-                        android:text="Green Grasssd fgsdf gdsf gds fgds fg fdgsdf gsdf gsdf gsd fgdsfg sdf.JPG" />
+                        android:paddingEnd="@dimen/properties_details_padding"
+                        tools:ignore="NewApi"/>
 
                     <TextView
                         android:id="@+id/details"
                         style="?AlfrescoTheme.TextView.ListItem.Secondary"
                         android:layout_marginLeft="0dip"
+                        android:layout_marginStart="0dip"
                         android:paddingLeft="0dip"
-                        android:text="G419 days ago - 142Kb, version 1.0" />
+                        android:paddingStart="0dip"
+                        tools:ignore="NewApi"/>
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -77,11 +84,11 @@
             android:layout_marginLeft="@dimen/properties_details_padding"
             android:layout_marginRight="@dimen/properties_details_padding"
             android:layout_marginTop="@dimen/properties_details_padding"
-            layout="@layout/app_details_extra" />
+            layout="@layout/app_details_extra"/>
     </LinearLayout>
 
- <include
+    <include
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        layout="@layout/app_progress_emtpy" />
+        layout="@layout/app_progress_emtpy"/>
 </FrameLayout>

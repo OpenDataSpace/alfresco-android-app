@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,14 +17,16 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.manager;
 
-import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
-import org.alfresco.mobile.android.ui.manager.MessengerManager;
-
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.os.Build;
 import android.view.View;
 import android.view.accessibility.AccessibilityEvent;
 import android.view.accessibility.AccessibilityManager;
 import android.widget.EditText;
+
+import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
+import org.alfresco.mobile.android.ui.manager.MessengerManager;
 
 /**
  * @author Jean Marie Pascal
@@ -43,10 +45,12 @@ public class AccessibilityHelper
         return am.isEnabled();
     }
 
+    @SuppressLint("NewApi")
     public static boolean isTouchExplorationEnabled(Context context)
     {
         AccessibilityManager am = (AccessibilityManager) context.getSystemService(Context.ACCESSIBILITY_SERVICE);
-        return am.isTouchExplorationEnabled();
+        //noinspection SimplifiableConditionalExpression
+        return Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB ? am.isTouchExplorationEnabled() : false;
     }
 
     public static void sendAccessibilityEvent(Context context)
@@ -74,6 +78,7 @@ public class AccessibilityHelper
         }
     }
 
+    @SuppressLint("NewApi")
     public static void addContentDescription(View v, String contentDescription)
     {
         if (isEnabled(v.getContext()))
@@ -99,6 +104,7 @@ public class AccessibilityHelper
         }
     }
 
+    @SuppressLint("NewApi")
     public static void removeContentDescription(View v)
     {
         if (isEnabled(v.getContext()))

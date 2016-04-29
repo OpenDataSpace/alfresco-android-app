@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2012 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -29,7 +29,6 @@ import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.version.VersionsFragment;
 
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -39,7 +38,7 @@ public class VersionFragment extends VersionsFragment
 {
 
     public static final String TAG = "VersionFragment";
-    
+
     private static final String ARGUMENT_FOLDER = "parentFolderNode";
 
     private Folder parentFolder;
@@ -52,7 +51,7 @@ public class VersionFragment extends VersionsFragment
     {
         VersionFragment bf = new VersionFragment();
         Bundle b = createBundleArgs(n);
-        b.putParcelable(ARGUMENT_FOLDER, (Parcelable) parentFolder);
+        b.putParcelable(ARGUMENT_FOLDER, parentFolder);
         bf.setArguments(b);
         return bf;
     }
@@ -74,7 +73,7 @@ public class VersionFragment extends VersionsFragment
         alfSession = SessionUtils.getSession(getActivity());
         SessionUtils.checkSession(getActivity(), alfSession);
         super.onActivityCreated(savedInstanceState);
-        
+
         if (getArguments() != null && getArguments().containsKey(ARGUMENT_FOLDER))
         {
             parentFolder = bundle.getParcelable(ARGUMENT_FOLDER);
@@ -87,7 +86,7 @@ public class VersionFragment extends VersionsFragment
         super.onListItemClick(l, v, position, id);
         Document versionedDoc = (Document) l.getItemAtPosition(position);
         if (versionedDoc.getVersionLabel() != null
-                && !versionedDoc.getVersionLabel().equals(((Document) node).getVersionLabel()))
+                && !versionedDoc.getVersionLabel().equals(node.getVersionLabel()))
         {
             ((MainActivity) getActivity()).addPropertiesFragment(versionedDoc, parentFolder, true);
         }

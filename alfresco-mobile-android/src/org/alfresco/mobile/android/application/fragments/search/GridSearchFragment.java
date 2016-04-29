@@ -1,23 +1,25 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of the Alfresco Mobile SDK.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *  
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.search;
 
-import java.util.ArrayList;
+import android.app.LoaderManager.LoaderCallbacks;
+import android.content.Loader;
+import android.os.Bundle;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.asynchronous.SearchLoader;
@@ -33,20 +35,18 @@ import org.alfresco.mobile.android.application.fragments.BaseGridFragment;
 import org.alfresco.mobile.android.ui.R;
 import org.alfresco.mobile.android.ui.documentfolder.NodeAdapter;
 
-import android.app.LoaderManager.LoaderCallbacks;
-import android.content.Loader;
-import android.os.Bundle;
+import java.util.ArrayList;
 
 /**
  * @since 1.3
  * @author Jean Marie Pascal
  */
-public abstract class GridSearchFragment extends BaseGridFragment implements
-        LoaderCallbacks<LoaderResult<PagingResult<Node>>>
+public abstract class GridSearchFragment extends BaseGridFragment
+        implements LoaderCallbacks<LoaderResult<PagingResult<Node>>>
 {
 
     protected static final int MAX_RESULT_ITEMS = 30;
-    
+
     public static final String TAG = "SearchFragment";
 
     public static final String KEYWORDS = "keywords";
@@ -87,11 +87,11 @@ public abstract class GridSearchFragment extends BaseGridFragment implements
         {
             setListShown(false);
         }
-        
+
         String keywords = null, statement = null, language = null;
         Folder f = null;
         boolean isExact = false, fullText = true, includeDescendants = true;
-        ListingContext lc = null, lcorigin = null;
+        ListingContext lc = null, lcorigin;
 
         if (b != null)
         {
@@ -101,10 +101,9 @@ public abstract class GridSearchFragment extends BaseGridFragment implements
             f = (Folder) b.getSerializable(FOLDER);
 
             language = (b.containsKey(LANGUAGE)) ? b.getString(LANGUAGE) : null;
-            isExact = (b.containsKey(EXACTMATCH)) ? b.getBoolean(EXACTMATCH) : isExact;
-            fullText = (b.containsKey(INCLUDE_CONTENT)) ? b.getBoolean(INCLUDE_CONTENT) : fullText;
-            includeDescendants = (b.containsKey(INCLUDE_DESCENDANTS)) ? b.getBoolean(INCLUDE_DESCENDANTS)
-                    : includeDescendants;
+            isExact = (b.containsKey(EXACTMATCH)) && b.getBoolean(EXACTMATCH);
+            fullText = (!b.containsKey(INCLUDE_CONTENT)) || b.getBoolean(INCLUDE_CONTENT);
+            includeDescendants = (!b.containsKey(INCLUDE_DESCENDANTS)) || b.getBoolean(INCLUDE_DESCENDANTS);
 
             lcorigin = (ListingContext) b.getSerializable(ARGUMENT_GRID);
             lc = copyListing(lcorigin);
@@ -120,8 +119,8 @@ public abstract class GridSearchFragment extends BaseGridFragment implements
         }
         else if (keywords != null)
         {
-            searchLoader = new SearchLoader(getActivity(), alfSession, keywords, new KeywordSearchOptions(f,
-                    includeDescendants, fullText, isExact));
+            searchLoader = new SearchLoader(getActivity(), alfSession, keywords,
+                    new KeywordSearchOptions(f, includeDescendants, fullText, isExact));
         }
         if (searchLoader != null)
         {
@@ -156,7 +155,7 @@ public abstract class GridSearchFragment extends BaseGridFragment implements
         gv.setEmptyView(ev);
         CloudExceptionUtils.handleCloudException(getActivity(), e, false);
     }
-    
+
     @Override
     public void onLoaderReset(Loader<LoaderResult<PagingResult<Node>>> arg0)
     {
@@ -175,12 +174,12 @@ public abstract class GridSearchFragment extends BaseGridFragment implements
         {
             b.putSerializable(ARGUMENT_GRID, new ListingContext("", MAX_RESULT_ITEMS, 0, false));
         }
-        
+
         if (parentFolder != null)
         {
             b.putSerializable(FOLDER, parentFolder);
         }
-        
+
         reload(b, SearchLoader.ID, this);
     }
 

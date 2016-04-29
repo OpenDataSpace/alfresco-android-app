@@ -41,7 +41,7 @@ public class OdsDocumentFolderService extends OnPremiseDocumentFolderServiceImpl
             Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
             OperationContext context = cmisSession.createOperationContext();
             context.setRenditionFilterString(
-                    type == DocumentFolderService.RENDITION_PREVIEW ? "image/*" : "cmis:thumbnail");
+                    type.equals(DocumentFolderService.RENDITION_PREVIEW) ? "image/*" : "cmis:thumbnail");
 
             CmisObject targetDocument = cmisSession.getObject(identifier, context);
             List<Rendition> renditions = targetDocument.getRenditions();

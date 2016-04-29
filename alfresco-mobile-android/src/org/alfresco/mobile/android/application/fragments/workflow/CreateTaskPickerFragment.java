@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -47,8 +47,6 @@ public class CreateTaskPickerFragment extends BaseFragment
     public static final int MODE_DOCUMENT = 2;
 
     private List<Person> assignees;
-
-    private View vRoot;
 
     private CreateTaskFragment createTaskFragment;
 
@@ -93,7 +91,7 @@ public class CreateTaskPickerFragment extends BaseFragment
             assignees = createTaskFragment.getAssignees();
         }
 
-        int titleId = -1;
+        int titleId;
         if (getDialog() != null)
         {
             titleId = R.string.task_assignees;
@@ -107,7 +105,7 @@ public class CreateTaskPickerFragment extends BaseFragment
         setRetainInstance(true);
         alfSession = SessionUtils.getSession(getActivity());
         SessionUtils.checkSession(getActivity(), alfSession);
-        vRoot = inflater.inflate(R.layout.app_picker_list, container, false);
+        View vRoot = inflater.inflate(R.layout.app_picker_list, container, false);
         if (alfSession == null) { return vRoot; }
 
         if (mode == MODE_PERSON)
@@ -151,13 +149,13 @@ public class CreateTaskPickerFragment extends BaseFragment
 
     public void removeAssignee(Person item)
     {
-        assignees.remove(item.getIdentifier());
+        assignees.remove(item);
         createTaskFragment.removeAssignee(item);
     }
 
     public void removeDocument(Document item)
     {
-        docs.remove(item.getIdentifier());
+        docs.remove(item);
         createTaskFragment.removeDocument(item);
     }
 }

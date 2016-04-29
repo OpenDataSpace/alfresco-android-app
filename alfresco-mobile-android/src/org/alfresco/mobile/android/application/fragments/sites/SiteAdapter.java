@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -49,7 +49,7 @@ import android.widget.PopupMenu.OnMenuItemClickListener;
 public class SiteAdapter extends org.alfresco.mobile.android.ui.site.SiteAdapter implements OnMenuItemClickListener
 {
 
-    private List<Site> selectedOptionItems = new ArrayList<Site>();
+    private final List<Site> selectedOptionItems = new ArrayList<Site>();
 
     private Fragment fragment;
 
@@ -74,7 +74,7 @@ public class SiteAdapter extends org.alfresco.mobile.android.ui.site.SiteAdapter
 
         if (mode == ListingModeFragment.MODE_IMPORT || mode == ListingModeFragment.MODE_PICK || mode == ListingModeFragment.MODE_FOLDERS) { return; }
 
-        UIUtils.setBackground(((View) vh.choose),
+        UIUtils.setBackground(vh.choose,
                 getContext().getResources().getDrawable(R.drawable.quickcontact_badge_overlay_light));
 
         vh.choose.setVisibility(View.VISIBLE);
@@ -110,7 +110,7 @@ public class SiteAdapter extends org.alfresco.mobile.android.ui.site.SiteAdapter
             }
         });
     }
-    
+
     @Override
     protected void updateIcon(GenericViewHolder vh, Site item)
     {
@@ -154,7 +154,7 @@ public class SiteAdapter extends org.alfresco.mobile.android.ui.site.SiteAdapter
     @Override
     public boolean onMenuItemClick(MenuItem item)
     {
-        boolean onMenuItemClick = true;
+        boolean onMenuItemClick;
         Bundle b = new Bundle();
         switch (item.getItemId())
         {

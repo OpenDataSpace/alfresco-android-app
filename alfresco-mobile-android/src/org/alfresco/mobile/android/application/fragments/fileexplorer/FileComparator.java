@@ -8,7 +8,7 @@ public class FileComparator implements Comparator<File>, Serializable
 {
     private static final long serialVersionUID = 1L;
 
-    private boolean asc;
+    private final boolean asc;
 
     public FileComparator(boolean asc)
     {
@@ -18,7 +18,7 @@ public class FileComparator implements Comparator<File>, Serializable
 
     public int compare(File f1, File f2)
     {
-        int value = 0;
+        int value;
 
         if (f1.isDirectory() && !f2.isDirectory())
         {
@@ -32,7 +32,7 @@ public class FileComparator implements Comparator<File>, Serializable
         }
         else
         {
-            // Alphabetic order 
+            // Alphabetic order
             value = f1.getName().compareToIgnoreCase(f2.getName());
         }
 

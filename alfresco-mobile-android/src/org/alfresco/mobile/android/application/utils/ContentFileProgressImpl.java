@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,15 +17,15 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.utils;
 
+import org.alfresco.mobile.android.api.model.impl.ContentFileImpl;
+
 import java.io.File;
 import java.io.IOException;
-
-import org.alfresco.mobile.android.api.model.impl.ContentFileImpl;
 
 /**
  * ContentFile represents an abstract way to share file between the client
  * remote api and server.
- * 
+ *
  * @author Luke Jagger
  */
 public class ContentFileProgressImpl extends ContentFileImpl
@@ -49,7 +49,7 @@ public class ContentFileProgressImpl extends ContentFileImpl
 
     /**
      * Init a contentFile based on local file.
-     * 
+     *
      * @param f : file inside a device filesystem.
      */
     public ContentFileProgressImpl(File f)
@@ -60,8 +60,8 @@ public class ContentFileProgressImpl extends ContentFileImpl
     /**
      * Init a contentFile based on local file and redefine default mimetype and
      * filename associated.
-     * 
-     * @param f : File inside a device filesystem
+     *
+     * @param f        : File inside a device filesystem
      * @param filename : New name of the file
      * @param mimetype : mimetype associated to the file.
      */
@@ -73,13 +73,17 @@ public class ContentFileProgressImpl extends ContentFileImpl
     @Override
     public void fileReadCallback(int nBytes) throws IOException
     {
-        if (nBytes == -1) { return; }
+        if (nBytes == -1)
+        {
+            return;
+        }
 
         amountCopied += nBytes;
 
-        if (listener != null && amountCopied == getFile().length() || (amountCopied / segment > currentSegment))
+        if (listener != null && (amountCopied == getFile().length() || (amountCopied / segment > currentSegment)))
         {
-            if (segment == 0 &&  amountCopied == getFile().length()){
+            if (segment == 0 && amountCopied == getFile().length())
+            {
                 segment = 1;
             }
             currentSegment = (int) (amountCopied / segment);

@@ -1,40 +1,21 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of the Alfresco Mobile SDK.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.manager;
-
-import java.lang.ref.WeakReference;
-import java.util.HashMap;
-import java.util.Map;
-
-import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Node;
-import org.alfresco.mobile.android.api.services.DocumentFolderService;
-import org.alfresco.mobile.android.api.services.impl.AbstractDocumentFolderServiceImpl;
-import org.alfresco.mobile.android.api.services.impl.AbstractPersonService;
-import org.alfresco.mobile.android.api.services.impl.AbstractWorkflowService;
-import org.alfresco.mobile.android.api.session.AlfrescoSession;
-import org.alfresco.mobile.android.api.session.RepositorySession;
-import org.alfresco.mobile.android.api.utils.NodeRefUtils;
-import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
-import org.opendataspace.android.app.R;
-import org.alfresco.mobile.android.application.utils.thirdparty.imagezoom.ImageViewTouch;
-import org.apache.chemistry.opencmis.commons.impl.UrlBuilder;
 
 import android.app.Activity;
 import android.content.res.Resources;
@@ -49,19 +30,35 @@ import android.widget.ImageView.ScaleType;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.squareup.picasso.Picasso.Builder;
+import org.alfresco.mobile.android.api.constants.OnPremiseConstant;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.services.DocumentFolderService;
+import org.alfresco.mobile.android.api.services.impl.AbstractDocumentFolderServiceImpl;
+import org.alfresco.mobile.android.api.services.impl.AbstractPersonService;
+import org.alfresco.mobile.android.api.services.impl.AbstractWorkflowService;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.api.session.RepositorySession;
+import org.alfresco.mobile.android.api.utils.NodeRefUtils;
+import org.alfresco.mobile.android.api.utils.OnPremiseUrlRegistry;
+import org.alfresco.mobile.android.application.utils.thirdparty.imagezoom.ImageViewTouch;
+import org.apache.chemistry.opencmis.commons.impl.UrlBuilder;
+import org.opendataspace.android.app.R;
+
+import java.lang.ref.WeakReference;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * Utility class for downloading content and display it.
- * 
+ *
  * @author jpascal
  */
 public class RenditionManager
 {
-    private Activity context;
+    private final Activity context;
 
-    private AlfrescoSession session;
-
-    private ImageDownloader imageLoader;
+    private final AlfrescoSession session;
 
     private Picasso picasso;
 
@@ -75,9 +72,9 @@ public class RenditionManager
 
     private static final String NO_RENDITION = "NoRendition";
 
-    protected Map<String, String> streamUriStore = new HashMap<String, String>();
+    protected final Map<String, String> streamUriStore = new HashMap<String, String>();
 
-    protected Map<String, String> previewUriStore = new HashMap<String, String>();
+    protected final Map<String, String> previewUriStore = new HashMap<String, String>();
 
     protected Map<String, Integer> urlRetrievers = new HashMap<String, Integer>();
 
@@ -88,7 +85,7 @@ public class RenditionManager
 
         if (picasso == null)
         {
-            imageLoader = new ImageDownloader(context, session);
+            ImageDownloader imageLoader = new ImageDownloader(context, session);
             Builder builder = new Picasso.Builder(context);
             picasso = builder.downloader(imageLoader).build();
         }
@@ -96,10 +93,6 @@ public class RenditionManager
 
     /**
      * Display the content of the url inside an imageview. (thumbnails)
-     * 
-     * @param iv
-     * @param url
-     * @param initDrawableId
      */
     public void display(ImageView iv, Node n, int initDrawableId)
     {
@@ -155,10 +148,10 @@ public class RenditionManager
     }
 
     protected void display(final ImageView iv, String identifier, int initDrawableId, int type, Integer preview,
-            ScaleType scaleType)
+                           ScaleType scaleType)
     {
         // Wrong identifier so display placeholder
-        String url = null;
+        String url;
         if (TextUtils.isEmpty(identifier) || session == null)
         {
             iv.setImageResource(initDrawableId);
@@ -187,12 +180,12 @@ public class RenditionManager
             break;
         case TYPE_WORKFLOW:
             url = ((AbstractWorkflowService) session.getServiceRegistry().getWorkflowService())
-            .getProcessDiagramUrl(identifier).toString();
+                    .getProcessDiagramUrl(identifier).toString();
             startPicasso(url, initDrawableId, iv);
             return;
         case TYPE_PERSON:
-            if (session instanceof RepositorySession
-                    && session.getRepositoryInfo().getMajorVersion() >= OnPremiseConstant.ALFRESCO_VERSION_4)
+            if (session instanceof RepositorySession &&
+                    session.getRepositoryInfo().getMajorVersion() >= OnPremiseConstant.ALFRESCO_VERSION_4)
             {
                 url = OnPremiseUrlRegistry.getAvatarUrl(session, identifier);
                 startPicasso(url, initDrawableId, iv);
@@ -214,8 +207,8 @@ public class RenditionManager
         if (getReference(identifier, preview) == null)
         {
             addReference(identifier, AWAIT, preview);
-            urlRetrieverThread thread = new urlRetrieverThread(context, session, iv, initDrawableId, identifier, type,
-                    preview);
+            urlRetrieverThread thread =
+                    new urlRetrieverThread(context, session, iv, initDrawableId, identifier, type, preview);
             thread.setPriority(Thread.MIN_PRIORITY);
             if (preview != null)
             {
@@ -276,20 +269,20 @@ public class RenditionManager
     {
         private final WeakReference<ImageView> imageViewReference;
 
-        private String identifier;
+        private final String identifier;
 
-        private AlfrescoSession session;
+        private final AlfrescoSession session;
 
-        private Activity ctxt;
+        private final Activity ctxt;
 
-        private int type;
+        private final int type;
 
-        private Integer preview;
+        private final Integer preview;
 
-        private int initDrawableId;
+        private final int initDrawableId;
 
         public urlRetrieverThread(Activity ctxt, AlfrescoSession session, ImageView imageView, int initDrawableId,
-                String identifier, int type, Integer preview)
+                                  String identifier, int type, Integer preview)
         {
             this.imageViewReference = new WeakReference<ImageView>(imageView);
             this.session = session;
@@ -314,17 +307,20 @@ public class RenditionManager
                     {
                         renditionId = DocumentFolderService.RENDITION_PREVIEW;
                     }
-                    if (isInterrupted()) { return; }
-                    url = ((AbstractDocumentFolderServiceImpl) session.getServiceRegistry()
-                            .getDocumentFolderService()).getRenditionUrl(identifier, renditionId);
+                    if (isInterrupted())
+                    {
+                        return;
+                    }
+                    url = ((AbstractDocumentFolderServiceImpl) session.getServiceRegistry().getDocumentFolderService())
+                            .getRenditionUrl(identifier, renditionId);
                     break;
                 case TYPE_WORKFLOW:
                     url = ((AbstractWorkflowService) session.getServiceRegistry().getWorkflowService())
-                    .getProcessDiagramUrl(identifier);
+                            .getProcessDiagramUrl(identifier);
                     break;
                 case TYPE_PERSON:
                     url = ((AbstractPersonService) session.getServiceRegistry().getPersonService())
-                    .getAvatarUrl(identifier);
+                            .getAvatarUrl(identifier);
                     break;
 
                 default:
@@ -333,7 +329,10 @@ public class RenditionManager
 
                 if (url != null && imageViewReference.get() != null)
                 {
-                    if (isInterrupted()) { return; }
+                    if (isInterrupted())
+                    {
+                        return;
+                    }
                     addReference(identifier, url.toString(), preview);
                     ctxt.runOnUiThread(new urlDisplayer(url.toString(), imageViewReference, initDrawableId));
                 }
@@ -389,11 +388,11 @@ public class RenditionManager
     // Used to display bitmap in the UI thread
     private class urlDisplayer implements Runnable
     {
-        private String url;
+        private final String url;
 
-        private ImageView imageView;
+        private final ImageView imageView;
 
-        private int initDrawableId;
+        private final int initDrawableId;
 
         public urlDisplayer(String url, WeakReference<ImageView> imageViewReference, int initDrawableId)
         {
@@ -471,8 +470,7 @@ public class RenditionManager
 
     public boolean hasSameSession(AlfrescoSession alfrescoSession)
     {
-        if (alfrescoSession == null || session == null) { return false; }
-        return alfrescoSession.equals(session);
+        return !(alfrescoSession == null || session == null) && alfrescoSession.equals(session);
     }
 
     private String getDocumentRendition(String identifier, String type)

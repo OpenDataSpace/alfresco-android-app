@@ -56,9 +56,9 @@ public final class ApplicationManager
 
     private static final Object LOCK = new Object();
 
-    private DatabaseManager databaseManager;
+    private final DatabaseManager databaseManager;
 
-    private Map<Long, AlfrescoSession> sessionIndex = new HashMap<Long, AlfrescoSession>();
+    private final Map<Long, AlfrescoSession> sessionIndex = new HashMap<Long, AlfrescoSession>();
 
     private Account currentAccount;
 
@@ -66,13 +66,13 @@ public final class ApplicationManager
 
     private AccountManager accountManager;
 
-    private UpgradeManager upgradeManager;
+    private final UpgradeManager upgradeManager;
 
-    private ConfigurationManager configurationManager;
+    private final ConfigurationManager configurationManager;
 
-    private SamsungManager samsungManager;
+    private final SamsungManager samsungManager;
 
-    private OdsConfigManager odsConfig;
+    private final OdsConfigManager odsConfig;
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTOR

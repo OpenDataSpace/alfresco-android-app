@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- * 
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,10 +17,11 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.capture;
 
-import java.io.File;
-import java.io.Serializable;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import android.app.Activity;
+import android.app.Fragment;
+import android.app.FragmentTransaction;
+import android.content.Context;
+import android.content.Intent;
 
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.application.fragments.browser.AddContentDialogFragment;
@@ -29,11 +30,11 @@ import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.app.FragmentTransaction;
-import android.content.Context;
-import android.content.Intent;
+import java.io.File;
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
 
 public abstract class DeviceCapture implements Serializable
 {
@@ -49,7 +50,7 @@ public abstract class DeviceCapture implements Serializable
 
     protected String mimeType = null;
 
-    protected File parentFolder;
+    protected final File parentFolder;
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS
@@ -66,7 +67,8 @@ public abstract class DeviceCapture implements Serializable
         this.repositoryFolder = repositoryFolder;
         if (parentFolder == null)
         {
-            this.parentFolder = StorageManager.getCaptureFolder(parentActivity, SessionUtils.getAccount(parentActivity));
+            this.parentFolder =
+                    StorageManager.getCaptureFolder(parentActivity, SessionUtils.getAccount(parentActivity));
         }
         else
         {
@@ -136,7 +138,7 @@ public abstract class DeviceCapture implements Serializable
     // ///////////////////////////////////////////////////////////////////////////
     protected String createFilename(String prefix, String extension)
     {
-        String timeStamp = new SimpleDateFormat("yyyyddMM_HHmmss").format(new Date());
+        String timeStamp = new SimpleDateFormat("yyyyddMM_HHmmss", Locale.getDefault()).format(new Date());
 
         return prefix + timeStamp + "." + extension;
     }
@@ -150,6 +152,7 @@ public abstract class DeviceCapture implements Serializable
         {
             if (payload != null)
             {
+                //noinspection ResultOfMethodCallIgnored
                 payload.delete();
                 payload = null;
             }

@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -55,9 +55,9 @@ public class MimeType implements Serializable
 
     private String extension;
 
-    private String type;
+    private final String type;
 
-    private String subType;
+    private final String subType;
 
     private String description;
 
@@ -161,14 +161,7 @@ public class MimeType implements Serializable
     // /////////////////////////////////////////////////////////////////
     public boolean isType(String typeRequested)
     {
-        if (type != null)
-        {
-            return type.contains(typeRequested);
-        }
-        else
-        {
-            return false;
-        }
+        return type != null && type.contains(typeRequested);
     }
 
 }

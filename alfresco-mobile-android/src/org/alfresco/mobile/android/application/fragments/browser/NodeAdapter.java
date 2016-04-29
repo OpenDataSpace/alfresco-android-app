@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *
+ * <p/>
  * This file is part of Alfresco Mobile for Android.
- *
+ * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,20 +17,18 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.browser;
 
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import android.app.Activity;
+import android.app.Fragment;
+import android.content.Context;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.ViewGroup;
+import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.application.ApplicationManager;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.session.OdsDocument;
-import org.opendataspace.android.app.session.OdsNodeComparator;
-import org.opendataspace.android.ui.logging.OdsLog;
 import org.alfresco.mobile.android.application.fragments.BaseCursorGridAdapterHelper;
 import org.alfresco.mobile.android.application.fragments.BaseGridFragment;
 import org.alfresco.mobile.android.application.fragments.ListingModeFragment;
@@ -43,15 +41,17 @@ import org.alfresco.mobile.android.application.utils.ProgressViewHolder;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseListAdapter;
 import org.alfresco.mobile.android.ui.utils.Formatter;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsDocument;
+import org.opendataspace.android.app.session.OdsNodeComparator;
+import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.app.Activity;
-import android.app.Fragment;
-import android.content.Context;
-import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.ViewGroup;
-import android.widget.ImageView.ScaleType;
-import android.widget.LinearLayout;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Provides access to node (documents or folders) and displays them as a view
@@ -65,11 +65,11 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
 
     protected List<Node> selectedItems;
 
-    protected LinkedHashMap<String, Node> nodeNameIndexer = new LinkedHashMap<String, Node>();
+    protected final LinkedHashMap<String, Node> nodeNameIndexer = new LinkedHashMap<String, Node>();
 
     private Boolean activateThumbnail = Boolean.FALSE;
 
-    private RenditionManager renditionManager;
+    private final RenditionManager renditionManager;
 
     protected int mode;
 
@@ -87,7 +87,7 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
     // CONSTRUCTORS
     // //////////////////////////////////////////////////////////////////////
     public NodeAdapter(Activity context, int textViewResourceId, List<Node> listItems, List<Node> selectedItems,
-            int mode)
+                       int mode)
     {
         super(context, textViewResourceId, listItems);
         originalNodes = listItems;
@@ -99,7 +99,7 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
     }
 
     public NodeAdapter(BaseGridFragment fr, int textViewResourceId, List<Node> listItems, List<Node> selectedItems,
-            int mode)
+                       int mode)
     {
         super(fr.getActivity(), textViewResourceId, listItems);
         originalNodes = listItems;
@@ -130,7 +130,7 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
     }
 
     public NodeAdapter(Activity context, int textViewResourceId, List<Node> listItems,
-            Map<String, Document> selectedItems)
+                       Map<String, Document> selectedItems)
     {
         super(context, textViewResourceId, listItems);
         originalNodes = listItems;
@@ -158,7 +158,7 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
 
         // First init ==> always
 
-        View v = convertView;
+        View v;
         if (convertView == null || convertView.findViewById(layouts[1]) == null)
         {
             v = createView(getContext(), convertView, layouts[0]);
@@ -198,12 +198,12 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
     @Override
     public void addAll(Collection<? extends Node> collection)
     {
-        Node objects[] = (Node[]) collection.toArray(new Node[0]);
+        Node objects[] = collection.toArray(new Node[collection.size()]);
 
         int size = objects.length;
-        for (int i = 0; i < size; i++)
+        for (Node object : objects)
         {
-            add(objects[i]);
+            add(object);
         }
         OdsLog.d("NodeAdapter", size + "");
     }
@@ -215,7 +215,7 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
             originalNodes.remove(getPosition(nodeNameIndexer.get(node.getName())));
         }
         originalNodes.add(node);
-        originalNodes.removeAll(Collections.singleton(null));
+        originalNodes.removeAll(Collections.<Node>singleton(null));
         Collections.sort(originalNodes, new OdsNodeComparator(true, OdsNodeComparator.SORT_FOLDERS));
 
         List<Node> tmpNodes = new ArrayList<Node>(originalNodes);
@@ -395,20 +395,17 @@ public class NodeAdapter extends BaseListAdapter<Node, ProgressViewHolder>
             MimeType mime = MimeTypeManager.getMimetype(context, item.getName());
             if (!activateThumbnail)
             {
-                vh.icon.setImageResource(mime != null ? mime.getLargeIconId(context) : MimeTypeManager.getIcon(context,
-                        item.getName(), true));
+                vh.icon.setImageResource(mime != null ? mime.getLargeIconId(context) :
+                        MimeTypeManager.getIcon(context, item.getName(), true));
             }
             else
             {
-                renditionManager.display(
-                        vh.icon,
-                        item,
-                        mime != null ? mime.getLargeIconId(context) : MimeTypeManager.getIcon(context, item.getName(),
-                                true));
+                renditionManager.display(vh.icon, item, mime != null ? mime.getLargeIconId(context) :
+                        MimeTypeManager.getIcon(context, item.getName(), true));
             }
             vh.choose.setVisibility(View.GONE);
-            AccessibilityHelper.addContentDescription(vh.icon, mime != null ? mime.getDescription() : ((Document) item)
-                    .getContentStreamMimeType());
+            AccessibilityHelper.addContentDescription(vh.icon,
+                    mime != null ? mime.getDescription() : ((Document) item).getContentStreamMimeType());
         }
         else if (item.isFolder())
         {

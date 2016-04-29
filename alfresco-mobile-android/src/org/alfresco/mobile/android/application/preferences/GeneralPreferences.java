@@ -17,6 +17,7 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.preferences;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -361,6 +362,7 @@ public class GeneralPreferences extends PreferenceFragment
         return false;
     }
 
+    @SuppressLint("CommitPrefEdits")
     public static void setActivateSync(Activity activity, boolean isActive)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -371,6 +373,7 @@ public class GeneralPreferences extends PreferenceFragment
         }
     }
 
+    @SuppressLint("CommitPrefEdits")
     public static void setDisplayActivateSync(Activity activity, boolean isActive)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -402,6 +405,7 @@ public class GeneralPreferences extends PreferenceFragment
         return false;
     }
 
+    @SuppressLint("CommitPrefEdits")
     public static void setSyncEverything(Activity activity, boolean isActive)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -425,6 +429,7 @@ public class GeneralPreferences extends PreferenceFragment
         return SYNCHRO_DATA_ALERT_LENGTH;
     }
 
+    @SuppressLint("CommitPrefEdits")
     public static void setDataSyncTransferAlert(Activity activity, long length)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);
@@ -446,6 +451,7 @@ public class GeneralPreferences extends PreferenceFragment
         return SYNCHRO_FREE_SPACE_ALERT_LENGTH;
     }
 
+    @SuppressLint("CommitPrefEdits")
     public static void setDataSyncTransferAlert(Activity activity, float percent)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(activity);

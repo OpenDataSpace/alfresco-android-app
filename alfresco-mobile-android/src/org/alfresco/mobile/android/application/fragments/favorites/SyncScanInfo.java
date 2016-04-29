@@ -5,6 +5,7 @@ import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.ui.utils.Formatter;
 import org.opendataspace.android.app.R;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
@@ -36,11 +37,11 @@ public class SyncScanInfo
 
     public static final int RESPONSE_AWAIT = 4;
 
-    private long deltaDataTransfer;
+    private final long deltaDataTransfer;
 
-    private long dataToTransfer;
+    private final long dataToTransfer;
 
-    private int scanResult;
+    private final int scanResult;
 
     private int scanResponse;
 
@@ -109,6 +110,7 @@ public class SyncScanInfo
         save(context, account);
     }
 
+    @SuppressLint("CommitPrefEdits")
     public void save(Context context, Account account)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -118,6 +120,7 @@ public class SyncScanInfo
         .putInt(SYNCHRO_SCAN_RESPONSE_PREFIX + account.getId(), scanResponse).commit();
     }
 
+    @SuppressLint("CommitPrefEdits")
     public void reset(Context context, Account account)
     {
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
@@ -140,6 +143,7 @@ public class SyncScanInfo
         return info;
     }
 
+    @SuppressLint("CommitPrefEdits")
     public static void setLastSyncScanData(Context context, Account account, long deltaDataTransfer,
             long dateToTransfer, int scanResult)
     {

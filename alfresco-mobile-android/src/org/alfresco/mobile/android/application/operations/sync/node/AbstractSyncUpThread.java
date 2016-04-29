@@ -119,7 +119,7 @@ public abstract class AbstractSyncUpThread extends AbstractSyncOperationThread<D
 
     private int initSegment()
     {
-        int segment = 1;
+        int segment;
 
         // 100kb
         if (totalLength < 102400)

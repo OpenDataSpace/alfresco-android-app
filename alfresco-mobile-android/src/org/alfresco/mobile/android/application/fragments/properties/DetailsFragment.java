@@ -304,11 +304,11 @@ public class DetailsFragment extends MetadataFragment
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data)
     {
-        File tmpFile = null;
+        File tmpFile;
         boolean isSynced =
                 SynchroManager.getInstance(getActivity()).isSynced(SessionUtils.getAccount(getActivity()), node);
-        boolean modified = false;
-        Date d = null;
+        boolean modified;
+        Date d;
 
         switch (requestCode)
         {
@@ -341,7 +341,7 @@ public class DetailsFragment extends MetadataFragment
             // Check if the file has been modified (lastmodificationDate)
             long datetime = dlFile.lastModified();
             d = new Date(datetime);
-            modified = (d != null && downloadDateTime != null) ? d.after(downloadDateTime) : false;
+            modified = (downloadDateTime != null) && d.after(downloadDateTime);
 
             if (node instanceof NodeSyncPlaceHolder && modified)
             {
@@ -656,11 +656,6 @@ public class DetailsFragment extends MetadataFragment
 
     /**
      * Display a drawable associated to the node type on a specific imageview.
-     *
-     * @param node
-     * @param defaultIconId
-     * @param iv
-     * @param isLarge
      */
     private void displayIcon(Node node, int defaultIconId, ImageView iv, boolean isLarge)
     {
@@ -669,7 +664,7 @@ public class DetailsFragment extends MetadataFragment
             return;
         }
 
-        int iconId = defaultIconId;
+        int iconId;
         View msg = vRoot.findViewById(R.id.preview_message);
 
         if (msg != null)
@@ -1640,11 +1635,11 @@ public class DetailsFragment extends MetadataFragment
                     Node _node = null;
                     if (b.containsKey(IntentIntegrator.EXTRA_DOCUMENT))
                     {
-                        _node = (Node) b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
+                        _node = b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
                     }
                     else if (b.containsKey(IntentIntegrator.EXTRA_NODE))
                     {
-                        _node = (Node) b.getParcelable(IntentIntegrator.EXTRA_NODE);
+                        _node = b.getParcelable(IntentIntegrator.EXTRA_NODE);
                     }
                     if (n != null && _node != null && NodeRefUtils.getCleanIdentifier(n.getIdentifier())
                             .equals(NodeRefUtils.getCleanIdentifier(_node.getIdentifier())))
@@ -1724,7 +1719,7 @@ public class DetailsFragment extends MetadataFragment
                         {
                             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
 
-                            Node updatedNode = (Node) b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
+                            Node updatedNode = b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
 
                             Boolean backstack = false;
                             if (!DisplayUtils.hasCentralPane(getActivity()))
@@ -1734,21 +1729,19 @@ public class DetailsFragment extends MetadataFragment
                                         .popBackStack(DetailsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
                             }
 
-                            if (((ChildrenBrowserFragment) getFragmentManager()
-                                    .findFragmentByTag(ChildrenBrowserFragment.TAG)) != null)
+                            if (getFragmentManager().findFragmentByTag(ChildrenBrowserFragment.TAG) != null)
                             {
                                 ((ChildrenBrowserFragment) getFragmentManager()
                                         .findFragmentByTag(ChildrenBrowserFragment.TAG)).replace(updatedNode);
                             }
 
-                            if (((FavoritesSyncFragment) getFragmentManager()
-                                    .findFragmentByTag(FavoritesSyncFragment.TAG)) != null)
+                            if (getFragmentManager().findFragmentByTag(FavoritesSyncFragment.TAG) != null)
                             {
                                 ((FavoritesSyncFragment) getFragmentManager()
                                         .findFragmentByTag(FavoritesSyncFragment.TAG)).select(updatedNode);
                             }
 
-                            Folder pFolder = (Folder) b.getParcelable(IntentIntegrator.EXTRA_FOLDER);
+                            Folder pFolder = b.getParcelable(IntentIntegrator.EXTRA_FOLDER);
 
                             ((MainActivity) getActivity()).addPropertiesFragment(updatedNode, pFolder, backstack);
 
@@ -1756,7 +1749,6 @@ public class DetailsFragment extends MetadataFragment
                                     String.format(getResources().getString(R.string.update_sucess),
                                             updatedNode.getName()));
 
-                            return;
                         }
                     }
                 }

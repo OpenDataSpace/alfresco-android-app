@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ *
  *  This file is part of Alfresco Mobile for Android.
- *  
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -61,12 +61,12 @@ public class FavoritesFragment extends BaseListFragment implements
     public static final int MODE_FOLDERS = FavoritesLoader.MODE_FOLDERS;
 
     public static final int MODE_BOTH = FavoritesLoader.MODE_BOTH;
-    
+
     private static final String PARAM_MODE = "FavoriteMode";
 
-    private List<Node> selectedItems = new ArrayList<Node>(1);
+    private final List<Node> selectedItems = new ArrayList<Node>(1);
 
-    private int mode = MODE_DOCUMENTS; 
+    private int mode = MODE_DOCUMENTS;
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTOR
@@ -89,7 +89,7 @@ public class FavoritesFragment extends BaseListFragment implements
         return bf;
     }
 
-    
+
     // ///////////////////////////////////////////////////////////////////////////
     // LIFECYCLE
     // ///////////////////////////////////////////////////////////////////////////
@@ -122,7 +122,7 @@ public class FavoritesFragment extends BaseListFragment implements
         // Case Init & case Reload
         bundle = (ba == null) ? getArguments() : ba;
 
-        ListingContext lc = null, lcorigin = null;
+        ListingContext lc = null, lcorigin;
 
         if (bundle != null)
         {
@@ -162,7 +162,7 @@ public class FavoritesFragment extends BaseListFragment implements
     {
         // DO Nothing
     }
-    
+
     @Override
     public void onLoaderException(Exception e)
     {
@@ -208,7 +208,7 @@ public class FavoritesFragment extends BaseListFragment implements
                 if (item instanceof CloudFolderImpl){
                     ((BaseActivity) getActivity()).addNavigationFragment((Folder)item);
                 } else {
-                    ((BaseActivity) getActivity()).addBrowserFragment((String) ((Folder) item).getPropertyValue(PropertyIds.PATH));
+                    ((BaseActivity) getActivity()).addBrowserFragment((String) item.getPropertyValue(PropertyIds.PATH));
                 }
             }
             else

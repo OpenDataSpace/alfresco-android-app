@@ -1,30 +1,23 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- * 
- *  This file is part of Alfresco Mobile for Android.
- * 
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p/>
+ * This file is part of Alfresco Mobile for Android.
+ * <p/>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p/>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p/>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.manager;
 
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.config.OdsConfigManager;
-import org.alfresco.mobile.android.application.ApplicationManager;
-import org.alfresco.mobile.android.application.accounts.Account;
-import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-
+import android.annotation.SuppressLint;
 import android.app.Notification;
 import android.app.Notification.Builder;
 import android.app.NotificationManager;
@@ -35,6 +28,14 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.widget.RemoteViews;
+
+import org.alfresco.mobile.android.application.ApplicationManager;
+import org.alfresco.mobile.android.application.accounts.Account;
+import org.alfresco.mobile.android.application.commons.utils.AndroidVersion;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.config.OdsConfigManager;
 
 public final class NotificationHelper
 {
@@ -65,7 +66,7 @@ public final class NotificationHelper
     public static final int SYNC_NOTIFICATION_ID = 510;
 
     public static int createSimpleNotification(Context c, int notificationId, String title, String description,
-            String contentInfo)
+                                               String contentInfo)
     {
         Bundle b = new Bundle();
         b.putString(NotificationHelper.ARGUMENT_TITLE, title);
@@ -81,7 +82,7 @@ public final class NotificationHelper
     }
 
     public static int createIndeterminateNotification(Context c, int notificationId, String title, String description,
-            String contentInfo)
+                                                      String contentInfo)
     {
         Bundle b = new Bundle();
         b.putString(NotificationHelper.ARGUMENT_TITLE, title);
@@ -98,7 +99,7 @@ public final class NotificationHelper
     }
 
     public static int createProgressNotification(Context c, int notificationId, String title, String description,
-            String contentInfo, long progress, long maxprogress)
+                                                 String contentInfo, long progress, long maxprogress)
     {
         Bundle b = new Bundle();
         b.putString(NotificationHelper.ARGUMENT_TITLE, title);
@@ -117,9 +118,10 @@ public final class NotificationHelper
     }
 
     @SuppressWarnings("deprecation")
+    @SuppressLint("NewApi")
     public static int createNotification(Context c, int notificationId, Bundle params)
     {
-        Notification notification = null;
+        Notification notification;
 
         // Get the builder to create notification.
         Builder builder = new Notification.Builder(c.getApplicationContext());
@@ -137,7 +139,8 @@ public final class NotificationHelper
         if (dr != null && dr instanceof BitmapDrawable)
         {
             builder.setLargeIcon(((BitmapDrawable) dr).getBitmap());
-        } else
+        }
+        else
         {
             builder.setSmallIcon(R.drawable.ic_notif_alfresco);
         }
@@ -157,8 +160,8 @@ public final class NotificationHelper
             builder.setSmallIcon(params.getInt(ARGUMENT_SMALL_ICON));
         }
 
-        Intent i = null;
-        PendingIntent pIntent = null;
+        Intent i;
+        PendingIntent pIntent;
         switch (notificationId)
         {
         case SYNC_NOTIFICATION_ID:
