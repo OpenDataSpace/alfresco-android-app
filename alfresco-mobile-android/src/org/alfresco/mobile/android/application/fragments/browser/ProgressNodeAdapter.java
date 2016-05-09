@@ -511,7 +511,7 @@ public class ProgressNodeAdapter extends NodeAdapter
         case MenuActionItem.MENU_DETAILS:
             onMenuItemClick = true;
             ((MainActivity) context).addPropertiesFragment(selectedOptionItems.get(0));
-            selectedItems.add(selectedOptionItems.get(0));
+            //selectedItems.add(selectedOptionItems.get(0));
             notifyDataSetChanged();
             break;
         case MenuActionItem.MENU_EDIT:

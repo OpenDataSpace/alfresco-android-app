@@ -1,5 +1,8 @@
 package org.opendataspace.android.app.session;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 import org.alfresco.mobile.android.api.exceptions.AlfrescoSessionException;
 import org.alfresco.mobile.android.api.exceptions.ErrorCodeRegistry;
 import org.alfresco.mobile.android.api.model.impl.FolderImpl;
@@ -51,6 +54,11 @@ public class OdsRepositorySession extends RepositorySessionImpl
     private OdsRepositorySession()
     {
         super();
+    }
+
+    private OdsRepositorySession(Parcel p)
+    {
+        super(p);
     }
 
     private OdsRepositorySession(String url, String username, String password, Map<String, Serializable> settings)
@@ -327,4 +335,18 @@ public class OdsRepositorySession extends RepositorySessionImpl
         lcap = LinkCapablilty.ITEM;
         return lcap;
     }
+
+    public static final Parcelable.Creator<OdsRepositorySession> CREATOR =
+            new Parcelable.Creator<OdsRepositorySession>()
+            {
+                public OdsRepositorySession createFromParcel(Parcel in)
+                {
+                    return new OdsRepositorySession(in);
+                }
+
+                public OdsRepositorySession[] newArray(int size)
+                {
+                    return new OdsRepositorySession[size];
+                }
+            };
 }
