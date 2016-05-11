@@ -395,30 +395,33 @@ public class PublicDispatcherActivity extends BaseActivity
                     FragmentDisplayer.replaceFragment(activity, frag, DisplayUtils.getLeftFragmentId(activity),
                             BrowserSitesFragment.TAG, true);
                 }
-                else if (getCurrentSession() != null && uploadFolder == R.string.menu_browse_root)
-                {
-                    addNavigationFragment(getCurrentSession().getRootFolder());
-                }
                 else if (getCurrentSession() != null && uploadFolder == R.string.menu_favorites_folder)
                 {
                     frag = FavoritesFragment.newInstance(FavoritesFragment.MODE_FOLDERS);
                     FragmentDisplayer.replaceFragment(activity, frag, DisplayUtils.getLeftFragmentId(activity),
                             FavoritesFragment.TAG, true);
                 }
-                else if (uploadFolder == R.string.menu_browse_shared || uploadFolder == R.string.menu_browse_global)
+                else if (uploadFolder == R.string.menu_browse_shared || uploadFolder == R.string.menu_browse_global ||
+                        uploadFolder == R.string.menu_browse_root)
                 {
-                    navigateOtherRepo();
+                    navigateOdsRepo();
                 }
             }
         }
     }
 
-    private void navigateOtherRepo()
+    private void navigateOdsRepo()
     {
         AlfrescoSession ses = getCurrentSession();
 
-        if (ses == null || !(ses instanceof OdsRepositorySession))
+        if (ses == null)
         {
+            return;
+        }
+
+        if (!(ses instanceof OdsRepositorySession))
+        {
+            addNavigationFragment(ses.getRootFolder());
             return;
         }
 
@@ -437,6 +440,10 @@ public class PublicDispatcherActivity extends BaseActivity
         else if (uploadFolder == R.string.menu_browse_global)
         {
             addNavigationFragment(ods.getGlobal().getRootFolder());
+        }
+        else
+        {
+            addNavigationFragment(ods.getRootFolder());
         }
     }
 

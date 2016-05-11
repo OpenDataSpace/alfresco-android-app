@@ -1612,7 +1612,10 @@ public class MainActivity extends BaseActivity
         switch (menuId)
         {
         case R.id.menu_browse_root:
-            // nothing
+            if (ods != null)
+            {
+                ses = current = ods;
+            }
             break;
 
         case R.id.menu_browse_global:
