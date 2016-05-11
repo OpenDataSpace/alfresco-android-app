@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.RepositorySession;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
@@ -404,16 +405,38 @@ public class PublicDispatcherActivity extends BaseActivity
                     FragmentDisplayer.replaceFragment(activity, frag, DisplayUtils.getLeftFragmentId(activity),
                             FavoritesFragment.TAG, true);
                 }
-                else if (getCurrentSession() != null && uploadFolder == R.string.menu_browse_shared)
+                else if (uploadFolder == R.string.menu_browse_shared || uploadFolder == R.string.menu_browse_global)
                 {
-                    addNavigationFragment(((OdsRepositorySession) getCurrentSession()).getShared().getRootFolder());
+                    navigateOtherRepo();
                 }
-                else if (getCurrentSession() != null && uploadFolder == R.string.menu_browse_global)
-                {
-                    addNavigationFragment(((OdsRepositorySession) getCurrentSession()).getGlobal().getRootFolder());
-                }
-                return;
             }
+        }
+    }
+
+    private void navigateOtherRepo()
+    {
+        AlfrescoSession ses = getCurrentSession();
+
+        if (ses == null || !(ses instanceof OdsRepositorySession))
+        {
+            return;
+        }
+
+        OdsRepositorySession ods = (OdsRepositorySession) ses;
+        OdsRepositorySession p = ods.getParent();
+
+        if (p != null)
+        {
+            ods = p;
+        }
+
+        if (uploadFolder == R.string.menu_browse_shared)
+        {
+            addNavigationFragment(ods.getShared().getRootFolder());
+        }
+        else if (uploadFolder == R.string.menu_browse_global)
+        {
+            addNavigationFragment(ods.getGlobal().getRootFolder());
         }
     }
 
