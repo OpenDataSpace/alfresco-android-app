@@ -1021,7 +1021,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
      */
     public void remove(Node node)
     {
-        if (adapter != null)
+        if (adapter != null && node != null)
         {
             ((ProgressNodeAdapter) adapter).remove(node.getName());
             if (adapter.isEmpty())
@@ -1191,9 +1191,9 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         }
     }
 
-    public void replace(Node node)
+    public void replace(Node oldNode, Node node)
     {
-        remove(node);
+        remove(oldNode);
         ((ProgressNodeAdapter) adapter).replaceNode(node);
     }
 

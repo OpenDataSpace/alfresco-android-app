@@ -359,8 +359,7 @@ public class DetailsFragment extends MetadataFragment
 
                     cValues.put(SynchroSchema.COLUMN_STATUS, operationStatut);
                     getActivity().getContentResolver().update(SynchroManager.getInstance(getActivity())
-                                    .getUri(SessionUtils.getAccount(getActivity()), node.getIdentifier()), cValues,
-                            null, null);
+                            .getUri(SessionUtils.getAccount(getActivity()), node.getIdentifier()), cValues, null, null);
                 }
 
                 // Encrypt sync file if necessary
@@ -384,8 +383,7 @@ public class DetailsFragment extends MetadataFragment
 
                     cValues.put(SynchroSchema.COLUMN_STATUS, operationStatut);
                     getActivity().getContentResolver().update(SynchroManager.getInstance(getActivity())
-                                    .getUri(SessionUtils.getAccount(getActivity()), node.getIdentifier()), cValues,
-                            null, null);
+                            .getUri(SessionUtils.getAccount(getActivity()), node.getIdentifier()), cValues, null, null);
 
                     // Sync if it's possible.
                     if (SynchroManager.getInstance(getActivity()).canSync(SessionUtils.getAccount(getActivity())))
@@ -1724,31 +1722,33 @@ public class DetailsFragment extends MetadataFragment
                         {
                             LocalBroadcastManager.getInstance(getActivity()).unregisterReceiver(this);
 
-                            Node updatedNode = (Node) b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
+                            Node updatedNode = b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
 
                             Boolean backstack = false;
                             if (!DisplayUtils.hasCentralPane(getActivity()))
                             {
                                 backstack = true;
-                                getFragmentManager()
-                                        .popBackStack(DetailsFragment.TAG, FragmentManager.POP_BACK_STACK_INCLUSIVE);
+                                getFragmentManager().popBackStackImmediate(DetailsFragment.TAG,
+                                        FragmentManager.POP_BACK_STACK_INCLUSIVE);
                             }
 
-                            if (((ChildrenBrowserFragment) getFragmentManager()
-                                    .findFragmentByTag(ChildrenBrowserFragment.TAG)) != null)
+                            ChildrenBrowserFragment browser = (ChildrenBrowserFragment) getFragmentManager()
+                                    .findFragmentByTag(ChildrenBrowserFragment.TAG);
+
+                            if (browser != null)
                             {
-                                ((ChildrenBrowserFragment) getFragmentManager()
-                                        .findFragmentByTag(ChildrenBrowserFragment.TAG)).replace(updatedNode);
+                                browser.replace(node, updatedNode);
                             }
 
-                            if (((FavoritesSyncFragment) getFragmentManager()
-                                    .findFragmentByTag(FavoritesSyncFragment.TAG)) != null)
+                            FavoritesSyncFragment favs = (FavoritesSyncFragment) getFragmentManager()
+                                    .findFragmentByTag(FavoritesSyncFragment.TAG);
+
+                            if (favs != null)
                             {
-                                ((FavoritesSyncFragment) getFragmentManager()
-                                        .findFragmentByTag(FavoritesSyncFragment.TAG)).select(updatedNode);
+                                favs.select(updatedNode);
                             }
 
-                            Folder pFolder = (Folder) b.getParcelable(IntentIntegrator.EXTRA_FOLDER);
+                            Folder pFolder = b.getParcelable(IntentIntegrator.EXTRA_FOLDER);
 
                             ((MainActivity) getActivity()).addPropertiesFragment(updatedNode, pFolder, backstack);
 
@@ -1756,7 +1756,6 @@ public class DetailsFragment extends MetadataFragment
                                     String.format(getResources().getString(R.string.update_sucess),
                                             updatedNode.getName()));
 
-                            return;
                         }
                     }
                 }
