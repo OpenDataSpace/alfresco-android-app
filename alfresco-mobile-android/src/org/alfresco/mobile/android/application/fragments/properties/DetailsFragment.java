@@ -51,6 +51,7 @@ import org.alfresco.mobile.android.api.constants.ContentModel;
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
+import org.alfresco.mobile.android.api.model.Permissions;
 import org.alfresco.mobile.android.api.model.impl.DocumentImpl;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.CloudSession;
@@ -1254,14 +1255,16 @@ public class DetailsFragment extends MetadataFragment
              */
         }
 
-        if (session.getServiceRegistry().getDocumentFolderService().getPermissions(node).canEdit())
+        Permissions perm = session.getServiceRegistry().getDocumentFolderService().getPermissions(node);
+
+        if (perm.canEdit())
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_EDIT, Menu.FIRST + MenuActionItem.MENU_EDIT, R.string.edit);
             mi.setIcon(R.drawable.ic_edit);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
         }
 
-        if (session.getServiceRegistry().getDocumentFolderService().getPermissions(node).canDelete())
+        if (perm.canDelete())
         {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_DELETE, 1000 + MenuActionItem.MENU_DELETE, R.string.delete);
             mi.setIcon(R.drawable.ic_delete);
@@ -1277,39 +1280,40 @@ public class DetailsFragment extends MetadataFragment
                     lcap == OdsRepositorySession.LinkCapablilty.COMBINED;
         }
 
-        if (!DisplayUtils.hasCentralPane(activity))
+        if (hasLinks && perm.canEdit())
         {
-            /*
-            mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMMENT, Menu.FIRST + MenuActionItem.MENU_COMMENT,
-                    R.string.comments);
-            mi.setIcon(R.drawable.ic_comment);
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-
-            if (node.isDocument())
+            if (!DisplayUtils.hasCentralPane(activity))
             {
-                mi = menu.add(Menu.NONE, MenuActionItem.MENU_VERSION_HISTORY, Menu.FIRST
-                        + MenuActionItem.MENU_VERSION_HISTORY, R.string.version_history);
-                mi.setIcon(R.drawable.ic_menu_recent_history);
+                /*
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_COMMENT, Menu.FIRST + MenuActionItem.MENU_COMMENT,
+                        R.string.comments);
+                mi.setIcon(R.drawable.ic_comment);
                 mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+
+                if (node.isDocument())
+                {
+                    mi = menu.add(Menu.NONE, MenuActionItem.MENU_VERSION_HISTORY, Menu.FIRST
+                            + MenuActionItem.MENU_VERSION_HISTORY, R.string.version_history);
+                    mi.setIcon(R.drawable.ic_menu_recent_history);
+                    mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+                }
+
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_TAGS, Menu.FIRST + MenuActionItem.MENU_TAGS, R.string.tags);
+                mi.setIcon(R.drawable.mime_tags);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+                 */
+
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_LINKS, Menu.FIRST + MenuActionItem.MENU_LINKS,
+                        node.isDocument() ? R.string.dllinks : R.string.uplinks);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
             }
-
-            mi = menu.add(Menu.NONE, MenuActionItem.MENU_TAGS, Menu.FIRST + MenuActionItem.MENU_TAGS, R.string.tags);
-            mi.setIcon(R.drawable.mime_tags);
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
-             */
-
-            mi = menu.add(Menu.NONE, MenuActionItem.MENU_LINKS, Menu.FIRST + MenuActionItem.MENU_LINKS,
-                    node.isDocument() ? R.string.dllinks : R.string.uplinks);
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-            mi.setEnabled(hasLinks);
-        }
-        else
-        {
-            mi = menu.add(Menu.NONE, MenuActionItem.MENU_CREATE_LINK, Menu.FIRST + MenuActionItem.MENU_CREATE_LINK,
-                    R.string.links_add);
-            mi.setIcon(R.drawable.ic_add_link);
-            mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
-            mi.setEnabled(hasLinks);
+            else
+            {
+                mi = menu.add(Menu.NONE, MenuActionItem.MENU_CREATE_LINK, Menu.FIRST + MenuActionItem.MENU_CREATE_LINK,
+                        R.string.links_add);
+                mi.setIcon(R.drawable.ic_add_link);
+                mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
+            }
         }
     }
 
