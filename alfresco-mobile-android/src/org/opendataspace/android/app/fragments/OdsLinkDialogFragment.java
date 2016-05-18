@@ -90,14 +90,15 @@ public class OdsLinkDialogFragment extends BaseFragment
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
-        getDialog().setTitle(R.string.links_add);
+        final OdsLink lnk = (OdsLink) getArguments().getSerializable(ARGUMENT_LINK);
+        final boolean isEdit = !TextUtils.isEmpty(lnk.getObjectId());
+        getDialog().setTitle(isEdit ? R.string.links_edit : R.string.links_add);
         getDialog().requestWindowFeature(Window.FEATURE_LEFT_ICON);
 
         ViewGroup v = (ViewGroup) inflater.inflate(R.layout.ods_link, container, false);
         int width = (int) Math.round(UIUtils.getScreenDimension(getActivity())[0] * 0.8);
         v.setLayoutParams(new LayoutParams(width, LayoutParams.MATCH_PARENT));
 
-        final OdsLink lnk = (OdsLink) getArguments().getSerializable(ARGUMENT_LINK);
         final Calendar exp = lnk.getExpires();
         final Button bcreate =
                 UIUtils.initValidation(v, TextUtils.isEmpty(lnk.getObjectId()) ? R.string.create : R.string.update);
@@ -114,7 +115,7 @@ public class OdsLinkDialogFragment extends BaseFragment
         tvm.setText(lnk.getMessage());
         dpe.setText(SimpleDateFormat.getDateInstance().format(exp.getTime()));
 
-        if (!TextUtils.isEmpty(lnk.getObjectId()))
+        if (isEdit)
         {
             tvn.setEnabled(false);
             tve.setEnabled(false);
@@ -132,7 +133,7 @@ public class OdsLinkDialogFragment extends BaseFragment
                     public Dialog onCreateDialog(Bundle savedInstanceState)
                     {
                         return new DatePickerDialog(getActivity(), this, exp.get(Calendar.YEAR),
-                                exp.get(Calendar.MONTH) + 1, exp.get(Calendar.DATE));
+                                exp.get(Calendar.MONTH), exp.get(Calendar.DAY_OF_MONTH));
                     }
 
                     @Override
