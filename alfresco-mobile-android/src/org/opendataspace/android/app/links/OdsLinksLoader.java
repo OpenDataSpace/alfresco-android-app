@@ -160,9 +160,16 @@ public class OdsLinksLoader extends AbstractPagingLoader<LoaderResult<List<OdsLi
             {
                 OdsLink link = new OdsLink();
                 List<String> emails = cmo.getPropertyValue(OdsTypeDefinition.EMAIL_PROP_ID);
+                Calendar expires = cmo.getPropertyValue(PropertyIds.EXPIRATION_DATE);
+
+                if (expires == null)
+                {
+                    expires = Calendar.getInstance();
+                }
+
                 link.setType(type);
                 link.setEmail(OdsStringUtils.join(emails, ", "));
-                link.setExpires((Calendar) cmo.getPropertyValue(PropertyIds.EXPIRATION_DATE));
+                link.setExpires(expires);
                 link.setMessage((String) cmo.getPropertyValue(OdsTypeDefinition.MESSAGE_PROP_ID));
                 link.setName((String) cmo.getPropertyValue(OdsTypeDefinition.SUBJECT_PROP_ID));
                 link.setNodeId(node.getIdentifier());
