@@ -186,6 +186,9 @@ public class OdsLinksFragment extends BaseListFragment
     @Override
     public void onLoaderException(Exception e)
     {
+        lv.setAdapter(null);
+        lv.setEmptyView(ev);
+        lv.setContentDescription(getString(emptyListMessageId));
         setListShown(true);
         CloudExceptionUtils.handleCloudException(getActivity(), e, false);
     }
@@ -234,7 +237,18 @@ public class OdsLinksFragment extends BaseListFragment
                 ((OdsLinksAdapter) adapter).add(cur);
             }
 
-            lv.setAdapter(adapter);
+            if (adapter.isEmpty())
+            {
+                lv.setAdapter(null);
+                lv.setEmptyView(ev);
+                lv.setContentDescription(getString(emptyListMessageId));
+            }
+            else
+            {
+                lv.setAdapter(adapter);
+            }
+
+            isFullLoad = true;
             setListShown(true);
         }
     }
