@@ -99,7 +99,6 @@ public class OdsLinkDialogFragment extends BaseFragment
         int width = (int) Math.round(UIUtils.getScreenDimension(getActivity())[0] * 0.8);
         v.setLayoutParams(new LayoutParams(width, LayoutParams.MATCH_PARENT));
 
-        final Calendar exp = lnk.getExpires();
         final Button bcreate =
                 UIUtils.initValidation(v, TextUtils.isEmpty(lnk.getObjectId()) ? R.string.create : R.string.update);
 
@@ -113,7 +112,7 @@ public class OdsLinkDialogFragment extends BaseFragment
         tve.setText(lnk.getEmail());
         tvp.setText(lnk.getPassword());
         tvm.setText(lnk.getMessage());
-        dpe.setText(SimpleDateFormat.getDateInstance().format(exp.getTime()));
+        dpe.setText(SimpleDateFormat.getDateInstance().format(lnk.getExpires().getTime()));
 
         if (isEdit)
         {
@@ -132,6 +131,7 @@ public class OdsLinkDialogFragment extends BaseFragment
                     @Override
                     public Dialog onCreateDialog(Bundle savedInstanceState)
                     {
+                        final Calendar exp = lnk.getExpires();
                         return new DatePickerDialog(getActivity(), this, exp.get(Calendar.YEAR),
                                 exp.get(Calendar.MONTH), exp.get(Calendar.DAY_OF_MONTH));
                     }
