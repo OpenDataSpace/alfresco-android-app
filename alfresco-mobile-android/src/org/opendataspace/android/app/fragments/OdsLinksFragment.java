@@ -43,9 +43,9 @@ public class OdsLinksFragment extends BaseListFragment
         implements LoaderCallbacks<LoaderResult<List<OdsLink>>>, RefreshFragment
 {
     public static final String TAG = "OdsLinksFragment";
-    public static final String ARGUMENT_NODE = "node";
-    public static final String ARGUMENT_FOLDER = "folder";
-    public static final String ARGUMENT_CANEDIT = "canEdit";
+    private static final String ARGUMENT_NODE = "node";
+    private static final String ARGUMENT_FOLDER = "folder";
+    private static final String ARGUMENT_CANEDIT = "canEdit";
 
     private class LinksReceiver extends BroadcastReceiver
     {
