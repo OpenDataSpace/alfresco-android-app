@@ -1,87 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:fillViewport="true">
 
-    <TableLayout
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:stretchColumns="1"
+        android:orientation="vertical"
         android:padding="6dp">
 
-        <TableRow
-            android:gravity="center"
-            android:layout_width="match_parent">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/link_name"/>
 
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/link_name"/>
-
-            <EditText
-                android:id="@+id/link_name"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dip"
-                android:inputType="text|textNoSuggestions"/>
-        </TableRow>
-
-        <TableRow
-            android:gravity="center"
-            android:layout_width="match_parent">
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/link_expires"/>
-
-            <EditText
-                android:id="@+id/link_expires"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:inputType="none"
-                android:focusable="false"
-                android:clickable="true"/>
-        </TableRow>
-
-        <TableRow
-            android:gravity="center"
-            android:layout_width="match_parent">
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/link_email"/>
-
-            <EditText
-                android:id="@+id/link_email"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dip"
-                android:inputType="text|textEmailAddress"/>
-        </TableRow>
-
-        <TableRow
-            android:gravity="center"
-            android:layout_width="match_parent">
-
-            <TextView
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/link_password"/>
-
-            <EditText
-                android:id="@+id/link_password"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"
-                android:layout_margin="3dip"
-                android:inputType="text|textPassword"/>
-        </TableRow>
+        <EditText
+            android:id="@+id/link_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dip"
+            android:singleLine="true"
+            android:inputType="text|textNoSuggestions"/>
 
         <TextView
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="@string/link_message"/>
+            android:text="@string/link_expires"/>
+
+        <EditText
+            android:id="@+id/link_expires"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:inputType="none"
+            android:focusable="false"
+            android:clickable="true"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/link_email"/>
+
+        <EditText
+            android:id="@+id/link_email"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dip"
+            android:singleLine="true"
+            android:inputType="text|textEmailAddress"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/link_password"/>
+
+        <EditText
+            android:id="@+id/link_password"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="3dip"
+            android:singleLine="true"
+            android:inputType="text|textPassword"/>
 
         <EditText
             android:id="@+id/link_message"
@@ -96,14 +76,14 @@
             android:gravity="top|start"/>
 
         <View
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="1dip"
             android:background="?android:attr/dividerVertical"/>
 
         <include
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             layout="@layout/app_validation_button"/>
 
-    </TableLayout>
+    </LinearLayout>
 </ScrollView>
