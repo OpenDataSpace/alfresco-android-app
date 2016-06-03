@@ -12,7 +12,6 @@ import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
 import org.apache.chemistry.opencmis.client.api.CmisObject;
-import org.apache.chemistry.opencmis.client.api.Item;
 import org.apache.chemistry.opencmis.client.api.ObjectId;
 import org.apache.chemistry.opencmis.client.api.Property;
 import org.apache.chemistry.opencmis.client.api.Session;
@@ -132,7 +131,7 @@ public class OdsUpdateLinkThread extends AbstractBatchOperationThread<OdsUpdateL
             properties.put("gds:password", new BigInteger(1, hash).toString(16));
         }
 
-        final Item item = (Item) cmisSession.getObject(link.getObjectId());
+        final CmisObject item = cmisSession.getObject(link.getObjectId());
         item.updateProperties(properties);
     }
 
