@@ -1242,26 +1242,28 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_UPLOAD_COMPLETED))
                     {
-                        Node node = (Node) b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
+                        Node node = b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
                         ((ProgressNodeAdapter) adapter).replaceNode(node);
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_UPDATE_COMPLETED))
                     {
-                        if (b.containsKey(IntentIntegrator.EXTRA_DOCUMENT))
+                        Node old = b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
+
+                        if (old == null)
                         {
-                            remove((Node) b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT));
-                        }
-                        else
-                        {
-                            remove((Node) b.getParcelable(IntentIntegrator.EXTRA_NODE));
+                            old = b.getParcelable(IntentIntegrator.EXTRA_NODE);
                         }
 
-                        Node updatedNode = (Node) b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
-                        ((ProgressNodeAdapter) adapter).replaceNode(updatedNode);
+                        final Node renamed = b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
+
+                        if (old != null && renamed != null)
+                        {
+                            replace(old, renamed);
+                        }
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_CREATE_FOLDER_COMPLETED))
                     {
-                        Node node = (Node) b.getParcelable(IntentIntegrator.EXTRA_CREATED_FOLDER);
+                        Node node = b.getParcelable(IntentIntegrator.EXTRA_CREATED_FOLDER);
                         ((ProgressNodeAdapter) adapter).replaceNode(node);
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_FAVORITE_COMPLETED))
@@ -1270,7 +1272,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_DOWNLOAD_COMPLETED))
                     {
-                        Node node = (Node) b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
+                        Node node = b.getParcelable(IntentIntegrator.EXTRA_DOCUMENT);
                         ((ProgressNodeAdapter) adapter).replaceNode(node);
                     }
                     else if (intent.getAction().equals(IntentIntegrator.ACTION_MOVE_NODES_COMPLETED))
