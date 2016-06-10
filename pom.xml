@@ -256,17 +256,6 @@
         </plugins>
     </build>
 
-    <repositories>
-        <repository>
-            <id>central-android</id>
-            <url>https://artifactory.dataspace.cc/artifactory/android-sdk</url>
-        </repository>
-        <repository>
-            <id>central-libs</id>
-            <url>https://artifactory.dataspace.cc/artifactory/libs-release</url>
-        </repository>
-    </repositories>
-
     <reporting>
         <plugins>
             <plugin>
