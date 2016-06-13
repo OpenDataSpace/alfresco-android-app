@@ -1,15 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="account_change_password">Konto bearbeiten</string>
-    <string name="account_description_optional_hint">Beschreibung (optional). Standardmäßig ist es Dataspace Server</string>
+    <string name="account_description_optional_hint">Beschreibung (optional). Standardmäßig ist es DataSpace Server</string>
     <string name="account_edit">Konten verwalten</string>
-    <string name="account_edit_desc">Anmeldeinformationen ändern, löschen usw.</string>
+    <string name="account_edit_desc">Anmeldeinformationen ändern, löschen, usw.</string>
     <string name="account_servicedocument_hint">Service-URL (optional).</string>
     <string name="copy_files">Kopieren</string>
-    <string name="copy_operation">Kopieren von Dateien…</string>
-    <string name="dllinks">Download links</string>
-    <string name="document_dllinks_header">Download links</string>
-    <string name="document_uplinks_header">Upload Links</string>
+    <string name="copy_operation">Dateien kopieren…</string>
+    <string name="dllinks">Links herunterladen</string>
+    <string name="document_dllinks_header">Links herunterladen</string>
+    <string name="document_uplinks_header">Links hochladen</string>
     <string name="empty_links">Keine Links gefunden</string>
     <string name="link_copy_url">URL kopieren</string>
     <string name="link_date_invalid">Dieser Termin ist bereits verstrichen.</string>
@@ -17,17 +17,17 @@
     <string name="link_email">Email:</string>
     <string name="link_expires">Gültig bis:</string>
     <string name="link_message">Kommentar:</string>
-    <string name="link_name">Fach:</string>
+    <string name="link_name">Betreff:</string>
     <string name="link_password">Passwort:</string>
     <string name="links_add">Link hinzufügen</string>
     <string name="links_edit">Link ändern</string>
-    <string name="links_remove">Entfernen Link</string>
+    <string name="links_remove">Link entfernen</string>
     <string name="menu_browse_extension">Verlängert</string>
-    <string name="move_operation">Verschieben von Dateien…</string>
+    <string name="move_operation">Dateien verschieben…</string>
     <string name="paste_files">Einfügen</string>
     <string name="uplinks">Links hochladen</string>
     <string name="cut_files">Ausschneiden</string>
-    <string name="passcode_error_unknown">Encryption Versagen.</string>
+    <string name="passcode_error_unknown">Ver- oder Entschlusselung fehlgeschlagen.</string>
     <string name="settings_encryption">Verschlüsselung</string>
     <string name="settings_autosync">Synchronisation</string>
     <string name="settings_autosync_settings">Einstellungen</string>
