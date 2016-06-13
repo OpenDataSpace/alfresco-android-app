@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="account_change_password">Konto bearbeiten</string>
+    <string name="account_description_optional_hint">Beschreibung (optional). Standardmäßig ist es Dataspace Server</string>
+    <string name="account_edit">Konten verwalten</string>
+    <string name="account_edit_desc">Anmeldeinformationen ändern, löschen usw.</string>
+    <string name="account_servicedocument_hint">Service-URL (optional).</string>
+    <string name="copy_files">Kopieren</string>
+    <string name="copy_operation">Kopieren von Dateien…</string>
+    <string name="dllinks">Download links</string>
+    <string name="document_dllinks_header">Download links</string>
+    <string name="document_uplinks_header">Upload Links</string>
+    <string name="empty_links">Keine Links gefunden</string>
+    <string name="link_copy_url">URL kopieren</string>
+    <string name="link_date_invalid">Dieser Termin ist bereits verstrichen.</string>
+    <string name="link_deleted">Link gelöscht.</string>
+    <string name="link_email">Email:</string>
+    <string name="link_expires">Gültig bis:</string>
+    <string name="link_message">Kommentar:</string>
+    <string name="link_name">Fach:</string>
+    <string name="link_password">Passwort:</string>
+    <string name="links_add">Link hinzufügen</string>
+    <string name="links_edit">Link ändern</string>
+    <string name="links_remove">Entfernen Link</string>
+    <string name="menu_browse_extension">Verlängert</string>
+    <string name="move_operation">Verschieben von Dateien…</string>
+    <string name="paste_files">Einfügen</string>
+    <string name="uplinks">Links hochladen</string>
+    <string name="cut_files">Ausschneiden</string>
+    <string name="passcode_error_unknown">Encryption Versagen.</string>
+    <string name="settings_encryption">Verschlüsselung</string>
+    <string name="settings_autosync">Synchronisation</string>
+    <string name="settings_autosync_settings">Einstellungen</string>
+    <string name="settings_autosync_settings_off">Bild-/Videosynchronisation inaktiv</string>
+    <string name="settings_autosync_settings_on">Bild-/Videosynchronisation aktiv</string>
+    <string name="settings_feedback">Feedback</string>
+    <string name="settings_feedback_enabled">Fehlerinformationen sammeln</string>
+    <string name="settings_feedback_send">Bericht senden</string>
+
+    <string-array name="account_proto_array">
+        <item id="0">Json</item>
+        <item id="1">Atom</item>
+    </string-array>
+
+    <string name="about_ods">
+<![CDATA[<p>&#169; 2005&#8211;2014 Alfresco Software Limited<br/>
+&#169; 2013&#8211;2014 The Open DataSpace project<br/>
+<a href="mailto:info@opendataspace.org">info@opendataspace.org</a></p>
+<p>Diese Software ist unter der\nApache-Lizenz Version 2.0 lizenziert</p></center>]]>
+    </string>
+
+</resources>

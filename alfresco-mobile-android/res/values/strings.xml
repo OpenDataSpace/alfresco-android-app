@@ -50,7 +50,6 @@
     <string name="account_hostname_required_hint">Hostname like www.example.com (Required)</string>
     <string name="account_hostname_hint">www.example.com (Required)</string>
     <string name="account_description">Description</string>
-    <string name="account_description_optional_hint">Description (Optional). By default it\'s DataSpace Server</string>
     <string name="account_description_hint">DataSpace Server (Optional)</string>
     <string name="account_advanced">Advanced</string>
     <string name="account_authentication">Account Authentication</string>
@@ -68,17 +67,6 @@
     <string name="account_validate_hint">Save your account information</string>
     <string name="account_validate_disable_hint">Please fill Username, Password and Hostname fields.</string>
     <string name="account_validate_disable_url_hint">Your hostname and service URL value seem to be wrong. Please check your account settings.</string>
-    <string name="account_proto">Protocol</string>
-
-    <string-array name="account_proto_array">
-        <item id="0">Json</item>
-        <item id="1">Atom</item>
-    </string-array>
-
-    <!-- translate -->
-    <string name="account_edit">Manage Accounts</string>
-    <string name="account_edit_desc">Change credentials, delete, etc.</string>
-    <string name="account_change_password">Edit Account</string>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 3 -->
     <string name="account_wizard_alldone_description">Your account is ready for you to use.</string>
@@ -204,25 +192,6 @@
     <string name="metadata">Properties</string>
     <string name="preview">Preview</string>
 
-    <!-- LINKS -->
-    <!-- translate all -->
-    <string name="dllinks">Download Links</string>
-    <string name="uplinks">Upload Links</string>
-    <string name="links_add">Add Link</string>
-    <string name="links_edit">Edit Link</string>
-    <string name="links_remove">Remove Link</string>
-    <string name="empty_links">No links found</string>
-    <string name="document_dllinks_header">Download Links</string>
-    <string name="document_uplinks_header">Upload Links</string>
-    <string name="link_name">Subject:</string>
-    <string name="link_email">Email:</string>
-    <string name="link_password">Password:</string>
-    <string name="link_message">Comment:</string>
-    <string name="link_copy_url">Copy Url</string>
-    <string name="link_expires">Expires:</string>
-    <string name="link_date_invalid">This date has already passed.</string>
-    <string name="link_deleted">Link deleted.</string>
-
     <!-- NETWORKS -->
     <string name="cloud_networks_empty">No networks available</string>
     <string name="manage_accounts">Manage accounts&#8230;</string>
@@ -279,12 +248,6 @@
     <string name="save">Save</string>
     <string name="enter_details">Enter your details</string>
     <string name="share_content">Share Content with&#8230;</string>
-    <!-- translate -->
-    <string name="cut_files">Cut</string>
-    <string name="copy_files">Copy</string>
-    <string name="paste_files">Paste</string>
-    <string name="copy_operation">Copy files&#8230;</string>
-    <string name="move_operation">Move files&#8230;</string>
 
     <!-- HELP -->
     <string name="asset_folder_prefix">en</string>
@@ -299,12 +262,6 @@
 
 <p>DataSpace connects to your DataSpace repository using your DataSpace log-in credentials (over HTTP or HTTPS), and manages user access based on their permissions.</p>
 ]]>
-    </string>
-    <string name="about_ods">
-<![CDATA[<p>&#169; 2005&#8211;2014 Alfresco Software Limited<br/>
-&#169; 2013&#8211;2014 The Open DataSpace project<br/>
-<a href="mailto:info@opendataspace.org">info@opendataspace.org</a></p>
-<p>This software is licensed under the\nApache license Version 2.0</p></center>]]>
     </string>
 
     <!-- Waiting Message -->
@@ -447,7 +404,6 @@
     <string name="passcode_timeout_10min">10 minutes</string>
     <string name="passcode_timeout_30min">30 minutes</string>
     <string name="passcode_timeout_60min">1 hour</string>
-    <string name="passcode_error_unknown">Encryption engine failure.</string>
 
     <string-array name="passcode_timeout_entries">
         <item>@string/passcode_timeout_1min</item>
@@ -485,14 +441,6 @@
     <string name="settings_favorite_sync">Enable Sync for \"%s\"</string>
     <string name="settings_favorite_sync_data">Data Usage</string>
     <string name="settings_favorite_sync_data_all">Use Cellular Data for Sync.</string>
-    <string name="settings_encryption">Encryption</string>
-    <string name="settings_autosync">Synchronisation</string>
-    <string name="settings_autosync_settings">Settings</string>
-    <string name="settings_autosync_settings_off">Synchronisation of images and videos is currently off</string>
-    <string name="settings_autosync_settings_on">Synchronisation of images and videos is currently on</string>
-    <string name="settings_feedback">Feedback</string>
-    <string name="settings_feedback_enabled">Collect error info</string>
-    <string name="settings_feedback_send">Send report</string>
 
     <!-- Multi Selection -->
     <plurals name="selected_document">

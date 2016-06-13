@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
   Copyright (C) 2005-2013 Alfresco Software Limited.
-  
+
   Diese Datei ist Teil von Alfresco Mobile für Android.
-  
+
   Lizenziert unter der Apache-Lizenz, Version 2.0 ("Lizenz");
   diese Datei darf nur gemäß dieser Lizenz verwendet werden.
   Eine Kopie dieser Lizenz kann über
-  
+
     http://www.apache.org/licenses/LICENSE-2.0 bezogen werden.
-  
+
   Soweit nicht durch geltendes Recht erforderlich oder schriftlich vereinbart,
   wird die unter dieser Lizenz verteilte Software OHNE MÄNGELGEWÄHR,
   OHNE GARANTIEN ODER BEDINGUNGEN, weder ausdrücklich noch impliziert, verteilt.
@@ -68,11 +67,6 @@
     <string name="account_validate_disable_hint">Füllen Sie die Felder "Benutzername", "Passwort" und "Hostname" aus.</string>
     <string name="account_validate_disable_url_hint">Der von Ihnen angegebene Wert für den Hostnamen und die Dienst-URL ist anscheinend falsch. Überprüfen Sie die Account-Einstellungen.</string>
     <string name="account_proto">Protokoll</string>
-
-    <string-array name="account_proto_array">
-        <item id="0">Json</item>
-        <item id="1">Atom</item>
-    </string-array>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 3 -->
     <string name="account_wizard_alldone_description">Sie können Ihr Konto jetzt verwenden.</string>
@@ -268,12 +262,6 @@
 <p>DataSpace stellt mithilfe Ihres Kontos eine Verbindung zu Ihrem DataSpace Server (über HTTP oder HTTPS) her und verwaltet den Benutzerzugriff.</p>
 ]]>
     </string>
-    <string name="about_ods">
-<![CDATA[<p>&#169; 2005&#8211;2014 Alfresco Software Limited<br/>
-&#169; 2013&#8211;2014 The Open DataSpace project<br/>
-<a href="mailto:info@opendataspace.org">info@opendataspace.org</a></p>
-<p>Diese Software ist unter der\nApache-Lizenz Version 2.0 lizenziert</p></center>]]>
-    </string>
 
     <!-- Waiting Message -->
     <string name="get_pdf_viewer">Zur Anzeige dieses Inhalts benötigen Sie einen PDF-Viewer.\n\nMöchten Sie nun einen beziehen?</string>
@@ -415,7 +403,6 @@
     <string name="passcode_timeout_10min">10 Minuten</string>
     <string name="passcode_timeout_30min">30 Minuten</string>
     <string name="passcode_timeout_60min">1 Stunde</string>
-    <!-- translate --> <string name="passcode_error_unknown">Encryption engine failure.</string>
 
     <string-array name="passcode_timeout_entries">
         <item>@string/passcode_timeout_1min</item>
@@ -453,14 +440,6 @@
     <string name="settings_favorite_sync">Synchronisierung für \"%s\" aktivieren</string>
     <string name="settings_favorite_sync_data">Datennutzung</string>
     <string name="settings_favorite_sync_data_all">Mobilfunkdaten für die Synchronisierung verwenden</string>
-    <string name="settings_encryption">Verschlüsselung</string>
-    <string name="settings_autosync">Synchronisation</string>
-    <string name="settings_autosync_settings">Einstellungen</string>
-    <string name="settings_autosync_settings_off">Bild-/Videosynchronisation inaktiv</string>
-    <string name="settings_autosync_settings_on">Bild-/Videosynchronisation aktiv</string>
-    <string name="settings_feedback">Feedback</string>
-    <string name="settings_feedback_enabled">Fehlerinformationen sammeln</string>
-    <string name="settings_feedback_send">Bericht senden</string>
 
     <!-- Multi Selection -->
     <plurals name="selected_document">
@@ -819,7 +798,6 @@
     <string name="picker_attachments">Anhänge auswählen</string>
     <string name="action_remove_approvers">Einen Genehmiger entfernen</string>
     <string name="action_add_approvers">Einen Genehmiger hinzufügen</string>
-
 
 
     <!-- PROCESS NAME -->

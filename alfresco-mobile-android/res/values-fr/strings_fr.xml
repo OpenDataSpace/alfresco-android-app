@@ -1,15 +1,14 @@
-<?xml version="1.0" encoding="utf-8"?>
-<!--
+<?xml version="1.0" encoding="utf-8"?><!--
 Copyright (C) 2005-2013 Alfresco Software Limited.
-  
+
   This file is part of DataSpace Mobile for Android.
-  
+
   Licensed under the Apache License, Version 2.0 (the "License");
   you may not use this file except in compliance with the License.
   You may obtain a copy of the License at
-  
+
 http://www.apache.org/licenses/LICENSE-2.0
-  
+
   Unless required by applicable law or agreed to in writing, software
   distributed under the License is distributed on an "AS IS" BASIS,
   WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -69,12 +68,6 @@ http://www.apache.org/licenses/LICENSE-2.0
     <string name="account_validate_hint">Enregistrez vos informations de compte</string>
     <string name="account_validate_disable_hint">Veuillez compléter les champs nom d\'utilisateur, mot de passe et nom de l\'hôte.</string>
     <string name="account_validate_disable_url_hint">Les valeurs de nom d\'hôte et d\'URL du service semblent incorrectes. Veuillez vérifier les paramètres de votre compte.</string>
-    <!-- translate --> <string name="account_proto">Protocol</string>
-
-    <string-array name="account_proto_array">
-        <item id="0">Json</item>
-        <item id="1">Atom</item>
-    </string-array>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 3 -->
     <string name="account_wizard_alldone_description">Vous pouvez maintenant utiliser votre compte.</string>
@@ -270,12 +263,6 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
 <p>DataSpace Mobile se connecte à votre répertoire DataSpace au moyen de vos identifiants DataSpace (par HTTP ou HTTPS), et gère les accès des utilisateurs en fonction de leurs permissions.</p>
 ]]>
     </string>
-    <!-- translate --> <string name="about_ods">
-<![CDATA[<p>&#169; 2005&#8211;2014 DataSpace Software Limited<br/>
-&#169; 2013&#8211;2014 The Open DataSpace project<br/>
-<a href="mailto:info@opendataspace.org">info@opendataspace.org</a></p>
-<p>This software is licensed under the\nApache license Version 2.0</p></center>]]>
-    </string>
 
     <!-- Waiting Message -->
     <string name="get_pdf_viewer">Un lecteur de PDF est requis pour afficher ce contenu.\n\nSouhaitez-vous en obtenir un maintenant ?</string>
@@ -417,7 +404,6 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="passcode_timeout_10min">10 minutes</string>
     <string name="passcode_timeout_30min">30 minutes</string>
     <string name="passcode_timeout_60min">1 heure</string>
-    <!-- translate --> <string name="passcode_error_unknown">Encryption engine failure.</string>
 
     <string-array name="passcode_timeout_entries">
         <item>@string/passcode_timeout_1min</item>
@@ -455,12 +441,6 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="settings_favorite_sync">Activer la synchro pour \"%s\"</string>
     <string name="settings_favorite_sync_data">Utilisation des données</string>
     <string name="settings_favorite_sync_data_all">Utiliser les données cellulaires pour la synchro</string>
-    <!-- translate --> <string name="settings_encryption">Encryption</string>
-    <!-- translate --> <string name="settings_autosync">Synchronisation</string>
-    <!-- translate --> <string name="settings_autosync_settings">Settings</string>
-    <!-- translate --> <string name="settings_autosync_settings_off">Synchronisation of images and videos is currently off</string>
-    <!-- translate --> <string name="settings_autosync_settings_on">Synchronisation of images and videos is currently on</string>
-    <!-- translate --> <string name="settings_feedback">Feedback</string>
 
     <!-- Multi Selection -->
     <plurals name="selected_document">
@@ -819,7 +799,6 @@ Veuillez réessayer dans quelques minutes.<br/>]]>
     <string name="picker_attachments">Sélectionner les éléments attachés</string>
     <string name="action_remove_approvers">Supprimer un approbateur</string>
     <string name="action_add_approvers">Ajouter un approbateur</string>
-
 
 
     <!-- PROCESS NAME -->
