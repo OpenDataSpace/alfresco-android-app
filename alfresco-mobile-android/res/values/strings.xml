@@ -78,6 +78,7 @@
     <!-- translate -->
     <string name="account_edit">Manage Accounts</string>
     <string name="account_edit_desc">Change credentials, delete, etc.</string>
+    <string name="account_change_password">Edit Account</string>
 
     <!-- ACCOUNT WIZARD SCREEN STEP 3 -->
     <string name="account_wizard_alldone_description">Your account is ready for you to use.</string>
@@ -851,7 +852,6 @@
     <string name="action_remove_approvers">Remove one approver</string>
     <string name="action_add_approvers">Add one approver</string>
 
-
     <!-- PROCESS NAME -->
     <string name="process_adhoc">Adhoc Workflow</string>
     <string name="process_parallel_review">Parallel Review and Approve</string>
@@ -901,13 +901,11 @@
     <string name="picker_date_from">Select a date from</string>
     <string name="picker_date_to">Select a date to</string>
 
-
     <!-- Storage Access Framework -->
     <string name="menu_browse_favorites_folder">Favorites Folder</string>
     <string name="account_alfresco">Alfresco</string>
     <string name="account_alfresco_cloud">Alfresco Cloud</string>
     <string name="account_alfresco_onpremise">Alfresco On Premise</string>
-
 
     <!-- Accessibility -->
     <string name="mime_folder">Folder</string>
@@ -924,6 +922,5 @@
     <string name="add_comment">Send a comment</string>
     <string name="advanced_search_hint">Advanced Search Button</string>
     <string name="add_menu">Add to this folder</string>
-
 
 </resources>

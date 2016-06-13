@@ -234,6 +234,7 @@ public class MainActivity extends BaseActivity
         filters.addAction(IntentIntegrator.ACTION_LOAD_ACCOUNT_ERROR);
         filters.addAction(IntentIntegrator.ACTION_DECRYPT_ALL_COMPLETED);
         filters.addAction(IntentIntegrator.ACTION_ENCRYPT_ALL_COMPLETED);
+        filters.addAction(IntentIntegrator.ACTION_DIALOG_EXTRA);
 
         registerPrivateReceiver(new MainActivityReceiver(), filters);
         registerPublicReceiver(new NetworkReceiver(), new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION));
@@ -1489,9 +1490,7 @@ public class MainActivity extends BaseActivity
 
                 // Stop progress indication
                 activity.setProgressBarIndeterminateVisibility(false);
-
                 invalidateOptionsMenu();
-
                 return;
             }
 
@@ -1538,6 +1537,23 @@ public class MainActivity extends BaseActivity
                 {
                     getLoaderManager().restartLoader(OAuthRefreshTokenLoader.ID, null,
                             new OAuthRefreshTokenCallback(activity, acc, (CloudSession) getCurrentSession()));
+                }
+            }
+
+            if (IntentIntegrator.ACTION_DIALOG_EXTRA.equals(intent.getAction()))
+            {
+                int id = intent.getIntExtra(IntentIntegrator.EXTRA_DIALOG_ACTION, 0);
+
+                switch (id)
+                {
+                case R.string.account_change_password:
+                    if (currentAccount != null)
+                    {
+                        addAccountDetails(currentAccount.getId());
+                    }
+                    break;
+
+                default:
                 }
             }
         }

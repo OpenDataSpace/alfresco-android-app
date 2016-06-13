@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *
+ * <p>
  * This file is part of Alfresco Mobile for Android.
- *
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -18,8 +18,8 @@
 package org.alfresco.mobile.android.application.intent;
 
 /**
- * @since 1.2
  * @author Jean Marie Pascal
+ * @since 1.2
  */
 public interface IntentIntegrator extends PublicIntent
 {
@@ -67,10 +67,14 @@ public interface IntentIntegrator extends PublicIntent
     // ///////////////////////////////////////////////////////////////////////////
 
     // ACTION
-    /** Load or reuse a session for the specified account. */
+    /**
+     * Load or reuse a session for the specified account.
+     */
     String ACTION_LOAD_ACCOUNT = "org.alfresco.mobile.android.intent.ACTION_LOAD_ACCOUNT";
 
-    /** Create a new session for the specified account. */
+    /**
+     * Create a new session for the specified account.
+     */
     String ACTION_RELOAD_ACCOUNT = "org.alfresco.mobile.android.intent.ACTION_RELOAD_ACCOUNT";
 
     String ACTION_CREATE_ACCOUNT = "org.alfresco.mobile.android.intent.ACTION_CREATE_ACCOUNT";
@@ -80,7 +84,9 @@ public interface IntentIntegrator extends PublicIntent
     String ACTION_DISLPAY_ACCOUNTS = "org.alfresco.mobile.android.intent.ACTION_DISPLAY_ACCOUNTS";
 
     // BROADCAST
-    /** The specified account is inactive. */
+    /**
+     * The specified account is inactive.
+     */
     String ACTION_ACCOUNT_INACTIVE = "org.alfresco.mobile.android.intent.ACTION_ACCOUNT_INACTIVE";
 
     String ACTION_LOAD_ACCOUNT_ERROR = "org.alfresco.mobile.android.intent.ACTION_LOAD_ACCOUNT_ERROR";
@@ -110,12 +116,18 @@ public interface IntentIntegrator extends PublicIntent
     // DISPLAY DIALOG
     // ///////////////////////////////////////////////////////////////////////////
     // ACTION
-    /** Display dialog with extra bundle */
+    /**
+     * Display dialog with extra bundle
+     */
     String ACTION_DISPLAY_DIALOG = "org.alfresco.mobile.android.intent.ACTION_DISPLAY_DIALOG";
 
     String ACTION_DISPLAY_ERROR = "org.alfresco.mobile.android.intent.DISPLAY_ERROR";
 
+    String ACTION_DIALOG_EXTRA = "org.alfresco.mobile.android.intent.ACTION_DIALOG_EXTRA";
+
     String EXTRA_ERROR_DATA = "org.alfresco.mobile.android.intent.EXTRA_ERROR_DATA";
+
+    String EXTRA_DIALOG_ACTION = "org.alfresco.mobile.android.intent.EXTRA_DIALOG_ACTION";
 
     // ///////////////////////////////////////////////////////////////////////////
     // CONTENT MANAGEMENT
