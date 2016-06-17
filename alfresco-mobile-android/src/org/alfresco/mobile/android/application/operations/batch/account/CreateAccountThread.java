@@ -1,21 +1,24 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *
- *  This file is part of Alfresco Mobile for Android.
- *
- *  Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *  http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p>
+ * This file is part of Alfresco Mobile for Android.
+ * <p>
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.account;
+
+import android.content.Context;
+import android.content.Intent;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.constants.OAuthConstant;
@@ -24,22 +27,19 @@ import org.alfresco.mobile.android.api.model.Person;
 import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.api.session.CloudSession;
 import org.alfresco.mobile.android.api.session.authentication.OAuthData;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.app.account.OdsAccountAuthenticator;
-import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.alfresco.mobile.android.application.accounts.Account;
 import org.alfresco.mobile.android.application.accounts.AccountManager;
 import org.alfresco.mobile.android.application.accounts.fragment.AccountSettingsHelper;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
-
-import android.content.Context;
-import android.content.Intent;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.account.OdsAccountAuthenticator;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 
 public class CreateAccountThread extends AbstractBatchOperationThread<Account>
 {
-    protected String baseUrl;
+    private String baseUrl;
 
     protected String username;
 
@@ -83,8 +83,8 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
                 listener.onPreExecute(this);
             }
 
-            AccountSettingsHelper settingsHelper = new AccountSettingsHelper(context, baseUrl, username, password,
-                    oauthData, proto);
+            AccountSettingsHelper settingsHelper =
+                    new AccountSettingsHelper(context, baseUrl, username, password, oauthData, proto);
 
             LoadSessionHelper sHelper = new LoadSessionHelper(context, settingsHelper);
             session = sHelper.requestSession();
@@ -110,52 +110,53 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
     private Account createAccount()
     {
         int type;
-        boolean isPaidAccount = false;
-        Account acc = null;
+        boolean isPaidAccount;
+        Account acc;
 
         if (oauthData == null)
         {
             // Non OAuth login
-            type = Integer.valueOf(Account.TYPE_ALFRESCO_CMIS);
             if (session instanceof OdsRepositorySession)
             {
-                type = Integer.valueOf(Account.TYPE_ODS_CMIS);
+                type = Account.TYPE_ODS_CMIS;
             }
-            else if (session instanceof CloudSession && !session.getBaseUrl().startsWith(OAuthConstant.PUBLIC_API_HOSTNAME))
+            else if (session instanceof CloudSession &&
+                    !session.getBaseUrl().startsWith(OAuthConstant.PUBLIC_API_HOSTNAME))
             {
-                type = Integer.valueOf(Account.TYPE_ALFRESCO_TEST_BASIC);
+                type = Account.TYPE_ALFRESCO_TEST_BASIC;
             }
             else
             {
-                type = (session instanceof CloudSession) ? Integer.valueOf(Account.TYPE_ALFRESCO_CLOUD) : Integer
-                        .valueOf(Account.TYPE_ALFRESCO_CMIS);
+                type = (session instanceof CloudSession) ? Integer.valueOf(Account.TYPE_ALFRESCO_CLOUD) :
+                        Integer.valueOf(Account.TYPE_ALFRESCO_CMIS);
             }
 
-            String tmpDescription = (description != null && !description.isEmpty()) ? description : context
-                    .getString(R.string.account_default_onpremise);
+            String tmpDescription = (description != null && !description.isEmpty()) ? description :
+                    context.getString(R.string.account_default_onpremise);
 
             isPaidAccount = isPaid(type, session);
 
             // Save Account
-            acc = AccountManager.createAccount(context, tmpDescription, baseUrl, username, password, session
-                    .getRepositoryInfo().getIdentifier(), type, null, null, null, isPaidAccount ? 1 : 0, proto);
+            acc = AccountManager.createAccount(context, tmpDescription, baseUrl, username, password,
+                    session.getRepositoryInfo().getIdentifier(), type, null, null, null, isPaidAccount ? 1 : 0, proto);
         }
         else
         {
             // OAuth login
-            type = Integer.valueOf(Account.TYPE_ALFRESCO_CLOUD);
+            type = Account.TYPE_ALFRESCO_CLOUD;
             if (session instanceof CloudSession && !session.getBaseUrl().startsWith(OAuthConstant.PUBLIC_API_HOSTNAME))
             {
-                type = Integer.valueOf(Account.TYPE_ALFRESCO_TEST_OAUTH);
+                type = Account.TYPE_ALFRESCO_TEST_OAUTH;
             }
 
             isPaidAccount = isPaid(type, session);
 
             // Save Account
-            acc = AccountManager.createAccount(context, context.getString(R.string.account_default_cloud), session
-                    .getBaseUrl(), userPerson.getIdentifier(), null, session.getRepositoryInfo().getIdentifier(), type,
-                    null, ((CloudSession) session).getOAuthData().getAccessToken(), oauthData.getRefreshToken(),
-                    isPaidAccount ? 1 : 0, proto);
+            acc = AccountManager
+                    .createAccount(context, context.getString(R.string.account_default_cloud), session.getBaseUrl(),
+                            userPerson.getIdentifier(), null, session.getRepositoryInfo().getIdentifier(), type, null,
+                            ((CloudSession) session).getOAuthData().getAccessToken(), oauthData.getRefreshToken(),
+                            isPaidAccount ? 1 : 0, proto);
         }
 
         return acc;
@@ -174,14 +175,6 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
         }
     }
 
-    // ///////////////////////////////////////////////////////////////////////////
-    // PUBLIC
-    // ///////////////////////////////////////////////////////////////////////////
-    public String getBaseUrl()
-    {
-        return baseUrl;
-    }
-
     public String getUsername()
     {
         return username;
@@ -197,14 +190,9 @@ public class CreateAccountThread extends AbstractBatchOperationThread<Account>
         return description;
     }
 
-    public OAuthData getOauthData()
+    OAuthData getOauthData()
     {
         return oauthData;
-    }
-
-    public Person getCloudUser()
-    {
-        return userPerson;
     }
 
     // ///////////////////////////////////////////////////////////////////////////
