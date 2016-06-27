@@ -55,6 +55,7 @@ import org.alfresco.mobile.android.application.operations.batch.node.like.LikeNo
 import org.alfresco.mobile.android.application.operations.batch.utils.NodePlaceHolder;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsPermissions;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -233,11 +234,18 @@ public class NodeActions extends AbstractActions<Node>
 
         boolean canDelete = true;
         boolean canEdit = true;
+        boolean canMove = true;
         DocumentFolderService svc = SessionUtils.getSession(activity).getServiceRegistry().getDocumentFolderService();
 
         for (Node cur : selectedItems)
         {
             Permissions permissions = svc.getPermissions(cur);
+            OdsPermissions ods = null;
+
+            if (permissions instanceof OdsPermissions)
+            {
+                ods = (OdsPermissions) permissions;
+            }
 
             if (!permissions.canDelete())
             {
@@ -249,7 +257,12 @@ public class NodeActions extends AbstractActions<Node>
                 canEdit = false;
             }
 
-            if (!canDelete && !canEdit)
+            if (ods != null && !ods.canMove())
+            {
+                canMove = false;
+            }
+
+            if (!canDelete && !canEdit && !canMove)
             {
                 break;
             }
@@ -261,7 +274,10 @@ public class NodeActions extends AbstractActions<Node>
                     R.string.delete);
             mi.setIcon(R.drawable.ic_delete);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_IF_ROOM);
+        }
 
+        if (canMove && canDelete)
+        {
             mi = menu.add(Menu.NONE, MenuActionItem.MENU_CUT, Menu.FIRST + MenuActionItem.MENU_CUT, R.string.cut_files);
             mi.setShowAsAction(MenuItem.SHOW_AS_ACTION_NEVER);
         }

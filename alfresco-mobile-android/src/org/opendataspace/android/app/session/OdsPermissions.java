@@ -30,6 +30,11 @@ public class OdsPermissions extends PermissionsImpl
     @Override
     public boolean canDelete()
     {
+        if (nd == null)
+        {
+            return false;
+        }
+
         if (nd.isDocument())
         {
             return nd.hasAllowableAction(Action.CAN_DELETE_OBJECT);
@@ -39,5 +44,10 @@ public class OdsPermissions extends PermissionsImpl
             return nd.isFolder() && nd.hasAllowableAction(Action.CAN_DELETE_TREE) &&
                     nd.hasAllowableAction(Action.CAN_DELETE_OBJECT);
         }
+    }
+
+    public boolean canMove()
+    {
+        return nd != null && nd.hasAllowableAction(Action.CAN_MOVE_OBJECT);
     }
 }

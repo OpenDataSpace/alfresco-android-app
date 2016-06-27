@@ -61,6 +61,7 @@ import org.alfresco.mobile.android.application.utils.ProgressViewHolder;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsPermissions;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -486,7 +487,16 @@ public class ProgressNodeAdapter extends NodeAdapter
 
         if (node.isFolder())
         {
-            if (permission.canDelete())
+            OdsPermissions ods = null;
+
+            if (permission instanceof OdsPermissions)
+            {
+                ods = (OdsPermissions) permission;
+            }
+
+            boolean canMove = ods == null || ods.canMove();
+
+            if (permission.canDelete() && canMove)
             {
                 mi = menu.add(Menu.NONE, MenuActionItem.MENU_CUT, Menu.FIRST + MenuActionItem.MENU_CUT,
                         R.string.cut_files);
