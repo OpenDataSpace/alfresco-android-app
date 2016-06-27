@@ -20,9 +20,9 @@ package org.alfresco.mobile.android.application.operations.batch.node.create;
 import android.content.Context;
 import android.os.Bundle;
 
-import org.alfresco.mobile.android.api.exceptions.AlfrescoServiceException;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.application.commons.fragments.SimpleAlertDialogFragment;
+import org.alfresco.mobile.android.application.exception.SessionExceptionHelper;
 import org.alfresco.mobile.android.application.manager.ActionManager;
 import org.alfresco.mobile.android.application.operations.Operation;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationCallback;
@@ -44,7 +44,7 @@ public class CreateFolderCallBack extends AbstractBatchOperationCallback<Folder>
     {
         super.onError(task, e);
 
-        if (e instanceof AlfrescoServiceException && e.getCause() instanceof CmisNameConstraintViolationException)
+        if (SessionExceptionHelper.checkCause(e, CmisNameConstraintViolationException.class))
         {
             Bundle b = new Bundle();
             b.putInt(SimpleAlertDialogFragment.PARAM_ICON, R.drawable.ic_edit);

@@ -1728,6 +1728,11 @@ public class DetailsFragment extends MetadataFragment
 
                             Node updatedNode = b.getParcelable(IntentIntegrator.EXTRA_UPDATED_NODE);
 
+                            if (updatedNode == null)
+                            {
+                                return;
+                            }
+
                             Boolean backstack = false;
                             if (!DisplayUtils.hasCentralPane(getActivity()))
                             {

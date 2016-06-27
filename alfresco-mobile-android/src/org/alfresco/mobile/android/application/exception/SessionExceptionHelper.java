@@ -172,4 +172,16 @@ public final class SessionExceptionHelper
                 (message == null || cause.getMessage().contains(message));
 
     }
+
+    public static boolean checkCause(Exception e, Class<?> cls)
+    {
+        Throwable cause = e;
+
+        while (cause != null && !(cause instanceof CmisBaseException))
+        {
+            cause = cause.getCause();
+        }
+
+        return checkCause(cause, 0, cls, null);
+    }
 }
