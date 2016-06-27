@@ -26,4 +26,18 @@ public class OdsPermissions extends PermissionsImpl
     {
         return nd != null && nd.hasAllowableAction(Action.CAN_CREATE_DOCUMENT);
     }
+
+    @Override
+    public boolean canDelete()
+    {
+        if (nd.isDocument())
+        {
+            return nd.hasAllowableAction(Action.CAN_DELETE_OBJECT);
+        }
+        else
+        {
+            return nd.isFolder() && nd.hasAllowableAction(Action.CAN_DELETE_TREE) &&
+                    nd.hasAllowableAction(Action.CAN_DELETE_OBJECT);
+        }
+    }
 }
