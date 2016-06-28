@@ -29,6 +29,7 @@ import org.alfresco.mobile.android.application.operations.Operation;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationCallback;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisContentAlreadyExistsException;
 import org.apache.chemistry.opencmis.commons.exceptions.CmisNameConstraintViolationException;
+import org.apache.chemistry.opencmis.commons.exceptions.CmisUpdateConflictException;
 import org.opendataspace.android.app.R;
 
 public class UpdatePropertiesCallback extends AbstractBatchOperationCallback<Node>
@@ -45,7 +46,8 @@ public class UpdatePropertiesCallback extends AbstractBatchOperationCallback<Nod
     {
         super.onError(task, e);
         if (SessionExceptionHelper.checkCause(e, CmisContentAlreadyExistsException.class) ||
-                SessionExceptionHelper.checkCause(e, CmisNameConstraintViolationException.class))
+                SessionExceptionHelper.checkCause(e, CmisNameConstraintViolationException.class) ||
+                SessionExceptionHelper.checkCause(e, CmisUpdateConflictException.class))
         {
             Bundle b = new Bundle();
             b.putInt(SimpleAlertDialogFragment.PARAM_ICON, R.drawable.ic_edit);
