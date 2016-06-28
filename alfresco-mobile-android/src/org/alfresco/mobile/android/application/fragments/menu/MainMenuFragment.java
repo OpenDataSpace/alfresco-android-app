@@ -639,8 +639,15 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         Button ext1 = (Button) acc.findViewById(R.id.menu_browse_ext1);
         Button ext2 = (Button) acc.findViewById(R.id.menu_browse_ext2);
 
-        menuShared.setVisibility(hasShared ? View.VISIBLE : View.GONE);
-        menuGlobal.setVisibility(hasGlobal ? View.VISIBLE : View.GONE);
+        if (menuShared != null)
+        {
+            menuShared.setVisibility(hasShared ? View.VISIBLE : View.GONE);
+        }
+
+        if (menuGlobal != null)
+        {
+            menuGlobal.setVisibility(hasGlobal ? View.VISIBLE : View.GONE);
+        }
 
         if (ext1 != null)
         {
