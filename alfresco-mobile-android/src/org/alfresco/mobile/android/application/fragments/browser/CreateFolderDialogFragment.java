@@ -92,6 +92,8 @@ public abstract class CreateFolderDialogFragment extends BaseFragment
         });
 
         final Button bcreate = UIUtils.initValidation(v, R.string.create);
+        bcreate.setEnabled(false);
+
         bcreate.setOnClickListener(new OnClickListener()
         {
             public void onClick(View v)
