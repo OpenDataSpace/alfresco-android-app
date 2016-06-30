@@ -1,50 +1,21 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ * <p>
  * This file is part of the Alfresco Mobile SDK.
- * 
+ * <p>
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
- *  http://www.apache.org/licenses/LICENSE-2.0
- * 
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License.
+ * <p>
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * <p>
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  ******************************************************************************/
 package org.alfresco.mobile.android.application.fragments.browser;
-
-import java.io.File;
-import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import org.alfresco.mobile.android.api.constants.ContentModel;
-import org.alfresco.mobile.android.api.model.ContentFile;
-import org.alfresco.mobile.android.api.model.Folder;
-import org.alfresco.mobile.android.api.model.Tag;
-import org.alfresco.mobile.android.api.model.impl.TagImpl;
-import org.opendataspace.android.app.R;
-import org.opendataspace.android.ui.logging.OdsLog;
-import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
-import org.alfresco.mobile.android.application.intent.IntentIntegrator;
-import org.alfresco.mobile.android.application.manager.StorageManager;
-import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
-import org.alfresco.mobile.android.application.operations.batch.node.create.CreateDocumentRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.create.RetrieveDocumentNameRequest;
-import org.alfresco.mobile.android.application.operations.batch.node.update.UpdateContentRequest;
-import org.alfresco.mobile.android.application.utils.SessionUtils;
-import org.alfresco.mobile.android.application.utils.UIUtils;
-import org.alfresco.mobile.android.ui.fragments.BaseFragment;
-import org.alfresco.mobile.android.ui.utils.Formatter;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -63,12 +34,41 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import org.alfresco.mobile.android.api.constants.ContentModel;
+import org.alfresco.mobile.android.api.model.ContentFile;
+import org.alfresco.mobile.android.api.model.Folder;
+import org.alfresco.mobile.android.api.model.Tag;
+import org.alfresco.mobile.android.api.model.impl.TagImpl;
+import org.alfresco.mobile.android.application.activity.PublicDispatcherActivity;
+import org.alfresco.mobile.android.application.intent.IntentIntegrator;
+import org.alfresco.mobile.android.application.manager.StorageManager;
+import org.alfresco.mobile.android.application.mimetype.MimeTypeManager;
+import org.alfresco.mobile.android.application.operations.OperationRequest;
+import org.alfresco.mobile.android.application.operations.OperationsRequestGroup;
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationManager;
+import org.alfresco.mobile.android.application.operations.batch.node.create.CreateDocumentRequest;
+import org.alfresco.mobile.android.application.operations.batch.node.create.RetrieveDocumentNameRequest;
+import org.alfresco.mobile.android.application.operations.batch.node.update.UpdateContentRequest;
+import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.alfresco.mobile.android.application.utils.UIUtils;
+import org.alfresco.mobile.android.ui.fragments.BaseFragment;
+import org.alfresco.mobile.android.ui.utils.Formatter;
+import org.opendataspace.android.app.R;
+import org.opendataspace.android.ui.logging.OdsLog;
+
+import java.io.File;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 /**
  * Specific override for Uploading content. This fragment is responsible to
  * display the upload UI component. When user click on upload button, it creates
  * an UploadFragment (UI less) responsible to maintain callback methods. The
  * UploadFragment may disappear to support batch upload/download.
- * 
+ *
  * @author Jean Marie Pascal
  */
 public abstract class CreateDocumentDialogFragment extends BaseFragment
@@ -87,7 +87,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
 
     private CreateDocumentReceiver receiver;
 
-    private String recommandedName = null;
+    private String recommendedName = null;
 
     private String originalName = null;
 
@@ -197,14 +197,14 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
                         tv.setError(null);
                     }
                 }
-                if (originalName.equals(tv.getText().toString()))
-                {
-                    tv.setError(getString(R.string.create_document_filename_error));
-                }
-                else
-                {
-                    tv.setError(null);
-                }
+//                if (originalName.equals(tv.getText().toString()))
+//                {
+//                    tv.setError(getString(R.string.create_document_filename_error));
+//                }
+//                else
+//                {
+//                    tv.setError(null);
+//                }
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after)
@@ -233,9 +233,10 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
         });
          */
         Folder parentFolder = getParent();
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new RetrieveDocumentNameRequest(parentFolder.getIdentifier(), contentFile.getFileName())
-        .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
         return v;
@@ -278,9 +279,9 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
         Map<String, Serializable> props = new HashMap<String, Serializable>();
         String documentName = tv.getText().toString().trim();
         /*
-        if (originalName.equals(documentName) && recommandedName != null && !recommandedName.equals(originalName))
+        if (originalName.equals(documentName) && recommendedName != null && !recommendedName.equals(originalName))
         {
-            documentName = recommandedName;
+            documentName = recommendedName;
         }
          */
         if (desc != null && desc.getText() != null && desc.getText().length() > 0)
@@ -302,7 +303,8 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
         Folder parentFolder = (Folder) getArguments().get(ARGUMENT_FOLDER);
         Boolean isCreation = getArguments().getBoolean(ARGUMENT_IS_CREATION);
 
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
 
         if (originalId != "" && documentName == originalName)
         {
@@ -356,12 +358,12 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
         {
             OdsLog.d(TAG, intent.getAction());
 
-            if (intent.getExtras() != null
-                    && intent.getAction().equals(IntentIntegrator.ACTION_RETRIEVE_NAME_COMPLETED))
+            if (intent.getExtras() != null &&
+                    intent.getAction().equals(IntentIntegrator.ACTION_RETRIEVE_NAME_COMPLETED))
             {
                 Bundle b = intent.getExtras().getParcelable(IntentIntegrator.EXTRA_DATA);
-                recommandedName = b.getString(IntentIntegrator.EXTRA_DOCUMENT_NAME);
-                if (!recommandedName.equals(originalName))
+                recommendedName = b.getString(IntentIntegrator.EXTRA_DOCUMENT_NAME);
+                if (!recommendedName.equals(originalName))
                 {
                     tv.setError(context.getString(R.string.create_document_filename_error));
                 }
