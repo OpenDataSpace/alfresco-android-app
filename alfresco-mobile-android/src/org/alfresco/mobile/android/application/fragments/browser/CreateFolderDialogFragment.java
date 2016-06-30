@@ -125,7 +125,7 @@ public abstract class CreateFolderDialogFragment extends BaseFragment
         {
             public void afterTextChanged(Editable s)
             {
-                if (tv.getText().length() == 0)
+                if (tv.getText().toString().trim().length() == 0)
                 {
                     bcreate.setEnabled(false);
                     tv.setError(null);
