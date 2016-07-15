@@ -24,6 +24,7 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -145,6 +146,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
                 // dialog.
                 if (StorageManager.isTempFile(getActivity(), uploadFile))
                 {
+                    //noinspection ResultOfMethodCallIgnored
                     uploadFile.delete();
                 }
 
@@ -166,6 +168,12 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
             contentFile = (ContentFile) getArguments().getSerializable(ARGUMENT_CONTENT_FILE);
             originalName = contentFile.getFileName();
             tv.setText(originalName);
+
+            if (!TextUtils.isEmpty(originalName))
+            {
+                tv.setSelection(0, originalName.lastIndexOf('.'));
+            }
+
             tsize.setText(Formatter.formatFileSize(getActivity(), contentFile.getLength()));
             tsize.setVisibility(View.VISIBLE);
             bcreate.setEnabled(true);
@@ -197,14 +205,16 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
                         tv.setError(null);
                     }
                 }
-//                if (originalName.equals(tv.getText().toString()))
-//                {
-//                    tv.setError(getString(R.string.create_document_filename_error));
-//                }
-//                else
-//                {
-//                    tv.setError(null);
-//                }
+                /*
+                if (originalName.equals(tv.getText().toString()))
+                {
+                    tv.setError(getString(R.string.create_document_filename_error));
+                }
+                else
+                {
+                    tv.setError(null);
+                }
+                */
             }
 
             public void beforeTextChanged(CharSequence s, int start, int count, int after)
@@ -306,7 +316,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
         OperationsRequestGroup group =
                 new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
 
-        if (originalId != "" && documentName == originalName)
+        if (!TextUtils.isEmpty(originalId) && TextUtils.equals(originalName, documentName))
         {
             group.enqueue(new UpdateContentRequest(parentFolder.getIdentifier(), originalId, documentName, f));
         }
@@ -331,11 +341,11 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
     {
         String s = ""; // editTags.getText().toString();
         String[] listValues = s.split(",");
-        for (int i = 0; i < listValues.length; i++)
+        for (String listValue : listValues)
         {
-            if (listValues[i] != null && !listValues[i].isEmpty())
+            if (listValue != null && !listValue.isEmpty())
             {
-                selectedTags.add(new TagImpl(listValues[i].trim()));
+                selectedTags.add(new TagImpl(listValue.trim()));
             }
         }
     }
