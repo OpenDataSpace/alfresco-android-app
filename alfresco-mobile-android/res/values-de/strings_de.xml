@@ -24,7 +24,7 @@
 
     <!-- HOME SCREEN -->
     <string name="home_login">Anmelden</string>
-    <string name="home_title">Erste Schritte... </string>
+    <string name="home_title">Erste Schritte…</string>
     <string name="home_sign_cloud">Anmelden bei DataSpace</string>
     <string name="home_sign_cloud_description">Neu bei DataSpace? Fordern Sie ein Online Konto an, um Ihre Dokumente zu speichern. Sie können sie von verschiedenen Geräten aus wieder abrufen.</string>
     <string name="home_account">Ich habe bereits ein Konto.</string>
@@ -60,7 +60,7 @@
     <string name="account_port_hint">Port (optional)</string>
     <string name="account_servicedocument">Dienst-URL</string>
     <string name="account_wizard_step2_title">Informationen zur Kontoauthentifizierung</string>
-    <string name="account_verify">Kontoinformationen werden verifiziert...</string>
+    <string name="account_verify">Kontoinformationen werden verifiziert…</string>
     <string name="email_hint">beispiel@amail.com</string>
     <string name="account_validate">Speichern</string>
     <string name="account_validate_hint">Account-Informationen speichern</string>
@@ -88,7 +88,7 @@
 
     <!-- WAITING SESSION -->
     <string name="wait_title">Bitte warten</string>
-    <string name="wait_message">Verbindung mit dem Server wird hergestellt...</string>
+    <string name="wait_message">Verbindung mit dem Server wird hergestellt…</string>
 
     <!-- SESSION ERROR -->
     <string name="retry_account_loading">Wiederholen</string>
@@ -155,8 +155,6 @@
     <string name="menu_browse_root">Private Dateien</string>
     <string name="menu_browse_sites">Sites</string>
     <string name="menu_browse_userhome">Meine Dateien</string>
-    <string name="menu_browse_shared">Freigegebene Dateien</string>
-    <string name="menu_browse_global">Globale Dateien</string>
     <string name="menu_browse_all_sites">Alle Sites</string>
     <string name="menu_browse_my_sites">Meine Sites</string>
     <string name="menu_browse_favorite_sites">Favoriten-Sites</string>
@@ -193,8 +191,8 @@
 
     <!-- NETWORKS -->
     <string name="cloud_networks_empty">Keine Netzwerke verfügbar</string>
-    <string name="manage_accounts">Konten verwalten...</string>
-    <string name="cloud_networks_switch">Netzwerke wechseln...</string>
+    <string name="manage_accounts">Konten verwalten…</string>
+    <string name="cloud_networks_switch">Netzwerke wechseln…</string>
 
     <!-- CLOUD SIGNUP -->
     <string name="cloud_signup_firstname">Vorname</string>
@@ -233,9 +231,9 @@
     <!-- NOTIFICATION -->
     <string name="upload">Hochladen </string>
     <string name="upload_complete">Upload abgeschlossen.</string>
-    <string name="upload_in_progress">Upload wird durchgeführt...</string>
+    <string name="upload_in_progress">Upload wird durchgeführt…</string>
     <string name="update_complete">Update abgeschlossen.</string>
-    <string name="update_in_progress">Update wird durchgeführt&#8230;</string>
+    <string name="update_in_progress">Update wird durchgeführt…</string>
     <string name="error_unable_open_file_title">Die Datei konnte nicht geöffnet werden.</string>
     <string name="error_unable_open_file">Dieses Dateiformat wird nicht unterstützt. Sie müssen eine App installieren, die dieses Format lesen kann.</string>
     <string name="error_unable_pick_file">Keine externe Anwendung zur Auswahl einer Datei vorhanden.</string>
@@ -246,7 +244,7 @@
     <string name="next">Weiter</string>
     <string name="save">Speichern</string>
     <string name="enter_details">Ihre Details eingeben</string>
-    <string name="share_content">Inhalt freigeben für&#8230;</string>
+    <string name="share_content">Inhalt freigeben für…</string>
 
     <!-- HELP -->
     <string name="asset_folder_prefix">de</string>
@@ -278,7 +276,7 @@
     </plurals>
 
     <string name="delete_description_data_protection">Datenschutzmodus ist aktiv.\n\nWenn Sie dieses Konto löschen, werden Ihre Dokumente in ihren ungeschützten Zustand zurückversetzt.\n\nMöchten Sie \&quot;%s\&quot; wirklich löschen?</string>
-    <string name="delete_in_progress">Löschvorgang in Bearbeitung...</string>
+    <string name="delete_in_progress">Löschvorgang in Bearbeitung…</string>
     <string name="delete_complete">Löschvorgang abgeschlossen</string>
 
     <!-- Save Back -->
@@ -288,8 +286,8 @@
     <string name="cannot_capture">Die Erfassung dieser Informationen kann nicht abgeschlossen werden.</string>
 
     <!-- Upload -->
-    <string name="action_processing">Verarbeitung wird durchgeführt...</string>
-    <string name="action_upload_error">Upload nicht möglich...</string>
+    <string name="action_processing">Verarbeitung wird durchgeführt…</string>
+    <string name="action_upload_error">Upload nicht möglich…</string>
 
     <!-- Create Document -->
     <string name="open_play_store">Google Play Store öffnen</string>
@@ -312,7 +310,7 @@
     <string name="loginfirst">Bitte melden Sie sich zunächst mit einem Konto an.</string>
 
     <!-- Comment -->
-    <string name="comment_add_hint">Kommentar hier eingeben...</string>
+    <string name="comment_add_hint">Kommentar hier eingeben…</string>
 
     <!-- DATA PROTECTION -->
     <string name="encrypt_title">Inhalt wird verschlüsselt</string>
@@ -326,17 +324,17 @@
     <string name="unprotect_question"><![CDATA[<p><b>Möchten Sie den Schutz für alle heruntergeladenen DataSpace Inhalte jetzt aufheben?</b><p>  Dieser Vorgang wird auf alle Dokumente angewandt, die Sie aus all Ihren DataSpace Konten heruntergeladen haben.]]></string>
     <string name="already_encrypted">Dieses Dokument ist bereits verschlüsselt!</string>
     <string name="already_decrypted">Dieses Dokument ist bereits entschlüsselt!</string>
-    <string name="decryption_title">Datenschutz wird deaktiviert...</string>
-    <string name="encryption_title">Datenschutz wird aktiviert...</string>
-    <string name="copy_file_title">Kopiervorgang in Bearbeitung...</string>
+    <string name="decryption_title">Datenschutz wird deaktiviert…</string>
+    <string name="encryption_title">Datenschutz wird aktiviert…</string>
+    <string name="copy_file_title">Kopiervorgang in Bearbeitung…</string>
     <string name="copy_file_completed">Kopiervorgang abgeschlossen</string>
-    <string name="copy_file_description">Datei wird kopiert...</string>
+    <string name="copy_file_description">Datei wird kopiert…</string>
     <string name="metadata_general">Allgemein</string>
     <string name="encrypt_action">Verschlüsseln</string>
     <string name="decrypt_action">Entschlüsseln</string>
 
     <!-- OPEN AS.. -->
-    <string name="open_as_title">Öffnen als...</string>
+    <string name="open_as_title">Öffnen als…</string>
     <string name="open_as_image">Bild</string>
     <string name="open_as_audio">Audio</string>
     <string name="open_as_video">Video</string>
@@ -476,9 +474,9 @@
     <string name="sync_save_action">Speichern</string>
     <string name="sync_resolve_conflict">Konflikt lösen</string>
     <string name="sync_complete">Synchronisierung abgeschlossen</string>
-    <string name="sync_in_progress">Synchronisierung wird durchgeführt...</string>
-    <string name="upload_await">Auf Upload wird gewartet...</string>
-    <string name="download_await">Auf Download wird gewartet...</string>
+    <string name="sync_in_progress">Synchronisierung wird durchgeführt…</string>
+    <string name="upload_await">Auf Upload wird gewartet…</string>
+    <string name="download_await">Auf Download wird gewartet…</string>
 
     <plurals name="sync_complete_description">
         <item quantity="zero">Keinen Inhalt synchronisiert.</item>
@@ -771,10 +769,10 @@
     <string name="task_review_documents">Bitte diesen Inhalt überprüfen</string>
     <string name="task_assignees_plurals">{0,choice,0#Keine zugewiesenen Personen|1#1 zugewiesene Person|1&lt;{0} zugewiesene Personen}</string>
     <string name="task_assignees">Zugewiesene Personen</string>
-    <string name="task_assignees_selection">Zugewiesene Personen auswählen...</string>
+    <string name="task_assignees_selection">Zugewiesene Personen auswählen…</string>
     <string name="process_approvers_plurals">{0,choice,0#Keine genehmigende Personen|1#1 von 1 genehmigende Person|1&lt;%s von {0} genehmigenden Personen}</string>
     <string name="task_attachments_plurals">{0,choice,0#Keine Anhänge|1#1 Anhang|1&lt;{0} Anhänge}</string>
-    <string name="task_attachments_selection">Anhänge auswählen...</string>
+    <string name="task_attachments_selection">Anhänge auswählen…</string>
     <string name="task_attachments">Anhänge</string>
     <string name="process_no_description">(Keine Nachricht)</string>
     <string name="process_no_assignees">Keine zugewiesene Person</string>
@@ -791,7 +789,7 @@
     <string name="task_todo_description">Einer Person eine Aufgabe zuweisen</string>
     <string name="task_review_approve">Überprüfen und genehmigen</string>
     <string name="task_review_approve_description">Weisen Sie einer oder mehreren Personen eine Aufgabe zu, um Inhalt zu überprüfen und zu genehmigen.</string>
-    <string name="task_delegate_in_progress">Erneute Zuweisung wird durchgeführt...</string>
+    <string name="task_delegate_in_progress">Erneute Zuweisung wird durchgeführt…</string>
     <string name="task_delegate_complete">Erneute Zuweisung abgeschlossen</string>
     <string name="picker_assignees">Zugewiesene Personen auswählen</string>
     <string name="picker_due_date">Fälligkeitsdatum auswählen</string>

@@ -22,7 +22,10 @@
     <string name="links_add">Link hinzufügen</string>
     <string name="links_edit">Link ändern</string>
     <string name="links_remove">Link entfernen</string>
+    <string name="menu_browse_shared">Freigegebene Dateien</string>
+    <string name="menu_browse_global">Globale Dateien</string>
     <string name="menu_browse_extension">Verlängert</string>
+    <string name="menu_browse_projects">Projekte</string>
     <string name="move_operation">Dateien verschieben…</string>
     <string name="paste_files">Einfügen</string>
     <string name="uplinks">Links hochladen</string>

@@ -14,7 +14,10 @@
     <string name="settings_feedback_send">Envoyer un rapport</string>
     <string name="settings_feedback_enabled">Collecter informations d\'erreur</string>
     <string name="move_operation">Déplacer les fichiers…</string>
-    <string name="menu_browse_extension"> Prolongé</string>
+    <string name="menu_browse_shared">Fichiers partagés</string>
+    <string name="menu_browse_global">Fichiers globals</string>
+    <string name="menu_browse_extension">Prolongé</string>
+    <string name="menu_browse_projects">Des projets</string>
     <string name="links_remove"> Supprimer le lien</string>
     <string name="links_edit">Modifier le lien</string>
     <string name="links_add"> Ajouter un lien</string>

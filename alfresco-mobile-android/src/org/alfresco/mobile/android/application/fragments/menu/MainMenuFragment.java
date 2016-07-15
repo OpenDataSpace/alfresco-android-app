@@ -31,6 +31,7 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -653,14 +654,36 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         {
             OdsRepositorySession s1 = ods != null ? ods.getExt1Repo() : null;
             ext1.setVisibility(s1 != null ? View.VISIBLE : View.GONE);
-            ext1.setText(s1 != null ? s1.getRepositoryInfo().getName() : getString(R.string.menu_browse_extension));
+            ext1.setText(getExtName(s1));
         }
 
         if (ext2 != null)
         {
             OdsRepositorySession s2 = ods != null ? ods.getExt2Repo() : null;
             ext2.setVisibility(s2 != null ? View.VISIBLE : View.GONE);
-            ext2.setText(s2 != null ? s2.getRepositoryInfo().getName() : getString(R.string.menu_browse_extension));
+            ext2.setText(getExtName(s2));
         }
+    }
+
+    private String getExtName(final OdsRepositorySession session)
+    {
+        if (session == null)
+        {
+            return getString(R.string.menu_browse_extension);
+        }
+
+        final String name = session.getRepositoryInfo().getName().trim();
+
+        if (TextUtils.isEmpty(name))
+        {
+            return getString(R.string.menu_browse_extension);
+        }
+
+        if (TextUtils.equals(name.toLowerCase(), "projects"))
+        {
+            return getString(R.string.menu_browse_projects);
+        }
+
+        return name;
     }
 }

@@ -35,6 +35,10 @@
     <string name="settings_feedback">Feedback</string>
     <string name="settings_feedback_enabled">Collect error info</string>
     <string name="settings_feedback_send">Send report</string>
+    <string name="menu_browse_shared">Shared</string>
+    <string name="menu_browse_global">Global</string>
+    <string name="menu_browse_extension">Extended</string>
+    <string name="menu_browse_projects">Projects</string>
 
     <string-array name="account_proto_array">
         <item id="0">Json</item>
