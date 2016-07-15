@@ -258,6 +258,11 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         }
 
         super.onActivityCreated(savedInstanceState);
+
+        if (isFullLoad)
+        {
+            refresh();
+        }
     }
 
     @Override
@@ -633,8 +638,6 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
         }
         return b;
     }
-
-    ;
 
     private boolean startSelection(Node item)
     {
