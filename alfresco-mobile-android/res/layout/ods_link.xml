@@ -63,6 +63,11 @@
             android:singleLine="true"
             android:inputType="text|textPassword"/>
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/link_message"/>
+
         <EditText
             android:id="@+id/link_message"
             android:layout_width="match_parent"
