@@ -24,9 +24,11 @@ import android.os.Bundle;
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
+import org.alfresco.mobile.android.api.session.impl.AbstractAlfrescoSessionImpl;
 import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.node.NodeOperationThread;
+import org.apache.chemistry.opencmis.client.api.Session;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import java.io.Serializable;
@@ -69,9 +71,18 @@ public class UpdatePropertiesThread extends NodeOperationThread<Node>
 
             if (properties != null)
             {
-                DocumentFolderService ds = session.getServiceRegistry().getDocumentFolderService();
-                Node nn = ds.getNodeByIdentifier(node.getIdentifier());
-                updatedNode = ds.updateProperties(nn, properties);
+                final DocumentFolderService ds = session.getServiceRegistry().getDocumentFolderService();
+
+                if (session instanceof AbstractAlfrescoSessionImpl)
+                {
+                    final Session cmisSession = ((AbstractAlfrescoSessionImpl) session).getCmisSession();
+                    cmisSession.removeObjectFromCache(nodeIdentifier);
+                    updatedNode = ds.updateProperties(ds.getNodeByIdentifier(nodeIdentifier), properties);
+                }
+                else
+                {
+                    updatedNode = ds.updateProperties(node, properties);
+                }
             }
 
             if (tags != null && !tags.isEmpty())
