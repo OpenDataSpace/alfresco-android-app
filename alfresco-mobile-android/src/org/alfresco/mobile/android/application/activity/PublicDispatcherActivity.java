@@ -27,6 +27,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
 import android.os.Environment;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -63,6 +64,7 @@ import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,6 +75,7 @@ import java.util.List;
 public class PublicDispatcherActivity extends BaseActivity
 {
     private static final String TAG = PublicDispatcherActivity.class.getName();
+    private static final String ARG_FILES = "ods.files";
 
     /**
      * Define the type of importFolder.
@@ -468,5 +471,49 @@ public class PublicDispatcherActivity extends BaseActivity
         }
 
         super.finish();
+    }
+
+    @Override
+    protected void onSaveInstanceState(Bundle outState)
+    {
+        super.onSaveInstanceState(outState);
+
+        if (uploadFiles != null && !uploadFiles.isEmpty())
+        {
+            final ArrayList<String> files = new ArrayList<String>();
+
+            for (File cur : uploadFiles)
+            {
+                files.add(cur.getAbsolutePath());
+            }
+
+            outState.putStringArrayList(ARG_FILES, files);
+        }
+    }
+
+    @Override
+    protected void onRestoreInstanceState(Bundle savedInstanceState)
+    {
+        super.onRestoreInstanceState(savedInstanceState);
+
+        if (savedInstanceState == null)
+        {
+            return;
+        }
+
+        final ArrayList<String> files = savedInstanceState.getStringArrayList(ARG_FILES);
+
+        if (files != null && !files.isEmpty())
+        {
+            uploadFiles = new ArrayList<File>();
+
+            for (String cur : files)
+            {
+                if (!TextUtils.isEmpty(cur))
+                {
+                    uploadFiles.add(new File(cur));
+                }
+            }
+        }
     }
 }
