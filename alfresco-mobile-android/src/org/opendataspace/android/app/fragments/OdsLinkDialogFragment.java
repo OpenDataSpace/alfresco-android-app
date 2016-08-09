@@ -182,7 +182,8 @@ public class OdsLinkDialogFragment extends BaseFragment
                 OperationsRequestGroup group =
                         new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
                 group.enqueue(
-                        new OdsUpdateLinkRequest(lnk).setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+                        new OdsUpdateLinkRequest(lnk).setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG)
+                                .setRepoType(alfSession));
                 BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
                 OperationWaitingDialogFragment

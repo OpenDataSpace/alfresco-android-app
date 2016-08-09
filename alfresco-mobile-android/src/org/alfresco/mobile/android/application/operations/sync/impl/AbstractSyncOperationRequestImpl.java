@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ *
  *  This file is part of Alfresco Mobile for Android.
- *  
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,11 +17,11 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.sync.impl;
 
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-import org.alfresco.mobile.android.application.operations.impl.AbstractOperationRequestImpl;
-
 import android.content.ContentValues;
 import android.database.Cursor;
+
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
+import org.alfresco.mobile.android.application.operations.impl.AbstractOperationRequestImpl;
 
 public abstract class AbstractSyncOperationRequestImpl extends AbstractOperationRequestImpl
 {
@@ -35,8 +35,9 @@ public abstract class AbstractSyncOperationRequestImpl extends AbstractOperation
     {
         super();
     }
-    
-    public AbstractSyncOperationRequestImpl(Cursor cursor){
+
+    public AbstractSyncOperationRequestImpl(Cursor cursor)
+    {
         super(cursor);
     }
 
@@ -54,6 +55,7 @@ public abstract class AbstractSyncOperationRequestImpl extends AbstractOperation
         cValues.put(BatchOperationSchema.COLUMN_REQUEST_TYPE, getTypeId());
         cValues.put(BatchOperationSchema.COLUMN_REASON, -1);
         cValues.put(BatchOperationSchema.COLUMN_STATUS, status);
+        cValues.put(BatchOperationSchema.COLUMN_REPO_TYPE, getRepoType().name());
         return cValues;
     }
 }

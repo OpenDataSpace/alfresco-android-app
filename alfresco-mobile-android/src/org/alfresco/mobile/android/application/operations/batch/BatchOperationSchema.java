@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- *  
+ *
  *  This file is part of Alfresco Mobile for Android.
- *  
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,10 +17,10 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch;
 
-import org.alfresco.mobile.android.application.operations.OperationSchema;
-
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
+
+import org.alfresco.mobile.android.application.operations.OperationSchema;
 
 public final class BatchOperationSchema extends OperationSchema
 {
@@ -33,7 +33,7 @@ public final class BatchOperationSchema extends OperationSchema
     // TABLENAME
     // ////////////////////////////////////////////////////
     public static final String TABLENAME = "Operation";
-    
+
     // ////////////////////////////////////////////////////
     // EXTRA COLUMNS
     // ////////////////////////////////////////////////////
@@ -44,7 +44,7 @@ public final class BatchOperationSchema extends OperationSchema
     // ////////////////////////////////////////////////////
     private static final String QUERY_TABLE_CREATE = "CREATE TABLE " + TABLENAME + " (" + QUERY_CREATE_COLUMNS + ");";
 
-    private static final String QUERY_TABLE_DROP = "DROP TABLE IF EXISTS " + TABLENAME;
+    //private static final String QUERY_TABLE_DROP = "DROP TABLE IF EXISTS " + TABLENAME;
 
     // ////////////////////////////////////////////////////
     // LIFECYCLE
@@ -60,12 +60,15 @@ public final class BatchOperationSchema extends OperationSchema
         {
             db.execSQL(QUERY_TABLE_CREATE);
         }
+        else if (oldVersion < 7)
+        {
+            db.execSQL("ALTER TABLE " + TABLENAME + " ADD " + COLUMN_REPO_TYPE + " TEXT;");
+        }
     }
 
-    // TODO REMOVE BEFORE RELEASE
-    public static void reset(SQLiteDatabase db)
-    {
-        db.execSQL(QUERY_TABLE_DROP);
-        db.execSQL(QUERY_TABLE_CREATE);
-    }
+//    public static void reset(SQLiteDatabase db)
+//    {
+//        db.execSQL(QUERY_TABLE_DROP);
+//        db.execSQL(QUERY_TABLE_CREATE);
+//    }
 }

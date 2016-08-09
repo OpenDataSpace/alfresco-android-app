@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2014 Alfresco Software Limited.
- * 
+ *
  * This file is part of Alfresco Mobile for Android.
- * 
+ *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at
- * 
+ *
  *   http://www.apache.org/licenses/LICENSE-2.0
- * 
+ *
  * Unless required by applicable law or agreed to in writing, software
  * distributed under the License is distributed on an "AS IS" BASIS,
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,7 +17,10 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.sync;
 
-import java.io.File;
+import android.content.ContentValues;
+import android.content.Context;
+import android.database.Cursor;
+import android.net.Uri;
 
 import org.alfresco.mobile.android.api.constants.ContentModel;
 import org.alfresco.mobile.android.api.model.Document;
@@ -33,10 +36,7 @@ import org.alfresco.mobile.android.application.operations.sync.node.delete.SyncD
 import org.alfresco.mobile.android.application.operations.sync.node.download.SyncDownloadRequest;
 import org.alfresco.mobile.android.application.operations.sync.node.update.SyncUpdateRequest;
 
-import android.content.ContentValues;
-import android.content.Context;
-import android.database.Cursor;
-import android.net.Uri;
+import java.io.File;
 
 public class PrepareSyncHelper extends PrepareBaseHelper
 {
@@ -63,6 +63,7 @@ public class PrepareSyncHelper extends PrepareBaseHelper
         SyncDownloadRequest dl = new SyncDownloadRequest(doc);
         dl.setNotificationUri(localUri);
         dl.setNotificationTitle(doc.getName());
+        dl.setRepoType(session);
         group.enqueue(dl.setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
     }
 
@@ -88,10 +89,12 @@ public class PrepareSyncHelper extends PrepareBaseHelper
 
     protected void prepareUpdate(Document doc, Cursor cursorId, File localFile, Uri localUri)
     {
-        SyncUpdateRequest updateRequest = new SyncUpdateRequest(cursorId.getString(SynchroSchema.COLUMN_PARENT_ID_ID),
-                doc, new ContentFileImpl(localFile));
+        SyncUpdateRequest updateRequest =
+                new SyncUpdateRequest(cursorId.getString(SynchroSchema.COLUMN_PARENT_ID_ID), doc,
+                        new ContentFileImpl(localFile));
         updateRequest.setNotificationTitle(doc.getName());
         updateRequest.setNotificationUri(localUri);
+        updateRequest.setRepoType(session);
         group.enqueue(updateRequest.setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
     }
 
@@ -110,14 +113,15 @@ public class PrepareSyncHelper extends PrepareBaseHelper
                 cValues.put(SynchroSchema.COLUMN_DOC_SIZE_BYTES,
                         -cursorId.getLong(SynchroSchema.COLUMN_BYTES_DOWNLOADED_SO_FAR_ID));
             }
-            context.getContentResolver().update(SynchroManager.getUri(cursorId.getLong(SynchroSchema.COLUMN_ID_ID)),
-                    cValues, null, null);
+            context.getContentResolver()
+                    .update(SynchroManager.getUri(cursorId.getLong(SynchroSchema.COLUMN_ID_ID)), cValues, null, null);
         }
 
         // Execution
         SyncDeleteRequest deleteRequest = new SyncDeleteRequest(id, cursorId.getString(SynchroSchema.COLUMN_TITLE_ID),
                 SynchroManager.getUri(cursorId.getLong(SynchroSchema.COLUMN_ID_ID)));
         deleteRequest.setNotificationTitle(cursorId.getString(SynchroSchema.COLUMN_TITLE_ID));
+        deleteRequest.setRepoType(session);
         group.enqueue(deleteRequest.setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
     }
 

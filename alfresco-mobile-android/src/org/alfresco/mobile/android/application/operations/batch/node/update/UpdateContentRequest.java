@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ *
  *  This file is part of Alfresco Mobile for Android.
- *  
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,12 +17,12 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.batch.node.update;
 
+import android.database.Cursor;
+
 import org.alfresco.mobile.android.api.model.ContentFile;
 import org.alfresco.mobile.android.api.model.Document;
 import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.application.operations.batch.node.AbstractUpRequest;
-
-import android.database.Cursor;
 
 public class UpdateContentRequest extends AbstractUpRequest
 {
@@ -42,8 +42,8 @@ public class UpdateContentRequest extends AbstractUpRequest
 
     public UpdateContentRequest(String parentFolderId, String documentId, String documentName, ContentFile contentFile)
     {
-        super(parentFolderId, documentId, documentName, contentFile.getFile().getPath(), contentFile
-                .getMimeType(), contentFile.getLength());
+        super(parentFolderId, documentId, documentName, contentFile.getFile().getPath(), contentFile.getMimeType(),
+                contentFile.getLength());
         requestTypeId = TYPE_ID;
     }
 

@@ -1,5 +1,6 @@
 package org.opendataspace.android.app.links;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
@@ -140,12 +141,14 @@ public class OdsLinksAdapter extends BaseListAdapter<OdsLink, GenericViewHolder>
         {
             public void onClick(DialogInterface dialog, int item)
             {
+                Activity ac = fr.getActivity();
                 OperationsRequestGroup group =
-                        new OperationsRequestGroup(fr.getActivity(), SessionUtils.getAccount(fr.getActivity()));
+                        new OperationsRequestGroup(fr.getActivity(), SessionUtils.getAccount(ac));
 
                 link.setNodeId(null);
                 group.enqueue(
-                        new OdsUpdateLinkRequest(link).setNotificationVisibility(OperationRequest.VISIBILITY_TOAST));
+                        new OdsUpdateLinkRequest(link).setNotificationVisibility(OperationRequest.VISIBILITY_TOAST)
+                                .setRepoType(SessionUtils.getSession(ac)));
 
                 BatchOperationManager.getInstance(fr.getActivity()).enqueue(group);
                 dialog.dismiss();

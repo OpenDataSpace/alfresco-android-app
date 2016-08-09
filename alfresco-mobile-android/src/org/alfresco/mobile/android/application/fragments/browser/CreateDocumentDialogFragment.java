@@ -246,7 +246,7 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
         OperationsRequestGroup group =
                 new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new RetrieveDocumentNameRequest(parentFolder.getIdentifier(), contentFile.getFileName())
-                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN).setRepoType(alfSession));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
         return v;
@@ -318,12 +318,13 @@ public abstract class CreateDocumentDialogFragment extends BaseFragment
 
         if (!TextUtils.isEmpty(originalId) && TextUtils.equals(originalName, documentName))
         {
-            group.enqueue(new UpdateContentRequest(parentFolder.getIdentifier(), originalId, documentName, f));
+            group.enqueue(new UpdateContentRequest(parentFolder.getIdentifier(), originalId, documentName, f)
+                    .setRepoType(alfSession));
         }
         else
         {
             group.enqueue(new CreateDocumentRequest(parentFolder.getIdentifier(), documentName, props, listTagValue, f,
-                    isCreation));
+                    isCreation).setRepoType(alfSession));
         }
 
         BatchOperationManager.getInstance(getActivity()).enqueue(group);

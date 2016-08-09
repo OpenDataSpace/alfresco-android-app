@@ -60,6 +60,7 @@ import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.alfresco.mobile.android.ui.fragments.BaseFragment;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.fragments.OdsSelectFolderFragment;
+import org.opendataspace.android.app.session.OdsRepoType;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 
@@ -429,24 +430,18 @@ public class PublicDispatcherActivity extends BaseActivity
         }
 
         OdsRepositorySession ods = (OdsRepositorySession) ses;
-        OdsRepositorySession p = ods.getParent();
-
-        if (p != null)
-        {
-            ods = p;
-        }
 
         if (uploadFolder == R.string.menu_browse_shared)
         {
-            addNavigationFragment(ods.getShared().getRootFolder());
+            addNavigationFragment(ods.getByType(OdsRepoType.SHARED).getRootFolder());
         }
         else if (uploadFolder == R.string.menu_browse_global)
         {
-            addNavigationFragment(ods.getGlobal().getRootFolder());
+            addNavigationFragment(ods.getByType(OdsRepoType.GLOBAL).getRootFolder());
         }
         else
         {
-            addNavigationFragment(ods.getRootFolder());
+            addNavigationFragment(ods.getByType(OdsRepoType.DEFAULT).getRootFolder());
         }
     }
 

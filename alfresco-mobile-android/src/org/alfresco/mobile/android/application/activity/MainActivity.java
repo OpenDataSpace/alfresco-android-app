@@ -104,6 +104,7 @@ import org.alfresco.mobile.android.ui.manager.MessengerManager;
 import org.opendataspace.android.app.R;
 import org.opendataspace.android.app.config.OdsConfigManager;
 import org.opendataspace.android.app.fragments.OdsLinksFragment;
+import org.opendataspace.android.app.session.OdsRepoType;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 
@@ -457,7 +458,6 @@ public class MainActivity extends BaseActivity
         case R.id.menu_browse_shared:
         case R.id.menu_browse_global:
         case R.id.menu_browse_ext1:
-        case R.id.menu_browse_ext2:
             browseRepo(id);
             break;
         case R.id.menu_downloads:
@@ -1612,12 +1612,6 @@ public class MainActivity extends BaseActivity
         if (ses instanceof OdsRepositorySession)
         {
             ods = (OdsRepositorySession) ses;
-            OdsRepositorySession p = ods.getParent();
-
-            if (p != null)
-            {
-                ods = p;
-            }
         }
 
         if (menuId != R.id.menu_browse_root && ods == null)
@@ -1630,24 +1624,20 @@ public class MainActivity extends BaseActivity
         case R.id.menu_browse_root:
             if (ods != null)
             {
-                ses = current = ods;
+                ses = current = ods.getByType(OdsRepoType.DEFAULT);
             }
             break;
 
         case R.id.menu_browse_global:
-            ses = current = ods.getGlobal();
+            ses = current = ods.getByType(OdsRepoType.GLOBAL);
             break;
 
         case R.id.menu_browse_shared:
-            ses = current = ods.getShared();
+            ses = current = ods.getByType(OdsRepoType.SHARED);
             break;
 
         case R.id.menu_browse_ext1:
-            ses = current = ods.getExt1Repo();
-            break;
-
-        case R.id.menu_browse_ext2:
-            ses = current = ods.getExt2Repo();
+            ses = current = ods.getByType(OdsRepoType.PROJECTS);
             break;
 
         default:

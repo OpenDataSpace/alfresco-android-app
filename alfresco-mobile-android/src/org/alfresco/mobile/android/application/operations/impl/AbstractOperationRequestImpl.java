@@ -1,14 +1,14 @@
 /*******************************************************************************
  * Copyright (C) 2005-2013 Alfresco Software Limited.
- *  
+ *
  *  This file is part of Alfresco Mobile for Android.
- *  
+ *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
  *  You may obtain a copy of the License at
- *  
+ *
  *  http://www.apache.org/licenses/LICENSE-2.0
- *  
+ *
  *  Unless required by applicable law or agreed to in writing, software
  *  distributed under the License is distributed on an "AS IS" BASIS,
  *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
@@ -17,19 +17,23 @@
  ******************************************************************************/
 package org.alfresco.mobile.android.application.operations.impl;
 
-import org.alfresco.mobile.android.application.operations.OperationRequest;
-import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
-
 import android.content.ContentValues;
 import android.database.Cursor;
 import android.net.Uri;
+import android.text.TextUtils;
+
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
+import org.alfresco.mobile.android.application.operations.OperationRequest;
+import org.alfresco.mobile.android.application.operations.batch.BatchOperationSchema;
+import org.opendataspace.android.app.session.OdsRepoType;
+import org.opendataspace.android.app.session.OdsRepositorySession;
 
 public abstract class AbstractOperationRequestImpl implements OperationRequest
 {
     private static final long serialVersionUID = 1L;
 
     private long accountId;
-    
+
     private String networkId;
 
     private int notificationVisibility = VISIBILITY_NOTIFICATIONS;
@@ -44,19 +48,25 @@ public abstract class AbstractOperationRequestImpl implements OperationRequest
 
     private Uri notificationUri;
 
+    private OdsRepoType repoType = OdsRepoType.DEFAULT;
+
     // ///////////////////////////////////////////////////////////////////////////
     // CONSTRUCTORS
     // ///////////////////////////////////////////////////////////////////////////
     public AbstractOperationRequestImpl()
     {
     }
-    
-    public AbstractOperationRequestImpl(Cursor cursor){
+
+    public AbstractOperationRequestImpl(Cursor cursor)
+    {
         this.accountId = cursor.getLong(BatchOperationSchema.COLUMN_ACCOUNT_ID_ID);
         this.notificationVisibility = cursor.getInt(BatchOperationSchema.COLUMN_NOTIFICATION_VISIBILITY_ID);
         this.title = cursor.getString(BatchOperationSchema.COLUMN_TITLE_ID);
         this.mimeType = cursor.getString(BatchOperationSchema.COLUMN_MIMETYPE_ID);
         this.requestTypeId = cursor.getInt(BatchOperationSchema.COLUMN_REQUEST_TYPE_ID);
+
+        String rt = cursor.getString(BatchOperationSchema.COLUMN_REPO_TYPE_ID);
+        this.repoType = TextUtils.isEmpty(rt) ? OdsRepoType.DEFAULT : OdsRepoType.valueOf(rt);
     }
 
     // ///////////////////////////////////////////////////////////////////////////
@@ -107,7 +117,7 @@ public abstract class AbstractOperationRequestImpl implements OperationRequest
         this.accountId = accountId;
         return this;
     }
-    
+
     public String getNetworkId()
     {
         return networkId;
@@ -118,7 +128,6 @@ public abstract class AbstractOperationRequestImpl implements OperationRequest
         this.networkId = networkId;
         return this;
     }
-
 
     public int getTypeId()
     {
@@ -141,7 +150,7 @@ public abstract class AbstractOperationRequestImpl implements OperationRequest
     {
         return notificationUri;
     }
-    
+
     public OperationRequest setNotificationUri(Uri notificationUri)
     {
         this.notificationUri = notificationUri;
@@ -149,4 +158,19 @@ public abstract class AbstractOperationRequestImpl implements OperationRequest
     }
 
     public abstract ContentValues createContentValues(int status);
+
+    @Override
+    public OperationRequest setRepoType(final AlfrescoSession session)
+    {
+        repoType = (session != null && session instanceof OdsRepositorySession) ?
+                ((OdsRepositorySession) session).getRepoType() : OdsRepoType.DEFAULT;
+
+        return this;
+    }
+
+    @Override
+    public OdsRepoType getRepoType()
+    {
+        return repoType;
+    }
 }

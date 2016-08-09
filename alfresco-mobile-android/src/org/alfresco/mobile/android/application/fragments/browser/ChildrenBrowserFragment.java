@@ -793,7 +793,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             for (File file : files)
             {
                 group.enqueue(new CreateDocumentRequest(importFolder.getIdentifier(), file.getName(),
-                        new ContentFileProgressImpl(file)));
+                        new ContentFileProgressImpl(file)).setRepoType(alfSession));
             }
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
@@ -1181,7 +1181,7 @@ public class ChildrenBrowserFragment extends GridNavigationFragment implements R
             OperationsRequestGroup group =
                     new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
             group.enqueue(new OdsMoveNodesRequest(ids, parentFolder.getIdentifier(), srcId, !isCopy)
-                    .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+                    .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG).setRepoType(alfSession));
             BatchOperationManager.getInstance(getActivity()).enqueue(group);
 
             OperationWaitingDialogFragment.newInstance(OdsUpdateLinkRequest.TYPE_ID, R.drawable.ic_add,

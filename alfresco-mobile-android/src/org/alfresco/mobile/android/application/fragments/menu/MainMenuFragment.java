@@ -31,7 +31,6 @@ import android.content.Loader;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -63,6 +62,7 @@ import org.alfresco.mobile.android.application.utils.SessionUtils;
 import org.alfresco.mobile.android.application.utils.UIUtils;
 import org.apache.chemistry.opencmis.commons.impl.JSONConverter;
 import org.opendataspace.android.app.R;
+import org.opendataspace.android.app.session.OdsRepoType;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 
@@ -628,62 +628,24 @@ public class MainMenuFragment extends Fragment implements LoaderCallbacks<Cursor
         Activity acc = getActivity();
         AlfrescoSession ses = acc instanceof BaseActivity ? ((BaseActivity) acc).getCurrentSession() : null;
         OdsRepositorySession ods = ses instanceof OdsRepositorySession ? (OdsRepositorySession) ses : null;
-        OdsRepositorySession p = ods != null ? ods.getParent() : null;
-
-        if (p != null)
-        {
-            ods = p;
-        }
-
-        boolean hasShared = ods != null && ods.getShared() != null;
-        boolean hasGlobal = ods != null && ods.getGlobal() != null;
         Button ext1 = (Button) acc.findViewById(R.id.menu_browse_ext1);
-        Button ext2 = (Button) acc.findViewById(R.id.menu_browse_ext2);
 
         if (menuShared != null)
         {
-            menuShared.setVisibility(hasShared ? View.VISIBLE : View.GONE);
+            menuShared.setVisibility(
+                    (ods != null && ods.getByType(OdsRepoType.SHARED) != null) ? View.VISIBLE : View.GONE);
         }
 
         if (menuGlobal != null)
         {
-            menuGlobal.setVisibility(hasGlobal ? View.VISIBLE : View.GONE);
+            menuGlobal.setVisibility(
+                    (ods != null && ods.getByType(OdsRepoType.GLOBAL) != null) ? View.VISIBLE : View.GONE);
         }
 
         if (ext1 != null)
         {
-            OdsRepositorySession s1 = ods != null ? ods.getExt1Repo() : null;
-            ext1.setVisibility(s1 != null ? View.VISIBLE : View.GONE);
-            ext1.setText(getExtName(s1));
+            ext1.setVisibility((ods != null && ods.getByType(OdsRepoType.PROJECTS) != null) ? View.VISIBLE : View.GONE);
+            ext1.setText(getString(R.string.menu_browse_projects));
         }
-
-        if (ext2 != null)
-        {
-            OdsRepositorySession s2 = ods != null ? ods.getExt2Repo() : null;
-            ext2.setVisibility(s2 != null ? View.VISIBLE : View.GONE);
-            ext2.setText(getExtName(s2));
-        }
-    }
-
-    private String getExtName(final OdsRepositorySession session)
-    {
-        if (session == null)
-        {
-            return getString(R.string.menu_browse_extension);
-        }
-
-        final String name = session.getRepositoryInfo().getName().trim();
-
-        if (TextUtils.isEmpty(name))
-        {
-            return getString(R.string.menu_browse_extension);
-        }
-
-        if (TextUtils.equals(name.toLowerCase(), "projects"))
-        {
-            return getString(R.string.menu_browse_projects);
-        }
-
-        return name;
     }
 }

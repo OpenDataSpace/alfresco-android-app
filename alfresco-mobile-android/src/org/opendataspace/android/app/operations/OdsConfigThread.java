@@ -1,11 +1,8 @@
 package org.opendataspace.android.app.operations;
 
-import java.io.BufferedOutputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import android.content.Context;
+import android.content.Intent;
+import android.os.Bundle;
 
 import org.alfresco.mobile.android.api.asynchronous.LoaderResult;
 import org.alfresco.mobile.android.api.model.ContentStream;
@@ -16,12 +13,16 @@ import org.alfresco.mobile.android.application.intent.IntentIntegrator;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
 import org.alfresco.mobile.android.application.operations.batch.impl.AbstractBatchOperationThread;
 import org.opendataspace.android.app.config.OdsConfigManager;
+import org.opendataspace.android.app.session.OdsRepoType;
 import org.opendataspace.android.app.session.OdsRepositorySession;
 import org.opendataspace.android.ui.logging.OdsLog;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
+import java.io.BufferedOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigContext>
 {
@@ -49,39 +50,33 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
             if (session instanceof OdsRepositorySession)
             {
                 OdsRepositorySession ses = (OdsRepositorySession) session;
-
-                if (ses.getParent() != null)
-                {
-                    ses = ses.getParent();
-                }
-
-                config = ses.getConfig();
+                config = ses.getByType(OdsRepoType.CONFIG);
             }
 
-            DocumentFolderService svc = null;
-
-            if (config != null)
+            if (config == null)
             {
-                svc = config.getServiceRegistry().getDocumentFolderService();
+                return result;
             }
+
+            DocumentFolderService svc = config.getServiceRegistry().getDocumentFolderService();
 
             for (String cur : OdsConfigManager.FILES)
             {
                 try
                 {
-                    Document doc = (Document) svc.getChildByPath(config.getRootFolder(),
-                            "branding/android/res/drawable-xxhdpi/" + cur);
+                    Document doc = (Document) svc
+                            .getChildByPath(config.getRootFolder(), "branding/android/res/drawable-xxhdpi/" + cur);
 
                     if (doc == null)
                     {
-                        doc = (Document) svc.getChildByPath(config.getRootFolder(),
-                                "branding/android/res/drawable-xhdpi/" + cur);
+                        doc = (Document) svc
+                                .getChildByPath(config.getRootFolder(), "branding/android/res/drawable-xhdpi/" + cur);
                     }
 
                     if (doc == null)
                     {
-                        doc = (Document) svc.getChildByPath(config.getRootFolder(), "branding/android/res/drawable/"
-                                + cur);
+                        doc = (Document) svc
+                                .getChildByPath(config.getRootFolder(), "branding/android/res/drawable/" + cur);
                     }
 
                     if (doc != null)
@@ -112,6 +107,7 @@ public class OdsConfigThread extends AbstractBatchOperationThread<OdsConfigConte
             OdsLog.exw(TAG, e);
             result.setException(e);
         }
+
         return result;
     }
 

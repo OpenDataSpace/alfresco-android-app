@@ -1124,7 +1124,8 @@ public class DetailsFragment extends MetadataFragment
     {
         OperationsRequestGroup group =
                 new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
-        group.enqueue(new UpdateContentRequest(parentNode, (Document) node, new ContentFileProgressImpl(f)));
+        group.enqueue(new UpdateContentRequest(parentNode, (Document) node, new ContentFileProgressImpl(f))
+                .setRepoType(alfSession));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
     }
 

@@ -1,8 +1,18 @@
 package org.alfresco.mobile.android.application.fragments.favorites;
 
-import java.io.File;
+import android.app.AlertDialog;
+import android.app.AlertDialog.Builder;
+import android.app.Dialog;
+import android.app.DialogFragment;
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.database.Cursor;
+import android.net.Uri;
+import android.os.Bundle;
+import android.text.Html;
+import android.view.Gravity;
+import android.widget.TextView;
 
-import org.opendataspace.android.app.R;
 import org.alfresco.mobile.android.application.manager.StorageManager;
 import org.alfresco.mobile.android.application.operations.Operation;
 import org.alfresco.mobile.android.application.operations.OperationRequest;
@@ -16,19 +26,9 @@ import org.alfresco.mobile.android.application.operations.sync.node.update.SyncU
 import org.alfresco.mobile.android.application.utils.ContentFileProgressImpl;
 import org.alfresco.mobile.android.application.utils.IOUtils;
 import org.alfresco.mobile.android.application.utils.SessionUtils;
+import org.opendataspace.android.app.R;
 
-import android.app.AlertDialog;
-import android.app.AlertDialog.Builder;
-import android.app.Dialog;
-import android.app.DialogFragment;
-import android.content.ContentValues;
-import android.content.DialogInterface;
-import android.database.Cursor;
-import android.net.Uri;
-import android.os.Bundle;
-import android.text.Html;
-import android.view.Gravity;
-import android.widget.TextView;
+import java.io.File;
 
 public class ResolveSyncConflictFragment extends DialogFragment
 {
@@ -64,15 +64,24 @@ public class ResolveSyncConflictFragment extends DialogFragment
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState)
     {
-        if (getArguments() == null || !getArguments().containsKey(PARAM_FAVORITEID)) { return createErrorDialog(); }
+        if (getArguments() == null || !getArguments().containsKey(PARAM_FAVORITEID))
+        {
+            return createErrorDialog();
+        }
 
         favoriteId = getArguments().getLong(PARAM_FAVORITEID);
-        favoriteCursor = getActivity().getContentResolver().query(SynchroManager.getUri(favoriteId),
-                SynchroSchema.COLUMN_ALL, null, null, null);
+        favoriteCursor = getActivity().getContentResolver()
+                .query(SynchroManager.getUri(favoriteId), SynchroSchema.COLUMN_ALL, null, null, null);
 
-        if (favoriteCursor.getCount() != 1) { return createErrorDialog(); }
+        if (favoriteCursor.getCount() != 1)
+        {
+            return createErrorDialog();
+        }
 
-        if (!favoriteCursor.moveToFirst()) { return createErrorDialog(); }
+        if (!favoriteCursor.moveToFirst())
+        {
+            return createErrorDialog();
+        }
         // Messages informations
         int titleId = R.string.sync_error_title;
         int iconId = R.drawable.ic_alfresco_logo;
@@ -84,30 +93,29 @@ public class ResolveSyncConflictFragment extends DialogFragment
 
         switch (reason)
         {
-            case SyncOperation.REASON_NODE_DELETED:
-                messageId = R.string.sync_error_node_deleted;
-                positiveId = android.R.string.ok;
-                onFavoriteChangeListener = deletedFavoriteListener;
-                break;
-            case SyncOperation.REASON_NO_PERMISSION:
-                messageId = R.string.sync_error_no_permission;
-                positiveId = R.string.sync_save_action;
-                negativeId = R.string.sync_override_action;
-                onFavoriteChangeListener = overrideListener;
-                break;
-            case SyncOperation.REASON_LOCAL_MODIFICATION:
-            case SyncOperation.REASON_NODE_UNFAVORITED:
-                messageId = R.string.sync_error_node_unfavorited;
-                positiveId = R.string.sync_save_action;
-                negativeId = R.string.sync_action;
-                onFavoriteChangeListener = unfavoriteListener;
-                break;
-            default:
-                break;
+        case SyncOperation.REASON_NODE_DELETED:
+            messageId = R.string.sync_error_node_deleted;
+            positiveId = android.R.string.ok;
+            onFavoriteChangeListener = deletedFavoriteListener;
+            break;
+        case SyncOperation.REASON_NO_PERMISSION:
+            messageId = R.string.sync_error_no_permission;
+            positiveId = R.string.sync_save_action;
+            negativeId = R.string.sync_override_action;
+            onFavoriteChangeListener = overrideListener;
+            break;
+        case SyncOperation.REASON_LOCAL_MODIFICATION:
+        case SyncOperation.REASON_NODE_UNFAVORITED:
+            messageId = R.string.sync_error_node_unfavorited;
+            positiveId = R.string.sync_save_action;
+            negativeId = R.string.sync_action;
+            onFavoriteChangeListener = unfavoriteListener;
+            break;
+        default:
+            break;
         }
 
-        String message = String.format(getString(messageId),
-                favoriteCursor.getString(SynchroSchema.COLUMN_TITLE_ID));
+        String message = String.format(getString(messageId), favoriteCursor.getString(SynchroSchema.COLUMN_TITLE_ID));
 
         Builder builder = new AlertDialog.Builder(getActivity()).setIcon(iconId).setTitle(titleId)
                 .setMessage(Html.fromHtml(message)).setCancelable(false)
@@ -122,8 +130,9 @@ public class ResolveSyncConflictFragment extends DialogFragment
                         dialog.dismiss();
                     }
                 });
-        
-        if (negativeId != -1){
+
+        if (negativeId != -1)
+        {
             builder.setNegativeButton(negativeId, new DialogInterface.OnClickListener()
             {
                 public void onClick(DialogInterface dialog, int whichButton)
@@ -190,7 +199,7 @@ public class ResolveSyncConflictFragment extends DialogFragment
             //Do Nothing
         }
     };
-    
+
     private OnChangeListener overrideListener = new OnChangeListener()
     {
         @Override
@@ -215,10 +224,12 @@ public class ResolveSyncConflictFragment extends DialogFragment
         String parentIdentifier = c.getString(SynchroSchema.COLUMN_PARENT_ID_ID);
         String nodeName = c.getString(SynchroSchema.COLUMN_TITLE_ID);
 
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         SyncDownloadRequest dl = new SyncDownloadRequest(parentIdentifier, nodeIdentifier);
         dl.setNotificationUri(SynchroManager.getUri(favoriteId));
         dl.setNotificationTitle(nodeName);
+        dl.setRepoType(SessionUtils.getSession(getActivity()));
         group.enqueue(dl.setNotificationVisibility(OperationRequest.VISIBILITY_NOTIFICATIONS));
         SynchroManager.getInstance(getActivity()).enqueue(group);
 
@@ -228,7 +239,7 @@ public class ResolveSyncConflictFragment extends DialogFragment
 
         c.close();
     }
-    
+
     private void update(Cursor c)
     {
 
@@ -238,10 +249,12 @@ public class ResolveSyncConflictFragment extends DialogFragment
         Uri localFileUri = Uri.parse(c.getString(SynchroSchema.COLUMN_LOCAL_URI_ID));
         File localFile = new File(localFileUri.getPath());
 
-        OperationsRequestGroup group = new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
+        OperationsRequestGroup group =
+                new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         SyncUpdateRequest updateRequest = new SyncUpdateRequest(parentIdentifier, nodeIdentifier, nodeName,
                 new ContentFileProgressImpl(localFile), true);
         updateRequest.setNotificationUri(SynchroManager.getUri(favoriteId));
+        updateRequest.setRepoType(SessionUtils.getSession(getActivity()));
         group.enqueue(updateRequest);
         SynchroManager.getInstance(getActivity()).enqueue(group);
 
@@ -266,7 +279,7 @@ public class ResolveSyncConflictFragment extends DialogFragment
         File parentFolder = StorageManager.getDownloadFolder(getActivity(), SessionUtils.getAccount(getActivity()));
         File newLocalFile = new File(parentFolder, c.getString(SynchroSchema.COLUMN_TITLE_ID));
         newLocalFile = IOUtils.createFile(newLocalFile);
-        
+
         // Move to "Download"
         cValues.clear();
         if (localFile.renameTo(newLocalFile))
@@ -278,7 +291,7 @@ public class ResolveSyncConflictFragment extends DialogFragment
             cValues.put(BatchOperationSchema.COLUMN_STATUS, SyncOperation.STATUS_FAILED);
             getActivity().getContentResolver().update(SynchroManager.getUri(favoriteId), cValues, null, null);
         }
-        
+
         // Encrypt file if necessary
         StorageManager.manageFile(getActivity(), newLocalFile);
 

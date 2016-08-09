@@ -33,6 +33,7 @@ import org.alfresco.mobile.android.api.model.Folder;
 import org.alfresco.mobile.android.api.model.Node;
 import org.alfresco.mobile.android.api.model.Permissions;
 import org.alfresco.mobile.android.api.services.DocumentFolderService;
+import org.alfresco.mobile.android.api.session.AlfrescoSession;
 import org.alfresco.mobile.android.application.activity.MainActivity;
 import org.alfresco.mobile.android.application.activity.PrivateDialogActivity;
 import org.alfresco.mobile.android.application.fragments.DisplayUtils;
@@ -443,7 +444,7 @@ public class NodeActions extends AbstractActions<Node>
         else
         {
             OperationsRequestGroup group = new OperationsRequestGroup(activity, SessionUtils.getAccount(activity));
-            group.enqueue(new DownloadRequest(parentFolder, doc));
+            group.enqueue(new DownloadRequest(parentFolder, doc).setRepoType(SessionUtils.getSession(activity)));
             BatchOperationManager.getInstance(activity).enqueue(group);
         }
     }
@@ -451,9 +452,10 @@ public class NodeActions extends AbstractActions<Node>
     public void download()
     {
         OperationsRequestGroup group = new OperationsRequestGroup(activity, SessionUtils.getAccount(activity));
+        AlfrescoSession session = SessionUtils.getSession(activity);
         for (Document doc : selectedDocument)
         {
-            group.enqueue(new DownloadRequest(parentFolder, doc));
+            group.enqueue(new DownloadRequest(parentFolder, doc).setRepoType(session));
         }
         BatchOperationManager.getInstance(activity).enqueue(group);
     }
@@ -520,14 +522,16 @@ public class NodeActions extends AbstractActions<Node>
                 if (nodes.size() == 1)
                 {
                     group.enqueue(new DeleteNodeRequest(parent, nodes.get(0))
-                            .setNotificationVisibility(OperationRequest.VISIBILITY_TOAST));
+                            .setNotificationVisibility(OperationRequest.VISIBILITY_TOAST)
+                            .setRepoType(SessionUtils.getSession(activity)));
                 }
                 else
                 {
                     for (Node node : nodes)
                     {
                         group.enqueue(new DeleteNodeRequest(parent, node)
-                                .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG));
+                                .setNotificationVisibility(OperationRequest.VISIBILITY_DIALOG)
+                                .setRepoType(SessionUtils.getSession(activity)));
                     }
 
                     if (f instanceof ChildrenBrowserFragment)

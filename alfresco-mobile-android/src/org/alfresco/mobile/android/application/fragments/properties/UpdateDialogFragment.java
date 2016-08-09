@@ -230,7 +230,7 @@ public class UpdateDialogFragment extends UpdateNodeDialogFragment
         OperationsRequestGroup group =
                 new OperationsRequestGroup(getActivity(), SessionUtils.getAccount(getActivity()));
         group.enqueue(new UpdatePropertiesRequest(folder, node, props).setNotificationTitle(node.getName())
-                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN));
+                .setNotificationVisibility(OperationRequest.VISIBILITY_HIDDEN).setRepoType(alfSession));
         BatchOperationManager.getInstance(getActivity()).enqueue(group);
         dismiss();
     }

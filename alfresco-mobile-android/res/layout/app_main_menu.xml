@@ -80,13 +80,6 @@ limitations under the License.
                 android:text="@string/menu_browse_extension"
                 android:visibility="gone"/>
 
-            <Button
-                android:id="@+id/menu_browse_ext2"
-                style="?AlfrescoTheme.TextView.MenuItem"
-                android:drawableLeft="@drawable/ic_repository_light"
-                android:drawableStart="@drawable/ic_repository_light"
-                android:text="@string/menu_browse_extension"
-                android:visibility="gone"/>
             <!--
                         <Button
                             android:id="@+id/menu_browse_my_sites"

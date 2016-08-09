@@ -46,24 +46,29 @@ public class OdsRepositorySession extends RepositorySessionImpl
     private OdsRepositorySession shared;
     private OdsRepositorySession global;
     private OdsRepositorySession current;
-    private OdsRepositorySession ext1, ext2;
+    private OdsRepositorySession projects;
+    private OdsRepositorySession config;
     private WeakReference<OdsRepositorySession> parent;
     private List<Repository> repos;
     private LinkCapablilty lcap = LinkCapablilty.UNKNOWN;
+    private final OdsRepoType repoType;
 
-    private OdsRepositorySession()
+    private OdsRepositorySession(OdsRepoType repoType)
     {
         super();
+        this.repoType = repoType;
     }
 
     private OdsRepositorySession(Parcel p)
     {
         super(p);
+        this.repoType = OdsRepoType.DEFAULT;
     }
 
     private OdsRepositorySession(String url, String username, String password, Map<String, Serializable> settings)
     {
         super(url, username, password, settings);
+        this.repoType = OdsRepoType.DEFAULT;
         getLinkCapablilty();
     }
 
@@ -154,70 +159,28 @@ public class OdsRepositorySession extends RepositorySessionImpl
             }
             else if (name.equals("shared"))
             {
-                shared = create(cur.createSession(), this);
+                shared = create(cur.createSession(), this, OdsRepoType.SHARED);
             }
             else if (name.equals("global"))
             {
-                global = create(cur.createSession(), this);
+                global = create(cur.createSession(), this, OdsRepoType.GLOBAL);
             }
-            else if (!name.equals("config"))
+            else if (name.equals("projects"))
             {
-                if (ext1 == null)
-                {
-                    ext1 = create(cur.createSession(), this);
-                }
-                else if (ext2 == null)
-                {
-                    ext2 = create(cur.createSession(), this);
-                }
+                projects = create(cur.createSession(), this, OdsRepoType.PROJECTS);
+            }
+            else if (name.equals("config"))
+            {
+                config = create(cur.createSession(), this, OdsRepoType.CONFIG);
             }
         }
 
         return ses;
     }
 
-    public OdsRepositorySession getShared()
+    private OdsRepositorySession create(Session ses, OdsRepositorySession parent, OdsRepoType repoType)
     {
-        return shared;
-    }
-
-    public OdsRepositorySession getGlobal()
-    {
-        return global;
-    }
-
-    public OdsRepositorySession getConfig()
-    {
-        Repository repo = findRepository("config");
-        return repo != null ? create(repo.createSession(), this) : null;
-    }
-
-    public OdsRepositorySession getExt1Repo()
-    {
-        return ext1;
-    }
-
-    public OdsRepositorySession getExt2Repo()
-    {
-        return ext2;
-    }
-
-    private Repository findRepository(String name)
-    {
-        for (Repository cur : repos)
-        {
-            if (cur.getName().equals(name))
-            {
-                return cur;
-            }
-        }
-
-        return null;
-    }
-
-    private OdsRepositorySession create(Session ses, OdsRepositorySession parent)
-    {
-        OdsRepositorySession rep = new OdsRepositorySession();
+        OdsRepositorySession rep = new OdsRepositorySession(repoType);
         rep.initSettings(baseUrl, userIdentifier, password, new HashMap<String, Serializable>(userParameters));
         rep.cmisSession = ses;
         rep.rootNode = new FolderImpl(rep.cmisSession.getRootFolder());
@@ -334,6 +297,42 @@ public class OdsRepositorySession extends RepositorySessionImpl
 
         lcap = LinkCapablilty.ITEM;
         return lcap;
+    }
+
+    public OdsRepoType getRepoType()
+    {
+        return repoType;
+    }
+
+    public OdsRepositorySession getByType(OdsRepoType type)
+    {
+        OdsRepositorySession root = parent != null ? parent.get() : null;
+
+        if (root == null)
+        {
+            root = this;
+        }
+
+        switch (type)
+        {
+        case DEFAULT:
+            return root;
+
+        case SHARED:
+            return root.shared;
+
+        case GLOBAL:
+            return root.global;
+
+        case CONFIG:
+            return root.config;
+
+        case PROJECTS:
+            return root.projects;
+
+        default:
+            return null;
+        }
     }
 
     public static final Parcelable.Creator<OdsRepositorySession> CREATOR =
